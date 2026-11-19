@@ -19,4 +19,4 @@ Improve the direct plant catalog editor for staff without changing catalog recor
 - `docs/FLORIAL_MANAGER_ARCHITECTURE.md`
 
 ## Validation and deployment
-Pending CI and PR review. No Sanity documents/schema, D1 data/schema, Cloudflare settings/secrets or Production deployment were changed by this implementation.
+PR #419 is open. GitHub Actions: Blog and Studio validation run `44538291311` — success; D1 migration validation run `44538291136` — success. Cloudflare Pages Preview deployment `bc8272a9-9325-487f-a7af-da9d7bec58cd` succeeded for exact source commit `e85ea996ce4a08490bd84e0b2ddc373feeb66313` at `https://bc8272a9.florial.pages.dev`. No Sanity documents/schema, D1 data/schema, Cloudflare settings/secrets or Production deployment were changed.
