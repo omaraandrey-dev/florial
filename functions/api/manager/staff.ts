@@ -1,5 +1,5 @@
 import {
-  DEFAULT_STAFF_PERMISSIONS, STAFF_PERMISSION_KEYS, hashPassword, json, nowIso, newId, requireUser,
+  DEFAULT_STAFF_PERMISSIONS, STAFF_PERMISSION_KEYS, hashPassword, json, nowIso, newId, randomHex, sha256Hex, requireUser,
   type ManagerEnv, type StaffPermissionKey, type StaffPermissions, type StaffRole,
 } from './_lib'
 
@@ -67,6 +67,23 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
  const target=await env.DB.prepare('SELECT user_id,role,permissions,created_by FROM catalog_staff_profiles WHERE user_id=?').bind(userId).first<{user_id:string;role:StaffRole;permissions:string;created_by:string|null}>()
  if(!target||target.role==='owner'||(!owner&&target.created_by!==actor.user_id))return json({error:'Нямате право да променяте този акаунт.'},403)
  const before=allPermissions(JSON.parse(target.permissions))||{...DEFAULT_STAFF_PERMISSIONS}
+ if(body.action==='send_password_reset'){
+  if(!owner)return json({error:'Само собственикът може да изпраща линк за възстановяване на достъп.'},403)
+  if(target.role==='owner')return json({error:'Линк за възстановяване може да бъде изпратен само на служител.'},400)
+  if(!env.RESEND_API_KEY||!env.EMAIL_FROM)return json({error:'Имейл услугата не е конфигурирана.'},503)
+  const recipient=await env.DB.prepare('SELECT email,display_name,is_active FROM catalog_staff_profiles WHERE user_id=?').bind(userId).first<{email:string;display_name:string;is_active:number}>()
+  if(!recipient||recipient.is_active!==1)return json({error:'Служителят няма активен достъп.'},409)
+  const token=randomHex(32),tokenHash=await sha256Hex(token),createdAt=nowIso(),expiresAt=new Date(Date.now()+30*60*1000).toISOString()
+  await env.DB.prepare('DELETE FROM manager_password_reset_tokens WHERE user_id=? AND used_at IS NULL').bind(userId).run()
+  await env.DB.prepare('INSERT INTO manager_password_reset_tokens (token_hash,user_id,created_by,created_at,expires_at) VALUES (?,?,?,?,?)').bind(tokenHash,userId,actor.user_id,createdAt,expiresAt).run()
+  const resetUrl='https://florial-bg.com/manager?reset='+encodeURIComponent(token)
+  const safeName=(recipient.display_name||recipient.email).replace(/[&<>"']/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c))
+  const safeEmail=recipient.email.replace(/[&<>"']/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c))
+  const html='<div style="font-family:Arial,sans-serif;line-height:1.6;color:#26332c;max-width:560px"><h2>Florial — възстановяване на достъп</h2><p>Здравейте, '+safeName+'!</p><p>Получихте това писмо, защото собственикът на Florial изпрати линк за възстановяване на достъпа до Manager.</p><p><b>Вашият акаунт:</b> '+safeEmail+'</p><p><a href="'+resetUrl+'" style="display:inline-block;background:#3f6212;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px">Задайте нова парола</a></p><p>Линкът е еднократен и валиден 30 минути. Старата парола ще остане активна, докато не зададете нова.</p><p>Ако не очаквате това писмо, можете да го игнорирате.</p></div>'
+  const sent=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:env.EMAIL_FROM,to:[recipient.email],subject:'Florial — възстановяване на достъп',html})})
+  if(!sent.ok){await env.DB.prepare('DELETE FROM manager_password_reset_tokens WHERE token_hash=?').bind(tokenHash).run();return json({error:'Имейлът не беше изпратен. Опитайте отново по-късно.'},502)}
+  return json({ok:true})
+ }
  if(body.action==='set_password'){
   const password=typeof body.password==='string'?body.password:''
   if(password.length<12||password.length>128)return json({error:'Паролата трябва да съдържа между 12 и 128 символа.'},400)

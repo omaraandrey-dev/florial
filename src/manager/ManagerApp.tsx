@@ -157,6 +157,10 @@ export default function ManagerApp() {
   const [newStaffPassword, setNewStaffPassword] = useState('')
   const [passwordTarget, setPasswordTarget] = useState<string | null>(null)
   const [replacementPassword, setReplacementPassword] = useState('')
+  const [resetToken, setResetToken] = useState(() => new URLSearchParams(window.location.search).get('reset') || '')
+  const [resetPassword, setResetPassword] = useState('')
+  const [resetPasswordConfirm, setResetPasswordConfirm] = useState('')
+  const [resetSaving, setResetSaving] = useState(false)
   const [newStaffPermissions, setNewStaffPermissions] = useState<StaffPermissions>({ ...emptyPermissions })
 
   const loadProfile = useCallback(async (currentSession: Session | null) => {
@@ -597,6 +601,17 @@ export default function ManagerApp() {
     }
   }
 
+  const sendStaffPasswordReset = async (userId: string) => {
+    if (!window.confirm('Да изпратя ли на служителя еднократен линк за задаване на нова парола?')) return
+    setStaffSaving(true); setStaffError(''); setStaffNotice('')
+    try {
+      await staffRequest('PATCH', { userId, action: 'send_password_reset' })
+      setStaffNotice('Изпратен е имейл с еднократен линк за задаване на нова парола.')
+    } catch (err) {
+      setStaffError(err instanceof Error ? err.message : 'Не успяхме да изпратим линка.')
+    } finally { setStaffSaving(false) }
+  }
+
   const saveStaffPassword = async (event: FormEvent, userId: string) => {
     event.preventDefault()
     const saved = await updateStaff(userId, { action: 'set_password', password: replacementPassword }, 'Паролата на служителя е обновена.')
@@ -638,7 +653,30 @@ export default function ManagerApp() {
     <main className="min-h-screen bg-[#f5f6ef] px-4 py-10 flex items-center justify-center">
       <section className="w-full max-w-md rounded-3xl bg-white p-7 shadow-sm border border-stone-200">
         <div className="text-xs font-bold tracking-[.24em] text-lime-800">FLORIAL / INTERNAL</div>
-        {bootstrapAvailable ? <>
+        {resetToken ? <>
+          <h1 className="mt-3 text-3xl font-semibold text-stone-900">Нова парола за Florial Manager</h1>
+          <p className="mt-2 text-sm leading-6 text-stone-600">Задайте нова парола. Еднократният линк е валиден 30 минути.</p>
+          <form className="mt-7 space-y-4" onSubmit={async (event) => {
+            event.preventDefault(); setError('')
+            if (resetPassword.length < 12 || resetPassword.length > 128) { setError('Паролата трябва да съдържа между 12 и 128 символа.'); return }
+            if (resetPassword !== resetPasswordConfirm) { setError('Двете пароли не съвпадат.'); return }
+            setResetSaving(true)
+            try {
+              const response = await fetch('/api/manager/auth/password-reset', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: resetToken, password: resetPassword }) })
+              const result = await response.json().catch(() => ({})) as { error?: string }
+              if (!response.ok) throw new Error(result.error || 'Не успяхме да зададем новата парола.')
+              window.history.replaceState({}, '', '/manager')
+              setResetToken(''); setResetPassword(''); setResetPasswordConfirm(''); setPassword('')
+              setError('Паролата е обновена. Влезте с новата парола.')
+            } catch (err) { setError(err instanceof Error ? err.message : 'Не успяхме да зададем новата парола.') }
+            finally { setResetSaving(false) }
+          }}>
+            <label className={labelClass}>Нова парола<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={resetPassword} onChange={(e) => setResetPassword(e.target.value)} required /></label>
+            <label className={labelClass}>Повторете новата парола<input className={inputClass} type="password" autoComplete="new-password" minLength={12} maxLength={128} value={resetPasswordConfirm} onChange={(e) => setResetPasswordConfirm(e.target.value)} required /></label>
+            {error && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+            <button className="w-full rounded-xl bg-lime-800 px-5 py-3 font-semibold text-white disabled:opacity-60" disabled={resetSaving || resetPassword.length < 12 || resetPassword !== resetPasswordConfirm}>{resetSaving ? 'Запазване…' : 'Задай нова парола'}</button>
+          </form>
+        </> : bootstrapAvailable ? <>
           <h1 className="mt-3 text-3xl font-semibold text-stone-900">Първоначална настройка</h1>
           <p className="mt-2 text-sm leading-6 text-stone-600">Създайте първия собственик на Florial Manager. Тази форма се показва само докато в D1 няма owner акаунт.</p>
           {!bootstrapConfigured && <p role="status" className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-800">Първо добавете secret MANAGER_BOOTSTRAP_SECRET в Cloudflare Pages → Settings → Variables and Secrets (Production), след това презаредете тази страница.</p>}
@@ -1055,6 +1093,7 @@ export default function ManagerApp() {
                         <option value="seller">Продавач</option>
                         <option value="manager">Мениджър</option>
                       </select>}
+                      {profile.role === 'owner' && <button type="button" disabled={staffSaving || !staff.is_active} onClick={() => void sendStaffPasswordReset(staff.user_id)} className="rounded-lg border border-lime-700 px-3 py-2 text-sm font-semibold text-lime-800">Изпрати линк за парола</button>}
                       <button type="button" disabled={staffSaving} onClick={() => { setPasswordTarget(passwordTarget === staff.user_id ? null : staff.user_id); setReplacementPassword('') }} className="rounded-lg border border-stone-300 px-3 py-2 text-sm font-semibold">Задай парола</button>
                       {(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <fieldset className="mt-3 rounded-xl border border-stone-200 p-3"><legend className="px-1 text-xs font-semibold">Разрешения</legend><div className="grid gap-2 sm:grid-cols-2">{permissionOptions.filter((item) => profile.role === 'owner' || item.key !== 'canEditPlantStock' && profile.permissions[item.key]).filter((item) => staff.role !== 'seller' || item.key === 'canCreatePlant').map((item) => <label key={item.key} className="flex items-center gap-2 text-xs"><input type="checkbox" disabled={staffSaving} checked={staff.permissions[item.key]} onChange={(event) => {
                           const checked = event.target.checked
