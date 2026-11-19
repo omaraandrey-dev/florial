@@ -153,7 +153,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   try{
    const added:ImageItem[]=[]
    for(const file of Array.from(filesList)){
-    if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size<=0||file.size>1.5*1024*1024)throw new Error(file.size>1.5*1024*1024?'Размерът на снимката надвишава максимално допустимите 1,5 MB.':'Използвайте JPG, PNG или WebP.')
+    if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size<=0||file.size>1500000)throw new Error(file.size>1500000?'Размерът на снимката надвишава максимално допустимите 1,5 MB.':'Използвайте JPG, PNG или WebP.')
     const data=new FormData();data.append('file',file,file.name)
     const response=await fetch('/api/manager/upload-image',{method:'POST',credentials:'same-origin',body:data})
     const result=await responseJson(response)
