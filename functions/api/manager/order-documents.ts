@@ -45,8 +45,9 @@ export const onRequestPost=async({request,env}:{request:Request;env:RuntimeEnv})
  try{
   if(action==='email_proforma'){
    if(!r.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email))return json({error:'Няма валиден email адрес на клиента.'},400)
-   const ownerEmail=(env.ORDER_NOTIFICATION_EMAIL||'').trim()
-   if(!ownerEmail||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ownerEmail))return json({error:'Работният email на Florial (собственик) не е настроен.'},503)
+   const ownerResult=await db.prepare("SELECT email FROM catalog_staff_profiles WHERE role='owner' AND is_active=1 ORDER BY created_at ASC LIMIT 1").first<{email:string}>()
+   const ownerEmail=String(ownerResult?.email||'').trim()
+   if(!ownerEmail||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ownerEmail))return json({error:'Не е намерен активен email адрес на собственика на Florial.'},503)
    const pdf=await makePdf(r,env,items)
    const total=r.total_cents==null?'ще бъде потвърдена след уточняване на доставката':(r.total_cents/100).toFixed(2)+' EUR'
    const proformaHtml='<h2>Сметка проформа от Florial</h2><p>Здравейте, '+escapeHtml(r.customer_name)+'.</p><p>Изпращаме Ви сметка проформа за поръчка <strong>'+escapeHtml(r.order_number)+'</strong>. PDF документът е приложен към това писмо.</p><p>Обща сума: <strong>'+total+'</strong></p><p>Благодарим Ви!<br>Екипът на Florial</p>'
