@@ -1,3 +1,9 @@
+## 2026-11-19 — Manager/Seller plant intake validation and Gemini error UX
+
+- Required plant variant inputs now carry an asterisk in their labels. Missing/invalid height and container volume, editable price, and in-stock quantity receive a clearly visible red outline; the outline returns to the normal border when the value is valid. Quantity is required/highlighted only for `inStock`; price/quantity highlighting respects the user's edit permissions.
+- Manager and Seller now receive one Bulgarian, non-technical message for Gemini request failures: “Gemini не успя да обработи заявката. Моля, опитайте отново по-късно.” Provider errors, request IDs, token counts, SSE event counts and technical progress details remain visible only to Owner. Staff progress shows a simple processing indicator.
+- Added `tests/manager-plant-intake-ux.test.mjs`. UI-only change in `src/manager/PlantCatalogManager.tsx`; no API, D1, Sanity, permission, or publication behavior changed.
+
 ## 2026-11-19 — Google Merchant return policy markup
 
 - Added organization-level `MerchantReturnPolicy` JSON-LD using Google's link-based option: `merchantReturnLink: https://florial-bg.com/terms`. The linked Bulgarian terms already describe the statutory 14-day withdrawal right where applicable, return process, customer-paid direct return costs where previously disclosed, and case-specific statutory exceptions. No fixed return fee, free return, universal eligibility, or refund method was invented.
