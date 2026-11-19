@@ -1,3 +1,11 @@
+## 2026-11-19 — Manager plant image upload and Gemini progress UX
+
+- Plant catalog image upload now recommends 1600 × 1600 px and up to 500 KB; the UI rejects individual files above 1.5 MiB with a clear Bulgarian message. The server upload endpoint and plant publication validation enforce the same 1.5 MiB limit.
+- The empty gallery prompt now directs staff to upload an already prepared image or choose one from the library; it no longer suggests tapping a thumbnail as the photo-taking flow.
+- Removed the Gemini model-name banner and long Photo/Text explanation. During generation, staff see only an activity indicator, elapsed request time and the number of non-empty streamed text lines; raw streamed response, request ID and internal progress/heartbeat messages are hidden.
+- Added regression tests in `tests/manager-plant-image-size.test.mjs`.
+- Code is in branch `fix/manager-plant-images-gemini-progress`; PR, CI and Production deployment are pending. No Sanity content/schema, D1 data/schema, Cloudflare settings/secrets or live catalog records were changed.
+
 ## 2026-11-19 — Google Merchant return policy markup
 
 - Added organization-level `MerchantReturnPolicy` JSON-LD using Google's link-based option: `merchantReturnLink: https://florial-bg.com/terms`. The linked Bulgarian terms already describe the statutory 14-day withdrawal right where applicable, return process, customer-paid direct return costs where previously disclosed, and case-specific statutory exceptions. No fixed return fee, free return, universal eligibility, or refund method was invented.
