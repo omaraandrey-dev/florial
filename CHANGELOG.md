@@ -1,3 +1,9 @@
+## 2026-11-19 — Gemini progress visibility and completion guidance
+
+- Restored the elapsed-time timer and the count of non-empty streamed response lines for Manager and Seller as well as Owner. The staff-facing progress remains simple and does not expose provider diagnostics, request IDs, technical stages or raw errors.
+- After a successful Gemini result is applied to the form, the interface explicitly confirms success and instructs the employee to fill in plant size, quantity and price, verify the botanical data, and save the changes.
+- Regression coverage updated in `tests/manager-plant-intake-ux.test.mjs`. UI and test only; no API, D1, Sanity, permissions or publication rules changed.
+
 ## 2026-11-19 — Manager/Seller plant intake validation and Gemini error UX
 
 - Required plant variant inputs now carry an asterisk in their labels. Missing/invalid height and container volume, editable price, and in-stock quantity receive a clearly visible red outline; the outline returns to the normal border when the value is valid. Quantity is required/highlighted only for `inStock`; price/quantity highlighting respects the user's edit permissions.

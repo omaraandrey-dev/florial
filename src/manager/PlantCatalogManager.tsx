@@ -272,7 +272,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   if(Array.isArray(suggestion.scientificCandidates)&&suggestion.scientificCandidates.length)warnings.push('Латинските имена са кандидати, а не научно потвърдено име. Изберете и проверете ботаническото име ръчно.')
   setAiWarnings(warnings)
   setGeminiError('')
-  setNotice('Резултатът от Google е приложен към формата. Проверете ботаническите данни и натиснете „Запази промените“ след преглед.')
+  setNotice('Резултатът от Google е приложен към формата. Проверете ботаническите данни преди запазване.')
   setError('')
   setGeminiModalOpen(false)
   setGeminiError('')
@@ -394,10 +394,10 @@ export default function PlantCatalogManager({role,permissions}:Props){
       </div>
       <label className="block"><span className={labelClass}>Име за проверка без снимка</span><input className={inputClass} value={geminiTextQuery} onChange={event=>setGeminiTextQuery(event.target.value)} placeholder={form.name||'Например: лавровишня'}/></label>
       {geminiLoading&&<div className="rounded-xl border border-indigo-200 bg-white p-3 text-sm text-indigo-950" role="status" aria-live="polite">
-       <div className="flex items-center justify-between gap-3"><span className="flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-200 border-t-indigo-700" aria-hidden="true"/><span>{role==='owner'?'Време: ': 'Gemini обработва заявката…'}{role==='owner'&&<strong className="tabular-nums">{String(Math.floor(geminiElapsedSeconds/60)).padStart(2,'0')}:{String(geminiElapsedSeconds%60).padStart(2,'0')}</strong>}</span></span>{role==='owner'&&<span className="tabular-nums">Получени редове: <strong>{geminiStreamText.split(/\r?\n/).filter(line=>line.trim()).length}</strong></span>}</div>
+       <div className="flex items-center justify-between gap-3"><span className="flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-200 border-t-indigo-700" aria-hidden="true"/><span>Gemini обработва заявката… · Време: <strong className="tabular-nums">{String(Math.floor(geminiElapsedSeconds/60)).padStart(2,'0')}:{String(geminiElapsedSeconds%60).padStart(2,'0')}</strong></span></span><span className="tabular-nums">Получени редове: <strong>{geminiStreamText.split(/\r?\n/).filter(line=>line.trim()).length}</strong></span></div>
       </div>}
       {geminiError&&<div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{geminiError}</div>}
-      {aiProof&&<p className="text-xs font-semibold text-lime-800">Резултатът от Google е приложен. Цените, размерите, SKU, количествата и снимките не са променени.</p>}
+      {aiProof&&<p className="text-xs font-semibold text-lime-800">Резултатът от Google е получен успешно и е приложен към формата. Попълнете размерите, количеството и цената, проверете ботаническите данни и запазете промените.</p>}
      </div>
      {role==='owner'&&images.map((image,index)=><div key={image.assetId} className="mt-3 grid gap-2 rounded-xl bg-stone-50 p-3">
       <div className="text-xs font-semibold text-stone-600">Снимка {index+1}{mainImageIndex===index?' · Основна':''}</div>
