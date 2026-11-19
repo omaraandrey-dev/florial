@@ -92,8 +92,8 @@ function validatePublication(input: unknown, images: IntakeImage[], requireImage
   if (!categoryId || !/^[a-zA-Z0-9_-]+$/.test(categoryId)) throw new Error('Изберете категория от каталога.')
   if ((requireImages && images.length < 1) || images.length > 10) throw new Error('За публикуване е необходима поне една снимка; максимумът е 10.')
   if (images.some((image) => !image || typeof image.path !== 'string' || !image.name ||
-      !imageTypes.has(image.type) || !Number.isFinite(image.size) || image.size <= 0 || image.size > 10 * 1024 * 1024)) {
-    throw new Error('Една или повече снимки не отговарят на изискванията за формат или размер.')
+      !imageTypes.has(image.type) || !Number.isFinite(image.size) || image.size <= 0 || image.size > 1_500_000)) {
+    throw new Error('Една или повече снимки не отговарят на изискванията за формат или размер (максимум 1,5 MB на снимка).')
   }
 
   const mainImageIndex = Number(source.mainImageIndex)

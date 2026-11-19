@@ -2,6 +2,15 @@
 
 ---
 
+## Дополнение 2026-11-19 — изображения растений и лаконичный статус Gemini (PR #419; Preview verified)
+
+- При прямом добавлении/редактировании растения интерфейс рекомендует изображение 1600 × 1600 px и до 500 KB. Абсолютный лимит файла — 1,5 MB на изображение; он проверяется в браузере, `/api/manager/upload-image` и валидации публикации.
+- Форматы загрузки остаются JPEG, PNG и WebP; проверка сигнатуры файла на сервере сохраняется.
+- Изображения добавляются готовым файлом или выбираются из существующей библиотеки. Пустое состояние галереи не должно предлагать фотографирование или создавать впечатление, что фото можно сделать нажатием на пустую область.
+- Во время Gemini запроса UI показывает только индикатор активности, прошедшее время и число непустых строк полученного потокового текста. Не показываются название модели, request ID, технические этапы, heartbeat и содержимое сырого потока. Итоговый структурированный результат и его проверка перед применением сохраняются.
+- Код/тесты: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/upload-image.ts`, `functions/api/manager/publish-plant.ts`, `tests/manager-plant-image-size.test.mjs`. PR #419 открыт; GitHub Actions runs 44538291311 (Blog/Studio) и 44538291136 (D1) прошли успешно. Cloudflare Pages Preview deployment `bc8272a9-9325-487f-a7af-da9d7bec58cd` успешно собран и опубликован из commit `e85ea996ce4a08490bd84e0b2ddc373feeb66313` (`https://bc8272a9.florial.pages.dev`). Production deployment не выполнялся.
+
+
 ## Дополнение 18.11.2026 — PostHog analytics on demand
 
 - Manager analytics keeps the existing first-party D1 report unchanged and adds a separate on-demand PostHog block. It is loaded only after the user clicks the button; the selected Manager period (1/7/30/90 days) is reused.

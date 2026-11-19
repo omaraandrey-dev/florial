@@ -1,7 +1,7 @@
 import { hasPermission, json, requireUser, type ManagerEnv } from './_lib'
 import { PLANTS_DATASET } from './plant-direct-lib'
 
-const MAX_IMAGE_SIZE = 10 * 1024 * 1024
+const MAX_IMAGE_SIZE = 1_500_000
 const hasSignature = (bytes: Uint8Array, mime: string) => {
   if (mime === 'image/jpeg') return bytes.length >= 3 && bytes[0]===0xff && bytes[1]===0xd8 && bytes[2]===0xff
   if (mime === 'image/png') return bytes.length >= 8 && [137,80,78,71,13,10,26,10].every((v,i)=>bytes[i]===v)
@@ -18,7 +18,7 @@ export const onRequestPost = async ({request,env}:{request:Request;env:ManagerEn
   const form=await request.formData()
   const file=form.get('file')
   if(!(file instanceof File))return json({error:'Изберете снимка.'},400)
-  if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size<=0||file.size>MAX_IMAGE_SIZE)return json({error:'Допустими са само JPEG, PNG и WebP до 10 MB.'},400)
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size<=0||file.size>MAX_IMAGE_SIZE)return json({error:'Допустими са JPEG, PNG и WebP с размер до 1,5 MB. Изберете по-малък файл.'},400)
   const bytes=new Uint8Array(await file.arrayBuffer())
   if(!hasSignature(bytes,file.type))return json({error:'Форматът на файла не съответства на съдържанието му.'},400)
   const project=env.SANITY_PROJECT_ID||'bxvcy0qs',dataset=PLANTS_DATASET
