@@ -361,3 +361,13 @@ The two BreadcrumbList objects similarly use canonical Production and Preview ho
 - Stages 1 and 2 of the roadmap remain open pending authenticated Google Rich Results evidence and the remaining Search Console URL Inspection checks. Merchant Center account was confirmed by the owner as not yet registered; Merchant Center setup remains a later roadmap stage.
 - No Sanity schema/documents, Cloudflare settings/secrets, D1 data/schema, Resend or Google settings were changed. The only Production change was the automatic Pages deployment from the explicitly approved PR merge.
 
+
+
+## 11. Product brand parity follow-up — 19.11.2026 (PR #410)
+
+- Server-side `makeProductJsonLd` already maps `doc.brandName` to `brand: { @type: Brand, name }`; middleware GROQ obtains it from `brand->name`.
+- Client-side ProductPage previously omitted `brand`. Equipment detail GROQ already returned `brand`, but plant detail GROQ did not.
+- PR #410 adds the conditional client-side Brand object from `product.brand` and selects `brand->name` in plant product detail. Missing brand values remain omitted; no fallback brand is fabricated.
+- Regression test verifies the client mapping, plant query and server mapping.
+- Corrected code commit: `6b4c78f8c5438c3cd7493d335958de79bfbf995c`. Blog/Studio run `44432432693` had passed TypeScript, lint, website tests, website build and migration dry-run; Studio typecheck/build were pending at documentation time. D1 run `44432432898` succeeded.
+- PR is not merged. Production and Google Rich Results validation remain pending. No live service or Sanity data/schema was changed.
