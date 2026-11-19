@@ -1,3 +1,10 @@
+## 2026-11-19 — Manager order details and proforma download split
+
+- The expanded order card now starts directly with one compact Bulgarian “Клиент и доставка” block. It shows customer contacts/address, delivery method and payment method only when provided; the expanded copy of order number/date/time and the repeated order/payment status panel are removed. The order number and status remain visible in the order row above.
+- “Изтегли сметката” only generates and downloads the PDF to the current employee device. “Изпрати проформа + изтегли PDF” continues to send the same PDF to the customer and active Owner and then downloads it to the employee device.
+- Proforma PDF now includes owner-confirmed IBAN `BG88STSA93000029605234`; delivery/payment method is included only when present in the order. Owner-confirmed company email is `omaraandrey@gmail.com`.
+- Updated Manager regression coverage and company profile. No D1 schema/data, Sanity, Cloudflare settings/secrets or live order/email was changed. CI, browser acceptance and Production deployment pending.
+
 ## 2026-11-19 — PR #409 Production Product Schema audit reconciled
 
 - Migrated the unique 18.11.2026 Production evidence from PR #409 into the active Google Shopping stage-1 audit and roadmap: live HTML/JSON-LD for Rain Bird and Kumquat, homepage Organization/GardenStore entities, pre-deployment Search Console crawl dates, sitemap snapshot, and dated Sanity SKU/EAN readiness counts.
