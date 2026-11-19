@@ -371,3 +371,42 @@ The two BreadcrumbList objects similarly use canonical Production and Preview ho
 - Regression test verifies the client mapping, plant query and server mapping.
 - Corrected code commit: `6b4c78f8c5438c3cd7493d335958de79bfbf995c`. Blog/Studio run `44432432693` succeeded: TypeScript, lint, website tests, website build, migration dry-run, Studio typecheck and Studio build all passed. D1 run `44432432898` succeeded.
 - PR #410 merged into `main` at `9b697379c43db5e19a15bd91b48fb8d507da8479`. Cloudflare Pages Production deployment `ed8a8b40-bff1-4e35-948f-6b33970bcfff` succeeded from that exact commit. Blog/Studio CI on PR head `8ce3257` and D1 validation on merge commit `9b69737` passed; Blog/Studio CI on merge commit succeeded: run `44432801621`. Google Rich Results validation remains pending. No live service settings or Sanity data/schema were changed.
+
+
+## 2026-11-18 — Post-PR #407 Production verification (migrated from PR #409)
+
+This evidence was collected after the PR #407 Product Offer deployment. It is retained as a dated snapshot; later changes and current acceptance status are recorded below and in the active roadmap.
+
+### Live Production HTML and structured data
+
+- Cloudflare Browser Rendering fetched the initial Production HTML for [Rain Bird 100-PGA-9V](https://florial-bg.com/product/rain-bird-100-pga-9v) and [Citrus japonica / Kumquat](https://florial-bg.com/product/citrus-japonica-kumquat). Both returned HTTP 200. Each initial HTML response contained Product, BreadcrumbList and Organization JSON-LD; the script bodies parsed as valid JSON.
+- Rain Bird server HTML included its known brand (Rain Bird), SKU and EUR Offer. Kumquat included its product identity, SKU and EUR Offer; no plant brand was inferred.
+- A JavaScript-enabled Rain Bird render also returned HTTP 200 and one Product, one BreadcrumbList and one Organization node. At that time the hydrated client Product node omitted the known Rain Bird brand that was present in the initial server HTML. This was a confirmed server/client parity defect at the 18 November snapshot; it was subsequently fixed by PR #410 (see the 19 November section below).
+- The first Browser Rendering attempt briefly returned the not-found fallback; subsequent initial-HTML and JavaScript-enabled fetches returned the correct product page. This was treated as a transient rendering anomaly, not a confirmed outage.
+
+### Homepage business entities
+
+- Homepage initial HTML contained one Organization and two GardenStore nodes (Nessebar and Ravda), each with name, contact URL, telephone and postal address.
+- Nessebar had weekday opening hours 09:00–17:00. Ravda opening hours and geo coordinates for either location were not verified; they must not be invented.
+
+### Search Console and sitemap snapshot
+
+- Property: `sc-domain:florial-bg.com`.
+- Rain Bird URL Inspection: PASS, indexing allowed, successful fetch, Google canonical matched the non-www URL; stored last crawl was 2026-11-05 18:08:18 UTC.
+- Kumquat URL Inspection: PASS, indexing allowed, successful fetch, Google canonical matched the non-www URL; stored last crawl was 2026-11-09 20:50:33 UTC.
+- Both stored crawls predated the 18 November PR #407 deployment. These PASS results therefore did not validate the newly deployed version.
+- Sitemap report: 1,327 submitted URLs, zero errors and warnings; last downloaded 2026-11-16 14:11:08 UTC.
+- Stored warnings included missing review/aggregateRating, global identifier, shipping details and return policy. Reviews/ratings and identifiers must not be fabricated. The old brand warning for Rain Bird became stale once the known brand was present in the new server HTML; later client parity was fixed separately.
+
+### Published Sanity catalog readiness snapshot (read-only)
+
+- Irrigation `production` dataset: 275 active products; 267 with a brand reference; 263 with an internal SKU; 0 with a non-empty EAN. The schema had an EAN field, but it was not populated in the inspected active inventory and was not exposed by the inspected storefront projection.
+- Plants `plants` dataset: 50 active product documents and 70 sale variants; 30/50 root products had an SKU and 0 sale variants had a non-empty SKU. ProductGroup remained deferred because variant identifiers were absent and there were no crawlable per-variant URLs.
+- These are dated 18 November read-only counts, not a claim that the current inventory has not changed since then.
+
+### Validation limits and later resolution
+
+- Manual extraction and JSON parsing succeeded. A full post-deployment Schema.org Validator report was not obtained in this audit because Cloudflare Browser Rendering returned HTTP 429. The authenticated Google Rich Results Test was not completed; no pass or failure is claimed from that attempt.
+- PR #410 subsequently added the conditional client-side Brand object and the missing plant brand projection, with regression coverage. It merged at `9b697379c43db5e19a15bd91b48fb8d507da8479` and Production deployment `ed8a8b40-bff1-4e35-948f-6b33970bcfff` succeeded from that exact commit. This resolves the specific brand parity defect identified above; it does not constitute a Google Rich Results Test result.
+- Later owner-provided Google Inspection Tool observations, plant availability normalization, and the approved Organization-level return-policy link are recorded in the 19 November entries in the roadmap and CHANGELOG. Shipping markup remains constrained by the need to represent actual delivery zones and rate/transit-time conditions accurately.
+- No Sanity schema/documents, Cloudflare settings/secrets, D1, Resend, DNS, Merchant Center or Search Console settings were changed as part of the 18 November audit. The only write in that audit was documentation in the PR branch.
