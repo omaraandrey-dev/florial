@@ -10,8 +10,8 @@ Status: working company profile compiled from the current Florial repository on 
 - VAT number / ДДС: **BG206978288**
 - Representative / МОЛ stated in the website privacy policy: **Десислав Бараков (Desislav Barakov)**
 - Customer-facing address stated in the privacy policy: **Градински център „Флориал“, ул. „Хан Крум“, 8230 Несебър, България (до магазин Janet)**
-- Contact email stated in the privacy policy: **omaraandrey@gmail.com**
-- Telephone numbers stated in the privacy policy: **+359 876 777 902** and **+359 885 834 860**
+- Contact email confirmed by the owner on 2026-11-19: **omaraandrey@gmail.com**
+- Telephone numbers: **+359 876 777 902** and **+359 88 583 4860** (same number as the previously formatted `+359 885 834 860`).
 - Website: https://florial-bg.com
 - Operating market and invoice currency: Bulgaria / EUR.
 
@@ -25,22 +25,15 @@ The Technical Passport records that the privacy-policy page and its legal detail
 
 ## Bank transfer details
 
-**NOT PROVIDED / NOT VERIFIED.** The following must not be invented or copied from the separate DROP project:
-
-- Bank name
-- Account holder as registered by the bank
-- IBAN
-- BIC / SWIFT
-- Bank address
-- Payment reference / основание за плащане
-
-Until these are supplied and confirmed, the Florial proforma PDF must not display bank-transfer coordinates or imply that a bank account is configured.
+- IBAN supplied and confirmed by the owner for use on Florial proformas on 2026-11-19: **BG88STSA93000029605234**.
+- Bank name, account holder as registered by the bank, BIC / SWIFT, bank address and payment reference were not supplied; do not invent them.
+- Do not copy bank details from the separate DROP project.
 
 ## Use in Manager order documents
 
-The Manager action **„Изпрати проформа + свали PDF“** generates one PDF, emails it to the customer and active Owner, and returns the same PDF for immediate download. The PDF may display the company identity/contact fields above as currently documented.
+The Manager action **„Изпрати проформа + изтегли PDF“** generates one PDF, emails it to the customer and active Owner, and returns the same PDF for immediate download. The separate **„Изтегли сметката“** action only downloads the generated PDF to the employee's device and sends no email. The PDF includes the confirmed IBAN and includes delivery/payment method only when those values are present in the order.
 
-The generated document is a **proforma / order confirmation**, not a tax invoice. Do not rename it to a tax invoice or imply it is a fiscal document. Bank details and payment instructions must remain absent until verified.
+The generated document is a **proforma / order confirmation**, not a tax invoice. Do not rename it to a tax invoice or imply it is a fiscal document. The supplied IBAN is displayed as provided. No unprovided BIC/SWIFT, bank name or payment reference is invented.
 
 ## Source file
 
