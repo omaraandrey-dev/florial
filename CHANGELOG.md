@@ -3,7 +3,7 @@
 - The expanded order card now starts directly with one compact Bulgarian “Клиент и доставка” block. It shows customer contacts/address, delivery method and payment method only when provided; the expanded copy of order number/date/time and the repeated order/payment status panel are removed. The order number and status remain visible in the order row above.
 - “Изтегли сметката” only generates and downloads the PDF to the current employee device. “Изпрати проформа + изтегли PDF” continues to send the same PDF to the customer and active Owner and then downloads it to the employee device.
 - Proforma PDF now includes owner-confirmed IBAN `BG88STSA93000029605234`; delivery/payment method is included only when present in the order. Owner-confirmed company email is `omaraandrey@gmail.com`.
-- Updated Manager regression coverage and company profile. No D1 schema/data, Sanity, Cloudflare settings/secrets or live order/email was changed. CI, browser acceptance and Production deployment pending.
+- Updated Manager regression coverage and company profile. PR #430 merged into `main` as `881db09ed84b0887560ddebc38fdcfa54aab4bcd`; PR-head CI workflows passed and Cloudflare Preview succeeded. Cloudflare Pages Production deployment `6d8c4a4b-3cdc-43d8-a782-06223d32b55e` succeeded from that exact merge commit on 2026-11-19. The owner subsequently reported that the updated order workflow appears to work in the live interface. A separate independently observed Resend end-to-end email delivery test was not performed. No D1 schema/data, Sanity, Cloudflare settings/secrets or live order/email was changed.
 
 ## 2026-11-19 — PR #409 Production Product Schema audit reconciled
 

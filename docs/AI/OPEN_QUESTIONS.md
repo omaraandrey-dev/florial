@@ -59,8 +59,10 @@
 
 
 
-## 2026-11-19 — Manager order details / proforma follow-up
+## 2026-11-19 — Manager order details / proforma task closed
 
-- Owner confirmed the Florial company email as `omaraandrey@gmail.com` and supplied IBAN `BG88STSA93000029605234` for proforma documents. The updated profile is `docs/business/FLORIAL_COMPANY_PROFILE.md`.
-- Implementation branch `feat/manager-order-details-proforma-download` separates download-only from email-and-download. Automated CI, authenticated Manager/Owner browser QA and exact-SHA Production deployment remain pending until PR review/merge.
-- No real order, customer email, Owner email or live account data was used for testing.
+- PR #430 merged into `main` as `881db09ed84b0887560ddebc38fdcfa54aab4bcd`; implementation and documentation are in the authoritative branch.
+- PR-head CI workflows passed and Cloudflare Preview succeeded. Cloudflare Pages Production deployment `6d8c4a4b-3cdc-43d8-a782-06223d32b55e` succeeded from the exact merge commit.
+- Owner reports that the updated order workflow appears to work in the live interface; the task is paused at the owner's request.
+- A separate independently observed Resend end-to-end delivery test to the customer and active Owner was not performed. Do not treat email delivery as independently verified. No live test order or test email was created by the assistant.
+- Company email and IBAN are recorded in `docs/business/FLORIAL_COMPANY_PROFILE.md`.
