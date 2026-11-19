@@ -3,12 +3,12 @@
 ## Актуальный статус на 2026-11-20
 
 - Канонический экран для Owner, Manager и Seller — прямой каталог Sanity в src/manager/PlantCatalogManager.tsx и /api/manager/plants*.
-- Новые карточки и изменения существующих карточек сохраняются непосредственно в Sanity с проверкой прав, revision guard, AI proof и D1 audit.
-- Старый процесс catalog_submissions, согласование изменений цены/варианта и публикация из очереди заявок выведены из интерфейса и серверных API. Legacy D1 tables сохраняются историческими; физическое удаление таблиц не выполняется.
-- Права canReviewPlantSubmissions, canApprovePlantSubmission и canPublishPlant больше не входят в действующую модель прав персонала.
-- Migration 0016 обновляет D1 staff permission triggers, чтобы review/approval/publish keys больше не требовались.
-- Перед очисткой старых тестовых заявок создан полный D1 export после применения migration 0015. В таблице было 15 записей: 9 published, 3 draft, 2 submitted, 1 changes_requested; 57 связанных событий. Очистка удалит только записи D1; Sanity documents/assets/products/variants не затрагиваются.
-
+- PR #433 объединён в main (0ec090932007d49c04f633875534af8eacbe49a6); Production deployment 0e6c1a23-5322-45ef-8377-e996e55c6973 успешен. CI и Preview успешны.
+- Старый процесс catalog_submissions, формы согласования цены/варианта и связанные endpoints удалены. Универсальный D1 data API доступен только для чтения собственного staff profile.
+- Legacy permissions canReviewPlantSubmissions, canApprovePlantSubmission, canPublishPlant удалены из active model и JSON профилей. Действующие direct catalog permissions сохранены.
+- D1 migrations 0015 и 0016 применены. В Production catalog_submissions=0 и catalog_submission_events=0; таблицы сохранены.
+- До очистки создан полный D1 export: 5fbb0e47-8439-493c-821a-6945eef7d8b2-000005e4-00000002-00005128-28ca14783cd1aa5b3985aaa3b2b6dbae.sql. Удалены только тестовые D1 submissions/events; Sanity products/assets/variants не изменялись.
+- Ручная приёмка прямого create/edit/add variant/price/stock по ролям Owner, Manager и Seller остаётся открытой. Cloudflare plant-care service binding оставлен без изменений.
 
 ## Дополнение 2026-11-10 — обнаружение дубликатов и добавление варианта в существующую карточку
 
