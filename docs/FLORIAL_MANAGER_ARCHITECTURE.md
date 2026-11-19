@@ -4,7 +4,7 @@
 - The expanded card no longer repeats the order number/date/time or the order/payment status badges; those remain visible in the selected order row. The duplicate status/payment mini-panel was removed.
 - “Изтегли сметката” calls the existing authenticated PDF GET endpoint and downloads only to the current employee device; it does not send email. “Изпрати проформа + изтегли PDF” calls the existing email POST action, sends the PDF to the customer and active Owner, and returns the same PDF for download.
 - The PDF includes the owner-confirmed Florial IBAN `BG88STSA93000029605234`; delivery/payment method appears only when present in the order. Company contact email confirmed as `omaraandrey@gmail.com`.
-- No D1 migration/data, Sanity, Cloudflare settings/secrets or live order/email changed. CI/browser QA/Production deployment pending.
+- No D1 migration/data, Sanity, Cloudflare settings/secrets or live order/email changed. PR #430 merged into `main` as `881db09ed84b0887560ddebc38fdcfa54aab4bcd`; PR-head CI workflows and Cloudflare Preview succeeded. Production deployment `6d8c4a4b-3cdc-43d8-a782-06223d32b55e` succeeded from the exact merge commit. Owner reports that the updated workflow appears to work in the live interface. A separate Resend end-to-end delivery test to the customer and active Owner remains unverified.
 
 
 
