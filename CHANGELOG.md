@@ -1,10 +1,20 @@
-## 2026-11-20 — вывод старого процесса заявок на растения
+## 2026-11-20 — завершён переход Manager на прямой каталог растений
 
-- Manager больше не показывает вкладку «Заявки на растения»; основной экран — прямой Sanity plant catalog.
-- Старые endpoints очереди заявок, публикации из заявок, уведомления и согласования изменений удалены. D1 data API больше не открывает catalog_submissions и catalog_submission_events.
-- Удалены старые permission keys review/approval/publish; прямые права каталога сохранены.
-- Production D1 экспортирована до очистки: 15 записей catalog_submissions (9 published, 3 draft, 2 submitted, 1 changes_requested) и 57 связанных событий. Очистка D1 будет выполнена после проверки нового Production deployment; Sanity products/assets/variants не затрагиваются.
-- PR refactor/manager-direct-plant-catalog — в работе; CI/Preview/Production проверка ожидаются.
+- PR #433 объединён в main: 0ec090932007d49c04f633875534af8eacbe49a6. Cloudflare Pages Production deployment 0e6c1a23-5322-45ef-8377-e996e55c6973 успешно завершён из этого commit.
+- CI PR #433: Florial D1 migration validation и Blog/Studio validation прошли успешно; Cloudflare Preview deployment a4153b8d-84aa-47a7-8226-04142eeb4be7 успешен.
+- Удалены старый раздел заявок, старые endpoints согласования/публикации и legacy D1 REST compatibility API. D1 data API ограничен чтением собственного профиля сотрудника.
+- Старые permission keys canReviewPlantSubmissions, canApprovePlantSubmission и canPublishPlant удалены из active schema и из JSON трёх существующих профилей. Прямые права каталога сохранены.
+- D1 migration 0016_remove_legacy_submission_permissions применена в Production 2026-11-19 23:47:04.
+- После резервного экспорта удалены 15 тестовых catalog_submissions и 57 catalog_submission_events. Проверка после очистки: 0 заявок, 0 событий. D1 таблицы сохранены; Sanity products/assets/variants не менялись.
+- Полный D1 backup до очистки после migration 0016: 5fbb0e47-8439-493c-821a-6945eef7d8b2-000005e4-00000002-00005128-28ca14783cd1aa5b3985aaa3b2b6dbae.sql (bookmark 000005e4-00000002-00005128-28ca14783cd1aa5b3985aaa3b2b6dbae).
+- Cloudflare plant-care service binding не менялся; его отключение остаётся отдельным инфраструктурным аудитом. Ручная приёмка прямого каталога по ролям Owner/Manager/Seller остаётся открытой.
+
+## 2026-11-20 — восстановление пароля сотрудников Manager
+
+- PR #432 объединён в main: 0f6368e0f758e8a16a7ddd321d598c61790e1373. Cloudflare Pages Production deployment 12cd7e22-2793-4085-b081-6c6f0969675e успешно завершён.
+- Owner может отправить активному сотруднику одноразовую ссылку для задания нового пароля. Token хранится только в виде SHA-256 hash, действует 30 минут и используется один раз; после смены пароля все сессии сотрудника отзываются.
+- D1 migration 0015_manager_password_reset_tokens применена в Production. Существующий пароль не передаётся по email и остаётся активным до успешной смены.
+- Отправка реального письма через Resend и end-to-end погашение ссылки не тестировались, чтобы не отправлять сотрудникам тестовые сообщения.
 
 ## 2026-11-19 — Manager order details and proforma download split
 

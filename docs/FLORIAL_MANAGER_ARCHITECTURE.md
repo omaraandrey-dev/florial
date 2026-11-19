@@ -1,11 +1,18 @@
-## 2026-11-20 — переход на прямое управление каталогом растений
+## 2026-11-20 — Manager: прямой каталог и снятие старого workflow
 
-- Единственный пользовательский экран работы с растениями — PlantCatalogManager, который напрямую читает и изменяет опубликованные документы Sanity.
-- Старый раздел заявок и формы согласования изменений цены/размера удалены из навигации. Серверные endpoints старого submission workflow удалены; универсальный D1 data API ограничен чтением собственного staff profile.
-- Старые permission keys review/approval/publish удалены из действующей нормализации прав. Прямые права каталога (canCreatePlant, canEditPlantCard, canAddPlantVariant, canEditPlantPrice, canEditPlantStock) сохранены.
-- D1 migration 0016 обновляет validation triggers профилей сотрудников: старые ключи больше не обязательны. Существующие значения игнорируются и будут удалены из JSON при следующем сохранении прав сотрудника.
-- D1 tables catalog_submissions и catalog_submission_events сохраняются в схеме, но старые тестовые записи и события очищаются отдельно после резервного экспорта. Sanity documents/assets не удаляются и не изменяются.
-- Cloudflare service binding старого plant-care workflow не меняется в рамках этой задачи; его отключение требует отдельного аудита.
+- PlantCatalogManager — единственный активный пользовательский экран работы с растениями; изменения выполняются напрямую в опубликованных документах Sanity.
+- Старый раздел заявок, формы согласования цены/размера, API публикации из заявок, notification/review endpoints и D1 REST compatibility shim удалены.
+- D1 data API разрешает только чтение собственного staff profile. Legacy permission keys review/approval/publish удалены из нормализации и существующих профилей; прямые права каталога сохранены.
+- Production D1 migrations 0015 и 0016 применены. 15 тестовых submissions и 57 событий удалены после резервного экспорта; обе таблицы оставлены в схеме пустыми.
+- Production deployment 0e6c1a23-5322-45ef-8377-e996e55c6973 из main commit 0ec090932007d49c04f633875534af8eacbe49a6 успешен.
+- Cloudflare plant-care service binding не менялся; отключение требует отдельного аудита. Ручная проверка Owner/Manager/Seller в Production остаётся открытой.
+
+## 2026-11-20 — Owner-initiated staff password reset
+
+- В списке сотрудников Owner доступна отправка ссылки для задания нового пароля. В письмо включён email/login сотрудника и ссылка на Manager.
+- Токен хранится в D1 только как SHA-256 hash, действует 30 минут, одноразовый; после успешной смены все сессии сотрудника отзываются. Старый пароль действует до завершения reset.
+- PR #432 merged as 0f6368e0f758e8a16a7ddd321d598c61790e1373; Production deployment 12cd7e22-2793-4085-b081-6c6f0969675e успешен. Migration 0015 применена.
+- End-to-end Resend delivery и фактическое использование ссылки сотрудником не тестировались.
 
 ## 2026-11-19 — Order detail layout and separate proforma download/email actions
 

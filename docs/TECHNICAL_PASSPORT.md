@@ -1,10 +1,10 @@
-## 2026-11-20 — переход на прямое управление каталогом растений
+## 2026-11-20 — Manager: прямой каталог растений и восстановление пароля
 
-- Единственный пользовательский экран работы с растениями — PlantCatalogManager, который напрямую читает и изменяет опубликованные документы Sanity.
-- Старый раздел заявок и формы согласования изменений цены/размера удалены из навигации. Серверные endpoints старого submission workflow удалены; универсальный D1 data API ограничен чтением собственного staff profile.
-- Старые permission keys review/approval/publish удалены из действующей нормализации прав. Прямые права каталога (canCreatePlant, canEditPlantCard, canAddPlantVariant, canEditPlantPrice, canEditPlantStock) сохранены.
-- D1 tables catalog_submissions и catalog_submission_events сохраняются в схеме, но старые тестовые записи и события будут очищены отдельно после резервного экспорта. Sanity documents/assets не удаляются и не изменяются.
-- Cloudflare service binding старого plant-care workflow не меняется в рамках этой задачи; его отключение требует отдельного аудита.
+- PlantCatalogManager — единственный активный экран работы с растениями. Создание и редактирование работают непосредственно с Sanity; старые заявки, approval/publication endpoints и D1 compatibility access удалены.
+- Действующие права каталога: canCreatePlant, canEditPlantCard, canAddPlantVariant, canEditPlantPrice, canEditPlantStock. Legacy review/approval/publish keys удалены из permission normalizer, D1 validation triggers и JSON существующих staff profiles.
+- Production D1 migrations: 0015_manager_password_reset_tokens и 0016_remove_legacy_submission_permissions применены. Старые submissions/events очищены после резервного экспорта; таблицы оставлены в схеме пустыми.
+- Owner-only password reset: одноразовый SHA-256 hashed token, срок 30 минут, письмо через существующую Resend integration, отзыв всех сессий после смены. Реальная доставка письма и end-to-end reset остаются не проверены.
+- Production deployment после PR #433: 0e6c1a23-5322-45ef-8377-e996e55c6973. Sanity documents/assets не менялись в ходе вывода старого workflow.
 
 ## 2026-11-19 — Manager order details and proforma actions
 
