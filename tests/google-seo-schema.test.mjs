@@ -142,13 +142,17 @@ test('onRequest is not converted to PreOrder for equipment or plant variants', (
   assert.notEqual(plant.availability, 'https://schema.org/PreOrder')
 })
 
-test('client ProductPage uses the same shared Offer builder as server middleware', async () => {
-  const [product, middleware] = await Promise.all([
+test('client ProductPage uses the same shared Offer builder and brand as server middleware', async () => {
+  const [product, productDetails, middleware] = await Promise.all([
     readFile(new URL('../src/pages/ProductPage.tsx', import.meta.url), 'utf8'),
+    readFile(new URL('../src/lib/routeData/productDetails.ts', import.meta.url), 'utf8'),
     readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8'),
   ])
   assert.match(product, /import \{ buildProductOffer \} from '..\/lib\/productJsonLd\.mjs'/)
   assert.match(product, /const offer = buildProductOffer\(/)
+  assert.ok(product.includes("...(product.brand ? { brand: { '@type': 'Brand', name: product.brand } } : {})"))
+  assert.match(productDetails, /"brand": brand->name, priceEUR, oldPriceEUR, vatIncluded/)
+  assert.match(middleware, /doc\.brandName \? \{ brand: \{ '@type': 'Brand', name: doc\.brandName \} \} : \{\}/)
   assert.doesNotMatch(product, /schema\.org\/PreOrder/)
   assert.match(middleware, /import \{ buildProductOffer, getServerProductPrice \} from '.\/_lib\/productJsonLd\.mjs'/)
 })

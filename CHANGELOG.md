@@ -1,3 +1,12 @@
+## 2026-11-19 — PR #410: Product brand JSON-LD parity
+
+- Current base: `main` at `02a19a0978591f61b08ed28fa3b34479e99d1e01`.
+- Code commit: `abb4738268d44ead18e6ba7f146bfd067c35f463`; test-only correction: `6b4c78f8c5438c3cd7493d335958de79bfbf995c`.
+- Fix: client Product JSON-LD now emits the optional `Brand` object from `product.brand`, matching middleware `doc.brandName`; plant product-detail GROQ now dereferences `brand->name`. Equipment already selected this field.
+- Regression test checks client ProductPage output, the plant detail query and server middleware brand mapping.
+- CI for the corrected code commit: Blog/Studio validation run `44432432693` succeeded: TypeScript, lint, website tests, website build, migration syntax, read-only migration dry-run, Studio typecheck and Studio build all passed. D1 validation run `44432432898` succeeded.
+- PR #410 is open; no merge or Production deployment has occurred. No Sanity documents/schema, Cloudflare settings/secrets, D1 data/schema, Resend or Google settings were changed.
+
 ## 2026-11-18 — PR #407 merged and Product Offer remediation deployed to Production
 
 - PR #407 (Product Offer JSON-LD remediation, Google Shopping roadmap and stage-1 audit) merged into `main`; merge commit / exact `main` HEAD at verification: `458dd9d8e8edb78973a4660f3796f43d4d1c22d2`.

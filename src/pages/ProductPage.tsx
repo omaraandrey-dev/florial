@@ -316,6 +316,7 @@ export function ProductPage({
       url: productUrl,
       ...(product.imageUrl ? { image: [product.imageUrl] } : {}),
       ...(product.sku ? { sku: product.sku } : {}),
+      ...(product.brand ? { brand: { '@type': 'Brand', name: product.brand } } : {}),
       ...(offer ? { offers: offer } : {}),
     })
 
