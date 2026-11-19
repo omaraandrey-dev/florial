@@ -1,6 +1,13 @@
 # Florial — текущие открытые вопросы и проверки
 
-Дата сверки: 2026-11-19. Этот файл содержит только вопросы, которые остаются актуальными. Полная предыдущая история, включая закрытые задачи и старые проверки, сохранена без изменений в [OPEN_QUESTIONS_HISTORY_2026-11-18.md](../archive/OPEN_QUESTIONS_HISTORY_2026-11-18.md).
+Дата сверки: 2026-11-19. Этот файл содержит только вопросы, которые остаются актуальными.
+
+## 2026-11-20 — вывод старого plant submissions workflow
+
+- PR #433 refactor/manager-direct-plant-catalog переводит Manager на прямой каталог Sanity и удаляет старые API/права согласования. Ожидаются CI, Preview и Production deployment.
+- До завершения PR и очистки D1 данные catalog_submissions и catalog_submission_events остаются в Production. Перед очисткой создан полный D1 export после применения migration 0015; backup bookmark: 000005e1-00000000-00005128-787f4d00c5bc343b320c7665f33b213f.
+- Migration 0016 обновляет D1 staff permission triggers. После деплоя проверить прямые create/edit/add variant/price/stock сценарии для Owner, Manager и Seller; затем очистить 15 тестовых submissions (события удалятся каскадно). Не удалять и не менять Sanity documents/assets.
+ Полная предыдущая история, включая закрытые задачи и старые проверки, сохранена без изменений в [OPEN_QUESTIONS_HISTORY_2026-11-18.md](../archive/OPEN_QUESTIONS_HISTORY_2026-11-18.md).
 
 Перед закрытием любого пункта требуется доказательство: commit/file, CI run, deployment ID, live query или browser smoke. Не считать старую запись доказательством текущего состояния.
 

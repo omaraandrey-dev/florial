@@ -15,7 +15,7 @@ import WithdrawalsManager from './WithdrawalsManager'
 
 type StaffPermissions = {
   canCreatePlant: boolean; canEditPlantCard: boolean; canAddPlantVariant: boolean; canEditPlantPrice: boolean; canEditPlantStock: boolean;
-  canReviewPlantSubmissions: boolean; canApprovePlantSubmission: boolean; canPublishPlant: boolean;
+  canReviewPlantSubmissions?: boolean; canApprovePlantSubmission?: boolean; canPublishPlant?: boolean;
   canManageStaff: boolean; canDelegatePermissions: boolean; canViewAnalytics: boolean;
   canViewOrders: boolean; canEditOrders: boolean; canDeleteTestOrders: boolean; canManageCategorySeo: boolean; canViewServiceLeads: boolean; canManageServiceLeads: boolean;
 }
@@ -26,9 +26,6 @@ const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
   { key: 'canAddPlantVariant', label: 'Добавяне на варианти' },
   { key: 'canEditPlantPrice', label: 'Промяна на цени' },
   { key: 'canEditPlantStock', label: 'Промяна на количеството на растенията' },
-  { key: 'canReviewPlantSubmissions', label: 'Проверка и връщане на заявки' },
-  { key: 'canApprovePlantSubmission', label: 'Одобрение на заявки' },
-  { key: 'canPublishPlant', label: 'Публикация в каталога' },
   { key: 'canManageStaff', label: 'Управление на служители' },
   { key: 'canDelegatePermissions', label: 'Делегиране на права' },
   { key: 'canViewAnalytics', label: 'Преглед на аналитиката' },
@@ -41,7 +38,6 @@ const permissionOptions: Array<{ key: StaffPermissionKey; label: string }> = [
 ]
 const emptyPermissions: StaffPermissions = {
   canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
-  canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
   canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
   canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false, canManageCategorySeo: false, canViewServiceLeads: false, canManageServiceLeads: false,
 }
@@ -220,7 +216,6 @@ export default function ManagerApp() {
     return () => { active = false }
   }, [])
 
-  useEffect(() => { void loadSubmissions() }, [loadSubmissions])
 
   useEffect(() => {
     let active = true
@@ -763,7 +758,6 @@ export default function ManagerApp() {
           <div className="flex shrink-0 gap-2 lg:flex-col">
             <div className="hidden px-3 pb-1 pt-2 text-[10px] font-bold tracking-[.16em] text-stone-400 lg:block">ОСНОВНА РАБОТА</div>
             <button type="button" aria-current={activeTab === 'plantCatalog' ? 'page' : undefined} onClick={() => setActiveTab('plantCatalog')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'plantCatalog' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Каталог растения</button>
-            {profile.role === 'owner' && <button type="button" aria-current={activeTab === 'submissions' ? 'page' : undefined} onClick={() => setActiveTab('submissions')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'submissions' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Заявки на растения</button>}
             {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewServiceLeads || profile.permissions.canManageServiceLeads)) && <button type="button" aria-current={activeTab === 'serviceLeads' ? 'page' : undefined} onClick={() => setActiveTab('serviceLeads')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'serviceLeads' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Заявки за услуги</button>}
             {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders || profile.permissions.canDeleteTestOrders)) && <button type="button" aria-current={activeTab === 'orders' ? 'page' : undefined} onClick={() => setActiveTab('orders')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'orders' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')} >{'Поръчки'}{newOrdersCount > 0 && <span aria-label={'Нови поръчки: ' + newOrdersCount} className="ml-2 inline-flex min-w-5 items-center justify-center rounded-full bg-red-600 px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">{newOrdersCount > 99 ? '99+' : newOrdersCount}</span>}</button>}
             {(profile.role === 'owner' || profile.role === 'manager' && (profile.permissions.canViewOrders || profile.permissions.canEditOrders)) && <button type="button" aria-current={activeTab === 'withdrawals' ? 'page' : undefined} onClick={() => setActiveTab('withdrawals')} className={'flex min-h-11 shrink-0 items-center rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700 focus-visible:ring-offset-2 lg:w-full ' + (activeTab === 'withdrawals' ? 'bg-lime-800 text-white shadow-sm' : 'text-stone-700 hover:bg-stone-100')}>Откази от договори</button>}
@@ -778,7 +772,7 @@ export default function ManagerApp() {
         </nav>
         <div className="min-w-0 flex-1">
           <section className={activeTab === 'plantCatalog' ? 'w-full' : 'hidden'}><PlantCatalogManager role={profile.role} permissions={profile.permissions} /></section>
-      <div className={'mx-auto grid max-w-6xl gap-6 px-4 py-6 ' + (selected ? 'max-w-6xl gap-6 lg:grid-cols-[minmax(0,1fr)_340px]' : 'max-w-4xl') + (activeTab === 'submissions' ? '' : ' hidden')}>
+      <div className="hidden">
         <section className="space-y-5">
           {profile.role === 'seller' && <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {profile.permissions.canCreatePlant && <button type="button" onClick={() => { resetForm(); setSellerWorkspace('create'); setImageLibraryOpen(false) }} className={'rounded-2xl border p-5 text-left shadow-sm transition ' + (sellerWorkspace === 'create' ? 'border-lime-700 bg-lime-50' : 'border-stone-200 bg-white hover:border-lime-600')}><span className="block text-base font-semibold">Добавяне на ново растение</span><span className="mt-1 block text-sm text-stone-600">Създаване на продуктова карта</span></button>}
@@ -1122,7 +1116,7 @@ export default function ManagerApp() {
             <h2 className="text-lg font-semibold">Добавяне на служител</h2>
             <label className={labelClass + ' mt-4'}>Име на служителя<input className={inputClass} value={newStaffName} onChange={(event) => setNewStaffName(event.target.value)} maxLength={120} required /></label>
             <label className={labelClass + ' mt-4'}>Email<input className={inputClass} type="email" autoComplete="off" value={newStaffEmail} onChange={(event) => setNewStaffEmail(event.target.value)} required /></label>
-            <label className={labelClass + ' mt-4'}>Роля<select className={inputClass} value={newStaffRole} onChange={(event) => { const role = event.target.value as 'seller' | 'manager'; setNewStaffRole(role); if (role === 'seller') setNewStaffPermissions((current) => ({ ...current, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false, canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false, canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false, canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false, canManageCategorySeo: false, canViewServiceLeads: false, canManageServiceLeads: false })) }}><option value="seller">Продавач</option>{(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <option value="manager">Мениджър</option>}</select></label>
+            <label className={labelClass + ' mt-4'}>Роля<select className={inputClass} value={newStaffRole} onChange={(event) => { const role = event.target.value as 'seller' | 'manager'; setNewStaffRole(role); if (role === 'seller') setNewStaffPermissions((current) => ({ ...current, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false, canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false, canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false, canManageCategorySeo: false, canViewServiceLeads: false, canManageServiceLeads: false })) }}><option value="seller">Продавач</option>{(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <option value="manager">Мениджър</option>}</select></label>
             {(profile.role === 'owner' || profile.permissions.canDelegatePermissions) && <fieldset className="mt-4 rounded-xl border border-stone-200 p-3"><legend className="px-1 text-sm font-semibold">Права на новия служител</legend><div className="grid gap-2 sm:grid-cols-2">{permissionOptions.filter((item) => profile.role === 'owner' || item.key !== 'canEditPlantStock' && profile.permissions[item.key]).filter((item) => newStaffRole !== 'seller' || item.key === 'canCreatePlant').map((item) => <label key={item.key} className="flex items-center gap-2 text-sm font-normal"><input type="checkbox" checked={newStaffPermissions[item.key]} onChange={(event) => setNewStaffPermissions((current) => {
                     const checked = event.target.checked
                     const next = { ...current, [item.key]: checked }

@@ -37,3 +37,5 @@ jobs:
         run: python3 tests/contract-withdrawals-migration.test.py
       - name: Validate Manager password reset migration
         run: python3 tests/manager-password-reset-migration.test.py
+      - name: Validate legacy submission permission retirement migration
+        run: python3 tests/manager-submission-permissions-migration.test.py
