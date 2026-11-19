@@ -3799,3 +3799,13 @@ Backups:
 - The extra Product/BreadcrumbList objects on Preview are explained by canonical-host mismatch: server markup points to the canonical Production URL, client markup points to the Preview URL. Current Production equipment baseline reports 3 items, 0 errors/warnings: Organization 1, BreadcrumbList 1, Product 1. This Production check is the pre-PR runtime, not the corrected code.
 - Official Google Rich Results Test loaded but required Google login and reCAPTCHA (“Something went wrong — Log in and try again”). No Google result was generated. Google Rich Results validation remains pending; owner-authenticated browser run is needed.
 - Exact evidence and next steps are recorded in the active Google Shopping roadmap and stage-1 audit. No runtime, Production, Sanity, D1 or Google settings changed.
+
+
+## 2026-11-19 — Manager orders workspace accordion and status overview
+
+- Reworked the Bulgarian Manager orders screen into a single vertical list. Selecting an order expands its full details directly below that order; the separate right-hand details column is removed. The expanded card closes with the explicit OK control. Saving an edited order also closes the card after the API confirms success.
+- The page starts with a compact two-column, four-stage status table (new, processing, preparing, ready for handover). Search, status, payment, test/real, sort and date filters are hidden until Филтър is opened; Приложи филтъра applies draft selections and closes the panel.
+- Order status labels use distinct lifecycle colors. A completed order is green only when its payment status is paid; otherwise it remains amber. New orders are red.
+- /api/manager/orders includes aggregate counts for real orders in the four active workflow states. Manager navigation displays the current new-real-order count as a red badge. Existing order permissions, edit actions, payment flow, PDF/email actions, audit history and D1 records remain unchanged.
+- Regression test: tests/manager-orders-workspace.test.mjs. No D1 schema/data migration, Sanity, Cloudflare configuration/secrets, Resend, checkout or public storefront changes.
+- Verification status: source and static regression assertions added on branch feat/manager-orders-workspace-accordion; exact-head GitHub Actions and Production deployment remain pending. No live order was created, edited, deleted, emailed or otherwise modified.
