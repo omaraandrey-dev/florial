@@ -1,3 +1,8 @@
+## 2026-11-19 — Hide plant image library from Manager and Seller
+
+- The “Избери от библиотеката” control and `PlantImageLibrary` panel are now rendered only for Owner. Manager and Seller retain the regular file-upload control and no longer see library-related empty-state instructions.
+- UI and regression test only; no API, D1, Sanity, permissions or publication behavior changed.
+
 ## 2026-11-19 — Gemini progress visibility and completion guidance
 
 - Restored the elapsed-time timer and the count of non-empty streamed response lines for Manager and Seller as well as Owner. The staff-facing progress remains simple and does not expose provider diagnostics, request IDs, technical stages or raw errors.
