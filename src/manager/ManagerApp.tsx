@@ -157,7 +157,7 @@ export default function ManagerApp() {
   const [newStaffPassword, setNewStaffPassword] = useState('')
   const [passwordTarget, setPasswordTarget] = useState<string | null>(null)
   const [replacementPassword, setReplacementPassword] = useState('')
-  const [resetToken, setResetToken] = useState(() => new URLSearchParams(window.location.search).get('reset') || '')
+  const [resetToken, setResetToken] = useState(() => new URLSearchParams(window.location.hash.replace(/^#/, '')).get('reset') || '')
   const [resetPassword, setResetPassword] = useState('')
   const [resetPasswordConfirm, setResetPasswordConfirm] = useState('')
   const [resetSaving, setResetSaving] = useState(false)

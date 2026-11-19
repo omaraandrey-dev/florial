@@ -76,7 +76,7 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
   const token=randomHex(32),tokenHash=await sha256Hex(token),createdAt=nowIso(),expiresAt=new Date(Date.now()+30*60*1000).toISOString()
   await env.DB.prepare('DELETE FROM manager_password_reset_tokens WHERE user_id=? AND used_at IS NULL').bind(userId).run()
   await env.DB.prepare('INSERT INTO manager_password_reset_tokens (token_hash,user_id,created_by,created_at,expires_at) VALUES (?,?,?,?,?)').bind(tokenHash,userId,actor.user_id,createdAt,expiresAt).run()
-  const resetUrl='https://florial-bg.com/manager?reset='+encodeURIComponent(token)
+  const resetUrl='https://florial-bg.com/manager#reset='+encodeURIComponent(token)
   const safeName=(recipient.display_name||recipient.email).replace(/[&<>"']/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c))
   const safeEmail=recipient.email.replace(/[&<>"']/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]||c))
   const html='<div style="font-family:Arial,sans-serif;line-height:1.6;color:#26332c;max-width:560px"><h2>Florial — възстановяване на достъп</h2><p>Здравейте, '+safeName+'!</p><p>Получихте това писмо, защото собственикът на Florial изпрати линк за възстановяване на достъпа до Manager.</p><p><b>Вашият акаунт:</b> '+safeEmail+'</p><p><a href="'+resetUrl+'" style="display:inline-block;background:#3f6212;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px">Задайте нова парола</a></p><p>Линкът е еднократен и валиден 30 минути. Старата парола ще остане активна, докато не зададете нова.</p><p>Ако не очаквате това писмо, можете да го игнорирате.</p></div>'
