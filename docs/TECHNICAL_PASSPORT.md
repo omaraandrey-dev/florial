@@ -1,8 +1,8 @@
 ## 2026-11-19 — Manager plant image upload and Gemini progress UX (PR pending)
 
-- `src/manager/PlantCatalogManager.tsx`: recommended image dimensions/weight are shown next to the upload control (1600 × 1600 px, up to 500 KB); browser-side uploads over 1.5 MiB are rejected with a Bulgarian error. Gallery empty-state copy directs staff to prepared file upload or the Sanity image library.
-- `functions/api/manager/upload-image.ts`: server-side upload limit is 1.5 MiB; accepted formats remain JPEG, PNG and WebP, with existing signature validation retained.
-- `functions/api/manager/publish-plant.ts`: publication payload validation uses the same 1.5 MiB per-image ceiling.
+- `src/manager/PlantCatalogManager.tsx`: recommended image dimensions/weight are shown next to the upload control (1600 × 1600 px, up to 500 KB); browser-side uploads over 1.5 MB are rejected with a Bulgarian error. Gallery empty-state copy directs staff to prepared file upload or the Sanity image library.
+- `functions/api/manager/upload-image.ts`: server-side upload limit is 1.5 MB; accepted formats remain JPEG, PNG and WebP, with existing signature validation retained.
+- `functions/api/manager/publish-plant.ts`: publication payload validation uses the same 1.5 MB per-image ceiling.
 - Gemini progress UI hides provider/model name, request ID, progress stage, heartbeat details and raw stream. It displays elapsed time, a spinner and the count of non-empty streamed text lines. Structured result review remains unchanged.
 - Regression coverage: `tests/manager-plant-image-size.test.mjs`.
 - Implementation branch: `fix/manager-plant-images-gemini-progress`; CI/PR/Production status pending. No live Sanity, D1 or Cloudflare configuration/data writes.
