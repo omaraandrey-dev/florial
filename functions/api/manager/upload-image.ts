@@ -1,7 +1,7 @@
 import { hasPermission, json, requireUser, type ManagerEnv } from './_lib'
 import { PLANTS_DATASET } from './plant-direct-lib'
 
-const MAX_IMAGE_SIZE = 1.5 * 1024 * 1024
+const MAX_IMAGE_SIZE = 1_500_000
 const hasSignature = (bytes: Uint8Array, mime: string) => {
   if (mime === 'image/jpeg') return bytes.length >= 3 && bytes[0]===0xff && bytes[1]===0xd8 && bytes[2]===0xff
   if (mime === 'image/png') return bytes.length >= 8 && [137,80,78,71,13,10,26,10].every((v,i)=>bytes[i]===v)
