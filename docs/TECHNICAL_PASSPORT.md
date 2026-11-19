@@ -1,3 +1,9 @@
+## 2026-11-19 — Manager/Seller plant intake validation and Gemini error UX
+
+- `src/manager/PlantCatalogManager.tsx`: required variant labels display an asterisk. Empty/invalid height and container volume, editable price, and in-stock quantity use a red outline; valid values restore the regular border. Quantity highlighting applies only to `inStock`; permission checks still gate price/stock fields.
+- Manager/Seller receive only the Bulgarian generic Gemini failure text “Gemini не успя да обработи заявката. Моля, опитайте отново по-късно.” Provider status, diagnostics, request IDs, token/event counts and detailed progress are Owner-only. Staff see a plain processing indicator.
+- Regression coverage: `tests/manager-plant-intake-ux.test.mjs`. No API, D1, Sanity, role permission, or publish-flow changes.
+
 ## 2026-11-19 — Google Merchant return policy structured data
 
 - Organization JSON-LD in `functions/_middleware.ts` now exposes `hasMerchantReturnPolicy` with Google's link-based `MerchantReturnPolicy.merchantReturnLink` pointing to `https://florial-bg.com/terms`.
