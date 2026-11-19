@@ -1,7 +1,7 @@
 import { checkSameOrigin, json, newId, nowIso, requireUser, type ManagerEnv, type ManagerIdentity } from './_lib'
 import { createProformaPdf, sendOrderEmail, toBase64, type ProformaOrder } from '../_lib/order-documents'
 
-type Row={id:string;order_number:string;customer_name:string;phone:string;email:string|null;city:string|null;address:string|null;delivery_method:string;items:string;subtotal_cents:number;delivery_fee_cents:number|null;total_cents:number|null;created_at:string;status:string;is_test:number}
+type Row={id:string;order_number:string;customer_name:string;phone:string;email:string|null;city:string|null;address:string|null;delivery_method:string;payment_method:string;items:string;subtotal_cents:number;delivery_fee_cents:number|null;total_cents:number|null;created_at:string;status:string;is_test:number}
 type RuntimeEnv=ManagerEnv & {PROFORMA_FONT_URL?:string}
 type Item={name:string;qty:number;price:number;sku?:string;imageUrl?:string;[key:string]:unknown}
 const ev=(db:NonNullable<ManagerEnv['DB']>,r:Row,u:ManagerIdentity,eventType:string,note:string,metadata:Record<string,unknown>={})=>db.prepare('INSERT INTO order_events(id,order_id,order_number,actor_id,actor_name,actor_role,event_type,from_status,to_status,note,metadata,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)').bind(newId(),r.id,r.order_number,u.user_id,u.display_name||u.email,u.role,eventType,r.status,r.status,note,JSON.stringify(metadata),nowIso())
