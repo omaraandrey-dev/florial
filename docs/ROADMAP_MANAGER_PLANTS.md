@@ -6,6 +6,7 @@
 - Новые карточки и изменения существующих карточек сохраняются непосредственно в Sanity с проверкой прав, revision guard, AI proof и D1 audit.
 - Старый процесс catalog_submissions, согласование изменений цены/варианта и публикация из очереди заявок выведены из интерфейса и серверных API. Legacy D1 tables сохраняются историческими; физическое удаление таблиц не выполняется.
 - Права canReviewPlantSubmissions, canApprovePlantSubmission и canPublishPlant больше не входят в действующую модель прав персонала.
+- Migration 0016 обновляет D1 staff permission triggers, чтобы review/approval/publish keys больше не требовались.
 - Перед очисткой старых тестовых заявок создан полный D1 export после применения migration 0015. В таблице было 15 записей: 9 published, 3 draft, 2 submitted, 1 changes_requested; 57 связанных событий. Очистка удалит только записи D1; Sanity documents/assets/products/variants не затрагиваются.
 
 
