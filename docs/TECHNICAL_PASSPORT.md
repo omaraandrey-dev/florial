@@ -1,3 +1,8 @@
+## 2026-11-19 — Hide plant image library from Manager and Seller
+
+- The “Избери от библиотеката” control and `PlantImageLibrary` panel are now rendered only for Owner. Manager and Seller retain the regular file-upload control and no longer see library-related empty-state instructions.
+- UI and regression test only; no API, D1, Sanity, permissions or publication behavior changed.
+
 ## 2026-11-19 — Gemini progress visibility and completion guidance
 
 - `src/manager/PlantCatalogManager.tsx`: Manager/Seller and Owner now all see elapsed request time and the number of non-empty response lines received from Google. Staff see the plain processing label; technical stages, provider diagnostics, request IDs and detailed errors remain Owner-only.
