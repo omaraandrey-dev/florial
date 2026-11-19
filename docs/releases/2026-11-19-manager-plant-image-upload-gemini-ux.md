@@ -16,8 +16,6 @@ Improve the direct plant catalog editor for staff without changing catalog recor
 - `functions/api/manager/upload-image.ts`
 - `functions/api/manager/publish-plant.ts`
 - `tests/manager-plant-image-size.test.mjs`
-- `CHANGELOG.md`
-- `docs/TECHNICAL_PASSPORT.md`
 - `docs/FLORIAL_MANAGER_ARCHITECTURE.md`
 
 ## Validation and deployment
