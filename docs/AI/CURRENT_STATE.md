@@ -4,7 +4,7 @@
 
 ## Latest main and Production release — 2026-11-19
 
-- Latest GitHub `main` HEAD: `9b697379c43db5e19a15bd91b48fb8d507da8479` (PR #410 merge).
+- Latest application/runtime code commit in `main`: `9b697379c43db5e19a15bd91b48fb8d507da8479` (PR #410). PR #411 is documentation-only and merged at `93955895baa8777286cccacda2ef6731b0f392db`; it does not change runtime code.
 - PR #410 synchronizes optional Schema.org Product `brand` between middleware and client ProductPage. Plant product-detail GROQ now fetches `brand->name`; equipment already did.
 - Exact code commit `6b4c78f` passed Blog/Studio validation run `44432432693` (317/317 tests, TypeScript, lint, website build, migration syntax/dry-run, Studio typecheck/build) and D1 validation run `44432432898`. Latest PR head `8ce3257` also passed Blog/Studio run `44432666988` and D1 run `44432666815`.
 - On merge commit `9b69737`, D1 validation run `44432799931` succeeded; Blog/Studio validation run `44432801621` succeeded on the exact merge commit.
