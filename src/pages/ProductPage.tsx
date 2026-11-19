@@ -3,6 +3,7 @@ import { useI18n } from '../lib/i18n'
 import type { CategoryItem, PlantSaleVariant, Product } from '../types'
 import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { resolveInitialPlantVariantKey } from '../lib/plantCatalogUtils'
+import { buildPlantCategoryBreadcrumbs } from '../lib/productBreadcrumbs'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import { getProductImageText } from '../lib/productImageSeo'
 import { getSanityImageProps } from '../lib/sanityImage'
@@ -93,6 +94,16 @@ export function ProductPage({
     onRequest: language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка',
     outOfStock: language === 'ru' ? 'Нет в наличии' : language === 'en' ? 'Out of stock' : 'Изчерпан',
   }
+  // Sanity stores stock status codes; translate their canonical Bulgarian labels via i18n.
+  const stockStatusDictionaryKeys: Record<string, string> = {
+    inStock: 'В наличност',
+    onRequest: 'По заявка',
+    outOfStock: 'Изчерпан',
+  }
+  const imageBadgeStatus = isPlantProduct(product) ? plantStockStatus : product.stockStatus
+  const imageBadgeLabel = imageBadgeStatus && stockStatusDictionaryKeys[imageBadgeStatus]
+    ? t(stockStatusDictionaryKeys[imageBadgeStatus])
+    : localize(product, 'stockStatus')
   const getSaleVariantName = (variant: PlantSaleVariant) =>
     language === 'ru' ? (variant.nameRu || variant.name) : language === 'en' ? (variant.nameEn || variant.name) : variant.name
   const selectedVariantDescription = selectedSaleVariant
@@ -221,10 +232,14 @@ export function ProductPage({
     setFailedImageUrls((previous) => previous.includes(imageUrl) ? previous : [...previous, imageUrl])
   }
 
+  const plantCategoryBreadcrumbs = useMemo(
+    () => buildPlantCategoryBreadcrumbs(product, allCategories),
+    [product, allCategories],
+  )
   const getProductCategoryTrail = (): CategoryItem[] => {
-    const catalogRoot = isPlantProduct(product)
-      ? allCategories.find((item) => item.slug?.current === 'rastenia' || item._id === 'plants-root')
-      : allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
+    if (isPlantProduct(product)) return plantCategoryBreadcrumbs.primaryTrail
+
+    const catalogRoot = allCategories.find((item) => item.slug?.current === 'vsichko-za-polivane')
     const assigned = (product.categories || [])
       .map((item: any) => allCategories.find((category) => category._id === item._id) || item)
       .filter((item: any) => item && item._id !== catalogRoot?._id && item.slug?.current !== 'vsichko-za-polivane')
@@ -251,8 +266,12 @@ export function ProductPage({
     }
     return trail
   }
-  const productCategoryTrail = useMemo(() => getProductCategoryTrail(), [product, allCategories])
+  const productCategoryTrail = useMemo(() => getProductCategoryTrail(), [product, allCategories, plantCategoryBreadcrumbs])
+  const productAdditionalCategories = isPlantProduct(product) ? plantCategoryBreadcrumbs.additionalCategories : []
   const productCatalogPath = isPlantProduct(product) ? '/category/rastenia' : '/category/vsichko-za-polivane'
+  const productCatalogLabel = isPlantProduct(product)
+    ? (plantCategoryBreadcrumbs.catalogRoot ? localize(plantCategoryBreadcrumbs.catalogRoot, 'name') || plantCategoryBreadcrumbs.catalogRoot.name : language === 'ru' ? 'Растения' : language === 'en' ? 'Plants' : 'Растения')
+    : t('Каталог')
 
   useEffect(() => {
     setFailedImageUrls([])
@@ -322,7 +341,7 @@ export function ProductPage({
 
     const breadcrumbItems: Array<{ name: string; item: string }> = [
       { name: t('Начало'), item: new URL(localizedHref('/', language), window.location.origin).toString() },
-      { name: t('Каталог'), item: new URL(localizedHref(productCatalogPath, language), window.location.origin).toString() },
+      { name: productCatalogLabel, item: new URL(localizedHref(productCatalogPath, language), window.location.origin).toString() },
       ...productCategoryTrail.map((item) => ({
         name: String(localize(item, 'name') || item.name),
         item: new URL(localizedHref(`/category/${encodeURIComponent(item.slug?.current || item._id)}`, language), window.location.origin).toString(),
@@ -339,7 +358,7 @@ export function ProductPage({
         item: item.item,
       })),
     })
-  }, [product, allCategories, productCategoryTrail, productCatalogPath, language, localize, localizedDescription, t, currentPrice, hasPrice, plantStockStatus])
+  }, [product, allCategories, productCategoryTrail, productCatalogPath, productCatalogLabel, language, localize, localizedDescription, t, currentPrice, hasPrice, plantStockStatus])
 
   const handleAdd = () => {
     onAddToCart(product, quantity, isPlantProduct(product) ? selectedSaleVariant : undefined)
@@ -353,7 +372,7 @@ export function ProductPage({
       <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center text-sm text-slate-500 gap-y-1">
         <a href={localizedHref('/', language)} onClick={(event) => handleInternalLinkClick(event, onNavigateHome)} className="hover:text-emerald-700 transition-colors no-underline">{t('Начало')}</a>
         <span className="mx-1">/</span>
-        <a href={localizedHref(productCatalogPath, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(isPlantProduct(product) ? 'rastenia' : 'vsichko-za-polivane'))} className="hover:text-emerald-700 transition-colors no-underline">{t('Каталог')}</a>
+        <a href={localizedHref(productCatalogPath, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(isPlantProduct(product) ? 'rastenia' : 'vsichko-za-polivane'))} className="hover:text-emerald-700 transition-colors no-underline">{productCatalogLabel}</a>
         {productCategoryTrail.map((item) => (
           <React.Fragment key={item._id}>
             <span className="mx-1">/</span>
@@ -362,6 +381,20 @@ export function ProductPage({
             </a>
           </React.Fragment>
         ))}
+        {productAdditionalCategories.length > 0 && (
+          <>
+            <span className="mx-2 text-slate-300" aria-hidden="true">·</span>
+            <span className="text-slate-400">{language === 'ru' ? 'Также в:' : language === 'en' ? 'Also in:' : 'Също в:'}</span>
+            {productAdditionalCategories.map((item, index) => (
+              <React.Fragment key={item._id}>
+                {index > 0 && <span className="mx-1 text-slate-300" aria-hidden="true">·</span>}
+                <a href={localizedHref(`/category/${encodeURIComponent(item.slug?.current || item._id)}`, language)} onClick={(event) => handleInternalLinkClick(event, () => onNavigateCategory(item.slug?.current, item._id))} className="hover:text-emerald-700 transition-colors no-underline">
+                  {localize(item, 'name') || item.name}
+                </a>
+              </React.Fragment>
+            ))}
+          </>
+        )}
         <span className="mx-1">/</span>
         <span className="font-medium text-slate-800 truncate max-w-xs">{localize(product, 'name')}</span>
       </nav>
@@ -381,9 +414,9 @@ export function ProductPage({
             ) : (
               <span className="text-slate-400">{t('Няма изображение')}</span>
             )}
-            {product.stockStatus && (
-              <span className="absolute top-3 right-3 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
-                {localize(product, 'stockStatus')}
+            {imageBadgeStatus && (
+              <span className={`absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full ${imageBadgeStatus === 'outOfStock' ? 'bg-rose-50 text-rose-700' : imageBadgeStatus === 'onRequest' ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700'}`}>
+                {imageBadgeLabel}
               </span>
             )}
           </div>
