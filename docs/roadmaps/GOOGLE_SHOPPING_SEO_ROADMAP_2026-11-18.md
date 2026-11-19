@@ -241,5 +241,5 @@
 - Code review found that Cloudflare middleware included `brand` from Sanity `brand->name` as `doc.brandName`, while client-side ProductPage omitted the field. Equipment detail GROQ already returned `brand`; plant detail GROQ did not.
 - PR #410 adds the same optional Schema.org `Brand` object to client Product JSON-LD and adds `brand->name` to the plant product-detail query. The value is omitted when no brand is present; no brand is invented.
 - Regression test covers the client mapping, plant GROQ selection and server middleware mapping.
-- Corrected code commit: `6b4c78f8c5438c3cd7493d335958de79bfbf995c`. Blog/Studio CI run `44432432693`: TypeScript, lint, website tests, website build and migration dry-run passed; Studio installation/typecheck/build were still running at documentation time. D1 validation run `44432432898` passed.
+- Corrected code commit: `6b4c78f8c5438c3cd7493d335958de79bfbf995c`. Blog/Studio CI run `44432432693` succeeded: TypeScript, lint, website tests, website build, migration syntax/dry-run, Studio typecheck and Studio build all passed. D1 validation run `44432432898` succeeded.
 - PR #410 remains open; no merge or Production deployment. No Sanity, Cloudflare configuration/secrets, D1, Resend or Google settings changed.
