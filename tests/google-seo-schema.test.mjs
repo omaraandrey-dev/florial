@@ -150,7 +150,7 @@ test('client ProductPage uses the same shared Offer builder and brand as server 
   ])
   assert.match(product, /import \{ buildProductOffer \} from '..\/lib\/productJsonLd\.mjs'/)
   assert.match(product, /const offer = buildProductOffer\(/)
-  assert.match(product, /\.\.\.(product\.brand \? \{ brand: \{ '@type': 'Brand', name: product\.brand \} \} : \{\})/)
+  assert.ok(product.includes("...(product.brand ? { brand: { '@type': 'Brand', name: product.brand } } : {})"))
   assert.match(productDetails, /"brand": brand->name, priceEUR, oldPriceEUR, vatIncluded/)
   assert.match(middleware, /doc\.brandName \? \{ brand: \{ '@type': 'Brand', name: doc\.brandName \} \} : \{\}/)
   assert.doesNotMatch(product, /schema\.org\/PreOrder/)
