@@ -5,9 +5,6 @@ export type StaffPermissions = {
   canAddPlantVariant: boolean
   canEditPlantPrice: boolean
   canEditPlantStock: boolean
-  canReviewPlantSubmissions: boolean
-  canApprovePlantSubmission: boolean
-  canPublishPlant: boolean
   canManageStaff: boolean
   canDelegatePermissions: boolean
   canViewAnalytics: boolean
@@ -21,13 +18,11 @@ export type StaffPermissions = {
 export type StaffPermissionKey = keyof StaffPermissions
 export const STAFF_PERMISSION_KEYS: StaffPermissionKey[] = [
   'canCreatePlant','canEditPlantCard','canAddPlantVariant','canEditPlantPrice','canEditPlantStock',
-  'canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant',
   'canManageStaff','canDelegatePermissions','canViewAnalytics',
   'canViewOrders','canEditOrders','canDeleteTestOrders','canManageCategorySeo','canViewServiceLeads','canManageServiceLeads',
 ]
 export const DEFAULT_STAFF_PERMISSIONS: StaffPermissions = {
   canCreatePlant: false, canEditPlantCard: false, canAddPlantVariant: false, canEditPlantPrice: false, canEditPlantStock: false,
-  canReviewPlantSubmissions: false, canApprovePlantSubmission: false, canPublishPlant: false,
   canManageStaff: false, canDelegatePermissions: false, canViewAnalytics: false,
   canViewOrders: false, canEditOrders: false, canDeleteTestOrders: false, canManageCategorySeo: false, canViewServiceLeads: false, canManageServiceLeads: false,
 }
@@ -37,7 +32,7 @@ export const normalizeStaffPermissions = (value: unknown): StaffPermissions => {
   else if (value && typeof value === 'object' && !Array.isArray(value)) source = value as Record<string, unknown>
   return Object.fromEntries(STAFF_PERMISSION_KEYS.map((key) => [key, typeof source[key] === 'boolean' ? source[key] : DEFAULT_STAFF_PERMISSIONS[key]])) as unknown as StaffPermissions
 }
-const MANAGER_ONLY_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canReviewPlantSubmissions','canApprovePlantSubmission','canPublishPlant','canManageStaff','canDelegatePermissions','canViewAnalytics','canViewOrders','canEditOrders','canDeleteTestOrders','canManageCategorySeo','canViewServiceLeads','canManageServiceLeads']
+const MANAGER_ONLY_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canManageStaff','canDelegatePermissions','canViewAnalytics','canViewOrders','canEditOrders','canDeleteTestOrders','canManageCategorySeo','canViewServiceLeads','canManageServiceLeads']
 const SELLER_CATALOG_PERMISSIONS: StaffPermissionKey[] = ['canEditPlantCard','canAddPlantVariant','canEditPlantPrice','canEditPlantStock']
 export const hasPermission = (user: Pick<ManagerIdentity, 'role' | 'permissionsObject'>, key: StaffPermissionKey) => {
   if (user.role === 'owner') return true
@@ -45,32 +40,6 @@ export const hasPermission = (user: Pick<ManagerIdentity, 'role' | 'permissionsO
   return (user.role !== 'seller' || !MANAGER_ONLY_PERMISSIONS.includes(key)) && user.permissionsObject[key] === true
 }
 
-/** Keeps plant submission status changes aligned with the Manager role matrix. */
-export const canSetCatalogSubmissionStatus = (
-  user: ManagerIdentity,
-  existing: { created_by: string; operation: string },
-  next: string,
-): boolean => {
-  if (['publishing', 'published', 'publish_failed'].includes(next)) return false
-  if (next === 'approved' && existing.operation === 'update') return false
-
-  if (user.role === 'seller') {
-    return existing.created_by === user.user_id && ['draft', 'submitted'].includes(next)
-  }
-
-  if (user.role === 'manager') {
-    const canReview = hasPermission(user, 'canReviewPlantSubmissions')
-    const canApprove = hasPermission(user, 'canApprovePlantSubmission')
-    return (
-      ((next === 'in_review' || next === 'changes_requested' || next === 'rejected') && canReview) ||
-      (next === 'approved' && canApprove) ||
-      (next === 'submitted' && existing.created_by === user.user_id && hasPermission(user, 'canCreatePlant'))
-    )
-  }
-
-  // Owners may submit their own draft; approval/rejection remain available to them.
-  return ['submitted', 'in_review', 'changes_requested', 'approved', 'rejected'].includes(next)
-}
 export type StaffProfile = {
   user_id: string
   email: string

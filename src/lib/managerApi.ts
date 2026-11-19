@@ -81,7 +81,7 @@ export const managerApi = {
   },
   from(table: string) { return new QueryBuilder(table) },
   async rpc(name: string, args: Record<string, unknown>) {
-    const endpoint = name === 'manager_site_analytics' ? '/api/manager/analytics?days=' + encodeURIComponent(String(args.p_days || 30)) : name === 'manager_posthog_analytics' ? '/api/manager/analytics-posthog?days=' + encodeURIComponent(String(args.p_days || 30)) : name === 'manager_request_catalog_changes' ? '/api/manager/request-changes' : ''
+    const endpoint = name === 'manager_site_analytics' ? '/api/manager/analytics?days=' + encodeURIComponent(String(args.p_days || 30)) : name === 'manager_posthog_analytics' ? '/api/manager/analytics-posthog?days=' + encodeURIComponent(String(args.p_days || 30)) : ''
     if (!endpoint) return { data: null, error: { message: 'Unknown operation.' } }
     try {
       const isReadOnlyAnalytics = name === 'manager_site_analytics' || name === 'manager_posthog_analytics'

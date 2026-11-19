@@ -1,3 +1,11 @@
+## 2026-11-20 — вывод старого процесса заявок на растения
+
+- Manager больше не показывает вкладку «Заявки на растения»; основной экран — прямой Sanity plant catalog.
+- Старые endpoints очереди заявок, публикации из заявок, уведомления и согласования изменений удалены. D1 data API больше не открывает catalog_submissions и catalog_submission_events.
+- Удалены старые permission keys review/approval/publish; прямые права каталога сохранены.
+- Production D1 экспортирована до очистки: 15 записей catalog_submissions (9 published, 3 draft, 2 submitted, 1 changes_requested) и 57 связанных событий. Очистка D1 будет выполнена после проверки нового Production deployment; Sanity products/assets/variants не затрагиваются.
+- PR refactor/manager-direct-plant-catalog — в работе; CI/Preview/Production проверка ожидаются.
+
 ## 2026-11-19 — Manager order details and proforma download split
 
 - The expanded order card now starts directly with one compact Bulgarian “Клиент и доставка” block. It shows customer contacts/address, delivery method and payment method only when provided; the expanded copy of order number/date/time and the repeated order/payment status panel are removed. The order number and status remain visible in the order row above.

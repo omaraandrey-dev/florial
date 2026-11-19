@@ -1,3 +1,11 @@
+## 2026-11-20 — переход на прямое управление каталогом растений
+
+- Единственный пользовательский экран работы с растениями — PlantCatalogManager, который напрямую читает и изменяет опубликованные документы Sanity.
+- Старый раздел заявок и формы согласования изменений цены/размера удалены из навигации. Серверные endpoints старого submission workflow удалены; универсальный D1 data API ограничен чтением собственного staff profile.
+- Старые permission keys review/approval/publish удалены из действующей нормализации прав. Прямые права каталога (canCreatePlant, canEditPlantCard, canAddPlantVariant, canEditPlantPrice, canEditPlantStock) сохранены.
+- D1 tables catalog_submissions и catalog_submission_events сохраняются в схеме, но старые тестовые записи и события будут очищены отдельно после резервного экспорта. Sanity documents/assets не удаляются и не изменяются.
+- Cloudflare service binding старого plant-care workflow не меняется в рамках этой задачи; его отключение требует отдельного аудита.
+
 ## 2026-11-19 — Manager order details and proforma actions
 
 - Expanded order card: one customer/delivery block; optional delivery/payment fields omitted when absent; duplicate order number/date/time and duplicate status/payment panel removed from expanded details.
