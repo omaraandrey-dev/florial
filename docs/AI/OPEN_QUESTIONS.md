@@ -57,3 +57,10 @@
 - Stages 1 and 2 of the roadmap remain open pending authenticated Google Rich Results evidence and the remaining Search Console URL Inspection checks. Merchant Center account was confirmed by the owner as not yet registered; Merchant Center setup remains a later roadmap stage.
 - No Sanity schema/documents, Cloudflare settings/secrets, D1 data/schema, Resend or Google settings were changed. The only Production change was the automatic Pages deployment from the explicitly approved PR merge.
 
+
+
+## 2026-11-19 — Manager order details / proforma follow-up
+
+- Owner confirmed the Florial company email as `omaraandrey@gmail.com` and supplied IBAN `BG88STSA93000029605234` for proforma documents. The updated profile is `docs/business/FLORIAL_COMPANY_PROFILE.md`.
+- Implementation branch `feat/manager-order-details-proforma-download` separates download-only from email-and-download. Automated CI, authenticated Manager/Owner browser QA and exact-SHA Production deployment remain pending until PR review/merge.
+- No real order, customer email, Owner email or live account data was used for testing.
