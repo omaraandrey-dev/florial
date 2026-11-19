@@ -36,7 +36,7 @@ const variantFrom=(value:any,rootStatus?:string):Variant=>({
  stockStatus:value?.stockStatus||rootStatus||'onRequest',stockQuantity:value?.stockQuantity==null?'':String(value.stockQuantity),
 })
 const inputClass='w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-base text-stone-800 outline-none focus:border-lime-700 focus:ring-2 focus:ring-lime-100'
-const requiredInputClass=(missing:boolean)=>inputClass+(missing?' border-red-500 focus:border-red-500 focus:ring-red-100':'')
+const requiredInputClass=(missing:boolean)=>inputClass+(missing?' border-2 !border-red-500 focus:!border-red-500 focus:ring-red-100':'')
 const labelClass='mb-1 block text-sm font-semibold text-stone-700'
 const btn='rounded-xl px-4 py-3 text-sm font-semibold'
 const responseJson=async(response:Response)=>await response.json().catch(()=>({}))
@@ -177,7 +177,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   const requestedName=mode==='text'?(geminiTextQuery.trim()||form.name.trim()):form.name.trim()
   if(mode==='photo'&&!targetImage){setGeminiError('Първо добавете основна снимка на растението.');return}
   if(mode==='text'&&!requestedName){setGeminiError('Въведете име на растение, например „лавровишня“.');return}
-  setGeminiLoading(true);setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiProof(null);setGeminiStreamText('');setGeminiStage('Подготвяме заявката…')
+  setGeminiLoading(true);setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiProof(null);setGeminiStreamText('');setGeminiStage(role==='owner'?'Подготвяме заявката…':(mode==='photo'?'photo':'text'))
   const controller=new AbortController()
   const requestTimeout=window.setTimeout(()=>controller.abort(),310000)
   try{
@@ -210,8 +210,8 @@ export default function PlantCatalogManager({role,permissions}:Props){
     let event:any
     try{event=JSON.parse(raw)}catch{return}
     if(event.requestId)observedRequestId=event.requestId
-    if(event.type==='progress'){observedStage=event.stage||observedStage;setGeminiStage((event.message||event.stage||'Gemini обработва заявката…')+(event.providerHttpStatus?' · Google HTTP '+event.providerHttpStatus:''))}
-    if(event.type==='heartbeat')setGeminiStage('Връзката остава активна. Етап: '+(event.stage||observedStage)+'. Изчакваме следващия отговор от Google…')
+    if(event.type==='progress'){observedStage=event.stage||observedStage;setGeminiStage(role==='owner'?(event.message||event.stage||'Gemini обработва заявката…')+(event.providerHttpStatus?' · Google HTTP '+event.providerHttpStatus:''):(mode==='photo'?'photo':'text'))}
+    if(event.type==='heartbeat')setGeminiStage(role==='owner'?'Връзката остава активна. Етап: '+(event.stage||observedStage)+'. Изчакваме следващия отговор от Google…':(mode==='photo'?'photo':'text'))
     if(event.type==='delta')setGeminiStreamText(previous=>previous+(event.text||''))
     if(event.type==='result'){receivedResult=true;setGeminiResult(event);setGeminiProof(typeof event.aiProof==='string'?event.aiProof:null);setGeminiProofAssetId(typeof event.proofAssetId==='string'?event.proofAssetId:'');setDuplicateCheckPending(true);setExistingPlantSelected(false);setGeminiModalOpen(true);setGeminiStage('Анализът е завършен. Проверете резултата и потвърдете прилагането.')}
     if(event.type==='error')streamError=[event.error||'Gemini не успя да обработи заявката.',event.code?'Код: '+event.code:'',event.stage?'Етап: '+event.stage:'',event.providerHttpStatus?'Google HTTP: '+event.providerHttpStatus:'',event.providerRetryAttempts?'Автоматични повторни опити: '+event.providerRetryAttempts:'',event.providerStatus?'Причина Google: '+event.providerStatus:'',event.providerContentType?'Тип отговора: '+event.providerContentType:'',event.providerBytesReceived!==undefined?'Получени bytes: '+event.providerBytesReceived:'',event.modelCharsReceived!==undefined?'Получени символи: '+event.modelCharsReceived:'',event.providerMessage?'Подробности Google: '+event.providerMessage:'',event.providerFinishReason?'Причина завершения Google: '+event.providerFinishReason:'',event.providerPromptBlockReason?'Блокировка prompt: '+event.providerPromptBlockReason:'',event.providerUsageMetadata?.totalTokenCount!==undefined?'Токены всего: '+event.providerUsageMetadata.totalTokenCount:'',event.providerUsageMetadata?.candidatesTokenCount!==undefined?'Токены ответа: '+event.providerUsageMetadata.candidatesTokenCount:'',event.providerSseDiagnostics?.eventCount!==undefined?'SSE события: '+event.providerSseDiagnostics.eventCount:'',event.providerSseDiagnostics?.malformedEventCount?'Некорректные SSE события: '+event.providerSseDiagnostics.malformedEventCount:'',event.providerSseDiagnostics?.ignoredLineCount?'Пропущенные строки SSE: '+event.providerSseDiagnostics.ignoredLineCount:'',event.jsonStatus?'JSON: '+event.jsonStatus:'',event.jsonParseError?'Причина JSON: '+event.jsonParseError:'',event.requestId?'ID: '+event.requestId:''].filter(Boolean).join(' · ')
@@ -233,7 +233,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
    if(streamError)throw new Error(streamError)
    if(!receivedResult)throw new Error('Потокът Gemini приключи без завършен резултат. Опитайте отново.')
   }catch(e){
-   setGeminiError(e instanceof Error?(e.name==='AbortError'?'Gemini не отговори в рамките на пет минути. Потокът беше прекъснат от браузъра.':e.message):'Неуспешен тест на Gemini.')
+   setGeminiError(role==='owner'?(e instanceof Error?(e.name==='AbortError'?'Gemini не отговори в рамките на пет минути. Потокът беше прекъснат от браузъра.':e.message):'Неуспешен тест на Gemini.'):'Gemini не успя да обработи заявката. Моля, опитайте отново по-късно.')
   }finally{window.clearTimeout(requestTimeout);setGeminiLoading(false)}
  }
  const applyGeminiResult=async()=>{
@@ -394,7 +394,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
       </div>
       <label className="block"><span className={labelClass}>Име за проверка без снимка</span><input className={inputClass} value={geminiTextQuery} onChange={event=>setGeminiTextQuery(event.target.value)} placeholder={form.name||'Например: лавровишня'}/></label>
       {geminiLoading&&<div className="rounded-xl border border-indigo-200 bg-white p-3 text-sm text-indigo-950" role="status" aria-live="polite">
-       <div className="flex items-center justify-between gap-3"><span className="flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-200 border-t-indigo-700" aria-hidden="true"/><span>Време: <strong className="tabular-nums">{String(Math.floor(geminiElapsedSeconds/60)).padStart(2,'0')}:{String(geminiElapsedSeconds%60).padStart(2,'0')}</strong></span></span><span className="tabular-nums">Получени редове: <strong>{geminiStreamText.split(/\r?\n/).filter(line=>line.trim()).length}</strong></span></div>
+       <div className="flex items-center justify-between gap-3"><span className="flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-200 border-t-indigo-700" aria-hidden="true"/><span>{role==='owner'?'Време: ': 'Gemini обработва заявката…'}{role==='owner'&&<strong className="tabular-nums">{String(Math.floor(geminiElapsedSeconds/60)).padStart(2,'0')}:{String(geminiElapsedSeconds%60).padStart(2,'0')}</strong>}</span></span>{role==='owner'&&<span className="tabular-nums">Получени редове: <strong>{geminiStreamText.split(/\r?\n/).filter(line=>line.trim()).length}</strong></span>}</div>
       </div>}
       {geminiError&&<div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{geminiError}</div>}
       {aiProof&&<p className="text-xs font-semibold text-lime-800">Резултатът от Google е приложен. Цените, размерите, SKU, количествата и снимките не са променени.</p>}
@@ -436,16 +436,16 @@ export default function PlantCatalogManager({role,permissions}:Props){
       <div className="flex items-center justify-between"><strong>Размер {index+1}</strong>{form.saleVariants.length>1&&<button type="button" onClick={()=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.filter((_,i)=>i!==index)}))} className="text-sm font-semibold text-red-700">Премахни</button>}</div>
       <label><span className={labelClass}>Наименование / височина *</span><input className={inputClass} placeholder="Напр. 120–140 см, контейнер 10 л" value={variant.name} onChange={event=>setVariant(index,'name',event.target.value)}/></label>
       <div className="grid grid-cols-2 gap-2">
-       <label><span className={labelClass}>Височина (см)</span><input type="number" min="0" step="1" className={requiredInputClass(!(Number(variant.saleHeightCm)>0))} value={variant.saleHeightCm} placeholder="Въведете височина" aria-required="true" onChange={event=>setVariant(index,'saleHeightCm',event.target.value)}/></label>
-       <label><span className={labelClass}>Контейнер (л)</span><input type="number" min="0.1" step="0.1" className={requiredInputClass(!(Number(variant.containerVolumeL)>0))} value={variant.containerVolumeL} placeholder="Въведете обем" aria-required="true" onChange={event=>setVariant(index,'containerVolumeL',event.target.value)}/></label>
+       <label><span className={labelClass}>Височина (см) *</span><input type="number" min="0" step="1" className={requiredInputClass(!(Number(variant.saleHeightCm)>0))} value={variant.saleHeightCm} placeholder="Въведете височина" aria-required="true" onChange={event=>setVariant(index,'saleHeightCm',event.target.value)}/></label>
+       <label><span className={labelClass}>Контейнер (л) *</span><input type="number" min="0.1" step="0.1" className={requiredInputClass(!(Number(variant.containerVolumeL)>0))} value={variant.containerVolumeL} placeholder="Въведете обем" aria-required="true" onChange={event=>setVariant(index,'containerVolumeL',event.target.value)}/></label>
       </div>
       <div className="grid grid-cols-2 gap-2">
-       <label><span className={labelClass}>Цена (€) *</span><input type="number" min="0.01" step="0.01" className={requiredInputClass(canEditVariantPrice&&!(Number(variant.priceEUR)>0))} disabled={!canEditVariantPrice} value={variant.priceEUR} placeholder="Въведете цена" aria-required="true" onChange={event=>setVariant(index,'priceEUR',event.target.value)}/></label>
+       <label><span className={labelClass}>Цена (€){canEditVariantPrice?' *':''}</span><input type="number" min="0.01" step="0.01" className={requiredInputClass(canEditVariantPrice&&!(Number(variant.priceEUR)>0))} disabled={!canEditVariantPrice} value={variant.priceEUR} placeholder="Въведете цена" aria-required="true" onChange={event=>setVariant(index,'priceEUR',event.target.value)}/></label>
        <label><span className={labelClass}>Стара цена (€)</span><input type="number" min="0" step="0.01" className={inputClass} disabled={!canEditVariantPrice} value={variant.oldPriceEUR} onChange={event=>setVariant(index,'oldPriceEUR',event.target.value)}/></label>
       </div>
       <div className="grid grid-cols-2 gap-2">
        <label><span className={labelClass}>Наличност</span><select className={inputClass} disabled={!canEditVariantStock} value={variant.stockStatus} onChange={event=>setVariant(index,'stockStatus',event.target.value)}><option value="inStock">В наличност</option><option value="onRequest">По заявка</option><option value="outOfStock">Няма наличност</option></select></label>
-       <label><span className={labelClass}>Количество{variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={requiredInputClass(canEditVariantStock&&variant.stockStatus==='inStock'&&!variant.stockQuantity.trim())} disabled={!canEditVariantStock} value={variant.stockQuantity} placeholder={variant.stockStatus==='inStock'?'Въведете количество':'Не е задължително'} aria-required={variant.stockStatus==='inStock'} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
+       <label><span className={labelClass}>Количество{canEditVariantStock&&variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={requiredInputClass(canEditVariantStock&&variant.stockStatus==='inStock'&&!variant.stockQuantity.trim())} disabled={!canEditVariantStock} value={variant.stockQuantity} placeholder={variant.stockStatus==='inStock'?'Въведете количество':'Не е задължително'} aria-required={variant.stockStatus==='inStock'} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
       </div>
       {role==='owner'&&<label><span className={labelClass}>SKU на размера (по избор)</span><input className={inputClass} value={variant.sku} onChange={event=>setVariant(index,'sku',event.target.value)}/></label>}
      </div>)}
