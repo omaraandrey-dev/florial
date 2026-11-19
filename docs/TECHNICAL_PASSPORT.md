@@ -1,3 +1,10 @@
+## 2026-11-19 — PR #409 Production Product Schema audit evidence reconciled
+
+- The dated 18.11.2026 Production snapshot is preserved in `docs/audits/2026-11-18-google-shopping-seo-stage-1-audit.md`: live HTTP 200 HTML/JSON-LD for Rain Bird and Kumquat, homepage Organization + Nessebar/Ravda GardenStore nodes, Search Console pre-deployment crawl dates, sitemap count and read-only Sanity SKU/EAN counts.
+- The hydrated Rain Bird client Product brand omission recorded in that snapshot was fixed by PR #410: client Brand serialization and plant brand query projection. PR #410 merged at `9b697379c43db5e19a15bd91b48fb8d507da8479`; Production deployment `ed8a8b40-bff1-4e35-948f-6b33970bcfff` succeeded from that SHA.
+- Full authenticated Google Rich Results Test remains unconfirmed. Manual JSON parsing, Schema.org validator rate-limit response (HTTP 429), and URL Inspection records whose Google crawls predate deployment are not equivalent to post-deployment Rich Results validation.
+- This is a documentation reconciliation; no runtime or live-service changes were made.
+
 ## 2026-11-19 — Hide plant image library from Manager and Seller
 
 - The “Избери от библиотеката” control and `PlantImageLibrary` panel are now rendered only for Owner. Manager and Seller retain the regular file-upload control and no longer see library-related empty-state instructions.
