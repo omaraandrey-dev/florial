@@ -81,7 +81,6 @@ export default function PlantCatalogManager({role,permissions}:Props){
  const [geminiTextQuery,setGeminiTextQuery]=useState('')
  const [geminiStreamText,setGeminiStreamText]=useState('')
  const [geminiStage,setGeminiStage]=useState('')
- const [geminiRequestId,setGeminiRequestId]=useState('')
  const [geminiElapsedSeconds,setGeminiElapsedSeconds]=useState(0)
  const [aiIdentityNeedsConfirmation,setAiIdentityNeedsConfirmation]=useState(false)
  const [pendingIdempotencyKey,setPendingIdempotencyKey]=useState<string|null>(null)
@@ -177,7 +176,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   const requestedName=mode==='text'?(geminiTextQuery.trim()||form.name.trim()):form.name.trim()
   if(mode==='photo'&&!targetImage){setGeminiError('Първо добавете основна снимка на растението.');return}
   if(mode==='text'&&!requestedName){setGeminiError('Въведете име на растение, например „лавровишня“.');return}
-  setGeminiLoading(true);setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiProof(null);setGeminiStreamText('');setGeminiStage('Подготвяме заявката…');setGeminiRequestId('')
+  setGeminiLoading(true);setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiProof(null);setGeminiStreamText('');setGeminiStage('Подготвяме заявката…')
   const controller=new AbortController()
   const requestTimeout=window.setTimeout(()=>controller.abort(),310000)
   try{
@@ -209,7 +208,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
     if(!raw)return
     let event:any
     try{event=JSON.parse(raw)}catch{return}
-    if(event.requestId){observedRequestId=event.requestId;setGeminiRequestId(event.requestId)}
+    if(event.requestId)observedRequestId=event.requestId
     if(event.type==='progress'){observedStage=event.stage||observedStage;setGeminiStage((event.message||event.stage||'Gemini обработва заявката…')+(event.providerHttpStatus?' · Google HTTP '+event.providerHttpStatus:''))}
     if(event.type==='heartbeat')setGeminiStage('Връзката остава активна. Етап: '+(event.stage||observedStage)+'. Изчакваме следващия отговор от Google…')
     if(event.type==='delta')setGeminiStreamText(previous=>previous+(event.text||''))
