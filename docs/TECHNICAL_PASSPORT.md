@@ -1,3 +1,12 @@
+## 2026-11-19 — Merchant Center regional shipping readiness
+
+- Published Florial irrigation-equipment delivery tariffs cover 30 named settlements in six price groups: 0 / 10 / 15 / 17 / 20 / 25 EUR. The prices are not applicable to live plants, whose delivery is agreed individually.
+- Google Merchant Center shipping feed supports `location_id` (Google Ads Geo Target Criteria ID) and `location_group_name` (preconfigured Merchant Center Region). Preferred first attempt: exact active `location_id` per settlement. If unavailable for small settlements, do not substitute a larger region without confirming the real coverage; evaluate a named Merchant Center Region group.
+- Exact IDs remain unverified because the official Google Geo Targets archive is distributed as ZIP and could not be retrieved/parsed in this session. No ID has been invented.
+- Merchant Center account was owner-confirmed as not registered on 18.11.2026; Windsor.ai connector exists but has no connected account. Account creation and OAuth are prerequisites for account-level shipping configuration.
+- No shipping handling/transit times are published; do not add these values until operational timings are confirmed. No global Bulgaria ShippingService markup is appropriate for this local coverage.
+- Detailed audit and settlement mapping: `docs/audits/2026-11-19-merchant-center-shipping-zones.md`.
+
 ## 2026-11-19 — Google Merchant return policy structured data
 
 - Organization JSON-LD in `functions/_middleware.ts` now exposes `hasMerchantReturnPolicy` with Google's link-based `MerchantReturnPolicy.merchantReturnLink` pointing to `https://florial-bg.com/terms`.
