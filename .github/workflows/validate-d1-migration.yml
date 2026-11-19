@@ -35,3 +35,5 @@ jobs:
         run: python3 tests/manager-product-audit-migration.test.py
       - name: Validate contract withdrawals migration
         run: python3 tests/contract-withdrawals-migration.test.py
+      - name: Validate Manager password reset migration
+        run: python3 tests/manager-password-reset-migration.test.py
