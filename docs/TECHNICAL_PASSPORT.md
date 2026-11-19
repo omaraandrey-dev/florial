@@ -1,3 +1,9 @@
+## 2026-11-19 — Gemini progress visibility and completion guidance
+
+- `src/manager/PlantCatalogManager.tsx`: Manager/Seller and Owner now all see elapsed request time and the number of non-empty response lines received from Google. Staff see the plain processing label; technical stages, provider diagnostics, request IDs and detailed errors remain Owner-only.
+- After applying a successful Gemini result, the form confirms that the Google result was received and applied, then prompts the employee to fill in size, quantity and price, verify botanical data, and save.
+- Regression coverage: `tests/manager-plant-intake-ux.test.mjs`. No API, D1, Sanity, permission or publication behavior changed.
+
 ## 2026-11-19 — Manager/Seller plant intake validation and Gemini error UX
 
 - `src/manager/PlantCatalogManager.tsx`: required variant labels display an asterisk. Empty/invalid height and container volume, editable price, and in-stock quantity use a red outline; valid values restore the regular border. Quantity highlighting applies only to `inStock`; permission checks still gate price/stock fields.
