@@ -7,19 +7,19 @@ const manager = read('../src/manager/PlantCatalogManager.tsx')
 const upload = read('../functions/api/manager/upload-image.ts')
 const publication = read('../functions/api/manager/publish-plant.ts')
 
-test('plant image upload recommends 1600 square images and rejects files above 1.5 MiB in the UI', () => {
+test('plant image upload recommends 1600 square images and rejects files above 1.5 MB in the UI', () => {
   assert.match(manager, /Препоръчителен размер: 1600 × 1600 px, до 500 KB/)
   assert.match(manager, /Максимален размер на файла: 1,5 MB/)
   assert.match(manager, /file\.size>1\.5\*1024\*1024/)
   assert.match(manager, /надвишава максимално допустимите 1,5 MB/)
 })
 
-test('plant image upload endpoint enforces the same 1.5 MiB limit server-side', () => {
+test('plant image upload endpoint enforces the same 1.5 MB limit server-side', () => {
   assert.match(upload, /const MAX_IMAGE_SIZE = 1\.5 \* 1024 \* 1024/)
   assert.match(upload, /до 1,5 MB/)
 })
 
-test('plant publication validation rejects images above 1.5 MiB', () => {
+test('plant publication validation rejects images above 1.5 MB', () => {
   assert.match(publication, /image\.size > 1\.5 \* 1024 \* 1024/)
   assert.match(publication, /максимум 1,5 MB на снимка/)
 })
