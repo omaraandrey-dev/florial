@@ -93,6 +93,16 @@ export function ProductPage({
     onRequest: language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка',
     outOfStock: language === 'ru' ? 'Нет в наличии' : language === 'en' ? 'Out of stock' : 'Изчерпан',
   }
+  // Sanity stores stock status codes; translate their canonical Bulgarian labels via i18n.
+  const stockStatusDictionaryKeys: Record<string, string> = {
+    inStock: 'В наличност',
+    onRequest: 'По заявка',
+    outOfStock: 'Изчерпан',
+  }
+  const imageBadgeStatus = isPlantProduct(product) ? plantStockStatus : product.stockStatus
+  const imageBadgeLabel = imageBadgeStatus && stockStatusDictionaryKeys[imageBadgeStatus]
+    ? t(stockStatusDictionaryKeys[imageBadgeStatus])
+    : localize(product, 'stockStatus')
   const getSaleVariantName = (variant: PlantSaleVariant) =>
     language === 'ru' ? (variant.nameRu || variant.name) : language === 'en' ? (variant.nameEn || variant.name) : variant.name
   const selectedVariantDescription = selectedSaleVariant
@@ -381,9 +391,9 @@ export function ProductPage({
             ) : (
               <span className="text-slate-400">{t('Няма изображение')}</span>
             )}
-            {product.stockStatus && (
-              <span className="absolute top-3 right-3 bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-full">
-                {localize(product, 'stockStatus')}
+            {imageBadgeStatus && (
+              <span className={`absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full ${imageBadgeStatus === 'outOfStock' ? 'bg-rose-50 text-rose-700' : imageBadgeStatus === 'onRequest' ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700'}`}>
+                {imageBadgeLabel}
               </span>
             )}
           </div>
