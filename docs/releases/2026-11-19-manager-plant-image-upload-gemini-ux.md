@@ -5,7 +5,7 @@ Improve the direct plant catalog editor for staff without changing catalog recor
 
 ## Changes
 - Recommend 1600 × 1600 px images up to 500 KB.
-- Reject any uploaded image larger than 1.5 MiB in the browser and server; publication payload validation uses the same limit.
+- Reject any uploaded image larger than 1.5 MB in the browser and server; publication payload validation uses the same limit.
 - Keep JPEG, PNG and WebP with server-side signature validation.
 - Empty gallery guidance directs staff to upload a prepared image or select from the image library.
 - Remove the Gemini model banner, long explanatory copy, raw streamed response, request ID and technical progress/heartbeat details.
