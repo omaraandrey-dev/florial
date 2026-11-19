@@ -53,7 +53,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:RuntimeEnv})
    const attachment=[{filename:'Florial-Proforma-'+r.order_number+'.pdf',content:toBase64(pdf),type:'application/pdf'}]
    const ownerBcc=ownerEmail.toLowerCase()===r.email.toLowerCase()?undefined:[ownerEmail]
    await sendOrderEmail(env.RESEND_API_KEY,env.EMAIL_FROM,r.email,'Сметка проформа '+r.order_number+' — Florial',proformaHtml,attachment,'florial-proforma-'+r.id+'-'+newId(),ownerBcc)
-   await db.batch([ev(db,r,auth.user,'proforma_email_sent','Сметката проформа е изпратена на клиента и на собственика на Florial; PDF е изтеглен на устройството.',{recipients:['customer','owner'],item_count:items.length,total_cents:r.total_cents})])
+   await db.batch([ev(db,r,auth.user,'proforma_email_sent','Сметката проформа е изпратена на клиента и на собственика на Florial; PDF е предоставен за изтегляне.',{recipients:['customer','owner'],item_count:items.length,total_cents:r.total_cents})])
    const pdfBody=new Uint8Array(pdf.byteLength);pdfBody.set(pdf)
    return new Response(pdfBody.buffer,{headers:{'Content-Type':'application/pdf','Content-Disposition':'attachment; filename="Florial-Proforma-'+r.order_number+'.pdf"','Cache-Control':'no-store','X-Florial-Proforma-Delivered':'customer-and-owner'}})
   }
