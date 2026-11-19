@@ -11,6 +11,7 @@ export type ProformaOrder = {
   items: Array<{ sku?: string; name: string; qty: number; price: number; imageUrl?: string }>
   subtotal: number
   delivery_method?: string
+  payment_method?: string
   delivery_fee?: number | null
   total?: number | null
   created_at: string
@@ -50,6 +51,7 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
   drawCompact('Градински център „Флориал“, ул. „Хан Крум“, 8230 Несебър, България', 7.5)
   drawCompact('(до магазин Janet)  |  +359 876 777 902  |  +359 885 834 860', 7.5)
   drawCompact('Email: omaraandrey@gmail.com', 7.5)
+  drawCompact('IBAN: BG88STSA93000029605234', 7.5)
   y -= 6
   draw('ПРОФОРМА / ПОТВЪРЖДЕНИЕ НА ПОРЪЧКА', 12)
   draw('Номер: ' + order.order_number)
@@ -61,6 +63,8 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
   if (order.email) draw('Имейл: ' + order.email)
   draw('Населено място: ' + order.city)
   if (order.address) draw('Адрес: ' + order.address)
+  if (order.delivery_method) draw('Получаване / доставка: ' + order.delivery_method)
+  if (order.payment_method) draw('Начин на плащане: ' + order.payment_method)
   y -= 8
   draw('АРТИКУЛИ', 12, rgb(0.02, 0.39, 0.29))
   for (const item of order.items || []) {

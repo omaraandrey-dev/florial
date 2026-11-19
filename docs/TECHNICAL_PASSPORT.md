@@ -1,3 +1,10 @@
+## 2026-11-19 — Manager order details and proforma actions
+
+- Expanded order card: one customer/delivery block; optional delivery/payment fields omitted when absent; duplicate order number/date/time and duplicate status/payment panel removed from expanded details.
+- Separate actions: `Изтегли сметката` downloads PDF only to the staff device; `Изпрати проформа + изтегли PDF` emails the PDF to the customer and active Owner and returns the same PDF for staff download.
+- Proforma PDF uses the owner-confirmed company email `omaraandrey@gmail.com` and IBAN `BG88STSA93000029605234`. No bank name/BIC/SWIFT/payment reference is inferred.
+- No live D1/Sanity/Cloudflare configuration or real order/email changed. Validation and deployment pending.
+
 ## 2026-11-19 — PR #409 Production Product Schema audit evidence reconciled
 
 - The dated 18.11.2026 Production snapshot is preserved in `docs/audits/2026-11-18-google-shopping-seo-stage-1-audit.md`: live HTTP 200 HTML/JSON-LD for Rain Bird and Kumquat, homepage Organization + Nessebar/Ravda GardenStore nodes, Search Console pre-deployment crawl dates, sitemap count and read-only Sanity SKU/EAN counts.

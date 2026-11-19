@@ -1,3 +1,11 @@
+## 2026-11-19 — Order detail layout and separate proforma download/email actions
+
+- Expanded order details start with one “Клиент и доставка” block: customer name, phone, optional email/address, optional delivery method and optional payment method. Empty optional fields are omitted rather than replaced with placeholder text.
+- The expanded card no longer repeats the order number/date/time or the order/payment status badges; those remain visible in the selected order row. The duplicate status/payment mini-panel was removed.
+- “Изтегли сметката” calls the existing authenticated PDF GET endpoint and downloads only to the current employee device; it does not send email. “Изпрати проформа + изтегли PDF” calls the existing email POST action, sends the PDF to the customer and active Owner, and returns the same PDF for download.
+- The PDF includes the owner-confirmed Florial IBAN `BG88STSA93000029605234`; delivery/payment method appears only when present in the order. Company contact email confirmed as `omaraandrey@gmail.com`.
+- No D1 migration/data, Sanity, Cloudflare settings/secrets or live order/email changed. CI/browser QA/Production deployment pending.
+
 
 
 ## 2026-11-19 — Manager orders workspace accordion and status overview
