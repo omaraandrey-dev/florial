@@ -1,3 +1,9 @@
+## 2026-11-19 — Google Merchant return policy markup
+
+- Added organization-level `MerchantReturnPolicy` JSON-LD using Google's link-based option: `merchantReturnLink: https://florial-bg.com/terms`. The linked Bulgarian terms already describe the statutory 14-day withdrawal right where applicable, return process, customer-paid direct return costs where previously disclosed, and case-specific statutory exceptions. No fixed return fee, free return, universal eligibility, or refund method was invented.
+- Did not add `ShippingService` / `shippingDetails` yet. Existing terms describe pickup, equipment delivery only to supported settlements, and individually arranged live-plant/special-order delivery; they do not enumerate supported destination areas or publish shipping rates/transit-time ranges. A country-wide Bulgaria destination or unspecified destination could overstate coverage, so delivery markup remains withheld until the existing operational area/rate details can be represented accurately.
+- Runtime scope: Organization JSON-LD in `functions/_middleware.ts`; regression test in `tests/google-seo-schema.test.mjs`. No Sanity, D1, Cloudflare settings/secrets, Merchant Center or Google account settings changed. Legal terms content was not edited.
+
 ## 2026-11-19 — Google Product validation follow-up and plant availability normalization
 
 - Published Sanity dataset `plants` updates for `palm-banana`, `palm-phoenix-canariensis` and `palm-phoenix-roebelenii`: root `stockStatus` and every `saleVariants[].stockStatus` are now `onRequest`. All three documents were read back from the `published` perspective after publication.

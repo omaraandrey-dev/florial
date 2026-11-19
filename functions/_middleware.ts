@@ -510,6 +510,10 @@ function setPageHead(
       height: 581,
     },
     areaServed: { '@type': 'Country', name: 'Bulgaria' },
+    hasMerchantReturnPolicy: {
+      '@type': 'MerchantReturnPolicy',
+      merchantReturnLink: SITE_URL + '/terms',
+    },
   }
   const structured = options.structuredData || []
   structured.forEach((entry) => {

@@ -34,7 +34,7 @@
 - Не включать товары «по запросу» или без цены в Shopping, пока не подтверждено соответствие требованиям Google и корректная модель предложения.
 - Не менять опубликованные Sanity документы, схему, Cloudflare settings/secrets, DNS, D1 или Production без отдельного согласования и требуемого backup.
 - Не менять Header, меню, Footer и глобальную архитектуру.
-- Владелец должен подтвердить реальные правила доставки/возврата и коммерческие условия до добавления соответствующих structured data.
+- Использовать опубликованные правила Florial как источник истины для policy links; не выводить из них отсутствующие тарифы/сроки/географию доставки. Для shipping structured data нужны фактически подтверждённые зоны и тарифы/сроки.
 - Не заявлять, что URL индексирован, только по факту HTTP 200, sitemap или наличия JSON-LD.
 
 ## Этапы и критерии приёмки
@@ -256,3 +256,11 @@
 - Google Search Central recommends organization-level `ShippingService` and `MerchantReturnPolicy` for standard business policies. Florial's current `/terms` content explicitly remains a legal-review draft, and the delivery landing page only describes local irrigation-equipment delivery/engineer services. No universal shipping/return structured data was added without confirmed conditions.
 - No Product JSON-LD runtime changes were needed: the current builder emits `InStock` / `OutOfStock` for confirmed statuses and omits availability for `onRequest`. This is intentional; do not map `onRequest` to `PreOrder` or invent stock.
 
+
+
+## 2026-11-19 — Existing return terms mapped to Organization JSON-LD
+
+- Owner instruction: implement using Florial's existing published rules; do not create replacement policies.
+- Organization JSON-LD now links to the BG terms page via Google's link-based `MerchantReturnPolicy.merchantReturnLink` option. The linked text describes the statutory 14-day withdrawal right where applicable, conditional statutory exceptions, and the return process. The schema intentionally does not encode a universal 14-day return category, fixed return fee, free returns, return method or refund type because the document qualifies the right and leaves case-specific details to law/advance notice.
+- Shipping markup remains deferred, not because no delivery rules exist, but because the current rules distinguish pickup, equipment delivery to supported settlements, and individually arranged live-plant/special-order delivery without publishing the exact destination list or rate/transit-time values needed for reliable Google shipping conditions. Do not infer all-Bulgaria coverage or worldwide delivery.
+- Code and test are in branch `feat/google-merchant-return-policy-link`; PR/CI/deployment status to be recorded after validation.

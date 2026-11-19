@@ -156,3 +156,9 @@ test('client ProductPage uses the same shared Offer builder and brand as server 
   assert.doesNotMatch(product, /schema\.org\/PreOrder/)
   assert.match(middleware, /import \{ buildProductOffer, getServerProductPrice \} from '.\/_lib\/productJsonLd\.mjs'/)
 })
+
+test('Organization JSON-LD links to Florial published Bulgarian terms for its return policy', async () => {
+  const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
+  assert.match(middleware, /hasMerchantReturnPolicy:\s*\{\s*'@type': 'MerchantReturnPolicy',\s*merchantReturnLink: SITE_URL \+ '\/terms'/)
+  assert.match(middleware, /noIndex: language !== 'bg'/)
+})

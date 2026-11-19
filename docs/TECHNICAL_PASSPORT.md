@@ -1,3 +1,10 @@
+## 2026-11-19 — Google Merchant return policy structured data
+
+- Organization JSON-LD in `functions/_middleware.ts` now exposes `hasMerchantReturnPolicy` with Google's link-based `MerchantReturnPolicy.merchantReturnLink` pointing to `https://florial-bg.com/terms`.
+- This references existing BG terms only. No legal text, Sanity content or published commercial rules were changed. The markup does not assert a universal 14-day return category, fixed/free return fees, mail-only return method or refund type; the terms condition the statutory withdrawal right and exceptions.
+- Shipping schema intentionally remains absent until supported settlements and the applicable shipping rate and/or transit-time conditions are sufficiently specific. Existing terms do not justify asserting all-Bulgaria or worldwide delivery.
+- Regression test added to `tests/google-seo-schema.test.mjs`. Branch `feat/google-merchant-return-policy-link`; validate before merge/deploy.
+
 ## 2026-11-19 — PR #410: Product brand JSON-LD parity
 
 - Current base: `main` at `02a19a0978591f61b08ed28fa3b34479e99d1e01`.
