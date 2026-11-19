@@ -1,15 +1,5 @@
 # Florial — текущие открытые вопросы и проверки
 
-## 2026-11-19 — Merchant Center regional shipping (OPEN)
-
-- Merchant Center account creation remains pending; owner-confirmed not registered on 18.11.2026. After account creation, authorize Windsor.ai `google_merchant` connector via OAuth.
-- Exact active Google Ads Geo Target Criteria IDs for all 30 Florial delivery settlements are not yet verified. Use official Geo Targets data/API; no guessed IDs or parent-area substitutions.
-- Preferred mapping: `location_id`; investigate `location_group_name` only as a fallback for settlements without exact active Geo Targets, after confirming the Merchant Center Region covers only the real delivery area.
-- The six EUR tariff groups apply only to irrigation equipment. Plant delivery is individually arranged; no static shipping rate/time is supported by the published terms.
-- No handling/transit times are published. No Merchant Center settings or Google feed have been applied. Follow `docs/audits/2026-11-19-merchant-center-shipping-zones.md` and the active Google Shopping roadmap.
-
-
-
 Дата сверки: 2026-11-19. Этот файл содержит только вопросы, которые остаются актуальными. Полная предыдущая история, включая закрытые задачи и старые проверки, сохранена без изменений в [OPEN_QUESTIONS_HISTORY_2026-11-18.md](../archive/OPEN_QUESTIONS_HISTORY_2026-11-18.md).
 
 Перед закрытием любого пункта требуется доказательство: commit/file, CI run, deployment ID, live query или browser smoke. Не считать старую запись доказательством текущего состояния.
