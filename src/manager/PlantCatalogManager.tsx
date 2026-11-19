@@ -377,6 +377,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><summary className="cursor-pointer font-bold marker:text-lime-800">Снимки на растението</summary><div className="flex flex-wrap gap-2">
        <button type="button" className={btn+' border border-stone-300 bg-white'} onClick={()=>setLibraryOpen(previous=>!previous)}>{libraryOpen?'Скрий библиотека':'Избери от библиотеката'}</button>
        <label className={btn+' cursor-pointer bg-lime-50 text-lime-800'}>{imageLoading?'Качване…':'＋ Качи снимки'}<input type="file" accept="image/jpeg,image/png,image/webp" multiple className="hidden" disabled={imageLoading} onChange={event=>{void uploadFiles(event.target.files);event.currentTarget.value=''}}/></label>
+      <span className="text-xs text-stone-600">Препоръчителен размер: 1600 × 1600 px, до 500 KB. Максимален размер на файла: 1,5 MB.</span>
       </div></div>
      <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
       {images.map((image,index)=><div key={image.assetId} className={'relative overflow-hidden rounded-xl border-2 '+(mainImageIndex===index?'border-lime-700':'border-stone-200')}>
