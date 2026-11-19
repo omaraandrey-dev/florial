@@ -69,7 +69,6 @@ export const onRequest=async({request,env}:{request:Request;env:ManagerEnv})=>{
  const before=allPermissions(JSON.parse(target.permissions))||{...DEFAULT_STAFF_PERMISSIONS}
  if(body.action==='send_password_reset'){
   if(!owner)return json({error:'Само собственикът може да изпраща линк за възстановяване на достъп.'},403)
-  if(target.role==='owner')return json({error:'Линк за възстановяване може да бъде изпратен само на служител.'},400)
   if(!env.RESEND_API_KEY||!env.EMAIL_FROM)return json({error:'Имейл услугата не е конфигурирана.'},503)
   const recipient=await env.DB.prepare('SELECT email,display_name,is_active FROM catalog_staff_profiles WHERE user_id=?').bind(userId).first<{email:string;display_name:string;is_active:number}>()
   if(!recipient||recipient.is_active!==1)return json({error:'Служителят няма активен достъп.'},409)
