@@ -36,6 +36,7 @@ const variantFrom=(value:any,rootStatus?:string):Variant=>({
  stockStatus:value?.stockStatus||rootStatus||'onRequest',stockQuantity:value?.stockQuantity==null?'':String(value.stockQuantity),
 })
 const inputClass='w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-base text-stone-800 outline-none focus:border-lime-700 focus:ring-2 focus:ring-lime-100'
+const requiredInputClass=(missing:boolean)=>inputClass+(missing?' border-red-500 focus:border-red-500 focus:ring-red-100':'')
 const labelClass='mb-1 block text-sm font-semibold text-stone-700'
 const btn='rounded-xl px-4 py-3 text-sm font-semibold'
 const responseJson=async(response:Response)=>await response.json().catch(()=>({}))
@@ -435,16 +436,16 @@ export default function PlantCatalogManager({role,permissions}:Props){
       <div className="flex items-center justify-between"><strong>Размер {index+1}</strong>{form.saleVariants.length>1&&<button type="button" onClick={()=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.filter((_,i)=>i!==index)}))} className="text-sm font-semibold text-red-700">Премахни</button>}</div>
       <label><span className={labelClass}>Наименование / височина *</span><input className={inputClass} placeholder="Напр. 120–140 см, контейнер 10 л" value={variant.name} onChange={event=>setVariant(index,'name',event.target.value)}/></label>
       <div className="grid grid-cols-2 gap-2">
-       <label><span className={labelClass}>Височина (см)</span><input type="number" min="0" step="1" className={inputClass} value={variant.saleHeightCm} onChange={event=>setVariant(index,'saleHeightCm',event.target.value)}/></label>
-       <label><span className={labelClass}>Контейнер (л)</span><input type="number" min="0.1" step="0.1" className={inputClass} value={variant.containerVolumeL} onChange={event=>setVariant(index,'containerVolumeL',event.target.value)}/></label>
+       <label><span className={labelClass}>Височина (см)</span><input type="number" min="0" step="1" className={requiredInputClass(!(Number(variant.saleHeightCm)>0))} value={variant.saleHeightCm} placeholder="Въведете височина" aria-required="true" onChange={event=>setVariant(index,'saleHeightCm',event.target.value)}/></label>
+       <label><span className={labelClass}>Контейнер (л)</span><input type="number" min="0.1" step="0.1" className={requiredInputClass(!(Number(variant.containerVolumeL)>0))} value={variant.containerVolumeL} placeholder="Въведете обем" aria-required="true" onChange={event=>setVariant(index,'containerVolumeL',event.target.value)}/></label>
       </div>
       <div className="grid grid-cols-2 gap-2">
-       <label><span className={labelClass}>Цена (€) *</span><input type="number" min="0.01" step="0.01" className={inputClass} disabled={!canEditVariantPrice} value={variant.priceEUR} onChange={event=>setVariant(index,'priceEUR',event.target.value)}/></label>
+       <label><span className={labelClass}>Цена (€) *</span><input type="number" min="0.01" step="0.01" className={requiredInputClass(canEditVariantPrice&&!(Number(variant.priceEUR)>0))} disabled={!canEditVariantPrice} value={variant.priceEUR} placeholder="Въведете цена" aria-required="true" onChange={event=>setVariant(index,'priceEUR',event.target.value)}/></label>
        <label><span className={labelClass}>Стара цена (€)</span><input type="number" min="0" step="0.01" className={inputClass} disabled={!canEditVariantPrice} value={variant.oldPriceEUR} onChange={event=>setVariant(index,'oldPriceEUR',event.target.value)}/></label>
       </div>
       <div className="grid grid-cols-2 gap-2">
        <label><span className={labelClass}>Наличност</span><select className={inputClass} disabled={!canEditVariantStock} value={variant.stockStatus} onChange={event=>setVariant(index,'stockStatus',event.target.value)}><option value="inStock">В наличност</option><option value="onRequest">По заявка</option><option value="outOfStock">Няма наличност</option></select></label>
-       <label><span className={labelClass}>Количество{variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={inputClass} disabled={!canEditVariantStock} value={variant.stockQuantity} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
+       <label><span className={labelClass}>Количество{variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={requiredInputClass(canEditVariantStock&&variant.stockStatus==='inStock'&&!variant.stockQuantity.trim())} disabled={!canEditVariantStock} value={variant.stockQuantity} placeholder={variant.stockStatus==='inStock'?'Въведете количество':'Не е задължително'} aria-required={variant.stockStatus==='inStock'} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
       </div>
       {role==='owner'&&<label><span className={labelClass}>SKU на размера (по избор)</span><input className={inputClass} value={variant.sku} onChange={event=>setVariant(index,'sku',event.target.value)}/></label>}
      </div>)}
@@ -469,7 +470,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
      <label><span className={labelClass}>Meta title</span><input maxLength={70} className={inputClass} value={form.seo.metaTitle} onChange={event=>setField('seo',{...form.seo,metaTitle:event.target.value})}/></label>
      <label><span className={labelClass}>Meta description</span><textarea rows={3} maxLength={320} className={inputClass} value={form.seo.metaDescription} onChange={event=>setField('seo',{...form.seo,metaDescription:event.target.value})}/></label>
     </details>}
-    <details open id="plant-editor-care" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
+    {role==='owner'&&<details open id="plant-editor-care" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
      <summary className="cursor-pointer font-bold marker:text-lime-800">Ботанически характеристики и грижи</summary>
      <p className="text-xs text-stone-500">ИИ попълва само данни с достатъчна ботаническа опора. Черноморската пригодност остава за ръчна проверка.</p>
      <div className="grid gap-3 sm:grid-cols-2">
@@ -485,7 +486,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
       <label><span className={labelClass}>Сезон на цъфтеж</span><div className="flex flex-wrap gap-3">{[['spring','Пролет'],['summer','Лято'],['autumn','Есен'],['winter','Зима']].map(([value,label])=><label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={(form.plantCare.floweringSeason||[]).includes(value)} onChange={event=>setField('plantCare',{...form.plantCare,floweringSeason:event.target.checked?[...(form.plantCare.floweringSeason||[]),value]:(form.plantCare.floweringSeason||[]).filter((item:string)=>item!==value)})}/>{label}</label>)}</div></label>
      <label><span className={labelClass}>Сезон на засаждане</span><div className="flex flex-wrap gap-3">{[['spring','Пролет'],['summer','Лято'],['autumn','Есен'],['winter','Зима'],['yearRound','През цялата година']].map(([value,label])=><label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={(form.plantCare.plantingSeason||[]).includes(value)} onChange={event=>setField('plantCare',{...form.plantCare,plantingSeason:event.target.checked?[...(form.plantCare.plantingSeason||[]),value]:(form.plantCare.plantingSeason||[]).filter((item:string)=>item!==value)})}/>{label}</label>)}</div></label>
      <label><span className={labelClass}>Практически грижи</span><textarea rows={7} className={inputClass} value={form.careGuide} onChange={event=>setField('careGuide',event.target.value)} placeholder="Засаждане, почва, поливане, подхранване, резитба и зимна защита…"/></label>
-    </details>
+    </details>}
     <div className="sticky bottom-0 z-10 -mx-3 border-t border-stone-200 bg-white/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
      <button type="button" disabled={saving||!activeImages||(!editingId&&!aiProof)||!form.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0)} onClick={()=>void save()} className="w-full rounded-xl bg-lime-800 px-5 py-4 text-base font-bold text-white disabled:opacity-50">{saving?'Запазване…':!editingId&&!aiProof?'Първо проверете с Google':!form.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0)?'Добавете размер на растението':editingId?'Запази промените':'Публикувай растението'}</button>
     </div>
@@ -535,14 +536,14 @@ export default function PlantCatalogManager({role,permissions}:Props){
       {geminiResult.mode==='photo'&&<p className="mt-2 text-sm"><strong>Видимо описание:</strong> {geminiResult.result.visibleDescription||'—'}</p>}
       <p className="mt-2 text-xs text-amber-800">Ботаническите кандидати не са независимо потвърдени. Проверете латинското име преди публикуване.</p>
      </div>
-     {(['bg','ru','en'] as const).map(language=><details key={language} className="rounded-xl border border-stone-200 p-3" open={language==='bg'}>
+     {(role==='owner'?(['bg','ru','en'] as const):(['bg'] as const)).map(language=><details key={language} className="rounded-xl border border-stone-200 p-3" open={false}>
       <summary className="cursor-pointer font-semibold">{language==='bg'?'Български':language==='ru'?'Русский':'English'}</summary>
       <div className="mt-2 space-y-2 text-sm"><p><strong>Име:</strong> {geminiResult.result.descriptions?.[language]?.name||'—'}</p><p><strong>Кратко описание:</strong> {geminiResult.result.descriptions?.[language]?.shortDescription||'—'}</p><p className="whitespace-pre-wrap">{geminiResult.result.descriptions?.[language]?.description||'—'}</p></div>
      </details>)}
-     <details className="rounded-xl border border-stone-200 p-3"><summary className="cursor-pointer font-semibold">SEO и ALT</summary>
+     {role==='owner'&&<details className="rounded-xl border border-stone-200 p-3"><summary className="cursor-pointer font-semibold">SEO и ALT</summary>
       {(['bg','ru','en'] as const).map(language=><div key={language} className="mt-2 border-b border-stone-100 pb-2 text-sm"><strong>{language.toUpperCase()}</strong><p>H1: {geminiResult.result.seo?.[language]?.h1||'—'}</p><p>Meta title: {geminiResult.result.seo?.[language]?.metaTitle||'—'}</p><p>Meta description: {geminiResult.result.seo?.[language]?.metaDescription||'—'}</p>{geminiResult.mode==='photo'&&<p>ALT: {geminiResult.result.imageAlt?.[language]||'—'}</p>}</div>)}
-     </details>
-     <details className="rounded-xl border border-stone-200 p-3"><summary className="cursor-pointer font-semibold">Грижи и характеристики и оценка за Черноморието</summary><pre className="mt-2 whitespace-pre-wrap text-xs">{JSON.stringify(geminiResult.result.plantCare||{},null,2)}</pre><p className="mt-2 whitespace-pre-wrap text-sm">{geminiResult.result.careGuide||'—'}</p></details>
+     </details>}
+     {role==='owner'&&<details className="rounded-xl border border-stone-200 p-3"><summary className="cursor-pointer font-semibold">Грижи и характеристики и оценка за Черноморието</summary><pre className="mt-2 whitespace-pre-wrap text-xs">{JSON.stringify(geminiResult.result.plantCare||{},null,2)}</pre><p className="mt-2 whitespace-pre-wrap text-sm">{geminiResult.result.careGuide||'—'}</p></details>}
      {!geminiProof&&<p className="text-sm text-amber-800">За да се запише резултатът, трябва да има основна снимка в карточката. В Text режим снимката се използва само за защита на записа и не се изпраща към Google.</p>}
     </div>
     <div className="flex flex-col-reverse gap-2 border-t border-stone-200 p-4 sm:flex-row sm:justify-end">
