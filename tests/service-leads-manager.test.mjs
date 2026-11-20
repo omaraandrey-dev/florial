@@ -27,7 +27,8 @@ test('service lead Manager API enforces separate view and mutation permissions',
 
 test('service lead Manager UI has filters, audit and no customer file upload', async () => {
   const ui = await read('../src/manager/ServiceLeadsManager.tsx')
-  assert.match(ui, /Търсене и филтри/)
+  assert.match(ui, /Филтър/)
+  assert.match(ui, /Приложи филтъра/)
   assert.match(ui, /История на заявката/)
   assert.match(ui, /Вътрешен коментар/)
   assert.match(ui, /Отговорник/)
