@@ -1,0 +1,950 @@
+{
+  "backupCreatedAt": "2026-11-20",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "documentId": "5b88a838-5f5e-4024-9bb8-f4fd8baaeda8",
+  "slug": "zamyana-vaeerni-dyuzi-rotatorni-r-van",
+  "revision": "69A9K8RMpHU1dKSmOMuxVx",
+  "reason": "Full exact Sanity document snapshot before owner-approved BG service content refinement and duplicate-heading cleanup in BG/RU/EN.",
+  "document": {
+    "_createdAt": "2026-11-20T08:13:27Z",
+    "_id": "5b88a838-5f5e-4024-9bb8-f4fd8baaeda8",
+    "_rev": "69A9K8RMpHU1dKSmOMuxVx",
+    "_type": "service",
+    "_updatedAt": "2026-11-20T08:18:51Z",
+    "advantages": [
+      {
+        "_key": "a1",
+        "text": "В много случаи се подменят само дюзите, ако корпусите са съвместими.",
+        "title": "Без смяна на цялата система"
+      },
+      {
+        "_key": "a2",
+        "text": "Проверяваме налягане, дебит и разстояния между главите.",
+        "title": "Проверка преди замяна"
+      },
+      {
+        "_key": "a3",
+        "text": "Ротаторни дюзи за тревата, веерни или ивичести — за лехи и тесни ивици.",
+        "title": "Подходящ тип за всяка зона"
+      },
+      {
+        "_key": "a4",
+        "text": "Регулираме радиуса и сектора и проверяваме покритието.",
+        "title": "Настройка на място"
+      }
+    ],
+    "callToAction": {
+      "buttonLabel": "Изпрати запитване",
+      "text": "Изпратете запитване и опишете системата. Ще уточним какво е необходимо и възможността за посещение.",
+      "title": "Искате да смените износените дюзи?"
+    },
+    "description": [
+      {
+        "_key": "c01",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c01s",
+            "_type": "span",
+            "marks": [],
+            "text": "Замяна на веерни дюзи с ротаторни R-VAN в системата за автоматично поливане"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "c02",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c02s",
+            "_type": "span",
+            "marks": [],
+            "text": "Веерните (spray) дюзи се монтират в корпуси на разпръсквачи под земята и работят всеки сезон, изложени на водата, замърсяванията и механични натоварвания. С времето се износват и тревната площ започва да показва проблема: появяват се сухи петна, преовлажнени участъци или струя, която пада настрани. В много случаи не е необходимо да се сменя цялата система — достатъчно е дюзата да се замени с по-подходяща. Florial подменя износени веерни дюзи с ротаторни Rain Bird R-VAN и настройва зоната на място."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c03",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c03s",
+            "_type": "span",
+            "marks": [],
+            "text": "Кога е време за подмяна на дюзите"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "c04",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c04s",
+            "_type": "span",
+            "marks": [],
+            "text": "на тревата има сухи или преовлажнени участъци, въпреки че зоната работи;"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c05",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c05s",
+            "_type": "span",
+            "marks": [],
+            "text": "струята е слаба, отклонена или неравномерна;"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c06",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c06s",
+            "_type": "span",
+            "marks": [],
+            "text": "дюзата е запушена от замърсявания или е износена;"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c07",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c07s",
+            "_type": "span",
+            "marks": [],
+            "text": "дюзата или корпусът са повредени от косачка или градинска техника;"
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c08",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c08s",
+            "_type": "span",
+            "marks": [],
+            "text": "искате да намалите стичането на вода и да подобрите равномерността на поливането."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c09",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c09s",
+            "_type": "span",
+            "marks": [],
+            "text": "Преди подмяната определяме причината: понякога проблемът е в налягането, филтъра или корпуса, а не в самата дюза."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c10",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c10s",
+            "_type": "span",
+            "marks": [],
+            "text": "Веерни дюзи и ротаторни R-VAN: основни разлики"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "c11",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c11s",
+            "_type": "span",
+            "marks": [],
+            "text": "Покритие и равномерност"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "c12",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c12s",
+            "_type": "span",
+            "marks": [],
+            "text": "Веерната дюза образува по-концентриран ветрилообразен поток и е подходяща за малки площи и сложни форми. R-VAN разпределя водата чрез няколко бавно въртящи се струи с ниска интензивност на поливане. Rain Bird декларира съгласувана интензивност при различни радиуси, ъгли и типове струя, което опростява проектирането на зоната."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c13",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c13s",
+            "_type": "span",
+            "marks": [],
+            "text": "Разход на вода"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "c14",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c14s",
+            "_type": "span",
+            "marks": [],
+            "text": "Ниската интензивност на R-VAN намалява стичането и ерозията, а по-едрите капки са по-малко податливи на отнасяне от вятър. Реалното намаление на разхода обаче зависи от правилния подбор, разстоянията между главите и настройката на програмата, затова не обещаваме конкретен процент икономия."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c15",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c15s",
+            "_type": "span",
+            "marks": [],
+            "text": "Регулиране"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "c16",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c16s",
+            "_type": "span",
+            "marks": [],
+            "text": "R-VAN се регулират без инструменти: настройват се радиусът и ъгълът на сектора от 45° до 270°, а за пълен кръг (360°) има отделен модел. Функцията за изплакване помага да се почисти дюзата от замърсявания."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c17",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c17s",
+            "_type": "span",
+            "marks": [],
+            "text": "Къде кое решение е подходящо"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "c18",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c18s",
+            "_type": "span",
+            "marks": [],
+            "text": "R-VAN са подходящи за тревни площи — малки и големи, включително с неравен терен. Веерните дюзи остават добър избор за цветни лехи, малки площи и тесни ивици, където е нужен по-насочен поток. Rain Bird не препоръчва R-VAN за поливане на единична редица, а за тесни ивици с ширина около 1,5 m има специални дюзи R-VAN-LCS, R-VAN-RCS и R-VAN-SST."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c19",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c19s",
+            "_type": "span",
+            "marks": [],
+            "text": "Какво включва замяната"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "c20",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c20s",
+            "_type": "span",
+            "marks": [],
+            "text": "Оглеждаме системата и определяме причината за проблема с поливането."
+          }
+        ],
+        "level": 1,
+        "listItem": "number",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c21",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c21s",
+            "_type": "span",
+            "marks": [],
+            "text": "Проверяваме налягането, дебита, разстоянията между главите и съвместимостта на корпусите с R-VAN."
+          }
+        ],
+        "level": 1,
+        "listItem": "number",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c22",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c22s",
+            "_type": "span",
+            "marks": [],
+            "text": "Подбираме размер (R-VAN-14, R-VAN-18 или R-VAN-24) и вариант — регулируем сектор, пълен кръг или ивица."
+          }
+        ],
+        "level": 1,
+        "listItem": "number",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c23",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c23s",
+            "_type": "span",
+            "marks": [],
+            "text": "Подменяме дюзите и настройваме радиуса и сектора на всяка глава."
+          }
+        ],
+        "level": 1,
+        "listItem": "number",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c24",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c24s",
+            "_type": "span",
+            "marks": [],
+            "text": "Пускаме зоната, проверяваме покритието и при нужда коригираме програмата за поливане."
+          }
+        ],
+        "level": 1,
+        "listItem": "number",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c25",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c25s",
+            "_type": "span",
+            "marks": [],
+            "text": "R-VAN работи при налягане от 2,1 до 3,8 bar (препоръчително около 3,1 bar). Rain Bird препоръчва корпуси от серия 1800 с регулиране на налягането до 3,1 bar за оптимална работа. Тъй като ротаторните дюзи поливат с по-ниска интензивност, времето за поливане на зоната обикновено се удължава."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c26",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c26s",
+            "_type": "span",
+            "marks": [],
+            "text": "Дюзи в каталога на Florial"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "c27",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c27s",
+            "_type": "span",
+            "marks": [],
+            "text": "В каталога ще намерите ротаторни дюзи Rain Bird R-VAN-14, R-VAN-18 и R-VAN-24, техните версии за пълен кръг (R-VAN-14F, R-VAN-18F, R-VAN-24F) и ивичестите R-VAN-LCS, R-VAN-RCS и R-VAN-SST, както и регулируеми веерни дюзи, например HE-VAN-8, HE-VAN-10, HE-VAN-12 и HE-VAN-15. Преди поръчка проверете параметрите и съвместимостта с вашия корпус."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c28",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c28s",
+            "_type": "span",
+            "marks": [],
+            "text": "Често задавани въпроси"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "c29",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c29s",
+            "_type": "span",
+            "marks": [],
+            "text": "Трябва ли да сменям корпусите на разпръсквачите?"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "c30",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c30s",
+            "_type": "span",
+            "marks": [],
+            "text": "Не винаги. Често се сменя само дюзата, ако корпусът е съвместим и в добро състояние. Проверяваме това преди замяната."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c31",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c31s",
+            "_type": "span",
+            "marks": [],
+            "text": "Може ли да запазя веерни дюзи на част от градината?"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "c32",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c32s",
+            "_type": "span",
+            "marks": [],
+            "text": "Да. За цветни лехи, малки площи и тесни ивици веерните дюзи често са подходящи. Важно е в една зона да няма дюзи с различна интензивност на поливане."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c33",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c33s",
+            "_type": "span",
+            "marks": [],
+            "text": "Ще пестя ли вода с ротаторни дюзи?"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "c34",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c34s",
+            "_type": "span",
+            "marks": [],
+            "text": "Ниската интензивност помага да се намали стичането и да се полива по-равномерно. Размерът на икономията зависи от системата, затова го преценяваме след проверка на зоната."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c35",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c35s",
+            "_type": "span",
+            "marks": [],
+            "text": "Колко струва замяната?"
+          }
+        ],
+        "markDefs": [],
+        "style": "h3"
+      },
+      {
+        "_key": "c36",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c36s",
+            "_type": "span",
+            "marks": [],
+            "text": "Цената зависи от броя на дюзите, достъпа и от това дали са необходими нови корпуси. Посочваме цена след уточняване на задачата или след оглед на място."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "c37",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c37s",
+            "_type": "span",
+            "marks": [],
+            "text": "Замяна на дюзи в Несебър и по Южното Черноморие"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "c38",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "c38s",
+            "_type": "span",
+            "marks": [],
+            "text": "Florial обслужва Несебър, Равда, Слънчев бряг, Свети Влас, Поморие, Ахелой, Каблешково и Кошарица. Опишете системата, приложете снимки на дюзите и корпусите, ако е възможно, и ще уточним необходимата работа и възможността за посещение."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      }
+    ],
+    "hero": {
+      "image": {
+        "_type": "image",
+        "alt": "Монтаж и настройка на дъждовален разпръсквач в тревна площ",
+        "altEn": "Installing and adjusting a lawn sprinkler",
+        "altRu": "Монтаж и настройка дождевателя на газоне",
+        "asset": {
+          "_ref": "image-27e5e04d0d36c3c4df0d734a157581ee9e9b66e7-1503x1047-png",
+          "_type": "reference"
+        }
+      },
+      "subtitle": "Проверка на зоната, подбор на дюзи Rain Bird R-VAN, монтаж и настройка на място — без смяна на цялата поливна система.",
+      "title": "Замяна на веерни дюзи с ротаторни R-VAN в Несебър и по Южното Черноморие"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Монтаж и настройка на дъждовален разпръсквач в тревна площ",
+      "altEn": "Installing and adjusting a lawn sprinkler",
+      "altRu": "Монтаж и настройка дождевателя на газоне",
+      "asset": {
+        "_ref": "image-27e5e04d0d36c3c4df0d734a157581ee9e9b66e7-1503x1047-png",
+        "_type": "reference"
+      }
+    },
+    "isActive": true,
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "f1",
+          "label": "Име",
+          "name": "name",
+          "required": true
+        },
+        {
+          "_key": "f2",
+          "label": "Телефон",
+          "name": "phone",
+          "required": true
+        },
+        {
+          "_key": "f3",
+          "label": "Имейл",
+          "name": "email",
+          "required": false
+        },
+        {
+          "_key": "f4",
+          "label": "Населено място",
+          "name": "location",
+          "required": true
+        },
+        {
+          "_key": "f5",
+          "label": "Описание на проекта",
+          "name": "details",
+          "required": false
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "title": "Запитване за услуга"
+    },
+    "name": "Замяна на веерни дюзи с ротаторни R-VAN в системата за автоматично поливане",
+    "relatedContent": [
+      {
+        "_key": "r1",
+        "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+        "_type": "reference"
+      },
+      {
+        "_key": "r2",
+        "_ref": "9f8a5130-49e8-4d34-9f76-c6124503fb5d",
+        "_type": "reference"
+      },
+      {
+        "_key": "r3",
+        "_ref": "88d0619d-1083-4eb7-b4e6-b22897f6c901",
+        "_type": "reference"
+      },
+      {
+        "_key": "r4",
+        "_ref": "04c7ab3b-1888-41cb-9917-6b9014cd1ac3",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "keywords": [
+        "замяна на дюзи за поливане",
+        "ротаторни дюзи R-VAN",
+        "веерни дюзи",
+        "смяна на дюзи Несебър",
+        "ремонт на поливна система"
+      ],
+      "metaDescription": "Подмяна на износени веерни дюзи с ротаторни Rain Bird R-VAN: проверка на налягането, подбор и настройка. Florial — Несебър и Южното Черноморие.",
+      "metaTitle": "Замяна на веерни дюзи с R-VAN | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "irrigation",
+    "serviceLayout": "standard",
+    "shortDescription": "Подмяна на износени веерни дюзи с ротаторни Rain Bird R-VAN: проверка на налягането, подбор на размер, монтаж и настройка на място в Несебър и по Южното Черноморие.",
+    "slug": {
+      "_type": "slug",
+      "current": "zamyana-vaeerni-dyuzi-rotatorni-r-van"
+    },
+    "sortOrder": 151,
+    "sourcePageUrl": "https://www.drop.od.ua/post/замена-форсунок-системы-автоматического-полива-в-одессе",
+    "steps": [
+      {
+        "_key": "s1",
+        "text": "Описвате системата и проблема, ако е възможно със снимки.",
+        "title": "Заявка"
+      },
+      {
+        "_key": "s2",
+        "text": "Проверяваме налягане, дебит, разстояния и съвместимост на корпусите.",
+        "title": "Проверка на зоната"
+      },
+      {
+        "_key": "s3",
+        "text": "Избираме размер и вариант на R-VAN за всяка зона.",
+        "title": "Подбор на дюзи"
+      },
+      {
+        "_key": "s4",
+        "text": "Подменяме дюзите, настройваме ги и проверяваме поливането.",
+        "title": "Замяна и настройка"
+      }
+    ],
+    "translations": {
+      "en": {
+        "advantages": [
+          {
+            "_key": "a1",
+            "text": "In many cases only the nozzles are replaced, if the bodies are compatible.",
+            "title": "No need to replace the whole system"
+          },
+          {
+            "_key": "a2",
+            "text": "We check pressure, flow and head spacing.",
+            "title": "Checks before replacement"
+          },
+          {
+            "_key": "a3",
+            "text": "Rotary nozzles for lawns, spray or strip nozzles for beds and narrow strips.",
+            "title": "The right type for each zone"
+          },
+          {
+            "_key": "a4",
+            "text": "We adjust radius and arc and check coverage.",
+            "title": "On-site adjustment"
+          }
+        ],
+        "callToAction": {
+          "buttonLabel": "Send enquiry",
+          "text": "Send an enquiry and describe your system. We will clarify what is needed and arrange a visit if possible.",
+          "title": "Want to replace worn nozzles?"
+        },
+        "description": "## Replacing Spray Nozzles with Rotary R-VAN Nozzles in Your Irrigation System\n\nSpray nozzles sit in underground sprinkler bodies and work every season, exposed to water quality, debris and mechanical stress. Over time they wear out, and the lawn starts to show it: dry patches, overwatered areas or a stream that falls to one side. In many cases the whole system does not need replacing — the nozzle just needs swapping for a more suitable one. Florial replaces worn spray nozzles with Rain Bird R-VAN rotary nozzles and adjusts the zone on site.\n\n## When It Is Time to Replace Nozzles\n\n- the lawn has dry or overwatered patches even though the zone runs;\n- the spray is weak, deflected or uneven;\n- the nozzle is clogged with debris or worn;\n- the nozzle or body has been damaged by a mower or garden machinery;\n- you want to reduce runoff and improve watering uniformity.\n\nBefore replacing anything, we identify the cause: sometimes the problem is pressure, the filter or the body, not the nozzle itself.\n\n## Spray Nozzles and R-VAN Rotary Nozzles: Key Differences\n\n### Coverage and Uniformity\n\nA spray nozzle produces a more concentrated fan of water and suits small areas and complex shapes. R-VAN distributes water through several slowly rotating streams at a low precipitation rate. Rain Bird states matched precipitation across radii, arcs and pattern types, which simplifies zone design.\n\n### Water Use\n\nR-VAN's low precipitation rate reduces runoff and erosion, and larger droplets are less prone to wind drift. Actual water savings, however, depend on correct selection, head spacing and controller settings, so we do not promise a specific percentage.\n\n### Adjustment\n\nR-VAN nozzles are adjusted without tools: radius and arc from 45° to 270°, with a separate model for a full circle (360°). The flush feature helps clear debris from the nozzle.\n\n### Where Each Solution Fits\n\nR-VAN suits lawns — small and large, including uneven ground. Spray nozzles remain a good choice for flower beds, small areas and narrow strips where a more directed stream is needed. Rain Bird does not recommend R-VAN for single-row watering; for narrow strips about 1.5 m wide there are dedicated R-VAN-LCS, R-VAN-RCS and R-VAN-SST nozzles.\n\n## What the Replacement Includes\n\n1. We inspect the system and identify the cause of the watering problem.\n1. We check pressure, flow, head spacing and body compatibility with R-VAN.\n1. We choose the size (R-VAN-14, R-VAN-18 or R-VAN-24) and version — adjustable arc, full circle or strip.\n1. We replace the nozzles and adjust the radius and arc on each head.\n1. We run the zone, check coverage and adjust the watering schedule if needed.\n\nR-VAN operates at 2.1 to 3.8 bar (about 3.1 bar recommended). Rain Bird recommends 1800 Series spray bodies with pressure regulation to 3.1 bar for optimal performance. Because rotary nozzles apply water at a lower precipitation rate, zone run times usually become longer.\n\n## Nozzles in the Florial Catalogue\n\nThe catalogue includes Rain Bird R-VAN-14, R-VAN-18 and R-VAN-24 rotary nozzles, their full-circle versions (R-VAN-14F, R-VAN-18F, R-VAN-24F) and the R-VAN-LCS, R-VAN-RCS and R-VAN-SST strip nozzles, as well as adjustable spray nozzles such as HE-VAN-8, HE-VAN-10, HE-VAN-12 and HE-VAN-15. Please check the specifications and compatibility with your body before ordering.\n\n## Frequently Asked Questions\n\n### Do I need to replace the sprinkler bodies?\n\nNot always. Often only the nozzle is replaced, provided the body is compatible and in good condition. We check this before replacement.\n\n### Can I keep spray nozzles in part of the garden?\n\nYes. Spray nozzles are often suitable for flower beds, small areas and narrow strips. What matters is that one zone does not mix nozzles with different precipitation rates.\n\n### Will rotary nozzles save water?\n\nThe low precipitation rate helps reduce runoff and water more evenly. The amount saved depends on the system, so we assess it after checking the zone.\n\n### How much does replacement cost?\n\nThe price depends on the number of nozzles, access, and whether new bodies are needed. We quote after clarifying the task or inspecting the site.\n\n## Nozzle Replacement in Nessebar and the Southern Black Sea Coast\n\nFlorial serves Nessebar, Ravda, Sunny Beach, Sveti Vlas, Pomorie, Aheloy, Kableshkovo and Kosharitsa. Describe your system and, if possible, send photos of the nozzles and bodies, and we will clarify the work needed and arrange a visit.",
+        "hero": {
+          "subtitle": "Zone check, Rain Bird R-VAN nozzle selection, installation and on-site adjustment — without replacing the whole irrigation system.",
+          "title": "Replacing Spray Nozzles with Rotary R-VAN Nozzles in Nessebar and the Coast"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Name",
+              "name": "name",
+              "placeholder": "Name",
+              "required": true
+            },
+            {
+              "_key": "f2",
+              "label": "Phone",
+              "name": "phone",
+              "placeholder": "Phone",
+              "required": true
+            },
+            {
+              "_key": "f3",
+              "label": "Email",
+              "name": "email",
+              "placeholder": "Email",
+              "required": false
+            },
+            {
+              "_key": "f4",
+              "label": "Town / city",
+              "name": "location",
+              "placeholder": "Town / city",
+              "required": true
+            },
+            {
+              "_key": "f5",
+              "label": "Describe the work",
+              "name": "details",
+              "placeholder": "Describe the work",
+              "required": false
+            }
+          ],
+          "submitLabel": "Send enquiry",
+          "successMessage": "Thank you! Your enquiry has been sent. We will contact you.",
+          "title": "Service enquiry"
+        },
+        "name": "Replacing Spray Nozzles with Rotary R-VAN Nozzles in Your Irrigation System",
+        "seo": {
+          "keywords": [
+            "sprinkler nozzle replacement",
+            "R-VAN rotary nozzles",
+            "spray nozzles",
+            "nozzle replacement Nessebar",
+            "irrigation system repair"
+          ],
+          "metaDescription": "Replace worn spray nozzles with Rain Bird R-VAN rotary nozzles: pressure check, selection and adjustment. Florial — Nessebar and the Southern Black Sea coast.",
+          "metaTitle": "Replace Spray Nozzles with R-VAN | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Replacement of worn spray nozzles with Rain Bird R-VAN rotary nozzles: pressure check, sizing, installation and on-site adjustment in Nessebar and along the Southern Black Sea coast.",
+        "steps": [
+          {
+            "_key": "s1",
+            "text": "You describe the system and the problem, with photos if possible.",
+            "title": "Enquiry"
+          },
+          {
+            "_key": "s2",
+            "text": "We check pressure, flow, spacing and body compatibility.",
+            "title": "Zone check"
+          },
+          {
+            "_key": "s3",
+            "text": "We choose the R-VAN size and version for each zone.",
+            "title": "Nozzle selection"
+          },
+          {
+            "_key": "s4",
+            "text": "We replace and adjust the nozzles and check the watering.",
+            "title": "Replacement and adjustment"
+          }
+        ]
+      },
+      "ru": {
+        "advantages": [
+          {
+            "_key": "a1",
+            "text": "Во многих случаях меняются только форсунки, если корпуса совместимы.",
+            "title": "Без замены всей системы"
+          },
+          {
+            "_key": "a2",
+            "text": "Проверяем давление, расход и расстояния между головками.",
+            "title": "Проверка перед заменой"
+          },
+          {
+            "_key": "a3",
+            "text": "Ротаторные форсунки для газона, веерные или полосовые — для клумб и узких полос.",
+            "title": "Подходящий тип для каждой зоны"
+          },
+          {
+            "_key": "a4",
+            "text": "Регулируем радиус и сектор и проверяем покрытие.",
+            "title": "Настройка на объекте"
+          }
+        ],
+        "callToAction": {
+          "buttonLabel": "Отправить запрос",
+          "text": "Отправьте запрос и опишите систему. Мы уточним, что необходимо, и обсудим возможность выезда.",
+          "title": "Хотите заменить изношенные форсунки?"
+        },
+        "description": "## Замена веерных форсунок на ротаторные R-VAN в системе автополива\n\nВеерные (spray) форсунки устанавливаются в корпуса дождевателей под землёй и работают каждый сезон, подвергаясь воздействию воды, загрязнений и механических нагрузок. Со временем они изнашиваются, и газон начинает показывать проблему: появляются сухие пятна, переувлажнённые участки или струя, которая падает в сторону. Во многих случаях менять всю систему не нужно — достаточно заменить форсунку на более подходящую. Florial заменяет изношенные веерные форсунки на ротаторные Rain Bird R-VAN и настраивает зону на объекте.\n\n## Когда пора менять форсунки\n\n- на газоне есть сухие или переувлажнённые участки, хотя зона работает;\n- струя слабая, отклонённая или неравномерная;\n- форсунка засорена или изношена;\n- форсунка или корпус повреждены газонокосилкой или садовой техникой;\n- вы хотите уменьшить сток воды и сделать полив равномернее.\n\nПеред заменой мы определяем причину: иногда проблема в давлении, фильтре или корпусе, а не в самой форсунке.\n\n## Веерные форсунки и ротаторные R-VAN: основные различия\n\n### Покрытие и равномерность\n\nВеерная форсунка образует более концентрированную веерную струю и подходит для небольших участков и сложных форм. R-VAN распределяет воду несколькими медленно вращающимися струями с низкой интенсивностью полива. Rain Bird заявляет согласованную интенсивность при разных радиусах, углах и типах струи, что упрощает проектирование зоны.\n\n### Расход воды\n\nНизкая интенсивность R-VAN уменьшает сток и эрозию, а более крупные капли меньше сносит ветром. Однако реальное снижение расхода зависит от правильного подбора, расстояний между головками и настройки программы, поэтому мы не обещаем конкретный процент экономии.\n\n### Регулировка\n\nR-VAN регулируются без инструментов: настраиваются радиус и угол сектора от 45° до 270°, а для полного круга (360°) есть отдельная модель. Функция промывки помогает очистить форсунку от загрязнений.\n\n### Где какое решение подходит\n\nR-VAN подходят для газонов — малых и больших, в том числе на неровном рельефе. Веерные форсунки остаются хорошим выбором для клумб, небольших участков и узких полос, где нужна более направленная струя. Rain Bird не рекомендует R-VAN для полива одним рядом, а для узких полос шириной около 1,5 м есть специальные форсунки R-VAN-LCS, R-VAN-RCS и R-VAN-SST.\n\n## Что входит в замену\n\n1. Осматриваем систему и определяем причину проблемы с поливом.\n1. Проверяем давление, расход, расстояния между головками и совместимость корпусов с R-VAN.\n1. Подбираем размер (R-VAN-14, R-VAN-18 или R-VAN-24) и вариант — регулируемый сектор, полный круг или полоса.\n1. Заменяем форсунки и настраиваем радиус и сектор на каждой головке.\n1. Запускаем зону, проверяем покрытие и при необходимости корректируем программу полива.\n\nR-VAN работает при давлении от 2,1 до 3,8 бар (рекомендуется около 3,1 бар). Rain Bird рекомендует корпуса серии 1800 с регулировкой давления до 3,1 бар для оптимальной работы. Поскольку ротаторные форсунки поливают с меньшей интенсивностью, время работы зоны обычно увеличивается.\n\n## Форсунки в каталоге Florial\n\nВ каталоге представлены ротаторные форсунки Rain Bird R-VAN-14, R-VAN-18 и R-VAN-24, их версии для полного круга (R-VAN-14F, R-VAN-18F, R-VAN-24F) и полосовые R-VAN-LCS, R-VAN-RCS и R-VAN-SST, а также регулируемые веерные форсунки, например HE-VAN-8, HE-VAN-10, HE-VAN-12 и HE-VAN-15. Перед заказом проверьте параметры и совместимость с вашим корпусом.\n\n## Часто задаваемые вопросы\n\n### Нужно ли менять корпуса дождевателей?\n\nНе всегда. Часто меняется только форсунка, если корпус совместим и в хорошем состоянии. Мы проверяем это перед заменой.\n\n### Можно ли оставить веерные форсунки на части участка?\n\nДа. Для клумб, небольших участков и узких полос веерные форсунки часто подходят. Важно, чтобы в одной зоне не было форсунок с разной интенсивностью полива.\n\n### Буду ли я экономить воду с ротаторными форсунками?\n\nНизкая интенсивность помогает уменьшить сток и поливать равномернее. Размер экономии зависит от системы, поэтому мы оцениваем его после проверки зоны.\n\n### Сколько стоит замена?\n\nСтоимость зависит от количества форсунок, доступа и того, нужны ли новые корпуса. Называем цену после уточнения задачи или осмотра на месте.\n\n## Замена форсунок в Несебре и на Южном Черноморье\n\nFlorial обслуживает Несебр, Равду, Солнечный Берег, Святой Влас, Поморие, Ахелой, Каблешково и Кошарицу. Опишите систему и, если возможно, приложите фото форсунок и корпусов — мы уточним необходимые работы и возможность выезда.",
+        "hero": {
+          "subtitle": "Проверка зоны, подбор форсунок Rain Bird R-VAN, монтаж и настройка на объекте — без замены всей системы полива.",
+          "title": "Замена веерных форсунок на ротаторные R-VAN в Несебре и на побережье"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "f1",
+              "label": "Имя",
+              "name": "name",
+              "placeholder": "Имя",
+              "required": true
+            },
+            {
+              "_key": "f2",
+              "label": "Телефон",
+              "name": "phone",
+              "placeholder": "Телефон",
+              "required": true
+            },
+            {
+              "_key": "f3",
+              "label": "Электронная почта",
+              "name": "email",
+              "placeholder": "Электронная почта",
+              "required": false
+            },
+            {
+              "_key": "f4",
+              "label": "Населённый пункт",
+              "name": "location",
+              "placeholder": "Населённый пункт",
+              "required": true
+            },
+            {
+              "_key": "f5",
+              "label": "Описание задачи",
+              "name": "details",
+              "placeholder": "Описание задачи",
+              "required": false
+            }
+          ],
+          "submitLabel": "Отправить запрос",
+          "successMessage": "Спасибо! Ваш запрос отправлен. Мы свяжемся с вами.",
+          "title": "Запрос услуги"
+        },
+        "name": "Замена веерных форсунок на ротаторные R-VAN в системе автополива",
+        "seo": {
+          "keywords": [
+            "замена форсунок полива",
+            "ротаторные форсунки R-VAN",
+            "веерные форсунки",
+            "замена форсунок Несебр",
+            "ремонт системы полива"
+          ],
+          "metaDescription": "Замена изношенных веерных форсунок на ротаторные Rain Bird R-VAN: проверка давления, подбор и настройка. Florial — Несебр и Южное Черноморье.",
+          "metaTitle": "Замена веерных форсунок на R-VAN | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Замена изношенных веерных форсунок на ротаторные Rain Bird R-VAN: проверка давления, подбор размера, монтаж и настройка на объекте в Несебре и на Южном Черноморье.",
+        "steps": [
+          {
+            "_key": "s1",
+            "text": "Вы описываете систему и проблему, по возможности с фото.",
+            "title": "Запрос"
+          },
+          {
+            "_key": "s2",
+            "text": "Проверяем давление, расход, расстояния и совместимость корпусов.",
+            "title": "Проверка зоны"
+          },
+          {
+            "_key": "s3",
+            "text": "Выбираем размер и вариант R-VAN для каждой зоны.",
+            "title": "Подбор форсунок"
+          },
+          {
+            "_key": "s4",
+            "text": "Меняем и настраиваем форсунки и проверяем полив.",
+            "title": "Замена и настройка"
+          }
+        ]
+      }
+    }
+  }
+}
