@@ -6,6 +6,15 @@
 
 
 
+## 2026-11-20 — rotary nozzle replacement service: remaining verification
+
+- Owner confirmed the published service changes work in the live interface. Sanity Production read-back confirmed the edited fields, unchanged slug/ID and preserved image assets.
+- **Not independently verified:** browser-based visual/rendered HTML check of the public service URL and an end-to-end lead-form submission. The external page reader could not retrieve the URL. Do not claim those tests passed.
+- Sanity beta validator reports `valid` but `complete=false`: custom validation callbacks (including custom slug uniqueness callbacks) were not executed. Built-in validation passed.
+- Documentation PR #442 is merged in `main` at `ef1c0b5881759ee114665c6231fe09d80d52f362`; PR-head Blog/Studio and D1 workflows passed. No frontend/schema/runtime change or Production deployment was made.
+
+
+
 ## 2026-11-20 — Manager: приёмка закрыта подтверждением владельца
 
 - Owner/Manager/Seller: владелец подтвердил, что приёмку прямого каталога считает пройденной.
