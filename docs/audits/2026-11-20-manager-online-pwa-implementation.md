@@ -9,6 +9,7 @@ Working branch: `feat/manager-online-pwa`
 - Manager remains the existing React SPA selected only for `/manager` and `/manager/*`.
 - The PWA manifest uses `start_url: /manager/`, `scope: /manager/` and `display: standalone`.
 - Manifest and icons live below `/manager/`; the manifest link is injected only into Manager HTML by the existing Manager-specific middleware branch.
+- Raster PNG icons are provided at 192×192 and 512×512 for broad platform compatibility; a scalable SVG maskable icon is also included. The 192×192 PNG is linked as the Manager-only Apple touch icon.
 - Service worker registration occurs inside `ManagerApp`, which is rendered only on Manager routes.
 - This is an online-only application. The worker does not use Cache Storage, does not cache the shell or data, and does not provide an offline fallback. Manager navigation requests are passed through to the network. When offline, the application cannot load or perform operations.
 - Public asset URLs and the global Vite build configuration are unchanged.
@@ -30,6 +31,8 @@ Working branch: `feat/manager-online-pwa`
 - `public/manager/manifest.webmanifest`
 - `public/manager/sw.js`
 - `public/manager/icons/icon-192.svg`
+- `public/manager/icons/icon-192.png`
+- `public/manager/icons/icon-512.png`
 - `public/manager/icons/icon-512.svg`
 - `tests/manager-online-pwa.test.mjs`
 
