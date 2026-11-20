@@ -10,7 +10,7 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   if (!['owner', 'manager', 'seller'].includes(auth.user.role)) return json({ error: 'Insufficient permissions.' }, 403)
 
   if (request.method === 'GET') {
-    return env.VAPID_PUBLIC_KEY
+    return env.VAPID_PUBLIC_KEY && env.VAPID_PRIVATE_KEY && env.VAPID_SUBJECT
       ? json({ enabled: true, publicKey: env.VAPID_PUBLIC_KEY })
       : json({ enabled: false, publicKey: null })
   }
