@@ -52,7 +52,7 @@ export const dispatchManagerPush = async (
       }
       try {
         const init = await buildPushPayload({ data: payloadData, options: { ttl: 300 } }, subscription, vapid)
-        const response = await fetch(row.endpoint, init)
+        const response = await fetch(row.endpoint, { ...init, redirect: 'error', signal: AbortSignal.timeout(5000) })
         if (response.status === 404 || response.status === 410) {
           await env.DB!.prepare('DELETE FROM manager_push_subscriptions WHERE id=?').bind(row.id).run()
         } else if (!response.ok) {
