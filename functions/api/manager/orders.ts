@@ -3,7 +3,7 @@ const S=['new','processing','preparing','ready','dispatched','completed','cancel
 const P=['unpaid','pending','paid','partially_refunded','refunded'] as const
 type Item={name:string;qty:number;price:number;sku?:string;imageUrl?:string;[key:string]:unknown}
 type Row=Record<string,unknown>&{id:string;order_number:string;items:string;status:string;is_test:number;subtotal_cents:number;delivery_fee_cents:number|null;total_cents:number|null;created_at:string}
-const can=(u:ManagerIdentity,k:'canViewOrders'|'canEditOrders'|'canDeleteTestOrders')=>u.role==='owner'||u.role==='manager'&&(k==='canViewOrders'?(hasPermission(u,'canViewOrders')||hasPermission(u,'canEditOrders')||hasPermission(u,'canDeleteTestOrders')):hasPermission(u,k))
+const can=(u:ManagerIdentity,k:'canViewOrders'|'canEditOrders'|'canDeleteTestOrders')=>k==='canViewOrders'&&(u.role==='seller'||u.role==='manager')||u.role==='owner'||u.role==='manager'&&hasPermission(u,k)
 const get=(db:NonNullable<ManagerEnv['DB']>,id:string)=>db.prepare('SELECT * FROM orders WHERE id=?').bind(id).first<Row>()
 const clean=(v:unknown,n:number,req=false):string|null=>{if(v==null&&!req)return null;if(typeof v!=='string')return null;const x=v.trim();return req&&!x?null:x.slice(0,n)}
 const sofiaMidnightUtc=(date:string)=>{const base=new Date(date+'T00:00:00.000Z'),parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Sofia',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(base),part=(type:string)=>Number(parts.find(x=>x.type===type)?.value||0);return new Date(base.getTime()-((part('hour')*3600+part('minute')*60+part('second'))*1000)).toISOString()}
