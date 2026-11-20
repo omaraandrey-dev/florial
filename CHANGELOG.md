@@ -17,6 +17,19 @@
 - Форма отображается, но реальная Production отправка не выполнялась, чтобы не создавать тестовую заявку. Sanity validator сообщил `valid`, `complete=false` из-за неисполненных custom validation callbacks. Humanizer connector недоступен; болгарский текст отредактирован вручную.
 - Только Sanity content и документация; код, schema, Cloudflare, D1, Resend, secrets и Production deployment не менялись.
 
+
+## 2026-11-20 — перенос сравнения ротаторных дюз из услуг в блог
+
+- В Sanity Production создана и опубликована статья `blogPost` ID `19fdf008-53df-4258-bf36-bfa86592ed8e`, slug `sravnenie-rotatorni-dyuzi-rain-bird-r-van-hunter-mp-rotator`. Сохранены исходное изображение и три локали BG/RU/EN; каждая версия содержит 42 Portable Text блока.
+- Текст отредактирован вручную на трёх языках. Исправлены сравнение вариантов секторов MP Rotator, терминология статических/ротаторных дюз и технические формулировки. Значения сверены с официальными документами Rain Bird и Hunter: [Rain Bird R-VAN Technical Specifications](https://www.rainbird.com/sites/default/files/media/documents/2025-10/026549_rb_rvantechspecsheet_f.pdf), [Hunter MP Rotator Design Guide](https://www.hunterindustries.com/sites/default/files/design_guide_MP_Rotator_LIT-461_em.pdf), [Hunter MP Rotator brochure](https://www.hunterirrigation.com/sites/default/files/2024-09/LIT-414-RevO-BR-MPR-EM-web_0.pdf).
+- Humanizer не был вызван: в текущем подключении Plugin Directory не вернул доступный Humanizer plugin. Не заявлять, что проверка выполнена этим коннектором; редактура сделана вручную.
+- Категория `Ротаторни дюзи` ID `6690848d-a4a5-4386-b9ae-5f63604914b1` получила контекстную ссылку на статью в SEO content BG/RU/EN. Существующий helpBlock CTA на монтаж/ремонт дождевателей сохранён.
+- Добавлена ссылка на статью в `relatedContent` всех 9 опубликованных продуктов Rain Bird R-VAN (включая strip models); существующие связи сохранены.
+- Исходная услуга ID `1bfe0937-ba0d-421b-a9cb-4f4c608e377d`, slug `sravnenie-rotatorni-dyuzi-rain-bird-r-van-hunter-mp-rotator`, снята с публикации и её черновик удалён после проверки отсутствия входящих references. Повторный raw query не находит документ.
+- Полный JSON backup исходной услуги сохранён: `docs/backups/sanity/2026-11-20-service-1bfe0937-ba0d-421b-a9cb-4f4c608e377d.json` (45,271 bytes; включает все исходные поля и переводы).
+- Validation: blogPost — valid (custom callbacks/slug uniqueness callback не выполнялись инструментом); 9 product drafts — valid. Category update опубликован успешно, но validator сообщил о существующих root-полях `seoTitle` и `seoDescription`, отсутствующих в текущем descriptor типа category. Эти legacy поля не изменялись; отдельная сверка schema source требуется.
+- Проверка опубликованных документов и связей выполнена read-only запросами Sanity. Production page browser/HTTP rendering smoke не подтверждён: внешний reader не смог открыть URL. Код, Sanity schema, Cloudflare и Production deployment не менялись.
+
 ## 2026-11-20 — услуга замены веерных дюз на ротаторные: редактура BG и документация
 
 - PR #442 объединён в `main` squash commit `ef1c0b5881759ee114665c6231fe09d80d52f362`. PR-head CI: Blog and Studio validation run `44715501133` — success; D1 migration validation run `44715501288` — success. Изменения PR — только audit и Sanity backup; runtime/schema не затрагивались, Production deployment не требовался.
