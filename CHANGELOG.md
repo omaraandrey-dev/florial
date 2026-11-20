@@ -3843,3 +3843,13 @@ Backups:
 - /api/manager/orders includes aggregate counts for real orders in the four active workflow states. Manager navigation displays the current new-real-order count as a red badge. Existing order permissions, edit actions, payment flow, PDF/email actions, audit history and D1 records remain unchanged.
 - Regression test: tests/manager-orders-workspace.test.mjs. No D1 schema/data migration, Sanity, Cloudflare configuration/secrets, Resend, checkout or public storefront changes.
 - Verification status: source and static regression assertions added on branch feat/manager-orders-workspace-accordion; exact-head GitHub Actions and Production deployment remain pending. No live order was created, edited, deleted, emailed or otherwise modified.
+
+
+## 2026-11-20 — Align Manager PWA icon with Florial droplet logo
+
+- Replace the unrelated green leaf-only Manager app icon with the official Florial water-drop/leaf artwork sourced from `public/favicon.png`.
+- Keep the storefront favicon unchanged. Document `public/favicon.png` as the authoritative Manager icon artwork and explicitly distinguish it from the unrelated `public/favicon.svg` mark.
+- Preserve PNG install fallbacks at 192×192 and 512×512 and provide SVG equivalents; update manifest references only to verified matching assets.
+- Android launcher icon refresh remains a post-deployment device check because launchers may cache installed app artwork.
+- Source artwork is currently 64×64; enlarged exports do not increase source detail. A higher-resolution/vector master remains a future asset improvement if the owner supplies/confirms one.
+- No Production settings, Sanity, D1 data, orders or storefront branding changed.

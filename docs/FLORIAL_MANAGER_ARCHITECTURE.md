@@ -701,3 +701,12 @@ Implementation:
 
 Audit: `docs/audits/2026-11-18-manager-plant-catalog-permissions.md`. Runtime/test commit `9a95a7573d2ef9043df77aa2eae3adf0994f6b67` passed Blog/Studio CI run `44210343032` and D1 CI run `44210343225`; browser role-matrix QA and Production deployment remain unconfirmed. No D1 schema/profile write, Sanity document/asset write or Production configuration change was made.
 
+
+
+## Manager PWA app icon and brand source
+
+- The canonical Florial droplet/leaf brand mark used for the Manager PWA is sourced from the existing site asset `public/favicon.png`. This is the same water-drop mark used by the Florial logo; do not substitute the unrelated abstract mark in `public/favicon.svg`.
+- Manager app icons in `public/manager/icons/` must preserve the artwork and colors from `public/favicon.png`; only the canvas/packaging may be adapted for PWA sizes and Android adaptive-icon safe areas. Do not introduce a different leaf-only or green-square logo.
+- The source PNG is 64×64 raster artwork. Enlarged PNG exports preserve that artwork but do not add source detail; a higher-resolution/vector master should replace the source only after the owner confirms the official asset.
+- PWA icon references and declared sizes must match the actual files in `public/manager/manifest.webmanifest`. Keep both 192×192 and 512×512 PNG fallbacks, plus scalable SVG where supported.
+- The Manager service worker is intentionally online-only and does not cache app pages/assets. Android launchers may nevertheless retain an installed icon; after deployment, verify the updated icon in Chrome and, if Android continues showing the old artwork, refresh/reinstall the home-screen shortcut.
