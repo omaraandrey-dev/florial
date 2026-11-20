@@ -1,0 +1,474 @@
+{
+  "_createdAt": "2026-11-20T07:01:25Z",
+  "_id": "drafts.df7893e8-902e-4265-921c-3cb0fd270cc8",
+  "_rev": "136a36cb-a654-420f-9ca0-34356a57e2b7",
+  "_type": "service",
+  "_updatedAt": "2026-11-20T07:05:59Z",
+  "contentBlocks": [
+    {
+      "_key": "ba74668a041e",
+      "_type": "serviceContentBlock",
+      "image": {
+        "_type": "image",
+        "asset": {
+          "_ref": "image-e680b1da1df3a04af78580b6d805417ba607924c-1376x768-jpg",
+          "_type": "reference"
+        }
+      },
+      "imagePosition": "left"
+    }
+  ],
+  "description": [
+    {
+      "_key": "5a645d9d1ca0",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "ee64a14caf32",
+          "_type": "span",
+          "marks": [],
+          "text": "Доставка крупномерных растений от садового центра «Флориал»: бережно, надёжно и точно в цель"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "78013fc115e7",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "7945713900b9",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "bf365e892a6a",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "6f25b6f68be2",
+          "_type": "span",
+          "marks": [],
+          "text": "Перевезти взрослую пальму, эффектную юкку или другое крупное растение — задача совсем не такая простая, как доставить небольшой цветок в горшке. Высокий ствол, раскидистая крона, тяжёлый корневой ком и чувствительность к перепадам температур или ветру требуют правильной подготовки и серьёзной техники. В садовом центре "
+        },
+        {
+          "_key": "4c2c390333eb",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "«Флориал»"
+        },
+        {
+          "_key": "ba9e3ff2baf0",
+          "_type": "span",
+          "marks": [],
+          "text": " мы берём эту задачу на себя — от погрузки в питомнике до точной установки растения на вашем участке."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "db63f962b5df",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "e86f0eb91da4",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "d129d785c263",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "113fee7151a4",
+          "_type": "span",
+          "marks": [],
+          "text": "Собственный автотранспорт для сложных задач"
+        }
+      ],
+      "markDefs": [],
+      "style": "h4"
+    },
+    {
+      "_key": "e6720a402754",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "84023d8f6b5e",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b1dbf6fcab94",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "88c340ca3635",
+          "_type": "span",
+          "marks": [],
+          "text": "Мы не полагаемся на случайных перевозчиков, которым незнакома специфика живых крупномеров. У нас есть собственная транспортная база, приспособленная для перевозки высоких и тяжёлых растений:"
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "538c0578c95f",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "09c67488ece4",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Надёжная фиксация"
+        },
+        {
+          "_key": "c5fd6884b118",
+          "_type": "span",
+          "marks": [],
+          "text": " — стволы и корневые комы закрепляются так, чтобы исключить смещение, трение и повреждение коры или листьев в пути."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dbb6920f9560",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "f699c04021e0",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Бережная логистика"
+        },
+        {
+          "_key": "404674554df4",
+          "_type": "span",
+          "marks": [],
+          "text": " — мы продумываем маршрут и погрузку с учётом габаритов растений, чтобы они приехали к вам в отличном состоянии."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "98a7176aab0d",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "22dbbc015a95",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "5faa7c4b5694",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "a820763e1d00",
+          "_type": "span",
+          "marks": [],
+          "text": "Краны для выгрузки и точной установки на участке"
+        }
+      ],
+      "markDefs": [],
+      "style": "h4"
+    },
+    {
+      "_key": "2c2d3186ebb5",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "e0fc80b09cbd",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "d664ea5c6d29",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "2d00b3e0f5de",
+          "_type": "span",
+          "marks": [],
+          "text": "Крупное растение мало просто привезти — его нужно аккуратно снять с машины и поставить именно туда, где оно должно расти, не повредив ни сам экземпляр, ни благоустройство двора. Для этого у нас есть крановая техника:"
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "6c1e2fda8f26",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "6834fc029d30",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Аккуратная выгрузка"
+        },
+        {
+          "_key": "31d40bc6d404",
+          "_type": "span",
+          "marks": [],
+          "text": " — кран позволяет плавно поднять тяжёлое растение с платформы без рывков и перекосов."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "63d4b0e392bd",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "aba84011908e",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Точное позиционирование"
+        },
+        {
+          "_key": "9c7357e3860f",
+          "_type": "span",
+          "marks": [],
+          "text": " — мы можем подвести и опустить пальму, юкку или другой крупномер сразу в подготовленное место на участке, даже если до него нужно дотянуться через препятствия или работать в стеснённых условиях."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "38049339c4d2",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "85e7f07fafac",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "2fdbe0d97046",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b8ee2af390b8",
+          "_type": "span",
+          "marks": [],
+          "text": "Почему это удобно для заказчика"
+        }
+      ],
+      "markDefs": [],
+      "style": "h4"
+    },
+    {
+      "_key": "a198ae7f08e3",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dbe8d55ed4da",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Экономия времени и сил:"
+        },
+        {
+          "_key": "800f8331e33a",
+          "_type": "span",
+          "marks": [],
+          "text": " вам не нужно самостоятельно искать транспорт, грузчиков и спецтехнику по отдельности."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "717ed1f7e015",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "eb64c82d11ac",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Безопасность для растения и участка:"
+        },
+        {
+          "_key": "01f582bc7db6",
+          "_type": "span",
+          "marks": [],
+          "text": " профессиональная техника снижает риск травмировать растение при погрузке и выгрузке и помогает избежать лишних повреждений вокруг места посадки."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "8a0806bfa526",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "94fddf12133a",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Готовность к дальнейшей посадке:"
+        },
+        {
+          "_key": "3c146d5d33b8",
+          "_type": "span",
+          "marks": [],
+          "text": " растение оказывается точно там, где задумано по проекту или плану озеленения, и его можно сразу высаживать."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "2fdd9faf5534",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "878a4bc85a60",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "0d6d82cb1411",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "0d6eda9457fa",
+          "_type": "span",
+          "marks": [],
+          "text": "Если вы планируете украсить участок крупной пальмой, юккой или другим эффектным крупномером, обращайтесь в садовый центр "
+        },
+        {
+          "_key": "41b1b6a0ce07",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "«Флориал»"
+        },
+        {
+          "_key": "63e5f3939a0d",
+          "_type": "span",
+          "marks": [],
+          "text": " — мы поможем не только выбрать подходящее растение, но и бережно доставить его и установить на месте."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "hero": {
+    "image": {
+      "_type": "image",
+      "asset": {
+        "_ref": "image-1007d6e2fd41438f67acc6a25208e89039986172-1200x896-jpg",
+        "_type": "reference"
+      }
+    }
+  },
+  "image": {
+    "_type": "image",
+    "asset": {
+      "_ref": "image-1007d6e2fd41438f67acc6a25208e89039986172-1200x896-jpg",
+      "_type": "reference"
+    }
+  },
+  "leadForm": {
+    "fields": [
+      {
+        "_key": "8e705b17657f",
+        "type": "text"
+      }
+    ]
+  },
+  "name": "Доставка крупномерных растений",
+  "seo": {
+    "_type": "seoFields",
+    "noIndex": false
+  },
+  "serviceCategory": "delivery",
+  "serviceLayout": "standard",
+  "shortDescription": "Доставка крупномерных растений от садового центра «Флориал»: бережно, надёжно и точно в цель",
+  "sortOrder": 85,
+  "translations": {
+    "en": {
+      "seo": {
+        "noIndex": false
+      }
+    },
+    "ru": {
+      "seo": {
+        "noIndex": false
+      }
+    }
+  }
+}
