@@ -24,7 +24,7 @@ test('Manager PWA is scoped to its own online-only standalone application', () =
 test('Manager registers the service worker only from the Manager application', () => {
   assert.match(managerApp, /navigator\.serviceWorker\.register\('\/manager\/sw\.js', \{ scope: '\/manager\/' \}\)/)
   assert.match(middleware, /href="\/manager\/manifest\.webmanifest"/)
-  assert.match(middleware, /rel='apple-touch-icon'/)
+  assert.match(middleware, /rel="apple-touch-icon"/)
   assert.match(middleware, /noindex, nofollow, noarchive/)
 })
 
