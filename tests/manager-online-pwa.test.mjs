@@ -16,13 +16,15 @@ test('Manager PWA is scoped to its own online-only standalone application', () =
   assert.equal(manifest.scope, '/manager/')
   assert.equal(manifest.display, 'standalone')
   assert.equal(manifest.lang, 'bg')
-  assert.deepEqual(manifest.icons.map((icon) => icon.sizes).sort(), ['192x192', '512x512'])
+  assert.deepEqual(manifest.icons.filter((icon) => icon.type === 'image/png').map((icon) => icon.sizes).sort(), ['192x192', '512x512'])
+  assert.ok(manifest.icons.some((icon) => icon.type === 'image/svg+xml' && icon.sizes === 'any' && icon.purpose === 'maskable'))
   assert.ok(manifest.icons.every((icon) => icon.src.startsWith('/manager/')))
 })
 
 test('Manager registers the service worker only from the Manager application', () => {
   assert.match(managerApp, /navigator\.serviceWorker\.register\('\/manager\/sw\.js', \{ scope: '\/manager\/' \}\)/)
   assert.match(middleware, /href="\/manager\/manifest\.webmanifest"/)
+  assert.match(middleware, /rel='apple-touch-icon'/)
   assert.match(middleware, /noindex, nofollow, noarchive/)
 })
 
