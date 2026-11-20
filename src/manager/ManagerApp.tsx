@@ -86,6 +86,13 @@ const sellerPlantTypes = [
 ] as const
 
 export default function ManagerApp() {
+  useEffect(() => {
+    if (!('serviceWorker' in navigator)) return
+    void navigator.serviceWorker.register('/manager/sw.js', { scope: '/manager/' }).catch((error: unknown) => {
+      console.warn('[florial-manager-pwa] Service worker registration failed', error)
+    })
+  }, [])
+
   const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<StaffProfile | null>(null)
   const [loading, setLoading] = useState(true)
