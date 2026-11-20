@@ -1,6 +1,6 @@
 ## 2026-11-20 — Manager Web Push: release prerequisites
 
-- PR #450 contains the first implementation stage for Manager Web Push. It remains Draft until exact-head CI and Cloudflare Preview checks pass.
+- PR #450 contains the Manager Web Push implementation and remains Draft. Exact implementation/test head `a908426f3355c793e369ea0e0adaae170bbac6de` passed Blog/Studio run `44793855068`, D1 run `44793855086`, and Preview deployment `33d99b8b-e866-4701-85a9-d6809c9c62df`.
 - Production D1 migration `0017_manager_push_subscriptions` is not applied. Before rollout, perform an owner-approved migration preflight and apply the additive SQL to the verified Production D1 only after separate explicit approval.
 - Cloudflare Pages Functions variables/secrets `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` are not configured. Generate VAPID key pair and configure these only after explicit owner approval; never expose private key in browser or Git.
 - Real Android Chrome install/permission/subscribe/push/click/unsubscribe verification is pending. Browser/platform support may vary.
