@@ -1,3 +1,10 @@
+## 2026-11-20 — Manager Web Push architecture (PR #450, pending validation)
+
+- Web Push subscription records use the proposed Cloudflare D1 table `manager_push_subscriptions`, keyed to `catalog_staff_profiles.user_id`; each device endpoint is unique and cannot be reassigned by another authenticated staff user.
+- Pages Functions use `@block65/webcrypto-web-push@2.0.0` (RFC 8291 aes128gcm / RFC 8292 VAPID). VAPID config names: `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`.
+- New order push recipients: active Owner, Manager and Seller. New service lead recipients: active Owner only. No PII in payload. Push runs after successful D1 persistence and is best-effort.
+- Manager PWA remains online-only; Service Worker handles push display/click only and does not cache Manager/API data. List polling remains 15 minutes, independent of immediate push.
+- Implementation is in Draft PR #450 and has not yet passed CI/Preview validation. Migration 0017 and VAPID configuration are not applied in Production; do not configure/deploy without explicit owner approval.
 ## 2026-11-20 — внутренняя перелинковка доставки крупномерных растений
 
 - Sanity project `bxvcy0qs`: в dataset `plants` добавлена связь на опубликованную услугу `dostavka-na-edrorazmerni-rasteniya` для 35 уникальных товаров (12 пальм/юк, 6 олив/маслин, 23 дерева и кустарника; группы пересекаются, каждый документ изменён один раз). Использовано поле `relatedContentBySlug`, `contentType: "service"`; прежние ссылки сохранены.
