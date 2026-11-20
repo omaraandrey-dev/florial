@@ -1,3 +1,14 @@
+## 2026-11-20 — Sanity: статья о ротаторных дюзах перенесена в блог
+
+- Published `blogPost`: `19fdf008-53df-4258-bf36-bfa86592ed8e`, slug `sravnenie-rotatorni-dyuzi-rain-bird-r-van-hunter-mp-rotator`; локали BG/RU/EN, 42 body blocks в каждой, сохранён cover asset.
+- Category `6690848d-a4a5-4386-b9ae-5f63604914b1` получила локализованные ссылки на статью в SEO content; исходный helpBlock CTA на монтаж сохранён.
+- Девять R-VAN products ссылаются на новую статью через `relatedContent`; существующие references сохранены.
+- Исходный service `1bfe0937-ba0d-421b-a9cb-4f4c608e377d` unpublish + discard draft после backup; опубликованный query больше не находит его.
+- Backup: `docs/backups/sanity/2026-11-20-service-1bfe0937-ba0d-421b-a9cb-4f4c608e377d.json`.
+- Официальные спецификации Rain Bird/Hunter использованы для исправления технических формулировок. Humanizer не был доступен в текущем подключении; редактура вручную.
+- Известное ограничение: category document validator отмечает ранее существовавшие root `seoTitle`/`seoDescription` как unknown fields относительно текущего schema descriptor. Не удалять их без отдельной проверки исходной Studio schema.
+- Sanity content verification выполнена; live website rendering smoke не подтверждён. Runtime/code/schema/Cloudflare не менялись.
+
 ## 2026-11-20 — итоговая приёмка Manager catalog и password reset
 
 - PR #432 и #433 реализованы и объединены; PR #434 закрыл первоначальный комплект документации.
