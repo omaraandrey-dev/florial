@@ -1,0 +1,692 @@
+{
+  "createdAt": "2026-11-20",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "purpose": "Exact field-level rollback snapshot before adding service reference to relatedContent",
+  "service": {
+    "_id": "5b88a838-5f5e-4024-9bb8-f4fd8baaeda8",
+    "slug": "zamyana-vaeerni-dyuzi-rotatorni-r-van"
+  },
+  "documents": [
+    {
+      "_id": "11a27fdf-2904-40b8-9ba3-264bc22a4359",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird 4-VAN — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "P10004",
+      "slug": {
+        "_type": "slug",
+        "current": "p10004"
+      }
+    },
+    {
+      "_id": "1d4a4b1d-aea5-4d1e-bd19-1f4933de98d4",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird 6-VAN — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "P10006",
+      "slug": {
+        "_type": "slug",
+        "current": "p10006"
+      }
+    },
+    {
+      "_id": "21e4bb9f-c635-4d6f-882d-c9fefb70b8d3",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird HE-VAN-8 — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "HE0801",
+      "slug": {
+        "_type": "slug",
+        "current": "he0801"
+      }
+    },
+    {
+      "_id": "2e200586-8866-4526-adc7-ae0becb35601",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird VAN-10 — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "P1001001",
+      "slug": {
+        "_type": "slug",
+        "current": "p1001001"
+      }
+    },
+    {
+      "_id": "3f5c3d95-ec09-40f7-b5ab-86337b3a362a",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird 9-SST — дюза за странична ивица",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "A47047",
+      "slug": {
+        "_type": "slug",
+        "current": "rain-bird-9-sst"
+      }
+    },
+    {
+      "_id": "47d220db-38af-4b22-9995-dc52de55efb7",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird VAN-8 — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "P10008",
+      "slug": {
+        "_type": "slug",
+        "current": "p10008"
+      }
+    },
+    {
+      "_id": "63289ec9-c0dd-4f13-ae4d-1f7f00a442c6",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird HE-VAN-15 — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "HE1501",
+      "slug": {
+        "_type": "slug",
+        "current": "he1501"
+      }
+    },
+    {
+      "_id": "6f45d30e-1d6b-48e5-8ffd-c72faeb733b0",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird 15-SST — дюза за странична ивица",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "A47008",
+      "slug": {
+        "_type": "slug",
+        "current": "rain-bird-15-sst"
+      }
+    },
+    {
+      "_id": "81dfc913-3bfe-451b-9c76-fa468366cdbb",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird VAN-12 — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "P1001201",
+      "slug": {
+        "_type": "slug",
+        "current": "p1001201"
+      }
+    },
+    {
+      "_id": "a365a2c3-1936-4076-a7a7-ba462b21c07f",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird 15-CST — дюза за централна ивица",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "A47007",
+      "slug": {
+        "_type": "slug",
+        "current": "rain-bird-15-cst"
+      }
+    },
+    {
+      "_id": "a6e7016e-7bba-4078-b76c-6afef30661d6",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird VAN-18 — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "P10018",
+      "slug": {
+        "_type": "slug",
+        "current": "p10018"
+      }
+    },
+    {
+      "_id": "c8902118-2d87-4f8d-aa3e-bbcafdc5593a",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird 15-RCS — дюза за десен ъгъл",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "A47034A",
+      "slug": {
+        "_type": "slug",
+        "current": "rain-bird-15-rcs"
+      }
+    },
+    {
+      "_id": "ccbd32bb-7f3f-4109-8928-4518f21e7ec4",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird 15-EST — дюза за край на правоъгълна ивица",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "A47006",
+      "slug": {
+        "_type": "slug",
+        "current": "rain-bird-15-est"
+      }
+    },
+    {
+      "_id": "de88e310-c33d-4111-9ad6-c638b49a2ed8",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird HE-VAN-12 — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "HE1201",
+      "slug": {
+        "_type": "slug",
+        "current": "he1201"
+      }
+    },
+    {
+      "_id": "e25925d0-b54f-45fa-844e-ad4fde8e6440",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird HE-VAN-10 — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "HE1001",
+      "slug": {
+        "_type": "slug",
+        "current": "he1001"
+      }
+    },
+    {
+      "_id": "f36e2aff-6c5b-4544-a6c0-a7c413fbb181",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird VAN-15 — регулируема веерна дюза",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "P1001501",
+      "slug": {
+        "_type": "slug",
+        "current": "p1001501"
+      }
+    },
+    {
+      "_id": "f6a7da86-77fd-4b8d-b761-1d86569a12ae",
+      "_rev": "Wxh00JcLN6cQgy9skweYaW",
+      "_type": "product",
+      "categories": [
+        {
+          "_key": "cat1",
+          "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat2",
+          "_ref": "ad3914b4-5ab0-49e3-868a-52621c4654a7",
+          "_type": "reference"
+        },
+        {
+          "_key": "cat3",
+          "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6534adc5-78f7-4276-bbdd-2843ef30420e",
+        "_type": "reference"
+      },
+      "isActive": true,
+      "name": "Rain Bird 15-LCS — дюза за ляв ъгъл",
+      "relatedContent": [
+        {
+          "_key": "sprinklerBlogRef",
+          "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+          "_type": "reference"
+        }
+      ],
+      "sku": "A47033A",
+      "slug": {
+        "_type": "slug",
+        "current": "rain-bird-15-lcs"
+      }
+    }
+  ]
+}
