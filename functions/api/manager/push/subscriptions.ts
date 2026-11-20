@@ -1,4 +1,4 @@
-import { checkSameOrigin, json, newId, nowIso, parseBody, requireUser, type ManagerEnv } from '../_lib'
+import { checkSameOrigin, json, newId, nowIso, requireUser, type ManagerEnv } from '../_lib'
 
 const validBase64Url = (value: unknown, min: number, max: number): value is string =>
   typeof value === 'string' && value.length >= min && value.length <= max && /^[A-Za-z0-9_-]+$/.test(value)
