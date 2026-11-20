@@ -49,6 +49,6 @@ test('Manager PWA icons use the canonical Florial droplet/leaf artwork', () => {
   assert.equal(icon192.readUInt32BE(20), 192)
   assert.equal(icon512.readUInt32BE(16), 512)
   assert.equal(icon512.readUInt32BE(20), 512)
-  assert.match(read('public/manager/icons/icon-192.svg'), /data:image\\/png;base64,/)
-  assert.match(read('public/manager/icons/icon-512.svg'), /data:image\\/png;base64,/)
+  assert.ok(read('public/manager/icons/icon-192.svg').includes('data:image/png;base64,'))
+  assert.ok(read('public/manager/icons/icon-512.svg').includes('data:image/png;base64,'))
 })
