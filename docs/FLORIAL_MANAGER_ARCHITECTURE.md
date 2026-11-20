@@ -5,14 +5,14 @@
 - D1 data API разрешает только чтение собственного staff profile. Legacy permission keys review/approval/publish удалены из нормализации и существующих профилей; прямые права каталога сохранены.
 - Production D1 migrations 0015 и 0016 применены. 15 тестовых submissions и 57 событий удалены после резервного экспорта; обе таблицы оставлены в схеме пустыми.
 - Production deployment 0e6c1a23-5322-45ef-8377-e996e55c6973 из main commit 0ec090932007d49c04f633875534af8eacbe49a6 успешен.
-- Cloudflare plant-care service binding не менялся; отключение требует отдельного аудита. Ручная проверка Owner/Manager/Seller в Production остаётся открытой.
+- Cloudflare plant-care service binding оставлен без изменений и принят владельцем в текущем состоянии. Владелец подтвердил завершение приёмки Owner/Manager/Seller; статус — owner-confirmed, отдельный browser smoke log в рамках этой работы не формировался.
 
 ## 2026-11-20 — Owner-initiated staff password reset
 
 - В списке сотрудников Owner доступна отправка ссылки для задания нового пароля. В письмо включён email/login сотрудника и ссылка на Manager.
 - Токен хранится в D1 только как SHA-256 hash, действует 30 минут, одноразовый; после успешной смены все сессии сотрудника отзываются. Старый пароль действует до завершения reset.
 - PR #432 merged as 0f6368e0f758e8a16a7ddd321d598c61790e1373; Production deployment 12cd7e22-2793-4085-b081-6c6f0969675e успешен. Migration 0015 применена.
-- End-to-end Resend delivery и фактическое использование ссылки сотрудником не тестировались.
+- Владелец подтвердил приёмку password reset. Историческая оговорка сохраняется: во время реализации отдельное тестовое письмо не отправлялось; подтверждение приёмки не подменяет собой сохранённый Resend delivery log.
 
 ## 2026-11-19 — Order detail layout and separate proforma download/email actions
 
