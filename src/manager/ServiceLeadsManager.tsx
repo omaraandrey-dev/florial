@@ -131,7 +131,6 @@ export default function ServiceLeadsManager({ canManage }: Props) {
     finally { setSaving(false) }
   }
 
-  const selectedLabel = selected ? statusLabel(selected.status) : ''
   const countFor = (statuses: LeadStatus[]) => leads.filter((lead) => statuses.includes(lead.status)).length
   const activeFilterCount = [query, status, service, location, assignedTo, from, to].filter(Boolean).length
   const beginFilterEdit = () => {
@@ -164,7 +163,7 @@ export default function ServiceLeadsManager({ canManage }: Props) {
       <div className="rounded-xl bg-red-50 p-3"><div className="text-xs font-medium text-red-800">Нови</div><strong className="mt-1 block text-xl font-bold tabular-nums text-red-700">{countFor(['new'])}</strong></div>
       <div className="rounded-xl bg-blue-50 p-3"><div className="text-xs font-medium text-blue-800">В работа</div><strong className="mt-1 block text-xl font-bold tabular-nums text-blue-700">{countFor(['processing', 'contacted'])}</strong></div>
       <div className="rounded-xl bg-amber-50 p-3"><div className="text-xs font-medium text-amber-900">Оферти и отговор</div><strong className="mt-1 block text-xl font-bold tabular-nums text-amber-800">{countFor(['proposal_preparing', 'proposal_sent', 'waiting_customer'])}</strong></div>
-      <div className="rounded-xl bg-green-50 p-3"><div className="text-xs font-medium text-green-800">Приключени</div><strong className="mt-1 block text-xl font-bold tabular-nums text-green-700">{countFor(['approved', 'completed', 'rejected', 'closed'])}</strong></div>
+      <div className="rounded-xl bg-green-50 p-3"><div className="text-xs font-medium text-green-800">С решение</div><strong className="mt-1 block text-xl font-bold tabular-nums text-green-700">{countFor(['approved', 'completed', 'rejected', 'closed'])}</strong></div>
     </div>
 
     <div className="flex flex-wrap items-center justify-between gap-2">
