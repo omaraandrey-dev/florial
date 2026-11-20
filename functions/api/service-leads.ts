@@ -1,6 +1,7 @@
 import type { ManagerEnv } from './manager/_lib'
 import { sendOrderEmail } from './_lib/order-documents'
 import { checkSameOriginPublicPost, enforcePublicRateLimit, readBoundedRequestBody } from './_lib/public-api-security'
+import { dispatchManagerPush } from './manager/push-dispatch'
 import { cleanLeadText, isValidLeadEmail, isValidLeadPhone, normalizeLeadFields } from './_lib/service-leads.mjs'
 
 type RuntimeEnv = ManagerEnv
@@ -284,6 +285,9 @@ const handlePost = async (env: RuntimeEnv, bodyText: string, requestUrl: string)
     }
     return json({ error: 'Не успяхме да запазим заявката. Моля, опитайте отново.' }, 502)
   }
+
+  // Service enquiry notifications are intentionally Owner-only in push-dispatch.
+  await dispatchManagerPush(env, 'service-lead', leadNumber)
 
   const managerUrl = new URL('/manager', requestUrl).toString()
   const fieldRows = Object.entries(fields).map(([key, value]) =>
