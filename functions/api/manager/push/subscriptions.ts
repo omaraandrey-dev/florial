@@ -20,6 +20,8 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   if (!(request.headers.get('content-type') || '').toLowerCase().includes('application/json')) {
     return json({ error: 'Content-Type must be application/json.' }, 415)
   }
+  const contentLength = Number(request.headers.get('Content-Length') || 0)
+  if (contentLength > 8192) return json({ error: 'Request body is too large.' }, 413)
   const raw = await request.text()
   if (raw.length > 8192) return json({ error: 'Request body is too large.' }, 413)
   let body: Record<string, unknown>
@@ -35,8 +37,13 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
   if (typeof endpoint !== 'string' || endpoint.length > 2048) return json({ error: 'Invalid push endpoint.' }, 400)
   let endpointUrl: URL
   try { endpointUrl = new URL(endpoint) } catch { return json({ error: 'Invalid push endpoint.' }, 400) }
-  if (endpointUrl.protocol !== 'https:' || endpointUrl.username || endpointUrl.password) {
-    return json({ error: 'Push endpoint must be HTTPS.' }, 400)
+  const host = endpointUrl.hostname.toLowerCase()
+  const trustedPushHost = host === 'fcm.googleapis.com' ||
+    host === 'web.push.apple.com' || host.endsWith('.push.apple.com') ||
+    host === 'updates.push.services.mozilla.com' || host.endsWith('.push.services.mozilla.com') ||
+    host.endsWith('.notify.windows.com')
+  if (endpointUrl.protocol !== 'https:' || endpointUrl.username || endpointUrl.password || !trustedPushHost) {
+    return json({ error: 'Push endpoint must use a supported browser push service over HTTPS.' }, 400)
   }
 
   if (request.method === 'DELETE') {
