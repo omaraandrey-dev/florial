@@ -8,7 +8,7 @@
 - Legacy permissions canReviewPlantSubmissions, canApprovePlantSubmission, canPublishPlant удалены из active model и JSON профилей. Действующие direct catalog permissions сохранены.
 - D1 migrations 0015 и 0016 применены. В Production catalog_submissions=0 и catalog_submission_events=0; таблицы сохранены.
 - До очистки создан полный D1 export: 5fbb0e47-8439-493c-821a-6945eef7d8b2-000005e4-00000002-00005128-28ca14783cd1aa5b3985aaa3b2b6dbae.sql. Удалены только тестовые D1 submissions/events; Sanity products/assets/variants не изменялись.
-- Ручная приёмка прямого create/edit/add variant/price/stock по ролям Owner, Manager и Seller остаётся открытой. Cloudflare plant-care service binding оставлен без изменений.
+- Владелец подтвердил завершение приёмки прямого create/edit/add variant/price/stock по ролям Owner, Manager и Seller. Статус — owner-confirmed. Cloudflare plant-care service binding оставлен без изменений и принят владельцем в текущем состоянии; отключение вне scope.
 
 ## Дополнение 2026-11-10 — обнаружение дубликатов и добавление варианта в существующую карточку
 
