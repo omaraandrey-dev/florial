@@ -84,3 +84,11 @@
 - Owner reports that the updated order workflow appears to work in the live interface; the task is paused at the owner's request.
 - A separate independently observed Resend end-to-end delivery test to the customer and active Owner was not performed. Do not treat email delivery as independently verified. No live test order or test email was created by the assistant.
 - Company email and IBAN are recorded in `docs/business/FLORIAL_COMPANY_PROFILE.md`.
+
+## 2026-11-20 — delivery of large specimen plants service closeout
+
+- Published service `df7893e8-902e-4265-921c-3cb0fd270cc8` is live at https://florial-bg.com/services/dostavka-na-edrorazmerni-rasteniya. BG/RU/EN public fetches returned HTTP 200 with localized metadata and indexable robots directives.
+- No unresolved category decision remains: `planting` is the existing supported Gardener mapping in BG/RU/EN.
+- Remaining verification boundary: no real Production enquiry was submitted, so the form's end-to-end delivery path was not tested. Do not create a test lead without approval.
+- Detailed evidence and backups: `docs/audits/2026-11-20-delivery-plants-service-publication.md`.
+
