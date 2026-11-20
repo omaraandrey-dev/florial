@@ -1,3 +1,12 @@
+## 2026-11-20 — публикация услуги доставки крупномерных растений
+
+- В Sanity Production опубликована новая услуга `df7893e8-902e-4265-921c-3cb0fd270cc8`, URL https://florial-bg.com/services/dostavka-na-edrorazmerni-rasteniya. Категория `planting` соответствует направлению Gardener (BG Градинар / RU Садовник / EN Gardener); `isActive=null` не исключает документ из текущей выборки сайта (`isActive != false`).
+- Опубликованы полноценные версии BG/RU/EN, локализованные H1 через `hero.title`, SEO title/description/keywords, `noIndex=false`, CTA и форма из пяти полей. Сохранены оба исходных изображения; второе отображается внутри статьи через существующий gallery marker. Добавлена внутренняя ссылка на действующую услугу посадки.
+- До публикации сохранён и проверен точный snapshot: `docs/backups/sanity/2026-11-20-service-df7893e8-before-publish.json`. Исходный backup до редакторской работы: `docs/backups/sanity/2026-11-20-service-df7893e8-before-delivery-plants-editorial.json`. Подробный аудит: `docs/audits/2026-11-20-delivery-plants-service-publication.md`.
+- Sanity published read-back подтвердил документ и поля. Live fetch Production: BG/RU/EN страницы HTTP 200; локализованные title/description, `robots=index, follow` и тексты присутствуют. BG fetch подтвердил обе картинки и ссылку на услугу посадки.
+- Форма отображается, но реальная Production отправка не выполнялась, чтобы не создавать тестовую заявку. Sanity validator сообщил `valid`, `complete=false` из-за неисполненных custom validation callbacks. Humanizer connector недоступен; болгарский текст отредактирован вручную.
+- Только Sanity content и документация; код, schema, Cloudflare, D1, Resend, secrets и Production deployment не менялись.
+
 ## 2026-11-20 — услуга замены веерных дюз на ротаторные: редактура BG и документация
 
 - PR #442 объединён в `main` squash commit `ef1c0b5881759ee114665c6231fe09d80d52f362`. PR-head CI: Blog and Studio validation run `44715501133` — success; D1 migration validation run `44715501288` — success. Изменения PR — только audit и Sanity backup; runtime/schema не затрагивались, Production deployment не требовался.

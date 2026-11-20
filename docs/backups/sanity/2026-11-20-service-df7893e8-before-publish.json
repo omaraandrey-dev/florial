@@ -1,0 +1,709 @@
+{
+  "_createdAt": "2026-11-20T07:01:25Z",
+  "_id": "drafts.df7893e8-902e-4265-921c-3cb0fd270cc8",
+  "_rev": "mglMMQKM2LB1EsvjWVc7JD",
+  "_type": "service",
+  "_updatedAt": "2026-11-20T10:16:30Z",
+  "callToAction": {
+    "buttonLabel": "Изпрати запитване",
+    "text": "Изпратете запитване с вида на растението, приблизителните му размери и адреса за доставка. Ще уточним възможностите за транспорт, разтоварване и позициониране.",
+    "title": "Планирате доставка на едроразмерно растение?"
+  },
+  "contentBlocks": [
+    {
+      "_key": "ba74668a041e",
+      "_type": "serviceContentBlock",
+      "image": {
+        "_type": "image",
+        "alt": "Товарене и транспортиране на едроразмерно растение с подходяща техника",
+        "altEn": "Loading and transporting a large specimen plant with suitable equipment",
+        "altRu": "Погрузка и перевозка крупномерного растения с использованием подходящей техники",
+        "asset": {
+          "_ref": "image-e680b1da1df3a04af78580b6d805417ba607924c-1376x768-jpg",
+          "_type": "reference"
+        }
+      },
+      "imagePosition": "left",
+      "title": "__gallery:pipeline"
+    }
+  ],
+  "description": [
+    {
+      "_key": "dp-bg-p1",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-p1-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Перевозът на едроразмерно растение изисква повече от подходящ автомобил. Височината, ширината на короната, теглото и размерът на кореновата бала трябва да бъдат съобразени с товаренето, маршрута и мястото за разтоварване. Градински център Florial организира доставката на палми, юки и други големи декоративни растения с внимание към всеки етап — от подготовката за транспорт до поставянето на избраното място."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-h2-1",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-h2-1-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Какво включва доставката на едроразмерни растения?"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "dp-bg-p2",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-p2-t",
+          "_type": "span",
+          "marks": [],
+          "text": "В зависимост от растението и условията на обекта организираме необходимите транспортни и товаро-разтоварни дейности. Разполагаме със собствен транспорт за високи и тежки растения, а когато е необходимо, използваме кранова техника за внимателно разтоварване и позициониране."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-li1",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-li1-t",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Предварително уточняване на размерите"
+        },
+        {
+          "_key": "dp-bg-li1-b",
+          "_type": "span",
+          "marks": [],
+          "text": " — вид на растението, приблизителна височина, ширина на короната и размер на кореновата бала."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-li2",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-li2-t",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Подготовка и укрепване"
+        },
+        {
+          "_key": "dp-bg-li2-b",
+          "_type": "span",
+          "marks": [],
+          "text": " — съобразяваме начина на товарене и фиксиране, за да ограничим разместването и риска от увреждане по време на превоза."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-li3",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-li3-t",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Транспорт със собствена техника"
+        },
+        {
+          "_key": "dp-bg-li3-b",
+          "_type": "span",
+          "marks": [],
+          "text": " — планираме превоза според габаритите на растението и достъпа до адреса."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-li4",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-li4-t",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Разтоварване и позициониране"
+        },
+        {
+          "_key": "dp-bg-li4-b",
+          "_type": "span",
+          "marks": [],
+          "text": " — при подходящи условия на обекта крановата техника помага растението да бъде поставено близо до предварително определеното място."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-h2-2",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-h2-2-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Как подготвяме доставката?"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "dp-bg-p3",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-p3-t",
+          "_type": "span",
+          "marks": [],
+          "text": "За да изберем подходящ транспорт и да планираме безопасно разтоварване, е важно предварително да уточним няколко детайла:"
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-step1",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-step1-t",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Информация за растението"
+        },
+        {
+          "_key": "dp-bg-step1-b",
+          "_type": "span",
+          "marks": [],
+          "text": " — изпратете наименование или снимка и посочете приблизителните размери, ако са известни."
+        }
+      ],
+      "level": 1,
+      "listItem": "number",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-step2",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-step2-t",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Адрес и достъп"
+        },
+        {
+          "_key": "dp-bg-step2-b",
+          "_type": "span",
+          "marks": [],
+          "text": " — уточнете къде трябва да бъде доставено растението, има ли тесен вход, ниски клони или кабели, наклон и достатъчно място за маневриране."
+        }
+      ],
+      "level": 1,
+      "listItem": "number",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-step3",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-step3-t",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Начин на разтоварване"
+        },
+        {
+          "_key": "dp-bg-step3-b",
+          "_type": "span",
+          "marks": [],
+          "text": " — преценяваме дали е необходим кран и къде може безопасно да бъде позиционирано растението."
+        }
+      ],
+      "level": 1,
+      "listItem": "number",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-step4",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-step4-t",
+          "_type": "span",
+          "marks": [
+            "strong"
+          ],
+          "text": "Оферта и дата"
+        },
+        {
+          "_key": "dp-bg-step4-b",
+          "_type": "span",
+          "marks": [],
+          "text": " — след уточняване на условията потвърждаваме възможността за доставка, необходимата техника, цената и удобен ден."
+        }
+      ],
+      "level": 1,
+      "listItem": "number",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-h2-3",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-h2-3-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Разтоварване и позициониране с кранова техника"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "dp-bg-p4",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-p4-t",
+          "_type": "span",
+          "marks": [],
+          "text": "При големите растения правилното разтоварване е също толкова важно, колкото и самият транспорт. Крановата техника позволява товарът да бъде повдигнат и преместен контролирано. Възможността за достигане до конкретната точка зависи от разстоянието, препятствията, терена и условията за работа на машината."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-gallery",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-gallery-t",
+          "_type": "span",
+          "marks": [],
+          "text": "[[gallery:pipeline]]"
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-h2-4",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-h2-4-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Какво е важно да подготвите на място?"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "dp-bg-p5",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-p5-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Преди пристигането на транспорта проверете дали има свободен подход до мястото за разтоварване и достатъчно пространство за работа. Ако растението ще бъде засадено веднага, подгответе предварително посадъчното място според неговите размери и изисквания. При сложен достъп е полезно да уточним условията още при запитването."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-h2-5",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-h2-5-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Доставка и засаждане — каква е разликата?"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "dp-bg-p6",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-p6-a",
+          "_type": "span",
+          "marks": [],
+          "text": "Доставката осигурява превоза, разтоварването и, когато условията позволяват, позиционирането на растението на избраното място. Самото засаждане е отделна дейност и може да бъде заявено като "
+        },
+        {
+          "_key": "dp-bg-p6-b",
+          "_type": "span",
+          "marks": [
+            "dp-bg-link-plant"
+          ],
+          "text": "професионална услуга по засаждане на растения"
+        },
+        {
+          "_key": "dp-bg-p6-c",
+          "_type": "span",
+          "marks": [],
+          "text": ". Така можем предварително да планираме както доставката, така и следващите стъпки по озеленяването."
+        }
+      ],
+      "markDefs": [
+        {
+          "_key": "dp-bg-link-plant",
+          "_type": "link",
+          "href": "/services/zasazhdane-na-rasteniya"
+        }
+      ],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-h2-6",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-h2-6-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Доставка в Несебър и по Южното Черноморие"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "dp-bg-p7",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-p7-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Запитвания за доставка в Несебър, Равда, Слънчев бряг, Свети Влас, Ахелой, Поморие и близките населени места разглеждаме индивидуално. Възможността за доставка, видът транспорт и необходимостта от кранова техника се уточняват според адреса, размерите на растението и достъпа до обекта."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "dp-bg-h2-7",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-h2-7-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Заявете доставка на едроразмерно растение"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "dp-bg-p8",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "dp-bg-p8-t",
+          "_type": "span",
+          "marks": [],
+          "text": "Изпратете запитване и посочете вида на растението, приблизителните му размери и адреса за доставка. Екипът на Florial ще уточни възможностите за транспорт, разтоварване и позициониране и ще подготви предложение според конкретната задача."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "hero": {
+    "image": {
+      "_type": "image",
+      "alt": "Едроразмерно декоративно растение, подготвено за транспорт и доставка",
+      "altEn": "Large ornamental plant prepared for transport and delivery",
+      "altRu": "Крупномерное декоративное растение, подготовленное к перевозке и доставке",
+      "asset": {
+        "_ref": "image-1007d6e2fd41438f67acc6a25208e89039986172-1200x896-jpg",
+        "_type": "reference"
+      }
+    },
+    "subtitle": "Транспорт, внимателно укрепване, разтоварване и позициониране на палми, юки и други големи декоративни растения според условията на обекта.",
+    "title": "Доставка на едроразмерни растения в Несебър и по Южното Черноморие"
+  },
+  "image": {
+    "_type": "image",
+    "alt": "Едроразмерно декоративно растение, подготвено за транспорт и доставка",
+    "altEn": "Large ornamental plant prepared for transport and delivery",
+    "altRu": "Крупномерное декоративное растение, подготовленное к перевозке и доставке",
+    "asset": {
+      "_ref": "image-1007d6e2fd41438f67acc6a25208e89039986172-1200x896-jpg",
+      "_type": "reference"
+    }
+  },
+  "leadForm": {
+    "fields": [
+      {
+        "_key": "f1",
+        "label": "Име",
+        "name": "name",
+        "placeholder": "Вашето име",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "_key": "f2",
+        "label": "Телефон",
+        "name": "phone",
+        "placeholder": "Телефон за връзка",
+        "required": true,
+        "type": "tel"
+      },
+      {
+        "_key": "f3",
+        "label": "Имейл",
+        "name": "email",
+        "placeholder": "Имейл адрес",
+        "required": false,
+        "type": "email"
+      },
+      {
+        "_key": "f4",
+        "label": "Населено място",
+        "name": "location",
+        "placeholder": "Място за доставка",
+        "required": true,
+        "type": "text"
+      },
+      {
+        "_key": "f5",
+        "label": "Информация за растението",
+        "name": "details",
+        "placeholder": "Вид, приблизителни размери и особености на достъпа",
+        "required": false,
+        "type": "textarea"
+      }
+    ],
+    "submitLabel": "Изпрати запитване",
+    "successMessage": "Благодарим Ви! Получихме запитването. Екипът на Florial ще се свърже с Вас.",
+    "title": "Запитване за доставка на растения"
+  },
+  "name": "Доставка на едроразмерни растения",
+  "seo": {
+    "_type": "seoFields",
+    "keywords": [
+      "доставка на едроразмерни растения",
+      "доставка на палми",
+      "транспорт на едроразмерни растения",
+      "кранова техника за растения",
+      "градински център Несебър"
+    ],
+    "metaDescription": "Доставка на едроразмерни растения и палми в Несебър и по Южното Черноморие. Собствен транспорт и кранова техника за внимателно разтоварване и позициониране.",
+    "metaTitle": "Доставка на едроразмерни растения | Несебър | Florial",
+    "noIndex": false
+  },
+  "serviceCategory": "planting",
+  "serviceLayout": "standard",
+  "shortDescription": "Организираме внимателна доставка на едроразмерни растения, палми и юки със собствен транспорт, сигурно укрепване и кранова техника за разтоварване и позициониране в Несебър и по Южното Черноморие.",
+  "slug": {
+    "_type": "slug",
+    "current": "dostavka-na-edrorazmerni-rasteniya"
+  },
+  "sortOrder": 85,
+  "translations": {
+    "en": {
+      "callToAction": {
+        "buttonLabel": "Send an enquiry",
+        "text": "Send us an enquiry with the plant type, its approximate dimensions and the delivery address. We will confirm the available transport, unloading and positioning options.",
+        "title": "Planning to have a large plant delivered?"
+      },
+      "description": "Delivering a large specimen plant takes more planning than an ordinary shipment. Its height, canopy width, weight and root-ball size all affect loading, the transport route and the unloading area. Florial Garden Centre arranges delivery of palms, yuccas and other large ornamental plants, taking care at every stage — from transport preparation to placing the plant at the selected location.\n\n## What does large plant delivery include?\n\nThe transport and handling arrangements depend on the plant and the conditions at the property. We have our own vehicles suitable for tall and heavy plants. Where required, we use crane equipment for careful unloading and positioning.\n\n- **Checking the plant dimensions in advance** — plant type, approximate height, canopy width and root-ball size.\n- **Preparation and securing** — we plan how the plant will be loaded and secured to limit movement and reduce the risk of damage in transit.\n- **Transport using our own vehicles** — the route is planned around the plant's dimensions and access to the delivery address.\n- **Unloading and positioning** — where site conditions allow, crane equipment can place the plant close to the agreed location.\n\n## How do we arrange the delivery?\n\nTo choose suitable transport and plan a safe unloading process, we first confirm a few details:\n\n1. **Plant information** — tell us the plant name or share a photo, and provide approximate dimensions if available.\n2. **Address and access** — let us know the delivery address and whether there are narrow gates, low branches or overhead cables, slopes, or limited manoeuvring space.\n3. **Unloading method** — we assess whether a crane is needed and where the plant can be placed safely.\n4. **Quote and date** — once the details are clear, we confirm availability, the equipment required, the price and a suitable delivery date.\n\n## Unloading and positioning with crane equipment\n\nFor large plants, unloading is just as important as transport. Crane equipment allows the load to be lifted and moved in a controlled way. Reaching the exact placement point depends on the distance, obstacles, ground conditions and the machine's working limits.\n\n[[gallery:pipeline]]\n\n## How to prepare the site\n\nBefore the vehicle arrives, make sure the access route to the unloading area is clear and there is enough room to work. If the plant is to be planted straight away, prepare the planting location in advance, taking its size and requirements into account. If access is difficult, please mention this when making your enquiry.\n\n## Delivery and planting are separate services\n\nDelivery covers transport, unloading and, where site conditions allow, placing the plant in the selected location. Planting itself is a separate service and can be arranged through our [professional plant planting service](/services/zasazhdane-na-rasteniya). This allows us to plan both the delivery and the next landscaping steps in advance.\n\n## Delivery in Nessebar and along Bulgaria's Southern Black Sea Coast\n\nWe review delivery enquiries for Nessebar, Ravda, Sunny Beach, Sveti Vlas, Aheloy, Pomorie and nearby settlements individually. Delivery availability, the type of transport and whether crane equipment is needed are confirmed according to the address, plant dimensions and site access.\n\n## Request large plant delivery\n\nSend us an enquiry with the plant type, its approximate dimensions and the delivery address. The Florial team will confirm the transport, unloading and positioning options and prepare a proposal for your specific requirements.",
+      "hero": {
+        "subtitle": "Transport, careful securing, unloading and positioning of palms, yuccas and other large ornamental plants, subject to site access and conditions.",
+        "title": "Large Plant Delivery in Nessebar and Bulgaria’s Southern Black Sea Coast"
+      },
+      "leadForm": {
+        "fields": [
+          {
+            "_key": "f1",
+            "label": "Name",
+            "name": "name",
+            "placeholder": "Your name",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "f2",
+            "label": "Phone",
+            "name": "phone",
+            "placeholder": "Your phone number",
+            "required": true,
+            "type": "tel"
+          },
+          {
+            "_key": "f3",
+            "label": "Email",
+            "name": "email",
+            "placeholder": "Your email address",
+            "required": false,
+            "type": "email"
+          },
+          {
+            "_key": "f4",
+            "label": "Town / city",
+            "name": "location",
+            "placeholder": "Delivery town or city",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "f5",
+            "label": "Plant details",
+            "name": "details",
+            "placeholder": "Plant type, approximate dimensions and site access",
+            "required": false,
+            "type": "textarea"
+          }
+        ],
+        "submitLabel": "Send an enquiry",
+        "successMessage": "Thank you. Your enquiry has been received. The Florial team will contact you.",
+        "title": "Large plant delivery enquiry"
+      },
+      "name": "Large Plant Delivery",
+      "seo": {
+        "keywords": [
+          "large plant delivery",
+          "palm tree delivery",
+          "large ornamental plant transport",
+          "crane unloading plants",
+          "garden centre Nessebar"
+        ],
+        "metaDescription": "Large plant and palm delivery in Nessebar and Bulgaria’s Southern Black Sea Coast. Dedicated transport, careful securing and crane-assisted unloading.",
+        "metaTitle": "Large Plant Delivery | Nessebar | Florial",
+        "noIndex": false
+      },
+      "shortDescription": "Careful delivery of large specimen plants, palms and yuccas in Nessebar and along Bulgaria's Southern Black Sea Coast, with dedicated transport, secure loading and crane-assisted unloading where required."
+    },
+    "ru": {
+      "callToAction": {
+        "buttonLabel": "Отправить запрос",
+        "text": "Отправьте запрос, укажите вид растения, его примерные размеры и адрес доставки. Мы уточним возможности перевозки, разгрузки и установки.",
+        "title": "Планируете доставку крупномерного растения?"
+      },
+      "description": "Доставка крупномерного растения — это не обычная перевозка. Нужно учитывать высоту растения, ширину кроны, вес и размер корневого кома, а также условия погрузки, маршрут и место разгрузки. Садовый центр Florial организует доставку пальм, юкк и других крупных декоративных растений, уделяя внимание каждому этапу — от подготовки к перевозке до установки в выбранном месте.\n\n## Что входит в доставку крупномерных растений?\n\nВ зависимости от растения и условий на участке мы организуем необходимые транспортные и погрузочно-разгрузочные работы. У нас есть собственный транспорт для перевозки высоких и тяжёлых растений. Если это необходимо, используем крановую технику для аккуратной разгрузки и позиционирования.\n\n- **Предварительное согласование габаритов** — вид растения, примерная высота, ширина кроны и размер корневого кома.\n- **Подготовка и фиксация** — выбираем способ погрузки и крепления, чтобы ограничить смещение и снизить риск повреждений во время перевозки.\n- **Перевозка собственным транспортом** — планируем маршрут с учётом размеров растения и подъезда к адресу.\n- **Разгрузка и позиционирование** — если условия на объекте позволяют, крановая техника помогает установить растение рядом с заранее выбранным местом.\n\n## Как мы организуем доставку?\n\nЧтобы подобрать подходящий транспорт и спланировать безопасную разгрузку, заранее уточняем несколько деталей:\n\n1. **Информация о растении** — укажите название или приложите фотографию, а также сообщите примерные размеры, если они известны.\n2. **Адрес и подъезд** — уточните адрес доставки, наличие узких ворот, низких ветвей или проводов, уклона и свободного места для манёвра.\n3. **Способ разгрузки** — оцениваем, нужен ли кран и где можно безопасно разместить растение.\n4. **Предложение и дата** — после уточнения условий подтверждаем возможность доставки, необходимую технику, стоимость и удобную дату.\n\n## Разгрузка и установка с помощью крановой техники\n\nДля крупномерных растений правильная разгрузка не менее важна, чем сама перевозка. Крановая техника позволяет контролируемо поднять и переместить груз. Возможность подать растение к конкретной точке зависит от расстояния, препятствий, рельефа и условий работы машины.\n\n[[gallery:pipeline]]\n\n## Что нужно подготовить на участке?\n\nДо приезда транспорта проверьте, свободен ли подъезд к месту разгрузки и достаточно ли пространства для работы. Если растение планируется высадить сразу, заранее подготовьте посадочное место с учётом его размеров и требований. При сложном подъезде лучше сообщить об этом ещё при оформлении запроса.\n\n## Доставка и посадка — в чём разница?\n\nДоставка включает перевозку, разгрузку и, если позволяют условия, размещение растения в выбранном месте. Сама посадка — отдельная работа; её можно заказать как [профессиональную услугу по посадке растений](/services/zasazhdane-na-rasteniya). Так мы сможем заранее спланировать и доставку, и следующие этапы озеленения.\n\n## Доставка в Несебре и на Южном Черноморье\n\nЗапросы на доставку в Несебре, Равде, Солнечном Береге, Святом Власе, Ахелое, Поморие и близлежащих населённых пунктах рассматриваем индивидуально. Возможность доставки, тип транспорта и необходимость крановой техники уточняются с учётом адреса, размеров растения и подъезда к объекту.\n\n## Закажите доставку крупномерного растения\n\nОтправьте запрос, укажите вид растения, его примерные размеры и адрес доставки. Команда Florial уточнит возможности перевозки, разгрузки и установки и подготовит предложение с учётом конкретной задачи.",
+      "hero": {
+        "subtitle": "Перевозка, аккуратное крепление, разгрузка и установка пальм, юкк и других крупных декоративных растений с учётом условий на объекте.",
+        "title": "Доставка крупномерных растений в Несебре и на Южном Черноморье"
+      },
+      "leadForm": {
+        "fields": [
+          {
+            "_key": "f1",
+            "label": "Имя",
+            "name": "name",
+            "placeholder": "Ваше имя",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "f2",
+            "label": "Телефон",
+            "name": "phone",
+            "placeholder": "Номер телефона",
+            "required": true,
+            "type": "tel"
+          },
+          {
+            "_key": "f3",
+            "label": "Электронная почта",
+            "name": "email",
+            "placeholder": "Ваш email",
+            "required": false,
+            "type": "email"
+          },
+          {
+            "_key": "f4",
+            "label": "Населённый пункт",
+            "name": "location",
+            "placeholder": "Город или населённый пункт доставки",
+            "required": true,
+            "type": "text"
+          },
+          {
+            "_key": "f5",
+            "label": "Информация о растении",
+            "name": "details",
+            "placeholder": "Вид растения, примерные размеры и особенности подъезда",
+            "required": false,
+            "type": "textarea"
+          }
+        ],
+        "submitLabel": "Отправить запрос",
+        "successMessage": "Спасибо! Ваш запрос получен. Команда Florial свяжется с вами.",
+        "title": "Запрос на доставку растений"
+      },
+      "name": "Доставка крупномерных растений",
+      "seo": {
+        "keywords": [
+          "доставка крупномерных растений",
+          "доставка пальм",
+          "перевозка крупных растений",
+          "крановая разгрузка растений",
+          "садовый центр Несебр"
+        ],
+        "metaDescription": "Доставка крупномерных растений и пальм в Несебре и на Южном Черноморье. Собственный транспорт, бережная фиксация и разгрузка крановой техникой.",
+        "metaTitle": "Доставка крупномерных растений | Несебр | Florial",
+        "noIndex": false
+      },
+      "shortDescription": "Бережная доставка крупномерных растений, пальм и юкк в Несебре и на Южном Черноморье: собственный транспорт, надёжная фиксация, разгрузка и позиционирование с учётом условий участка."
+    }
+  }
+}

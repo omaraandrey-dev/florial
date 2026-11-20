@@ -1,3 +1,10 @@
+## 2026-11-20 — опубликована услуга доставки крупномерных растений
+
+- Sanity Production: `df7893e8-902e-4265-921c-3cb0fd270cc8`, slug `dostavka-na-edrorazmerni-rasteniya`, URL https://florial-bg.com/services/dostavka-na-edrorazmerni-rasteniya.
+- BG/RU/EN editorial content, hero H1, SEO metadata, image ALT, CTA and five-field lead form published. Both original image assets preserved; second image appears within the article. Category `planting` maps to Gardener in all locales.
+- Pre-publication snapshot: `docs/backups/sanity/2026-11-20-service-df7893e8-before-publish.json`; original pre-edit backup and detailed publication audit are in `docs/backups/sanity/` and `docs/audits/2026-11-20-delivery-plants-service-publication.md`.
+- Published Sanity read-back and public BG/RU/EN fetches succeeded (HTTP 200, localized title/description and `robots=index, follow`). Production form submission was not performed; validator custom callbacks were not executed. No runtime/schema/Cloudflare/D1/Resend changes.
+
 ## 2026-11-20 — Sanity service: rotary nozzle replacement (PR #442)
 
 - Published service: `5b88a838-5f5e-4024-9bb8-f4fd8baaeda8`, slug `zamyana-vaeerni-dyuzi-rotatorni-r-van`, URL `/services/zamyana-vaeerni-dyuzi-rotatorni-r-van`. Sanity project `bxvcy0qs`, dataset `production`.
