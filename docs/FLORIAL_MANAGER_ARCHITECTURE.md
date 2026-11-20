@@ -4,7 +4,7 @@
 - Active Owner/Manager/Seller receive new order notifications; only active Owner receives service lead notifications. Push payloads omit customer PII.
 - Checkout and service-lead push dispatch occurs only after successful D1 persistence; provider errors do not fail the public submission.
 - Manager PWA Service Worker shows push notifications and routes taps into the relevant Manager section while retaining network-only fetch behavior.
-- D1 migration 0017 is additive and remains unapplied in Production. VAPID keys/subject are not configured. CI/typecheck/Preview validation and a real-device push test remain pending; PR #450 remains Draft.
+- Exact head `a908426f3355c793e369ea0e0adaae170bbac6de`: Blog/Studio validation `44793855068` and D1 validation `44793855086` succeeded; Cloudflare Preview deployment `33d99b8b-e866-4701-85a9-d6809c9c62df` succeeded. D1 migration 0017 remains unapplied in Production; VAPID keys/subject are not configured. Real-device push test remains pending; PR #450 remains Draft.
 ## 2026-11-20 — Manager: прямой каталог и снятие старого workflow
 
 - PlantCatalogManager — единственный активный пользовательский экран работы с растениями; изменения выполняются напрямую в опубликованных документах Sanity.
