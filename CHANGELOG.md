@@ -1,3 +1,11 @@
+## 2026-11-20 — услуга замены веерных дюз на ротаторные: редактура BG и документация
+
+- PR #442 объединён в `main` squash commit `ef1c0b5881759ee114665c6231fe09d80d52f362`. PR-head CI: Blog and Studio validation run `44715501133` — success; D1 migration validation run `44715501288` — success. Изменения PR — только audit и Sanity backup; runtime/schema не затрагивались, Production deployment не требовался.
+- В Sanity Production (project `bxvcy0qs`, dataset `production`) по подтверждённому владельцем плану обновлена существующая услуга `5b88a838-5f5e-4024-9bb8-f4fd8baaeda8`, slug `zamyana-vaeerni-dyuzi-rotatorni-r-van`: болгарские name/H1, short description и SEO; уточнены преимущества/этапы/CTA; завершены типы и подсказки пяти полей формы; удалён повторяющийся вводный H2 в BG/RU/EN. ID, URL, активность, изображения/ALT, остальной текст, локализованные SEO и product relations сохранены.
+- Полный документ до редактуры сохранён и проверен: `docs/backups/sanity/2026-11-20-service-5b88a838-5f5e-4024-9bb8-f4fd8baaeda8-before-bg-edit.json`. Audit: `docs/audits/2026-11-20-rotary-nozzle-service-bg-refinement.md`.
+- Sanity post-publish read-back подтвердил поля и сохранность URL/изображений. Deployed-schema validator вернул `valid`, но проверка неполная: custom validation callbacks не исполняются. Browser/live visual QA и фактическая отправка формы не подтверждены. Связь услуги с 17 Spray products была добавлена и отдельно проверена ранее; существующие связи сохранены.
+- Документационная интеграция после merge PR #442; без изменений frontend, Studio schema, Cloudflare, D1, Resend или Production deployment.
+
 ## 2026-11-20 — закрытие Manager plant catalog и password reset: приёмка владельцем
 
 - Владелец подтвердил: считать оставшиеся проверки завершёнными. Ручная приёмка прямого каталога для Owner/Manager/Seller, проверка password reset и решение по legacy plant-care binding приняты владельцем как пройденные/закрытые.
