@@ -19,6 +19,12 @@ export const dispatchManagerPush = async (
   if (!vapid) return
 
   try {
+    if (kind === 'order') {
+      const order = await env.DB.prepare('SELECT is_test FROM orders WHERE order_number=? LIMIT 1')
+        .bind(reference).first<{ is_test: number }>()
+      if (!order || order.is_test === 1) return
+    }
+
     const recipients = kind === 'order'
       ? await env.DB.prepare(`
           SELECT s.id,s.user_id,s.endpoint,s.p256dh,s.auth
