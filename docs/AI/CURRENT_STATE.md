@@ -1,6 +1,12 @@
 # Florial — CURRENT STATE
 
-> Snapshot date: 2026-11-19. Verified against live GitHub main and Cloudflare Pages. This is a handoff summary, not a substitute for the mandatory startup protocol or live checks before future changes.
+> Snapshot date: 2026-11-20. Verified against live GitHub main and Cloudflare Pages. This is a handoff summary, not a substitute for the mandatory startup protocol or live checks before future changes.
+
+## Latest documentation closeout — 2026-11-20
+
+- Current `main` HEAD: `703f7eb36c8e5faac3db27d8f1f68bf63b3a548b` (PR #434, documentation-only). Latest runtime changes are PR #433 merge `0ec090932007d49c04f633875534af8eacbe49a6` and PR #432 merge `0f6368e0f758e8a16a7ddd321d598c61790e1373`; their Production deployments are recorded below and in CHANGELOG.
+- Owner confirmed that the remaining Manager direct-catalog acceptance, password-reset acceptance and decision on the existing plant-care binding are complete/accepted. This is owner-confirmed acceptance, not a claim of independently captured browser or Resend delivery logs. No test email was sent during implementation.
+- The legacy Cloudflare plant-care binding remains unchanged and accepted in its current state; do not disable it without separate approval.
 
 ## Latest main and Production release — 2026-11-19
 
