@@ -1,0 +1,1015 @@
+{
+  "_createdAt": "2026-11-20T07:27:24Z",
+  "_id": "1bfe0937-ba0d-421b-a9cb-4f4c608e377d",
+  "_rev": "9FInhpcADXZyIykWoOzTSV",
+  "_type": "service",
+  "_updatedAt": "2026-11-20T07:37:05Z",
+  "advantages": [
+    {
+      "_key": "a1",
+      "text": "Подбираме дюзи със съгласувана интензивност за всяка зона.",
+      "title": "Равномерно поливане"
+    },
+    {
+      "_key": "a2",
+      "text": "Проверяваме налягане, дебит и разстояния между главите.",
+      "title": "Подбор по реални данни"
+    },
+    {
+      "_key": "a3",
+      "text": "Монтираме и обслужваме оборудване и от двата производителя.",
+      "title": "Rain Bird и Hunter"
+    },
+    {
+      "_key": "a4",
+      "text": "Регулираме радиуса и сектора и проверяваме покритието.",
+      "title": "Настройка на място"
+    }
+  ],
+  "callToAction": {
+    "buttonLabel": "Изпрати запитване",
+    "text": "Изпратете запитване и опишете разпръсквачите и проблема. Ще уточним подходящото решение и възможността за посещение.",
+    "title": "Нужен ви е подбор или смяна на дюзи?"
+  },
+  "description": [
+    {
+      "_key": "b01",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b01s",
+          "_type": "span",
+          "marks": [],
+          "text": "Ротаторни дюзи за тревни площи: Rain Bird R-VAN или Hunter MP Rotator?"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "b02",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b02s",
+          "_type": "span",
+          "marks": [],
+          "text": "Rain Bird и Hunter са два от водещите производители на оборудване за автоматично поливане, а техните ротаторни дюзи се използват за равномерно и икономично поливане на тревни площи. И двете марки са надеждни, затова разликата не е в това коя е „по-добра“ изобщо, а в това как се проектира, настройва и обслужва системата. Florial работи основно с оборудване Rain Bird и монтира дюзи R-VAN, но обслужваме и системи с Hunter MP Rotator."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b03",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b03s",
+          "_type": "span",
+          "marks": [],
+          "text": "Какво представляват ротаторните дюзи"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "b04",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b04s",
+          "_type": "span",
+          "marks": [],
+          "text": "Ротаторната дюза се монтира върху стандартен корпус на разпръсквач (pop-up) вместо обикновена веерна дюза. Вместо един плътен ветрилообразен воден поток тя разпределя водата чрез няколко бавно въртящи се струи. Интензивността на поливане е по-ниска, водата се попива по-добре и е по-лесно да се избегне стичането ѝ по склонове и по-слабо попиваща почва."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b05",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b05s",
+          "_type": "span",
+          "marks": [],
+          "text": "Сравнение на R-VAN и MP Rotator"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "b06",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b06s",
+          "_type": "span",
+          "marks": [],
+          "text": "Сектори и брой модели"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "b07",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b07s",
+          "_type": "span",
+          "marks": [],
+          "text": "Rain Bird R-VAN покрива сектор от 45° до 270° с един регулируем модел за всеки размер, а пълният кръг (360°) е отделен модел. За малкия размер това са два модела (R-VAN-14 и R-VAN-14F), с които се обхващат всички ъгли от 45° до 360°. При Hunter MP Rotator секторите са разделени на повече модели: например MP1000 се предлага във варианти 90°–210°, 210°–270° и 360°, а за ъгли от 45° до 105° се използва отделна дюза MP Corner. За същия диапазон са необходими четири модела вместо два, което усложнява проектирането, подбора на резервни части и последващата настройка."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b08",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b08s",
+          "_type": "span",
+          "marks": [],
+          "text": "Интензивност на поливане и комбиниране в една зона"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "b09",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b09s",
+          "_type": "span",
+          "marks": [],
+          "text": "Rain Bird декларира съгласувана интензивност на поливане при различни радиуси, ъгли и типове струя за R-VAN, а дюзите могат да работят в една зона с ротори Rain Bird от серия 5000 с MPR дюзи. Hunter постига съгласувана интензивност при стандартните MP Rotator (по данни на производителя — около 10 mm/h), но дюзите от серия MP800 имат около два пъти по-висока интензивност (около 20 mm/h). Затова различните серии не бива да се смесват в една зона без проверка."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b10",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b10s",
+          "_type": "span",
+          "marks": [],
+          "text": "Радиус на действие"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "b11",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b11s",
+          "_type": "span",
+          "marks": [],
+          "text": "Дюзите R-VAN покриват радиус от около 2,4 до 7,3 m в зависимост от модела (R-VAN-14, R-VAN-18, R-VAN-24). Най-големите MP Rotator достигат до около 10,7 m (серия MP3500), което може да е предимство на по-големи открити площи. При Rain Bird за такива разстояния се използват роторни разпръсквачи, които благодарение на съгласуваната интензивност могат да работят в една зона с R-VAN."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b12",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b12s",
+          "_type": "span",
+          "marks": [],
+          "text": "Регулиране и обслужване"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "b13",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b13s",
+          "_type": "span",
+          "marks": [],
+          "text": "R-VAN се регулират на ръка: радиусът и секторът се настройват без инструменти, а функцията за изплакване (издърпване нагоре) помага да се почисти дюзата от замърсяване. За MP Rotator Hunter предлага специален инструмент MP Tool, а радиусът може да се намали с до около 25%. На практика собственикът или градинарят може сам да настрои и почисти R-VAN, докато при MP Rotator е удобно да има подходящ инструмент."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b14",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b14s",
+          "_type": "span",
+          "marks": [],
+          "text": "Време за поливане"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "b15",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b15s",
+          "_type": "span",
+          "marks": [],
+          "text": "Колкото по-ниска е интензивността на поливане, толкова по-дълго трябва да работи зоната, за да получи тревата нужното количество вода. Това е важно на големи площи и там, където поливането е ограничено по време, например само през нощта. Преди да изберем дюзи, сравняваме разхода и интензивността на конкретните модели и изчисляваме колко дюзи могат да работят в една зона при наличния дебит и налягане."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b16",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b16s",
+          "_type": "span",
+          "marks": [],
+          "text": "Вятър и работно налягане"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "b17",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b17s",
+          "_type": "span",
+          "marks": [],
+          "text": "И двете технологии използват няколко струи и са проектирани да намаляват отнасянето на водата от вятър. На открити терени близо до морето обаче по-голямо значение имат правилното разстояние между главите, работното налягане и времето на поливане, отколкото марката на дюзата. R-VAN работи при налягане от 2,1 до 3,8 bar (препоръчително около 3,1 bar), а за MP Rotator Hunter посочва около 2,8 bar."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b18",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b18s",
+          "_type": "span",
+          "marks": [],
+          "text": "Кога избираме Rain Bird R-VAN"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "b19",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b19s",
+          "_type": "span",
+          "marks": [],
+          "text": "когато искаме по-малко различни модели в проекта и по-лесно обслужване;"
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b20",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b20s",
+          "_type": "span",
+          "marks": [],
+          "text": "когато системата е изградена с оборудване Rain Bird и дюзите трябва да се комбинират с ротори в една зона;"
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b21",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b21s",
+          "_type": "span",
+          "marks": [],
+          "text": "когато клиентът или градинарят ще регулира и почиства дюзите самостоятелно, без специален инструмент;"
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b22",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b22s",
+          "_type": "span",
+          "marks": [],
+          "text": "когато се изгражда нова система или се сменят стари веерни дюзи с по-икономични ротаторни."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b23",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b23s",
+          "_type": "span",
+          "marks": [],
+          "text": "Кога MP Rotator може да е по-подходящ"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "b24",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b24s",
+          "_type": "span",
+          "marks": [],
+          "text": "когато вече имате изградена система с Hunter и искате да запазите единен тип оборудване;"
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b25",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b25s",
+          "_type": "span",
+          "marks": [],
+          "text": "когато е необходим голям радиус с една дюза — до около 10,7 m при серията MP3500;"
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b26",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b26s",
+          "_type": "span",
+          "marks": [],
+          "text": "когато зоната се състои само от MP Rotator и интензивността на поливане вече е изчислена и съгласувана."
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b27",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b27s",
+          "_type": "span",
+          "marks": [],
+          "text": "Не смесвайте различни дюзи в една зона без изчисление"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "b28",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b28s",
+          "_type": "span",
+          "marks": [],
+          "text": "Когато в една зона са монтирани дюзи с различна интензивност на поливане, някои участъци получават повече вода, а други — по-малко. Затова не препоръчваме смесване на производители и серии в една зона без предварителна проверка по техническите данни. Съгласуваната интензивност се декларира от производителя в рамките на съответната серия."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b29",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b29s",
+          "_type": "span",
+          "marks": [],
+          "text": "Цена и бюджет"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "b30",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b30s",
+          "_type": "span",
+          "marks": [],
+          "text": "Преди да вземете решение само по цена, сравнете не само цената на отделната дюза, а и броя на необходимите модели, времето за поливане, съвместимостта със съществуващите корпуси и разходите за поддръжка. Неподходящо подбрана дюза може да доведе до допълнителни настройки, повече поливни зони или по-често обслужване."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b31",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b31s",
+          "_type": "span",
+          "marks": [],
+          "text": "Замяна на дюзи и монтаж от Florial"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "b32",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b32s",
+          "_type": "span",
+          "marks": [],
+          "text": "Florial подменя стари веерни дюзи с ротаторни, монтира нови дюзи и настройва радиуса и сектора на място. Преди замяната проверяваме налягането, дебита, разстоянията между главите и дали новата дюза е съвместима със съществуващия корпус. В каталога на Florial ще намерите ротаторни дюзи Rain Bird R-VAN-14, R-VAN-18 и R-VAN-24, техните 360° версии (R-VAN-14F, R-VAN-18F, R-VAN-24F), както и ивичести дюзи R-VAN-LCS, R-VAN-RCS и R-VAN-SST. Преди поръчка проверете техническите параметри и съвместимостта на конкретния модел."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b33",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b33s",
+          "_type": "span",
+          "marks": [],
+          "text": "Често задавани въпроси"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "b34",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b34s",
+          "_type": "span",
+          "marks": [],
+          "text": "Може ли веерните дюзи да се сменят с ротаторни без смяна на тръбите?"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "b35",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b35s",
+          "_type": "span",
+          "marks": [],
+          "text": "В много случаи да, защото ротаторните дюзи се монтират върху корпуси на разпръсквачи. Първо обаче трябва да се проверят налягането, дебитът, разстоянието между главите и съвместимостта на корпуса, за да не се получи неравномерно поливане."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b36",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b36s",
+          "_type": "span",
+          "marks": [],
+          "text": "Може ли R-VAN и MP Rotator да работят в една зона?"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "b37",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b37s",
+          "_type": "span",
+          "marks": [],
+          "text": "Не препоръчваме това без предварително изчисление. Производителите декларират съгласувана интензивност в рамките на собствените си серии, затова при смесване на марки някои участъци могат да получат повече или по-малко вода."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b38",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b38s",
+          "_type": "span",
+          "marks": [],
+          "text": "Ще продължи ли поливането по-дълго с ротаторни дюзи?"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "b39",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b39s",
+          "_type": "span",
+          "marks": [],
+          "text": "Обикновено да — ротаторните дюзи подават водата с по-ниска интензивност, затова зоната трябва да работи по-дълго. Програмата се настройва съответно, а при големи площи се проверява и дали наличният дебит позволява да работят достатъчно дюзи едновременно."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b40",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b40s",
+          "_type": "span",
+          "marks": [],
+          "text": "Обслужвате ли системи с Hunter?"
+        }
+      ],
+      "markDefs": [],
+      "style": "h3"
+    },
+    {
+      "_key": "b41",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b41s",
+          "_type": "span",
+          "marks": [],
+          "text": "Да. Работим основно с Rain Bird, но монтираме, настройваме и ремонтираме разпръсквачи и дюзи от различни производители, включително Hunter, независимо откъде са закупени."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "b42",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b42s",
+          "_type": "span",
+          "marks": [],
+          "text": "Подбор и монтаж на дюзи в Несебър и по Южното Черноморие"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "b43",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "b43s",
+          "_type": "span",
+          "marks": [],
+          "text": "Florial обслужва Несебър, Равда, Слънчев бряг, Свети Влас, Поморие, Ахелой, Каблешково и Кошарица. Свържете се с нас, опишете типа на разпръсквачите и, ако е възможно, приложете снимки на корпуса и дюзата. Ще уточним какво е необходимо — подбор, замяна или настройка."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "gallery": [
+    {
+      "_key": "190fbe3dbcc7",
+      "_type": "image",
+      "asset": {
+        "_ref": "image-a5812130c0bfcd4e72acef31f2a0658437754da9-1280x853-png",
+        "_type": "reference"
+      }
+    }
+  ],
+  "hero": {
+    "image": {
+      "_type": "image",
+      "alt": "Монтаж и настройка на дъждовален разпръсквач в тревна площ",
+      "altEn": "Installing and adjusting a lawn sprinkler",
+      "altRu": "Монтаж и настройка дождевателя на газоне",
+      "asset": {
+        "_ref": "image-27e5e04d0d36c3c4df0d734a157581ee9e9b66e7-1503x1047-png",
+        "_type": "reference"
+      }
+    },
+    "subtitle": "Практическо сравнение на ротаторни дюзи за тревни площи и професионален монтаж от Florial в Несебър и по Южното Черноморие.",
+    "title": "Rain Bird R-VAN или Hunter MP Rotator: коя ротаторна дюза да изберете"
+  },
+  "image": {
+    "_type": "image",
+    "alt": "Монтаж и настройка на дъждовален разпръсквач в тревна площ",
+    "altEn": "Installing and adjusting a lawn sprinkler",
+    "altRu": "Монтаж и настройка дождевателя на газоне",
+    "asset": {
+      "_ref": "image-ff3124446f6e871f3ae58d9763da3a37a5d57d36-960x1280-jpg",
+      "_type": "reference"
+    }
+  },
+  "isActive": true,
+  "leadForm": {
+    "fields": [
+      {
+        "_key": "f1",
+        "label": "Име",
+        "name": "name",
+        "required": true
+      },
+      {
+        "_key": "f2",
+        "label": "Телефон",
+        "name": "phone",
+        "required": true
+      },
+      {
+        "_key": "f3",
+        "label": "Имейл",
+        "name": "email",
+        "required": false
+      },
+      {
+        "_key": "f4",
+        "label": "Населено място",
+        "name": "location",
+        "required": true
+      },
+      {
+        "_key": "f5",
+        "label": "Описание на проекта",
+        "name": "details",
+        "required": false
+      }
+    ],
+    "submitLabel": "Изпрати запитване",
+    "title": "Запитване за услуга"
+  },
+  "name": "Ротаторни дюзи Rain Bird R-VAN или Hunter MP Rotator: сравнение и избор",
+  "relatedContent": [
+    {
+      "_key": "r1",
+      "_ref": "8a4ec08b-e064-4d85-8d97-52837afe6d6f",
+      "_type": "reference"
+    },
+    {
+      "_key": "r2",
+      "_ref": "04c7ab3b-1888-41cb-9917-6b9014cd1ac3",
+      "_type": "reference"
+    },
+    {
+      "_key": "r3",
+      "_ref": "9f8a5130-49e8-4d34-9f76-c6124503fb5d",
+      "_type": "reference"
+    },
+    {
+      "_key": "r4",
+      "_ref": "ddb0b366-4198-4049-b947-680df47f8c6b",
+      "_type": "reference"
+    }
+  ],
+  "seo": {
+    "keywords": [
+      "ротаторни дюзи",
+      "Rain Bird R-VAN",
+      "Hunter MP Rotator",
+      "дюзи за автоматично поливане",
+      "смяна на дюзи за поливане"
+    ],
+    "metaDescription": "Сравнение на ротаторни дюзи Rain Bird R-VAN и Hunter MP Rotator: сектори, обхват, налягане и регулиране. Подбор и монтаж от Florial в Несебър.",
+    "metaTitle": "R-VAN или MP Rotator: сравнение на дюзи | Florial",
+    "noIndex": false
+  },
+  "serviceCategory": "irrigation",
+  "serviceLayout": "standard",
+  "shortDescription": "Сравнение на ротаторните дюзи Rain Bird R-VAN и Hunter MP Rotator: сектори, обхват, регулиране, налягане и интензивност на поливане. Подбор, замяна и монтаж от Florial.",
+  "slug": {
+    "_type": "slug",
+    "current": "sravnenie-rotatorni-dyuzi-rain-bird-r-van-hunter-mp-rotator"
+  },
+  "sortOrder": 150,
+  "sourcePageUrl": "https://www.drop.od.ua/post/сравнение-ротаторных-форсунок-rain-bird-и-hunter",
+  "steps": [
+    {
+      "_key": "s1",
+      "text": "Описвате обекта, наличните разпръсквачи и дюзи.",
+      "title": "Заявка"
+    },
+    {
+      "_key": "s2",
+      "text": "Проверяваме налягане, дебит, разстояния и съвместимост на корпусите.",
+      "title": "Проверка на зоната"
+    },
+    {
+      "_key": "s3",
+      "text": "Избираме подходящ тип и размер за всяка зона.",
+      "title": "Подбор на дюзи"
+    },
+    {
+      "_key": "s4",
+      "text": "Монтираме, настройваме радиуса и сектора и проверяваме покритието.",
+      "title": "Монтаж и настройка"
+    }
+  ],
+  "translations": {
+    "en": {
+      "advantages": [
+        {
+          "_key": "a1",
+          "text": "We select nozzles with matched precipitation for each zone.",
+          "title": "Even watering"
+        },
+        {
+          "_key": "a2",
+          "text": "We check pressure, flow and head spacing.",
+          "title": "Selection based on real data"
+        },
+        {
+          "_key": "a3",
+          "text": "We install and service equipment from both manufacturers.",
+          "title": "Rain Bird and Hunter"
+        },
+        {
+          "_key": "a4",
+          "text": "We adjust radius and arc and check the coverage.",
+          "title": "On-site adjustment"
+        }
+      ],
+      "callToAction": {
+        "buttonLabel": "Send enquiry",
+        "text": "Send an enquiry and describe your sprinklers and the issue. We will recommend a suitable solution and arrange a visit if possible.",
+        "title": "Need nozzle selection or replacement?"
+      },
+      "description": "## Rotary Nozzles for Lawns: Rain Bird R-VAN or Hunter MP Rotator?\n\nRain Bird and Hunter are two of the leading manufacturers of automatic irrigation equipment, and their rotary nozzles are widely used for even, water-efficient lawn irrigation. Both brands are reliable, so the difference is not which one is better in general, but how the system is designed, adjusted and serviced. Florial works mainly with Rain Bird equipment and installs R-VAN nozzles, but we also service systems with Hunter MP Rotator.\n\n## What Are Rotary Nozzles?\n\nA rotary nozzle fits on a standard pop-up spray body instead of an ordinary fixed-spray nozzle. Instead of one solid fan of water, it distributes water through several slowly rotating streams. The precipitation rate is lower, water soaks in better, and it is easier to avoid runoff on slopes and slowly absorbing soils.\n\n## R-VAN and MP Rotator Compared\n\n### Arcs and Number of Models\n\nRain Bird R-VAN covers an arc from 45° to 270° with one adjustable model for each size, and the full circle (360°) is a separate model. For the small size, that means two models (R-VAN-14 and R-VAN-14F) cover every angle from 45° to 360°. Hunter MP Rotator splits arcs across more models: for example, MP1000 is available in 90°–210°, 210°–270° and 360° versions, and a separate MP Corner nozzle covers 45° to 105°. The same range therefore needs four models instead of two, which complicates design, spare-part selection and later adjustment.\n\n### Precipitation Rate and Mixing in One Zone\n\nRain Bird states matched precipitation across radii, arcs and pattern types for R-VAN, and the nozzles can share a zone with Rain Bird 5000 Series rotors fitted with MPR nozzles. Hunter achieves matched precipitation across standard MP Rotator nozzles (about 10 mm/h according to the manufacturer), but MP800 Series nozzles have roughly double the precipitation rate (about 20 mm/h). Different series should therefore not be mixed in one zone without checking.\n\n### Radius\n\nR-VAN nozzles cover a radius of about 2.4 to 7.3 m depending on the model (R-VAN-14, R-VAN-18, R-VAN-24). The largest MP Rotator nozzles reach about 10.7 m (MP3500 series), which can be an advantage on larger open areas. With Rain Bird, rotor sprinklers are used for such distances and, thanks to matched precipitation, they can share a zone with R-VAN.\n\n### Adjustment and Servicing\n\nR-VAN nozzles are adjusted by hand: radius and arc are set without tools, and the pull-up flush feature helps clear the nozzle of debris. For MP Rotator, Hunter offers a dedicated MP Tool, and the radius can be reduced by up to about 25%. In practice, an owner or gardener can adjust and clean R-VAN nozzles on their own, whereas MP Rotator is easier to work with when the right tool is at hand.\n\n### Watering Time\n\nThe lower the precipitation rate, the longer a zone must run to deliver the required amount of water. This matters on large lawns and where watering time is restricted, for example to night hours only. Before choosing nozzles, we compare the flow and precipitation rate of the specific models and calculate how many nozzles can run in one zone with the available flow and pressure.\n\n### Wind and Operating Pressure\n\nBoth technologies use multiple streams and are designed to reduce wind drift. On exposed sites near the sea, however, correct head spacing, operating pressure and watering time matter more than the nozzle brand. R-VAN operates at 2.1 to 3.8 bar (about 3.1 bar recommended), while Hunter specifies around 2.8 bar for MP Rotator.\n\n## When We Choose Rain Bird R-VAN\n\n- when we want fewer different models in a design and easier servicing;\n- when the system is built with Rain Bird equipment and the nozzles must share a zone with rotors;\n- when the owner or gardener will adjust and clean the nozzles without a special tool;\n- when building a new system or replacing old spray nozzles with more efficient rotary nozzles.\n\n## When MP Rotator May Be a Better Fit\n\n- when you already have a Hunter system and want to keep a single equipment type;\n- when a large radius from a single nozzle is needed — up to about 10.7 m with the MP3500 series;\n- when the zone consists only of MP Rotator nozzles and the precipitation rate has already been calculated and matched.\n\n## Do Not Mix Different Nozzles in One Zone Without Calculation\n\nWhen nozzles with different precipitation rates share a zone, some areas receive more water and others less. We therefore do not recommend mixing manufacturers and series in one zone without first checking the technical data. Matched precipitation is declared by the manufacturer within the relevant series.\n\n## Price and Budget\n\nBefore deciding on price alone, compare not only the price of a single nozzle but also the number of models required, watering time, compatibility with existing bodies and maintenance costs. An unsuitable nozzle can lead to extra adjustments, more irrigation zones or more frequent servicing.\n\n## Nozzle Replacement and Installation by Florial\n\nFlorial replaces old spray nozzles with rotary nozzles, installs new nozzles and adjusts the radius and arc on site. Before replacement, we check pressure, flow, head spacing and whether the new nozzle is compatible with the existing body. The Florial catalogue includes Rain Bird R-VAN-14, R-VAN-18 and R-VAN-24 rotary nozzles, their 360° versions (R-VAN-14F, R-VAN-18F, R-VAN-24F), and R-VAN-LCS, R-VAN-RCS and R-VAN-SST strip nozzles. Before ordering, please check the technical specifications and compatibility of the exact model.\n\n## Frequently Asked Questions\n\n### Can spray nozzles be replaced with rotary nozzles without changing the pipes?\n\nIn many cases, yes, because rotary nozzles fit on sprinkler bodies. First, however, pressure, flow, head spacing and body compatibility must be checked to avoid uneven watering.\n\n### Can R-VAN and MP Rotator work in the same zone?\n\nWe do not recommend it without prior calculation. Manufacturers declare matched precipitation within their own series, so when brands are mixed, some areas may receive more or less water.\n\n### Will watering take longer with rotary nozzles?\n\nUsually, yes. Rotary nozzles deliver water at a lower precipitation rate, so the zone must run longer. The schedule is adjusted accordingly, and on large areas we also check that the available flow lets enough nozzles run at the same time.\n\n### Do you service Hunter systems?\n\nYes. We work mainly with Rain Bird, but we install, adjust and repair sprinklers and nozzles from different manufacturers, including Hunter, regardless of where they were purchased.\n\n## Nozzle Selection and Installation in Nessebar and the Southern Black Sea Coast\n\nFlorial serves Nessebar, Ravda, Sunny Beach, Sveti Vlas, Pomorie, Aheloy, Kableshkovo and Kosharitsa. Contact us, describe your sprinkler type and, if possible, send photos of the body and nozzle. We will clarify what is needed — selection, replacement or adjustment.",
+      "hero": {
+        "subtitle": "A practical comparison of rotary nozzles for lawns, with professional installation by Florial in Nessebar and along the Southern Black Sea coast.",
+        "title": "Rain Bird R-VAN or Hunter MP Rotator: Which Rotary Nozzle to Choose"
+      },
+      "leadForm": {
+        "fields": [
+          {
+            "_key": "f1",
+            "label": "Name",
+            "name": "name",
+            "placeholder": "Name",
+            "required": true
+          },
+          {
+            "_key": "f2",
+            "label": "Phone",
+            "name": "phone",
+            "placeholder": "Phone",
+            "required": true
+          },
+          {
+            "_key": "f3",
+            "label": "Email",
+            "name": "email",
+            "placeholder": "Email",
+            "required": false
+          },
+          {
+            "_key": "f4",
+            "label": "Town / city",
+            "name": "location",
+            "placeholder": "Town / city",
+            "required": true
+          },
+          {
+            "_key": "f5",
+            "label": "Describe the work",
+            "name": "details",
+            "placeholder": "Describe the work",
+            "required": false
+          }
+        ],
+        "submitLabel": "Send enquiry",
+        "successMessage": "Thank you! Your enquiry has been sent. We will contact you.",
+        "title": "Service enquiry"
+      },
+      "name": "Rain Bird R-VAN or Hunter MP Rotator: Nozzle Comparison and Selection",
+      "seo": {
+        "keywords": [
+          "rotary nozzles",
+          "Rain Bird R-VAN",
+          "Hunter MP Rotator",
+          "irrigation nozzles",
+          "sprinkler nozzle replacement"
+        ],
+        "metaDescription": "Compare Rain Bird R-VAN and Hunter MP Rotator nozzles: arcs, radius, pressure and adjustment. Nozzle selection and installation by Florial in Nessebar.",
+        "metaTitle": "R-VAN vs MP Rotator Nozzle Comparison | Florial",
+        "noIndex": false
+      },
+      "shortDescription": "Comparison of Rain Bird R-VAN and Hunter MP Rotator rotary nozzles: arcs, radius, adjustment, pressure and precipitation rate. Selection, replacement and installation by Florial.",
+      "steps": [
+        {
+          "_key": "s1",
+          "text": "You describe the property, existing sprinklers and nozzles.",
+          "title": "Enquiry"
+        },
+        {
+          "_key": "s2",
+          "text": "We check pressure, flow, spacing and body compatibility.",
+          "title": "Zone check"
+        },
+        {
+          "_key": "s3",
+          "text": "We choose the right type and size for each zone.",
+          "title": "Nozzle selection"
+        },
+        {
+          "_key": "s4",
+          "text": "We install, adjust radius and arc, and check coverage.",
+          "title": "Installation and adjustment"
+        }
+      ]
+    },
+    "ru": {
+      "advantages": [
+        {
+          "_key": "a1",
+          "text": "Подбираем форсунки с согласованной интенсивностью для каждой зоны.",
+          "title": "Равномерный полив"
+        },
+        {
+          "_key": "a2",
+          "text": "Проверяем давление, расход и расстояния между головками.",
+          "title": "Подбор по реальным данным"
+        },
+        {
+          "_key": "a3",
+          "text": "Устанавливаем и обслуживаем оборудование обоих производителей.",
+          "title": "Rain Bird и Hunter"
+        },
+        {
+          "_key": "a4",
+          "text": "Регулируем радиус и сектор и проверяем покрытие.",
+          "title": "Настройка на объекте"
+        }
+      ],
+      "callToAction": {
+        "buttonLabel": "Отправить запрос",
+        "text": "Отправьте запрос и опишите дождеватели и проблему. Мы подскажем подходящее решение и обсудим возможность выезда.",
+        "title": "Нужен подбор или замена форсунок?"
+      },
+      "description": "## Ротаторные форсунки для газона: Rain Bird R-VAN или Hunter MP Rotator?\n\nRain Bird и Hunter — два ведущих производителя оборудования для автоматического полива, а их ротаторные форсунки широко применяются для равномерного и экономичного полива газонов. Обе марки надёжны, поэтому разница не в том, какая из них лучше вообще, а в том, как проектируется, настраивается и обслуживается система. Florial работает в основном с оборудованием Rain Bird и устанавливает форсунки R-VAN, но также обслуживает системы с Hunter MP Rotator.\n\n## Что такое ротаторные форсунки\n\nРоторная форсунка устанавливается на стандартный корпус дождевателя (pop-up) вместо обычной веерной форсунки. Вместо одной сплошной веерной струи она распределяет воду несколькими медленно вращающимися струями. Интенсивность полива ниже, вода лучше впитывается, и проще избежать стока на склонах и на плохо впитывающих почвах.\n\n## Сравнение R-VAN и MP Rotator\n\n### Сектора и количество моделей\n\nRain Bird R-VAN покрывает сектор от 45° до 270° одной регулируемой моделью для каждого размера, а полный круг (360°) — отдельная модель. Для малого размера это две модели (R-VAN-14 и R-VAN-14F), которые охватывают все углы от 45° до 360°. У Hunter MP Rotator сектора распределены по большему числу моделей: например, MP1000 выпускается в вариантах 90°–210°, 210°–270° и 360°, а для углов от 45° до 105° используется отдельная форсунка MP Corner. Для того же диапазона нужно четыре модели вместо двух, что усложняет проектирование, подбор запасных частей и последующую настройку.\n\n### Интенсивность полива и сочетание в одной зоне\n\nRain Bird заявляет согласованную интенсивность полива при разных радиусах, углах и типах струи для R-VAN, а форсунки можно использовать в одной зоне с роторами Rain Bird серии 5000 с MPR-форсунками. Hunter обеспечивает согласованную интенсивность у стандартных MP Rotator (по данным производителя — около 10 мм/ч), но форсунки серии MP800 имеют примерно вдвое более высокую интенсивность (около 20 мм/ч). Поэтому разные серии нельзя смешивать в одной зоне без проверки.\n\n### Радиус действия\n\nФорсунки R-VAN покрывают радиус примерно от 2,4 до 7,3 м в зависимости от модели (R-VAN-14, R-VAN-18, R-VAN-24). Самые большие MP Rotator достигают около 10,7 м (серия MP3500), что может быть преимуществом на больших открытых площадях. У Rain Bird для таких расстояний используются роторные дождеватели, которые благодаря согласованной интенсивности могут работать в одной зоне с R-VAN.\n\n### Регулировка и обслуживание\n\nR-VAN регулируются вручную: радиус и сектор настраиваются без инструментов, а функция промывки (вытягивание вверх) помогает очистить форсунку от загрязнений. Для MP Rotator Hunter предлагает специальный инструмент MP Tool, а радиус можно уменьшить примерно до 25%. На практике владелец или садовник может сам настроить и прочистить R-VAN, а при работе с MP Rotator удобно иметь подходящий инструмент.\n\n### Время полива\n\nЧем ниже интенсивность полива, тем дольше должна работать зона, чтобы газон получил нужное количество воды. Это важно на больших площадях и там, где время полива ограничено, например только ночными часами. Перед выбором форсунок мы сравниваем расход и интенсивность конкретных моделей и рассчитываем, сколько форсунок может работать в одной зоне при имеющихся расходе и давлении.\n\n### Ветер и рабочее давление\n\nОбе технологии используют несколько струй и рассчитаны на снижение сноса воды ветром. Однако на открытых участках у моря большее значение имеют правильное расстояние между головками, рабочее давление и время полива, чем марка форсунки. R-VAN работает при давлении от 2,1 до 3,8 бар (рекомендуется около 3,1 бар), а для MP Rotator Hunter указывает около 2,8 бар.\n\n## Когда мы выбираем Rain Bird R-VAN\n\n- когда хотим меньше разных моделей в проекте и более простое обслуживание;\n- когда система построена на оборудовании Rain Bird и форсунки нужно сочетать с роторами в одной зоне;\n- когда владелец или садовник будет сам регулировать и чистить форсунки без специального инструмента;\n- когда строится новая система или старые веерные форсунки заменяются на более экономичные ротаторные.\n\n## Когда MP Rotator может подойти лучше\n\n- когда у вас уже есть система Hunter и вы хотите сохранить единый тип оборудования;\n- когда нужен большой радиус одной форсункой — до около 10,7 м у серии MP3500;\n- когда зона состоит только из MP Rotator и интенсивность полива уже рассчитана и согласована.\n\n## Не смешивайте разные форсунки в одной зоне без расчёта\n\nЕсли в одной зоне установлены форсунки с разной интенсивностью полива, одни участки получают больше воды, а другие — меньше. Поэтому мы не рекомендуем смешивать производителей и серии в одной зоне без предварительной проверки по техническим данным. Согласованная интенсивность заявляется производителем в пределах соответствующей серии.\n\n## Цена и бюджет\n\nПрежде чем принимать решение только по цене, сравните не только стоимость отдельной форсунки, но и количество необходимых моделей, время полива, совместимость с имеющимися корпусами и расходы на обслуживание. Неподходящая форсунка может привести к дополнительным настройкам, большему числу зон полива или более частому обслуживанию.\n\n## Замена форсунок и монтаж от Florial\n\nFlorial заменяет старые веерные форсунки на ротаторные, устанавливает новые форсунки и настраивает радиус и сектор на объекте. Перед заменой мы проверяем давление, расход, расстояния между головками и совместимость новой форсунки с существующим корпусом. В каталоге Florial представлены ротаторные форсунки Rain Bird R-VAN-14, R-VAN-18 и R-VAN-24, их версии 360° (R-VAN-14F, R-VAN-18F, R-VAN-24F), а также полосовые форсунки R-VAN-LCS, R-VAN-RCS и R-VAN-SST. Перед заказом проверьте технические характеристики и совместимость конкретной модели.\n\n## Часто задаваемые вопросы\n\n### Можно ли заменить веерные форсунки на ротаторные без замены труб?\n\nВо многих случаях да, потому что ротаторные форсунки устанавливаются на корпуса дождевателей. Но сначала нужно проверить давление, расход, расстояние между головками и совместимость корпуса, чтобы не получить неравномерный полив.\n\n### Могут ли R-VAN и MP Rotator работать в одной зоне?\n\nБез предварительного расчёта мы этого не рекомендуем. Производители заявляют согласованную интенсивность в пределах собственных серий, поэтому при смешении марок некоторые участки могут получать больше или меньше воды.\n\n### Будет ли полив дольше с ротаторными форсунками?\n\nОбычно да: ротаторные форсунки подают воду с меньшей интенсивностью, поэтому зона должна работать дольше. Программа настраивается соответствующим образом, а на больших площадях мы также проверяем, позволяет ли имеющийся расход одновременно работать достаточному числу форсунок.\n\n### Обслуживаете ли вы системы Hunter?\n\nДа. Мы работаем в основном с Rain Bird, но устанавливаем, настраиваем и ремонтируем дождеватели и форсунки разных производителей, включая Hunter, независимо от места покупки.\n\n## Подбор и монтаж форсунок в Несебре и на Южном Черноморье\n\nFlorial обслуживает Несебр, Равду, Солнечный Берег, Святой Влас, Поморие, Ахелой, Каблешково и Кошарицу. Свяжитесь с нами, опишите тип дождевателей и, если возможно, приложите фото корпуса и форсунки. Мы уточним, что необходимо: подбор, замена или настройка.",
+      "hero": {
+        "subtitle": "Практическое сравнение ротаторных форсунок для газона и профессиональный монтаж от Florial в Несебре и на Южном Черноморье.",
+        "title": "Rain Bird R-VAN или Hunter MP Rotator: какую ротаторную форсунку выбрать"
+      },
+      "leadForm": {
+        "fields": [
+          {
+            "_key": "f1",
+            "label": "Имя",
+            "name": "name",
+            "placeholder": "Имя",
+            "required": true
+          },
+          {
+            "_key": "f2",
+            "label": "Телефон",
+            "name": "phone",
+            "placeholder": "Телефон",
+            "required": true
+          },
+          {
+            "_key": "f3",
+            "label": "Электронная почта",
+            "name": "email",
+            "placeholder": "Электронная почта",
+            "required": false
+          },
+          {
+            "_key": "f4",
+            "label": "Населённый пункт",
+            "name": "location",
+            "placeholder": "Населённый пункт",
+            "required": true
+          },
+          {
+            "_key": "f5",
+            "label": "Описание задачи",
+            "name": "details",
+            "placeholder": "Описание задачи",
+            "required": false
+          }
+        ],
+        "submitLabel": "Отправить запрос",
+        "successMessage": "Спасибо! Ваш запрос отправлен. Мы свяжемся с вами.",
+        "title": "Запрос услуги"
+      },
+      "name": "Ротаторные форсунки Rain Bird R-VAN или Hunter MP Rotator: сравнение и выбор",
+      "seo": {
+        "keywords": [
+          "ротаторные форсунки",
+          "Rain Bird R-VAN",
+          "Hunter MP Rotator",
+          "форсунки для полива",
+          "замена форсунок полива"
+        ],
+        "metaDescription": "Сравнение ротаторных форсунок Rain Bird R-VAN и Hunter MP Rotator: сектора, радиус, давление и настройка. Подбор и монтаж от Florial в Несебре.",
+        "metaTitle": "R-VAN или MP Rotator: сравнение форсунок | Florial",
+        "noIndex": false
+      },
+      "shortDescription": "Сравнение ротаторных форсунок Rain Bird R-VAN и Hunter MP Rotator: сектора, радиус, регулировка, давление и интенсивность полива. Подбор, замена и монтаж от Florial.",
+      "steps": [
+        {
+          "_key": "s1",
+          "text": "Вы описываете объект, имеющиеся дождеватели и форсунки.",
+          "title": "Запрос"
+        },
+        {
+          "_key": "s2",
+          "text": "Проверяем давление, расход, расстояния и совместимость корпусов.",
+          "title": "Проверка зоны"
+        },
+        {
+          "_key": "s3",
+          "text": "Выбираем подходящий тип и размер для каждой зоны.",
+          "title": "Подбор форсунок"
+        },
+        {
+          "_key": "s4",
+          "text": "Устанавливаем, настраиваем радиус и сектор и проверяем покрытие.",
+          "title": "Монтаж и настройка"
+        }
+      ]
+    }
+  }
+}
