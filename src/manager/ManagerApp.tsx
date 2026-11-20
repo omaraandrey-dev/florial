@@ -682,11 +682,11 @@ export default function ManagerApp() {
         setPushMessage('Известията са изключени за това устройство.')
         return
       }
-      const permission = await Notification.requestPermission()
-      if (permission !== 'granted') throw new Error('Разрешете известията от настройките на браузъра.')
       const configResponse = await fetch('/api/manager/push/subscriptions', { credentials: 'same-origin', cache: 'no-store' })
       const config = await configResponse.json() as { enabled?: boolean; publicKey?: string | null; error?: string }
       if (!configResponse.ok || !config.enabled || !config.publicKey) throw new Error(config.error || 'Системните известия все още не са конфигурирани.')
+      const permission = await Notification.requestPermission()
+      if (permission !== 'granted') throw new Error('Разрешете известията от настройките на браузъра.')
       const padding = '='.repeat((4 - config.publicKey.length % 4) % 4)
       const raw = atob((config.publicKey + padding).replace(/-/g, '+').replace(/_/g, '/'))
       const applicationServerKey = Uint8Array.from(raw, (char) => char.charCodeAt(0))
