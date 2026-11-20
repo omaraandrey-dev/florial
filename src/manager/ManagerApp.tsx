@@ -136,7 +136,11 @@ export default function ManagerApp() {
   const [saving, setSaving] = useState(false)
   const [reviewNote, setReviewNote] = useState('')
   const [previewImages, setPreviewImages] = useState<Array<{ name: string; url: string }>>([])
-  const [activeTab, setActiveTab] = useState<'plantCatalog' | 'submissions' | 'orders' | 'staff' | 'analytics' | 'categories' | 'productsSeo' | 'serviceLeads' | 'withdrawals'>('plantCatalog')
+  const initialSection = new URLSearchParams(window.location.search).get('section')
+  const [activeTab, setActiveTab] = useState<'plantCatalog' | 'submissions' | 'orders' | 'staff' | 'analytics' | 'categories' | 'productsSeo' | 'serviceLeads' | 'withdrawals'>(initialSection === 'orders' ? 'orders' : initialSection === 'serviceLeads' ? 'serviceLeads' : 'plantCatalog')
+  const [pushEnabled, setPushEnabled] = useState(false)
+  const [pushBusy, setPushBusy] = useState(false)
+  const [pushMessage, setPushMessage] = useState('')
   const [newOrdersCount, setNewOrdersCount] = useState(0)
   const [analyticsDays, setAnalyticsDays] = useState<1 | 7 | 30 | 90>(30)
   const [analyticsData, setAnalyticsData] = useState<AnalyticsReport | null>(null)
@@ -647,6 +651,65 @@ export default function ManagerApp() {
     } catch (err) { setError(err instanceof Error ? err.message : 'Не успяхме да публикуваме промяната.') }
   }
 
+  useEffect(() => {
+    if (!profile || !('serviceWorker' in navigator) || !('PushManager' in window)) {
+      setPushEnabled(false)
+      return
+    }
+    let active = true
+    navigator.serviceWorker.ready.then((registration) => registration.pushManager.getSubscription()).then((subscription) => {
+      if (active) setPushEnabled(Boolean(subscription))
+    }).catch(() => undefined)
+    return () => { active = false }
+  }, [profile])
+
+  const togglePush = async () => {
+    if (!profile || pushBusy) return
+    setPushBusy(true)
+    setPushMessage('')
+    try {
+      const registration = await navigator.serviceWorker.ready
+      const existing = await registration.pushManager.getSubscription()
+      if (existing) {
+        const response = await fetch('/api/manager/push/subscriptions', {
+          method: 'DELETE', credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ endpoint: existing.endpoint }),
+        })
+        if (!response.ok) throw new Error('Не успяхме да изключим известията.')
+        await existing.unsubscribe()
+        setPushEnabled(false)
+        setPushMessage('Известията са изключени за това устройство.')
+        return
+      }
+      const permission = await Notification.requestPermission()
+      if (permission !== 'granted') throw new Error('Разрешете известията от настройките на браузъра.')
+      const configResponse = await fetch('/api/manager/push/subscriptions', { credentials: 'same-origin', cache: 'no-store' })
+      const config = await configResponse.json() as { enabled?: boolean; publicKey?: string | null; error?: string }
+      if (!configResponse.ok || !config.enabled || !config.publicKey) throw new Error(config.error || 'Системните известия все още не са конфигурирани.')
+      const padding = '='.repeat((4 - config.publicKey.length % 4) % 4)
+      const raw = atob((config.publicKey + padding).replace(/-/g, '+').replace(/_/g, '/'))
+      const applicationServerKey = Uint8Array.from(raw, (char) => char.charCodeAt(0))
+      const subscription = await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey })
+      const response = await fetch('/api/manager/push/subscriptions', {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(subscription.toJSON()),
+      })
+      const result = await response.json().catch(() => ({})) as { error?: string }
+      if (!response.ok) {
+        await subscription.unsubscribe()
+        throw new Error(result.error || 'Не успяхме да активираме известията.')
+      }
+      setPushEnabled(true)
+      setPushMessage('Известията са включени за това устройство.')
+    } catch (err) {
+      setPushMessage(err instanceof Error ? err.message : 'Не успяхме да настроим известията.')
+    } finally {
+      setPushBusy(false)
+    }
+  }
+
   const signOut = async () => { await managerApi.auth.signOut(); resetForm(); setProfile(null); setSession(null) }
 
   if (loading) return <div className="min-h-screen bg-[#f5f6ef] grid place-items-center text-stone-600">Зареждане на Florial Manager…</div>
@@ -752,6 +815,7 @@ export default function ManagerApp() {
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+            <button type="button" onClick={() => void togglePush()} disabled={pushBusy} className="min-h-11 rounded-xl border border-lime-700 bg-white px-3 py-2 text-sm font-semibold text-lime-900 disabled:opacity-50">{pushBusy ? 'Изчакване…' : pushEnabled ? 'Изключи известия' : 'Включи известия'}</button>
             <div className="hidden min-w-0 text-right text-sm sm:block">
               <div className="max-w-48 truncate font-semibold text-stone-800">{profile.display_name || session.user.email}</div>
               <div className="text-xs text-stone-500">{profile.role === 'owner' ? 'Собственик' : profile.role === 'manager' ? 'Мениджър' : 'Служител'}</div>
@@ -760,6 +824,7 @@ export default function ManagerApp() {
           </div>
         </div>
       </header>
+      {pushMessage && <p role="status" className="mx-auto max-w-[1600px] px-4 pt-3 text-sm text-stone-600 sm:px-6 lg:px-8">{pushMessage}</p>}
       <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-start lg:gap-6 lg:px-8 lg:py-6">
         <nav className="flex w-full shrink-0 gap-2 overflow-x-auto rounded-2xl border border-stone-200 bg-white p-2 shadow-sm lg:sticky lg:top-4 lg:w-64 lg:flex-col lg:overflow-visible lg:p-3" aria-label="Раздели на Manager">
           <div className="flex shrink-0 gap-2 lg:flex-col">
