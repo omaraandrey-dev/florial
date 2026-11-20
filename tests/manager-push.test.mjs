@@ -24,7 +24,7 @@ test('push recipients are active staff with role-specific access', () => {
   assert.match(dispatch, /p\.is_active=1 AND p\.role IN \('owner','manager','seller'\)/)
   assert.match(dispatch, /p\.is_active=1 AND p\.role='owner'/)
   assert.match(dispatch, /kind === 'order'/)
-  assert.match(dispatch, /kind === 'service-lead'/)
+  assert.match(dispatch, /type PushKind = 'order' \| 'service-lead'/)
 })
 
 test('push dispatch is best-effort and removes expired provider subscriptions', () => {
@@ -37,7 +37,7 @@ test('push dispatch is best-effort and removes expired provider subscriptions', 
 test('checkout and service lead dispatch only after successful D1 insert', () => {
   assert.ok(orders.indexOf('await dispatchManagerPush(env, \'order\', orderNumber)') > orders.indexOf('D1 order insert failed'))
   assert.ok(leads.indexOf('await dispatchManagerPush(env, \'service-lead\', leadNumber)') > leads.indexOf('INSERT INTO service_leads'))
-  assert.match(leads, /return json\(\{ leadNumber, duplicate: true/)
+  assert.match(leads, /return json\(\{ leadNumber: existing\.lead_number, duplicate: true/)
 })
 
 test('Manager push UI requires explicit action and supports unsubscribe', () => {
