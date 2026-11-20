@@ -1,3 +1,11 @@
+## 2026-11-20 — Sanity service: rotary nozzle replacement (PR #442)
+
+- Published service: `5b88a838-5f5e-4024-9bb8-f4fd8baaeda8`, slug `zamyana-vaeerni-dyuzi-rotatorni-r-van`, URL `/services/zamyana-vaeerni-dyuzi-rotatorni-r-van`. Sanity project `bxvcy0qs`, dataset `production`.
+- Owner-approved BG editorial refinement: localized title/H1, short description, meta title/description; four advantages, four process steps, CTA and five typed lead-form fields; repeated opening heading removed from BG/RU/EN. Existing document identity, slug, active state, image assets/ALT, remaining copy, translations and related product references preserved.
+- Pre-write full-document backup: `docs/backups/sanity/2026-11-20-service-5b88a838-5f5e-4024-9bb8-f4fd8baaeda8-before-bg-edit.json`. Detailed audit: `docs/audits/2026-11-20-rotary-nozzle-service-bg-refinement.md`.
+- Read-back confirmed published content and preservation checks. Sanity validator status `valid`, incomplete because custom validation callbacks were not executed. Live browser rendering and lead-form submission remain unverified.
+- PR #442 merged at `ef1c0b5881759ee114665c6231fe09d80d52f362`; PR-head Blog/Studio and D1 validation workflows succeeded. Documentation-only merge; no code/schema change or Pages deployment.
+
 ## 2026-11-20 — итоговая приёмка Manager catalog и password reset
 
 - PR #432 и #433 реализованы и объединены; PR #434 закрыл первоначальный комплект документации.
