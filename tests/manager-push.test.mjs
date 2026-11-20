@@ -18,11 +18,14 @@ test('push subscriptions are authenticated, same-origin and bound to the session
   assert.match(subscriptions, /WHERE endpoint=\? AND user_id=\?/)
   assert.match(subscriptions, /existing\.user_id !== auth\.user\.user_id/)
   assert.match(subscriptions, /endpointUrl\.protocol !== 'https:'/)
+  assert.match(subscriptions, /trustedPushHost/)
 })
 
 test('push recipients are active staff with role-specific access', () => {
   assert.match(dispatch, /p\.is_active=1 AND p\.role IN \('owner','manager','seller'\)/)
   assert.match(dispatch, /p\.is_active=1 AND p\.role='owner'/)
+  assert.match(dispatch, /SELECT is_test FROM orders/)
+  assert.match(dispatch, /order\.is_test === 1/)
   assert.match(dispatch, /kind === 'order'/)
   assert.match(dispatch, /type PushKind = 'order' \| 'service-lead'/)
 })
@@ -32,6 +35,7 @@ test('push dispatch is best-effort and removes expired provider subscriptions', 
   assert.match(dispatch, /response\.status === 404 \|\| response\.status === 410/)
   assert.match(dispatch, /DELETE FROM manager_push_subscriptions/)
   assert.match(dispatch, /Push is best-effort/)
+  assert.doesNotMatch(dispatch, /customer_name|customer_phone|customer_email/)
 })
 
 test('checkout and service lead dispatch only after successful D1 insert', () => {
