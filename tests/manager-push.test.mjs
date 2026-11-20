@@ -35,6 +35,8 @@ test('push dispatch is best-effort and removes expired provider subscriptions', 
   assert.match(dispatch, /response\.status === 404 \|\| response\.status === 410/)
   assert.match(dispatch, /DELETE FROM manager_push_subscriptions/)
   assert.match(dispatch, /Push is best-effort/)
+  assert.match(dispatch, /redirect: 'error'/)
+  assert.match(dispatch, /AbortSignal\.timeout\(5000\)/)
   assert.doesNotMatch(dispatch, /customer_name|customer_phone|customer_email/)
 })
 
