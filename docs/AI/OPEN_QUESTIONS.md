@@ -53,6 +53,7 @@
 - **Irrigation engineer assistant / Rain Bird 3500:** stage 7 (#349) уже объединён в `main` commit `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`. Workstream намеренно paused; stage 8 не начинать без отдельной просьбы владельца. Инженерные ограничения и порядок возобновления: [PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md](PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md).
 
 ## 5. Подтверждённое закрытие
+- **2026-11-20 — внутренняя перелинковка доставки крупномерных растений закрыта:** 35 товаров, категория «Солитеры» (BG/RU/EN) и четыре страницы услуг обновлены в Sanity; Published read-back и Production HTML проверки прошли. Детали и snapshots: `docs/audits/2026-11-20-large-specimen-delivery-internal-links.md` и `docs/backups/sanity/2026-11-20-large-specimen-links-*.json`. Открытых действий по этой задаче нет.
 
 - PR #383 (Manager plant catalog search controls / Seller permissions) merged в `main` commit `1716996c487c3dbfa6995b4eaa7a617cb90ad480`; не считать его открытой задачей.
 - На момент сверки открытых PR: 0.

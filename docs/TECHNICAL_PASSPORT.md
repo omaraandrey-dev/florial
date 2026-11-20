@@ -1,3 +1,13 @@
+## 2026-11-20 — внутренняя перелинковка доставки крупномерных растений
+
+- Sanity project `bxvcy0qs`: в dataset `plants` добавлена связь на опубликованную услугу `dostavka-na-edrorazmerni-rasteniya` для 35 уникальных товаров (12 пальм/юк, 6 олив/маслин, 23 дерева и кустарника; группы пересекаются, каждый документ изменён один раз). Использовано поле `relatedContentBySlug`, `contentType: "service"`; прежние ссылки сохранены.
+- Категория `plants-solitaires` (URL `/category/soliteri-edrorazmerni`): добавлены Portable Text-ссылки в BG `seoContent`, RU `translations.ru.seoContent` и EN `translations.en.seoContent`. Существующий `helpBlock.buttonUrl` на посадку растений сохранён.
+- В dataset `production` ссылка на услугу `df7893e8-902e-4265-921c-3cb0fd270cc8` добавлена в `relatedContent` четырёх защищённых service-документов: `cfdbf22c-a7d9-480b-b88b-d1529a9389ef` (`zasazhdane-na-rasteniya`), `5fd92607-19dd-44ae-b546-01e841f835c9` (`zasazhdane-na-palmi`), `6afc3eff-944c-4085-a48c-38686999b0f3` (`profesionalno-zasazhdane-na-maslini`), `d978a193-d607-419c-97fb-8906a8e9a3ff` (`zasazhdane-na-iglolistni-rasteniya`).
+- Все 40 Sanity изменений опубликованы с revision guards. Published read-back: 35/35 товаров имеют целевую ссылку ровно один раз; 4/4 услуг имеют reference ровно один раз; категория содержит локализованные ссылки во всех трёх языках. Сохранность исходных массивов и helpBlock сравнена с резервными копиями.
+- Production HTML fetch: проверены 4 представительные карточки растений (пальма, маслина, дерево, кустарник), категория BG/RU/EN и все 4 страницы услуг; целевой href найден. Локализованный текст категории RU/EN проверен в HTML.
+- Резервные копии до изменений: `docs/backups/sanity/2026-11-20-large-specimen-links-plants-01.json` (16 товаров), `...plants-02.json` (19 товаров + категория), `...services.json` (4 услуги).
+- Код, схема Sanity, Cloudflare Pages/Functions, D1, Resend и Production deployment не менялись. Проверки сборки/CI не запускались, поскольку изменения только в Sanity content и документации.
+
 ## 2026-11-20 — опубликована услуга доставки крупномерных растений
 
 - Sanity Production: `df7893e8-902e-4265-921c-3cb0fd270cc8`, slug `dostavka-na-edrorazmerni-rasteniya`, URL https://florial-bg.com/services/dostavka-na-edrorazmerni-rasteniya.
