@@ -6,8 +6,17 @@
 - Added role-scoped best-effort dispatch: real order events target active Owner/Manager/Seller; service lead events target active Owner only. Push payloads contain short Bulgarian text, reference number and Manager destination; no customer contact details. Expired 404/410 endpoints are removed.
 - Hooked dispatch after successful D1 insert in checkout and service lead creation. Delivery errors are isolated from customer submissions and checkout.
 - Added explicit Bulgarian device opt-in/opt-out UI and Service Worker `push` / `notificationclick` handlers. Existing online-only, no-cache behavior is preserved. Push click targets `/manager/?section=orders` or `/manager/?section=serviceLeads`.
-- Added static regression tests in `tests/manager-push.test.mjs`. CI/build/typecheck status for the current head is pending; do not treat this as a validated or production-enabled release.
+- Added static regression tests in `tests/manager-push.test.mjs`; added a SQLite migration test and D1 validation workflow step. The exact implementation head passed CI and Preview (details below).
 - Runtime prerequisites remain pending: apply migration 0017 to Production D1 and configure `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` in Cloudflare Pages Functions only after explicit approval. Real Android/browser delivery test is also pending.
+
+
+### Verification update — 2026-11-20
+- Exact implementation/test head: `a908426f3355c793e369ea0e0adaae170bbac6de`.
+- Blog and Studio validation run `44793855068` — success (application/Pages typecheck, lint, 357 utility tests, website build, migration syntax/dry-run, Studio typecheck/build).
+- D1 migration validation run `44793855086` — success, including the new Python/SQLite test for migration 0017.
+- Cloudflare Pages Preview deployment `33d99b8b-e866-4701-85a9-d6809c9c62df` — success for exact head SHA; URL: https://33d99b8b.florial.pages.dev.
+- Production D1 migration/VAPID secrets and real-device delivery remain pending; PR #450 remains Draft.
+
 ## 2026-11-20 — внутренняя перелинковка доставки крупномерных растений
 
 - Sanity project `bxvcy0qs`: в dataset `plants` добавлена связь на опубликованную услугу `dostavka-na-edrorazmerni-rasteniya` для 35 уникальных товаров (12 пальм/юк, 6 олив/маслин, 23 дерева и кустарника; группы пересекаются, каждый документ изменён один раз). Использовано поле `relatedContentBySlug`, `contentType: "service"`; прежние ссылки сохранены.
