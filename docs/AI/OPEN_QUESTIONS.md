@@ -1,3 +1,10 @@
+## 2026-11-20 — Manager Web Push: release prerequisites
+
+- PR #450 contains the first implementation stage for Manager Web Push. It remains Draft until exact-head CI and Cloudflare Preview checks pass.
+- Production D1 migration `0017_manager_push_subscriptions` is not applied. Before rollout, perform an owner-approved migration preflight and apply the additive SQL to the verified Production D1 only after separate explicit approval.
+- Cloudflare Pages Functions variables/secrets `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` are not configured. Generate VAPID key pair and configure these only after explicit owner approval; never expose private key in browser or Git.
+- Real Android Chrome install/permission/subscribe/push/click/unsubscribe verification is pending. Browser/platform support may vary.
+- Until migration and VAPID setup are complete, subscription API returns disabled/unconfigured and no push is delivered. Existing 15-minute Manager polling remains functional.
 # Florial — текущие открытые вопросы и проверки
 
 Дата сверки: 2026-11-20. Этот файл содержит только вопросы, которые остаются актуальными.
