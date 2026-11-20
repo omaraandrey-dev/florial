@@ -25,6 +25,12 @@
       "purpose": "any"
     },
     {
+      "src": "/manager/icons/icon-192.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
       "src": "/manager/icons/icon-512.svg",
       "sizes": "any",
       "type": "image/svg+xml",
