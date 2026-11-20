@@ -50,3 +50,8 @@
 - No published Sanity document was changed.
 - No Sanity schema, website code, Cloudflare Pages/Functions, D1, Resend, secrets or production deployment was changed.
 - Shared `CHANGELOG.md`, technical passport and open-questions integration is intentionally deferred to a synchronized documentation integration pass because other documentation PRs remain open.
+
+## Pre-publication frontend note
+
+- The draft retains `serviceCategory=delivery` and `serviceLayout=standard`. In the current frontend, a standard service page with category `delivery` resolves its direction breadcrumb through `SERVICE_DIRECTION_BY_CATEGORY.delivery`, which currently points to the irrigation engineer direction. This would be misleading for a plant-delivery page.
+- No category or global frontend mapping was changed as part of this content task. Before publishing, agree a narrow correction to the delivery breadcrumb/direction mapping (or an explicit alternative category decision). Relevant implementation: `src/pages/ServicePage.tsx`.
