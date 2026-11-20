@@ -1,3 +1,13 @@
+## 2026-11-20 — Manager Web Push (PR #450, implementation pending validation)
+
+- Continued the existing `feature/manager-order-notifications` branch; no replacement feature branch used. PR #450 remains Draft.
+- Added additive D1 migration `docs/migrations/0017_manager_push_subscriptions.sql`; it creates per-device subscriptions tied to staff identities and does not change existing orders, service leads, staff profiles or sessions. Migration is not applied to Production.
+- Added authenticated same-origin subscription API. Staff identity is derived from the Manager session; HTTPS endpoints and subscription keys are validated; an endpoint cannot be reassigned to another staff account.
+- Added role-scoped best-effort dispatch: real order events target active Owner/Manager/Seller; service lead events target active Owner only. Push payloads contain short Bulgarian text, reference number and Manager destination; no customer contact details. Expired 404/410 endpoints are removed.
+- Hooked dispatch after successful D1 insert in checkout and service lead creation. Delivery errors are isolated from customer submissions and checkout.
+- Added explicit Bulgarian device opt-in/opt-out UI and Service Worker `push` / `notificationclick` handlers. Existing online-only, no-cache behavior is preserved. Push click targets `/manager/?section=orders` or `/manager/?section=serviceLeads`.
+- Added static regression tests in `tests/manager-push.test.mjs`. CI/build/typecheck status for the current head is pending; do not treat this as a validated or production-enabled release.
+- Runtime prerequisites remain pending: apply migration 0017 to Production D1 and configure `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` in Cloudflare Pages Functions only after explicit approval. Real Android/browser delivery test is also pending.
 ## 2026-11-20 — внутренняя перелинковка доставки крупномерных растений
 
 - Sanity project `bxvcy0qs`: в dataset `plants` добавлена связь на опубликованную услугу `dostavka-na-edrorazmerni-rasteniya` для 35 уникальных товаров (12 пальм/юк, 6 олив/маслин, 23 дерева и кустарника; группы пересекаются, каждый документ изменён один раз). Использовано поле `relatedContentBySlug`, `contentType: "service"`; прежние ссылки сохранены.
