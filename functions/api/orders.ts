@@ -1,6 +1,7 @@
 import type { ManagerEnv } from './manager/_lib'
 import { createProformaPdf, sendOrderEmail, toBase64 } from './_lib/order-documents'
 import { checkSameOriginPublicPost, enforcePublicRateLimit, readBoundedRequestBody } from './_lib/public-api-security'
+import { dispatchManagerPush } from './manager/push-dispatch'
 
 type OrderRequest = {
   customer_name?: unknown
@@ -290,6 +291,9 @@ const handleOrderPost = async ({
     return json({ error: 'Не успяхме да запазим поръчката. Моля, опитайте отново след малко.' }, 502)
   }
 
+
+  // Push is best-effort and only runs after the order has been committed to D1.
+  await dispatchManagerPush(env, 'order', orderNumber)
 
   // Email is best-effort: a mail-provider outage must not fail a saved order.
   if (env.RESEND_API_KEY && env.EMAIL_FROM) {
