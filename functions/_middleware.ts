@@ -799,6 +799,19 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       } else {
         html = html.replace(/<\/head>/i, robotsMeta + '</head>')
       }
+      const managerManifest = '<link rel="manifest" href="/manager/manifest.webmanifest">'
+      if (!/<link\b(?=[^>]*\brel\s*=\s*(["'])manifest\1)/i.test(html)) {
+        html = html.replace(/<\/head>/i, managerManifest + '</head>')
+      }
+      const appleTouchIcon = '<link rel="apple-touch-icon" sizes="192x192" href="/manager/icons/icon-192.png">'
+      if (!/<link\b(?=[^>]*\brel\s*=\s*(["'])apple-touch-icon\1)/i.test(html)) {
+        html = html.replace(/<\/head>/i, appleTouchIcon + '</head>')
+      }
+      const managerThemeColor = '<meta name="theme-color" content="#166534">'
+      const themeColorPattern = /<meta\b(?=[^>]*\bname\s*=\s*(["'])theme-color\1)[^>]*>/i
+      if (themeColorPattern.test(html)) html = html.replace(themeColorPattern, managerThemeColor)
+      else html = html.replace(/<\/head>/i, managerThemeColor + '</head>')
+      headers.set('Cache-Control', 'no-store')
       headers.delete('content-length')
       headers.delete('content-encoding')
       headers.delete('etag')

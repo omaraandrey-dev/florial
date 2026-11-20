@@ -143,7 +143,7 @@ const streamResponse = (requestId: string, mode: 'photo' | 'text', run: (send: (
   return new Response(stream, {
     headers: {
       'Content-Type': 'text/event-stream; charset=utf-8',
-      'Cache-Control': 'no-cache, no-transform',
+      'Cache-Control': 'no-store, no-transform',
       'X-Accel-Buffering': 'no',
       'X-Content-Type-Options': 'nosniff',
     },
