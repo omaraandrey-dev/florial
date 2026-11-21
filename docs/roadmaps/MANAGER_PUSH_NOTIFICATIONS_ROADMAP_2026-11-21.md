@@ -52,25 +52,32 @@
 
 ## 3. Что ещё требуется сделать
 
-### Этап A — восстановить Cloudflare-доступ и выполнить безопасный preflight
+### Этап A — Cloudflare-доступ и безопасный Production D1 preflight
 
-- [ ] Владелец переподключает Cloudflare connector в ChatGPT.
-- [ ] Повторно проверить валидность Cloudflare credentials и доступ к нужному аккаунту.
-- [ ] Убедиться, что разрешён как минимум D1 Read; не расширять scopes без необходимости.
-- [ ] Выполнить только read-only Production D1 проверки: `sqlite_master`, migration ledger, наличие и структура `catalog_staff_profiles(user_id)`, foreign-key check, integrity check.
-- [ ] Сверить фактическую Production-схему с migration 0017 и проверить, что migration ещё не применена.
-- [ ] Если ledger/schema не подтверждают безопасное состояние — остановиться, ничего не применять и описать расхождение.
+<badge>Завершено 2026-11-21</badge>
 
-**Текущая блокировка:** предыдущая проверка Cloudflare завершилась `401 Invalid API Token`; SQL read-only запросы завершились `SQLITE_AUTH`. Поэтому Production D1 состояние не подтверждено. Cloudflare Production account/project и D1 database ID, ранее прочитанные из metadata: account `785978ccc2764d18d17b85fd4ad10cc1`, database `florial-db`, ID `5fbb0e47-8439-493c-821a-6945eef7d8b2`. Metadata не заменяет проверку живой схемы.
+- [x] Cloudflare connector авторизован; read-only D1 API доступен.
+- [x] Выполнены только read-only запросы к Production D1.
+- [x] Migration ledger прочитан: последняя применённая версия — `0016_remove_legacy_submission_permissions`; версия `0017_manager_push_subscriptions` отсутствует.
+- [x] В `sqlite_master` подтверждено отсутствие таблицы `manager_push_subscriptions`; это ожидаемо до применения migration 0017.
+- [x] Подтверждена родительская таблица `catalog_staff_profiles`; `user_id TEXT PRIMARY KEY`.
+- [x] `PRAGMA foreign_key_check` выполнен успешно, нарушений не найдено.
+- [x] Сверены существующие таблицы и индексы, относящиеся к родительской таблице сотрудников.
+- [x] Migration 0017 проверена в изолированной SQLite-базе; отдельный GitHub Actions migration workflow на текущем HEAD завершился успешно.
+
+**Ограничение проверки:** `PRAGMA integrity_check` через Cloudflare D1 API возвращает `SQLITE_AUTH`. Это означает, что данный PRAGMA недоступен через используемый API-контекст; это не доказательство повреждения базы и не ошибка общего доступа к D1. Другие read-only запросы выполняются успешно.
+
+**Итог этапа:** preflight не выявил конфликтов миграции с текущей Production-схемой. Migration 0017 не применялась; Production D1 schema/data не изменялись.
 
 ### Этап B — подготовить Production D1
 
-- [ ] Только после успешного read-only preflight применить additive migration 0017 к подтверждённой Production D1 database.
-- [ ] Прочитать migration ledger и структуру таблицы обратно после применения.
-- [ ] Проверить индексы, unique endpoint и foreign-key constraint.
+- [x] Read-only preflight завершён; текущая схема совместима с additive migration 0017 по проверенным объектам.
+- [ ] Применить migration 0017 к Production D1 — **не выполнено**.
+- [ ] После применения перечитать migration ledger и структуру таблицы.
+- [ ] Проверить индексы, уникальность endpoint и foreign-key constraint после применения.
 - [ ] Не менять существующие заказы, заявки, профили сотрудников или сессии.
 
-Разрешение владельца на Production rollout уже получено в рамках этой задачи. Оно не отменяет обязательный preflight и остановку при любой неопределённости.
+**Контроль безопасности:** перед фактическим Production write требуется отдельное подтверждение владельца именно на применение migration 0017. До него никаких изменений Production D1 не выполнять.
 
 ### Этап C — настроить VAPID в Cloudflare Pages
 
@@ -106,13 +113,13 @@
 
 ## 4. Что сейчас НЕ сделано / не подтверждено
 
-- Production migration 0017 **не применена**.
+- Production migration 0017 **не применена**; таблица `manager_push_subscriptions` отсутствует.
 - VAPID public/private/subject **не настроены** в Cloudflare Pages.
 - Реальная Production subscription и доставка push **не проверены**.
 - Android/Chrome permission, push delivery, notification click и unsubscribe **не протестированы**.
 - Production код PR #450 **не выпущен**: PR открыт и Draft; Production продолжает работать на `main`.
-- Состояние live D1 migration ledger/schema **не подтверждено** из-за ошибки доступа Cloudflare.
-- Нельзя считать Preview-тест доказательством работы push в Production.
+- `PRAGMA integrity_check` не удалось выполнить через Cloudflare API из-за `SQLITE_AUTH`; остальные указанные read-only D1 запросы успешны.
+- Успешный Pages Preview и CI не доказывают реальную работу Push в Production.
 
 ## 5. Ограничения scope
 
@@ -127,10 +134,16 @@
 
 ## 6. Текущий статус и следующий шаг
 
-**Статус: реализация и Preview-проверки завершены; Production rollout заблокирован восстановлением Cloudflare connector и ещё не начат.**
+**Статус: реализация, CI, Preview и read-only Production D1 preflight подтверждены. Production rollout ещё не начат.**
 
-Следующий шаг владельца: переподключить Cloudflare connector в ChatGPT и сообщить, что доступ восстановлен. Затем продолжить с read-only D1 preflight — без повторного запроса уже данного разрешения на rollout, но с обязательной остановкой при неполной или противоречивой проверке.
+Текущий PR HEAD `cb19924f35f451fcc399f753aafee4e7c902a52e` прошёл оба GitHub Actions workflow:
+- Blog and Studio validation: run `44854697815` — success.
+- D1 migration validation: run `44854697868` — success.
+
+Cloudflare Pages Preview deployment `4280bdb7-f9f0-4b0c-9a02-56ec10574cd4` успешно завершён из точного HEAD `cb19924f35f451fcc399f753aafee4e7c902a52e`; URL: https://4280bdb7.florial.pages.dev.
+
+**Следующий шаг:** подготовить VAPID key pair и план настройки runtime configuration, не публикуя private key. Перед применением migration 0017 и записью Production secrets получить отдельное подтверждение владельца на эти конкретные изменения. PR остаётся Draft и не объединяется до отдельного решения.
 
 ## 7. История обновления
 
-- 2026-11-21: дорожная карта собрана по PR #450, CI/Preview evidence и последнему известному состоянию Cloudflare доступа. Проверка PR issue подтвердила, что PR открыт; актуальный commit реализации и результаты CI сверены с handoff. Live D1 schema и Cloudflare credentials на этой дате не подтверждены.
+- 2026-11-21: актуализирован статус после повторной проверки Cloudflare. Доступ к Cloudflare и Production D1 подтверждён read-only запросами; миграция 0017 не применена; migration ledger остаётся на 0016; `catalog_staff_profiles(user_id)` подтверждена; foreign-key check без нарушений. `PRAGMA integrity_check` недоступен через API (`SQLITE_AUTH`). GitHub Actions и Pages Preview подтверждены для точного HEAD `cb19924f35f451fcc399f753aafee4e7c902a52e`. Production migration, VAPID secrets и Android push QA остаются незавершёнными.
