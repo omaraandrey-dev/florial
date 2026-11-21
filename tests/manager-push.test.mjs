@@ -128,7 +128,7 @@ test('Owner push self-test returns phase-specific diagnostics without exposing s
   assert.match(dispatch, /SAFE_NETWORK_CAUSE_CODES/)
   assert.match(dispatch, /safeErrorCauseCode\(error\)/)
   assert.match(dispatch, /'ENOTFOUND'.*'EAI_AGAIN'.*'ECONNRESET'/)
-  assert.match(app, /item\.causeCode \|\| item\.errorName/)
+  assert.match(managerApp, /item\.causeCode \|\| item\.errorName/)
   assert.doesNotMatch(dispatch, /diagnostic[^\n]*(endpoint|p256dh|auth|privateKey)/i)
   assert.match(managerApp, /Push услугата отказа удостоверяване/)
   assert.match(managerApp, /Грешка при подписване на push съобщението/)
