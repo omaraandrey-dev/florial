@@ -76,10 +76,10 @@ const plantSessionToken = (request: Request) => {
 const plantAiIdentity = (product: unknown) => {
   const value = isObject(product) ? product : {}
   const image = isObject(value.mainImage) ? value.mainImage : {}
-  return {
-    mode: value.aiSearchMode === 'text' ? 'text' : 'photo',
-    imageAssetId: cleanText(image.assetId || value.mainImageAssetId, 160),
-  }
+  const imageAssetId = cleanText(image.assetId || value.mainImageAssetId, 160)
+  // Preserve the legacy image-only proof payload so the duplicate-variant flow remains compatible.
+  if (imageAssetId) return { imageAssetId }
+  return { mode: value.aiSearchMode === 'text' ? 'text' : 'photo', imageAssetId: '' }
 }
 const plantAiSignature = async (sessionToken: string, payload: string) => {
   const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(sessionToken), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
