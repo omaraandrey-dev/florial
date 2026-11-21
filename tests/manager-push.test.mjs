@@ -84,3 +84,20 @@ test('test push endpoint is Owner-only and queries only the authenticated Owner 
   assert.match(managerApp, /onClick=\{\(\) => void sendTestPush\(\)\}/)
   assert.match(managerApp, /fetch\('\/api\/manager\/push\/test'/)
 })
+
+
+test('Manager order list and navigation count refresh every 20 seconds without overlapping loads', () => {
+  const ordersManager = read('src/manager/OrdersManager.tsx')
+  assert.match(ordersManager, /window\.setInterval\(refresh,20000\)/)
+  assert.match(ordersManager, /Date\.now\(\)-lastRefreshAt\.current>=20000/)
+  assert.match(ordersManager, /loadInFlight\.current/)
+  assert.doesNotMatch(ordersManager, /900000/)
+})
+
+test('Manager service lead list refreshes every 20 seconds and on app focus/visibility return', () => {
+  const serviceLeadsManager = read('src/manager/ServiceLeadsManager.tsx')
+  assert.match(serviceLeadsManager, /window\.setInterval\(refresh, 20_000\)/)
+  assert.match(serviceLeadsManager, /addEventListener\('focus', refresh\)/)
+  assert.match(serviceLeadsManager, /addEventListener\('visibilitychange', refresh\)/)
+  assert.match(serviceLeadsManager, /loadInFlight\.current/)
+})
