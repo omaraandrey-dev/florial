@@ -58,6 +58,7 @@ test('service worker displays push notifications and routes clicks into Manager'
   assert.match(worker, /showNotification/)
   assert.match(worker, /addEventListener\('notificationclick'/)
   assert.match(worker, /openWindow\(target\)/)
+  assert.match(worker, /clientUrl\.pathname\.startsWith\('\/manager\/'\)/)
   assert.match(worker, /event\.respondWith\(fetch\(request\)\)/)
   assert.doesNotMatch(worker, /caches\.|CacheStorage|cache\.put|cache\.add|cache\.match/i)
 })
