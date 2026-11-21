@@ -29,3 +29,8 @@
 ## Ограничения проверки
 
 Это изменение кода Manager и Pages Functions. Sanity schema, опубликованные документы, D1 schema/data, Cloudflare settings/secrets, Resend и Production не изменяются. Не создавать тестовые растения в Production для QA. CI/Preview/Production проверки фиксируются отдельно после получения результатов точного PR head.
+
+## Documentation handoff
+
+- This audit is the unique task record. Shared `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`, `docs/AI/OPEN_QUESTIONS.md` and `docs/AI/CURRENT_STATE.md` are not changed in this follow-up because open PR #409 currently edits those same files. Update the shared handoff after PR #409 is resolved; do not create competing edits.
+- Manager architecture and the Manager Push roadmap are updated in the documentation follow-up PR to record PR #459 Production release and the final 60-second list-refresh behavior from PR #453.
