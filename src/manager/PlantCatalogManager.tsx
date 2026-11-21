@@ -304,7 +304,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
     shortDescription:activeForm.shortDescription,
     description:Array.isArray(originalRichText.description)&&activeForm.description===plainText(originalRichText.description)?originalRichText.description:activeForm.description,
     isFeatured:activeForm.isFeatured,isActive:editingId?activeForm.isActive:activeForm.isActive&&Boolean(allowedCategoryIds.length&&activeImages.length),
-    saleVariants:activeForm.saleVariants.map(v=>({...v,nameAuto:undefined,saleHeightCm:v.saleHeightCm,containerVolumeL:v.containerVolumeL,priceEUR:v.priceEUR,oldPriceEUR:v.oldPriceEUR,stockQuantity:v.stockQuantity})),
+    saleVariants:activeForm.saleVariants.map(v=>({...v,nameAuto:v.nameAuto===true,saleHeightCm:v.saleHeightCm,containerVolumeL:v.containerVolumeL,priceEUR:v.priceEUR,oldPriceEUR:v.oldPriceEUR,stockQuantity:v.stockQuantity})),
     mainImage:selected,gallery:activeImages.filter((_,index)=>index!==mainImageIndex),
     ...(activeProof?{aiSearchMode:aiSearchMode||'photo'}:{}),
     translations:Object.fromEntries(['bg','ru','en'].map(language=>{const current=activeForm.translations[language]||{};const original=originalRichText.translations[language];return [language,{...current,description:Array.isArray(original)&&current.description===plainText(original)?original:current.description}]})),
