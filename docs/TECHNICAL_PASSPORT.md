@@ -1,11 +1,12 @@
-## 2026-11-21 — Manager Web Push: final PR pre-release gate
+## 2026-11-21 — Manager Web Push: PR #450 merged and Production deployment verified
 
-- Final code/test SHA: `e373e2f82c5a73b222fa69393f1d3874010540e3`; documentation-only follow-up is tracked in current branch HEAD.
-- Blog and Studio validation run `44858518911` — success; D1 migration validation run `44858518879` — success. Both ran against the exact documentation-parent SHA `884e4c0ddd361a8109d4d4fa533504092974e635` (which contains the reviewed code/test SHA).
-- Cloudflare Pages Preview deployment `052ae9af-dd7c-4275-8abc-1141bdc29e03` — success for SHA `884e4c0ddd361a8109d4d4fa533504092974e635`: https://052ae9af.florial.pages.dev.
-- PR #450 remains open and Draft; GitHub reports `mergeable=true`, `mergeable_state=clean`. Base `main` remains `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`. No merge or Production deployment was performed.
-- Final review found no unrelated paths in the 21-file PR diff. A Service Worker notification-click issue was fixed in `public/manager/sw.js`: only an existing same-origin `/manager/` client is reused; otherwise a new Manager window is opened. Regression assertion added in `tests/manager-push.test.mjs`.
-- Remaining release gate: owner must explicitly authorize removing Draft and merging PR #450. After merge, verify the exact Production deployment and conduct agreed Android/Chrome QA. No real Production orders/leads should be created without an approved test procedure.
+- PR #450 merged into main; merge commit 54026c75030e5f950576cc1b99f7ebf8903006f1.
+- Exact merge-commit Blog/Studio validation run 44859242349 — success; D1 migration validation run 44859242327 — success.
+- Cloudflare Pages Production deployment e80238e2-af1a-4441-8134-4388124accee completed successfully from the exact merge SHA. All five deployment stages (queued, initialize, clone_repo, build, deploy) succeeded; production aliases remain florial-bg.com and www.florial-bg.com.
+- D1 migration 0017_manager_push_subscriptions and VAPID Production configuration were applied and verified before merge under owner approval. No additional D1 schema/data or Cloudflare configuration changes were made during release.
+- The push implementation is now part of Production runtime. CI and deployment success do not prove real device subscription or delivery. Android/Chrome QA for subscription persistence, order/service-lead delivery, click navigation, opt-out and re-subscribe remains open.
+- Public web-reader could not retrieve /manager/ or /api/manager/push/subscriptions; authenticated browser testing is still needed. Owner reports Manager appears to work.
+- No Production test orders, service leads or emails were created.
 
 ## 2026-11-21 — Manager Web Push: notification click isolation
 
