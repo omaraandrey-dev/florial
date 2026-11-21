@@ -1,11 +1,12 @@
-## 2026-11-21 — Owner-only self-test endpoint and control (implementation in progress)
+## 2026-11-21 — Owner-only self-test endpoint and control (PR validation passed)
 
 - Added a dedicated `POST /api/manager/push/test` endpoint, restricted server-side to an active Owner session and same-origin requests.
 - The endpoint queries only subscriptions whose `user_id` equals the authenticated Owner and whose staff profile is active with role `owner`; it cannot target Manager/Seller devices or accept a recipient, payload, URL, order or lead identifier from the client.
 - The test payload is fixed and contains only a generic Bulgarian title/body plus `/manager/` destination. It does not create or read orders/leads and contains no customer data.
 - Manager displays the test control only for Owner and only after push is enabled on the current browser/device. Provider acceptance is reported separately from confirmed device display.
 - Reuses the existing Web Push sender, HTTPS-only endpoints, no redirects, five-second timeout and expired-subscription cleanup. No D1 migration, Production settings/secrets, Sanity, orders, leads or email changes.
-- Current status: implementation committed to `feat/manager-push-owner-self-test`; CI/Preview and PR review are pending. No merge or Production deployment is authorized by this change.
+- Validation on commit `f4231bf42c6d60b6ee8e2435bba4fbcdb9d3cbd5`: Blog and Studio run `44861125606` — success; D1 validation run `44861125730` — success; Cloudflare Pages Preview deployment `598a1466-17f2-49a1-bd39-58a70033ac65` — all stages success. Preview `/manager/` returned HTTP 200 with `noindex,nofollow`; built Manager JS returned HTTP 200 and contains the Owner test control and endpoint path. This verifies the static build only, not authenticated API behavior or actual device delivery.
+- PR #452 remains open for review; no merge or Production deployment is authorized by this change.
 
 ---
 # Manager — дорожная карта уведомлений и Web Push
