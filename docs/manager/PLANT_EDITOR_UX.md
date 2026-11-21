@@ -39,5 +39,8 @@ Owner сохраняет полный доступ к дополнительны
 
 ## Проверки
 - Добавлены source-level regression assertions в `tests/manager-plant-intake-ux.test.mjs`.
-- Полный test suite, typecheck, lint, build, CI и Pages deployment должны быть проверены по точному PR head; до получения результатов они не считаются пройденными.
-- Авторизованная ручная проверка на телефоне и компьютере остаётся необходимой после Preview/Production публикации.
+- Final PR head: `a7219381ed47ebaa6cc44f3ee2365d3cb08be7a1`.
+- Blog and Studio validation run `44921957018` — success: application/Pages Functions typecheck, lint, all 379 tests, website build, read-only migration dry-run, Studio typecheck and build.
+- D1 migration validation run `44921957051` — success. No D1 migration or data changes were part of the task.
+- Preview and Production deployment were not performed. Authenticated mobile/desktop role QA is still required.
+- Авторизованная ручная проверка на телефоне и компьютере остаётся необходимой после отдельного согласованного релиза.
