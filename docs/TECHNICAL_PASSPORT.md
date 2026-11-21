@@ -6,6 +6,7 @@
 - Bank transfer is not offered for `delivery_method=agree`, because the delivery amount is unknown and a final payable total cannot be generated. Fixed-price pickup/courier totals remain eligible.
 - The shared PDF generator remains `createProformaPdf` in `functions/api/_lib/order-documents.ts`; it is intended to be reusable by checkout and future Manager/email workflows. It prints the confirmed Florial company and bank details, amount in Bulgarian words, VAT included in gross total (20/120), issue date and five-calendar-day due date, payment purpose, signature/stamp fields and availability warning.
 - Customer email and checkout success state instruct bank-transfer customers to wait for Florial's stock/availability confirmation before paying. The document is identified as a proforma, not a tax invoice.
+- Manager-generated/reissued proformas use the actual reissue timestamp for the issue date and five-calendar-day deadline; checkout-generated proformas use the initial order timestamp.
 - Regression source assertions: `tests/bank-transfer-proforma.test.mjs`. CI/build/Preview/Production remain unverified pending PR checks. No live service writes or Production deployment were performed.
 
 ## 2026-11-21 — Manager lists: 20-second refresh correction proposed (PR #453)
