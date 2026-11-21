@@ -246,7 +246,7 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
   })
   y -= 12
   const needSpace = (height: number) => { if (y - height < 65) newPage() }
-  needSpace(138)
+  needSpace(155)
   const labelX = margin + 8
   const valueX = right - 145
   const totalBase = total === null ? null : roundMoney(total - vatIncludedInGross(total))
@@ -268,6 +268,7 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
   y -= 39
   text('Словом: ' + (total === null ? 'ще бъде посочена след потвърждение' : amountInWordsBg(total, order.currency || 'EUR')), labelX, y, 7, ink)
   y -= 20
+  needSpace(210)
   if (confirmed) {
     drawSectionTitle('УСЛОВИЯ ЗА ПЛАЩАНЕ')
     y -= wrapped('Поръчката е потвърдена от екипа на Florial. Плащането се извършва в срок до 5 (пет) календарни дни след датата на потвърждение. Краен срок за плащане: ' + dates!.dueDateLabel + '.', margin + 7, y, right - margin - 14, 7.2, ink) + 8
