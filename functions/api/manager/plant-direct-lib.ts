@@ -76,7 +76,10 @@ const plantSessionToken = (request: Request) => {
 const plantAiIdentity = (product: unknown) => {
   const value = isObject(product) ? product : {}
   const image = isObject(value.mainImage) ? value.mainImage : {}
-  return { imageAssetId: cleanText(image.assetId || value.mainImageAssetId, 160) }
+  return {
+    mode: value.aiSearchMode === 'text' ? 'text' : 'photo',
+    imageAssetId: cleanText(image.assetId || value.mainImageAssetId, 160),
+  }
 }
 const plantAiSignature = async (sessionToken: string, payload: string) => {
   const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(sessionToken), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
@@ -108,7 +111,7 @@ export const verifyPlantAiProof = async (request: Request, proof: unknown, produ
   if (expected.length !== suppliedSignature.length) return false
   let difference = 0
   for (let index = 0; index < expected.length; index++) difference |= expected.charCodeAt(index) ^ suppliedSignature.charCodeAt(index)
-  return difference === 0 && Boolean(identity.imageAssetId)
+  return difference === 0 && (identity.mode === 'text' || Boolean(identity.imageAssetId))
 }
 
 const numberValue = (value: unknown, label: string, min: number, integer = false): number | null => {
@@ -161,8 +164,12 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
   const keys = new Set<string>()
   return value.map((item, index) => {
     if (!isObject(item)) throw new Error('Невалиден вариант №' + (index + 1) + '.')
-    const name = cleanText(item.name, 100)
-    if (name.length < 2) throw new Error('Въведете размер или име за вариант №' + (index + 1) + '.')
+    const saleHeightCm = numberValue(item.saleHeightCm, 'Височина', 0)
+    const containerVolumeL = numberValue(item.containerVolumeL, 'Обем на контейнера', 0.1)
+    const suppliedName = cleanText(item.name, 100)
+    const hasPhysicalSize = (saleHeightCm || 0) > 0 || (containerVolumeL || 0) > 0
+    if (suppliedName.length < 2 && !hasPhysicalSize) throw new Error('Въведете име на модел или височина/обем за вариант №' + (index + 1) + '.')
+    const name = suppliedName || [saleHeightCm ? 'Височина ' + saleHeightCm + ' см' : '', containerVolumeL ? 'Контейнер ' + containerVolumeL + ' л' : ''].filter(Boolean).join(' / ')
     const _key = cleanText(item._key, 80) || crypto.randomUUID().replace(/-/g, '').slice(0, 12)
     if (!/^[A-Za-z0-9_-]{8,80}$/.test(_key) || keys.has(_key)) throw new Error('Ключовете на вариантите трябва да са уникални.')
     keys.add(_key)
@@ -171,6 +178,7 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
     const stockStatus = cleanText(item.stockStatus, 30)
     if (!STOCK_STATUSES.has(stockStatus)) throw new Error('Изберете валиден статус на наличност.')
     const stockQuantity = numberValue(item.stockQuantity, 'Количество', 0, true)
+    if (stockQuantity === null) throw new Error('Въведете количество за всеки вариант (може да бъде 0).')
     const oldPriceEUR = normalizePlantOldPrice(numberValue(item.oldPriceEUR, 'Стара цена', 0), priceEUR)
     return {
       _type: 'plantSaleVariant',
@@ -178,8 +186,8 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
       ...(cleanText(item.nameEn, 100) ? { nameEn: cleanText(item.nameEn, 100) } : {}),
       ...(cleanText(item.nameRu, 100) ? { nameRu: cleanText(item.nameRu, 100) } : {}),
       ...(cleanText(item.sku, 100) ? { sku: cleanText(item.sku, 100) } : {}),
-      saleHeightCm: numberValue(item.saleHeightCm, 'Височина', 0),
-      containerVolumeL: numberValue(item.containerVolumeL, 'Обем на контейнера', 0.1),
+      saleHeightCm,
+      containerVolumeL,
       priceEUR,
       ...(oldPriceEUR !== null ? { oldPriceEUR } : {}),
       stockStatus: stockStatus as PlantVariant['stockStatus'],
@@ -250,19 +258,26 @@ export const buildPlantSet = async (
   if ('categoryId' in input || 'categoryIds' in input) {
     const rawIds = Array.isArray(input.categoryIds) ? input.categoryIds : [input.categoryId]
     const categoryIds = Array.from(new Set(rawIds.map((value: unknown) => cleanText(value, 128)).filter(Boolean)))
-    if (!categoryIds.length || categoryIds.length > 10 || categoryIds.some((id: string) => !/^[A-Za-z0-9_-]{8,128}$/.test(id))) {
-      throw new Error('Изберете поне една и максимум 10 категории.')
+    if (!categoryIds.length) {
+      if (existing) {
+        set.category = null
+        set.categories = []
+      }
+    } else {
+      if (categoryIds.length > 10 || categoryIds.some((id: string) => !/^[A-Za-z0-9_-]{8,128}$/.test(id))) {
+        throw new Error('Изберете максимум 10 валидни категории.')
+      }
+      const primaryId = cleanText(input.categoryId, 128) || categoryIds[0]
+      if (!categoryIds.includes(primaryId)) throw new Error('Основната категория трябва да е сред избраните категории.')
+      const found = await sanityQuery<Array<{ _id: string }>>(env, '*[_type=="category" && _id in ' + JSON.stringify(categoryIds) + ']{_id}')
+      if (!Array.isArray(found) || found.length !== categoryIds.length) throw new Error('Една или повече категории не са намерени в каталога с растения.')
+      set.category = { _type: 'reference', _ref: primaryId }
+      const previousCategories = Array.isArray(existing?.categories) ? existing.categories : []
+      set.categories = categoryIds.map((id: string) => {
+        const previous = previousCategories.find((item: any) => item?._ref === id)
+        return { _type: 'reference', _key: cleanText(previous?._key, 80) || 'category-' + stableKey(id), _ref: id }
+      })
     }
-    const primaryId = cleanText(input.categoryId, 128) || categoryIds[0]
-    if (!categoryIds.includes(primaryId)) throw new Error('Основната категория трябва да е сред избраните категории.')
-    const found = await sanityQuery<Array<{ _id: string }>>(env, '*[_type=="category" && _id in ' + JSON.stringify(categoryIds) + ']{_id}')
-    if (!Array.isArray(found) || found.length !== categoryIds.length) throw new Error('Една или повече категории не са намерени в каталога с растения.')
-    set.category = { _type: 'reference', _ref: primaryId }
-    const previousCategories = Array.isArray(existing?.categories) ? existing.categories : []
-    set.categories = categoryIds.map((id: string) => {
-      const previous = previousCategories.find((item: any) => item?._ref === id)
-      return { _type: 'reference', _key: cleanText(previous?._key, 80) || 'category-' + stableKey(id), _ref: id }
-    })
   }
   if ('description' in input) set.description = portableText(input.description)
   if ('mainImage' in input) set.mainImage = imageObject(input.mainImage)
@@ -340,11 +355,12 @@ export const buildPlantSet = async (
   }
   if ('careGuide' in input) set.careGuide = portableText(input.careGuide)
   if (isCreate) {
-    if (!set.name || !set.slug || !set.productType || !set.category || !set.categories || !set.mainImage || !set.saleVariants) {
-      throw new Error('За публикуване попълнете име, URL, тип, категория, основна снимка и поне един размер.')
+    if (!set.name || !set.slug || !set.productType || !set.saleVariants) {
+      throw new Error('За запазване попълнете име, URL, тип растение и поне един вариант с цена и количество.')
     }
     set.vatIncluded = true
-    set.isActive = true
+    // An incomplete intake record is saved in the Manager catalogue but stays hidden from the public shop.
+    set.isActive = Boolean(set.category && set.mainImage)
   }
   if ('name' in set && !('slug' in set) && isCreate) throw new Error('Липсва URL адрес на растението.')
   return { set, changedFields: Object.keys(set).sort() }
