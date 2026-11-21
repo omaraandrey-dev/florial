@@ -1,3 +1,14 @@
+## 2026-11-21 — Manager live list refresh correction (PR #453 pending)
+
+- Owner reported creating a service enquiry and a plant order in Production; neither appeared in the Manager lists until manual refresh.
+- Code review on main `2830c7b9b3bf788bfb48e123d6e77846de080476` confirmed two distinct UI refresh gaps: OrdersManager polled every 15 minutes; ServiceLeadsManager had no periodic polling.
+- PR #453 changes both lists to refresh every 20 seconds while the Manager document is visible, and refreshes on focus/visibility return after the same 20-second cooldown. In-flight guards prevent overlapping list requests.
+- Added regression assertions in `tests/manager-push.test.mjs`. PR head at initial implementation: `a85ac04562f9d99d05de1dafd0e1bdfa05263d2b`; CI and Production deployment are pending.
+- Owner reports the Owner push self-test and checks 2.1, 2.2 and 2.3 as working. Real event push delivery for the newly created plant order and service enquiry is not yet confirmed separately from list visibility.
+- Scope is Manager frontend polling and tests only. No D1/Sanity writes, schema changes, Cloudflare settings/secrets, Resend changes or Production data modifications. Do not merge/deploy until exact-SHA validation and owner authorization.
+
+---
+
 ## 2026-11-21 — Manager Web Push: PR #450 merged and Production deployed
 
 - PR #450 merged into main; merge commit: 54026c75030e5f950576cc1b99f7ebf8903006f1.
