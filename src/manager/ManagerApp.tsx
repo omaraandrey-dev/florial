@@ -724,14 +724,15 @@ export default function ManagerApp() {
         accepted?: number
         failed?: number
         expired?: number
-        diagnostics?: Array<{ phase: 'signing' | 'provider' | 'network'; code: string; status: number | null; errorName: string | null }>
+        diagnostics?: Array<{ phase: 'signing' | 'provider' | 'network'; code: string; status: number | null; errorName: string | null; causeCode?: string | null }>
       }
       if (!response.ok) throw new Error(result.error || 'Не успяхме да изпратим тестовото известие.')
       const diagnosticMessages = (result.diagnostics || []).map((item) => {
         if (item.phase === 'signing') return 'Грешка при подписване на push съобщението (VAPID).'
         if (item.code === 'subscription_expired') return 'Абонаментът за известия на това устройство е изтекъл. Изключете и включете известията отново.'
         if (item.code === 'network_timeout') return 'Изтече времето за връзка с push услугата.'
-        if (item.phase === 'network') return 'Няма връзка с push услугата (' + (item.errorName || 'network error') + ').'
+        if (item.code === 'provider_redirect') return 'Push услугата върна пренасочване (HTTP ' + (item.status ?? '3xx') + '); пренасочването не е последвано по съображения за сигурност.'
+        if (item.phase === 'network') return 'Няма връзка с push услугата (' + (item.causeCode || item.errorName || 'network error') + ').'
         if (item.status === 401 || item.status === 403) return 'Push услугата отказа удостоверяване (HTTP ' + item.status + '); проверете VAPID конфигурацията и съответствието на ключовете.'
         if (item.status === 400 || item.status === 413) return 'Push услугата отхвърли съобщението или абонамента (HTTP ' + item.status + ').'
         if (item.status === 429) return 'Push услугата ограничи заявките (HTTP 429).'
