@@ -345,11 +345,11 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
         normalized.imageAlt = { bg: '', ru: '', en: '' }
       }
       let aiProof: string | null = null
-      if (/^image-[A-Za-z0-9-]+$/.test(proofAssetId)) {
-        progress('proof_signing', 'Данните са подготвени. Подписваме защитеното потвърждение за снимката.')
-        aiProof = await issuePlantAiProof(request, { mainImageAssetId: proofAssetId })
+      if (mode === 'text' || /^image-[A-Za-z0-9-]+$/.test(proofAssetId)) {
+        progress('proof_signing', mode === 'text' ? 'Подписваме успешно завършеното търсене по име.' : 'Данните са подготвени. Подписваме потвърждението за използваната снимка.')
+        aiProof = await issuePlantAiProof(request, { mainImageAssetId: proofAssetId, aiSearchMode: mode })
       }
-      send({ type: 'result', ok: true, mode, model: MODEL, requestId, elapsedMs: Date.now() - startedAt, aiProof, proofAssetId: aiProof ? proofAssetId : null, result: normalized })
+      send({ type: 'result', ok: true, mode, model: MODEL, requestId, elapsedMs: Date.now() - startedAt, aiProof, proofAssetId: aiProof && proofAssetId ? proofAssetId : null, result: normalized })
       progress('completed', 'Анализ завершён. Результат показан ниже и не записан в каталог.')
     } catch (error) {
       const safe = failure(error)
