@@ -2,7 +2,7 @@
 
 Дата: 2026-11-21  
 Ветка реализации: `fix/manager-plant-minimal-intake`  
-Основа: `main` на commit `2830c7b9b3bf788bfb48e123d6e77846de080476`.
+Основа: `main` на commit `97c9d1cd1031ad2d2881dfeecb03ed73ded1c388`.
 
 ## Цель
 
