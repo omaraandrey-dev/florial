@@ -4,6 +4,7 @@
 - Backup export object filename is recorded in `docs/roadmaps/MANAGER_PUSH_NOTIFICATIONS_ROADMAP_2026-11-21.md`; signed export URL is intentionally not stored in GitHub. `PRAGMA integrity_check` is unavailable through the current D1 API context (`SQLITE_AUTH`), so no full integrity-check claim is made.
 - Cloudflare Pages Production now has `VAPID_PUBLIC_KEY` (plain text), `VAPID_PRIVATE_KEY` (encrypted secret), and `VAPID_SUBJECT` (plain text). Presence/types verified without returning secret values. Private key is not stored in GitHub or documentation. Existing Pages variables preserved; Preview config unchanged.
 - No Production deployment was triggered. Current Production deployment remains on `main` SHA `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`; PR #450 remains Draft. Thus configured VAPID and D1 table are prerequisites only; runtime Push is not yet active.
+- PR checkpoint `fb6603d88323111038d02f3cf1004370e5bfe2f0` passed Blog/Studio validation run `44857303725`, D1 validation run `44857303728`, and Cloudflare Pages Preview deployment `084ab2f4-c1fa-47ef-a04d-3332a3b40795` (success).
 - Remaining: owner-approved PR merge, exact-SHA Production deployment verification, Android/Chrome subscription and delivery/click/unsubscribe QA for Owner/Manager/Seller. Test orders/leads must not be created without the agreed test procedure.
 
 ## 2026-11-20 — Manager Web Push architecture (PR #450, pending validation)
