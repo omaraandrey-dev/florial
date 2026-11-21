@@ -4,7 +4,7 @@
 Рабочий PR: [#450](https://github.com/omaraandrey-dev/florial/pull/450)  
 Рабочая ветка: `feature/manager-order-notifications`  
 Последний подтверждённый commit реализации: `b87df49b954712641ffa44e0845f4ef4ddd05728`
-Последняя ревизия документа до этой записи: `925d7ec5f736321f7462be108b012de26ca0b279` (после неё выполняется только эта документационная синхронизация).  
+Последний проверенный PR checkpoint: `fb6603d88323111038d02f3cf1004370e5bfe2f0` (реализация и актуальная документация на момент CI).  
 База PR на момент сверки: `main` = `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`
 
 > Этот документ — единая карта текущей задачи. Production D1 migration 0017 и VAPID configuration уже выполнены. Web Push пока не работает в Production, поскольку код PR #450 остаётся в Draft и не развёрнут из main.
@@ -49,7 +49,7 @@
 - [x] GitHub Actions Blog and Studio validation: run `44794576684` — success; включая typecheck, lint, 357 тестов, website build, Studio typecheck/build и migration dry-run.
 - [x] GitHub Actions D1 migration validation: run `44794576517` — success; включая SQLite-проверку migration 0017.
 - [x] Cloudflare Pages Preview deployment `bf7acd17-23ce-4180-821c-54063866f68e` — все стадии успешны для указанного SHA; Preview: https://bf7acd17.florial.pages.dev.
-- [x] PR #450 открыт, Draft, не объединён; mergeable=true на последней зафиксированной проверке в предыдущем handoff. Перед следующим решением повторно проверить метаданные PR и CI.
+- [x] PR #450 остаётся открытым Draft; на checkpoint `fb6603d88323111038d02f3cf1004370e5bfe2f0` GitHub подтвердил `mergeable=true`. Перед merge повторить проверку mergeability и статусов.
 
 ## 3. Что ещё требуется сделать
 
@@ -143,7 +143,7 @@ Backup export filename: 5fbb0e47-8439-493c-821a-6945eef7d8b2-00000640-00000000-0
 
 ## 6. Текущий статус и следующий шаг
 
-**Статус: Production D1 migration 0017 и VAPID Production configuration выполнены. Release и real-device QA остаются открытыми.**
+**Статус: Production D1 migration 0017 и VAPID Production configuration выполнены. CI и Preview для PR checkpoint прошли успешно. Release и real-device QA остаются открытыми.**
 
 - D1 migration 0017 применена и проверена read-back.
 - VAPID public/private/subject сохранены в Pages Production; private key — encrypted secret.
@@ -156,4 +156,5 @@ Backup export filename: 5fbb0e47-8439-493c-821a-6945eef7d8b2-00000640-00000000-0
 ## 7. История обновления
 
 - 2026-11-21: Production D1 export создан; migration 0017 применена batch-запросом и проверена live read-back. Таблица содержит 0 строк; foreign-key check — 0 нарушений. Pages Production получил VAPID public/private/subject; private key хранится как encrypted secret, значения не включены в документацию. Preview settings и Production deployment не изменялись. PR #450 остаётся Draft; live push QA pending.
+- 2026-11-21: PR checkpoint `fb6603d88323111038d02f3cf1004370e5bfe2f0` прошёл Blog/Studio (`44857303725`), D1 (`44857303728`) и Pages Preview (`084ab2f4-c1fa-47ef-a04d-3332a3b40795`). PR mergeability на checkpoint — true; Draft сохранён.
 - 2026-11-21: исправлен прежний ошибочный статус Cloudflare authorization. Cloudflare API и D1 read-only доступ подтверждены; PRAGMA integrity_check отклоняется как SQLITE_AUTH, не как общий отказ доступа.
