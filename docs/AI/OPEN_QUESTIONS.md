@@ -11,9 +11,7 @@
 - **Открыто после выпуска:** проверить Production deployment по точному merge SHA; затем выполнить Android/Chrome opt-in, subscription persistence, push delivery, правильный notification click, opt-out/delete/re-subscribe для Owner, Manager и Seller. Service-lead push должен получать только Owner; тестовые заказы не должны отправлять push.
 - Не создавать Production test orders/leads и не отправлять тестовые письма без согласованного тестового сценария. Не раскрывать VAPID private key и не записывать его в GitHub.
 
-## 2026-11-20 — Sanity category schema descriptor: legacy SEO fields
-
-## 2026-11-20 — Manager Web Push: release prerequisites
+## 2026-11-20 — Manager Web Push: release prerequisites (historical snapshot; superseded by the 2026-11-21 status above)
 
 - PR #450 contains the Manager Web Push implementation and remains Draft. Exact implementation/test head `a908426f3355c793e369ea0e0adaae170bbac6de` passed Blog/Studio run `44793855068`, D1 run `44793855086`, and Preview deployment `33d99b8b-e866-4701-85a9-d6809c9c62df`.
 - Production D1 migration `0017_manager_push_subscriptions` is not applied. Before rollout, perform an owner-approved migration preflight and apply the additive SQL to the verified Production D1 only after separate explicit approval.
