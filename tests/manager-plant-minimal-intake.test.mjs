@@ -35,6 +35,8 @@ test('variant model name can replace both numeric height and container dimension
 test('a new incomplete plant is stored inactive until category and photo are provided', () => {
   assert.match(plantLib, /if \(!set\.name \|\| !set\.slug \|\| !set\.productType \|\| !set\.saleVariants\)/)
   assert.match(plantLib, /set\.isActive = Boolean\(set\.category && set\.mainImage\)/)
+  assert.match(plantLib, /if \(!isCreate && set\.isActive === true\)/)
+  assert.match(plantLib, /Преди показване в магазина добавете категория и основна снимка/)
   assert.match(manager, /isActive:editingId\?activeForm\.isActive:activeForm\.isActive&&Boolean\(allowedCategoryIds\.length&&activeImages\.length\)/)
   assert.match(manager, /запазено като чернова в Manager/)
   assert.match(plantLib, /if \(!categoryIds\.length\)/)
