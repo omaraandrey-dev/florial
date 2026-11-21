@@ -7,7 +7,7 @@ const source = await readFile(new URL('../src/manager/PlantCatalogManager.tsx', 
 test('plant variant requires price and quantity while height and container are optional when a model name is supplied', () => {
   assert.ok(source.includes('Височина (см) · по избор'))
   assert.ok(source.includes('Контейнер (л) · по избор'))
-  assert.ok(source.includes('Наименование на размер / модел (или посочете височина/обем)'))
+  assert.ok(source.includes('Наименование на размер / модел (или посочете височина и обем на контейнера)'))
   assert.ok(source.includes("Цена (€){canEditVariantPrice?' *':''}"))
   assert.ok(source.includes('Количество *'))
   assert.ok(source.includes('!border-red-500'))
