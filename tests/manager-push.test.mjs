@@ -90,7 +90,8 @@ test('Manager order list and navigation count refresh every 20 seconds without o
   const ordersManager = read('src/manager/OrdersManager.tsx')
   assert.match(ordersManager, /window\.setInterval\(refresh,20000\)/)
   assert.match(ordersManager, /Date\.now\(\)-lastRefreshAt\.current>=20000/)
-  assert.match(ordersManager, /loadInFlight\.current/)
+  assert.match(ordersManager, /loadInFlight\.current===0/)
+  assert.match(ordersManager, /loadInFlight\.current=Math\.max\(0,loadInFlight\.current-1\)/)
   assert.doesNotMatch(ordersManager, /900000/)
 })
 
@@ -99,5 +100,6 @@ test('Manager service lead list refreshes every 20 seconds and on app focus/visi
   assert.match(serviceLeadsManager, /window\.setInterval\(refresh, 20_000\)/)
   assert.match(serviceLeadsManager, /addEventListener\('focus', refresh\)/)
   assert.match(serviceLeadsManager, /addEventListener\('visibilitychange', refresh\)/)
-  assert.match(serviceLeadsManager, /loadInFlight\.current/)
+  assert.match(serviceLeadsManager, /loadInFlight\.current === 0/)
+  assert.match(serviceLeadsManager, /loadInFlight\.current = Math\.max\(0, loadInFlight\.current - 1\)/)
 })
