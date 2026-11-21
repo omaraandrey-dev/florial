@@ -9,32 +9,66 @@ const getVapid = (env: ManagerEnv): VapidKeys | null => {
   return { subject: env.VAPID_SUBJECT, publicKey: env.VAPID_PUBLIC_KEY, privateKey: env.VAPID_PRIVATE_KEY }
 }
 
+type PushDiagnostic = {
+  phase: 'signing' | 'provider' | 'network'
+  code: 'payload_signing_failed' | 'provider_http_error' | 'subscription_expired' | 'network_timeout' | 'network_error'
+  status: number | null
+  errorName: string | null
+}
+
+type PushAttempt = { status: 'accepted' | 'expired' | 'failed'; diagnostic?: PushDiagnostic }
+
+const safeErrorName = (error: unknown): string | null => {
+  if (!(error instanceof Error)) return null
+  return /^[A-Za-z][A-Za-z0-9]{0,39}$/.test(error.name) ? error.name : 'Error'
+}
+
 export const sendManagerPushToSubscriptions = async (
   env: ManagerEnv,
   recipients: SubscriptionRow[],
   payloadData: string,
-): Promise<{ attempted: number; accepted: number; expired: number; failed: number }> => {
+): Promise<{ attempted: number; accepted: number; expired: number; failed: number; diagnostics: PushDiagnostic[] }> => {
   const vapid = getVapid(env)
   if (!vapid) throw new Error('Push notifications are not configured.')
-  const results = await Promise.allSettled(recipients.map(async (row) => {
+  const results = await Promise.allSettled(recipients.map(async (row): Promise<PushAttempt> => {
     const subscription: PushSubscription = { endpoint: row.endpoint, expirationTime: null, keys: { p256dh: row.p256dh, auth: row.auth } }
+    let init: RequestInit
     try {
-      const init = await buildPushPayload({ data: payloadData, options: { ttl: 300 } }, subscription, vapid)
+      init = await buildPushPayload({ data: payloadData, options: { ttl: 300 } }, subscription, vapid)
+    } catch (error) {
+      return { status: 'failed', diagnostic: { phase: 'signing', code: 'payload_signing_failed', status: null, errorName: safeErrorName(error) } }
+    }
+    try {
       const response = await fetch(row.endpoint, { ...init, redirect: 'error', signal: AbortSignal.timeout(5000) })
       if (response.status === 404 || response.status === 410) {
         await env.DB!.prepare('DELETE FROM manager_push_subscriptions WHERE id=?').bind(row.id).run()
-        return 'expired' as const
+        return { status: 'expired', diagnostic: { phase: 'provider', code: 'subscription_expired', status: response.status, errorName: null } }
       }
-      if (!response.ok) { console.warn('Manager push provider returned HTTP', response.status); return 'failed' as const }
-      return 'accepted' as const
+      if (!response.ok) {
+        console.warn('Manager push provider returned HTTP', response.status)
+        return { status: 'failed', diagnostic: { phase: 'provider', code: 'provider_http_error', status: response.status, errorName: null } }
+      }
+      return { status: 'accepted' }
     } catch (error) {
-      console.warn('Manager push delivery failed:', error instanceof Error ? error.message : 'unknown')
-      return 'failed' as const
+      const timedOut = error instanceof Error && (error.name === 'TimeoutError' || error.name === 'AbortError')
+      return {
+        status: 'failed',
+        diagnostic: {
+          phase: 'network',
+          code: timedOut ? 'network_timeout' : 'network_error',
+          status: null,
+          errorName: safeErrorName(error),
+        },
+      }
     }
   }))
-  const accepted = results.filter((x) => x.status === 'fulfilled' && x.value === 'accepted').length
-  const expired = results.filter((x) => x.status === 'fulfilled' && x.value === 'expired').length
-  return { attempted: results.length, accepted, expired, failed: results.length - accepted - expired }
+  const attempts = results.map((result): PushAttempt => result.status === 'fulfilled'
+    ? result.value
+    : { status: 'failed', diagnostic: { phase: 'network', code: 'network_error', status: null, errorName: safeErrorName(result.reason) } })
+  const accepted = attempts.filter((x) => x.status === 'accepted').length
+  const expired = attempts.filter((x) => x.status === 'expired').length
+  const diagnostics = attempts.flatMap((x) => x.diagnostic ? [x.diagnostic] : [])
+  return { attempted: attempts.length, accepted, expired, failed: attempts.length - accepted - expired, diagnostics }
 }
 
 export const dispatchManagerPush = async (

@@ -26,7 +26,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
     if (!subscriptions.results?.length) return json({ error: 'Няма активирани известия за профила на собственика.' }, 409)
     const payload = JSON.stringify({ title: 'Тестово известие', body: 'Известията на Florial Manager работят.', url: '/manager/' })
     const result = await sendManagerPushToSubscriptions(env, subscriptions.results, payload)
-    return json({ success: true, attempted: result.attempted, accepted: result.accepted, failed: result.failed })
+    return json({ success: true, attempted: result.attempted, accepted: result.accepted, expired: result.expired, failed: result.failed, diagnostics: result.diagnostics })
   } catch (error) {
     console.error('Manager test push failed:', error instanceof Error ? error.message : 'unknown')
     return json({ error: 'Не успяхме да изпратим тестовото известие.' }, 502)

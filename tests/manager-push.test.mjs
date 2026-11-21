@@ -109,3 +109,21 @@ test('Manager service lead list refreshes every 60 seconds and on app focus/visi
   assert.match(managerApp, /onNewCountChange=\{setNewServiceLeadsCount\}/)
   assert.match(read('functions/api/manager/service-leads.ts'), /WHERE status='new'/)
 })
+
+
+test('Owner push self-test returns phase-specific diagnostics without exposing subscription secrets', () => {
+  const endpoint = read('functions/api/manager/push/test.ts')
+  assert.match(endpoint, /diagnostics: result\.diagnostics/)
+  assert.match(dispatch, /phase: 'signing'/)
+  assert.match(dispatch, /code: 'payload_signing_failed'/)
+  assert.match(dispatch, /code: 'provider_http_error'/)
+  assert.match(dispatch, /code: 'subscription_expired'/)
+  assert.match(endpoint, /expired: result\.expired/)
+  assert.match(managerApp, /Абонаментът за известия на това устройство е изтекъл/)
+  assert.match(dispatch, /status: response\.status/)
+  assert.match(dispatch, /code: timedOut \? 'network_timeout' : 'network_error'/)
+  assert.match(dispatch, /errorName: safeErrorName\(error\)/)
+  assert.doesNotMatch(dispatch, /diagnostic[^\n]*(endpoint|p256dh|auth|privateKey)/i)
+  assert.match(managerApp, /Push услугата отказа удостоверяване/)
+  assert.match(managerApp, /Грешка при подписване на push съобщението/)
+})
