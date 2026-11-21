@@ -128,6 +128,17 @@ export function AboutPage({ categories }: AboutPageProps) {
 
   const [rolePhotos, setRolePhotos] = useState<ServiceRolePhoto[]>([])
   const [centerImages, setCenterImages] = useState<Record<string, string>>({ nesebr: '', ravda: '' })
+  const [ibanCopied, setIbanCopied] = useState(false)
+
+  const copyIban = async () => {
+    try {
+      await navigator.clipboard.writeText('BG88STSA93000029605234')
+      setIbanCopied(true)
+    } catch (error) {
+      console.error('Не удалось скопировать IBAN:', error)
+      setIbanCopied(false)
+    }
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -270,6 +281,74 @@ export function AboutPage({ categories }: AboutPageProps) {
                 </div>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section aria-labelledby="about-company-details-heading" className={sectionClass}>
+          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#647746]">FLORIAL OOD</p>
+              <h2 id="about-company-details-heading" className="mt-2 text-2xl font-extrabold text-[#263323] md:text-3xl">
+                {language === 'ru' ? 'Юридические и банковские реквизиты' : language === 'en' ? 'Company and bank details' : 'Фирмени данни и банкови реквизити'}
+              </h2>
+            </div>
+            <p className="text-sm text-slate-500">„Флориал“ ООД · FLORIAL OOD / FLORIAL LTD</p>
+          </div>
+
+          <div className="mt-6 grid gap-5 md:grid-cols-2">
+            <div className="rounded-2xl bg-[#F5F7EF] p-5">
+              <h3 className="text-base font-extrabold text-[#263323]">
+                {language === 'ru' ? 'Регистрационные данные' : language === 'en' ? 'Company registration' : 'Регистрационни данни'}
+              </h3>
+              <dl className="mt-4 space-y-3 text-sm">
+                <div><dt className="text-slate-500">{language === 'ru' ? 'Наименование' : language === 'en' ? 'Legal name' : 'Наименование'}</dt><dd className="mt-0.5 font-semibold text-[#263323]">„Флориал“ ООД (FLORIAL OOD / FLORIAL LTD)</dd></div>
+                <div><dt className="text-slate-500">ЕИК / UIC</dt><dd className="mt-0.5 font-semibold text-[#263323]">206978288</dd></div>
+                <div><dt className="text-slate-500">ДДС № / VAT №</dt><dd className="mt-0.5 font-semibold text-[#263323]">BG206978288</dd></div>
+                <div><dt className="text-slate-500">{language === 'ru' ? 'Управитель (МОЛ)' : language === 'en' ? 'Company manager' : 'Управител (МОЛ)'}</dt><dd className="mt-0.5 font-semibold text-[#263323]">Десислав Бараков</dd></div>
+                <div><dt className="text-slate-500">{language === 'ru' ? 'Юридический адрес' : language === 'en' ? 'Registered address' : 'Адрес на регистрация'}</dt><dd className="mt-0.5 font-semibold leading-6 text-[#263323]">{language === 'ru' ? 'г. Несебр, ул. «Черно море», №28, Болгария' : language === 'en' ? '28 Cherno More St, Nessebar, Bulgaria' : 'гр. Несебър, ул. „Черно море“ №28, България'}</dd></div>
+              </dl>
+            </div>
+
+            <div className="rounded-2xl bg-[#F5F7EF] p-5">
+              <h3 className="text-base font-extrabold text-[#263323]">
+                {language === 'ru' ? 'Банковские реквизиты' : language === 'en' ? 'Bank details' : 'Банкови реквизити'}
+              </h3>
+              <dl className="mt-4 space-y-3 text-sm">
+                <div><dt className="text-slate-500">{language === 'ru' ? 'Банк' : language === 'en' ? 'Bank' : 'Банка'}</dt><dd className="mt-0.5 font-semibold text-[#263323]">Банка ДСК (DSK Bank)</dd></div>
+                <div>
+                  <dt className="text-slate-500">IBAN</dt>
+                  <dd className="mt-1 flex flex-wrap items-center gap-2">
+                    <span className="break-all font-semibold tracking-wide text-[#263323]">BG88STSA93000029605234</span>
+                    <button type="button" onClick={copyIban} className="inline-flex items-center rounded-lg border border-[#C9D3B8] bg-white px-3 py-1.5 text-xs font-bold text-[#34452D] transition hover:bg-[#E9EDDB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#647746]">
+                      {ibanCopied
+                        ? (language === 'ru' ? 'Скопировано' : language === 'en' ? 'Copied' : 'Копирано')
+                        : (language === 'ru' ? 'Копировать IBAN' : language === 'en' ? 'Copy IBAN' : 'Копирай IBAN')}
+                    </button>
+                  </dd>
+                </div>
+                <div><dt className="text-slate-500">BIC / SWIFT</dt><dd className="mt-0.5 font-semibold text-[#263323]">STSABGSF</dd></div>
+              </dl>
+            </div>
+          </div>
+
+          <div className="mt-5 border-t border-[#E2E7D9] pt-5">
+            <h3 className="text-base font-extrabold text-[#263323]">
+              {language === 'ru' ? 'Контакты и торговый объект' : language === 'en' ? 'Contact and garden centre' : 'Контакти и търговски обект'}
+            </h3>
+            <div className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
+              <div>
+                <p className="text-slate-500">{language === 'ru' ? 'Телефон' : language === 'en' ? 'Phone' : 'Телефон'}</p>
+                <a href="tel:+359876777902" className="mt-0.5 inline-block font-semibold text-[#34452D] underline underline-offset-4">+359 876 777 902</a>
+              </div>
+              <div>
+                <p className="text-slate-500">Email</p>
+                <a href="mailto:barakov1971@abv.bg" className="mt-0.5 inline-block break-all font-semibold text-[#34452D] underline underline-offset-4">barakov1971@abv.bg</a>
+              </div>
+              <div className="sm:col-span-2">
+                <p className="text-slate-500">{language === 'ru' ? 'Садовый центр' : language === 'en' ? 'Garden centre' : 'Градински център'}</p>
+                <p className="mt-0.5 font-semibold leading-6 text-[#263323]">{language === 'ru' ? '«Флориал», ул. «Хан Крум», 8230 Несебр, Болгария (рядом с магазином Janet)' : language === 'en' ? 'Florial, Khan Krum St, 8230 Nessebar, Bulgaria (next to Janet store)' : '„Флориал“, ул. „Хан Крум“, 8230 Несебър, България (до магазин Janet)'}</p>
+              </div>
+            </div>
           </div>
         </section>
 
