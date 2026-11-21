@@ -4,7 +4,7 @@
 Рабочий PR: [#450](https://github.com/omaraandrey-dev/florial/pull/450)  
 Рабочая ветка: `feature/manager-order-notifications`  
 Последний подтверждённый commit реализации: `b87df49b954712641ffa44e0845f4ef4ddd05728`
-Последний полностью проверенный PR checkpoint: `23506820298a7d47ae6fc18d1bc1c31d0485a8a7`.  
+Последний кодовый checkpoint после исправления Service Worker: `e373e2f82c5a73b222fa69393f1d3874010540e3`.  
 База PR на момент сверки: `main` = `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`
 
 > Этот документ — единая карта текущей задачи. Production D1 migration 0017 и VAPID configuration уже выполнены. Web Push пока не работает в Production, поскольку код PR #450 остаётся в Draft и не развёрнут из main.
@@ -149,10 +149,10 @@ D1 export bookmark: `00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166
 - D1 migration 0017 применена и проверена read-back.
 - VAPID public/private/subject сохранены в Pages Production; private key — encrypted secret.
 - Существующий Production deployment не изменялся и продолжает обслуживать main SHA 5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d.
-- Последний PR HEAD на момент записи: a6f3b5509fee0fec754a60a994eeba08f2a9c238; D1 workflow был запущен, Preview deployment b85bd92a-9100-479b-82e4-c59540a993d0 успешно опубликован: https://b85bd92a.florial.pages.dev.
+- Последний PR HEAD: `e373e2f82c5a73b222fa69393f1d3874010540e3`. D1 workflow `44858363236` — success; Blog/Studio workflow `44858363243` на момент записи ещё выполнялся; Pages Preview deployment `e92a4372-4d7f-48d5-8446-9f22aef2e77b` — success: https://e92a4372.florial.pages.dev. В финальном review исправлено перенаправление push-click: используется только вкладка `/manager/`, storefront tab не перехватывается; добавлен регрессионный тест.
 - PR #450 остаётся Draft и не объединён.
 
-**Следующий шаг:** дождаться успешного CI на актуальном PR HEAD, выполнить финальный diff/release review и отдельно получить команду владельца на снятие Draft/merge. После merge проверить Production deployment по точному merge SHA и провести согласованный Android/Chrome тест по Owner, Manager и Seller. До выпуска не создавать реальные заказы/заявки ради тестирования.
+**Следующий шаг:** дождаться успешного Blog/Studio CI на актуальном PR HEAD и повторно проверить mergeability; затем отдельно получить команду владельца на снятие Draft/merge. После merge проверить Production deployment по точному merge SHA и провести согласованный Android/Chrome тест по Owner, Manager и Seller. До выпуска не создавать реальные заказы/заявки ради тестирования.
 
 ## 7. История обновления
 

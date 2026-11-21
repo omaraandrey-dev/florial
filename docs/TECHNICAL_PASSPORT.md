@@ -1,3 +1,12 @@
+## 2026-11-21 — Manager Web Push: notification click isolation
+
+- Final code review of PR #450 found that Service Worker notification clicks could navigate any same-origin tab, including the public storefront, into Manager.
+- Fixed `public/manager/sw.js`: reuse only an existing same-origin `/manager/` client; otherwise open a new Manager window. Storefront tabs are no longer repurposed.
+- Added a regression assertion in `tests/manager-push.test.mjs` for the Manager-path restriction.
+- Exact code/test head: `e373e2f82c5a73b222fa69393f1d3874010540e3`. Cloudflare Pages Preview deployment `e92a4372-4d7f-48d5-8446-9f22aef2e77b` completed successfully for this SHA.
+- D1 migration validation run `44858363236` passed. Blog and Studio validation run `44858363243` was still in progress at documentation update time; do not treat the final CI gate as passed until it completes.
+- PR #450 remains Draft; no merge or Production deployment was performed.
+
 ## 2026-11-21 — Manager Web Push: Production prerequisites applied (PR #450 still Draft)
 
 - Production D1 migration `0017_manager_push_subscriptions` applied on 2026-11-21 at 02:38:36 after successful full D1 SQL export. The table, unique endpoint constraint, two indexes and migration ledger entry were verified by live read-back. Table row count: 0; `PRAGMA foreign_key_check`: 0 violations. Existing orders, leads, staff profiles and sessions were not modified.

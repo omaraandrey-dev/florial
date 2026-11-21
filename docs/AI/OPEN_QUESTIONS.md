@@ -1,27 +1,22 @@
 # Florial — текущие открытые вопросы и проверки
 
-Дата сверки: 2026-11-21. Этот файл содержит только вопросы, которые остаются актуальными.
+Дата сверки: 2026-11-21.
 
 ## 2026-11-21 — Manager Web Push: release и Android QA
 
-- PR #450 открыт и остаётся Draft; implementation head `b87df49b954712641ffa44e0845f4ef4ddd05728`. Validated checkpoint `fb6603d88323111038d02f3cf1004370e5bfe2f0`: Blog/Studio run `44857303725`, D1 run `44857303728` и Preview deployment `084ab2f4-c1fa-47ef-a04d-3332a3b40795` — success. Production merge/deploy не выполнялся.
-- Production D1 migration `0017_manager_push_subscriptions` применена и проверена live read-back; таблица пустая, foreign-key check без нарушений. D1 export backup создан до write. `PRAGMA integrity_check` через API недоступен (`SQLITE_AUTH`), это ограничение проверки.
-- Cloudflare Pages Production содержит VAPID public key, encrypted private key и subject; наличие/типы проверены без чтения/вывода значений. Preview config не изменялась.
-- **Открыто:** дождаться успешных CI checks для последнего PR HEAD, выполнить финальный release review и получить отдельную команду владельца на снятие Draft/merge.
-- **Открыто после выпуска:** проверить Production deployment по точному merge SHA; затем выполнить Android/Chrome opt-in, subscription persistence, push delivery, правильный notification click, opt-out/delete/re-subscribe для Owner, Manager и Seller. Service-lead push должен получать только Owner; тестовые заказы не должны отправлять push.
+- PR #450 остаётся Draft; последний кодовый SHA `e373e2f82c5a73b222fa69393f1d3874010540e3`. Production D1 migration 0017 и VAPID Production configuration выполнены ранее по отдельному подтверждению.
+- D1 validation run `44858363236` — success; Pages Preview deployment `e92a4372-4d7f-48d5-8446-9f22aef2e77b` — success для точного SHA.
+- Blog and Studio validation run `44858363243` на момент записи ещё выполнялся. После его завершения повторно проверить CI, Preview и PR mergeability.
+- В ходе финального code review исправлен Service Worker notification click: используется только открытая вкладка `/manager/`, иначе открывается новая; storefront tab не перенаправляется. Добавлен регрессионный тест.
+- **Открыто:** завершить точный-head CI gate, затем запросить отдельную команду владельца на снятие Draft/merge. До такой команды PR не объединять.
+- **Открыто после выпуска:** проверить Production deployment по точному merge SHA; затем Android/Chrome opt-in, subscription persistence, push delivery, правильный notification click, opt-out/delete/re-subscribe для Owner, Manager и Seller. Service-lead push должен получать только Owner; тестовые заказы не должны отправлять push.
 - Не создавать Production test orders/leads и не отправлять тестовые письма без согласованного тестового сценария. Не раскрывать VAPID private key и не записывать его в GitHub.
 
 ## 2026-11-20 — Manager Web Push: release prerequisites (historical snapshot; superseded by the 2026-11-21 status above)
 
 - PR #450 contains the Manager Web Push implementation and remains Draft. Exact implementation/test head `a908426f3355c793e369ea0e0adaae170bbac6de` passed Blog/Studio run `44793855068`, D1 run `44793855086`, and Preview deployment `33d99b8b-e866-4701-85a9-d6809c9c62df`.
-- Production D1 migration `0017_manager_push_subscriptions` is not applied. Before rollout, perform an owner-approved migration preflight and apply the additive SQL to the verified Production D1 only after separate explicit approval.
-- Cloudflare Pages Functions variables/secrets `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` are not configured. Generate VAPID key pair and configure these only after explicit owner approval; never expose private key in browser or Git.
-- Real Android Chrome install/permission/subscribe/push/click/unsubscribe verification is pending. Browser/platform support may vary.
-- Until migration and VAPID setup are complete, subscription API returns disabled/unconfigured and no push is delivered. Existing 15-minute Manager polling remains functional.
-# Florial — текущие открытые вопросы и проверки
-
-Дата сверки: 2026-11-20. Этот файл содержит только вопросы, которые остаются актуальными.
-
+- Production D1 migration and VAPID setup were pending at that historical checkpoint; both were later completed with separate owner approval.
+- Real Android Chrome install/permission/subscribe/push/click/unsubscribe verification remains pending.
 
 ## 2026-11-20 — Sanity category schema descriptor: legacy SEO fields
 
