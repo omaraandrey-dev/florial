@@ -21,8 +21,9 @@ test('manual plant intake requires name, variant/model-or-size, price and quanti
 
 test('variant model name can replace numeric height and container dimensions', () => {
   assert.match(plantLib, /suppliedName\.length < 2 && !hasPhysicalSize/)
+  assert.match(plantLib, /hasPhysicalSize = \(saleHeightCm \|\| 0\) > 0 && \(containerVolumeL \|\| 0\) > 0/)
   assert.match(plantLib, /const name = suppliedName \|\|/)
-  assert.match(manager, /Наименование на размер \/ модел \(или посочете височина\/обем\)/)
+  assert.match(manager, /Наименование на размер \/ модел \(или посочете височина и обем на контейнера\)/)
   assert.match(manager, /Височина \(см\) · по избор/)
   assert.match(manager, /Контейнер \(л\) · по избор/)
   assert.match(manager, /if\(key==='stockQuantity'&&value\.trim\(\)==='0'&&next\.stockStatus==='inStock'\)next\.stockStatus='outOfStock'/)
@@ -39,6 +40,7 @@ test('a new incomplete plant is stored inactive until category and photo are pro
 test('Google Text search can be applied without attaching a photograph', () => {
   assert.match(gemini, /mode === 'text' \|\| \/\^image-/)
   assert.match(gemini, /aiSearchMode: mode/)
+  assert.match(plantLib, /if \(imageAssetId\) return \{ imageAssetId \}/)
   assert.match(plantLib, /mode: value\.aiSearchMode === 'text' \? 'text' : 'photo'/)
   assert.match(plantLib, /identity\.mode === 'text' \|\| Boolean\(identity\.imageAssetId\)/)
   assert.match(manager, /geminiResult\.mode==='text'/)
