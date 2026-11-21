@@ -22,7 +22,9 @@ test('gross prices extract VAT instead of adding another 20 percent', async () =
 
 test('bank transfer proforma includes due date, amount in words, and stock confirmation warning', async () => {
   const pdf = await read('functions/api/_lib/order-documents.ts')
-  assert.match(pdf, /getProformaPaymentDates\(order\.created_at\)/)
+  assert.match(pdf, /getProformaPaymentDates\(order\.issued_at \|\| order\.created_at\)/)
+  const managerPdf = await read('functions/api/manager/order-documents.ts')
+  assert.match(managerPdf, /issued_at:nowIso\(\)/)
   assert.match(pdf, /5 \(пет\) календарни дни/)
   assert.match(pdf, /amountInWordsBg\(total/)
   assert.match(pdf, /изчакайте потвърждение от екипа на Florial/)
