@@ -4,7 +4,7 @@
 Рабочий PR: [#450](https://github.com/omaraandrey-dev/florial/pull/450)  
 Рабочая ветка: `feature/manager-order-notifications`  
 Последний подтверждённый commit реализации: `b87df49b954712641ffa44e0845f4ef4ddd05728`
-Текущий HEAD PR после документационной актуализации: `8b744771018d3a43a7e8e8c149806295d0287b70`  
+Последняя ревизия документа до этой записи: `925d7ec5f736321f7462be108b012de26ca0b279` (после неё выполняется только эта документационная синхронизация).  
 База PR на момент сверки: `main` = `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`
 
 > Этот документ — единая карта текущей задачи. Статус кода/CI/Preview не означает, что Web Push уже работает в Production. Production rollout ещё не выполнен.
@@ -137,7 +137,7 @@
 
 **Статус: реализация, CI, Preview и read-only Production D1 preflight подтверждены. Production rollout ещё не начат.**
 
-Последний проверенный кодовый/Preview HEAD `cb19924f35f451fcc399f753aafee4e7c902a52e` прошёл оба GitHub Actions workflow. После него в ветку внесены только документационные commits, текущий HEAD: `8b744771018d3a43a7e8e8c149806295d0287b70`.
+Кодовый HEAD `cb19924f35f451fcc399f753aafee4e7c902a52e` прошёл оба GitHub Actions workflow. Последующий документационный HEAD `925d7ec5f736321f7462be108b012de26ca0b279`: D1 migration validation run `44856430333` — success; Blog and Studio validation run `44856430325` — выполнялся на момент этой записи.
 - Blog and Studio validation: run `44854697815` — success.
 - D1 migration validation: run `44854697868` — success.
 
@@ -147,4 +147,4 @@ Cloudflare Pages Preview deployment `4280bdb7-f9f0-4b0c-9a02-56ec10574cd4` ус�
 
 ## 7. История обновления
 
-- 2026-11-21: актуализирован статус после повторной проверки Cloudflare. Доступ к Cloudflare и Production D1 подтверждён read-only запросами; миграция 0017 не применена; migration ledger остаётся на 0016; `catalog_staff_profiles(user_id)` подтверждена; foreign-key check без нарушений. `PRAGMA integrity_check` недоступен через API (`SQLITE_AUTH`). GitHub Actions и Pages Preview подтверждены для HEAD `cb19924f35f451fcc399f753aafee4e7c902a52e`; после него были только документационные commits, последний — `8b744771018d3a43a7e8e8c149806295d0287b70`. Production migration, VAPID secrets и Android push QA остаются незавершёнными.
+- 2026-11-21: актуализирован статус после повторной проверки Cloudflare. Доступ к Cloudflare и Production D1 подтверждён read-only запросами; миграция 0017 не применена; migration ledger остаётся на 0016; `catalog_staff_profiles(user_id)` подтверждена; foreign-key check без нарушений. `PRAGMA integrity_check` недоступен через API (`SQLITE_AUTH`). GitHub Actions и Pages Preview подтверждены для HEAD `925d7ec5f736321f7462be108b012de26ca0b279`; D1 workflow успешен, Blog/Studio workflow выполнялся на момент последней записи. Production migration, VAPID secrets и Android push QA остаются незавершёнными.
