@@ -7,7 +7,7 @@
 Последняя ревизия документа до этой записи: `925d7ec5f736321f7462be108b012de26ca0b279` (после неё выполняется только эта документационная синхронизация).  
 База PR на момент сверки: `main` = `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`
 
-> Этот документ — единая карта текущей задачи. Статус кода/CI/Preview не означает, что Web Push уже работает в Production. Production rollout ещё не выполнен.
+> Этот документ — единая карта текущей задачи. Production D1 migration 0017 и VAPID configuration уже выполнены. Web Push пока не работает в Production, поскольку код PR #450 остаётся в Draft и не развёрнут из main.
 
 ## 1. Цель и утверждённые правила
 
@@ -70,26 +70,35 @@
 
 **Итог этапа:** preflight не выявил конфликтов миграции с текущей Production-схемой. Migration 0017 не применялась; Production D1 schema/data не изменялись.
 
-### Этап B — подготовить Production D1
+### Этап B — Production D1 migration 0017
 
-- [x] Read-only preflight завершён; текущая схема совместима с additive migration 0017 по проверенным объектам.
-- [ ] Применить migration 0017 к Production D1 — **не выполнено**.
-- [ ] После применения перечитать migration ledger и структуру таблицы.
-- [ ] Проверить индексы, уникальность endpoint и foreign-key constraint после применения.
-- [ ] Не менять существующие заказы, заявки, профили сотрудников или сессии.
+**Завершено 2026-11-21 — Production write выполнен по отдельному подтверждению владельца.**
 
-**Контроль безопасности:** перед фактическим Production write требуется отдельное подтверждение владельца именно на применение migration 0017. До него никаких изменений Production D1 не выполнять.
+- [x] Перед write создан полный SQL export Production D1 в Cloudflare D1 export storage (compatibility: d1; export завершён успешно).
+- [x] Непосредственно перед write повторно подтверждено: migration ledger на 0016, целевой таблицы ещё нет, родительская таблица catalog_staff_profiles доступна.
+- [x] Migration 0017 применена одним D1 batch: таблица manager_push_subscriptions, два индекса и запись в schema_migrations.
+- [x] Live read-back подтвердил 0017_manager_push_subscriptions, структуру таблицы и оба индекса.
+- [x] PRAGMA foreign_key_check после миграции вернул ноль нарушений.
+- [x] Новая таблица пуста (0 подписок); существующие заказы, заявки, профили и сессии не изменялись.
+- [x] Применение подтверждено D1 API: migration ledger timestamp 2026-11-21 02:38:36.
 
-### Этап C — настроить VAPID в Cloudflare Pages
+Backup export filename: 5fbb0e47-8439-493c-821a-6945eef7d8b2-00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166.sql. Signed download URL не сохраняется в GitHub и не включается в документацию.
 
-- [ ] Сверить имена переменных и ожидаемый формат по текущему коду PR #450.
-- [ ] Создать VAPID key pair.
-- [ ] Настроить `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` в правильном Production runtime scope.
-- [ ] Private key хранить только как Cloudflare secret; не выводить в чат, GitHub, commit, документацию или логи.
-- [ ] Public key и subject размещать в соответствующем типе configuration согласно требованиям кода/Cloudflare; не угадывать формат subject.
-- [ ] Проверить конфигурацию безопасным read-only способом, не раскрывая private key.
+**Ограничение:** PRAGMA integrity_check через D1 API недоступен (SQLITE_AUTH); foreign-key check после миграции выполнен успешно.
 
-**Важно:** D1 migration и VAPID config сами по себе не включат push на Production, пока код PR #450 не попадёт в Production через merge и deployment из `main`.
+### Этап C — VAPID в Cloudflare Pages Production
+
+**Завершено 2026-11-21 — конфигурация сохранена в Production.**
+
+- [x] По PR-коду подтверждены имена VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT.
+- [x] Создана новая P-256 VAPID key pair; public key в URL-safe Base64, private key соответствует VAPID raw 32-byte scalar.
+- [x] В Pages project florial, только в deployment_configs.production, добавлены три переменные.
+- [x] VAPID_PRIVATE_KEY записан как encrypted secret_text; public key и subject — plain_text.
+- [x] Без раскрытия значений проверены наличие всех трёх переменных и типы; существующие переменные сохранены.
+- [x] Preview configuration не изменялась.
+- [x] Production deployment не запускался: текущий Production runtime остаётся на main, где PR #450 ещё не включён.
+
+**Важно:** сохранённые настройки будут использоваться новым Production deployment. Они ещё не проверены работающим endpoint или реальной доставкой, поскольку код PR #450 не выпущен. Private key не сохраняется в GitHub/документации и не выводится в логи/чат.
 
 ### Этап D — принять решение по выпуску
 
@@ -114,13 +123,12 @@
 
 ## 4. Что сейчас НЕ сделано / не подтверждено
 
-- Production migration 0017 **не применена**; таблица `manager_push_subscriptions` отсутствует.
-- VAPID public/private/subject **не настроены** в Cloudflare Pages.
-- Реальная Production subscription и доставка push **не проверены**.
-- Android/Chrome permission, push delivery, notification click и unsubscribe **не протестированы**.
-- Production код PR #450 **не выпущен**: PR открыт и Draft; Production продолжает работать на `main`.
-- `PRAGMA integrity_check` не удалось выполнить через Cloudflare API из-за `SQLITE_AUTH`; остальные указанные read-only D1 запросы успешны.
-- Успешный Pages Preview и CI не доказывают реальную работу Push в Production.
+- PR #450 остаётся открытым Draft; Production runtime ещё не содержит Web Push endpoints/UI/dispatch.
+- Реальная Production subscription и доставка push не проверены.
+- Android/Chrome permission, push delivery, notification click и unsubscribe не протестированы.
+- Проверка работающего API /api/manager/push/subscriptions возможна после выпуска кода.
+- PRAGMA integrity_check недоступен через D1 API из-за SQLITE_AUTH; PRAGMA foreign_key_check после миграции выполнен успешно и нарушений не выявил.
+- CI и Pages Preview подтверждают PR build, но не реальную работу Push в Production.
 
 ## 5. Ограничения scope
 
@@ -135,16 +143,17 @@
 
 ## 6. Текущий статус и следующий шаг
 
-**Статус: реализация, CI, Preview и read-only Production D1 preflight подтверждены. Production rollout ещё не начат.**
+**Статус: Production D1 migration 0017 и VAPID Production configuration выполнены. Release и real-device QA остаются открытыми.**
 
-Кодовый HEAD `cb19924f35f451fcc399f753aafee4e7c902a52e` прошёл оба GitHub Actions workflow. Последующий документационный HEAD `925d7ec5f736321f7462be108b012de26ca0b279`: D1 migration validation run `44856430333` — success; Blog and Studio validation run `44856430325` — выполнялся на момент этой записи.
-- Blog and Studio validation: run `44854697815` — success.
-- D1 migration validation: run `44854697868` — success.
+- D1 migration 0017 применена и проверена read-back.
+- VAPID public/private/subject сохранены в Pages Production; private key — encrypted secret.
+- Существующий Production deployment не изменялся и продолжает обслуживать main SHA 5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d.
+- Последний PR HEAD на момент записи: a6f3b5509fee0fec754a60a994eeba08f2a9c238; D1 workflow был запущен, Preview deployment b85bd92a-9100-479b-82e4-c59540a993d0 успешно опубликован: https://b85bd92a.florial.pages.dev.
+- PR #450 остаётся Draft и не объединён.
 
-Cloudflare Pages Preview deployment `4280bdb7-f9f0-4b0c-9a02-56ec10574cd4` успешно завершён из точного code/docs HEAD `cb19924f35f451fcc399f753aafee4e7c902a52e`; URL: https://4280bdb7.florial.pages.dev.
-
-**Следующий шаг:** подготовить VAPID key pair и план настройки runtime configuration, не публикуя private key. Перед применением migration 0017 и записью Production secrets получить отдельное подтверждение владельца на эти конкретные изменения. PR остаётся Draft и не объединяется до отдельного решения.
+**Следующий шаг:** дождаться успешного CI на актуальном PR HEAD, выполнить финальный diff/release review и отдельно получить команду владельца на снятие Draft/merge. После merge проверить Production deployment по точному merge SHA и провести согласованный Android/Chrome тест по Owner, Manager и Seller. До выпуска не создавать реальные заказы/заявки ради тестирования.
 
 ## 7. История обновления
 
-- 2026-11-21: актуализирован статус после повторной проверки Cloudflare. Доступ к Cloudflare и Production D1 подтверждён read-only запросами; миграция 0017 не применена; migration ledger остаётся на 0016; `catalog_staff_profiles(user_id)` подтверждена; foreign-key check без нарушений. `PRAGMA integrity_check` недоступен через API (`SQLITE_AUTH`). GitHub Actions и Pages Preview подтверждены для HEAD `925d7ec5f736321f7462be108b012de26ca0b279`; D1 workflow успешен, Blog/Studio workflow выполнялся на момент последней записи. Production migration, VAPID secrets и Android push QA остаются незавершёнными.
+- 2026-11-21: Production D1 export создан; migration 0017 применена batch-запросом и проверена live read-back. Таблица содержит 0 строк; foreign-key check — 0 нарушений. Pages Production получил VAPID public/private/subject; private key хранится как encrypted secret, значения не включены в документацию. Preview settings и Production deployment не изменялись. PR #450 остаётся Draft; live push QA pending.
+- 2026-11-21: исправлен прежний ошибочный статус Cloudflare authorization. Cloudflare API и D1 read-only доступ подтверждены; PRAGMA integrity_check отклоняется как SQLITE_AUTH, не как общий отказ доступа.
