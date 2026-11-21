@@ -718,9 +718,25 @@ export default function ManagerApp() {
     setPushMessage('')
     try {
       const response = await fetch('/api/manager/push/test', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' } })
-      const result = await response.json().catch(() => ({})) as { error?: string; attempted?: number; accepted?: number }
+      const result = await response.json().catch(() => ({})) as {
+        error?: string
+        attempted?: number
+        accepted?: number
+        failed?: number
+        diagnostics?: Array<{ phase: 'signing' | 'provider' | 'network'; code: string; status: number | null; errorName: string | null }>
+      }
       if (!response.ok) throw new Error(result.error || 'Не успяхме да изпратим тестовото известие.')
-      setPushMessage('Тестовото известие е прието от push услугата за ' + (result.accepted || 0) + ' от ' + (result.attempted || 0) + ' устройства на собственика.')
+      const diagnosticMessages = (result.diagnostics || []).map((item) => {
+        if (item.phase === 'signing') return 'Грешка при подписване на push съобщението (VAPID).'
+        if (item.code === 'network_timeout') return 'Изтече времето за връзка с push услугата.'
+        if (item.phase === 'network') return 'Няма връзка с push услугата (' + (item.errorName || 'network error') + ').'
+        if (item.status === 401 || item.status === 403) return 'Push услугата отказа удостоверяване (HTTP ' + item.status + '); проверете VAPID конфигурацията и съответствието на ключовете.'
+        if (item.status === 400 || item.status === 413) return 'Push услугата отхвърли съобщението или абонамента (HTTP ' + item.status + ').'
+        if (item.status === 429) return 'Push услугата ограничи заявките (HTTP 429).'
+        return 'Push услугата върна HTTP ' + (item.status ?? 'неизвестен код') + '.'
+      })
+      const summary = 'Push услугата прие ' + (result.accepted || 0) + ' от ' + (result.attempted || 0) + ' устройства на собственика.'
+      setPushMessage(summary + (diagnosticMessages.length ? ' Диагностика: ' + diagnosticMessages.join(' ') : ''))
     } catch (err) {
       setPushMessage(err instanceof Error ? err.message : 'Не успяхме да изпратим тестовото известие.')
     } finally { setTestPushBusy(false) }
