@@ -167,7 +167,7 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
     const saleHeightCm = numberValue(item.saleHeightCm, 'Височина', 0)
     const containerVolumeL = numberValue(item.containerVolumeL, 'Обем на контейнера', 0.1)
     const suppliedName = cleanText(item.name, 100)
-    const hasPhysicalSize = (saleHeightCm || 0) > 0 || (containerVolumeL || 0) > 0
+    const hasPhysicalSize = (saleHeightCm || 0) > 0 && (containerVolumeL || 0) > 0
     if (suppliedName.length < 2 && !hasPhysicalSize) throw new Error('Въведете име на модел или височина/обем за вариант №' + (index + 1) + '.')
     const name = suppliedName || [saleHeightCm ? 'Височина ' + saleHeightCm + ' см' : '', containerVolumeL ? 'Контейнер ' + containerVolumeL + ' л' : ''].filter(Boolean).join(' / ')
     const _key = cleanText(item._key, 80) || crypto.randomUUID().replace(/-/g, '').slice(0, 12)
