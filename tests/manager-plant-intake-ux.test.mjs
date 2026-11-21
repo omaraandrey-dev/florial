@@ -37,7 +37,7 @@ test('plant editor keeps advanced catalog fields owner-only and explains automat
   assert.ok(source.includes("{role==='owner'&&(['ru','en'] as const).map"))
   assert.ok(source.includes('URL адресът се генерира автоматично.'))
   assert.ok(source.includes('Преводите, SEO и ботаническите характеристики се обработват от собственика.'))
-  assert.ok(source.includes('URL адресът се генерира автоматично от името на растението.'))
+  assert.ok(source.includes('URL адресът се генерира автоматично.'))
 })
 
 test('plant editor provides section shortcuts and collapses long description and owner-only sections by default', () => {
@@ -49,7 +49,7 @@ test('plant editor provides section shortcuts and collapses long description and
 })
 
 test('plant editor warns before discarding unsaved edits', () => {
-  assert.ok(source.includes('initialEditorSnapshot=useRef'))
+  assert.ok(source.includes('initialEditorSnapshot,setInitialEditorSnapshot]=useState'))
   assert.ok(source.includes('window.confirm(\'Имате незапазени промени. Сигурни ли сте, че искате да излезете без запазване?\')'))
   assert.ok(source.includes("window.addEventListener('beforeunload',warnBeforeUnload)"))
   assert.ok(source.includes('onClick={closeEditor}'))
