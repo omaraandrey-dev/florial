@@ -10,7 +10,7 @@ const gemini = read('functions/api/manager/plants/gemini-test.ts')
 
 test('manual plant intake requires name, variant/model-or-size, price and quantity only', () => {
   assert.match(manager, /const variantsReady=activeForm\.saleVariants\.length>0/)
-  assert.match(manager, /hasModelOrSize=variant\.name\.trim\(\)\.length>=2\|\|Number\(variant\.saleHeightCm\)>0\|\|Number\(variant\.containerVolumeL\)>0/)
+  assert.match(manager, /hasModelOrSize=variant\.name\.trim\(\)\.length>=2\|\|\(Number\(variant\.saleHeightCm\)>0&&Number\(variant\.containerVolumeL\)>0\)/)
   assert.match(manager, /Number\.isFinite\(price\)&&price>0/)
   assert.match(manager, /variant\.stockQuantity\.trim\(\)!==''&&Number\.isInteger\(quantity\)&&quantity>=0/)
   assert.doesNotMatch(manager, /if\(!editingId&&!activeProof\)/)
