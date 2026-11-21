@@ -71,3 +71,14 @@ The checkout UI and `POST /api/orders` branch changes add two active delivery me
 The current settlement/rate allowlist matches `src/pages/IrrigationSupportPage.tsx`: Sunny Beach €0; 12 settlements at €10; 7 settlements at €15; Dubnik €17; 5 settlements at €20; 4 settlements at €25. The exact names and prices are enforced in both `src/pages/CartPage.tsx` and `functions/api/orders.ts`.
 
 Customer email is required in the UI and API so the order confirmation can be sent. Order email and PDF show the selected delivery method and delivery fee. The D1 `orders` table stores the human-readable delivery method, delivery fee, product subtotal and final total in separate fields.
+
+
+## Bank transfer and reusable proforma (2026-11-21)
+
+- Checkout payment methods: `pay_in_store` and `bank_transfer`. Bank transfer uses the existing `orders.payment_method` field; no D1 migration is required.
+- The shared Bulgarian PDF generator is `createProformaPdf` in `functions/api/_lib/order-documents.ts`. It can be reused by checkout and future Manager/email workflows.
+- Bank transfer is available only when the final delivery total is calculable (store pickup or fixed-price equipment courier). It is not accepted while plant delivery is marked for individual agreement; the customer must first receive a confirmed delivery amount.
+- The customer receives the proforma by email when PDF generation succeeds. The email and checkout confirmation state explicitly instruct the customer to wait for availability confirmation before paying. If availability or quantities change, Florial must issue an updated proforma before payment.
+- The proforma shows the company and bank details, the gross total, VAT included in the gross amount (20/120), Bulgarian amount in words, issue date, five-calendar-day due date, payment reference and signature/stamp fields. It is not a tax invoice.
+- Do not test by creating a Production order or sending a customer email without an agreed safe test procedure. Verify PDF rendering and the exact PR/Production SHA separately.
+- When Manager reissues a proforma after stock/delivery confirmation, its issue date and five-day payment deadline are recalculated from the reissue timestamp.

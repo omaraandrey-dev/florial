@@ -1,3 +1,12 @@
+## 2026-11-21 — Bank transfer checkout / proforma release checks
+
+
+- Implementation is on `feat/bank-transfer-proforma-invoice`; PR and CI verification are pending.
+- OPEN: verify Blog/Studio validation, D1 validation and Pages Preview on the exact PR head. Confirm PDF font loading and inspect generated Bulgarian PDF visually, including a long item list and multiple-page behavior.
+- OPEN: owner acceptance of bank transfer checkout wording and the rule that bank transfer is unavailable while plant delivery cost is still being agreed.
+- OPEN: after merge and Production deployment are explicitly approved, use an agreed safe test order/email procedure; do not create a real Production order or send a test email without approval.
+- The implementation does not create a tax invoice. The PDF is a proforma/payment request. Confirm with the company's accountant the exact tax-document issuance point and whether the five-day term should be attached to the proforma or only to a later tax invoice before representing it as a legally issued invoice.
+
 ## 2026-11-21 — Manager real-event visibility and push follow-up
 
 - Owner reports the Owner-only push self-test and lifecycle checks 2.1, 2.2 and 2.3 as working.

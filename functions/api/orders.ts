@@ -123,8 +123,11 @@ const handleOrderPost = async ({
     return json({ error: 'Моля, изберете наличен начин на получаване.' }, 400)
   }
   const paymentMethodInput = cleanText(body.payment_method, 40) || 'pay_in_store'
-  if (paymentMethodInput !== 'pay_in_store') {
-    return json({ error: 'Избраният начин на плащане все още не е наличен. В момента е възможно само плащане в магазина.' }, 400)
+  if (!['pay_in_store', 'bank_transfer'].includes(paymentMethodInput)) {
+    return json({ error: 'Избраният начин на плащане не е наличен.' }, 400)
+  }
+  if (paymentMethodInput === 'bank_transfer' && deliveryMethodInput === 'agree') {
+    return json({ error: 'Банков превод е възможен след уточняване на окончателната цена за доставка. Моля, изберете самовземане или доставка с фиксирана цена.' }, 400)
   }
   if (deliveryMethodInput === 'agree' && !city) {
     return json({ error: 'Моля, посочете населено място за уточняване на доставката.' }, 400)
@@ -312,6 +315,7 @@ const handleOrderPost = async ({
       '<strong>Телефон:</strong> ' + escapeHtml(phone) + '<br>' +
       '<strong>Имейл:</strong> ' + escapeHtml(email || 'Не е посочен') + '<br>' +
       '<strong>Получаване:</strong> ' + escapeHtml(deliveryMethodLabel) + '<br>' +
+      '<strong>Начин на плащане:</strong> ' + escapeHtml(paymentMethodInput === 'bank_transfer' ? 'Банков превод' : 'Плащане в магазина') + '<br>' +
       '<strong>Населено място:</strong> ' + escapeHtml(deliveryMethodInput === 'pickup' ? 'Самовземане от магазин' : city) + '<br>' +
       '<strong>Адрес:</strong> ' + escapeHtml(deliveryMethodInput === 'pickup' ? 'Не е приложимо' : address) + '</p>' +
       (comment ? '<p><strong>Коментар:</strong> ' + escapeHtml(comment) + '</p>' : '') +
@@ -336,6 +340,8 @@ const handleOrderPost = async ({
         delivery_fee: deliveryFee,
         total: grandTotal,
         created_at: String(order.created_at),
+        payment_method: paymentMethodInput,
+        currency: 'EUR',
       }, env.PROFORMA_FONT_URL)
       pdfAttachment = [{
         filename: 'Florial-' + orderNumber + '-proforma.pdf',
@@ -361,7 +367,7 @@ const handleOrderPost = async ({
         env.EMAIL_FROM,
         email,
         'Потвърждение на поръчка ' + orderNumber + ' — Florial',
-        '<h1>Благодарим ви за поръчката!</h1><p>Получихме вашата заявка. Екипът на Florial ще се свърже с вас за потвърждение. Прикачили сме проформа за вашата поръчка, ако генерирането е успешно.</p>' + detailsHtml,
+        '<h1>Благодарим ви за поръчката!</h1>' + (paymentMethodInput === 'bank_transfer' ? '<p><strong>Важно:</strong> Поръчката все още не е потвърдена. Първо ще проверим наличностите и ще потвърдим окончателната сума. Моля, изчакайте потвърждение от екипа на Florial, преди да извършите банковия превод. Прикачената проформа е предварителна.</p>' : '<p>Получихме вашата заявка. Екипът на Florial ще се свърже с вас за потвърждение.</p>') + '<p>Прикачили сме проформа за вашата поръчка, ако генерирането е успешно.</p>' + detailsHtml,
         pdfAttachment,
       ))
     }

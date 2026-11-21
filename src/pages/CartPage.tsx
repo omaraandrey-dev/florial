@@ -25,6 +25,7 @@ export function CartPage({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'courier' | 'agree' | ''>('')
+  const [paymentMethod, setPaymentMethod] = useState<'pay_in_store' | 'bank_transfer'>('pay_in_store')
   const [selectedSettlement, setSelectedSettlement] = useState('')
   const deliveryRates: Record<string, number> = {
     'Слънчев бряг': 0,
@@ -99,7 +100,7 @@ export function CartPage({
         city: deliveryMethod === 'pickup' ? '' : deliveryMethod === 'courier' ? selectedSettlement : formData.city.trim(),
         address: deliveryMethod === 'pickup' ? '' : formData.address.trim(),
         delivery_method: deliveryMethod,
-        payment_method: 'pay_in_store',
+        payment_method: paymentMethod,
         comment: formData.comment.trim(),
         items: cart.map((item) => ({
           productId: item.product._id,
@@ -135,7 +136,7 @@ export function CartPage({
             {t('Благодарим ви за поръчката!')}
           </h1>
           <p className="text-slate-600 mb-8 max-w-md mx-auto">
-            {t('Вашата поръчка')} {orderNumber ? `№ ${orderNumber} ` : ''}{t('беше приета успешно. Наш специалист ще се свърже с вас възможно най-скоро за потвърждение.')}
+            {t('Вашата поръчка')} {orderNumber ? `№ ${orderNumber} ` : ''}{paymentMethod === 'bank_transfer' ? (language === 'ru' ? 'получена. Сначала мы проверим наличие товаров и подтвердим окончательную сумму. Пожалуйста, дождитесь подтверждения Florial и только после этого выполняйте банковский перевод.' : language === 'en' ? 'has been received. We will first check product availability and confirm the final amount. Please wait for Florial confirmation before making the bank transfer.' : 'е получена. Първо ще проверим наличностите и ще потвърдим окончателната сума. Моля, изчакайте потвърждение от Florial и едва след това извършете банковия превод.') : t('беше приета успешно. Наш специалист ще се свърже с вас възможно най-скоро за потвърждение.')}
           </p>
           <button
             onClick={onNavigateHome}
@@ -377,7 +378,7 @@ export function CartPage({
                   {hasPlantItems && <button
                     type="button"
                     aria-pressed={deliveryMethod === 'agree'}
-                    onClick={() => setDeliveryMethod('agree')}
+                    onClick={() => { setDeliveryMethod('agree'); if (paymentMethod === 'bank_transfer') setPaymentMethod('pay_in_store') }}
                     className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${deliveryMethod === 'agree' ? 'border-emerald-600 bg-emerald-50 ring-1 ring-emerald-600' : 'border-slate-200 hover:border-emerald-300'}`}
                   >
                     <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white text-3xl" aria-hidden="true">🌿</span>
@@ -452,21 +453,26 @@ export function CartPage({
 
               <section className="space-y-3">
                 <h3 className="text-sm font-extrabold text-slate-800">{language === 'ru' ? 'Способ оплаты *' : language === 'en' ? 'Payment method *' : 'Начин на плащане *'}</h3>
-                <div className="flex items-center gap-3 rounded-xl border border-emerald-600 bg-emerald-50 p-3 ring-1 ring-emerald-600">
+                <button type="button" aria-pressed={paymentMethod === 'pay_in_store'} onClick={() => setPaymentMethod('pay_in_store')} className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${paymentMethod === 'pay_in_store' ? 'border-emerald-600 bg-emerald-50 ring-1 ring-emerald-600' : 'border-slate-200 hover:border-emerald-300'}`}>
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-2xl" aria-hidden="true">🏪</span>
                   <span className="min-w-0 flex-1">
                     <span className="block font-bold text-slate-900">{language === 'ru' ? 'Оплата в магазине' : language === 'en' ? 'Pay in store' : 'Плащане в магазина'}</span>
-                    <span className="mt-1 block text-sm text-slate-600">{language === 'ru' ? 'Единственный доступный способ оплаты сейчас' : language === 'en' ? 'The only available payment method for now' : 'Единственият наличен начин на плащане засега'}</span>
+                    <span className="mt-1 block text-sm text-slate-600">{language === 'ru' ? 'Оплата при получении в магазине Florial' : language === 'en' ? 'Pay when collecting your order at Florial' : 'Плащане при получаване на поръчката в магазин Florial'}</span>
                   </span>
-                  <span className="text-emerald-700 font-bold" aria-hidden="true">✓</span>
-                </div>
-                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                  {paymentMethod === 'pay_in_store' && <span className="text-emerald-700 font-bold" aria-hidden="true">✓</span>}
+                </button>
+                <button type="button" disabled={deliveryMethod === 'agree'} aria-pressed={paymentMethod === 'bank_transfer'} onClick={() => setPaymentMethod('bank_transfer')} className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition disabled:cursor-not-allowed disabled:opacity-45 ${paymentMethod === 'bank_transfer' ? 'border-emerald-600 bg-emerald-50 ring-1 ring-emerald-600' : 'border-slate-200 hover:border-emerald-300'}`}>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-2xl" aria-hidden="true">🏦</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-bold text-slate-900">{language === 'ru' ? 'Банковский перевод' : language === 'en' ? 'Bank transfer' : 'Банков превод'}</span>
+                    <span className="mt-1 block text-sm text-slate-600">{language === 'ru' ? 'Получите проформу по email после оформления заказа. Оплачивайте только после подтверждения наличия.' : language === 'en' ? 'Receive a proforma by email after checkout. Pay only after availability is confirmed.' : 'Ще получите проформа по имейл. Платете само след потвърждение на наличностите.'}</span>
+                  </span>
+                  {paymentMethod === 'bank_transfer' && <span className="text-emerald-700 font-bold" aria-hidden="true">✓</span>}
+                </button>
+                {deliveryMethod === 'agree' && <p className="text-xs text-amber-700">{language === 'ru' ? 'Банковский перевод станет доступен после уточнения стоимости доставки.' : language === 'en' ? 'Bank transfer will be available after the delivery cost is confirmed.' : 'Банковият превод ще бъде достъпен след уточняване на цената за доставка.'}</p>}
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   <div aria-disabled="true" className="rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-55">
                     <span className="block text-sm font-semibold text-slate-500">{language === 'ru' ? 'Наложенный платёж' : language === 'en' ? 'Cash on delivery' : 'Наложен платеж'}</span>
-                    <span className="mt-1 block text-xs text-slate-400">{language === 'ru' ? 'Скоро' : language === 'en' ? 'Coming soon' : 'Очаквайте скоро'}</span>
-                  </div>
-                  <div aria-disabled="true" className="rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-55">
-                    <span className="block text-sm font-semibold text-slate-500">{language === 'ru' ? 'Банковский перевод' : language === 'en' ? 'Bank transfer' : 'Банков превод'}</span>
                     <span className="mt-1 block text-xs text-slate-400">{language === 'ru' ? 'Скоро' : language === 'en' ? 'Coming soon' : 'Очаквайте скоро'}</span>
                   </div>
                   <div aria-disabled="true" className="rounded-xl border border-slate-200 bg-slate-100 p-3 opacity-55">
