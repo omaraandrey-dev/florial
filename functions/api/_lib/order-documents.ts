@@ -16,6 +16,7 @@ export type ProformaOrder = {
   total?: number | null
   currency?: string
   created_at: string
+  issued_at?: string
 }
 
 const roundMoney = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100
@@ -149,7 +150,7 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
   draw('Банка: Банка ДСК   |   IBAN: BG88STSA93000029605234   |   BIC: STSABGSF', 7.5)
   y -= 4
   draw('ПРОФОРМА ФАКТУРА', 14, green, true)
-  const dates = getProformaPaymentDates(order.created_at)
+  const dates = getProformaPaymentDates(order.issued_at || order.created_at)
   draw('Номер: ' + order.order_number + '   |   Дата на издаване: ' + dates.issuedDateLabel)
   draw('КЛИЕНТ', 10, green, true)
   draw('Име: ' + (order.customer_name || 'Не е посочено'))
