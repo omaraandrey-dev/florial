@@ -525,11 +525,11 @@ export default function PlantCatalogManager({role,permissions}:Props){
         proofAssetId={geminiProofAssetId}
         onCheckStateChange={setDuplicateCheckPending}
         onSelectionStateChange={setExistingPlantSelected}
-        image={images[mainImageIndex]?{
+        image={geminiResult.mode==='photo'&&images[mainImageIndex]?{
          ...images[mainImageIndex],
-         alt:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.bg||images[mainImageIndex].alt:images[mainImageIndex].alt,
-         altRu:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.ru||images[mainImageIndex].altRu:images[mainImageIndex].altRu,
-         altEn:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.en||images[mainImageIndex].altEn:images[mainImageIndex].altEn,
+         alt:geminiResult.result.imageAlt?.bg||images[mainImageIndex].alt,
+         altRu:geminiResult.result.imageAlt?.ru||images[mainImageIndex].altRu,
+         altEn:geminiResult.result.imageAlt?.en||images[mainImageIndex].altEn,
         }:null}
         onAdded={({productName,imageAdded,imageAlreadyPresent,galleryFull})=>{
          setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setEditorOpen(false);setEditingId(null)
