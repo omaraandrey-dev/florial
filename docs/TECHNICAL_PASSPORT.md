@@ -5,7 +5,8 @@
 - Added section shortcut navigation, collapsed long-form sections, role guidance and unsaved-change warnings.
 - Added regression assertions in `tests/manager-plant-intake-ux.test.mjs`.
 - No API, server validation, role permissions, Sanity schema/documents, D1, Cloudflare configuration, Resend or Production data changed.
-- CI, Preview and Production deployment are not yet verified for the PR head. Authenticated device QA remains pending.
+- Exact final PR head `a7219381ed47ebaa6cc44f3ee2365d3cb08be7a1`: Blog and Studio validation run `44921957018` — success (application/Pages Functions typecheck, lint, 379 tests, website build, read-only migration dry-run, Studio typecheck/build); D1 validation run `44921957051` — success.
+- No Preview or Production deployment was performed. Authenticated role-based mobile/desktop QA remains pending.
 - Full scope: `docs/manager/PLANT_EDITOR_UX.md`.
 
 ---
