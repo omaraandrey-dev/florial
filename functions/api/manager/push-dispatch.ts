@@ -35,7 +35,8 @@ export const sendManagerPushToSubscriptions = async (
   return { attempted: results.length, accepted: results.filter((x) => x === 'accepted').length, expired: results.filter((x) => x === 'expired').length, failed: results.filter((x) => x === 'failed').length }
 }
 
-export const dispatchManagerPush = async (  env: ManagerEnv,
+export const dispatchManagerPush = async (
+  env: ManagerEnv,
   kind: PushKind,
   reference: string,
 ): Promise<void> => {
