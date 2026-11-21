@@ -12,7 +12,7 @@
 - OPEN: Android/Chrome permission, subscribe, persistence after reload, real push delivery, notification click to correct Manager section, unsubscribe and re-subscribe for Owner, Manager and Seller.
 - OPEN: verify order push recipients (active Owner/Manager/Seller), service-lead recipients (active Owner only), test-order exclusion (is_test=1) and no customer PII in payload.
 - Do not create real Production orders/leads or send test emails without an agreed safe test scenario. A safe way to trigger events without affecting real customers/data is required.
-- Public web-reader could not open /manager/ and /api/manager/push/subscriptions; this is an access/tooling limitation, not proof of endpoint failure. Owner reports Manager appears to work.
+- Live Production scrape returned HTTP 200 for /manager/ (Bulgarian staff sign-in page, robots noindex/nofollow) and HTTP 401 Authentication required for unauthenticated GET /api/manager/push/subscriptions. Route presence/auth gating are verified; authenticated behavior and delivery remain open. Owner reports Manager appears to work.
 - PRAGMA integrity_check remains unavailable through the current D1 API (SQLITE_AUTH); PRAGMA foreign_key_check after migration 0017 returned zero violations.
 
 ## 2026-11-20 — Manager Web Push: release prerequisites (historical snapshot; superseded by the 2026-11-21 status above)
