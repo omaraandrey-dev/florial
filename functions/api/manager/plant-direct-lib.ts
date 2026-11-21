@@ -364,6 +364,11 @@ export const buildPlantSet = async (
     // An incomplete intake record is saved in the Manager catalogue but stays hidden from the public shop.
     set.isActive = Boolean(set.category && set.mainImage)
   }
+  if (!isCreate && set.isActive === true) {
+    const finalCategory = Object.prototype.hasOwnProperty.call(set, 'category') ? set.category : existing?.category
+    const finalImage = Object.prototype.hasOwnProperty.call(set, 'mainImage') ? set.mainImage : existing?.mainImage
+    if (!finalCategory || !finalImage) throw new Error('Преди показване в магазина добавете категория и основна снимка.')
+  }
   if ('name' in set && !('slug' in set) && isCreate) throw new Error('Липсва URL адрес на растението.')
   return { set, changedFields: Object.keys(set).sort() }
 }
