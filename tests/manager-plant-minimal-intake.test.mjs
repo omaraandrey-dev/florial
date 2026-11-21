@@ -26,8 +26,8 @@ test('variant model name can replace both numeric height and container dimension
   assert.match(plantLib, /const name = suppliedName \|\|/)
   assert.match(manager, /Наименование на размер \/ модел \(или посочете височина и обем на контейнера\)/)
   assert.match(manager, /nameAuto:v\.nameAuto===true/)
-  assert.match(manager, /Височина \(см\) · по избор/)
-  assert.match(manager, /Контейнер \(л\) · по избор/)
+  assert.match(manager, /Височина \(см\)\{editingId\?' \*':' · по избор'\}/)
+  assert.match(manager, /Контейнер \(л\)\{editingId\?' \*':' · по избор'\}/)
   assert.match(manager, /if\(key==='stockQuantity'&&value\.trim\(\)==='0'&&next\.stockStatus==='inStock'\)next\.stockStatus='outOfStock'/)
 })
 
