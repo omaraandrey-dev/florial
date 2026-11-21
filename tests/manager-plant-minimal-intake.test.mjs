@@ -16,13 +16,13 @@ test('manual plant intake requires name, variant/model-or-complete-size, price a
   assert.doesNotMatch(manager, /if\(!editingId&&!activeProof\)/)
   assert.doesNotMatch(manager, /if\(!activeForm\.name\.trim\(\)\|\|!allowedCategoryIds\.length/)
   assert.match(createApi, /if \(body\.aiProof && !await verifyPlantAiProof/)
-  assert.match(plantLib, /stockQuantity === null/)
+  assert.match(plantLib, /requireQuantity && stockQuantity === null/)
 })
 
 test('variant model name can replace both numeric height and container dimensions', () => {
-  assert.match(plantLib, /const suppliedName = item\.nameAuto === true \? '' : cleanText\(item\.name, 100\)/)
+  assert.match(plantLib, /const suppliedName = requireQuantity && item\.nameAuto === true \? '' : cleanText\(item\.name, 100\)/)
   assert.match(plantLib, /suppliedName\.length < 2 && !hasPhysicalSize/)
-  assert.match(plantLib, /hasPhysicalSize = \(saleHeightCm \|\| 0\) > 0 && \(containerVolumeL \|\| 0\) > 0/)
+  assert.match(plantLib, /const hasPhysicalSize = requireQuantity/)
   assert.match(plantLib, /const name = suppliedName \|\|/)
   assert.match(manager, /Наименование на размер \/ модел \(или посочете височина и обем на контейнера\)/)
   assert.match(manager, /nameAuto:v\.nameAuto===true/)
@@ -37,6 +37,8 @@ test('a new incomplete plant is stored inactive until category and photo are pro
   assert.match(manager, /isActive:editingId\?activeForm\.isActive:activeForm\.isActive&&Boolean\(allowedCategoryIds\.length&&activeImages\.length\)/)
   assert.match(manager, /запазено като чернова в Manager/)
   assert.match(plantLib, /if \(!categoryIds\.length\)/)
+  assert.match(plantLib, /normalizeVariants\(input\.saleVariants, isCreate\)/)
+  assert.match(manager, /if\(editingId\)\{/)
 })
 
 test('Google Text search can be applied without attaching a photograph', () => {
