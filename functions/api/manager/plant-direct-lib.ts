@@ -160,7 +160,7 @@ const imageObject = (value: unknown) => {
   return fields
 }
 
-const normalizeVariants = (value: unknown): PlantVariant[] => {
+const normalizeVariants = (value: unknown, requireQuantity = false): PlantVariant[] => {
   if (!Array.isArray(value) || value.length < 1 || value.length > 30) {
     throw new Error('Добавете от 1 до 30 размера на растението.')
   }
@@ -181,7 +181,7 @@ const normalizeVariants = (value: unknown): PlantVariant[] => {
     const stockStatus = cleanText(item.stockStatus, 30)
     if (!STOCK_STATUSES.has(stockStatus)) throw new Error('Изберете валиден статус на наличност.')
     const stockQuantity = numberValue(item.stockQuantity, 'Количество', 0, true)
-    if (stockQuantity === null) throw new Error('Въведете количество за всеки вариант (може да бъде 0).')
+    if (requireQuantity && stockQuantity === null) throw new Error('Въведете количество за всеки вариант (може да бъде 0).')
     const oldPriceEUR = normalizePlantOldPrice(numberValue(item.oldPriceEUR, 'Стара цена', 0), priceEUR)
     return {
       _type: 'plantSaleVariant',
@@ -262,10 +262,7 @@ export const buildPlantSet = async (
     const rawIds = Array.isArray(input.categoryIds) ? input.categoryIds : [input.categoryId]
     const categoryIds = Array.from(new Set(rawIds.map((value: unknown) => cleanText(value, 128)).filter(Boolean)))
     if (!categoryIds.length) {
-      if (existing) {
-        set.category = null
-        set.categories = []
-      }
+      if (existing) throw new Error('Изберете поне една категория за съществуващото растение.')
     } else {
       if (categoryIds.length > 10 || categoryIds.some((id: string) => !/^[A-Za-z0-9_-]{8,128}$/.test(id))) {
         throw new Error('Изберете максимум 10 валидни категории.')
@@ -289,8 +286,8 @@ export const buildPlantSet = async (
     set.gallery = input.gallery.map(imageObject)
   }
   if ('saleVariants' in input) {
-    const variants = validatePlantVariantStock(normalizeVariants(input.saleVariants), Array.isArray(existing?.saleVariants) ? existing.saleVariants : [], isCreate)
-    if (!variants.some(item => (item.saleHeightCm || 0) > 0 || (item.containerVolumeL || 0) > 0)) {
+    const variants = validatePlantVariantStock(normalizeVariants(input.saleVariants, isCreate), Array.isArray(existing?.saleVariants) ? existing.saleVariants : [], isCreate)
+    if (!isCreate && !variants.some(item => (item.saleHeightCm || 0) > 0 || (item.containerVolumeL || 0) > 0)) {
       throw new Error('Добавете поне един реален размер: височина или обем на контейнера.')
     }
     set.saleVariants = variants
