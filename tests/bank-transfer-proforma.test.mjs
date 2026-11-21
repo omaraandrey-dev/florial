@@ -47,6 +47,7 @@ test('Manager confirms and emails the same final PDF to customer and owner', asy
   assert.match(managerOrders, /financialChanged/)
   const ui = await read('src/manager/OrdersManager.tsx')
   assert.match(ui, /Потвърди наличност и сума \+ изпрати окончателна проформа/)
+  assert.match(ui, /Потвърждението на проформата е анулирано/)
 })
 
 test('checkout accepts bank transfer but blocks it while delivery total is unknown', async () => {
