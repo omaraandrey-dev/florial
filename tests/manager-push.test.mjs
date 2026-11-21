@@ -80,6 +80,7 @@ test('test push endpoint is Owner-only and queries only the authenticated Owner 
   assert.match(endpoint, /url: '\/manager\/'/)
   assert.doesNotMatch(endpoint, /orders|service_leads|customer_|phone|email/)
   assert.match(dispatch, /export const sendManagerPushToSubscriptions/)
-  assert.match(managerApp, /profile\.role === 'owner' && <button[^>]*sendTestPush/)
+  assert.match(managerApp, /profile\.role === 'owner' && <button/)
+  assert.match(managerApp, /onClick=\{\(\) => void sendTestPush\(\)\}/)
   assert.match(managerApp, /fetch\('\/api\/manager\/push\/test'/)
 })
