@@ -1,5 +1,5 @@
-import { json, requireUser, type ManagerEnv } from './_lib'
-import { sendManagerPushToSubscriptions } from './push-dispatch'
+import { json, requireUser, type ManagerEnv } from '../_lib'
+import { sendManagerPushToSubscriptions } from '../push-dispatch'
 
 type SubscriptionRow = { id: string; user_id: string; endpoint: string; p256dh: string; auth: string }
 
