@@ -163,7 +163,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   const mode = body?.mode === 'text' ? 'text' : 'photo'
   if (!body || !isObject(body.product)) return errorJson('Въведете име на растение или добавете основна снимка.', 400)
   const product = body.product
-  const proofAssetId = mode === 'photo' ? cleanText(body.mainImage?.assetId, 160) : cleanText(body.mainImageAssetId, 160)
+  const proofAssetId = mode === 'photo' ? cleanText(body.mainImage?.assetId, 160) : ''
   const productName = cleanText(product.name, 160)
   if (mode === 'text' && !productName) return errorJson('Въведете име на растение за Gemini Text.', 400)
   if (mode === 'photo' && !body.mainImage) return errorJson('Добавете основна снимка за Gemini Photo.', 400)
