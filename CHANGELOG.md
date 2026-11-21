@@ -1,11 +1,11 @@
-## 2026-11-21 — Manager Web Push: дорожная карта и актуальный статус
+## 2026-11-21 — Manager Web Push: Production D1 и VAPID подготовлены
 
-- Добавлена единая дорожная карта [MANAGER_PUSH_NOTIFICATIONS_ROADMAP_2026-11-21.md](docs/roadmaps/MANAGER_PUSH_NOTIFICATIONS_ROADMAP_2026-11-21.md): требования по ролям, выполненная реализация, точные CI/Preview evidence, Production prerequisites, этапы preflight, выпуск и Android QA.
-- Последний подтверждённый implementation SHA PR #450: `b87df49b954712641ffa44e0845f4ef4ddd05728`; Blog/Studio run `44794576684` и D1 run `44794576517` успешны; Preview deployment `bf7acd17-23ce-4180-821c-54063866f68e` успешен.
-- PR #450 остаётся открытым Draft и не объединён. Production migration 0017 не применена, VAPID configuration не настроена, Android/Chrome end-to-end тест не выполнен.
-- Production rollout заблокирован: Cloudflare connector ранее вернул `401 Invalid API Token`, а D1 read-only SQL — `SQLITE_AUTH`. Требуется переподключение Cloudflare и read-only preflight перед любым D1 write.
-- Разрешение владельца на Production rollout уже получено; обязательный preflight, защита private VAPID key и отдельная команда на merge PR остаются обязательными.
-- Изменения затрагивают только документацию в рабочей ветке PR #450; Production, Sanity, D1 и Cloudflare settings не менялись.
+- По отдельному подтверждению владельца перед Production write создан полный D1 SQL export в Cloudflare D1 export storage; export завершился успешно. Backup filename и bookmark записаны в дорожной карте; signed URL не сохраняется.
+- В Production D1 применена additive migration `0017_manager_push_subscriptions` (2026-11-21 02:38:36): создана таблица подписок, два индекса и запись в `schema_migrations`. Live read-back подтвердил структуру, индексы и ledger.
+- После миграции `PRAGMA foreign_key_check` вернул 0 нарушений; таблица подписок содержит 0 строк. Существующие заказы, заявки, staff profiles и сессии не изменялись. `PRAGMA integrity_check` недоступен через D1 API (`SQLITE_AUTH`), поэтому полная SQLite integrity check не заявляется.
+- В Cloudflare Pages project `florial`, только Production scope, добавлены `VAPID_PUBLIC_KEY` (plain text), `VAPID_PRIVATE_KEY` (encrypted secret_text), `VAPID_SUBJECT` (plain text). Наличие и типы проверены без раскрытия значений; существующие переменные сохранены. Preview config не менялась.
+- Production deployment не запускался. Production продолжает обслуживать `main` SHA `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`; Web Push не активен до merge/deploy PR #450.
+- PR #450 остаётся Draft. Android/Chrome subscription, real push delivery, click navigation и unsubscribe не проверены. Merge требует отдельной команды владельца.
 
 ## 2026-11-20 — Manager Web Push (PR #450, implementation pending validation)
 
