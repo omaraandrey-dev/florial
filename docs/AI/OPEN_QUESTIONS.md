@@ -4,7 +4,7 @@
 
 ## 2026-11-21 — Manager Web Push: release и Android QA
 
-- PR #450 открыт и остаётся Draft; implementation head `b87df49b954712641ffa44e0845f4ef4ddd05728`, актуальный документационный PR head уточняется после последнего CI. Production merge/deploy не выполнялся.
+- PR #450 открыт и остаётся Draft; implementation head `b87df49b954712641ffa44e0845f4ef4ddd05728`. Validated checkpoint `fb6603d88323111038d02f3cf1004370e5bfe2f0`: Blog/Studio run `44857303725`, D1 run `44857303728` и Preview deployment `084ab2f4-c1fa-47ef-a04d-3332a3b40795` — success. Production merge/deploy не выполнялся.
 - Production D1 migration `0017_manager_push_subscriptions` применена и проверена live read-back; таблица пустая, foreign-key check без нарушений. D1 export backup создан до write. `PRAGMA integrity_check` через API недоступен (`SQLITE_AUTH`), это ограничение проверки.
 - Cloudflare Pages Production содержит VAPID public key, encrypted private key и subject; наличие/типы проверены без чтения/вывода значений. Preview config не изменялась.
 - **Открыто:** дождаться успешных CI checks для последнего PR HEAD, выполнить финальный release review и получить отдельную команду владельца на снятие Draft/merge.
