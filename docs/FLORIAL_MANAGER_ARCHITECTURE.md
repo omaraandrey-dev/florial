@@ -1,3 +1,11 @@
+## 2026-11-21 — Seller quick guides: Orders (RU/BG)
+
+- Added two separate seller-facing quick guides in Russian and Bulgarian at `docs/manager/SELLER_ORDERS_QUICK_GUIDES.md`.
+- Both cover order-card review, opening an order, next-step status action, editing/replacing catalog items, quantity-zero removal, filters and seller safety rules.
+- The guides intentionally avoid hardcoding the complete status vocabulary or staff permissions; those remain governed by the live Manager UI and assigned role.
+
+---
+
 ## 2026-11-21 — Manager orders: balanced mobile-first UX (PR #465 merged)
 
 - The order list uses compact mobile-first cards: order number, customer, prominent total, lifecycle/payment status, payment method, timestamp and item count. When delivery is not yet priced, the card labels the amount as product subtotal.
