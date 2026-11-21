@@ -1,3 +1,12 @@
+## 2026-11-21 — Manager Web Push: дорожная карта и актуальный статус
+
+- Добавлена единая дорожная карта [MANAGER_PUSH_NOTIFICATIONS_ROADMAP_2026-11-21.md](docs/roadmaps/MANAGER_PUSH_NOTIFICATIONS_ROADMAP_2026-11-21.md): требования по ролям, выполненная реализация, точные CI/Preview evidence, Production prerequisites, этапы preflight, выпуск и Android QA.
+- Последний подтверждённый implementation SHA PR #450: `b87df49b954712641ffa44e0845f4ef4ddd05728`; Blog/Studio run `44794576684` и D1 run `44794576517` успешны; Preview deployment `bf7acd17-23ce-4180-821c-54063866f68e` успешен.
+- PR #450 остаётся открытым Draft и не объединён. Production migration 0017 не применена, VAPID configuration не настроена, Android/Chrome end-to-end тест не выполнен.
+- Production rollout заблокирован: Cloudflare connector ранее вернул `401 Invalid API Token`, а D1 read-only SQL — `SQLITE_AUTH`. Требуется переподключение Cloudflare и read-only preflight перед любым D1 write.
+- Разрешение владельца на Production rollout уже получено; обязательный preflight, защита private VAPID key и отдельная команда на merge PR остаются обязательными.
+- Изменения затрагивают только документацию в рабочей ветке PR #450; Production, Sanity, D1 и Cloudflare settings не менялись.
+
 ## 2026-11-20 — Manager Web Push (PR #450, implementation pending validation)
 
 - Continued the existing `feature/manager-order-notifications` branch; no replacement feature branch used. PR #450 remains Draft.
