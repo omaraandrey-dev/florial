@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import PlantImageLibrary, { type IntakeLibraryImage } from './PlantImageLibrary'
 import PlantDuplicatePicker from './PlantDuplicatePicker'
 
@@ -86,9 +86,9 @@ export default function PlantCatalogManager({role,permissions}:Props){
  const [geminiElapsedSeconds,setGeminiElapsedSeconds]=useState(0)
  const [aiIdentityNeedsConfirmation,setAiIdentityNeedsConfirmation]=useState(false)
  const [pendingIdempotencyKey,setPendingIdempotencyKey]=useState<string|null>(null)
- const initialEditorSnapshot=useRef('')
+ const [initialEditorSnapshot,setInitialEditorSnapshot]=useState('')
  const currentEditorSnapshot=JSON.stringify({form,images})
- const hasUnsavedChanges=editorOpen&&Boolean(initialEditorSnapshot.current)&&initialEditorSnapshot.current!==currentEditorSnapshot
+ const hasUnsavedChanges=editorOpen&&Boolean(initialEditorSnapshot)&&initialEditorSnapshot!==currentEditorSnapshot
 
  const load=useCallback(async()=>{
   setLoading(true);setError('')
@@ -120,7 +120,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   const timer=window.setInterval(update,1000)
   return ()=>window.clearInterval(timer)
  },[geminiLoading])
- const openNew=()=>{const nextForm=emptyForm();initialEditorSnapshot.current=JSON.stringify({form:nextForm,images:[]});setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setGeminiStreamText('');setGeminiStage('');setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(nextForm);setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
+ const openNew=()=>{const nextForm=emptyForm();setInitialEditorSnapshot(JSON.stringify({form:nextForm,images:[]}));setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setGeminiStreamText('');setGeminiStage('');setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(nextForm);setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
   setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setGeminiStreamText('');setGeminiStage('')
   setError('');setNotice('');setLoading(true)
@@ -148,13 +148,13 @@ export default function PlantCatalogManager({role,permissions}:Props){
     seo:{h1:p.seo?.h1||'',metaTitle:p.seo?.metaTitle||'',metaDescription:p.seo?.metaDescription||''},
     plantCare:p.plantCare||{},careGuide:plainText(p.careGuide),
    }
-   initialEditorSnapshot.current=JSON.stringify({form:nextForm,images:all})
+   setInitialEditorSnapshot(JSON.stringify({form:nextForm,images:all}))
    setForm(nextForm)
    setEditorOpen(true)
   }catch(e){setError(e instanceof Error?e.message:'Не успяхме да отворим растението.')}
   finally{setLoading(false)}
  }
- const closeEditor=()=>{if(hasUnsavedChanges&&!window.confirm('Имате незапазени промени. Сигурни ли сте, че искате да излезете без запазване?'))return;setEditorOpen(false);initialEditorSnapshot.current=''}
+ const closeEditor=()=>{if(hasUnsavedChanges&&!window.confirm('Имате незапазени промени. Сигурни ли сте, че искате да излезете без запазване?'))return;setEditorOpen(false);setInitialEditorSnapshot('')}
  const setField=(key:keyof PlantForm,value:any)=>setForm(previous=>({...previous,[key]:value}))
  const makeVariantName=(height:string,container:string)=>{const h=Number(height),v=Number(container);const hasHeight=height.trim()!==''&&Number.isFinite(h)&&h>0;const hasContainer=container.trim()!==''&&Number.isFinite(v)&&v>0;const parts:string[]=[];if(hasHeight){const low=Math.round(h*0.95),high=Math.round(h*1.05);parts.push('Размер '+low+'–'+high+' см')}if(hasContainer){const volume=String(v);parts.push('C'+volume)}return parts.join(' ')}
  const setVariant=(index:number,key:keyof Variant,value:string)=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.map((variant,i)=>{if(i!==index)return variant;const next={...variant,[key]:value};if(key==='name'){next.nameAuto=!value.trim();return next}if(!editingId&&key==='stockQuantity'&&value.trim()==='0'&&next.stockStatus==='inStock')next.stockStatus='outOfStock';if((key==='saleHeightCm'||key==='containerVolumeL')&&(variant.nameAuto||!variant.name.trim())){next.name=makeVariantName(key==='saleHeightCm'?value:variant.saleHeightCm,key==='containerVolumeL'?value:variant.containerVolumeL);next.nameAuto=true}return next})}))
