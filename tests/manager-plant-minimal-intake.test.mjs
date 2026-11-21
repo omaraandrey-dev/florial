@@ -41,6 +41,7 @@ test('a new incomplete plant is stored inactive until category and photo are pro
 
 test('Google Text search can be applied without attaching a photograph', () => {
   assert.match(gemini, /mode === 'text' \|\| \/\^image-/)
+  assert.match(gemini, /const proofAssetId = mode === 'photo' \? cleanText\(body\.mainImage\?\.assetId, 160\) : ''/)
   assert.match(gemini, /aiSearchMode: mode/)
   assert.match(plantLib, /return \{ mode: value\.aiSearchMode === 'text' \? 'text' : 'photo', imageAssetId: '' \}/)
   assert.match(plantLib, /identity\.mode === 'text' \|\| Boolean\(identity\.imageAssetId\)/)
