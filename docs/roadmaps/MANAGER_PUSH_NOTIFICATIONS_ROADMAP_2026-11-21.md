@@ -1,3 +1,13 @@
+## 2026-11-21 — Follow-up network diagnostics (PR validation pending)
+
+- Owner approved a narrow follow-up after the Owner self-test reported 0 accepted of 1 stored subscription with a generic network `TypeError`.
+- The change switches provider fetch to `redirect: 'manual'` and reports a bounded `provider_redirect` status for 3xx responses; it never follows the redirect or exposes the `Location` header.
+- Network diagnostics inspect at most three nested error causes and return only an allowlisted network/TLS `code`. Raw messages, endpoint URLs, subscription keys, VAPID material and response bodies remain excluded.
+- Manager displays the safe cause code or redirect status in Bulgarian. The five-second timeout and 404/410 expired-subscription handling remain unchanged.
+- No D1/Sanity writes, Production configuration or secrets, subscription records, orders, service leads or emails are changed. A fresh Owner self-test after deployment is still required to establish the actual provider outcome.
+
+---
+
 ## 2026-11-21 — Push diagnostics merged and Production verified (PR #455)
 
 - PR #455 merged into `main` as `675079b6d3f00e9eb24f5af1fa439a912606a175`.
