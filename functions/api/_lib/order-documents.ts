@@ -197,7 +197,7 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
   for (const lineText of [
     '„Флориал“ ООД / FLORIAL LTD',
     'ЕИК: 206978288',
-    'ДДС №: BG206978288',
+    'ДДС №: BG206978288 (ДДС: BG206978288)',
     'МОЛ: Десислав Бараков',
     '8230 Несебър, България',
     'Тел.: +359 876 777 902',
