@@ -242,7 +242,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   if(!suggestion){setGeminiError('Няма завършен резултат от Google за прилагане.');return}
   const selected=images[mainImageIndex]
   const proofMatchesSearch=geminiResult.mode==='text'
-   ?Boolean(geminiProof&&geminiProofAssetId===(selected?.assetId||''))
+   ?Boolean(geminiProof&&!geminiProofAssetId)
    :Boolean(selected&&geminiProof&&geminiProofAssetId===selected.assetId)
   if(!proofMatchesSearch){setGeminiError(geminiResult.mode==='text'?'Търсенето по име не е потвърдено. Стартирайте го отново.':'За да приложите резултата от снимка, изберете същата основна снимка и изпълнете Gemini Photo отново.');return}
   const plantName=String(suggestion.plantName||'').trim()
