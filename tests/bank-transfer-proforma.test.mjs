@@ -4,13 +4,15 @@ import { readFile } from 'node:fs/promises'
 
 const read = (path) => readFile(new URL('../' + path, import.meta.url), 'utf8')
 
-test('proforma generator contains verified Florial company and bank details', async () => {
+test('proforma generator contains verified Florial company, bank details and official logo asset', async () => {
   const pdf = await read('functions/api/_lib/order-documents.ts')
   assert.match(pdf, /ЕИК: 206978288/)
   assert.match(pdf, /ДДС №: BG206978288/)
   assert.match(pdf, /barakov1971@abv\.bg/)
   assert.match(pdf, /IBAN: BG88STSA93000029605234/)
   assert.match(pdf, /BIC: STSABGSF/)
+  assert.match(pdf, /70904998847fbf96afd2f2994203b4ddc45a75f2-841x289\.png/)
+  assert.match(pdf, /embedPng/)
   assert.doesNotMatch(pdf, /omaraandrey@gmail\.com/)
 })
 
@@ -18,18 +20,34 @@ test('gross prices extract VAT instead of adding another 20 percent', async () =
   const pdf = await read('functions/api/_lib/order-documents.ts')
   assert.match(pdf, /grossAmount \* rate \/ \(100 \+ rate\)/)
   assert.match(pdf, /Начислен ДДС \(20%, включен в цената\)/)
+  assert.match(pdf, /Данъчна основа/)
 })
 
-test('bank transfer proforma includes due date, amount in words, and stock confirmation warning', async () => {
+test('initial proforma is pending and does not start the five-day payment deadline', async () => {
   const pdf = await read('functions/api/_lib/order-documents.ts')
-  assert.match(pdf, /getProformaPaymentDates\(order\.issued_at \|\| order\.created_at\)/)
+  assert.match(pdf, /confirmed_at\?: string \| null/)
+  assert.match(pdf, /const confirmed = Boolean\(confirmedDate && total !== null\)/)
+  assert.match(pdf, /ОЧАКВА ПОТВЪРЖДЕНИЕ/)
+  assert.match(pdf, /МОЛЯ, НЕ ИЗВЪРШВАЙТЕ ПЛАЩАНЕ/)
+  assert.match(pdf, /getProformaPaymentDates\(order\.confirmed_at!\)/)
+  assert.match(pdf, /5 \(пет\) календарни дни след датата на потвърждение/)
+  assert.doesNotMatch(pdf, /getProformaPaymentDates\(order\.issued_at \|\| order\.created_at\)/)
+})
+
+test('Manager confirms and emails the same final PDF to customer and owner', async () => {
   const managerPdf = await read('functions/api/manager/order-documents.ts')
-  assert.match(managerPdf, /issued_at:nowIso\(\)/)
-  assert.match(pdf, /5 \(пет\) календарни дни/)
-  assert.match(pdf, /amountInWordsBg\(total/)
-  assert.match(pdf, /изчакайте потвърждение от екипа на Florial/)
-  assert.match(pdf, /СЪСТАВИЛ: Десислав Бараков \/ МОЛ/)
-  assert.match(pdf, /ПОЛУЧИЛ:/)
+  assert.match(managerPdf, /confirm_proforma/)
+  assert.match(managerPdf, /proforma_confirmed/)
+  assert.match(managerPdf, /X-Florial-Proforma-Delivered':'customer-and-owner'/)
+  assert.match(managerPdf, /recipients:\['customer','owner'\]/)
+  assert.match(managerPdf, /latestConfirmation/)
+  assert.match(managerPdf, /Само собственик или мениджър може/)
+  const managerOrders = await read('functions/api/manager/orders.ts')
+  assert.match(managerOrders, /proforma_confirmation_invalidated/)
+  assert.match(managerOrders, /financialChanged/)
+  const ui = await read('src/manager/OrdersManager.tsx')
+  assert.match(ui, /Потвърди наличност и сума \+ изпрати окончателна проформа/)
+  assert.match(ui, /Потвърждението на проформата е анулирано/)
 })
 
 test('checkout accepts bank transfer but blocks it while delivery total is unknown', async () => {
