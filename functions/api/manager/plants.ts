@@ -68,7 +68,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
   if (!hasPermission(auth.user, 'canCreatePlant')) return json({ error: 'Нямате право да създавате растения.' }, 403)
   const body = await parseJsonBody(request)
   if (!body || !isValidKey(body.idempotencyKey) || !body.product) return errorJson('Invalid product request.', 400)
-  if (!await verifyPlantAiProof(request, body.aiProof, body.product)) return errorJson('Първо натиснете „Попълни с ИИ“ и проверете предложените данни.', 403)
+  if (body.aiProof && !await verifyPlantAiProof(request, body.aiProof, body.product)) return errorJson('Невалидно потвърждение на Google. Обновете карточката и опитайте отново.', 403)
 
   const idempotencyKey = String(body.idempotencyKey)
   let requestId = newId()
