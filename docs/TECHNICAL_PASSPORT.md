@@ -1,3 +1,15 @@
+## 2026-11-21 — Manager plant editor UX (PR pending)
+
+- Branch: `feat/manager-plant-editor-ux`, based on main `f4a16acc5d612e82b7ed8ea6892580292d68b264`.
+- Seller/Manager receive the operational plant fields only; URL/slug is automatic. Translations, SEO and plant-care fields remain Owner-only.
+- Added section shortcut navigation, collapsed long-form sections, role guidance and unsaved-change warnings.
+- Added regression assertions in `tests/manager-plant-intake-ux.test.mjs`.
+- No API, server validation, role permissions, Sanity schema/documents, D1, Cloudflare configuration, Resend or Production data changed.
+- CI, Preview and Production deployment are not yet verified for the PR head. Authenticated device QA remains pending.
+- Full scope: `docs/manager/PLANT_EDITOR_UX.md`.
+
+---
+
 ## 2026-11-21 — Bank transfer checkout and proforma implementation (PR pending)
 
 
