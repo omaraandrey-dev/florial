@@ -291,7 +291,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   if(needsIdentityConfirmation&&(!activeForm.name.trim()||activeForm.name.trim()==='Растение за идентификация'))return fail('Въведете реалното име на растението преди записване.')
   const allowedCategoryIds=activeForm.categoryIds.filter(id=>categoryOptions.some(item=>item._id===id))
   const variantsReady=activeForm.saleVariants.length>0&&activeForm.saleVariants.every(variant=>{
-   const hasModelOrSize=variant.name.trim().length>=2||Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0
+   const hasModelOrSize=variant.name.trim().length>=2||(Number(variant.saleHeightCm)>0&&Number(variant.containerVolumeL)>0)
    const price=Number(variant.priceEUR),quantity=Number(variant.stockQuantity)
    return hasModelOrSize&&Number.isFinite(price)&&price>0&&variant.stockQuantity.trim()!==''&&Number.isInteger(quantity)&&quantity>=0&&(variant.stockStatus!=='inStock'||quantity>0)
   })
