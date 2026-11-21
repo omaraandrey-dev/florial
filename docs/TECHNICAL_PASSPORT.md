@@ -1,3 +1,13 @@
+## 2026-11-21 — Bank transfer checkout and proforma implementation (PR pending)
+
+
+- Working branch: `feat/bank-transfer-proforma-invoice`, based on main `bd460e0d16c8de7c84441f085867084ca4142daa`.
+- Checkout payment methods now include `pay_in_store` and `bank_transfer`. The existing D1 `orders.payment_method` field is reused; no schema or migration change is required by this implementation.
+- Bank transfer is not offered for `delivery_method=agree`, because the delivery amount is unknown and a final payable total cannot be generated. Fixed-price pickup/courier totals remain eligible.
+- The shared PDF generator remains `createProformaPdf` in `functions/api/_lib/order-documents.ts`; it is intended to be reusable by checkout and future Manager/email workflows. It prints the confirmed Florial company and bank details, amount in Bulgarian words, VAT included in gross total (20/120), issue date and five-calendar-day due date, payment purpose, signature/stamp fields and availability warning.
+- Customer email and checkout success state instruct bank-transfer customers to wait for Florial's stock/availability confirmation before paying. The document is identified as a proforma, not a tax invoice.
+- Regression source assertions: `tests/bank-transfer-proforma.test.mjs`. CI/build/Preview/Production remain unverified pending PR checks. No live service writes or Production deployment were performed.
+
 ## 2026-11-21 — Manager lists: 20-second refresh correction proposed (PR #453)
 
 - Owner reports that a newly created service enquiry and plant order were not visible in Manager until manual refresh.
