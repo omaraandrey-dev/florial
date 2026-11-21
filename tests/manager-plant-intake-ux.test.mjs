@@ -11,7 +11,7 @@ test('plant variant requires price and quantity while height and container are o
   assert.ok(source.includes("Цена (€){canEditVariantPrice?' *':''}"))
   assert.ok(source.includes("Количество{!editingId||variant.stockStatus==='inStock'?' *':''}"))
   assert.ok(source.includes('!border-red-500'))
-  assert.ok(source.includes('aria-required={editingId}'))
+  assert.ok(source.includes('aria-required={Boolean(editingId)}'))
 })
 
 test('Manager and Seller receive a generic Gemini failure message without provider diagnostics', () => {
