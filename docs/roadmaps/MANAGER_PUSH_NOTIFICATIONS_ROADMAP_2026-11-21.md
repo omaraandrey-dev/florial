@@ -1,10 +1,11 @@
-## 2026-11-21 — Follow-up network diagnostics (PR validation pending)
+## 2026-11-21 — Web Push network TypeError root cause fixed (PR #457 merged)
 
-- Owner approved a narrow follow-up after the Owner self-test reported 0 accepted of 1 stored subscription with a generic network `TypeError`.
-- The change switches provider fetch to `redirect: 'manual'` and reports a bounded `provider_redirect` status for 3xx responses; it never follows the redirect or exposes the `Location` header.
-- Network diagnostics inspect at most three nested error causes and return only an allowlisted network/TLS `code`. Raw messages, endpoint URLs, subscription keys, VAPID material and response bodies remain excluded.
+- Cloudflare Workers documentation confirms that `redirect: 'error'` is unsupported and throws a `TypeError` while constructing the outbound request, before the request is sent. This explains the Owner self-test's generic network TypeError; it was not evidence of a DNS/TLS failure.
+- PR #457 replaces it with `redirect: 'manual'`, which returns 3xx responses to the Worker. Redirects are rejected and classified by status; the code does not follow redirects or inspect/expose the `Location` header.
+- Network diagnostics inspect at most three nested error causes and return only an allowlisted network/TLS `code`. Raw messages, endpoint URLs, subscription keys, VAPID material and provider response bodies remain excluded.
 - Manager displays the safe cause code or redirect status in Bulgarian. The five-second timeout and 404/410 expired-subscription handling remain unchanged.
-- No D1/Sanity writes, Production configuration or secrets, subscription records, orders, service leads or emails are changed. A fresh Owner self-test after deployment is still required to establish the actual provider outcome.
+- PR #457 merged at `175678b6bd6f9f2cbe44d0e16260ff0c0cbc5cdc`. Exact PR-head Blog/Studio run `44888944574`, D1 run `44888944563`, and Preview deployment `c68cd443-b9b5-4257-9e85-77cd95cb4428` succeeded. Exact merge-commit Blog/Studio run `44889081125`, D1 run `44889081009`, and Cloudflare Pages deployment `fc33c023-7d29-4ad5-ab22-adfa3d9ee1dd` also succeeded.
+- No D1/Sanity writes, Production settings/secrets, subscription records, orders, service leads or emails were changed. The assistant did not trigger the authenticated Owner self-test. Owner must repeat the test in Manager and report the provider acceptance count and whether Android displayed the notification.
 
 ---
 
