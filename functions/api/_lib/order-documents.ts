@@ -144,7 +144,8 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
   draw('„Флориал“ ООД / FLORIAL LTD', 9)
   draw('ЕИК: 206978288   |   ДДС №: BG206978288 (ДДС: BG206978288)   |   МОЛ: Десислав Бараков', 8)
   draw('Градински център „Флориал“, ул. „Хан Крум“, 8230 Несебър, България (до магазин Janet)', 7.5)
-  draw('Телефон: +359 876 777 902   |   Email: barakov1971@abv.bg', 7.5)
+  draw('Телефон: +359 876 777 902   |   Допълнителен телефон: +359 885 834 860', 7.5)
+  draw('Email: barakov1971@abv.bg', 7.5)
   draw('Банка: Банка ДСК   |   IBAN: BG88STSA93000029605234   |   BIC: STSABGSF', 7.5)
   y -= 4
   draw('ПРОФОРМА ФАКТУРА', 14, green, true)
