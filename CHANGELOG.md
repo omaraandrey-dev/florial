@@ -6,7 +6,8 @@
 - Extended the shared `createProformaPdf` generator in `functions/api/_lib/order-documents.ts` with Florial company/bank details, Bulgarian amount-in-words, VAT extracted from VAT-inclusive gross prices, Sofia issue date and a five-calendar-day payment deadline, bank transfer instructions, signature/stamp fields and the stock-confirmation warning.
 - Customer email for bank transfer explicitly says the order is not confirmed until availability is checked and asks the customer not to transfer money before Florial confirmation. Proforma is clearly distinguished from a tax invoice.
 - Corrected the document contact email to `barakov1971@abv.bg`; no customer identity, address or other missing customer data is invented.
-- Added `tests/bank-transfer-proforma.test.mjs` source-level regression checks. CI, Preview and Production deployment have not yet been run/verified. No live order, email, D1 data, Sanity, Cloudflare configuration or Production data was changed.
+- Added `tests/bank-transfer-proforma.test.mjs` source-level regression checks.
+- Manager-generated/reissued proformas use the actual reissue timestamp for the issue date and five-calendar-day deadline; checkout-generated proformas use the initial order timestamp. CI, Preview and Production deployment have not yet been run/verified. No live order, email, D1 data, Sanity, Cloudflare configuration or Production data was changed.
 
 ## 2026-11-21 — Manager live list refresh correction (PR #453 pending)
 
