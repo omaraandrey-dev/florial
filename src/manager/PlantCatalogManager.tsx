@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import PlantImageLibrary, { type IntakeLibraryImage } from './PlantImageLibrary'
 import PlantDuplicatePicker from './PlantDuplicatePicker'
 
@@ -86,6 +86,9 @@ export default function PlantCatalogManager({role,permissions}:Props){
  const [geminiElapsedSeconds,setGeminiElapsedSeconds]=useState(0)
  const [aiIdentityNeedsConfirmation,setAiIdentityNeedsConfirmation]=useState(false)
  const [pendingIdempotencyKey,setPendingIdempotencyKey]=useState<string|null>(null)
+ const initialEditorSnapshot=useRef('')
+ const currentEditorSnapshot=JSON.stringify({form,images})
+ const hasUnsavedChanges=editorOpen&&Boolean(initialEditorSnapshot.current)&&initialEditorSnapshot.current!==currentEditorSnapshot
 
  const load=useCallback(async()=>{
   setLoading(true);setError('')
@@ -104,6 +107,12 @@ export default function PlantCatalogManager({role,permissions}:Props){
  useEffect(()=>{void load()},[load])
  useEffect(()=>{setPendingIdempotencyKey(null)},[form,images])
  useEffect(()=>{
+  if(!hasUnsavedChanges)return
+  const warnBeforeUnload=(event:BeforeUnloadEvent)=>{event.preventDefault();event.returnValue=''}
+  window.addEventListener('beforeunload',warnBeforeUnload)
+  return ()=>window.removeEventListener('beforeunload',warnBeforeUnload)
+ },[hasUnsavedChanges])
+ useEffect(()=>{
   if(!geminiLoading){setGeminiElapsedSeconds(0);return}
   const started=Date.now()
   const update=()=>setGeminiElapsedSeconds(Math.floor((Date.now()-started)/1000))
@@ -111,7 +120,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   const timer=window.setInterval(update,1000)
   return ()=>window.clearInterval(timer)
  },[geminiLoading])
- const openNew=()=>{setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setGeminiStreamText('');setGeminiStage('');setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
+ const openNew=()=>{const nextForm=emptyForm();initialEditorSnapshot.current=JSON.stringify({form:nextForm,images:[]});setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setGeminiStreamText('');setGeminiStage('');setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(nextForm);setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
   setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setGeminiStreamText('');setGeminiStage('')
   setError('');setNotice('');setLoading(true)
@@ -126,7 +135,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
    const translations=p.translations||{}
    setOriginalRichText({description:p.description||null,careGuide:p.careGuide||null,translations:{bg:translations.bg?.description||null,ru:translations.ru?.description||null,en:translations.en?.description||null}})
    setAiProof(null);setAiIdentityNeedsConfirmation(false);setEditingId(id);setRevision(p._rev);setImages(all);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([])
-   setForm({
+   const nextForm:PlantForm={
     name:p.name||'',slug:p.slug?.current||slugify(p.name||''),slugAuto:!p.slug?.current,scientificName:p.scientificName||'',sku:p.sku||'',productType:p.productType||'plant',
     categoryId:p.category?._ref||p.categoryId||'',categoryIds:Array.from(new Set([p.category?._ref,...(Array.isArray(p.categories)?p.categories.map((item:any)=>item?._ref):[])].filter(Boolean))),shortDescription:p.shortDescription||'',description:plainText(p.description),
     isFeatured:p.isFeatured===true,isActive:p.isActive!==false,
@@ -138,11 +147,14 @@ export default function PlantCatalogManager({role,permissions}:Props){
     },
     seo:{h1:p.seo?.h1||'',metaTitle:p.seo?.metaTitle||'',metaDescription:p.seo?.metaDescription||''},
     plantCare:p.plantCare||{},careGuide:plainText(p.careGuide),
-   })
+   }
+   initialEditorSnapshot.current=JSON.stringify({form:nextForm,images:all})
+   setForm(nextForm)
    setEditorOpen(true)
   }catch(e){setError(e instanceof Error?e.message:'Не успяхме да отворим растението.')}
   finally{setLoading(false)}
  }
+ const closeEditor=()=>{if(hasUnsavedChanges&&!window.confirm('Имате незапазени промени. Сигурни ли сте, че искате да излезете без запазване?'))return;setEditorOpen(false);initialEditorSnapshot.current=''}
  const setField=(key:keyof PlantForm,value:any)=>setForm(previous=>({...previous,[key]:value}))
  const makeVariantName=(height:string,container:string)=>{const h=Number(height),v=Number(container);const hasHeight=height.trim()!==''&&Number.isFinite(h)&&h>0;const hasContainer=container.trim()!==''&&Number.isFinite(v)&&v>0;const parts:string[]=[];if(hasHeight){const low=Math.round(h*0.95),high=Math.round(h*1.05);parts.push('Размер '+low+'–'+high+' см')}if(hasContainer){const volume=String(v);parts.push('C'+volume)}return parts.join(' ')}
  const setVariant=(index:number,key:keyof Variant,value:string)=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.map((variant,i)=>{if(i!==index)return variant;const next={...variant,[key]:value};if(key==='name'){next.nameAuto=!value.trim();return next}if(!editingId&&key==='stockQuantity'&&value.trim()==='0'&&next.stockStatus==='inStock')next.stockStatus='outOfStock';if((key==='saleHeightCm'||key==='containerVolumeL')&&(variant.nameAuto||!variant.name.trim())){next.name=makeVariantName(key==='saleHeightCm'?value:variant.saleHeightCm,key==='containerVolumeL'?value:variant.containerVolumeL);next.nameAuto=true}return next})}))
@@ -382,10 +394,14 @@ export default function PlantCatalogManager({role,permissions}:Props){
    </div>}
   </>}
   {editorOpen&&<>
-   <div className="mb-4 flex items-center justify-between gap-3"><button className={btn+' border border-stone-300 bg-white'} onClick={()=>setEditorOpen(false)}>← Назад</button><h2 className="text-xl font-bold">{editingId?'Редактиране на растение':'Ново растение'}</h2><span className="w-16"/></div>
+   <div className="mb-4 flex items-center justify-between gap-3"><button className={btn+' border border-stone-300 bg-white'} onClick={closeEditor}>← Назад</button><h2 className="text-xl font-bold">{editingId?'Редактиране на растение':'Ново растение'}</h2><span className="w-16"/></div>
    {error&&<div role="alert" className="mb-3 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
    {notice&&<div className="mb-3 rounded-xl border border-lime-200 bg-lime-50 p-3 text-sm text-lime-900">{notice}</div>}
    <div className="space-y-4">
+    {role!=='owner'&&<div className="rounded-xl border border-sky-200 bg-sky-50 p-3 text-sm text-sky-950"><strong>Работа на продавача и мениджъра</strong><p className="mt-1">Попълнете основните данни, снимките, размерите, цените, наличностите и описанието на български. URL адресът се генерира автоматично. Преводите, SEO и ботаническите характеристики се обработват от собственика.</p></div>}
+    <nav aria-label="Бърза навигация в картата на растението" className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+     {[["plant-editor-photos","Снимки"],["plant-editor-basic","Основна информация"],["plant-editor-pricing","Размери и цени"],["plant-editor-content","Описание"],...(role==='owner'?[["plant-editor-seo","SEO"],["plant-editor-care","Характеристики и грижи"]]:[])].map(([id,label])=><button key={id} type="button" onClick={()=>document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})} className="min-h-11 rounded-xl border border-stone-200 bg-white px-3 py-2 text-sm font-semibold text-stone-700 hover:border-lime-700 hover:bg-lime-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime-700">{label}</button>)}
+    </nav>
     <details open id="plant-editor-photos" className="rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><summary className="cursor-pointer font-bold marker:text-lime-800">Снимки на растението</summary><div className="flex flex-wrap gap-2">
        {role==='owner'&&<button type="button" className={btn+' border border-stone-300 bg-white'} onClick={()=>setLibraryOpen(previous=>!previous)}>{libraryOpen?'Скрий библиотека':'Избери от библиотеката'}</button>}
@@ -464,7 +480,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
      </div>)}
      <button type="button" disabled={!canAddVariant||form.saleVariants.length>=30} onClick={()=>setForm(previous=>({...previous,saleVariants:[...previous.saleVariants,newVariant()]}))} className="w-full rounded-xl border border-dashed border-lime-700 px-4 py-3 font-semibold text-lime-800 disabled:opacity-40">＋ Добави размер</button>
     </details>
-    <details open id="plant-editor-content" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
+    <details id="plant-editor-content" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
      <div className="flex items-center justify-between gap-2"><summary className="cursor-pointer font-bold marker:text-lime-800">{role==='owner'?'Описание и преводи':'Описание'}</summary>{aiProof&&<span className="text-xs font-semibold text-lime-800">Google попълването е изпълнено</span>}</div>
      <label><span className={labelClass}>Кратко описание (BG)</span><textarea rows={3} className={inputClass} value={form.shortDescription} onChange={event=>setField('shortDescription',event.target.value)}/></label>
      <label><span className={labelClass}>Описание (BG)</span><textarea rows={7} className={inputClass} value={form.description} onChange={event=>setField('description',event.target.value)}/></label>
@@ -477,13 +493,13 @@ export default function PlantCatalogManager({role,permissions}:Props){
      </details>)}
      {aiWarnings.length>0&&<ul className="list-disc space-y-1 pl-5 text-xs text-amber-800">{aiWarnings.map((warning,index)=><li key={index}>{warning}</li>)}</ul>}
     </details>
-    {role==='owner'&&<details open id="plant-editor-seo" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
+    {role==='owner'&&<details id="plant-editor-seo" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
      <summary className="cursor-pointer font-bold marker:text-lime-800">SEO</summary>
      <label><span className={labelClass}>H1</span><input className={inputClass} value={form.seo.h1} onChange={event=>setField('seo',{...form.seo,h1:event.target.value})}/></label>
      <label><span className={labelClass}>Meta title</span><input maxLength={70} className={inputClass} value={form.seo.metaTitle} onChange={event=>setField('seo',{...form.seo,metaTitle:event.target.value})}/></label>
      <label><span className={labelClass}>Meta description</span><textarea rows={3} maxLength={320} className={inputClass} value={form.seo.metaDescription} onChange={event=>setField('seo',{...form.seo,metaDescription:event.target.value})}/></label>
     </details>}
-    {role==='owner'&&<details open id="plant-editor-care" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
+    {role==='owner'&&<details id="plant-editor-care" className="space-y-3 rounded-2xl border border-stone-200 bg-white p-3 sm:p-5">
      <summary className="cursor-pointer font-bold marker:text-lime-800">Ботанически характеристики и грижи</summary>
      <p className="text-xs text-stone-500">ИИ попълва само данни с достатъчна ботаническа опора. Черноморската пригодност остава за ръчна проверка.</p>
      <div className="grid gap-3 sm:grid-cols-2">
