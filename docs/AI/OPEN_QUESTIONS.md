@@ -1,3 +1,12 @@
+## 2026-11-21 — Manager plant editor UX acceptance
+
+- Exact PR head `a7219381ed47ebaa6cc44f3ee2365d3cb08be7a1`: Blog and Studio run `44921957018` and D1 validation run `44921957051` both succeeded.
+- OPEN: Owner acceptance of Seller/Manager and Owner editor workflows on phone and desktop. Confirm unsaved-change warnings and role-specific field visibility in authenticated sessions.
+- No Preview/Production deployment was performed; do not treat CI success as live UI acceptance.
+- GitHub initially returned `mergeable=false` for PR #467; a subsequent refresh returned `mergeable=true`. No merge was attempted; recheck mergeability immediately before any future merge.
+
+---
+
 ## 2026-11-21 — Bank transfer checkout / proforma release checks
 
 
