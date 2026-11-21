@@ -145,7 +145,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
  }
  const setField=(key:keyof PlantForm,value:any)=>setForm(previous=>({...previous,[key]:value}))
  const makeVariantName=(height:string,container:string)=>{const h=Number(height),v=Number(container);const hasHeight=height.trim()!==''&&Number.isFinite(h)&&h>0;const hasContainer=container.trim()!==''&&Number.isFinite(v)&&v>0;const parts:string[]=[];if(hasHeight){const low=Math.round(h*0.95),high=Math.round(h*1.05);parts.push('Размер '+low+'–'+high+' см')}if(hasContainer){const volume=String(v);parts.push('C'+volume)}return parts.join(' ')}
- const setVariant=(index:number,key:keyof Variant,value:string)=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.map((variant,i)=>{if(i!==index)return variant;const next={...variant,[key]:value};if(key==='name'){next.nameAuto=!value.trim();return next}if(key==='stockQuantity'&&value.trim()==='0'&&next.stockStatus==='inStock')next.stockStatus='outOfStock';if((key==='saleHeightCm'||key==='containerVolumeL')&&(variant.nameAuto||!variant.name.trim())){next.name=makeVariantName(key==='saleHeightCm'?value:variant.saleHeightCm,key==='containerVolumeL'?value:variant.containerVolumeL);next.nameAuto=true}return next})}))
+ const setVariant=(index:number,key:keyof Variant,value:string)=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.map((variant,i)=>{if(i!==index)return variant;const next={...variant,[key]:value};if(key==='name'){next.nameAuto=!value.trim();return next}if(!editingId&&key==='stockQuantity'&&value.trim()==='0'&&next.stockStatus==='inStock')next.stockStatus='outOfStock';if((key==='saleHeightCm'||key==='containerVolumeL')&&(variant.nameAuto||!variant.name.trim())){next.name=makeVariantName(key==='saleHeightCm'?value:variant.saleHeightCm,key==='containerVolumeL'?value:variant.containerVolumeL);next.nameAuto=true}return next})}))
  const uploadFiles=async(filesList:FileList|null)=>{
   if(!filesList?.length)return
   setGeminiError('');setGeminiResult(null)
@@ -295,7 +295,12 @@ export default function PlantCatalogManager({role,permissions}:Props){
    const price=Number(variant.priceEUR),quantity=Number(variant.stockQuantity)
    return hasModelOrSize&&Number.isFinite(price)&&price>0&&variant.stockQuantity.trim()!==''&&Number.isInteger(quantity)&&quantity>=0&&(variant.stockStatus!=='inStock'||quantity>0)
   })
-  if(!activeForm.name.trim()||activeForm.name.trim().length<2||!activeForm.slug.trim()||!variantsReady)return fail('Попълнете име на растението, цена, количество и име на модел или реални размери: височина и обем на контейнера.')
+  if(editingId){
+   if(!activeForm.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0))return fail('Добавете поне един реален размер: височина или обем на контейнера.')
+   if(!activeForm.name.trim()||!allowedCategoryIds.length||!activeForm.slug.trim()||!activeForm.saleVariants.length||!activeImages.length)return fail('Попълнете име, крайна категория, поне един размер и добавете снимка.')
+  }else if(!activeForm.name.trim()||activeForm.name.trim().length<2||!activeForm.slug.trim()||!variantsReady){
+   return fail('Попълнете име на растението, цена, количество и име на модел или реални размери: височина и обем на контейнера.')
+  }
   setSaving(true);setError('');setNotice('')
   try{
    const selected=activeImages[mainImageIndex]
@@ -422,7 +427,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
       <label><span className={labelClass}>Тип растение</span><select className={inputClass} value={form.productType} onChange={event=>setField('productType',event.target.value)}>{productTypes.map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label>
      </div>
      <div className="space-y-2">
-      <span className={labelClass}>Категории и подкатегории · може да добавите по-късно</span>
+      <span className={labelClass}>Категории и подкатегории{editingId?' *':' · може да добавите по-късно'}</span>
       <div className="max-h-64 space-y-1 overflow-y-auto rounded-xl border border-stone-300 bg-white p-2">
        {categoryOptions.map(item=><div key={item._id} className="flex items-center justify-between gap-2 rounded-lg px-2 py-2 hover:bg-stone-50">
         <label className="flex min-w-0 flex-1 items-center gap-2 text-sm"><input type="checkbox" checked={form.categoryIds.includes(item._id)} onChange={event=>setForm(previous=>{const ids=event.target.checked?Array.from(new Set([...previous.categoryIds,item._id])):previous.categoryIds.filter(id=>id!==item._id);return {...previous,categoryIds:ids,categoryId:ids.includes(previous.categoryId)?previous.categoryId:ids[0]||''}})}/><span className="truncate">{item.label}</span></label>
@@ -444,8 +449,8 @@ export default function PlantCatalogManager({role,permissions}:Props){
       <div className="flex items-center justify-between"><strong>Размер {index+1}</strong>{form.saleVariants.length>1&&<button type="button" onClick={()=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.filter((_,i)=>i!==index)}))} className="text-sm font-semibold text-red-700">Премахни</button>}</div>
       <label><span className={labelClass}>Наименование на размер / модел (или посочете височина и обем на контейнера)</span><input className={inputClass} placeholder="Напр. 120–140 см, контейнер 10 л" value={variant.name} onChange={event=>setVariant(index,'name',event.target.value)}/></label>
       <div className="grid grid-cols-2 gap-2">
-       <label><span className={labelClass}>Височина (см) · по избор</span><input type="number" min="0" step="1" className={inputClass} value={variant.saleHeightCm} placeholder="Въведете височина" aria-required="false" onChange={event=>setVariant(index,'saleHeightCm',event.target.value)}/></label>
-       <label><span className={labelClass}>Контейнер (л) · по избор</span><input type="number" min="0.1" step="0.1" className={inputClass} value={variant.containerVolumeL} placeholder="Въведете обем" aria-required="false" onChange={event=>setVariant(index,'containerVolumeL',event.target.value)}/></label>
+       <label><span className={labelClass}>Височина (см){editingId?' *':' · по избор'}</span><input type="number" min="0" step="1" className={editingId?requiredInputClass(!(Number(variant.saleHeightCm)>0)):inputClass} value={variant.saleHeightCm} placeholder="Въведете височина" aria-required={editingId} onChange={event=>setVariant(index,'saleHeightCm',event.target.value)}/></label>
+       <label><span className={labelClass}>Контейнер (л){editingId?' *':' · по избор'}</span><input type="number" min="0.1" step="0.1" className={editingId?requiredInputClass(!(Number(variant.containerVolumeL)>0)):inputClass} value={variant.containerVolumeL} placeholder="Въведете обем" aria-required={editingId} onChange={event=>setVariant(index,'containerVolumeL',event.target.value)}/></label>
       </div>
       <div className="grid grid-cols-2 gap-2">
        <label><span className={labelClass}>Цена (€){canEditVariantPrice?' *':''}</span><input type="number" min="0.01" step="0.01" className={requiredInputClass(canEditVariantPrice&&!(Number(variant.priceEUR)>0))} disabled={!canEditVariantPrice} value={variant.priceEUR} placeholder="Въведете цена" aria-required="true" onChange={event=>setVariant(index,'priceEUR',event.target.value)}/></label>
@@ -453,7 +458,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
       </div>
       <div className="grid grid-cols-2 gap-2">
        <label><span className={labelClass}>Наличност</span><select className={inputClass} disabled={!canEditVariantStock} value={variant.stockStatus} onChange={event=>setVariant(index,'stockStatus',event.target.value)}><option value="inStock">В наличност</option><option value="onRequest">По заявка</option><option value="outOfStock">Няма наличност</option></select></label>
-       <label><span className={labelClass}>Количество *</span><input type="number" min="0" step="1" className={requiredInputClass(canEditVariantStock&&!variant.stockQuantity.trim())} disabled={!canEditVariantStock} value={variant.stockQuantity} placeholder="Въведете количество (0 е допустимо при липса)" aria-required="true" onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
+       <label><span className={labelClass}>Количество{!editingId||variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={requiredInputClass(canEditVariantStock&&(!editingId||variant.stockStatus==='inStock')&&!variant.stockQuantity.trim())} disabled={!canEditVariantStock} value={variant.stockQuantity} placeholder={editingId&&variant.stockStatus!=='inStock'?'Не е задължително':'Въведете количество (0 е допустимо при липса)'} aria-required={!editingId||variant.stockStatus==='inStock'} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
       </div>
       {role==='owner'&&<label><span className={labelClass}>SKU на размера (по избор)</span><input className={inputClass} value={variant.sku} onChange={event=>setVariant(index,'sku',event.target.value)}/></label>}
      </div>)}
