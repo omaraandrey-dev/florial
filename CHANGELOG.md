@@ -1,3 +1,15 @@
+## 2026-11-21 — Manager orders: balanced mobile-first UX (PR #465 merged)
+
+- PR #465 merged into `main` as squash commit `5913fcd6449418e6013c34b12c5f2f6af9347d03` (PR head `fb6319bdbb451c4c702ea018f805986dde5c1b60`).
+- `src/manager/OrdersManager.tsx`: order list cards now use a compact mobile-first layout with prominent order amount, status/payment badges, payment method, date and item count. If delivery is not yet priced, the card explicitly labels the product subtotal rather than presenting it as the final total.
+- Added a role-guarded one-tap next workflow action in expanded order details, using the existing order status API. Existing status/payment controls remain available.
+- Filters use a single-column mobile layout and full-width touch actions. Order editing has clearer grouping, a live product subtotal preview and a sticky save/cancel action area on mobile.
+- Added three source-level regression tests in `tests/manager-orders-workspace.test.mjs` for card hierarchy/payment method, next-step permissions/action and mobile filters/edit controls.
+- Exact PR-head CI passed: Blog/Studio validation run `44918989904` (type-check, lint, utility tests, website build, migration syntax/dry-run, Studio install/type-check/build) and D1 migration validation run `44918989963` — both successful.
+- Scope: Manager UI and tests only. No order API, D1 schema/data, Sanity, Cloudflare configuration/secrets, Resend, storefront or real order data changed. Production deployment and authenticated live mobile Manager QA were not verified as part of the merge.
+
+---
+
 ## 2026-11-21 — Bank transfer checkout and reusable Bulgarian proforma (PR pending)
 
 
