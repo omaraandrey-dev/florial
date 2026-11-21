@@ -11,9 +11,10 @@ const getVapid = (env: ManagerEnv): VapidKeys | null => {
 
 type PushDiagnostic = {
   phase: 'signing' | 'provider' | 'network'
-  code: 'payload_signing_failed' | 'provider_http_error' | 'subscription_expired' | 'network_timeout' | 'network_error'
+  code: 'payload_signing_failed' | 'provider_http_error' | 'provider_redirect' | 'subscription_expired' | 'network_timeout' | 'network_error'
   status: number | null
   errorName: string | null
+  causeCode?: string | null
 }
 
 type PushAttempt = { status: 'accepted' | 'expired' | 'failed'; diagnostic?: PushDiagnostic }
@@ -21,6 +22,23 @@ type PushAttempt = { status: 'accepted' | 'expired' | 'failed'; diagnostic?: Pus
 const safeErrorName = (error: unknown): string | null => {
   if (!(error instanceof Error)) return null
   return /^[A-Za-z][A-Za-z0-9]{0,39}$/.test(error.name) ? error.name : 'Error'
+}
+
+const SAFE_NETWORK_CAUSE_CODES = new Set([
+  'ENOTFOUND', 'EAI_AGAIN', 'ECONNRESET', 'ETIMEDOUT', 'ECONNREFUSED',
+  'EHOSTUNREACH', 'ENETUNREACH', 'EPIPE', 'ERR_TLS_CERT_ALTNAME_INVALID',
+  'CERT_HAS_EXPIRED', 'UNABLE_TO_VERIFY_LEAF_SIGNATURE',
+])
+
+const safeErrorCauseCode = (error: unknown): string | null => {
+  let current: unknown = error
+  for (let depth = 0; depth < 3; depth += 1) {
+    if (!current || typeof current !== 'object') return null
+    const candidate = current as { code?: unknown; cause?: unknown }
+    if (typeof candidate.code === 'string' && SAFE_NETWORK_CAUSE_CODES.has(candidate.code)) return candidate.code
+    current = candidate.cause
+  }
+  return null
 }
 
 export const sendManagerPushToSubscriptions = async (
@@ -39,10 +57,13 @@ export const sendManagerPushToSubscriptions = async (
       return { status: 'failed', diagnostic: { phase: 'signing', code: 'payload_signing_failed', status: null, errorName: safeErrorName(error) } }
     }
     try {
-      const response = await fetch(row.endpoint, { ...init, redirect: 'error', signal: AbortSignal.timeout(5000) })
+      const response = await fetch(row.endpoint, { ...init, redirect: 'manual', signal: AbortSignal.timeout(5000) })
       if (response.status === 404 || response.status === 410) {
         await env.DB!.prepare('DELETE FROM manager_push_subscriptions WHERE id=?').bind(row.id).run()
         return { status: 'expired', diagnostic: { phase: 'provider', code: 'subscription_expired', status: response.status, errorName: null } }
+      }
+      if (response.status >= 300 && response.status < 400) {
+        return { status: 'failed', diagnostic: { phase: 'provider', code: 'provider_redirect', status: response.status, errorName: null } }
       }
       if (!response.ok) {
         console.warn('Manager push provider returned HTTP', response.status)
@@ -58,6 +79,7 @@ export const sendManagerPushToSubscriptions = async (
           code: timedOut ? 'network_timeout' : 'network_error',
           status: null,
           errorName: safeErrorName(error),
+          causeCode: safeErrorCauseCode(error),
         },
       }
     }
