@@ -2,7 +2,7 @@
 
 - Owner-confirmed real Production plant order and service enquiry were not visible in Manager until manual refresh.
 - Main-code review identified the cause in the UI refresh strategy: orders refreshed every 15 minutes and service leads had no periodic refresh.
-- PR #453 proposes 20-second polling for both lists while visible, with focus/visibility refresh after a 20-second cooldown and in-flight guards. The initial PR head is `a85ac04562f9d99d05de1dafd0e1bdfa05263d2b`; CI/Preview and deployment are pending.
+- PR #453 proposes 20-second polling for both lists while visible, with focus/visibility refresh after a 20-second cooldown and in-flight guards. The initial PR head is `c924cf694a0bb77144df892a1baaaeefbe443598`; Blog/Studio run 44867072658 and D1 run 44867072702 passed on exact PR head; Cloudflare Pages Preview check passed at https://fab55962.florial.pages.dev. Production deployment is pending.
 - The Owner reports the self-test and lifecycle checks 2.1–2.3 as working. This does not independently confirm push delivery from actual order/service-lead events.
 - After merge/deployment: confirm both lists update without manual refresh; then record real-event push receipt by role and click navigation separately.
 
