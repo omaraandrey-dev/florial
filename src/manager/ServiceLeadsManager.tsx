@@ -74,7 +74,7 @@ export default function ServiceLeadsManager({ canManage }: Props) {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const lastRefreshAt = useRef(Date.now())
-  const loadInFlight = useRef(false)
+  const loadInFlight = useRef(0)
 
   const queryString = useMemo(() => {
     const params = new URLSearchParams()
