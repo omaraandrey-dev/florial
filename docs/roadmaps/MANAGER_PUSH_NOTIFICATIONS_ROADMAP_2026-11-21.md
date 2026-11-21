@@ -1,13 +1,11 @@
 # Manager — дорожная карта уведомлений и Web Push
 
 Дата актуализации: 2026-11-21  
-Рабочий PR: [#450](https://github.com/omaraandrey-dev/florial/pull/450)  
-Рабочая ветка: `feature/manager-order-notifications`  
-Последний code/test SHA: `e373e2f82c5a73b222fa69393f1d3874010540e3`.
-Последний полностью проверенный PR checkpoint перед этой документационной актуализацией: `884e4c0ddd361a8109d4d4fa533504092974e635`.  
-База PR на момент сверки: `main` = `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`
+Реализация: PR #450 merged в main.  
+Последний code/test SHA до merge: e373e2f82c5a73b222fa69393f1d3874010540e3.  
+Merge commit / текущий runtime SHA: 54026c75030e5f950576cc1b99f7ebf8903006f1.
 
-> Этот документ — единая карта текущей задачи. Production D1 migration 0017 и VAPID configuration уже выполнены. Web Push пока не работает в Production, поскольку код PR #450 остаётся в Draft и не развёрнут из main.
+> PR #450 объединён в main. Blog/Studio CI, D1 validation и Cloudflare Pages Production deployment прошли на точном merge commit. Push-код опубликован в Production; реальные device subscription и push delivery ещё требуют Android/Chrome QA.
 
 ## 1. Цель и утверждённые правила
 
@@ -106,8 +104,14 @@ D1 export bookmark: `00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166
 - [x] Перед merge сверены актуальные SHA: `main` = `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`; PR head перед документационной актуализацией = `884e4c0ddd361a8109d4d4fa533504092974e635`; CI и Preview прошли.
 - [x] Проверен PR diff: 21 файл, 681 additions / 28 deletions; изменения относятся к Manager Web Push, тестам, D1 migration validation и документации. Посторонних файлов не обнаружено.
 - [x] GitHub подтвердил `mergeable=true`, `mergeable_state=clean`.
-- [ ] Получить отдельную команду владельца на снятие Draft/merge. До неё PR остаётся Draft и не объединяется.
-- [ ] После разрешённого merge проверить Production deployment по точному merge SHA и наличие нужных endpoints.
+- [x] По отдельной команде владельца PR #450 переведён из Draft в Ready и объединён в main.
+- [x] Merge commit 54026c75030e5f950576cc1b99f7ebf8903006f1; main обновлён.
+- [x] Blog and Studio validation run 44859242349 — success на точном merge SHA.
+- [x] D1 migration validation run 44859242327 — success на точном merge SHA.
+- [x] Cloudflare Pages Production deployment e80238e2-af1a-4441-8134-4388124accee — все этапы успешны; source SHA совпадает с merge commit; aliases florial-bg.com и www.florial-bg.com.
+- [x] Production GET /api/manager/push/subscriptions проверен без сессии: HTTP 401 и JSON Authentication required — endpoint развёрнут и требует авторизацию, как предусмотрено.
+- [x] Production /manager/ проверен: HTTP 200, Bulgarian Manager sign-in page, robots noindex/nofollow.
+- [ ] Проверить Push UI и GET/POST/DELETE subscription API в авторизованной Owner/Manager/Seller сессии; подписку реального устройства пока не создавали.
 
 ### Этап E — реальный тест на Android/Chrome
 
@@ -125,12 +129,13 @@ D1 export bookmark: `00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166
 
 ## 4. Что сейчас НЕ сделано / не подтверждено
 
-- PR #450 остаётся открытым Draft; Production runtime ещё не содержит Web Push endpoints/UI/dispatch.
-- Реальная Production subscription и доставка push не проверены.
-- Android/Chrome permission, push delivery, notification click и unsubscribe не протестированы.
-- Проверка работающего API /api/manager/push/subscriptions возможна после выпуска кода.
+- PR #450 объединён; Production deployment точного merge SHA завершился успешно.
+- CI подтверждает сайт, Pages Functions, тесты, Sanity Studio build/typecheck и D1 migration validation.
+- Подписка реального устройства, запись subscription в D1 и реальная push delivery ещё не проверены.
+- Android/Chrome permission, push delivery, notification click, unsubscribe/re-subscribe остаются открытыми.
+- Unauthenticated GET /api/manager/push/subscriptions returned HTTP 401 Authentication required; this confirms the route is deployed and protected. Authenticated GET/POST/DELETE and real device subscription remain pending.
+- /manager/ returned HTTP 200 with the Bulgarian staff sign-in page and noindex/nofollow.
 - PRAGMA integrity_check недоступен через D1 API из-за SQLITE_AUTH; PRAGMA foreign_key_check после миграции выполнен успешно и нарушений не выявил.
-- CI и Pages Preview подтверждают PR build, но не реальную работу Push в Production.
 
 ## 5. Ограничения scope
 
@@ -145,20 +150,21 @@ D1 export bookmark: `00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166
 
 ## 6. Текущий статус и следующий шаг
 
-**Статус: Production D1 migration 0017 и VAPID Production configuration выполнены. CI и Preview для PR checkpoint прошли успешно. Release и real-device QA остаются открытыми.**
+**Статус: PR #450 merged и опубликован в Production. Merge CI и Production deployment прошли; реальный device QA остаётся открытым.**
 
 - D1 migration 0017 применена и проверена read-back.
 - VAPID public/private/subject сохранены в Pages Production; private key — encrypted secret.
-- Существующий Production deployment не изменялся и продолжает обслуживать main SHA 5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d.
-- Code/test SHA `e373e2f82c5a73b222fa69393f1d3874010540e3` содержит исправление notification click и регрессионный тест.
-- Последний проверенный PR HEAD до этого документационного обновления: `884e4c0ddd361a8109d4d4fa533504092974e635`; Blog/Studio run `44858518911` — success; D1 run `44858518879` — success; Pages Preview `052ae9af-dd7c-4275-8abc-1141bdc29e03` — success.
-- PR #450 остаётся Draft и не объединён; `main` не изменён.
+- Production deployment e80238e2-af1a-4441-8134-4388124accee от 2026-11-21 03:04:48Z опубликован с точного merge SHA 54026c75030e5f950576cc1b99f7ebf8903006f1; build и deploy stages — success.
+- Blog/Studio run 44859242349 — success; D1 validation run 44859242327 — success на точном merge SHA.
+- Code/test SHA e373e2f82c5a73b222fa69393f1d3874010540e3 содержит исправление notification click и регрессионный тест; он вошёл в merge commit.
+- PR #450 merged; текущий main на момент проверки — 54026c75030e5f950576cc1b99f7ebf8903006f1.
 
-**Следующий шаг:** получить отдельную команду владельца на снятие Draft/merge. После разрешённого merge проверить Production deployment по точному merge SHA и провести согласованный Android/Chrome тест по Owner, Manager и Seller. До выпуска не создавать реальные заказы/заявки ради тестирования.
+**Следующий шаг:** авторизованная проверка UI/endpoint и Android/Chrome subscription/delivery/click/unsubscribe для Owner, Manager и Seller. Не создавать реальные Production заказы/заявки ради тестирования без согласованного сценария.
 
 ## 7. История обновления
 
 - 2026-11-21: Production D1 export создан; migration 0017 применена batch-запросом и проверена live read-back. Таблица содержит 0 строк; foreign-key check — 0 нарушений. Pages Production получил VAPID public/private/subject; private key хранится как encrypted secret, значения не включены в документацию. Preview settings и Production deployment не изменялись. PR #450 остаётся Draft; live push QA pending.
 - 2026-11-21: code/test SHA `e373e2f82c5a73b222fa69393f1d3874010540e3` прошёл Blog/Studio (`44858363243`), D1 (`44858363236`) и Preview (`e92a4372-4d7f-48ef-a04d-3332a3b40795`).
 - 2026-11-21: документационный checkpoint `884e4c0ddd361a8109d4d4fa533504092974e635` прошёл Blog/Studio (`44858518911`), D1 (`44858518879`) и Preview (`052ae9af-dd7c-4275-8abc-1141bdc29e03`). PR `mergeable=true`, `mergeable_state=clean`; Draft сохранён.
+- 2026-11-21: PR #450 merged в main как 54026c75030e5f950576cc1b99f7ebf8903006f1; Blog/Studio 44859242349, D1 validation 44859242327 и Production deployment e80238e2-af1a-4441-8134-4388124accee завершились успешно. Реальная Android/Chrome push QA остаётся открытой.
 - 2026-11-21: исправлен прежний ошибочный статус Cloudflare authorization. Cloudflare API и D1 read-only доступ подтверждены; PRAGMA integrity_check отклоняется как SQLITE_AUTH, не как общий отказ доступа.

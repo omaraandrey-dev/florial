@@ -1,6 +1,14 @@
 # Florial — CURRENT STATE
 
-> Snapshot date: 2026-11-20. Verified against live GitHub main and Cloudflare Pages. This is a handoff summary, not a substitute for the mandatory startup protocol or live checks before future changes.
+> Snapshot date: 2026-11-21. Verified against live GitHub main, GitHub Actions and Cloudflare Pages. This is a handoff summary, not a substitute for the mandatory startup protocol or live checks before future changes.
+
+## Latest main and Production release — 2026-11-21
+
+- PR #450 (Manager Web Push) merged into main at 54026c75030e5f950576cc1b99f7ebf8903006f1.
+- Exact merge-commit Blog/Studio validation run 44859242349 and D1 validation run 44859242327 both succeeded.
+- Cloudflare Pages Production deployment e80238e2-af1a-4441-8134-4388124accee succeeded from the exact merge SHA; production aliases remain https://florial-bg.com and https://www.florial-bg.com.
+- Manager Web Push implementation is deployed. D1 migration 0017 and VAPID Production configuration were applied and verified before merge under owner approval.
+- Actual Android/Chrome subscription, persistence, push delivery, notification click, unsubscribe and re-subscribe are not yet independently verified. Do not create real Production orders/leads without an agreed test procedure.
 
 ## Latest documentation closeout — 2026-11-20
 

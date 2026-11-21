@@ -1,3 +1,13 @@
+## 2026-11-21 — Manager Web Push: PR #450 merged and Production deployed
+
+- PR #450 merged into main; merge commit: 54026c75030e5f950576cc1b99f7ebf8903006f1.
+- Exact merge-commit Blog and Studio validation run 44859242349 — success: application/Pages Functions type-check, lint, utility tests, website build, migration syntax/dry-run, Studio dependency install, type-check and build.
+- Exact merge-commit D1 migration validation run 44859242327 — success, including validation of migration 0017_manager_push_subscriptions.
+- Cloudflare Pages Production deployment e80238e2-af1a-4441-8134-4388124accee — success from exact merge SHA 54026c75030e5f950576cc1b99f7ebf8903006f1; queued, initialize, clone, build and deploy stages succeeded. Production aliases: https://florial-bg.com and https://www.florial-bg.com.
+- Production D1 migration 0017 and VAPID configuration had been applied before merge with owner approval. No additional D1 schema/data or Cloudflare settings/secrets were changed during merge/deployment.
+- Web Push code is now deployed. Actual Android/Chrome subscription persistence, push delivery, notification-click navigation, opt-out and re-subscribe remain unverified. No real Production orders or service leads were created for testing.
+- Live Production scrape: /manager/ returned HTTP 200 with the Bulgarian staff sign-in page and robots noindex/nofollow; unauthenticated GET /api/manager/push/subscriptions returned HTTP 401 Authentication required. This confirms the route is deployed and protected, but does not verify authenticated subscription or push delivery. Owner reports Manager appears to work.
+
 ## 2026-11-21 — Manager Web Push: final PR pre-release gate
 
 - Final code/test SHA: `e373e2f82c5a73b222fa69393f1d3874010540e3`; documentation-only follow-up is tracked in current branch HEAD.
