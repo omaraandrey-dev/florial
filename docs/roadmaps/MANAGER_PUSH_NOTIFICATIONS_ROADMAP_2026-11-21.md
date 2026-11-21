@@ -109,7 +109,9 @@ D1 export bookmark: `00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166
 - [x] Blog and Studio validation run 44859242349 — success на точном merge SHA.
 - [x] D1 migration validation run 44859242327 — success на точном merge SHA.
 - [x] Cloudflare Pages Production deployment e80238e2-af1a-4441-8134-4388124accee — все этапы успешны; source SHA совпадает с merge commit; aliases florial-bg.com и www.florial-bg.com.
-- [ ] Проверить runtime endpoint и браузерный Manager Push UI в авторизованной сессии; публичный web reader не смог открыть Manager/API route.
+- [x] Production GET /api/manager/push/subscriptions проверен без сессии: HTTP 401 и JSON Authentication required — endpoint развёрнут и требует авторизацию, как предусмотрено.
+- [x] Production /manager/ проверен: HTTP 200, Bulgarian Manager sign-in page, robots noindex/nofollow.
+- [ ] Проверить Push UI и GET/POST/DELETE subscription API в авторизованной Owner/Manager/Seller сессии; подписку реального устройства пока не создавали.
 
 ### Этап E — реальный тест на Android/Chrome
 
@@ -131,7 +133,8 @@ D1 export bookmark: `00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166
 - CI подтверждает сайт, Pages Functions, тесты, Sanity Studio build/typecheck и D1 migration validation.
 - Подписка реального устройства, запись subscription в D1 и реальная push delivery ещё не проверены.
 - Android/Chrome permission, push delivery, notification click, unsubscribe/re-subscribe остаются открытыми.
-- Runtime endpoint /api/manager/push/subscriptions не удалось независимо открыть через доступный web reader; проверка авторизованной сессии остаётся pending.
+- Unauthenticated GET /api/manager/push/subscriptions returned HTTP 401 Authentication required; this confirms the route is deployed and protected. Authenticated GET/POST/DELETE and real device subscription remain pending.
+- /manager/ returned HTTP 200 with the Bulgarian staff sign-in page and noindex/nofollow.
 - PRAGMA integrity_check недоступен через D1 API из-за SQLITE_AUTH; PRAGMA foreign_key_check после миграции выполнен успешно и нарушений не выявил.
 
 ## 5. Ограничения scope
