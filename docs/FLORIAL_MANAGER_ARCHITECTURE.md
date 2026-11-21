@@ -1,3 +1,14 @@
+## 2026-11-21 — Manager orders: balanced mobile-first UX (PR #465 merged)
+
+- The order list uses compact mobile-first cards: order number, customer, prominent total, lifecycle/payment status, payment method, timestamp and item count. When delivery is not yet priced, the card labels the amount as product subtotal.
+- The expanded order details expose one role-guarded quick action for the next existing lifecycle status. The existing status selector and payment workflow remain unchanged.
+- Filters stack on mobile with full-width apply/clear controls. The editor groups its fields, previews the recalculated product subtotal and keeps save/cancel actions sticky near the bottom of the viewport.
+- Regression coverage: `tests/manager-orders-workspace.test.mjs` (three added assertions for mobile card hierarchy, quick workflow action and touch-friendly editor/filter controls).
+- PR #465 merged to main as `5913fcd6449418e6013c34b12c5f2f6af9347d03`; exact PR-head Blog/Studio validation run `44918989904` and D1 validation run `44918989963` passed.
+- No API, D1 schema/data, permissions model, payment logic, Sanity, Cloudflare settings/secrets, Resend or storefront changes. Live authenticated mobile QA and Production deployment confirmation remain separate checks.
+
+---
+
 ## 2026-11-21 — Manager plant creation: minimal intake (PR #459 merged)
 
 - New plant creation no longer requires a Google lookup. A Seller can save manually when the plant name, positive EUR price, integer quantity >= 0 and at least one sale variant are supplied.
