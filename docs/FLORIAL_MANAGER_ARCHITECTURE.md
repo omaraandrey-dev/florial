@@ -1,3 +1,12 @@
+## 2026-11-21 — Plant editor role-based UX
+
+- Seller и Manager работают только с операционными полями: название, фотографии, тип/категории, размеры/варианты, цены/остатки и болгарское описание. URL/slug генерируется автоматически.
+- Переводы, SEO, ботанические характеристики и уход остаются Owner-only; сотрудники не видят эти поля и не заполняют их пустыми значениями.
+- В редактор добавлены быстрые переходы по разделам, сворачивание длинных блоков и предупреждения о незаписанных изменениях.
+- Подробная UX-спецификация: `docs/manager/PLANT_EDITOR_UX.md`. Изменения не затрагивают API, права, Sanity, D1 и Production configuration.
+
+---
+
 ## 2026-11-21 — Seller quick guides: Orders (RU/BG)
 
 - Added two separate seller-facing quick guides in Russian and Bulgarian at `docs/manager/SELLER_ORDERS_QUICK_GUIDES.md`.
