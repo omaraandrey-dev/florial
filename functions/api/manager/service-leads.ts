@@ -105,10 +105,11 @@ export const onRequest = async ({ request, env }: { request: Request; env: Manag
     `
     const rows = await env.DB.prepare(sql).bind(...values).all<Record<string, unknown>>()
     const services = await env.DB.prepare("SELECT service_slug,COALESCE(MIN(CASE WHEN locale='bg' THEN service_name END),MIN(service_name)) AS service_name,COUNT(*) AS lead_count FROM service_leads GROUP BY service_slug ORDER BY service_name").all<Record<string, unknown>>()
+    const newLeadCount = await env.DB.prepare("SELECT COUNT(*) AS count FROM service_leads WHERE status='new'").first<{ count: number }>()
     const assignees = actor.role === 'owner'
       ? await env.DB.prepare("SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 AND role IN ('owner','manager') ORDER BY display_name").all<Record<string, unknown>>()
       : await env.DB.prepare("SELECT user_id,display_name,role FROM catalog_staff_profiles WHERE is_active=1 AND role='manager' AND (user_id=? OR created_by=?) ORDER BY display_name").bind(actor.user_id, actor.user_id).all<Record<string, unknown>>()
-    return json({ leads: rows.results, services: services.results, assignees: assignees.results, canManage: canManage(actor) })
+    return json({ leads: rows.results, services: services.results, assignees: assignees.results, newLeadCount: Number(newLeadCount?.count || 0), canManage: canManage(actor) })
   }
 
   if (!canManage(actor)) return json({ error: 'Нямате право да обработвате заявките за услуги.' }, 403)
