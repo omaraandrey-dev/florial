@@ -201,6 +201,7 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
     'МОЛ: Десислав Бараков',
     '8230 Несебър, България',
     'Тел.: +359 876 777 902',
+    'Тел.: +359 885 834 860',
     'barakov1971@abv.bg',
   ]) { text(lineText, x1 + 9, sy, 6.2, ink); sy -= 11 }
   text('ПРОФОРМА', x2 + 8, 755, 8, gold)
