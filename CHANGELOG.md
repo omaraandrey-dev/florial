@@ -5,6 +5,7 @@
 - После миграции `PRAGMA foreign_key_check` вернул 0 нарушений; таблица подписок содержит 0 строк. Существующие заказы, заявки, staff profiles и сессии не изменялись. `PRAGMA integrity_check` недоступен через D1 API (`SQLITE_AUTH`), поэтому полная SQLite integrity check не заявляется.
 - В Cloudflare Pages project `florial`, только Production scope, добавлены `VAPID_PUBLIC_KEY` (plain text), `VAPID_PRIVATE_KEY` (encrypted secret_text), `VAPID_SUBJECT` (plain text). Наличие и типы проверены без раскрытия значений; существующие переменные сохранены. Preview config не менялась.
 - Production deployment не запускался. Production продолжает обслуживать `main` SHA `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`; Web Push не активен до merge/deploy PR #450.
+- Проверка PR checkpoint `fb6603d88323111038d02f3cf1004370e5bfe2f0`: Blog and Studio run `44857303725` — success; D1 migration validation run `44857303728` — success; Cloudflare Pages Preview deployment `084ab2f4-c1fa-47ef-a04d-3332a3b40795` — success (`https://084ab2f4.florial.pages.dev`).
 - PR #450 остаётся Draft. Android/Chrome subscription, real push delivery, click navigation и unsubscribe не проверены. Merge требует отдельной команды владельца.
 
 ## 2026-11-20 — Manager Web Push (PR #450, implementation pending validation)
