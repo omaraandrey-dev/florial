@@ -3,7 +3,7 @@
 - Owner reported creating a service enquiry and a plant order in Production; neither appeared in the Manager lists until manual refresh.
 - Code review on main `2830c7b9b3bf788bfb48e123d6e77846de080476` confirmed two distinct UI refresh gaps: OrdersManager polled every 15 minutes; ServiceLeadsManager had no periodic polling.
 - PR #453 changes both lists to refresh every 20 seconds while the Manager document is visible, and refreshes on focus/visibility return after the same 20-second cooldown. In-flight guards prevent overlapping list requests.
-- Added regression assertions in `tests/manager-push.test.mjs`. PR head at initial implementation: `a85ac04562f9d99d05de1dafd0e1bdfa05263d2b`; CI and Production deployment are pending.
+- Added regression assertions in `tests/manager-push.test.mjs`. PR head at initial implementation: `c924cf694a0bb77144df892a1baaaeefbe443598`; Blog/Studio validation run 44867072658 and D1 validation run 44867072702 passed on exact PR head `c924cf694a0bb77144df892a1baaaeefbe443598`; Cloudflare Pages Preview check passed with Preview URL https://fab55962.florial.pages.dev. Production deployment remains pending until merge.
 - Owner reports the Owner push self-test and checks 2.1, 2.2 and 2.3 as working. Real event push delivery for the newly created plant order and service enquiry is not yet confirmed separately from list visibility.
 - Scope is Manager frontend polling and tests only. No D1/Sanity writes, schema changes, Cloudflare settings/secrets, Resend changes or Production data modifications. Do not merge/deploy until exact-SHA validation and owner authorization.
 
