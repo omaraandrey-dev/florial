@@ -1,3 +1,12 @@
+
+
+## 2026-11-21 — Manager: 60-second refresh and new service-lead menu badge
+
+- Both Manager order and service-lead lists poll every 60 seconds while the document is visible; focus/visibility return refresh remains, subject to the same 60-second cooldown. Manual refresh and filter-triggered loads remain available.
+- Service-lead GET now returns a separate unfiltered `newLeadCount` aggregate (`status='new'`), independent of the current list filters and 100-row display limit. Manager navigation renders this count as a red badge next to «Заявки за услуги», matching the new-order badge treatment.
+- Updated the Manager regression assertions and corrected the Service Worker comment to reflect the 60-second list refresh. Push remains a separate transport and is not affected by polling.
+- Push receipt is not established by email receipt. Gmail alerts for delivered email are email-client notifications, not Florial Web Push. Actual event-driven device delivery remains a separate QA item.
+- No D1 schema/data, Sanity content/schema, Cloudflare settings/secrets, Resend, orders or service-lead records are changed.
 ## 2026-11-21 — Manager live list refresh correction (PR #453 pending)
 
 - Main code review found that order list/count polling was 15 minutes and service-lead lists had no periodic refresh.
