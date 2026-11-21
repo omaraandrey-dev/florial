@@ -43,9 +43,11 @@ test('Google Text search can be applied without attaching a photograph', () => {
   assert.match(gemini, /mode === 'text' \|\| \/\^image-/)
   assert.match(gemini, /const proofAssetId = mode === 'photo' \? cleanText\(body\.mainImage\?\.assetId, 160\) : ''/)
   assert.match(gemini, /aiSearchMode: mode/)
-  assert.match(plantLib, /return \{ mode: value\.aiSearchMode === 'text' \? 'text' : 'photo', imageAssetId: '' \}/)
+  assert.match(plantLib, /if \(mode === 'text'\) return \{ mode: 'text', imageAssetId: '' \}/)
   assert.match(plantLib, /identity\.mode === 'text' \|\| Boolean\(identity\.imageAssetId\)/)
   assert.match(manager, /geminiResult\.mode==='text'/)
+  assert.match(manager, /Boolean\(geminiProof&&!geminiProofAssetId\)/)
+  assert.match(manager, /image=\{geminiResult\.mode==='photo'&&images\[mainImageIndex\]/)
   assert.match(manager, /aiSearchMode:aiSearchMode\|\|'photo'/)
 })
 
