@@ -1,3 +1,15 @@
+## 2026-11-21 — Manager plant creation: minimal intake (PR #459 merged)
+
+- New plant creation no longer requires a Google lookup. A Seller can save manually when the plant name, positive EUR price, integer quantity >= 0 and at least one sale variant are supplied.
+- The sale variant must have either a manually entered model/size name, or both a positive sale height and positive container volume. A UI-generated label from only one dimension is not accepted as a model name.
+- Google Text results can be applied without a photo. Text proof is session-bound and independent of any selected image that was not sent to Google. Google Photo proof remains bound to its Sanity image asset; the existing duplicate-variant Photo flow keeps its image proof format.
+- Category and main photo are optional on initial creation. If either is missing, the Sanity plant is saved with `isActive=false`, remains visible in Manager and stays hidden from the public shop. The server rejects activation until both category and main photo exist.
+- Existing-plant editing requirements are unchanged: category/photo and the previous dimension/stock validation rules remain in force.
+- Runtime files: `src/manager/PlantCatalogManager.tsx`, `functions/api/manager/plants.ts`, `functions/api/manager/plants/gemini-test.ts`, `functions/api/manager/plant-direct-lib.ts`. Regression tests: `tests/manager-plant-minimal-intake.test.mjs`, `tests/manager-plant-intake-ux.test.mjs`.
+- PR #459 merged as `e0de1971c2278d47bc2ec63dc94e40495e33b72b`. Exact PR-head Blog/Studio validation runs `44892836184` and `44892911636` passed; D1 validation run `44892836173` passed.
+- Cloudflare Pages Production deployment `0cbf0a0f-f36c-4305-b499-6e13f8c4b197` succeeded from the exact merge commit; build and deploy stages succeeded. No Sanity schema/documents, D1 schema/data, Cloudflare settings/secrets, Resend or Production plant records were changed for this task.
+- No Production test plant was created. The live seller workflow was not exercised with an authenticated Manager session; CI and deployment success do not replace that manual workflow check.
+
 
 
 ## 2026-11-21 — Manager: 60-second refresh and new service-lead menu badge
