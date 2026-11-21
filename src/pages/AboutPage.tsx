@@ -305,7 +305,7 @@ export function AboutPage({ categories }: AboutPageProps) {
                 <div><dt className="text-slate-500">ЕИК / UIC</dt><dd className="mt-0.5 font-semibold text-[#263323]">206978288</dd></div>
                 <div><dt className="text-slate-500">ДДС № / VAT №</dt><dd className="mt-0.5 font-semibold text-[#263323]">BG206978288</dd></div>
                 <div><dt className="text-slate-500">{language === 'ru' ? 'Управитель (МОЛ)' : language === 'en' ? 'Company manager' : 'Управител (МОЛ)'}</dt><dd className="mt-0.5 font-semibold text-[#263323]">Десислав Бараков</dd></div>
-                <div><dt className="text-slate-500">{language === 'ru' ? 'Юридический адрес' : language === 'en' ? 'Registered address' : 'Адрес на регистрация'}</dt><dd className="mt-0.5 font-semibold leading-6 text-[#263323]">гр. Несебър, ул. „Черно море“ №28, България</dd></div>
+                <div><dt className="text-slate-500">{language === 'ru' ? 'Юридический адрес' : language === 'en' ? 'Registered address' : 'Адрес на регистрация'}</dt><dd className="mt-0.5 font-semibold leading-6 text-[#263323]">{language === 'ru' ? 'г. Несебр, ул. «Черно море», №28, Болгария' : language === 'en' ? '28 Cherno More St, Nessebar, Bulgaria' : 'гр. Несебър, ул. „Черно море“ №28, България'}</dd></div>
               </dl>
             </div>
 
@@ -346,7 +346,7 @@ export function AboutPage({ categories }: AboutPageProps) {
               </div>
               <div className="sm:col-span-2">
                 <p className="text-slate-500">{language === 'ru' ? 'Садовый центр' : language === 'en' ? 'Garden centre' : 'Градински център'}</p>
-                <p className="mt-0.5 font-semibold leading-6 text-[#263323]">„Флориал“, ул. „Хан Крум“, 8230 Несебър, България (до магазин Janet)</p>
+                <p className="mt-0.5 font-semibold leading-6 text-[#263323]">{language === 'ru' ? '«Флориал», ул. «Хан Крум», 8230 Несебр, Болгария (рядом с магазином Janet)' : language === 'en' ? 'Florial, Khan Krum St, 8230 Nessebar, Bulgaria (next to Janet store)' : '„Флориал“, ул. „Хан Крум“, 8230 Несебър, България (до магазин Janet)'}</p>
               </div>
             </div>
           </div>
