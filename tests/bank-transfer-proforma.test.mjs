@@ -41,6 +41,7 @@ test('Manager confirms and emails the same final PDF to customer and owner', asy
   assert.match(managerPdf, /X-Florial-Proforma-Delivered':'customer-and-owner'/)
   assert.match(managerPdf, /recipients:\['customer','owner'\]/)
   assert.match(managerPdf, /latestConfirmation/)
+  assert.match(managerPdf, /Само собственик или мениджър може/)
   const managerOrders = await read('functions/api/manager/orders.ts')
   assert.match(managerOrders, /proforma_confirmation_invalidated/)
   assert.match(managerOrders, /financialChanged/)

@@ -47,6 +47,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:RuntimeEnv})
  const items=JSON.parse(r.items||'[]') as Item[],html=htmlFor(r,items)
  try{
  if(action==='confirm_proforma'){
+  if(auth.user.role!=='owner'&&auth.user.role!=='manager')return json({error:'Само собственик или мениджър може да потвърди наличност и сума.'},403)
   if(r.payment_method!=='bank_transfer')return json({error:'Потвърждение на проформа е налично само за плащане по банков път.'},409)
   if(r.total_cents==null||r.delivery_fee_cents==null)return json({error:'Първо уточнете и запишете окончателната цена за доставка.'},409)
   if(!r.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email))return json({error:'Няма валиден email адрес на клиента.'},400)

@@ -65,9 +65,11 @@ An edit that changes item identity, quantity, unit price, delivery method or del
 - `src/manager/OrdersManager.tsx`
 - `tests/bank-transfer-proforma.test.mjs`
 - `CHECKOUT_SETUP.md`
-- `CHANGELOG.md`
-- `docs/TECHNICAL_PASSPORT.md`
-- `docs/AI/OPEN_QUESTIONS.md`
+- `docs/audits/2026-11-21-proforma-confirmation-branded-pdf.md`
+
+## Documentation integration
+
+The shared `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` are intentionally excluded from this PR because open PR #409 edits the same shared files from an older base. Add the final implementation/CI/merge evidence to those documents in a follow-up integration change after synchronization with the current `main`.
 
 ## Verification limits
 
