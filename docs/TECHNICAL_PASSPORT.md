@@ -1,3 +1,37 @@
+## 2026-11-21 — Manager Web Push: final PR pre-release gate
+
+- Final code/test SHA: `e373e2f82c5a73b222fa69393f1d3874010540e3`; documentation-only follow-up is tracked in current branch HEAD.
+- Blog and Studio validation run `44858518911` — success; D1 migration validation run `44858518879` — success. Both ran against the exact documentation-parent SHA `884e4c0ddd361a8109d4d4fa533504092974e635` (which contains the reviewed code/test SHA).
+- Cloudflare Pages Preview deployment `052ae9af-dd7c-4275-8abc-1141bdc29e03` — success for SHA `884e4c0ddd361a8109d4d4fa533504092974e635`: https://052ae9af.florial.pages.dev.
+- PR #450 remains open and Draft; GitHub reports `mergeable=true`, `mergeable_state=clean`. Base `main` remains `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`. No merge or Production deployment was performed.
+- Final review found no unrelated paths in the 21-file PR diff. A Service Worker notification-click issue was fixed in `public/manager/sw.js`: only an existing same-origin `/manager/` client is reused; otherwise a new Manager window is opened. Regression assertion added in `tests/manager-push.test.mjs`.
+- Remaining release gate: owner must explicitly authorize removing Draft and merging PR #450. After merge, verify the exact Production deployment and conduct agreed Android/Chrome QA. No real Production orders/leads should be created without an approved test procedure.
+
+## 2026-11-21 — Manager Web Push: notification click isolation
+
+- Final code review of PR #450 found that Service Worker notification clicks could navigate any same-origin tab, including the public storefront, into Manager.
+- Fixed `public/manager/sw.js`: reuse only an existing same-origin `/manager/` client; otherwise open a new Manager window. Storefront tabs are no longer repurposed.
+- Added a regression assertion in `tests/manager-push.test.mjs` for the Manager-path restriction.
+- Exact code/test head: `e373e2f82c5a73b222fa69393f1d3874010540e3`. Cloudflare Pages Preview deployment `e92a4372-4d7f-48d5-8446-9f22aef2e77b` completed successfully for this SHA.
+- D1 migration validation run `44858363236` passed. Blog and Studio validation run `44858363243` was still in progress at documentation update time; do not treat the final CI gate as passed until it completes.
+- PR #450 remains Draft; no merge or Production deployment was performed.
+
+## 2026-11-21 — Manager Web Push: Production prerequisites applied (PR #450 still Draft)
+
+- Production D1 migration `0017_manager_push_subscriptions` applied on 2026-11-21 at 02:38:36 after successful full D1 SQL export. The table, unique endpoint constraint, two indexes and migration ledger entry were verified by live read-back. Table row count: 0; `PRAGMA foreign_key_check`: 0 violations. Existing orders, leads, staff profiles and sessions were not modified.
+- Backup export object filename is recorded in `docs/roadmaps/MANAGER_PUSH_NOTIFICATIONS_ROADMAP_2026-11-21.md`; signed export URL is intentionally not stored in GitHub. `PRAGMA integrity_check` is unavailable through the current D1 API context (`SQLITE_AUTH`), so no full integrity-check claim is made.
+- Cloudflare Pages Production now has `VAPID_PUBLIC_KEY` (plain text), `VAPID_PRIVATE_KEY` (encrypted secret), and `VAPID_SUBJECT` (plain text). Presence/types verified without returning secret values. Private key is not stored in GitHub or documentation. Existing Pages variables preserved; Preview config unchanged.
+- No Production deployment was triggered. Current Production deployment remains on `main` SHA `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`; PR #450 remains Draft. Thus configured VAPID and D1 table are prerequisites only; runtime Push is not yet active.
+- PR checkpoint `fb6603d88323111038d02f3cf1004370e5bfe2f0` passed Blog/Studio validation run `44857303725`, D1 validation run `44857303728`, and Cloudflare Pages Preview deployment `084ab2f4-c1fa-47ef-a04d-3332a3b40795` (success).
+- Remaining: owner-approved PR merge, exact-SHA Production deployment verification, Android/Chrome subscription and delivery/click/unsubscribe QA for Owner/Manager/Seller. Test orders/leads must not be created without the agreed test procedure.
+
+## 2026-11-20 — Manager Web Push architecture (PR #450, pending validation)
+
+- Web Push subscription records use the proposed Cloudflare D1 table `manager_push_subscriptions`, keyed to `catalog_staff_profiles.user_id`; each device endpoint is unique and cannot be reassigned by another authenticated staff user.
+- Pages Functions use `@block65/webcrypto-web-push@2.0.0` (RFC 8291 aes128gcm / RFC 8292 VAPID). VAPID config names: `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`.
+- New order push recipients: active Owner, Manager and Seller. New service lead recipients: active Owner only. No PII in payload. Push runs after successful D1 persistence and is best-effort.
+- Manager PWA remains online-only; Service Worker handles push display/click only and does not cache Manager/API data. List polling remains 15 minutes, independent of immediate push.
+- Exact implementation head `a908426f3355c793e369ea0e0adaae170bbac6de` passed Blog/Studio validation run `44793855068`, D1 validation run `44793855086`, and Cloudflare Preview deployment `33d99b8b-e866-4701-85a9-d6809c9c62df` (success). Migration 0017 and VAPID configuration are not applied in Production; real-device test remains pending.
 ## 2026-11-20 — внутренняя перелинковка доставки крупномерных растений
 
 - Sanity project `bxvcy0qs`: в dataset `plants` добавлена связь на опубликованную услугу `dostavka-na-edrorazmerni-rasteniya` для 35 уникальных товаров (12 пальм/юк, 6 олив/маслин, 23 дерева и кустарника; группы пересекаются, каждый документ изменён один раз). Использовано поле `relatedContentBySlug`, `contentType: "service"`; прежние ссылки сохранены.

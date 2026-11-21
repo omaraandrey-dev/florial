@@ -76,6 +76,9 @@ export type ManagerEnv = {
   EMAIL_FROM?: string
   CATALOG_REVIEW_EMAIL?: string
   ORDER_NOTIFICATION_EMAIL?: string
+  VAPID_PUBLIC_KEY?: string
+  VAPID_PRIVATE_KEY?: string
+  VAPID_SUBJECT?: string
   MANAGER_BOOTSTRAP_SECRET?: string
   GEMINI_API_KEY?: string
   AI?: { run: (model: string, input: Record<string, unknown>) => Promise<unknown> }

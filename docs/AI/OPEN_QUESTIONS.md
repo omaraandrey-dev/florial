@@ -1,7 +1,22 @@
 # Florial — текущие открытые вопросы и проверки
 
-Дата сверки: 2026-11-20. Этот файл содержит только вопросы, которые остаются актуальными.
+Дата сверки: 2026-11-21.
 
+## 2026-11-21 — Manager Web Push: release и Android QA
+
+- PR #450 остаётся Draft; код/test SHA `e373e2f82c5a73b222fa69393f1d3874010540e3`; документационный parent SHA `884e4c0ddd361a8109d4d4fa533504092974e635`.
+- Blog and Studio run `44858518911` и D1 validation run `44858518879` — success для SHA `884e4c0ddd361a8109d4d4fa533504092974e635`; Cloudflare Preview `052ae9af-dd7c-4275-8abc-1141bdc29e03` — success.
+- GitHub reports PR `mergeable=true`, `mergeable_state=clean`; base main `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`.
+- В ходе финального code review исправлен Service Worker notification click: используется только открытая вкладка `/manager/`, иначе открывается новая; storefront tab не перенаправляется. Добавлен регрессионный тест.
+- **Открыто:** получить отдельную команду владельца на снятие Draft и merge. До такой команды PR не объединять.
+- **Открыто после выпуска:** проверить Production deployment по точному merge SHA; затем Android/Chrome opt-in, subscription persistence, push delivery, правильный notification click, opt-out/delete/re-subscribe для Owner, Manager и Seller. Service-lead push должен получать только Owner; тестовые заказы не должны отправлять push.
+- Не создавать Production test orders/leads и не отправлять тестовые письма без согласованного тестового сценария. Не раскрывать VAPID private key и не записывать его в GitHub.
+
+## 2026-11-20 — Manager Web Push: release prerequisites (historical snapshot; superseded by the 2026-11-21 status above)
+
+- PR #450 contains the Manager Web Push implementation and remains Draft. Exact implementation/test head `a908426f3355c793e369ea0e0adaae170bbac6de` passed Blog/Studio run `44793855068`, D1 run `44793855086`, and Preview deployment `33d99b8b-e866-4701-85a9-d6809c9c62df`.
+- Production D1 migration and VAPID setup were pending at that historical checkpoint; both were later completed with separate owner approval.
+- Real Android Chrome install/permission/subscribe/push/click/unsubscribe verification remains pending.
 
 ## 2026-11-20 — Sanity category schema descriptor: legacy SEO fields
 
@@ -48,7 +63,7 @@
 - **Растения и статьи:** Sanity Published read-back подтверждён, но live rendered HTML/browser QA остаётся неподтверждённым для категории `/category/rastenia` и статьи об оливе BG/RU/EN; для зимней статьи BG проверен, RU/EN остаются pending. Google recrawl/indexing не подтверждены. См. соответствующие audits в `docs/audits/`.
 - **Hosted Sanity Studio:** проверить фактический hosted Studio deployment после последних schema updates, если работа затронет Studio; успешный Studio build в CI сам по себе не доказывает hosted deployment.
 - **Gemini Manager smoke:** повторить только с авторизованной Manager-сессией и согласованной тестовой записью; root cause прежней ошибки не подтверждён.
-- **D1 migration ledger:** последняя задокументированная read-only сверка 2026-11-11 видела миграции `0001–0014`, но исторические roadmap записи расходились по статусу `0014`. Также было расхождение между `sqlite_master` (17 таблиц) и Cloudflare metadata (`num_tables: 0`). Перед следующей D1 migration/write выполнить read-only сверку live ledger/schema; полная SQLite integrity/foreign-key проверка не подтверждена.
+- **D1 migration ledger:** актуальная Production сверка 2026-11-21 подтвердила миграцию `0017_manager_push_subscriptions`, таблицу и индексы; `PRAGMA foreign_key_check` — 0 нарушений. `PRAGMA integrity_check` остаётся недоступным через Cloudflare D1 API (`SQLITE_AUTH`); повторять его без изменения метода доступа не требуется.
 - **Irrigation product SEO:** базовый аудит 2026-11-13 выявил 193/275 товаров без отдельного локализованного H1 и 143 с неполными RU/EN meta-полями. Это исторические counts, не актуальная перепись. Перед любым исправлением повторно получить live inventory; bulk apply, перезаписывающий заполненные поля, не использовать.
 - **Google Shopping / Product Schema / Search Console:** продолжать строго по [дорожной карте](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md). PR #407 and PR #410 are merged; Product Offer remediation and brand parity are deployed to Production. CI for the corrected Product Schema and merge commit passed (see CHANGELOG and roadmap). Owner-provided Google Inspection Tool output on 19.11.2026 confirms successful crawl, indexing allowed, and Product, Merchant listings and Breadcrumbs detected without errors for Kumquat; the valve's later indexed state is owner-reported. These are URL Inspection observations, not a separately authenticated standalone Rich Results Test. Optional warnings remain: review/aggregateRating (do not fabricate), availability for `onRequest` (intentionally omitted), and shipping/return policy fields (blocked on confirmed business terms). Plant stock statuses for three palms were normalized in published Sanity; active plant counts are 26 inStock / 3 outOfStock / 21 onRequest with no root-vs-first-variant mismatch. The Offer helper files in `src/lib` and `functions/_lib` are currently identical but duplicated; consider a parity test or consolidation before future behavior changes. The BG `/terms` page remains marked as a legal-review draft, but the owner instructed to use the existing published rules for Google policy markup. Organization-level `MerchantReturnPolicy` now links to `/terms` using `merchantReturnLink` without inventing universal return conditions. Shipping markup remains open: current delivery terms do not specify the exact supported destination list or rate/transit-time values; do not infer country-wide or worldwide delivery. Dedicated Rich Results Test, broader URL Inspection/sitemap checks, Merchant Center account setup and commercial policy confirmation remain open. Merchant Center was confirmed not registered by owner on 18.11.2026.
 - **Performance:** несколько старых release audits не имеют сопоставимых post-release Lighthouse/CLS/INP замеров. Не приписывать улучшение производительности без повторных измерений.

@@ -1,3 +1,50 @@
+## 2026-11-21 — Manager Web Push: final PR pre-release gate
+
+- Final code/test SHA: `e373e2f82c5a73b222fa69393f1d3874010540e3`; documentation-only follow-up is tracked in current branch HEAD.
+- Blog and Studio validation run `44858518911` — success; D1 migration validation run `44858518879` — success. Both ran against the exact documentation-parent SHA `884e4c0ddd361a8109d4d4fa533504092974e635` (which contains the reviewed code/test SHA).
+- Cloudflare Pages Preview deployment `052ae9af-dd7c-4275-8abc-1141bdc29e03` — success for SHA `884e4c0ddd361a8109d4d4fa533504092974e635`: https://052ae9af.florial.pages.dev.
+- PR #450 remains open and Draft; GitHub reports `mergeable=true`, `mergeable_state=clean`. Base `main` remains `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`. No merge or Production deployment was performed.
+- Final review found no unrelated paths in the 21-file PR diff. A Service Worker notification-click issue was fixed in `public/manager/sw.js`: only an existing same-origin `/manager/` client is reused; otherwise a new Manager window is opened. Regression assertion added in `tests/manager-push.test.mjs`.
+- Remaining release gate: owner must explicitly authorize removing Draft and merging PR #450. After merge, verify the exact Production deployment and conduct agreed Android/Chrome QA. No real Production orders/leads should be created without an approved test procedure.
+
+## 2026-11-21 — Manager Web Push: notification click isolation
+
+- Final code review of PR #450 found that Service Worker notification clicks could navigate any same-origin tab, including the public storefront, into Manager.
+- Fixed `public/manager/sw.js`: reuse only an existing same-origin `/manager/` client; otherwise open a new Manager window. Storefront tabs are no longer repurposed.
+- Added a regression assertion in `tests/manager-push.test.mjs` for the Manager-path restriction.
+- The fix and regression test are included in code/test SHA `e373e2f82c5a73b222fa69393f1d3874010540e3`. Its Preview deployment `e92a4372-4d7f-48d5-8446-9f22aef2e77b` succeeded.
+- The follow-up documentation-parent SHA `884e4c0ddd361a8109d4d4fa533504092974e635` passed Blog/Studio run `44858518911`, D1 run `44858518879`, and Preview deployment `052ae9af-dd7c-4275-8abc-1141bdc29e03`.
+- PR #450 remains Draft; no merge or Production deployment was performed.
+
+## 2026-11-21 — Manager Web Push: Production D1 и VAPID подготовлены
+
+- По отдельному подтверждению владельца перед Production write создан полный D1 SQL export в Cloudflare D1 export storage; export завершился успешно. Backup filename и bookmark записаны в дорожной карте; signed URL не сохраняется.
+- В Production D1 применена additive migration `0017_manager_push_subscriptions` (2026-11-21 02:38:36): создана таблица подписок, два индекса и запись в `schema_migrations`. Live read-back подтвердил структуру, индексы и ledger.
+- После миграции `PRAGMA foreign_key_check` вернул 0 нарушений; таблица подписок содержит 0 строк. Существующие заказы, заявки, staff profiles и сессии не изменялись. `PRAGMA integrity_check` недоступен через D1 API (`SQLITE_AUTH`), поэтому полная SQLite integrity check не заявляется.
+- В Cloudflare Pages project `florial`, только Production scope, добавлены `VAPID_PUBLIC_KEY` (plain text), `VAPID_PRIVATE_KEY` (encrypted secret_text), `VAPID_SUBJECT` (plain text). Наличие и типы проверены без раскрытия значений; существующие переменные сохранены. Preview config не менялась.
+- Production deployment не запускался. Production продолжает обслуживать `main` SHA `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`; Web Push не активен до merge/deploy PR #450.
+- Проверка PR checkpoint `fb6603d88323111038d02f3cf1004370e5bfe2f0`: Blog and Studio run `44857303725` — success; D1 migration validation run `44857303728` — success; Cloudflare Pages Preview deployment `084ab2f4-c1fa-47ef-a04d-3332a3b40795` — success (`https://084ab2f4.florial.pages.dev`).
+- PR #450 остаётся Draft. Android/Chrome subscription, real push delivery, click navigation и unsubscribe не проверены. Merge требует отдельной команды владельца.
+
+## 2026-11-20 — Manager Web Push (PR #450, implementation pending validation)
+
+- Continued the existing `feature/manager-order-notifications` branch; no replacement feature branch used. PR #450 remains Draft.
+- Added additive D1 migration `docs/migrations/0017_manager_push_subscriptions.sql`; it creates per-device subscriptions tied to staff identities and does not change existing orders, service leads, staff profiles or sessions. Migration is not applied to Production.
+- Added authenticated same-origin subscription API. Staff identity is derived from the Manager session; HTTPS endpoints and subscription keys are validated; an endpoint cannot be reassigned to another staff account.
+- Added role-scoped best-effort dispatch: real order events target active Owner/Manager/Seller; service lead events target active Owner only. Push payloads contain short Bulgarian text, reference number and Manager destination; no customer contact details. Expired 404/410 endpoints are removed.
+- Hooked dispatch after successful D1 insert in checkout and service lead creation. Delivery errors are isolated from customer submissions and checkout.
+- Added explicit Bulgarian device opt-in/opt-out UI and Service Worker `push` / `notificationclick` handlers. Existing online-only, no-cache behavior is preserved. Push click targets `/manager/?section=orders` or `/manager/?section=serviceLeads`.
+- Added static regression tests in `tests/manager-push.test.mjs`; added a SQLite migration test and D1 validation workflow step. The exact implementation head passed CI and Preview (details below).
+- Runtime prerequisites remain pending: apply migration 0017 to Production D1 and configure `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` in Cloudflare Pages Functions only after explicit approval. Real Android/browser delivery test is also pending.
+
+
+### Verification update — 2026-11-20
+- Exact implementation/test head: `a908426f3355c793e369ea0e0adaae170bbac6de`.
+- Blog and Studio validation run `44793855068` — success (application/Pages typecheck, lint, 357 utility tests, website build, migration syntax/dry-run, Studio typecheck/build).
+- D1 migration validation run `44793855086` — success, including the new Python/SQLite test for migration 0017.
+- Cloudflare Pages Preview deployment `33d99b8b-e866-4701-85a9-d6809c9c62df` — success for exact head SHA; URL: https://33d99b8b.florial.pages.dev.
+- Production D1 migration/VAPID secrets and real-device delivery remain pending; PR #450 remains Draft.
+
 ## 2026-11-20 — внутренняя перелинковка доставки крупномерных растений
 
 - Sanity project `bxvcy0qs`: в dataset `plants` добавлена связь на опубликованную услугу `dostavka-na-edrorazmerni-rasteniya` для 35 уникальных товаров (12 пальм/юк, 6 олив/маслин, 23 дерева и кустарника; группы пересекаются, каждый документ изменён один раз). Использовано поле `relatedContentBySlug`, `contentType: "service"`; прежние ссылки сохранены.
