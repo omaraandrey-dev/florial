@@ -89,8 +89,7 @@ export default function ServiceLeadsManager({ canManage }: Props) {
   }, [query, status, service, location, assignedTo, from, to])
 
   const loadLeads = useCallback(async () => {
-    if (loadInFlight.current) return
-    loadInFlight.current = true
+    loadInFlight.current += 1
     lastRefreshAt.current = Date.now()
     setLoading(true); setError('')
     try {
@@ -101,7 +100,7 @@ export default function ServiceLeadsManager({ canManage }: Props) {
       setServices(result.services || [])
       setAssignees(result.assignees || [])
     } catch (err) { setError(err instanceof Error ? err.message : 'Не успяхме да заредим заявките.') }
-    finally { loadInFlight.current = false; setLoading(false) }
+    finally { loadInFlight.current = Math.max(0, loadInFlight.current - 1); setLoading(false) }
   }, [queryString])
 
   const loadDetail = useCallback(async (id: string) => {
@@ -119,7 +118,7 @@ export default function ServiceLeadsManager({ canManage }: Props) {
   useEffect(() => { void loadLeads() }, [loadLeads])
   useEffect(() => {
     const refresh = () => {
-      if (document.visibilityState === 'visible' && Date.now() - lastRefreshAt.current >= 20_000) void loadLeads()
+      if (document.visibilityState === 'visible' && Date.now() - lastRefreshAt.current >= 20_000 && loadInFlight.current === 0) void loadLeads()
     }
     const timer = window.setInterval(refresh, 20_000)
     window.addEventListener('focus', refresh)
