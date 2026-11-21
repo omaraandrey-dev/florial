@@ -1,11 +1,17 @@
-## 2026-11-21 — Manager Web Push: актуальные release blockers
+# Florial — текущие открытые вопросы и проверки
 
-- Единая последовательность действий, выполненные работы и критерии завершения ведутся в [дорожной карте Manager Web Push](../roadmaps/MANAGER_PUSH_NOTIFICATIONS_ROADMAP_2026-11-21.md).
-- PR #450 открыт и Draft; последний подтверждённый implementation head: `b87df49b954712641ffa44e0845f4ef4ddd05728`. CI Blog/Studio `44794576684`, D1 `44794576517` и Cloudflare Preview `bf7acd17-23ce-4180-821c-54063866f68e` прошли успешно.
-- Production D1 migration 0017 не применена; VAPID variables/secrets не настроены; Android/Chrome end-to-end проверка не выполнена.
-- Cloudflare connector ранее вернул `401 Invalid API Token`; D1 read-only SQL завершился `SQLITE_AUTH`. Следующий обязательный шаг — переподключить Cloudflare connector и выполнить read-only preflight (ledger/schema/FK/integrity). До подтверждения preflight не выполнять migration.
-- Владелец уже разрешил Production rollout в рамках этой задачи. Это не разрешение обходить preflight. PR не снимать с Draft и не merge без отдельной команды владельца.
-- Состояние Production D1 migration ledger/schema и действующая валидность Cloudflare credentials: **НЕ ПОДТВЕРЖДЕНО**.
+Дата сверки: 2026-11-21. Этот файл содержит только вопросы, которые остаются актуальными.
+
+## 2026-11-21 — Manager Web Push: release и Android QA
+
+- PR #450 открыт и остаётся Draft; implementation head `b87df49b954712641ffa44e0845f4ef4ddd05728`, актуальный документационный PR head уточняется после последнего CI. Production merge/deploy не выполнялся.
+- Production D1 migration `0017_manager_push_subscriptions` применена и проверена live read-back; таблица пустая, foreign-key check без нарушений. D1 export backup создан до write. `PRAGMA integrity_check` через API недоступен (`SQLITE_AUTH`), это ограничение проверки.
+- Cloudflare Pages Production содержит VAPID public key, encrypted private key и subject; наличие/типы проверены без чтения/вывода значений. Preview config не изменялась.
+- **Открыто:** дождаться успешных CI checks для последнего PR HEAD, выполнить финальный release review и получить отдельную команду владельца на снятие Draft/merge.
+- **Открыто после выпуска:** проверить Production deployment по точному merge SHA; затем выполнить Android/Chrome opt-in, subscription persistence, push delivery, правильный notification click, opt-out/delete/re-subscribe для Owner, Manager и Seller. Service-lead push должен получать только Owner; тестовые заказы не должны отправлять push.
+- Не создавать Production test orders/leads и не отправлять тестовые письма без согласованного тестового сценария. Не раскрывать VAPID private key и не записывать его в GitHub.
+
+## 2026-11-20 — Sanity category schema descriptor: legacy SEO fields
 
 ## 2026-11-20 — Manager Web Push: release prerequisites
 
@@ -64,7 +70,7 @@
 - **Растения и статьи:** Sanity Published read-back подтверждён, но live rendered HTML/browser QA остаётся неподтверждённым для категории `/category/rastenia` и статьи об оливе BG/RU/EN; для зимней статьи BG проверен, RU/EN остаются pending. Google recrawl/indexing не подтверждены. См. соответствующие audits в `docs/audits/`.
 - **Hosted Sanity Studio:** проверить фактический hosted Studio deployment после последних schema updates, если работа затронет Studio; успешный Studio build в CI сам по себе не доказывает hosted deployment.
 - **Gemini Manager smoke:** повторить только с авторизованной Manager-сессией и согласованной тестовой записью; root cause прежней ошибки не подтверждён.
-- **D1 migration ledger:** последняя задокументированная read-only сверка 2026-11-11 видела миграции `0001–0014`, но исторические roadmap записи расходились по статусу `0014`. Также было расхождение между `sqlite_master` (17 таблиц) и Cloudflare metadata (`num_tables: 0`). Перед следующей D1 migration/write выполнить read-only сверку live ledger/schema; полная SQLite integrity/foreign-key проверка не подтверждена.
+- **D1 migration ledger:** актуальная Production сверка 2026-11-21 подтвердила миграцию `0017_manager_push_subscriptions`, таблицу и индексы; `PRAGMA foreign_key_check` — 0 нарушений. `PRAGMA integrity_check` остаётся недоступным через Cloudflare D1 API (`SQLITE_AUTH`); повторять его без изменения метода доступа не требуется.
 - **Irrigation product SEO:** базовый аудит 2026-11-13 выявил 193/275 товаров без отдельного локализованного H1 и 143 с неполными RU/EN meta-полями. Это исторические counts, не актуальная перепись. Перед любым исправлением повторно получить live inventory; bulk apply, перезаписывающий заполненные поля, не использовать.
 - **Google Shopping / Product Schema / Search Console:** продолжать строго по [дорожной карте](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md). PR #407 and PR #410 are merged; Product Offer remediation and brand parity are deployed to Production. CI for the corrected Product Schema and merge commit passed (see CHANGELOG and roadmap). Owner-provided Google Inspection Tool output on 19.11.2026 confirms successful crawl, indexing allowed, and Product, Merchant listings and Breadcrumbs detected without errors for Kumquat; the valve's later indexed state is owner-reported. These are URL Inspection observations, not a separately authenticated standalone Rich Results Test. Optional warnings remain: review/aggregateRating (do not fabricate), availability for `onRequest` (intentionally omitted), and shipping/return policy fields (blocked on confirmed business terms). Plant stock statuses for three palms were normalized in published Sanity; active plant counts are 26 inStock / 3 outOfStock / 21 onRequest with no root-vs-first-variant mismatch. The Offer helper files in `src/lib` and `functions/_lib` are currently identical but duplicated; consider a parity test or consolidation before future behavior changes. The BG `/terms` page remains marked as a legal-review draft, but the owner instructed to use the existing published rules for Google policy markup. Organization-level `MerchantReturnPolicy` now links to `/terms` using `merchantReturnLink` without inventing universal return conditions. Shipping markup remains open: current delivery terms do not specify the exact supported destination list or rate/transit-time values; do not infer country-wide or worldwide delivery. Dedicated Rich Results Test, broader URL Inspection/sitemap checks, Merchant Center account setup and commercial policy confirmation remain open. Merchant Center was confirmed not registered by owner on 18.11.2026.
 - **Performance:** несколько старых release audits не имеют сопоставимых post-release Lighthouse/CLS/INP замеров. Не приписывать улучшение производительности без повторных измерений.
