@@ -29,7 +29,7 @@ test('variant model name can replace both numeric height and container dimension
   assert.match(manager, /nameAuto:v\.nameAuto===true/)
   assert.match(manager, /Височина \(см\)\{editingId\?' \*':' · по избор'\}/)
   assert.match(manager, /Контейнер \(л\)\{editingId\?' \*':' · по избор'\}/)
-  assert.match(manager, /if\(key==='stockQuantity'&&value\.trim\(\)==='0'&&next\.stockStatus==='inStock'\)next\.stockStatus='outOfStock'/)
+  assert.match(manager, /if\(!editingId&&key==='stockQuantity'&&value\.trim\(\)==='0'&&next\.stockStatus==='inStock'\)next\.stockStatus='outOfStock'/)
 })
 
 test('a new incomplete plant is stored inactive until category and photo are provided', () => {
