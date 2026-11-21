@@ -187,34 +187,38 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
   const x1 = margin
   const x2 = margin + colW + colGap
   const x3 = margin + (colW + colGap) * 2
-  page.drawRectangle({ x: x1, y: 635, width: colW, height: 165, color: greenPale, borderColor: line, borderWidth: 0.6 })
-  page.drawRectangle({ x: x2, y: 635, width: colW, height: 165, color: white, borderColor: line, borderWidth: 0.6 })
-  page.drawRectangle({ x: x3, y: 635, width: colW, height: 165, color: greenPale, borderColor: line, borderWidth: 0.6 })
-  const logoDims = logo.scale(Math.min((colW - 18) / logo.width, 43 / logo.height))
-  page.drawImage(logo, { x: x1 + 9, y: 800 - logoDims.height - 8, width: logoDims.width, height: logoDims.height })
-  let sy = 800 - logoDims.height - 18
-  text('ПРОДАВАЧ', x1 + 9, sy, 7, green); sy -= 15
+  page.drawRectangle({ x: x1, y: 600, width: colW, height: 190, color: greenPale, borderColor: line, borderWidth: 0.6 })
+  page.drawRectangle({ x: x2, y: 600, width: colW, height: 190, color: white, borderColor: line, borderWidth: 0.6 })
+  page.drawRectangle({ x: x3, y: 600, width: colW, height: 190, color: greenPale, borderColor: line, borderWidth: 0.6 })
+
+  const title = 'ПРОФОРМА'
+  const titleWidth = font.widthOfTextAtSize(title, 17)
+  page.drawText(title, { x: (pageSize[0] - titleWidth) / 2, y: 812, size: 17, font, color: green })
+
+  const logoDims = logo.scale(Math.min((colW - 18) / logo.width, 37 / logo.height))
+  page.drawImage(logo, { x: x1 + 9, y: 790 - logoDims.height - 7, width: logoDims.width, height: logoDims.height })
+  let sy = 790 - logoDims.height - 15
+  text('ПРОДАВАЧ', x1 + 9, sy, 6.5, green); sy -= 12
   for (const lineText of [
-    '„Флориал“ ООД / FLORIAL LTD',
+    '„Флориал“ ООД / FLORIAL OOD / FLORIAL LTD',
     'ЕИК: 206978288',
-    'ДДС №: BG206978288 (ДДС: BG206978288)',
+    'ДДС №: BG206978288',
     'МОЛ: Десислав Бараков',
-    '8230 Несебър, България',
+    'Адрес: гр. Несебър, ул. „Черно море“ №28, България',
+    'Банка: Банка ДСК (DSK Bank)',
+    'IBAN: BG88STSA93000029605234',
+    'BIC / SWIFT: STSABGSF',
     'Тел.: +359 876 777 902',
-    'Тел.: +359 885 834 860',
-    'barakov1971@abv.bg',
-  ]) { text(lineText, x1 + 9, sy, 6.2, ink); sy -= 11 }
-  text('ПРОФОРМА', x2 + 8, 755, 8, gold)
-  text('ФАКТУРА', x2 + 8, 733, 15, green)
-  rule(x2 + 8, x2 + colW - 8, 716, gold, 1.2)
-  text('№ ' + order.order_number, x2 + 8, 701, 7.4, ink)
-  text('Издадена: ' + fmtDate(issuedDate), x2 + 8, 685, 6.7, muted)
-  if (confirmed) text('Потвърдена: ' + fmtDate(confirmedDate!), x2 + 8, 670, 6.7, green)
-  else text('Очаква потвърждение', x2 + 8, 670, 7, gold)
-  text(confirmed ? 'ПОРЪЧКАТА Е' : 'СТАТУС НА ПОРЪЧКАТА', x2 + 8, 651, 6.2, muted)
-  text(confirmed ? 'ПОТВЪРДЕНА' : 'ОЧАКВА ПОТВЪРЖДЕНИЕ', x2 + 8, 638, confirmed ? 8 : 6.1, confirmed ? green : gold)
-  text('КЛИЕНТ', x3 + 9, 788, 7, green)
-  let cy = 772
+    'Email: barakov1971@abv.bg',
+  ]) { sy -= wrapped(lineText, x1 + 9, sy, colW - 18, 5.5, ink) + 1 }
+  text('№ ' + order.order_number, x2 + 9, 770, 8, ink)
+  text('Издадена: ' + fmtDate(issuedDate), x2 + 9, 748, 7, muted)
+  if (confirmed) text('Потвърдена: ' + fmtDate(confirmedDate!), x2 + 9, 729, 7, green)
+  else text('Очаква потвърждение', x2 + 9, 729, 7, gold)
+  text(confirmed ? 'ПОРЪЧКАТА Е' : 'СТАТУС НА ПОРЪЧКАТА', x2 + 9, 704, 6.2, muted)
+  text(confirmed ? 'ПОТВЪРДЕНА' : 'ОЧАКВА ПОТВЪРЖДЕНИЕ', x2 + 9, 689, confirmed ? 8 : 6.1, confirmed ? green : gold)
+  text('КЛИЕНТ', x3 + 9, 778, 7, green)
+  let cy = 762
   for (const lineText of [
     order.customer_name || 'Не е посочено',
     'Тел.: ' + (order.phone || 'Не е посочен'),
@@ -222,10 +226,9 @@ export const createProformaPdf = async (order: ProformaOrder, fontUrl?: string):
     ...(order.city ? ['Град: ' + order.city] : []),
     ...(order.address ? ['Адрес: ' + order.address] : []),
   ]) { cy -= wrapped(lineText, x3 + 9, cy, colW - 18, 6.4, ink) + 4 }
-  y = 620
+  y = 584
   text('ПОЛУЧАВАНЕ: ' + (order.delivery_method || 'Не е посочено'), margin + 2, y, 7, muted)
-  y -= 22
-  drawSectionTitle('ДЕТАЙЛИ НА ПОРЪЧКАТА')
+  y -= 16
   drawTableHeader()
 
   const rowX = [margin, margin + 28, margin + 264, margin + 330, margin + 408]
