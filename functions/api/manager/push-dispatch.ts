@@ -32,14 +32,12 @@ export const sendManagerPushToSubscriptions = async (
   if (!vapid) throw new Error('Push notifications are not configured.')
   const results = await Promise.allSettled(recipients.map(async (row): Promise<PushAttempt> => {
     const subscription: PushSubscription = { endpoint: row.endpoint, expirationTime: null, keys: { p256dh: row.p256dh, auth: row.auth } }
-    let phase: 'signing' | 'provider' = 'signing'
     let init: RequestInit
     try {
       init = await buildPushPayload({ data: payloadData, options: { ttl: 300 } }, subscription, vapid)
     } catch (error) {
       return { status: 'failed', diagnostic: { phase: 'signing', code: 'payload_signing_failed', status: null, errorName: safeErrorName(error) } }
     }
-    phase = 'provider'
     try {
       const response = await fetch(row.endpoint, { ...init, redirect: 'error', signal: AbortSignal.timeout(5000) })
       if (response.status === 404 || response.status === 410) {
