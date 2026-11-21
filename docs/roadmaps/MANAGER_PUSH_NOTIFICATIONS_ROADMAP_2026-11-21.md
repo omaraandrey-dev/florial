@@ -1,3 +1,13 @@
+## 2026-11-21 — Manager live list refresh correction (PR #453)
+
+- Owner-confirmed real Production plant order and service enquiry were not visible in Manager until manual refresh.
+- Main-code review identified the cause in the UI refresh strategy: orders refreshed every 15 minutes and service leads had no periodic refresh.
+- PR #453 proposes 20-second polling for both lists while visible, with focus/visibility refresh after a 20-second cooldown and in-flight guards. The initial PR head is `c924cf694a0bb77144df892a1baaaeefbe443598`; Blog/Studio run 44867072658 and D1 run 44867072702 passed on exact PR head; Cloudflare Pages Preview check passed at https://fab55962.florial.pages.dev. Production deployment is pending.
+- The Owner reports the self-test and lifecycle checks 2.1–2.3 as working. This does not independently confirm push delivery from actual order/service-lead events.
+- After merge/deployment: confirm both lists update without manual refresh; then record real-event push receipt by role and click navigation separately.
+
+---
+
 ## 2026-11-21 — Owner-only self-test endpoint and control (PR validation passed)
 
 - Added a dedicated `POST /api/manager/push/test` endpoint, restricted server-side to an active Owner session and same-origin requests.
@@ -32,14 +42,14 @@ Merge commit / текущий runtime SHA: 54026c75030e5f950576cc1b99f7ebf890300
 - Тестовые заказы (`is_test=1`) не уведомляют.
 - В push payload не передаются телефон, email, адрес и другие контактные данные клиента.
 - Подписка включается/отключается сотрудником явным действием на устройстве. Offline caching не добавляется; Manager остаётся online-only.
-- Список/счётчик заказов обновляется сразу при открытии Manager, затем не чаще одного раза в 15 минут. Push — отдельный механизм и не зависит от polling.
+- Список/счётчик заказов обновляется при открытии Manager; на main до PR #453 polling составлял 15 минут. PR #453 меняет polling заказов и заявок на услуги на 20 секунд при видимой вкладке. Push — отдельный механизм и не зависит от polling.
 
 ## 2. Что уже сделано
 
 ### Реализация в PR #450
 
 - [x] Seller и Manager могут просматривать заказы; права редактирования и удаления тестовых заказов не расширены.
-- [x] Polling списка/счётчика заказов ограничен интервалом 15 минут, включая возврат приложения в фокус.
+- [x] На исходной реализации polling списка/счётчика заказов был ограничен интервалом 15 минут, включая возврат приложения в фокус. PR #453 предлагает заменить его на 20 секунд и добавить polling заявок за услуги.
 - [x] Добавлена D1 migration `0017_manager_push_subscriptions.sql` для хранения подписок устройств по staff user ID.
 - [x] Добавлены API регистрации и удаления подписок; владелец подписки определяется из авторизованной Manager session, а не из данных браузера.
 - [x] Добавлена проверка HTTPS endpoint, допустимых push-provider доменов, ключей подписки и запрет передачи endpoint между сотрудниками.

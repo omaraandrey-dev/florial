@@ -1,3 +1,12 @@
+## 2026-11-21 — Manager real-event visibility and push follow-up
+
+- Owner reports the Owner-only push self-test and lifecycle checks 2.1, 2.2 and 2.3 as working.
+- Owner created a service enquiry and a plant order in Production. The new records did not appear in Manager until a manual pull-to-refresh.
+- Code review found the UI cause: order list polling was 15 minutes; service-lead list had no polling. PR #453 proposes 20-second visible-tab polling for both, plus focus/visibility refresh and overlap protection.
+- [x] Exact-head CI and Preview for PR #453 passed (Blog/Studio 44867072658; D1 44867072702; Preview https://fab55962.florial.pages.dev). OPEN: merge and verify exact-SHA Production deployment.
+- OPEN: independently confirm actual push reception for a real order on active Owner/Manager/Seller subscriptions and a service enquiry on Owner only. The owner report about list visibility does not establish whether the push notification itself arrived.
+- OPEN: confirm notification tap opens the correct Manager section. No additional test orders/leads/emails should be created for QA without an agreed safe scenario.
+
 # Florial — текущие открытые вопросы и проверки
 
 Дата сверки: 2026-11-21.
