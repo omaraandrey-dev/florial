@@ -4,14 +4,14 @@ import { readFile } from 'node:fs/promises'
 
 const source = await readFile(new URL('../src/manager/PlantCatalogManager.tsx', import.meta.url), 'utf8')
 
-test('required plant variant fields have asterisk labels and missing values get a red outline', () => {
-  assert.ok(source.includes('Височина (см) *'))
-  assert.ok(source.includes('Контейнер (л) *'))
+test('plant variant requires price and quantity while height and container are optional when a model name is supplied', () => {
+  assert.ok(source.includes("Височина (см){editingId?' *':' · по избор'}"))
+  assert.ok(source.includes("Контейнер (л){editingId?' *':' · по избор'}"))
+  assert.ok(source.includes('Наименование на размер / модел (или посочете височина и обем на контейнера)'))
   assert.ok(source.includes("Цена (€){canEditVariantPrice?' *':''}"))
-  assert.ok(source.includes("Количество{canEditVariantStock&&variant.stockStatus==='inStock'?' *':''}"))
+  assert.ok(source.includes("Количество{!editingId||variant.stockStatus==='inStock'?' *':''}"))
   assert.ok(source.includes('!border-red-500'))
-  assert.ok(source.includes("requiredInputClass(!(Number(variant.saleHeightCm)>0))"))
-  assert.ok(source.includes("requiredInputClass(!(Number(variant.containerVolumeL)>0))"))
+  assert.ok(source.includes('aria-required={Boolean(editingId)}'))
 })
 
 test('Manager and Seller receive a generic Gemini failure message without provider diagnostics', () => {

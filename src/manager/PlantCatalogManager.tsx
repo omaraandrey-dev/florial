@@ -79,6 +79,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
  const [existingPlantSelected,setExistingPlantSelected]=useState(false)
  const [geminiProof,setGeminiProof]=useState<string|null>(null)
  const [geminiProofAssetId,setGeminiProofAssetId]=useState('')
+ const [aiSearchMode,setAiSearchMode]=useState<'photo'|'text'|null>(null)
  const [geminiTextQuery,setGeminiTextQuery]=useState('')
  const [geminiStreamText,setGeminiStreamText]=useState('')
  const [geminiStage,setGeminiStage]=useState('')
@@ -110,9 +111,9 @@ export default function PlantCatalogManager({role,permissions}:Props){
   const timer=window.setInterval(update,1000)
   return ()=>window.clearInterval(timer)
  },[geminiLoading])
- const openNew=()=>{setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setGeminiStreamText('');setGeminiStage('');setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
+ const openNew=()=>{setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setGeminiStreamText('');setGeminiStage('');setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
-  setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setGeminiStreamText('');setGeminiStage('')
+  setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setGeminiStreamText('');setGeminiStage('')
   setError('');setNotice('');setLoading(true)
   try{
    const response=await fetch('/api/manager/plants/'+encodeURIComponent(id),{credentials:'same-origin',cache:'no-store'})
@@ -144,7 +145,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
  }
  const setField=(key:keyof PlantForm,value:any)=>setForm(previous=>({...previous,[key]:value}))
  const makeVariantName=(height:string,container:string)=>{const h=Number(height),v=Number(container);const hasHeight=height.trim()!==''&&Number.isFinite(h)&&h>0;const hasContainer=container.trim()!==''&&Number.isFinite(v)&&v>0;const parts:string[]=[];if(hasHeight){const low=Math.round(h*0.95),high=Math.round(h*1.05);parts.push('Размер '+low+'–'+high+' см')}if(hasContainer){const volume=String(v);parts.push('C'+volume)}return parts.join(' ')}
- const setVariant=(index:number,key:keyof Variant,value:string)=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.map((variant,i)=>{if(i!==index)return variant;const next={...variant,[key]:value};if(key==='name'){next.nameAuto=!value.trim();return next}if((key==='saleHeightCm'||key==='containerVolumeL')&&(variant.nameAuto||!variant.name.trim())){next.name=makeVariantName(key==='saleHeightCm'?value:variant.saleHeightCm,key==='containerVolumeL'?value:variant.containerVolumeL);next.nameAuto=true}return next})}))
+ const setVariant=(index:number,key:keyof Variant,value:string)=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.map((variant,i)=>{if(i!==index)return variant;const next={...variant,[key]:value};if(key==='name'){next.nameAuto=!value.trim();return next}if(!editingId&&key==='stockQuantity'&&value.trim()==='0'&&next.stockStatus==='inStock')next.stockStatus='outOfStock';if((key==='saleHeightCm'||key==='containerVolumeL')&&(variant.nameAuto||!variant.name.trim())){next.name=makeVariantName(key==='saleHeightCm'?value:variant.saleHeightCm,key==='containerVolumeL'?value:variant.containerVolumeL);next.nameAuto=true}return next})}))
  const uploadFiles=async(filesList:FileList|null)=>{
   if(!filesList?.length)return
   setGeminiError('');setGeminiResult(null)
@@ -177,7 +178,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   const requestedName=mode==='text'?(geminiTextQuery.trim()||form.name.trim()):form.name.trim()
   if(mode==='photo'&&!targetImage){setGeminiError('Първо добавете основна снимка на растението.');return}
   if(mode==='text'&&!requestedName){setGeminiError('Въведете име на растение, например „лавровишня“.');return}
-  setGeminiLoading(true);setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiProof(null);setGeminiStreamText('');setGeminiStage(role==='owner'?'Подготвяме заявката…':(mode==='photo'?'photo':'text'))
+  setGeminiLoading(true);setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setAiProof(null);setGeminiStreamText('');setGeminiStage(role==='owner'?'Подготвяме заявката…':(mode==='photo'?'photo':'text'))
   const controller=new AbortController()
   const requestTimeout=window.setTimeout(()=>controller.abort(),310000)
   try{
@@ -213,7 +214,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
     if(event.type==='progress'){observedStage=event.stage||observedStage;setGeminiStage(role==='owner'?(event.message||event.stage||'Gemini обработва заявката…')+(event.providerHttpStatus?' · Google HTTP '+event.providerHttpStatus:''):(mode==='photo'?'photo':'text'))}
     if(event.type==='heartbeat')setGeminiStage(role==='owner'?'Връзката остава активна. Етап: '+(event.stage||observedStage)+'. Изчакваме следващия отговор от Google…':(mode==='photo'?'photo':'text'))
     if(event.type==='delta')setGeminiStreamText(previous=>previous+(event.text||''))
-    if(event.type==='result'){receivedResult=true;setGeminiResult(event);setGeminiProof(typeof event.aiProof==='string'?event.aiProof:null);setGeminiProofAssetId(typeof event.proofAssetId==='string'?event.proofAssetId:'');setDuplicateCheckPending(true);setExistingPlantSelected(false);setGeminiModalOpen(true);setGeminiStage('Анализът е завършен. Проверете резултата и потвърдете прилагането.')}
+    if(event.type==='result'){receivedResult=true;setGeminiResult(event);setGeminiProof(typeof event.aiProof==='string'?event.aiProof:null);setGeminiProofAssetId(typeof event.proofAssetId==='string'?event.proofAssetId:'');setAiSearchMode(event.mode==='text'?'text':'photo');setDuplicateCheckPending(true);setExistingPlantSelected(false);setGeminiModalOpen(true);setGeminiStage('Анализът е завършен. Проверете резултата и потвърдете прилагането.')}
     if(event.type==='error')streamError=[event.error||'Gemini не успя да обработи заявката.',event.code?'Код: '+event.code:'',event.stage?'Етап: '+event.stage:'',event.providerHttpStatus?'Google HTTP: '+event.providerHttpStatus:'',event.providerRetryAttempts?'Автоматични повторни опити: '+event.providerRetryAttempts:'',event.providerStatus?'Причина Google: '+event.providerStatus:'',event.providerContentType?'Тип отговора: '+event.providerContentType:'',event.providerBytesReceived!==undefined?'Получени bytes: '+event.providerBytesReceived:'',event.modelCharsReceived!==undefined?'Получени символи: '+event.modelCharsReceived:'',event.providerMessage?'Подробности Google: '+event.providerMessage:'',event.providerFinishReason?'Причина завершения Google: '+event.providerFinishReason:'',event.providerPromptBlockReason?'Блокировка prompt: '+event.providerPromptBlockReason:'',event.providerUsageMetadata?.totalTokenCount!==undefined?'Токены всего: '+event.providerUsageMetadata.totalTokenCount:'',event.providerUsageMetadata?.candidatesTokenCount!==undefined?'Токены ответа: '+event.providerUsageMetadata.candidatesTokenCount:'',event.providerSseDiagnostics?.eventCount!==undefined?'SSE события: '+event.providerSseDiagnostics.eventCount:'',event.providerSseDiagnostics?.malformedEventCount?'Некорректные SSE события: '+event.providerSseDiagnostics.malformedEventCount:'',event.providerSseDiagnostics?.ignoredLineCount?'Пропущенные строки SSE: '+event.providerSseDiagnostics.ignoredLineCount:'',event.jsonStatus?'JSON: '+event.jsonStatus:'',event.jsonParseError?'Причина JSON: '+event.jsonParseError:'',event.requestId?'ID: '+event.requestId:''].filter(Boolean).join(' · ')
    }
    while(true){
@@ -240,8 +241,10 @@ export default function PlantCatalogManager({role,permissions}:Props){
   const suggestion=geminiResult?.result
   if(!suggestion){setGeminiError('Няма завършен резултат от Google за прилагане.');return}
   const selected=images[mainImageIndex]
-  const proofMatchesSelectedImage=Boolean(selected&&geminiProof&&geminiProofAssetId===selected.assetId)
-  if(!proofMatchesSelectedImage){setGeminiError('За да запишете резултата, добавете основна снимка в карточката и изпълнете отново Gemini Photo или Text. В Text режим снимката не се изпраща към Google.');return}
+  const proofMatchesSearch=geminiResult.mode==='text'
+   ?Boolean(geminiProof&&!geminiProofAssetId)
+   :Boolean(selected&&geminiProof&&geminiProofAssetId===selected.assetId)
+  if(!proofMatchesSearch){setGeminiError(geminiResult.mode==='text'?'Търсенето по име не е потвърдено. Стартирайте го отново.':'За да приложите резултата от снимка, изберете същата основна снимка и изпълнете Gemini Photo отново.');return}
   const plantName=String(suggestion.plantName||'').trim()
   const nextName=plantName||form.name||'Растение за идентификация'
   const categoryId=categoryOptions.some(item=>item._id===suggestion.categoryId)?suggestion.categoryId:''
@@ -263,6 +266,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
   setForm(nextForm)
   setImages(nextImages)
   setAiProof(geminiProof)
+  setAiSearchMode(geminiResult.mode==='text'?'text':'photo')
   setAiIdentityNeedsConfirmation(needsIdentityConfirmation)
   const warnings:string[]=[]
   if(!plantName)warnings.push('Google не определи достатъчно уверено името. Въведете и потвърдете името ръчно.')
@@ -284,11 +288,19 @@ export default function PlantCatalogManager({role,permissions}:Props){
   const activeProof=overrides&&Object.prototype.hasOwnProperty.call(overrides,'aiProof')?overrides.aiProof:aiProof
   const needsIdentityConfirmation=overrides?.identityNeedsConfirmation??aiIdentityNeedsConfirmation
   const fail=(message:string)=>{setError(message);if(overrides)setGeminiError(message);return false}
-  if(needsIdentityConfirmation)return fail('Въведете и потвърдете реалното име на растението преди записване.')
-  if(!editingId&&!activeProof)return fail('Първо проверете растението с Google Gemini и потвърдете резултата.')
-  if(!activeForm.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0))return fail('Добавете поне един реален размер: височина или обем на контейнера.')
-  const allowedCategoryIds=activeForm.categoryIds.filter(id=>categoryOptions.some(item=>item._id===id));
-  if(!activeForm.name.trim()||!allowedCategoryIds.length||!activeForm.slug.trim()||!activeForm.saleVariants.length||!activeImages.length)return fail('Попълнете име, крайна категория, поне един размер и добавете снимка.')
+  if(needsIdentityConfirmation&&(!activeForm.name.trim()||activeForm.name.trim()==='Растение за идентификация'))return fail('Въведете реалното име на растението преди записване.')
+  const allowedCategoryIds=activeForm.categoryIds.filter(id=>categoryOptions.some(item=>item._id===id))
+  const variantsReady=activeForm.saleVariants.length>0&&activeForm.saleVariants.every(variant=>{
+   const hasModelOrSize=(!variant.nameAuto&&variant.name.trim().length>=2)||(Number(variant.saleHeightCm)>0&&Number(variant.containerVolumeL)>0)
+   const price=Number(variant.priceEUR),quantity=Number(variant.stockQuantity)
+   return hasModelOrSize&&Number.isFinite(price)&&price>0&&variant.stockQuantity.trim()!==''&&Number.isInteger(quantity)&&quantity>=0&&(variant.stockStatus!=='inStock'||quantity>0)
+  })
+  if(editingId){
+   if(!activeForm.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0))return fail('Добавете поне един реален размер: височина или обем на контейнера.')
+   if(!activeForm.name.trim()||!allowedCategoryIds.length||!activeForm.slug.trim()||!activeForm.saleVariants.length||!activeImages.length)return fail('Попълнете име, крайна категория, поне един размер и добавете снимка.')
+  }else if(!activeForm.name.trim()||activeForm.name.trim().length<2||!activeForm.slug.trim()||!variantsReady){
+   return fail('Попълнете име на растението, цена, количество и име на модел или реални размери: височина и обем на контейнера.')
+  }
   setSaving(true);setError('');setNotice('')
   try{
    const selected=activeImages[mainImageIndex]
@@ -296,9 +308,10 @@ export default function PlantCatalogManager({role,permissions}:Props){
     name:activeForm.name,slug:activeForm.slug,scientificName:activeForm.scientificName,sku:activeForm.sku,productType:activeForm.productType,categoryId:allowedCategoryIds.includes(activeForm.categoryId)?activeForm.categoryId:allowedCategoryIds[0],categoryIds:allowedCategoryIds,
     shortDescription:activeForm.shortDescription,
     description:Array.isArray(originalRichText.description)&&activeForm.description===plainText(originalRichText.description)?originalRichText.description:activeForm.description,
-    isFeatured:activeForm.isFeatured,isActive:activeForm.isActive,
-    saleVariants:activeForm.saleVariants.map(v=>({...v,nameAuto:undefined,saleHeightCm:v.saleHeightCm,containerVolumeL:v.containerVolumeL,priceEUR:v.priceEUR,oldPriceEUR:v.oldPriceEUR,stockQuantity:v.stockQuantity})),
+    isFeatured:activeForm.isFeatured,isActive:editingId?activeForm.isActive:activeForm.isActive&&Boolean(allowedCategoryIds.length&&activeImages.length),
+    saleVariants:activeForm.saleVariants.map(v=>({...v,nameAuto:v.nameAuto===true,saleHeightCm:v.saleHeightCm,containerVolumeL:v.containerVolumeL,priceEUR:v.priceEUR,oldPriceEUR:v.oldPriceEUR,stockQuantity:v.stockQuantity})),
     mainImage:selected,gallery:activeImages.filter((_,index)=>index!==mainImageIndex),
+    ...(activeProof?{aiSearchMode:aiSearchMode||'photo'}:{}),
     translations:Object.fromEntries(['bg','ru','en'].map(language=>{const current=activeForm.translations[language]||{};const original=originalRichText.translations[language];return [language,{...current,description:Array.isArray(original)&&current.description===plainText(original)?original:current.description}]})),
     seo:activeForm.seo,
     plantCare:activeForm.plantCare,careGuide:Array.isArray(originalRichText.careGuide)&&activeForm.careGuide===plainText(originalRichText.careGuide)?originalRichText.careGuide:activeForm.careGuide,
@@ -312,7 +325,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
    const result=await responseJson(response)
    if(!response.ok){if(result.conflict)throw new Error('Продуктът е променена от друг служител. Затворете я и отворете отново, за да заредите актуалните данни.');throw new Error(result.error||'Не успяхме да запазим растението.')}
    setPendingIdempotencyKey(null)
-   setNotice('Растението е публикувано и запазено в каталога.')
+   setNotice(!editingId&&(!allowedCategoryIds.length||!activeImages.length)?'Растението е запазено като чернова в Manager. Добавете категория и снимка, преди да го покажете в магазина.':'Растението е запазено в каталога.')
    setEditorOpen(false);setEditingId(null);await load();return true
   }catch(e){const message=e instanceof Error?e.message:'Не успяхме да запазим растението.';setError(message);if(overrides)setGeminiError(message);return false}
   finally{setSaving(false)}
@@ -414,7 +427,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
       <label><span className={labelClass}>Тип растение</span><select className={inputClass} value={form.productType} onChange={event=>setField('productType',event.target.value)}>{productTypes.map(([value,label])=><option key={value} value={value}>{label}</option>)}</select></label>
      </div>
      <div className="space-y-2">
-      <span className={labelClass}>Категории и подкатегории * · изберете крайните категории</span>
+      <span className={labelClass}>Категории и подкатегории{editingId?' *':' · може да добавите по-късно'}</span>
       <div className="max-h-64 space-y-1 overflow-y-auto rounded-xl border border-stone-300 bg-white p-2">
        {categoryOptions.map(item=><div key={item._id} className="flex items-center justify-between gap-2 rounded-lg px-2 py-2 hover:bg-stone-50">
         <label className="flex min-w-0 flex-1 items-center gap-2 text-sm"><input type="checkbox" checked={form.categoryIds.includes(item._id)} onChange={event=>setForm(previous=>{const ids=event.target.checked?Array.from(new Set([...previous.categoryIds,item._id])):previous.categoryIds.filter(id=>id!==item._id);return {...previous,categoryIds:ids,categoryId:ids.includes(previous.categoryId)?previous.categoryId:ids[0]||''}})}/><span className="truncate">{item.label}</span></label>
@@ -434,10 +447,10 @@ export default function PlantCatalogManager({role,permissions}:Props){
      <div className="flex items-center justify-between gap-2"><summary className="cursor-pointer font-bold marker:text-lime-800">Размери и цени</summary><span className="text-xs text-stone-500">{form.saleVariants.length}/30</span></div>
      {form.saleVariants.map((variant,index)=><div key={variant._key} className="space-y-3 rounded-xl border border-stone-200 p-3">
       <div className="flex items-center justify-between"><strong>Размер {index+1}</strong>{form.saleVariants.length>1&&<button type="button" onClick={()=>setForm(previous=>({...previous,saleVariants:previous.saleVariants.filter((_,i)=>i!==index)}))} className="text-sm font-semibold text-red-700">Премахни</button>}</div>
-      <label><span className={labelClass}>Наименование / височина *</span><input className={inputClass} placeholder="Напр. 120–140 см, контейнер 10 л" value={variant.name} onChange={event=>setVariant(index,'name',event.target.value)}/></label>
+      <label><span className={labelClass}>Наименование на размер / модел (или посочете височина и обем на контейнера)</span><input className={inputClass} placeholder="Напр. 120–140 см, контейнер 10 л" value={variant.name} onChange={event=>setVariant(index,'name',event.target.value)}/></label>
       <div className="grid grid-cols-2 gap-2">
-       <label><span className={labelClass}>Височина (см) *</span><input type="number" min="0" step="1" className={requiredInputClass(!(Number(variant.saleHeightCm)>0))} value={variant.saleHeightCm} placeholder="Въведете височина" aria-required="true" onChange={event=>setVariant(index,'saleHeightCm',event.target.value)}/></label>
-       <label><span className={labelClass}>Контейнер (л) *</span><input type="number" min="0.1" step="0.1" className={requiredInputClass(!(Number(variant.containerVolumeL)>0))} value={variant.containerVolumeL} placeholder="Въведете обем" aria-required="true" onChange={event=>setVariant(index,'containerVolumeL',event.target.value)}/></label>
+       <label><span className={labelClass}>Височина (см){editingId?' *':' · по избор'}</span><input type="number" min="0" step="1" className={editingId?requiredInputClass(!(Number(variant.saleHeightCm)>0)):inputClass} value={variant.saleHeightCm} placeholder="Въведете височина" aria-required={Boolean(editingId)} onChange={event=>setVariant(index,'saleHeightCm',event.target.value)}/></label>
+       <label><span className={labelClass}>Контейнер (л){editingId?' *':' · по избор'}</span><input type="number" min="0.1" step="0.1" className={editingId?requiredInputClass(!(Number(variant.containerVolumeL)>0)):inputClass} value={variant.containerVolumeL} placeholder="Въведете обем" aria-required={Boolean(editingId)} onChange={event=>setVariant(index,'containerVolumeL',event.target.value)}/></label>
       </div>
       <div className="grid grid-cols-2 gap-2">
        <label><span className={labelClass}>Цена (€){canEditVariantPrice?' *':''}</span><input type="number" min="0.01" step="0.01" className={requiredInputClass(canEditVariantPrice&&!(Number(variant.priceEUR)>0))} disabled={!canEditVariantPrice} value={variant.priceEUR} placeholder="Въведете цена" aria-required="true" onChange={event=>setVariant(index,'priceEUR',event.target.value)}/></label>
@@ -445,7 +458,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
       </div>
       <div className="grid grid-cols-2 gap-2">
        <label><span className={labelClass}>Наличност</span><select className={inputClass} disabled={!canEditVariantStock} value={variant.stockStatus} onChange={event=>setVariant(index,'stockStatus',event.target.value)}><option value="inStock">В наличност</option><option value="onRequest">По заявка</option><option value="outOfStock">Няма наличност</option></select></label>
-       <label><span className={labelClass}>Количество{canEditVariantStock&&variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={requiredInputClass(canEditVariantStock&&variant.stockStatus==='inStock'&&!variant.stockQuantity.trim())} disabled={!canEditVariantStock} value={variant.stockQuantity} placeholder={variant.stockStatus==='inStock'?'Въведете количество':'Не е задължително'} aria-required={variant.stockStatus==='inStock'} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
+       <label><span className={labelClass}>Количество{!editingId||variant.stockStatus==='inStock'?' *':''}</span><input type="number" min="0" step="1" className={requiredInputClass(canEditVariantStock&&(!editingId||variant.stockStatus==='inStock')&&!variant.stockQuantity.trim())} disabled={!canEditVariantStock} value={variant.stockQuantity} placeholder={editingId&&variant.stockStatus!=='inStock'?'Не е задължително':'Въведете количество (0 е допустимо при липса)'} aria-required={!editingId||variant.stockStatus==='inStock'} onChange={event=>setVariant(index,'stockQuantity',event.target.value)}/></label>
       </div>
       {role==='owner'&&<label><span className={labelClass}>SKU на размера (по избор)</span><input className={inputClass} value={variant.sku} onChange={event=>setVariant(index,'sku',event.target.value)}/></label>}
      </div>)}
@@ -488,7 +501,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
      <label><span className={labelClass}>Практически грижи</span><textarea rows={7} className={inputClass} value={form.careGuide} onChange={event=>setField('careGuide',event.target.value)} placeholder="Засаждане, почва, поливане, подхранване, резитба и зимна защита…"/></label>
     </details>}
     <div className="sticky bottom-0 z-10 -mx-3 border-t border-stone-200 bg-white/95 p-3 pb-[max(12px,env(safe-area-inset-bottom))] backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0">
-     <button type="button" disabled={saving||!activeImages||(!editingId&&!aiProof)||!form.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0)} onClick={()=>void save()} className="w-full rounded-xl bg-lime-800 px-5 py-4 text-base font-bold text-white disabled:opacity-50">{saving?'Запазване…':!editingId&&!aiProof?'Първо проверете с Google':!form.saleVariants.some(variant=>Number(variant.saleHeightCm)>0||Number(variant.containerVolumeL)>0)?'Добавете размер на растението':editingId?'Запази промените':'Публикувай растението'}</button>
+     <button type="button" disabled={saving} onClick={()=>void save()} className="w-full rounded-xl bg-lime-800 px-5 py-4 text-base font-bold text-white disabled:opacity-50">{saving?'Запазване…':editingId?'Запази промените':'Добави растение'}</button>
     </div>
    </div>
   </>}
@@ -517,11 +530,11 @@ export default function PlantCatalogManager({role,permissions}:Props){
         proofAssetId={geminiProofAssetId}
         onCheckStateChange={setDuplicateCheckPending}
         onSelectionStateChange={setExistingPlantSelected}
-        image={images[mainImageIndex]?{
+        image={geminiResult.mode==='photo'&&images[mainImageIndex]?{
          ...images[mainImageIndex],
-         alt:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.bg||images[mainImageIndex].alt:images[mainImageIndex].alt,
-         altRu:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.ru||images[mainImageIndex].altRu:images[mainImageIndex].altRu,
-         altEn:geminiResult.mode==='photo'?geminiResult.result.imageAlt?.en||images[mainImageIndex].altEn:images[mainImageIndex].altEn,
+         alt:geminiResult.result.imageAlt?.bg||images[mainImageIndex].alt,
+         altRu:geminiResult.result.imageAlt?.ru||images[mainImageIndex].altRu,
+         altEn:geminiResult.result.imageAlt?.en||images[mainImageIndex].altEn,
         }:null}
         onAdded={({productName,imageAdded,imageAlreadyPresent,galleryFull})=>{
          setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setEditorOpen(false);setEditingId(null)
