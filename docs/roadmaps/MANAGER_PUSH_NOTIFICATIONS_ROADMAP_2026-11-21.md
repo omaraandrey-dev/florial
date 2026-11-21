@@ -54,7 +54,7 @@
 
 ### Этап A — Cloudflare-доступ и безопасный Production D1 preflight
 
-<badge>Завершено 2026-11-21</badge>
+**Завершено 2026-11-21**
 
 - [x] Cloudflare connector авторизован; read-only D1 API доступен.
 - [x] Выполнены только read-only запросы к Production D1.
