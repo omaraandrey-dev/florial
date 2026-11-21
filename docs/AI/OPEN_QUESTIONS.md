@@ -1,8 +1,8 @@
 ## 2026-11-21 — Manager plant editor UX acceptance
 
-- PR/CI/Preview and Production deployment checks are pending for `feat/manager-plant-editor-ux`.
-- OPEN: Owner to confirm the updated Seller/Manager and Owner editor flow on a phone and desktop after Preview is available.
-- OPEN: Verify the browser's unsaved-change warning and in-editor «Назад» confirmation in authenticated Manager sessions. Automated source assertions do not replace this manual QA.
+- Exact PR head `a7219381ed47ebaa6cc44f3ee2365d3cb08be7a1`: Blog and Studio run `44921957018` and D1 validation run `44921957051` both succeeded.
+- OPEN: Owner acceptance of Seller/Manager and Owner editor workflows on phone and desktop. Confirm unsaved-change warnings and role-specific field visibility in authenticated sessions.
+- No Preview/Production deployment was performed; do not treat CI success as live UI acceptance.
 
 ---
 
