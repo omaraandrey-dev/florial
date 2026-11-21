@@ -1,3 +1,12 @@
+## 2026-11-21 — Manager Web Push: актуальные release blockers
+
+- Единая последовательность действий, выполненные работы и критерии завершения ведутся в [дорожной карте Manager Web Push](../roadmaps/MANAGER_PUSH_NOTIFICATIONS_ROADMAP_2026-11-21.md).
+- PR #450 открыт и Draft; последний подтверждённый implementation head: `b87df49b954712641ffa44e0845f4ef4ddd05728`. CI Blog/Studio `44794576684`, D1 `44794576517` и Cloudflare Preview `bf7acd17-23ce-4180-821c-54063866f68e` прошли успешно.
+- Production D1 migration 0017 не применена; VAPID variables/secrets не настроены; Android/Chrome end-to-end проверка не выполнена.
+- Cloudflare connector ранее вернул `401 Invalid API Token`; D1 read-only SQL завершился `SQLITE_AUTH`. Следующий обязательный шаг — переподключить Cloudflare connector и выполнить read-only preflight (ledger/schema/FK/integrity). До подтверждения preflight не выполнять migration.
+- Владелец уже разрешил Production rollout в рамках этой задачи. Это не разрешение обходить preflight. PR не снимать с Draft и не merge без отдельной команды владельца.
+- Состояние Production D1 migration ledger/schema и действующая валидность Cloudflare credentials: **НЕ ПОДТВЕРЖДЕНО**.
+
 ## 2026-11-20 — Manager Web Push: release prerequisites
 
 - PR #450 contains the Manager Web Push implementation and remains Draft. Exact implementation/test head `a908426f3355c793e369ea0e0adaae170bbac6de` passed Blog/Studio run `44793855068`, D1 run `44793855086`, and Preview deployment `33d99b8b-e866-4701-85a9-d6809c9c62df`.
