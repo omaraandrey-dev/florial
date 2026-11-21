@@ -113,7 +113,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
  },[geminiLoading])
  const openNew=()=>{setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setGeminiStreamText('');setGeminiStage('');setEditingId(null);setRevision('');setAiProof(null);setAiIdentityNeedsConfirmation(false);setForm(emptyForm());setOriginalRichText({description:null,careGuide:null,translations:{}});setImages([]);setLibraryOpen(false);setMainImageIndex(0);setAiWarnings([]);setError('');setNotice('');setEditorOpen(true)}
  const openExisting=async(id:string)=>{
-  setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setGeminiStreamText('');setGeminiStage('')
+  setGeminiError('');setGeminiResult(null);setGeminiModalOpen(false);setDuplicateCheckPending(false);setExistingPlantSelected(false);setGeminiProof(null);setGeminiProofAssetId('');setAiSearchMode(null);setGeminiStreamText('');setGeminiStage('')
   setError('');setNotice('');setLoading(true)
   try{
    const response=await fetch('/api/manager/plants/'+encodeURIComponent(id),{credentials:'same-origin',cache:'no-store'})
