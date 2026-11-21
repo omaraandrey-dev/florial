@@ -17,6 +17,7 @@ test('manual plant intake requires name, variant/model-or-complete-size, price a
   assert.doesNotMatch(manager, /if\(!activeForm\.name\.trim\(\)\|\|!allowedCategoryIds\.length/)
   assert.match(createApi, /if \(body\.aiProof && !await verifyPlantAiProof/)
   assert.match(plantLib, /requireQuantity && stockQuantity === null/)
+  assert.match(plantLib, /normalizeVariants\(input\.saleVariants, isCreate\)/)
 })
 
 test('variant model name can replace both numeric height and container dimensions', () => {
@@ -37,6 +38,8 @@ test('a new incomplete plant is stored inactive until category and photo are pro
   assert.match(manager, /isActive:editingId\?activeForm\.isActive:activeForm\.isActive&&Boolean\(allowedCategoryIds\.length&&activeImages\.length\)/)
   assert.match(manager, /запазено като чернова в Manager/)
   assert.match(plantLib, /if \(!categoryIds\.length\)/)
+  assert.match(plantLib, /if \(existing\) throw new Error\('Изберете поне една категория за съществуващото растение\.'/)
+  assert.match(plantLib, /if \(!isCreate && !variants\.some/)
   assert.match(plantLib, /normalizeVariants\(input\.saleVariants, isCreate\)/)
   assert.match(manager, /if\(editingId\)\{/)
 })
