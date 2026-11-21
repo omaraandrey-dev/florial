@@ -1,7 +1,7 @@
 # Manager — UX работы с растениями
 
 Дата: 2026-11-21  
-Статус: реализовано в рабочей ветке; проверки CI и Production deployment ожидаются.
+Статус: merged в `main` и опубликовано в Production 2026-11-21.
 
 ## Разделение интерфейса по ролям
 
@@ -42,5 +42,7 @@ Owner сохраняет полный доступ к дополнительны
 - Final PR head: `a7219381ed47ebaa6cc44f3ee2365d3cb08be7a1`.
 - Blog and Studio validation run `44921957018` — success: application/Pages Functions typecheck, lint, all 379 tests, website build, read-only migration dry-run, Studio typecheck and build.
 - D1 migration validation run `44921957051` — success. No D1 migration or data changes were part of the task.
-- Preview and Production deployment were not performed. Authenticated mobile/desktop role QA is still required.
-- Авторизованная ручная проверка на телефоне и компьютере остаётся необходимой после отдельного согласованного релиза.
+- PR #467 merged в `main` методом squash: `d01c628e828f086c38eec946c8b61b42ab48fb77`.
+- Cloudflare Pages Production deployment `faed12c2-46eb-4e5c-be1b-15e192e6540a` успешно опубликован из точного merge SHA; все этапы queued, initialize, clone, build и deploy завершились `success`. URL deployment: `https://faed12c2.florial.pages.dev`; Production aliases обслуживаются Cloudflare Pages.
+- Отдельный Preview deployment не выполнялся.
+- Авторизованная ручная проверка Owner/Seller/Manager на телефоне и компьютере остаётся открытой. CI и успешная публикация не заменяют визуальную и функциональную приёмку в реальных ролях.
