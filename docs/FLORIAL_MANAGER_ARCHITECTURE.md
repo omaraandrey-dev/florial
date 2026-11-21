@@ -1,3 +1,13 @@
+## 2026-11-21 — Owner-only Web Push self-test (implementation in progress)
+
+- A separate `POST /api/manager/push/test` endpoint is being added for safe push delivery checks without creating orders or service leads.
+- Server authorization is restricted to an active Owner session; subscription selection is scoped to the authenticated Owner's own `user_id` and active Owner profile. Manager/Seller and other Owner accounts are excluded.
+- The endpoint accepts no client-supplied recipient or notification content. It sends a fixed generic message to the Manager home path and contains no customer PII.
+- The Manager button is rendered only for Owner and enabled only when the current browser has push enabled. Provider acceptance is not equivalent to confirmed display on a device.
+- Existing order/service-lead dispatch rules remain unchanged. No D1 migration, Sanity, Production settings/secrets, orders, leads or email changes are included.
+- Implementation branch `feat/manager-push-owner-self-test`; validation and PR review pending. Production release is not authorized by this implementation step.
+
+---
 ## 2026-11-20 — Manager Web Push implementation stage (PR #450)
 
 - Added authenticated per-device subscriptions, session-derived ownership, HTTPS endpoint validation and a role-aware best-effort sender.
