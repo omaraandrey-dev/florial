@@ -6,7 +6,7 @@
 - Filters use a single-column mobile layout and full-width touch actions. Order editing has clearer grouping, a live product subtotal preview and a sticky save/cancel action area on mobile.
 - Added three source-level regression tests in `tests/manager-orders-workspace.test.mjs` for card hierarchy/payment method, next-step permissions/action and mobile filters/edit controls.
 - Exact PR-head CI passed: Blog/Studio validation run `44918989904` (type-check, lint, utility tests, website build, migration syntax/dry-run, Studio install/type-check/build) and D1 migration validation run `44918989963` — both successful.
-- Scope: Manager UI and tests only. No order API, D1 schema/data, Sanity, Cloudflare configuration/secrets, Resend, storefront or real order data changed. Production deployment and authenticated live mobile Manager QA were not verified as part of the merge.
+- Scope: Manager UI and tests only. No order API, D1 schema/data, Sanity, Cloudflare configuration/secrets, Resend, storefront or real order data changed. Cloudflare Pages Production deployment from exact merge commit `5913fcd6449418e6013c34b12c5f2f6af9347d03` succeeded (deployment `6bbb6d90-65ea-4723-aaff-b0ecc983bc70`, 2026-11-21 15:36 UTC). Authenticated live mobile Manager QA remains unverified.
 
 ---
 
