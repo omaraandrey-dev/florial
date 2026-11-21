@@ -11,7 +11,7 @@ const getVapid = (env: ManagerEnv): VapidKeys | null => {
 
 type PushDiagnostic = {
   phase: 'signing' | 'provider' | 'network'
-  code: 'payload_signing_failed' | 'provider_http_error' | 'network_timeout' | 'network_error'
+  code: 'payload_signing_failed' | 'provider_http_error' | 'subscription_expired' | 'network_timeout' | 'network_error'
   status: number | null
   errorName: string | null
 }
@@ -42,7 +42,7 @@ export const sendManagerPushToSubscriptions = async (
       const response = await fetch(row.endpoint, { ...init, redirect: 'error', signal: AbortSignal.timeout(5000) })
       if (response.status === 404 || response.status === 410) {
         await env.DB!.prepare('DELETE FROM manager_push_subscriptions WHERE id=?').bind(row.id).run()
-        return { status: 'expired' }
+        return { status: 'expired', diagnostic: { phase: 'provider', code: 'subscription_expired', status: response.status, errorName: null } }
       }
       if (!response.ok) {
         console.warn('Manager push provider returned HTTP', response.status)
