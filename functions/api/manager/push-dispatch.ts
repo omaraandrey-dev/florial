@@ -16,7 +16,7 @@ export const sendManagerPushToSubscriptions = async (
 ): Promise<{ attempted: number; accepted: number; expired: number; failed: number }> => {
   const vapid = getVapid(env)
   if (!vapid) throw new Error('Push notifications are not configured.')
-  const results = await Promise.all(recipients.map(async (row) => {
+  const results = await Promise.allSettled(recipients.map(async (row) => {
     const subscription: PushSubscription = { endpoint: row.endpoint, expirationTime: null, keys: { p256dh: row.p256dh, auth: row.auth } }
     try {
       const init = await buildPushPayload({ data: payloadData, options: { ttl: 300 } }, subscription, vapid)
@@ -32,7 +32,9 @@ export const sendManagerPushToSubscriptions = async (
       return 'failed' as const
     }
   }))
-  return { attempted: results.length, accepted: results.filter((x) => x === 'accepted').length, expired: results.filter((x) => x === 'expired').length, failed: results.filter((x) => x === 'failed').length }
+  const accepted = results.filter((x) => x.status === 'fulfilled' && x.value === 'accepted').length
+  const expired = results.filter((x) => x.status === 'fulfilled' && x.value === 'expired').length
+  return { attempted: results.length, accepted, expired, failed: results.length - accepted - expired }
 }
 
 export const dispatchManagerPush = async (
