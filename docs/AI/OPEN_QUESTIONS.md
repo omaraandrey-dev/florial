@@ -2,15 +2,18 @@
 
 Дата сверки: 2026-11-21.
 
-## 2026-11-21 — Manager Web Push: release и Android QA
+## 2026-11-21 — Manager Web Push: post-release QA
 
-- PR #450 остаётся Draft; код/test SHA `e373e2f82c5a73b222fa69393f1d3874010540e3`; документационный parent SHA `884e4c0ddd361a8109d4d4fa533504092974e635`.
-- Blog and Studio run `44858518911` и D1 validation run `44858518879` — success для SHA `884e4c0ddd361a8109d4d4fa533504092974e635`; Cloudflare Preview `052ae9af-dd7c-4275-8abc-1141bdc29e03` — success.
-- GitHub reports PR `mergeable=true`, `mergeable_state=clean`; base main `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`.
-- В ходе финального code review исправлен Service Worker notification click: используется только открытая вкладка `/manager/`, иначе открывается новая; storefront tab не перенаправляется. Добавлен регрессионный тест.
-- **Открыто:** получить отдельную команду владельца на снятие Draft и merge. До такой команды PR не объединять.
-- **Открыто после выпуска:** проверить Production deployment по точному merge SHA; затем Android/Chrome opt-in, subscription persistence, push delivery, правильный notification click, opt-out/delete/re-subscribe для Owner, Manager и Seller. Service-lead push должен получать только Owner; тестовые заказы не должны отправлять push.
-- Не создавать Production test orders/leads и не отправлять тестовые письма без согласованного тестового сценария. Не раскрывать VAPID private key и не записывать его в GitHub.
+- PR #450 merged into main at 54026c75030e5f950576cc1b99f7ebf8903006f1.
+- Exact merge-commit Blog/Studio validation run 44859242349 — success; D1 validation run 44859242327 — success.
+- Cloudflare Pages Production deployment e80238e2-af1a-4441-8134-4388124accee succeeded from the exact merge SHA; aliases florial-bg.com and www.florial-bg.com.
+- Production D1 migration 0017 and VAPID variables were configured and verified before merge. Push implementation is deployed, but actual device subscription/delivery is not independently verified.
+- OPEN: verify authenticated Manager Push UI and GET/POST/DELETE /api/manager/push/subscriptions on a real device; verify D1 subscription ownership without exposing endpoint/key material.
+- OPEN: Android/Chrome permission, subscribe, persistence after reload, real push delivery, notification click to correct Manager section, unsubscribe and re-subscribe for Owner, Manager and Seller.
+- OPEN: verify order push recipients (active Owner/Manager/Seller), service-lead recipients (active Owner only), test-order exclusion (is_test=1) and no customer PII in payload.
+- Do not create real Production orders/leads or send test emails without an agreed safe test scenario. A safe way to trigger events without affecting real customers/data is required.
+- Public web-reader could not open /manager/ and /api/manager/push/subscriptions; this is an access/tooling limitation, not proof of endpoint failure. Owner reports Manager appears to work.
+- PRAGMA integrity_check remains unavailable through the current D1 API (SQLITE_AUTH); PRAGMA foreign_key_check after migration 0017 returned zero violations.
 
 ## 2026-11-20 — Manager Web Push: release prerequisites (historical snapshot; superseded by the 2026-11-21 status above)
 
