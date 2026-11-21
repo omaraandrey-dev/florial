@@ -14,7 +14,7 @@ test('manual plant intake requires name, variant/model-or-complete-size, price a
   assert.match(manager, /Number\.isFinite\(price\)&&price>0/)
   assert.match(manager, /variant\.stockQuantity\.trim\(\)!==''&&Number\.isInteger\(quantity\)&&quantity>=0/)
   assert.doesNotMatch(manager, /if\(!editingId&&!activeProof\)/)
-  assert.doesNotMatch(manager, /if\(!activeForm\.name\.trim\(\)\|\|!allowedCategoryIds\.length/)
+  assert.match(manager, /else if\(!activeForm\.name\.trim\(\)\|\|activeForm\.name\.trim\(\)\.length<2\|\|!activeForm\.slug\.trim\(\)\|\|!variantsReady\)/)
   assert.match(createApi, /if \(body\.aiProof && !await verifyPlantAiProof/)
   assert.match(plantLib, /requireQuantity && stockQuantity === null/)
   assert.match(plantLib, /normalizeVariants\(input\.saleVariants, isCreate\)/)
