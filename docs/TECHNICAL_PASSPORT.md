@@ -5,7 +5,7 @@
 - Cloudflare Pages Production deployment e80238e2-af1a-4441-8134-4388124accee completed successfully from the exact merge SHA. All five deployment stages (queued, initialize, clone_repo, build, deploy) succeeded; production aliases remain florial-bg.com and www.florial-bg.com.
 - D1 migration 0017_manager_push_subscriptions and VAPID Production configuration were applied and verified before merge under owner approval. No additional D1 schema/data or Cloudflare configuration changes were made during release.
 - The push implementation is now part of Production runtime. CI and deployment success do not prove real device subscription or delivery. Android/Chrome QA for subscription persistence, order/service-lead delivery, click navigation, opt-out and re-subscribe remains open.
-- Public web-reader could not retrieve /manager/ or /api/manager/push/subscriptions; authenticated browser testing is still needed. Owner reports Manager appears to work.
+- Live Production scrape: /manager/ returned HTTP 200 with Bulgarian staff sign-in page and robots noindex/nofollow; unauthenticated GET /api/manager/push/subscriptions returned HTTP 401 Authentication required. This confirms route presence and auth gating only; authenticated browser testing and push delivery remain unverified. Owner reports Manager appears to work.
 - No Production test orders, service leads or emails were created.
 
 ## 2026-11-21 — Manager Web Push: notification click isolation
