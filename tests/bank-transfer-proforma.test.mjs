@@ -61,3 +61,18 @@ test('checkout accepts bank transfer but blocks it while delivery total is unkno
   assert.match(cart, /disabled=\{deliveryMethod === 'agree'\}/)
   assert.match(cart, /wait for Florial confirmation before making the bank transfer/i)
 })
+
+test('proforma header uses the About-page legal and bank details and a centered proforma title', async () => {
+  const pdf = await read('functions/api/_lib/order-documents.ts')
+  assert.match(pdf, /„Флориал“ ООД \/ FLORIAL OOD \/ FLORIAL LTD/)
+  assert.match(pdf, /Адрес: гр\. Несебър, ул\. „Черно море“ №28, България/)
+  assert.match(pdf, /Банка: Банка ДСК \(DSK Bank\)/)
+  assert.match(pdf, /IBAN: BG88STSA93000029605234/)
+  assert.match(pdf, /BIC \/ SWIFT: STSABGSF/)
+  assert.match(pdf, /Тел\.: \+359 876 777 902/)
+  assert.doesNotMatch(pdf, /\+359 885 834 860/)
+  assert.match(pdf, /const title = 'ПРОФОРМА'/)
+  assert.doesNotMatch(pdf, /ФАКТУРА/)
+  assert.doesNotMatch(pdf, /ДЕТАЙЛИ НА ПОРЪЧКАТА/)
+  assert.match(pdf, /y -= 16\s+drawTableHeader\(\)/)
+})
