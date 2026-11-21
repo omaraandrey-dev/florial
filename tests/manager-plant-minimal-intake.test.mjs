@@ -8,7 +8,7 @@ const createApi = read('functions/api/manager/plants.ts')
 const plantLib = read('functions/api/manager/plant-direct-lib.ts')
 const gemini = read('functions/api/manager/plants/gemini-test.ts')
 
-test('manual plant intake requires name, variant/model-or-size, price and quantity only', () => {
+test('manual plant intake requires name, variant/model-or-complete-size, price and quantity only', () => {
   assert.match(manager, /const variantsReady=activeForm\.saleVariants\.length>0/)
   assert.match(manager, /hasModelOrSize=variant\.name\.trim\(\)\.length>=2\|\|\(Number\(variant\.saleHeightCm\)>0&&Number\(variant\.containerVolumeL\)>0\)/)
   assert.match(manager, /Number\.isFinite\(price\)&&price>0/)
@@ -19,7 +19,7 @@ test('manual plant intake requires name, variant/model-or-size, price and quanti
   assert.match(plantLib, /stockQuantity === null/)
 })
 
-test('variant model name can replace numeric height and container dimensions', () => {
+test('variant model name can replace both numeric height and container dimensions', () => {
   assert.match(plantLib, /suppliedName\.length < 2 && !hasPhysicalSize/)
   assert.match(plantLib, /hasPhysicalSize = \(saleHeightCm \|\| 0\) > 0 && \(containerVolumeL \|\| 0\) > 0/)
   assert.match(plantLib, /const name = suppliedName \|\|/)
@@ -40,9 +40,14 @@ test('a new incomplete plant is stored inactive until category and photo are pro
 test('Google Text search can be applied without attaching a photograph', () => {
   assert.match(gemini, /mode === 'text' \|\| \/\^image-/)
   assert.match(gemini, /aiSearchMode: mode/)
-  assert.match(plantLib, /if \(imageAssetId\) return \{ imageAssetId \}/)
-  assert.match(plantLib, /mode: value\.aiSearchMode === 'text' \? 'text' : 'photo'/)
+  assert.match(plantLib, /return \{ mode: value\.aiSearchMode === 'text' \? 'text' : 'photo', imageAssetId: '' \}/)
   assert.match(plantLib, /identity\.mode === 'text' \|\| Boolean\(identity\.imageAssetId\)/)
   assert.match(manager, /geminiResult\.mode==='text'/)
   assert.match(manager, /aiSearchMode:aiSearchMode\|\|'photo'/)
+})
+
+test('image-based Google proofs retain their existing signature for duplicate-variant flow', () => {
+  assert.match(plantLib, /if \(imageAssetId\) return \{ imageAssetId \}/)
+  const duplicate = read('functions/api/manager/plants/[id]/add-variant.ts')
+  assert.match(duplicate, /verifyPlantAiProof\(request, body\.aiProof, \{ mainImage: \{ assetId: proofAssetId \} \}\)/)
 })
