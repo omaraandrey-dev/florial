@@ -1,3 +1,11 @@
+## 2026-11-21 — Manager plant editor UX acceptance
+
+- PR/CI/Preview and Production deployment checks are pending for `feat/manager-plant-editor-ux`.
+- OPEN: Owner to confirm the updated Seller/Manager and Owner editor flow on a phone and desktop after Preview is available.
+- OPEN: Verify the browser's unsaved-change warning and in-editor «Назад» confirmation in authenticated Manager sessions. Automated source assertions do not replace this manual QA.
+
+---
+
 ## 2026-11-21 — Bank transfer checkout / proforma release checks
 
 
