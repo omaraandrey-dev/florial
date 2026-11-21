@@ -34,7 +34,11 @@ These details were supplied and confirmed by the owner in the conversation on 20
 - Static regression test: `tests/about-company-details.test.mjs`.
 - Base main SHA: `5fdbd21a056ee4ea3c8973c7dafda0e0564c885b`.
 - Implementation commits: `bed3999bf291cd094207127276ea3768d61d0bfb`, `f1906a49c27ad8519d7488b22f248724a2074ff3`.
-- CI, website build, Preview deployment and browser rendering: pending at audit creation; do not claim passed until exact PR-head evidence is available.
+- GitHub Actions Blog and Studio validation run `44894825680` on exact PR head `51a61f860a5129b16625cba8ab4dbdd1cd7f39bd` — success. Type-check, lint, complete `npm test` suite (including the new regression test), website build, read-only migration dry-run, Studio type-check and Studio build all passed.
+- GitHub Actions D1 migration validation run `44894825764` on the same exact PR head — success; lint, website build, Pages Functions syntax and all D1 migration validation steps passed.
+- Cloudflare Pages Preview deployment for runtime commit `f1906a49c27ad8519d7488b22f248724a2074ff3` — successful; Preview URL `https://95850e4e.florial.pages.dev`. The subsequent PR-head commits only added the regression test and this audit; runtime source was unchanged.
+- Live Preview browser checks: BG/RU/EN content and order verified; 390px mobile inspection found no horizontal overflow and confirmed IBAN wrapping; clicking the Bulgarian IBAN button changed its label to `Копирано`.
+- Production deployment and Production browser verification have not been performed; the change remains in PR #461 pending owner approval to merge.
 - No Sanity, Cloudflare configuration/secrets, D1, Resend or Production data was changed.
 
 ## Documentation integration
