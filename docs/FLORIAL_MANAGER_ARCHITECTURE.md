@@ -23,12 +23,14 @@
 - Updated the Manager regression assertions and corrected the Service Worker comment to reflect the 60-second list refresh. Push remains a separate transport and is not affected by polling.
 - Push receipt is not established by email receipt. Gmail alerts for delivered email are email-client notifications, not Florial Web Push. Actual event-driven device delivery remains a separate QA item.
 - No D1 schema/data, Sanity content/schema, Cloudflare settings/secrets, Resend, orders or service-lead records are changed.
-## 2026-11-21 — Manager live list refresh correction (PR #453 pending)
+## 2026-11-21 — Manager live list refresh correction (PR #453 merged)
 
-- Main code review found that order list/count polling was 15 minutes and service-lead lists had no periodic refresh.
-- PR #453 proposes 20-second polling for both sections while visible, with focus/visibility refresh after a 20-second cooldown and in-flight guards. CI and Production deployment remain pending.
-- Owner reports the Owner-only push self-test and lifecycle checks 2.1/2.2/2.3 as working. Actual event-driven push delivery for the real Production plant order and service enquiry remains to be confirmed separately.
-- No D1, Sanity, Cloudflare configuration/secrets, email or Production data changes are included.
+- PR #453 merged into main as `9bdcf832c98eed08ace938b8c82981f07ae55b51`; final PR head `4df6773e57adf9e3fbfe101da180229aa2a5f2c2`.
+- Final code uses 60-second polling for both order and service-lead lists while the document is visible, plus focus/visibility refresh after a 60-second cooldown and in-flight guards. The initial 20-second proposal was increased to 60 seconds before merge.
+- Service-lead API exposes an unfiltered `newLeadCount`; Manager navigation shows the new-request count in a red badge beside «Заявки за услуги».
+- Exact PR-head Blog/Studio validation runs `44867196397` and `44867308694` succeeded; D1 validation run `44867196336` succeeded.
+- The current Production deployment `0cbf0a0f-f36c-4305-b499-6e13f8c4b197` from main commit `e0de1971c2278d47bc2ec63dc94e40495e33b72b` includes this change and completed successfully.
+- List visibility is fixed in the deployed code. Actual event-driven Web Push receipt and notification-click navigation remain separate manual QA items; email/Gmail notifications do not prove Web Push delivery.
 
 ## 2026-11-21 — Owner-only Web Push self-test (PR #452 merged)
 
