@@ -83,6 +83,7 @@
 - [x] Применение подтверждено D1 API: migration ledger timestamp 2026-11-21 02:38:36.
 
 Backup export filename: 5fbb0e47-8439-493c-821a-6945eef7d8b2-00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166.sql. Signed download URL не сохраняется в GitHub и не включается в документацию.
+D1 export bookmark: `00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166`.
 
 **Ограничение:** PRAGMA integrity_check через D1 API недоступен (SQLITE_AUTH); foreign-key check после миграции выполнен успешно.
 
