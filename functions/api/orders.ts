@@ -315,6 +315,7 @@ const handleOrderPost = async ({
       '<strong>Телефон:</strong> ' + escapeHtml(phone) + '<br>' +
       '<strong>Имейл:</strong> ' + escapeHtml(email || 'Не е посочен') + '<br>' +
       '<strong>Получаване:</strong> ' + escapeHtml(deliveryMethodLabel) + '<br>' +
+      '<strong>Начин на плащане:</strong> ' + escapeHtml(paymentMethodInput === 'bank_transfer' ? 'Банков превод' : 'Плащане в магазина') + '<br>' +
       '<strong>Населено място:</strong> ' + escapeHtml(deliveryMethodInput === 'pickup' ? 'Самовземане от магазин' : city) + '<br>' +
       '<strong>Адрес:</strong> ' + escapeHtml(deliveryMethodInput === 'pickup' ? 'Не е приложимо' : address) + '</p>' +
       (comment ? '<p><strong>Коментар:</strong> ' + escapeHtml(comment) + '</p>' : '') +
