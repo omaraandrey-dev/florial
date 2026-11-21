@@ -4,6 +4,7 @@
 - Переводы, SEO, ботанические характеристики и уход остаются Owner-only; сотрудники не видят эти поля и не заполняют их пустыми значениями.
 - В редактор добавлены быстрые переходы по разделам, сворачивание длинных блоков и предупреждения о незаписанных изменениях.
 - Подробная UX-спецификация: `docs/manager/PLANT_EDITOR_UX.md`. Изменения не затрагивают API, права, Sanity, D1 и Production configuration.
+- Exact PR head `a7219381ed47ebaa6cc44f3ee2365d3cb08be7a1`: Blog/Studio validation run `44921957018` and D1 validation run `44921957051` passed. Preview, Production deployment and authenticated role QA remain pending.
 
 ---
 
