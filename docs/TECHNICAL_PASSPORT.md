@@ -1,3 +1,12 @@
+## 2026-11-21 — Manager lists: 20-second refresh correction proposed (PR #453)
+
+- Owner reports that a newly created service enquiry and plant order were not visible in Manager until manual refresh.
+- Code on main `2830c7b9b3bf788bfb48e123d6e77846de080476`: `OrdersManager.tsx` refreshed every 15 minutes; `ServiceLeadsManager.tsx` had no periodic refresh. Both sections loaded on mount/manual action only, with service leads lacking focus/visibility refresh.
+- PR #453 changes both lists to 20-second polling while visible, with focus/visibility refresh after a 20-second cooldown and in-flight request guards. Regression assertions are added.
+- PR head initially `a85ac04562f9d99d05de1dafd0e1bdfa05263d2b`; CI, merge and Production deployment are not yet verified.
+- Owner-confirmed device QA: Owner self-test and checks 2.1/2.2/2.3 reported working. Real order/service-lead event push delivery and click navigation still need separate confirmation; list refresh is not proof of push delivery.
+- No D1/Sanity/Production data or configuration changed.
+
 ## 2026-11-21 — Manager Web Push: PR #450 merged and Production deployment verified
 
 - PR #450 merged into main; merge commit 54026c75030e5f950576cc1b99f7ebf8903006f1.
