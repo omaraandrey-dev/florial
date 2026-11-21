@@ -81,3 +81,4 @@ Customer email is required in the UI and API so the order confirmation can be se
 - The customer receives the proforma by email when PDF generation succeeds. The email and checkout confirmation state explicitly instruct the customer to wait for availability confirmation before paying. If availability or quantities change, Florial must issue an updated proforma before payment.
 - The proforma shows the company and bank details, the gross total, VAT included in the gross amount (20/120), Bulgarian amount in words, issue date, five-calendar-day due date, payment reference and signature/stamp fields. It is not a tax invoice.
 - Do not test by creating a Production order or sending a customer email without an agreed safe test procedure. Verify PDF rendering and the exact PR/Production SHA separately.
+- When Manager reissues a proforma after stock/delivery confirmation, its issue date and five-day payment deadline are recalculated from the reissue timestamp.
