@@ -10,7 +10,7 @@ const gemini = read('functions/api/manager/plants/gemini-test.ts')
 
 test('manual plant intake requires name, variant/model-or-complete-size, price and quantity only', () => {
   assert.match(manager, /const variantsReady=activeForm\.saleVariants\.length>0/)
-  assert.match(manager, /hasModelOrSize=variant\.name\.trim\(\)\.length>=2\|\|\(Number\(variant\.saleHeightCm\)>0&&Number\(variant\.containerVolumeL\)>0\)/)
+  assert.match(manager, /hasModelOrSize=\(!variant\.nameAuto&&variant\.name\.trim\(\)\.length>=2\)\|\|\(Number\(variant\.saleHeightCm\)>0&&Number\(variant\.containerVolumeL\)>0\)/)
   assert.match(manager, /Number\.isFinite\(price\)&&price>0/)
   assert.match(manager, /variant\.stockQuantity\.trim\(\)!==''&&Number\.isInteger\(quantity\)&&quantity>=0/)
   assert.doesNotMatch(manager, /if\(!editingId&&!activeProof\)/)
@@ -20,10 +20,12 @@ test('manual plant intake requires name, variant/model-or-complete-size, price a
 })
 
 test('variant model name can replace both numeric height and container dimensions', () => {
+  assert.match(plantLib, /const suppliedName = item\.nameAuto === true \? '' : cleanText\(item\.name, 100\)/)
   assert.match(plantLib, /suppliedName\.length < 2 && !hasPhysicalSize/)
   assert.match(plantLib, /hasPhysicalSize = \(saleHeightCm \|\| 0\) > 0 && \(containerVolumeL \|\| 0\) > 0/)
   assert.match(plantLib, /const name = suppliedName \|\|/)
   assert.match(manager, /Наименование на размер \/ модел \(или посочете височина и обем на контейнера\)/)
+  assert.match(manager, /nameAuto:v\.nameAuto===true/)
   assert.match(manager, /Височина \(см\) · по избор/)
   assert.match(manager, /Контейнер \(л\) · по избор/)
   assert.match(manager, /if\(key==='stockQuantity'&&value\.trim\(\)==='0'&&next\.stockStatus==='inStock'\)next\.stockStatus='outOfStock'/)
