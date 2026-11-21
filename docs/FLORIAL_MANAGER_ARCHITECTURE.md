@@ -1,12 +1,16 @@
-## 2026-11-21 — Owner-only Web Push self-test (PR validation passed)
+## 2026-11-21 — Manager live list refresh correction (PR #453 pending)
 
-- A separate `POST /api/manager/push/test` endpoint is being added for safe push delivery checks without creating orders or service leads.
-- Server authorization is restricted to an active Owner session; subscription selection is scoped to the authenticated Owner's own `user_id` and active Owner profile. Manager/Seller and other Owner accounts are excluded.
-- The endpoint accepts no client-supplied recipient or notification content. It sends a fixed generic message to the Manager home path and contains no customer PII.
-- The Manager button is rendered only for Owner and enabled only when the current browser has push enabled. Provider acceptance is not equivalent to confirmed display on a device.
-- Existing order/service-lead dispatch rules remain unchanged. No D1 migration, Sanity, Production settings/secrets, orders, leads or email changes are included.
-- Validation on commit `f4231bf42c6d60b6ee8e2435bba4fbcdb9d3cbd5`: Blog/Studio run `44861125606` and D1 run `44861125730` succeeded; Cloudflare Preview deployment `598a1466-17f2-49a1-bd39-58a70033ac65` succeeded. Preview Manager route and compiled JS were read-only checked. Authenticated API and actual device delivery remain unverified.
-- PR #452 is open for review. Merge and Production deployment are not authorized by this implementation step.
+- Main code review found that order list/count polling was 15 minutes and service-lead lists had no periodic refresh.
+- PR #453 proposes 20-second polling for both sections while visible, with focus/visibility refresh after a 20-second cooldown and in-flight guards. CI and Production deployment remain pending.
+- Owner reports the Owner-only push self-test and lifecycle checks 2.1/2.2/2.3 as working. Actual event-driven push delivery for the real Production plant order and service enquiry remains to be confirmed separately.
+- No D1, Sanity, Cloudflare configuration/secrets, email or Production data changes are included.
+
+## 2026-11-21 — Owner-only Web Push self-test (PR #452 merged)
+
+- Added `POST /api/manager/push/test`, restricted to an active Owner session and same-origin requests. The endpoint targets only subscriptions belonging to the authenticated Owner and accepts no client-supplied recipient or notification content.
+- The Manager test control is shown only to Owner when push is enabled on that browser/device. The generic message contains no customer PII.
+- PR #452 is merged into main at `2830c7b9b3bf788bfb48e123d6e77846de080476`. The owner reports that the self-test and subsequent subscription lifecycle checks 2.1, 2.2 and 2.3 work. These are owner-confirmed device checks; actual event-driven role routing still needs separate verification.
+
 
 ---
 ## 2026-11-20 — Manager Web Push implementation stage (PR #450)
