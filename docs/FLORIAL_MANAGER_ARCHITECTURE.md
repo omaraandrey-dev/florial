@@ -1,3 +1,16 @@
+
+
+## 2026-11-21 — Manager: 60-second refresh and new service-lead menu badge
+
+- Read-only Production D1 check on 2026-11-21: one subscription row belongs to an active Owner and zero to active Managers. The query selected only role/active state/count; no endpoint or key material was read. This confirms a stored Owner subscription row, not endpoint validity or device delivery.
+- The two most recent Production service-lead rows at the time of inspection were `new`, with owner email status `sent` and no `email_retry_result` events. Code calls `dispatchManagerPush` after a successful new lead insert. Duplicate/idempotent retry handling can resend email and return before the push call; it does not explain these two inspected rows.
+- Push sender returns attempted/accepted/expired/failed counts to its caller, but the event dispatcher currently discards those counts; only failures are written to Cloudflare console logs. No durable per-event Push delivery status is currently available in D1.
+
+- Both Manager order and service-lead lists poll every 60 seconds while the document is visible; focus/visibility return refresh remains, subject to the same 60-second cooldown. Manual refresh and filter-triggered loads remain available.
+- Service-lead GET now returns a separate unfiltered `newLeadCount` aggregate (`status='new'`), independent of the current list filters and 100-row display limit. Manager navigation renders this count as a red badge next to «Заявки за услуги», matching the new-order badge treatment.
+- Updated the Manager regression assertions and corrected the Service Worker comment to reflect the 60-second list refresh. Push remains a separate transport and is not affected by polling.
+- Push receipt is not established by email receipt. Gmail alerts for delivered email are email-client notifications, not Florial Web Push. Actual event-driven device delivery remains a separate QA item.
+- No D1 schema/data, Sanity content/schema, Cloudflare settings/secrets, Resend, orders or service-lead records are changed.
 ## 2026-11-21 — Manager live list refresh correction (PR #453 pending)
 
 - Main code review found that order list/count polling was 15 minutes and service-lead lists had no periodic refresh.

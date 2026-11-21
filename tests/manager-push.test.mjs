@@ -86,22 +86,26 @@ test('test push endpoint is Owner-only and queries only the authenticated Owner 
 })
 
 
-test('Manager order list and navigation count refresh every 20 seconds without overlapping loads', () => {
+test('Manager order list and navigation count refresh every 60 seconds without overlapping loads', () => {
   const ordersManager = read('src/manager/OrdersManager.tsx')
-  assert.match(ordersManager, /window\.setInterval\(refresh,20000\)/)
-  assert.match(ordersManager, /Date\.now\(\)-lastRefreshAt\.current>=20000/)
+  assert.match(ordersManager, /window\.setInterval\(refresh,60000\)/)
+  assert.match(ordersManager, /Date\.now\(\)-lastRefreshAt\.current>=60000/)
   assert.match(ordersManager, /loadInFlight=useRef\(0\)/)
   assert.match(ordersManager, /loadInFlight\.current===0/)
   assert.match(ordersManager, /loadInFlight\.current=Math\.max\(0,loadInFlight\.current-1\)/)
   assert.doesNotMatch(ordersManager, /900000/)
 })
 
-test('Manager service lead list refreshes every 20 seconds and on app focus/visibility return', () => {
+test('Manager service lead list refreshes every 60 seconds and on app focus/visibility return', () => {
   const serviceLeadsManager = read('src/manager/ServiceLeadsManager.tsx')
-  assert.match(serviceLeadsManager, /window\.setInterval\(refresh, 20_000\)/)
+  assert.match(serviceLeadsManager, /window\.setInterval\(refresh, 60_000\)/)
   assert.match(serviceLeadsManager, /addEventListener\('focus', refresh\)/)
   assert.match(serviceLeadsManager, /addEventListener\('visibilitychange', refresh\)/)
   assert.match(serviceLeadsManager, /loadInFlight = useRef\(0\)/)
   assert.match(serviceLeadsManager, /loadInFlight\.current === 0/)
   assert.match(serviceLeadsManager, /loadInFlight\.current = Math\.max\(0, loadInFlight\.current - 1\)/)
+  assert.match(serviceLeadsManager, /onNewCountChange\?\.\(Number\(result\.newLeadCount\) \|\| 0\)/)
+  assert.match(managerApp, /aria-label=\{'Нови заявки: ' \+ newServiceLeadsCount\}/)
+  assert.match(managerApp, /onNewCountChange=\{setNewServiceLeadsCount\}/)
+  assert.match(read('functions/api/manager/service-leads.ts'), /WHERE status='new'/)
 })

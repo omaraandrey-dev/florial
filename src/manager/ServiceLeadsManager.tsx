@@ -13,7 +13,7 @@ type LeadEvent = {
   note: string | null; metadata: Record<string, unknown>; created_at: string
 }
 type Assignee = { user_id: string; display_name: string; role: string }
-type Props = { canManage: boolean }
+type Props = { canManage: boolean; onNewCountChange?: (count: number) => void }
 const statusOptions: Array<{ value: LeadStatus; label: string }> = [
   { value: 'new', label: 'Нова' }, { value: 'processing', label: 'В обработка' },
   { value: 'contacted', label: 'Свързахме се с клиента' }, { value: 'proposal_preparing', label: 'Подготовка на оферта' },
@@ -45,7 +45,7 @@ const eventLabel = (event: LeadEvent) => {
 const dateLabel = (value: string) => new Date(value).toLocaleString('bg-BG', { dateStyle: 'medium', timeStyle: 'short' })
 const inputClass = 'w-full rounded-xl border border-stone-300 bg-white px-3 py-2.5 text-sm text-stone-800 outline-none focus:border-lime-700 focus:ring-2 focus:ring-lime-100'
 
-export default function ServiceLeadsManager({ canManage }: Props) {
+export default function ServiceLeadsManager({ canManage, onNewCountChange }: Props) {
   const [leads, setLeads] = useState<Lead[]>([])
   const [services, setServices] = useState<Array<{ service_slug: string; service_name: string; lead_count: number }>>([])
   const [selectedId, setSelectedId] = useState('')
@@ -94,14 +94,15 @@ export default function ServiceLeadsManager({ canManage }: Props) {
     setLoading(true); setError('')
     try {
       const response = await fetch('/api/manager/service-leads' + (queryString ? '?' + queryString : ''), { credentials: 'same-origin', cache: 'no-store' })
-      const result = await response.json() as { leads?: Lead[]; services?: typeof services; assignees?: Assignee[]; error?: string }
+      const result = await response.json() as { leads?: Lead[]; services?: typeof services; assignees?: Assignee[]; newLeadCount?: number; error?: string }
       if (!response.ok) throw new Error(result.error || 'Не успяхме да заредим заявките.')
       setLeads(result.leads || [])
+      onNewCountChange?.(Number(result.newLeadCount) || 0)
       setServices(result.services || [])
       setAssignees(result.assignees || [])
     } catch (err) { setError(err instanceof Error ? err.message : 'Не успяхме да заредим заявките.') }
     finally { loadInFlight.current = Math.max(0, loadInFlight.current - 1); setLoading(false) }
-  }, [queryString])
+  }, [queryString, onNewCountChange])
 
   const loadDetail = useCallback(async (id: string) => {
     if (!id) return
@@ -118,9 +119,9 @@ export default function ServiceLeadsManager({ canManage }: Props) {
   useEffect(() => { void loadLeads() }, [loadLeads])
   useEffect(() => {
     const refresh = () => {
-      if (document.visibilityState === 'visible' && Date.now() - lastRefreshAt.current >= 20_000 && loadInFlight.current === 0) void loadLeads()
+      if (document.visibilityState === 'visible' && Date.now() - lastRefreshAt.current >= 60_000 && loadInFlight.current === 0) void loadLeads()
     }
-    const timer = window.setInterval(refresh, 20_000)
+    const timer = window.setInterval(refresh, 60_000)
     window.addEventListener('focus', refresh)
     document.addEventListener('visibilitychange', refresh)
     return () => {
