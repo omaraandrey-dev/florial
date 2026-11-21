@@ -295,7 +295,7 @@ export default function PlantCatalogManager({role,permissions}:Props){
    const price=Number(variant.priceEUR),quantity=Number(variant.stockQuantity)
    return hasModelOrSize&&Number.isFinite(price)&&price>0&&variant.stockQuantity.trim()!==''&&Number.isInteger(quantity)&&quantity>=0&&(variant.stockStatus!=='inStock'||quantity>0)
   })
-  if(!activeForm.name.trim()||activeForm.name.trim().length<2||!activeForm.slug.trim()||!variantsReady)return fail('Попълнете име на растението, цена, количество и поне едно име на модел или реален размер (височина/обем).')
+  if(!activeForm.name.trim()||activeForm.name.trim().length<2||!activeForm.slug.trim()||!variantsReady)return fail('Попълнете име на растението, цена, количество и име на модел или реални размери: височина и обем на контейнера.')
   setSaving(true);setError('');setNotice('')
   try{
    const selected=activeImages[mainImageIndex]
