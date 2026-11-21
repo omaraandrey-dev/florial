@@ -1,3 +1,11 @@
+## 2026-11-21 — Manager Web Push: Production prerequisites applied (PR #450 still Draft)
+
+- Production D1 migration `0017_manager_push_subscriptions` applied on 2026-11-21 at 02:38:36 after successful full D1 SQL export. The table, unique endpoint constraint, two indexes and migration ledger entry were verified by live read-back. Table row count: 0; `PRAGMA foreign_key_check`: 0 violations. Existing orders, leads, staff profiles and sessions were not modified.
+- Backup export object filename is recorded in `docs/roadmaps/MANAGER_PUSH_NOTIFICATIONS_ROADMAP_2026-11-21.md`; signed export URL is intentionally not stored in GitHub. `PRAGMA integrity_check` is unavailable through the current D1 API context (`SQLITE_AUTH`), so no full integrity-check claim is made.
+- Cloudflare Pages Production now has `VAPID_PUBLIC_KEY` (plain text), `VAPID_PRIVATE_KEY` (encrypted secret), and `VAPID_SUBJECT` (plain text). Presence/types verified without returning secret values. Private key is not stored in GitHub or documentation. Existing Pages variables preserved; Preview config unchanged.
+- No Production deployment was triggered. Current Production deployment remains on `main` SHA `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`; PR #450 remains Draft. Thus configured VAPID and D1 table are prerequisites only; runtime Push is not yet active.
+- Remaining: owner-approved PR merge, exact-SHA Production deployment verification, Android/Chrome subscription and delivery/click/unsubscribe QA for Owner/Manager/Seller. Test orders/leads must not be created without the agreed test procedure.
+
 ## 2026-11-20 — Manager Web Push architecture (PR #450, pending validation)
 
 - Web Push subscription records use the proposed Cloudflare D1 table `manager_push_subscriptions`, keyed to `catalog_staff_profiles.user_id`; each device endpoint is unique and cannot be reassigned by another authenticated staff user.
