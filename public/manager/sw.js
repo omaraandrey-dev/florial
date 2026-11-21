@@ -1,4 +1,4 @@
-/* Florial Manager online-only service worker. Push delivery is independent of the 15-minute list refresh. */
+/* Florial Manager online-only service worker. Push delivery is independent of the 60-second list refresh. */
 self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()))
 
