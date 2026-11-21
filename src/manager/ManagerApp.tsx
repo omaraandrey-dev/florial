@@ -140,6 +140,7 @@ export default function ManagerApp() {
   const [activeTab, setActiveTab] = useState<'plantCatalog' | 'submissions' | 'orders' | 'staff' | 'analytics' | 'categories' | 'productsSeo' | 'serviceLeads' | 'withdrawals'>(initialSection === 'orders' ? 'orders' : initialSection === 'serviceLeads' ? 'serviceLeads' : 'plantCatalog')
   const [pushEnabled, setPushEnabled] = useState(false)
   const [pushBusy, setPushBusy] = useState(false)
+  const [testPushBusy, setTestPushBusy] = useState(false)
   const [pushMessage, setPushMessage] = useState('')
   const [newOrdersCount, setNewOrdersCount] = useState(0)
   const [analyticsDays, setAnalyticsDays] = useState<1 | 7 | 30 | 90>(30)
@@ -710,6 +711,19 @@ export default function ManagerApp() {
     }
   }
 
+  const sendTestPush = async () => {
+    if (profile?.role !== 'owner' || testPushBusy) return
+    setTestPushBusy(true)
+    setPushMessage('')
+    try {
+      const response = await fetch('/api/manager/push/test', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' } })
+      const result = await response.json().catch(() => ({})) as { error?: string; attempted?: number; accepted?: number }
+      if (!response.ok) throw new Error(result.error || 'Не успяхме да изпратим тестовото известие.')
+      setPushMessage('Тестовото известие е прието от push услугата за ' + (result.accepted || 0) + ' от ' + (result.attempted || 0) + ' устройства на собственика.')
+    } catch (err) {
+      setPushMessage(err instanceof Error ? err.message : 'Не успяхме да изпратим тестовото известие.')
+    } finally { setTestPushBusy(false) }
+  }
   const signOut = async () => { await managerApi.auth.signOut(); resetForm(); setProfile(null); setSession(null) }
 
   if (loading) return <div className="min-h-screen bg-[#f5f6ef] grid place-items-center text-stone-600">Зареждане на Florial Manager…</div>
@@ -815,7 +829,8 @@ export default function ManagerApp() {
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-            <button type="button" onClick={() => void togglePush()} disabled={pushBusy} className="min-h-11 rounded-xl border border-lime-700 bg-white px-3 py-2 text-sm font-semibold text-lime-900 disabled:opacity-50">{pushBusy ? 'Изчакване…' : pushEnabled ? 'Изключи известия' : 'Включи известия'}</button>
+            <button type="button" onClick={() => void togglePush()} disabled={pushBusy} className="min-h-11 rounded-xl border border-lime-700 bg-white px-2 py-2 text-xs font-semibold text-lime-900 disabled:opacity-50 sm:px-3 sm:text-sm"><span className="sm:hidden">{pushBusy ? '…' : pushEnabled ? 'Push ✓' : 'Push'}</span><span className="hidden sm:inline">{pushBusy ? 'Изчакване…' : pushEnabled ? 'Изключи известия' : 'Включи известия'}</span></button>
+            {profile.role === 'owner' && <button type="button" onClick={() => void sendTestPush()} disabled={testPushBusy || !pushEnabled} title={!pushEnabled ? 'Първо включете известията на това устройство.' : 'Изпраща тестово известие само до устройствата на собственика.'} className="min-h-11 rounded-xl border border-stone-300 bg-white px-2 py-2 text-xs font-semibold text-stone-700 disabled:opacity-50 sm:px-3 sm:text-sm"><span className="sm:hidden">{testPushBusy ? '…' : 'Тест'}</span><span className="hidden sm:inline">{testPushBusy ? 'Изпращане…' : 'Тестово известие'}</span></button>}
             <div className="hidden min-w-0 text-right text-sm sm:block">
               <div className="max-w-48 truncate font-semibold text-stone-800">{profile.display_name || session.user.email}</div>
               <div className="text-xs text-stone-500">{profile.role === 'owner' ? 'Собственик' : profile.role === 'manager' ? 'Мениджър' : 'Служител'}</div>

@@ -9,6 +9,34 @@ const getVapid = (env: ManagerEnv): VapidKeys | null => {
   return { subject: env.VAPID_SUBJECT, publicKey: env.VAPID_PUBLIC_KEY, privateKey: env.VAPID_PRIVATE_KEY }
 }
 
+export const sendManagerPushToSubscriptions = async (
+  env: ManagerEnv,
+  recipients: SubscriptionRow[],
+  payloadData: string,
+): Promise<{ attempted: number; accepted: number; expired: number; failed: number }> => {
+  const vapid = getVapid(env)
+  if (!vapid) throw new Error('Push notifications are not configured.')
+  const results = await Promise.allSettled(recipients.map(async (row) => {
+    const subscription: PushSubscription = { endpoint: row.endpoint, expirationTime: null, keys: { p256dh: row.p256dh, auth: row.auth } }
+    try {
+      const init = await buildPushPayload({ data: payloadData, options: { ttl: 300 } }, subscription, vapid)
+      const response = await fetch(row.endpoint, { ...init, redirect: 'error', signal: AbortSignal.timeout(5000) })
+      if (response.status === 404 || response.status === 410) {
+        await env.DB!.prepare('DELETE FROM manager_push_subscriptions WHERE id=?').bind(row.id).run()
+        return 'expired' as const
+      }
+      if (!response.ok) { console.warn('Manager push provider returned HTTP', response.status); return 'failed' as const }
+      return 'accepted' as const
+    } catch (error) {
+      console.warn('Manager push delivery failed:', error instanceof Error ? error.message : 'unknown')
+      return 'failed' as const
+    }
+  }))
+  const accepted = results.filter((x) => x.status === 'fulfilled' && x.value === 'accepted').length
+  const expired = results.filter((x) => x.status === 'fulfilled' && x.value === 'expired').length
+  return { attempted: results.length, accepted, expired, failed: results.length - accepted - expired }
+}
+
 export const dispatchManagerPush = async (
   env: ManagerEnv,
   kind: PushKind,
@@ -44,24 +72,7 @@ export const dispatchManagerPush = async (
     const url = kind === 'order' ? '/manager/?section=orders' : '/manager/?section=serviceLeads'
     const payloadData = JSON.stringify({ title, body, url })
 
-    await Promise.allSettled(recipients.results.map(async (row) => {
-      const subscription: PushSubscription = {
-        endpoint: row.endpoint,
-        expirationTime: null,
-        keys: { p256dh: row.p256dh, auth: row.auth },
-      }
-      try {
-        const init = await buildPushPayload({ data: payloadData, options: { ttl: 300 } }, subscription, vapid)
-        const response = await fetch(row.endpoint, { ...init, redirect: 'error', signal: AbortSignal.timeout(5000) })
-        if (response.status === 404 || response.status === 410) {
-          await env.DB!.prepare('DELETE FROM manager_push_subscriptions WHERE id=?').bind(row.id).run()
-        } else if (!response.ok) {
-          console.warn('Manager push provider returned HTTP', response.status)
-        }
-      } catch (error) {
-        console.warn('Manager push delivery failed:', error instanceof Error ? error.message : 'unknown')
-      }
-    }))
+    await sendManagerPushToSubscriptions(env, recipients.results, payloadData)
   } catch (error) {
     // Push is best-effort and must never break checkout or a service enquiry.
     console.error('Manager push dispatch failed:', error instanceof Error ? error.message : 'unknown')

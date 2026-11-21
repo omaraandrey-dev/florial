@@ -70,3 +70,17 @@ test('push migration is additive and indexed by staff account', () => {
   assert.match(migration, /idx_manager_push_subscriptions_user/)
   assert.match(migration, /0017_manager_push_subscriptions/)
 })
+
+test('test push endpoint is Owner-only and queries only the authenticated Owner subscriptions', () => {
+  const endpoint = read('functions/api/manager/push/test.ts')
+  assert.match(endpoint, /requireUser\(request, env, \['owner'\]\)/)
+  assert.match(endpoint, /WHERE s\.user_id=\? AND p\.user_id=\? AND p\.role='owner' AND p\.is_active=1/)
+  assert.match(endpoint, /sendManagerPushToSubscriptions\(env, subscriptions\.results, payload\)/)
+  assert.match(endpoint, /title: 'Тестово известие'/)
+  assert.match(endpoint, /url: '\/manager\/'/)
+  assert.doesNotMatch(endpoint, /orders|service_leads|customer_|phone|email/)
+  assert.match(dispatch, /export const sendManagerPushToSubscriptions/)
+  assert.match(managerApp, /profile\.role === 'owner' && <button/)
+  assert.match(managerApp, /onClick=\{\(\) => void sendTestPush\(\)\}/)
+  assert.match(managerApp, /fetch\('\/api\/manager\/push\/test'/)
+})
