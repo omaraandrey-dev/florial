@@ -4,11 +4,11 @@
 
 ## 2026-11-21 — Manager Web Push: release и Android QA
 
-- PR #450 остаётся Draft; последний кодовый SHA `e373e2f82c5a73b222fa69393f1d3874010540e3`. Production D1 migration 0017 и VAPID Production configuration выполнены ранее по отдельному подтверждению.
-- D1 validation run `44858363236` — success; Pages Preview deployment `e92a4372-4d7f-48d5-8446-9f22aef2e77b` — success для точного SHA.
-- Blog and Studio validation run `44858363243` на момент записи ещё выполнялся. После его завершения повторно проверить CI, Preview и PR mergeability.
+- PR #450 остаётся Draft; код/test SHA `e373e2f82c5a73b222fa69393f1d3874010540e3`; документационный parent SHA `884e4c0ddd361a8109d4d4fa533504092974e635`.
+- Blog and Studio run `44858518911` и D1 validation run `44858518879` — success для SHA `884e4c0ddd361a8109d4d4fa533504092974e635`; Cloudflare Preview `052ae9af-dd7c-4275-8abc-1141bdc29e03` — success.
+- GitHub reports PR `mergeable=true`, `mergeable_state=clean`; base main `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`.
 - В ходе финального code review исправлен Service Worker notification click: используется только открытая вкладка `/manager/`, иначе открывается новая; storefront tab не перенаправляется. Добавлен регрессионный тест.
-- **Открыто:** завершить точный-head CI gate, затем запросить отдельную команду владельца на снятие Draft/merge. До такой команды PR не объединять.
+- **Открыто:** получить отдельную команду владельца на снятие Draft и merge. До такой команды PR не объединять.
 - **Открыто после выпуска:** проверить Production deployment по точному merge SHA; затем Android/Chrome opt-in, subscription persistence, push delivery, правильный notification click, opt-out/delete/re-subscribe для Owner, Manager и Seller. Service-lead push должен получать только Owner; тестовые заказы не должны отправлять push.
 - Не создавать Production test orders/leads и не отправлять тестовые письма без согласованного тестового сценария. Не раскрывать VAPID private key и не записывать его в GitHub.
 

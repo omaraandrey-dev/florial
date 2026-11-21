@@ -1,3 +1,12 @@
+## 2026-11-21 — Manager Web Push: final PR pre-release gate
+
+- Final code/test SHA: `e373e2f82c5a73b222fa69393f1d3874010540e3`; documentation-only follow-up is tracked in current branch HEAD.
+- Blog and Studio validation run `44858518911` — success; D1 migration validation run `44858518879` — success. Both ran against the exact documentation-parent SHA `884e4c0ddd361a8109d4d4fa533504092974e635` (which contains the reviewed code/test SHA).
+- Cloudflare Pages Preview deployment `052ae9af-dd7c-4275-8abc-1141bdc29e03` — success for SHA `884e4c0ddd361a8109d4d4fa533504092974e635`: https://052ae9af.florial.pages.dev.
+- PR #450 remains open and Draft; GitHub reports `mergeable=true`, `mergeable_state=clean`. Base `main` remains `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`. No merge or Production deployment was performed.
+- Final review found no unrelated paths in the 21-file PR diff. A Service Worker notification-click issue was fixed in `public/manager/sw.js`: only an existing same-origin `/manager/` client is reused; otherwise a new Manager window is opened. Regression assertion added in `tests/manager-push.test.mjs`.
+- Remaining release gate: owner must explicitly authorize removing Draft and merging PR #450. After merge, verify the exact Production deployment and conduct agreed Android/Chrome QA. No real Production orders/leads should be created without an approved test procedure.
+
 ## 2026-11-21 — Manager Web Push: notification click isolation
 
 - Final code review of PR #450 found that Service Worker notification clicks could navigate any same-origin tab, including the public storefront, into Manager.

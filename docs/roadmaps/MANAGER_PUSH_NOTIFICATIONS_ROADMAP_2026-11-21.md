@@ -3,8 +3,8 @@
 Дата актуализации: 2026-11-21  
 Рабочий PR: [#450](https://github.com/omaraandrey-dev/florial/pull/450)  
 Рабочая ветка: `feature/manager-order-notifications`  
-Последний подтверждённый commit реализации: `b87df49b954712641ffa44e0845f4ef4ddd05728`
-Последний кодовый checkpoint после исправления Service Worker: `e373e2f82c5a73b222fa69393f1d3874010540e3`.  
+Последний code/test SHA: `e373e2f82c5a73b222fa69393f1d3874010540e3`.
+Последний полностью проверенный PR checkpoint перед этой документационной актуализацией: `884e4c0ddd361a8109d4d4fa533504092974e635`.  
 База PR на момент сверки: `main` = `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`
 
 > Этот документ — единая карта текущей задачи. Production D1 migration 0017 и VAPID configuration уже выполнены. Web Push пока не работает в Production, поскольку код PR #450 остаётся в Draft и не развёрнут из main.
@@ -44,12 +44,12 @@
 
 ### Проверки реализации
 
-Последний подтверждённый SHA: `b87df49b954712641ffa44e0845f4ef4ddd05728`.
+Последний code/test SHA: `e373e2f82c5a73b222fa69393f1d3874010540e3`; проверки повторно выполнены на documentation-parent SHA `884e4c0ddd361a8109d4d4fa533504092974e635`.
 
-- [x] GitHub Actions Blog and Studio validation: run `44794576684` — success; включая typecheck, lint, 357 тестов, website build, Studio typecheck/build и migration dry-run.
-- [x] GitHub Actions D1 migration validation: run `44794576517` — success; включая SQLite-проверку migration 0017.
-- [x] Cloudflare Pages Preview deployment `bf7acd17-23ce-4180-821c-54063866f68e` — все стадии успешны для указанного SHA; Preview: https://bf7acd17.florial.pages.dev.
-- [x] PR #450 остаётся открытым Draft; на checkpoint `fb6603d88323111038d02f3cf1004370e5bfe2f0` GitHub подтвердил `mergeable=true`. Перед merge повторить проверку mergeability и статусов.
+- [x] GitHub Actions Blog and Studio validation: run `44858518911` — success для SHA `884e4c0ddd361a8109d4d4fa533504092974e635`; application/Pages typecheck, lint, utility tests, website build, migration dry-run, Studio dependency install/typecheck/build.
+- [x] GitHub Actions D1 migration validation: run `44858518879` — success для того же SHA; включает SQLite migration validation.
+- [x] Cloudflare Pages Preview deployment `052ae9af-dd7c-4275-8abc-1141bdc29e03` — все стадии успешны для SHA `884e4c0ddd361a8109d4d4fa533504092974e635`; Preview: https://052ae9af.florial.pages.dev.
+- [x] PR #450 открыт, Draft, `mergeable=true`, `mergeable_state=clean`; base `main` SHA `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`.
 
 ## 3. Что ещё требуется сделать
 
@@ -68,7 +68,7 @@
 
 **Ограничение проверки:** `PRAGMA integrity_check` через Cloudflare D1 API возвращает `SQLITE_AUTH`. Это означает, что данный PRAGMA недоступен через используемый API-контекст; это не доказательство повреждения базы и не ошибка общего доступа к D1. Другие read-only запросы выполняются успешно.
 
-**Итог этапа:** preflight не выявил конфликтов миграции с текущей Production-схемой. Migration 0017 не применялась; Production D1 schema/data не изменялись.
+**Итог этапа (на момент preflight до этапа B):** preflight не выявил конфликтов миграции с Production-схемой. Затем migration 0017 была применена в рамках этапа B, описанного ниже.
 
 ### Этап B — Production D1 migration 0017
 
@@ -103,9 +103,10 @@ D1 export bookmark: `00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166
 
 ### Этап D — принять решение по выпуску
 
-- [ ] Перед merge получить свежий SHA `main`, актуальный head PR #450, mergeability и статусы CI.
-- [ ] Проверить, что PR не содержит посторонних изменений и документационные SHA синхронизированы с фактическим head.
-- [ ] Отдельно получить команду владельца на снятие Draft/merge. До неё PR остаётся Draft и не объединяется.
+- [x] Перед merge сверены актуальные SHA: `main` = `5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d`; PR head перед документационной актуализацией = `884e4c0ddd361a8109d4d4fa533504092974e635`; CI и Preview прошли.
+- [x] Проверен PR diff: 21 файл, 681 additions / 28 deletions; изменения относятся к Manager Web Push, тестам, D1 migration validation и документации. Посторонних файлов не обнаружено.
+- [x] GitHub подтвердил `mergeable=true`, `mergeable_state=clean`.
+- [ ] Получить отдельную команду владельца на снятие Draft/merge. До неё PR остаётся Draft и не объединяется.
 - [ ] После разрешённого merge проверить Production deployment по точному merge SHA и наличие нужных endpoints.
 
 ### Этап E — реальный тест на Android/Chrome
@@ -149,13 +150,15 @@ D1 export bookmark: `00000640-00000000-0000512a-1d24d8042b1f0a51580e575d21584166
 - D1 migration 0017 применена и проверена read-back.
 - VAPID public/private/subject сохранены в Pages Production; private key — encrypted secret.
 - Существующий Production deployment не изменялся и продолжает обслуживать main SHA 5d39d0098357ec8b9d12e6b8b0f4e7b1d5cdc96d.
-- Последний PR HEAD: `e373e2f82c5a73b222fa69393f1d3874010540e3`. D1 workflow `44858363236` — success; Blog/Studio workflow `44858363243` на момент записи ещё выполнялся; Pages Preview deployment `e92a4372-4d7f-48d5-8446-9f22aef2e77b` — success: https://e92a4372.florial.pages.dev. В финальном review исправлено перенаправление push-click: используется только вкладка `/manager/`, storefront tab не перехватывается; добавлен регрессионный тест.
-- PR #450 остаётся Draft и не объединён.
+- Code/test SHA `e373e2f82c5a73b222fa69393f1d3874010540e3` содержит исправление notification click и регрессионный тест.
+- Последний проверенный PR HEAD до этого документационного обновления: `884e4c0ddd361a8109d4d4fa533504092974e635`; Blog/Studio run `44858518911` — success; D1 run `44858518879` — success; Pages Preview `052ae9af-dd7c-4275-8abc-1141bdc29e03` — success.
+- PR #450 остаётся Draft и не объединён; `main` не изменён.
 
-**Следующий шаг:** дождаться успешного Blog/Studio CI на актуальном PR HEAD и повторно проверить mergeability; затем отдельно получить команду владельца на снятие Draft/merge. После merge проверить Production deployment по точному merge SHA и провести согласованный Android/Chrome тест по Owner, Manager и Seller. До выпуска не создавать реальные заказы/заявки ради тестирования.
+**Следующий шаг:** получить отдельную команду владельца на снятие Draft/merge. После разрешённого merge проверить Production deployment по точному merge SHA и провести согласованный Android/Chrome тест по Owner, Manager и Seller. До выпуска не создавать реальные заказы/заявки ради тестирования.
 
 ## 7. История обновления
 
 - 2026-11-21: Production D1 export создан; migration 0017 применена batch-запросом и проверена live read-back. Таблица содержит 0 строк; foreign-key check — 0 нарушений. Pages Production получил VAPID public/private/subject; private key хранится как encrypted secret, значения не включены в документацию. Preview settings и Production deployment не изменялись. PR #450 остаётся Draft; live push QA pending.
-- 2026-11-21: PR checkpoint `23506820298a7d47ae6fc18d1bc1c31d0485a8a7` прошёл Blog/Studio (`44857493218`), D1 (`44857493213`) и Pages Preview (`919a1389-e057-4339-b805-c1a30bc4195a`). PR mergeability на checkpoint — true; Draft сохранён.
+- 2026-11-21: code/test SHA `e373e2f82c5a73b222fa69393f1d3874010540e3` прошёл Blog/Studio (`44858363243`), D1 (`44858363236`) и Preview (`e92a4372-4d7f-48ef-a04d-3332a3b40795`).
+- 2026-11-21: документационный checkpoint `884e4c0ddd361a8109d4d4fa533504092974e635` прошёл Blog/Studio (`44858518911`), D1 (`44858518879`) и Preview (`052ae9af-dd7c-4275-8abc-1141bdc29e03`). PR `mergeable=true`, `mergeable_state=clean`; Draft сохранён.
 - 2026-11-21: исправлен прежний ошибочный статус Cloudflare authorization. Cloudflare API и D1 read-only доступ подтверждены; PRAGMA integrity_check отклоняется как SQLITE_AUTH, не как общий отказ доступа.
