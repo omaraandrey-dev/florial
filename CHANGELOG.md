@@ -1,3 +1,13 @@
+## 2026-11-21 — Bank transfer checkout and reusable Bulgarian proforma (PR pending)
+
+
+- Added bank transfer as a selectable checkout payment method alongside payment in store. The checkout submits `bank_transfer` to `POST /api/orders`; D1 stores it in the existing `payment_method` field. No D1 migration is introduced.
+- Bank transfer is blocked for plant orders using the delivery-by-agreement option because the delivery amount is not yet known. Pickup and fixed-price equipment courier orders have a calculable total.
+- Extended the shared `createProformaPdf` generator in `functions/api/_lib/order-documents.ts` with Florial company/bank details, Bulgarian amount-in-words, VAT extracted from VAT-inclusive gross prices, Sofia issue date and a five-calendar-day payment deadline, bank transfer instructions, signature/stamp fields and the stock-confirmation warning.
+- Customer email for bank transfer explicitly says the order is not confirmed until availability is checked and asks the customer not to transfer money before Florial confirmation. Proforma is clearly distinguished from a tax invoice.
+- Corrected the document contact email to `barakov1971@abv.bg`; no customer identity, address or other missing customer data is invented.
+- Added `tests/bank-transfer-proforma.test.mjs` source-level regression checks. CI, Preview and Production deployment have not yet been run/verified. No live order, email, D1 data, Sanity, Cloudflare configuration or Production data was changed.
+
 ## 2026-11-21 — Manager live list refresh correction (PR #453 pending)
 
 - Owner reported creating a service enquiry and a plant order in Production; neither appeared in the Manager lists until manual refresh.
