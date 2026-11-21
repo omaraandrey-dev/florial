@@ -1,3 +1,14 @@
+## 2026-11-21 — Push diagnostics merged and Production verified (PR #455)
+
+- PR #455 merged into `main` as `675079b6d3f00e9eb24f5af1fa439a912606a175`.
+- Exact PR-head Blog and Studio validation run `44886370993` — success, including application/Pages Functions TypeScript check, Oxlint, all Node tests, website build, migration checks, Studio typecheck and Studio build.
+- Exact PR-head D1 validation run `44886313079` — success, including Pages Functions syntax and all migration validation tests.
+- Cloudflare Pages Preview deployment `7f7a68f8-d6d2-438a-858d-6be7635d860d` succeeded from exact PR head `4f9a5bac329c591d96a884b2614a50c525ba8712`; `/manager/` returned HTTP 200 with `noindex,nofollow,noarchive`.
+- Production deployment `e81f8261-1e92-4b4c-bbb6-ca43bee0260a` succeeded from exact merge commit `675079b6d3f00e9eb24f5af1fa439a912606a175`; aliases `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Production `/manager/` smoke check returned HTTP 200 and retained `noindex,nofollow,noarchive`. Unauthenticated GET `/api/manager/push/subscriptions` returned HTTP 401 `Authentication required`, confirming the route remains protected.
+- No authenticated Owner self-test was triggered by the assistant. Real provider response and Android notification receipt remain pending the owner's manual test after deployment.
+- `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`, `docs/AI/OPEN_QUESTIONS.md` and `docs/AI/CURRENT_STATE.md` were not edited in this closeout because PR #409 remains open with overlapping shared-document work; avoid creating competing edits until that PR is resolved.
+
 ## 2026-11-21 — Owner Push self-test diagnostics
 
 - Owner confirmed the self-test reached one stored Owner subscription but the provider accepted 0 of 1. The prior response exposed only aggregate counts and could not distinguish local VAPID/payload signing failures from provider HTTP rejection or network errors.
