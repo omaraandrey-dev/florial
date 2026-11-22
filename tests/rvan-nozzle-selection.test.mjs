@@ -24,7 +24,8 @@ test('preferred R-VAN model is retained when possible and changed only when loca
 test('radius resolution never reduces below the manufacturer's minimum', () => {
   assert.deepEqual(resolveRvanRadius('R-VAN24', 5.0), {
     model: 'R-VAN24', requestedRadiusM: 5.0, radiusM: 5.2, adjusted: true,
-    withinManufacturerRange: false, minRadiusM: 5.2, maxRadiusM: 7.3,
+    withinManufacturerRange: false, requestedBelowMinimum: true, requestedAboveNominal: false,
+    minRadiusM: 5.2, maxRadiusM: 7.0, nominalRadiusM: 7.0, pressureBar: 3.1, arcDeg: 180,
     performanceFlowStatus: 'nominal_table_point_only',
   })
 })
