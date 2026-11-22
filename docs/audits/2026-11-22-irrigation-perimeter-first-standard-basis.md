@@ -96,3 +96,59 @@ Verified on PR head `db08cb760bdab283e57c719008194671c1094e3a`:
 - No external forms were submitted and analytics consent was not changed.
 
 These are preliminary geometric scenarios based on exact manufacturer-table points and the configured sample grid. They are not continuous coverage proofs or hydraulic certification. No Sanity, D1 application data, Cloudflare settings/secrets, Resend, catalogue or Production data changed. No merge to `main` and no Production deployment have been performed.
+
+
+---
+
+## Owner feedback follow-up — sequential zones, catalog BOM and cart handoff (2026-11-22)
+
+### Sequential perimeter zone assignment
+
+The owner tested the 30 × 30 m Preview and requested that zone membership follow the actual perimeter walk rather than balancing heads across opposite sides.
+
+- Start at the top-right source corner and follow the polygon boundary continuously: left along the top edge, then down and around the remaining perimeter.
+- Assign each consecutive group of up to six perimeter heads to one zone. Never balance a zone by borrowing heads from the opposite side of the perimeter.
+- After all perimeter heads are assigned, group interior 360° heads into the final zone(s), up to six per zone.
+- Perimeter zone pipe routes now retain the same continuous forward perimeter direction. Interior zone routes may use the nearest side of the source connection.
+- The 30 × 5 m reference test changes from balanced 5+5+4 to sequential 6+6+2 (14 perimeter heads). The 30 × 30 m test asserts that interior groups come after all perimeter groups.
+
+This is a routing/zone grouping rule, not a hydraulic validation. The six-head limit remains the current Florial project standard and must not be interpreted as a universal valve or hydraulic limit.
+
+### Equipment bill of materials
+
+Added `src/lib/irrigation/irrigationBillOfMaterials.mjs` to create a deterministic SKU/quantity list from the selected layout and zone assignment. The assistant loads the exact active published Sanity products and only enables the cart action when the layout is generated, head-to-head checks pass, every sprinkler is assigned to a zone, and every required SKU resolves to an active product.
+
+- One nozzle per sprinkler, mapped by selected model and arc:
+  - R-VAN14 / 18 / 24: A84659 / A84660 / A84661.
+  - Full-circle R-VAN14F / 18F / 24F: A84664 / A84665 / A84666.
+- One Rain Bird 1804 body (A44120) per sprinkler.
+- Two SBE-050 elbows (A46010) per sprinkler.
+- One metre of SPX-FLEX per sprinkler; catalogue product A82060 is sold as a 30 m coil, so cart quantity is rounded up to complete coils.
+- Per zone: one Rain Bird 100-HV valve (H01000), two 25 × 1-inch male compression adapters (IQ21120M0N25D), one smallest valve box Rain Bird VBA02672, and one 25 × ½-inch female-thread elbow (IQ21820F0N25B) for the last sprinkler.
+- Per zone, all other sprinklers use the corrected 25 × ½-inch female-thread tee (IQ21520F0N25C), one per non-terminal head.
+- Between zones: one 25 mm equal tee (IQ2142000N250) for each additional valve connection; quantity = zone count − 1.
+
+No controller, cable, source pump, mainline PE pipe length or full hydraulic pipe sizing is inferred by this BOM. The current catalogue search did not identify a published 25 mm PE mainline pipe SKU, so no such product/quantity is fabricated. The pipe-route drawing remains a preliminary geometric route, not a measured trench/installation length.
+
+### Sanity product correction — published
+
+Owner identified a catalogue description error for `IQ21520F0N25C` (document `19c359d0-0db5-43da-87ab-0e495c8df85a`). The published product was incorrectly described as 25 × ¾-inch female thread. Owner confirmed the correct item is 25 × ½-inch female thread.
+
+Corrected and published BG/RU/EN name, description, short description, size specifications, SEO H1/title/description and image alt text. SKU, slug, price, stock status, image asset, brand and references were preserved. Read-after-write verified the published document at revision `OponBjXsnmvGHZLuzZgQsa`. Pre-change snapshot: `docs/backups/sanity-product-IQ21520F0N25C-before-2026-11-22.json.md`.
+
+### UI and cart
+
+- Added an explicit “Add complete kit to cart” action to the generated layout result.
+- Connected it to the existing storefront `handleAddToCart` and `navigateToCart` flows. The cart receives catalogue product IDs, current published prices, translations, image metadata, stock status and weights.
+- Product lookup is read-only. No catalogue product price or stock is copied into a hardcoded BOM; the SKU mapping is limited to engineering compatibility and quantities.
+- The customer is routed to the cart after all kit lines are added. Existing cart behavior merges matching product IDs.
+- Added regression tests for sequential zones, BOM quantities, unknown nozzle mapping, incomplete zone assignment and cart integration.
+
+### Verification status after this follow-up
+
+- Code changes are on the existing PR #473 head branch `feat/irrigation-perimeter-first-standard-basis`, based on `main` `b48d6c5b354c500250957355b4eb90751be072d0`.
+- The previous PR #473 CI/Preview/browser QA results apply to its earlier head only. They do **not** validate this follow-up. Exact-head CI, build, Preview deployment and visual QA are pending for the new head.
+- Browser Use was not invoked; owner-controlled browser QA remains pending.
+- No merge, Production code deployment, D1 write, Cloudflare settings/secrets change, Resend action or order creation was performed.
+- Sanity Production was changed only for the single explicitly approved product correction described above.
+- Shared `CHANGELOG.md`, Technical Passport and OPEN_QUESTIONS remain deferred while overlapping documentation work is open; integrate these records once the related PRs are reconciled.
