@@ -394,7 +394,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                                 </g>
                               ))}
                               {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number }) => {
-                                const zoneNumber = layoutResult.zones?.find((zone: { zoneNumber: number; sprinklerIds: string[] }) => zone.sprinklerIds.includes(sprinkler.id))?.zoneNumber
+                                const zoneNumber = layoutResult.zones?.find((zone: { zoneNumber: number; sprinklerIds: ReadonlyArray<string> }) => zone.sprinklerIds.includes(sprinkler.id))?.zoneNumber
                                 return (
                                 <g key={sprinkler.id}>
                                   <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke="#0284c7" strokeWidth="0.045" strokeDasharray="0.22 0.14" opacity="0.7" />
