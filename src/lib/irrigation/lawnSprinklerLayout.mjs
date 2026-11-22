@@ -191,24 +191,44 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     }
   }
 
-  // Interior heads use a triangular lattice with nearest-neighbour spacing
-  // no greater than the manufacturer's 50%-of-diameter spacing basis.
+  // Rectangles get one optional centreline parallel to the long side.
+  // It is only selected later if the perimeter pass leaves sampled points
+  // uncovered. L-shapes retain an interior candidate lattice for their bays.
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const minX = Math.min(...xs)
   const maxX = Math.max(...xs)
   const minY = Math.min(...ys)
   const maxY = Math.max(...ys)
-  const rowStep = radiusM * Math.sqrt(3) / 2
-  let row = 0
-  for (let y = minY + rowStep / 2; y < maxY - EPSILON; y += rowStep) {
-    const offset = row % 2 ? radiusM / 2 : 0
-    for (let x = minX + radiusM / 2 + offset; x < maxX - EPSILON; x += radiusM) {
-      const position = { x, y }
+  const isRectangle = vertices.length === 4 &&
+    vertices.every((point, index) => {
+      const next = vertices[(index + 1) % vertices.length]
+      return Math.abs(point.x - next.x) <= EPSILON || Math.abs(point.y - next.y) <= EPSILON
+    })
+
+  if (isRectangle) {
+    const lengthX = maxX - minX
+    const lengthY = maxY - minY
+    const divisions = Math.max(1, Math.ceil(Math.max(lengthX, lengthY) / radiusM))
+    for (let part = 1; part < divisions; part += 1) {
+      const ratio = part / divisions
+      const position = lengthX >= lengthY
+        ? { x: minX + lengthX * ratio, y: (minY + maxY) / 2 }
+        : { x: (minX + maxX) / 2, y: minY + lengthY * ratio }
       if (pointInRing(position, vertices) === 1) add(position, 360, { x: 1, y: 0 }, 'interior')
-      if (candidates.length > MAX_CANDIDATES) return null
     }
-    row += 1
+  } else {
+    const rowStep = radiusM * Math.sqrt(3) / 2
+    let row = 0
+    for (let y = minY + rowStep / 2; y < maxY - EPSILON; y += rowStep) {
+      const offset = row % 2 ? radiusM / 2 : 0
+      for (let x = minX + radiusM / 2 + offset; x < maxX - EPSILON; x += radiusM) {
+        const position = { x, y }
+        if (pointInRing(position, vertices) === 1) add(position, 360, { x: 1, y: 0 }, 'interior')
+        if (candidates.length > MAX_CANDIDATES) return null
+      }
+      row += 1
+    }
   }
   return candidates
 }
