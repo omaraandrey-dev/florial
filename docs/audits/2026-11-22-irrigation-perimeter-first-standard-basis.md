@@ -85,12 +85,14 @@ No Sanity, D1, Cloudflare settings/secrets, Resend, catalogue or Production data
 
 ## Verification status
 
-Verified on PR head `05b765b41d6e23a561510121576a00cc56c3f296`:
+Verified on PR head `db08cb760bdab283e57c719008194671c1094e3a`:
 
-- Blog and Studio validation run `44985634905`: success. Application/Pages Functions type-check, lint, 390 website utility tests, website build, migration syntax check, read-only description-migration dry-run, Studio dependency install, Studio type-check and Studio build all passed.
-- D1 migration validation run `44985634921`: success.
-- Cloudflare Pages Preview deployment `4e90b20d-cca0-4c83-8a75-268efc10cde9`: success. Preview URL: https://4e90b20d.florial.pages.dev.
-- Read-only browser QA on the Preview confirmed the Russian, English and Bulgarian language variants; only lawn geometry and optional notes are requested. A confirmed 20 × 10 m rectangle produced 200 m², Rain Bird R-VAN18, 14 sprinklers all on the perimeter, 100% sampled coverage and zero uncovered control points. No interior row was selected. Water-source, pressure, flow and elevation questions were absent.
-- The 20 × 15 m central-row scenario is covered by an automated regression test; it was not separately entered during browser QA.
+- Blog and Studio validation run `44986079873`: success. Application/Pages Functions type-check, lint, 390 website utility tests, website build, migration syntax check, read-only description-migration dry-run, Studio dependency install, Studio type-check and Studio build all passed.
+- D1 migration validation run `44986079881`: success.
+- Cloudflare Pages Preview deployment `982809fe-9e0c-4ec0-a8b5-bc033ab7b94c`: success. Preview URL: https://982809fe.florial.pages.dev.
+- Read-only browser QA on the Preview confirmed Bulgarian, English and Russian variants; customer intake asks only for lawn shape/dimensions and optional notes. Water-source, pressure, flow and elevation questions are absent. Standard assumptions are shown in the project summary.
+- Confirmed **20 × 10 m** rectangle: 200 m²; Rain Bird R-VAN18 at 3.1 bar; 14 heads, all on the perimeter; 100% sampled coverage; zero uncovered control points; head-to-head passed; no central heads.
+- Confirmed **20 × 15 m** rectangle: 300 m²; Rain Bird R-VAN24 at 3.1 bar; 11 heads total (9 perimeter + 2 central-row heads); central heads at (6.67, 7.5) and (13.33, 7.5), both 360°; 100% sampled coverage; zero uncovered control points; head-to-head passed.
+- No external forms were submitted and analytics consent was not changed.
 
-The browser check did not submit external forms or change analytics consent. No Sanity, D1 application data, Cloudflare settings/secrets, Resend, catalogue or Production data changed. No merge to `main` and no Production deployment have been performed.
+These are preliminary geometric scenarios based on exact manufacturer-table points and the configured sample grid. They are not continuous coverage proofs or hydraulic certification. No Sanity, D1 application data, Cloudflare settings/secrets, Resend, catalogue or Production data changed. No merge to `main` and no Production deployment have been performed.
