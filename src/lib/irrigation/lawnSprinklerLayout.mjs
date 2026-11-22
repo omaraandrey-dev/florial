@@ -208,8 +208,8 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     const horizontalLongAxis = maxX - minX >= maxY - minY
     const longLength = horizontalLongAxis ? maxX - minX : maxY - minY
     const divisions = Math.max(1, Math.ceil(longLength / radiusM))
-    for (let part = 0; part < divisions; part += 1) {
-      const along = (part + 0.5) / divisions
+    for (let part = 1; part < divisions; part += 1) {
+      const along = part / divisions
       const position = horizontalLongAxis
         ? { x: minX + longLength * along, y: (minY + maxY) / 2 }
         : { x: (minX + maxX) / 2, y: minY + longLength * along }
