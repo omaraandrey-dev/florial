@@ -1,5 +1,7 @@
 import type { ManagerEnv } from './manager/_lib'
 import { createProformaPdf, sendOrderEmail, toBase64 } from './_lib/order-documents'
+import { createIrrigationProjectPdf } from './_lib/irrigation-project-pdf'
+import { validateIrrigationProjectSnapshot } from './_lib/irrigation-project.mjs'
 import { checkSameOriginPublicPost, enforcePublicRateLimit, readBoundedRequestBody } from './_lib/public-api-security'
 import { dispatchManagerPush } from './manager/push-dispatch'
 
@@ -12,6 +14,7 @@ type OrderRequest = {
   delivery_method?: unknown
   payment_method?: unknown
   comment?: unknown
+  irrigationProject?: unknown
   items?: unknown
 }
 
@@ -257,6 +260,7 @@ const handleOrderPost = async ({
 
   const datePart = new Date().toISOString().slice(0, 10).replace(/-/g, '')
   const orderNumber = `FL-${datePart}-${crypto.randomUUID().replace(/-/g, '').slice(0, 6).toUpperCase()}`
+  const orderId = crypto.randomUUID()
   const order = {
     order_number: orderNumber,
     customer_name: customerName,
@@ -283,7 +287,7 @@ const handleOrderPost = async ({
         payment_method,comment,items,subtotal,subtotal_cents,currency,status,created_at,delivery_fee,total,delivery_fee_cents,total_cents
       ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     `).bind(
-      crypto.randomUUID(), order.order_number, order.customer_name, order.phone, order.email,
+      orderId, order.order_number, order.customer_name, order.phone, order.email,
       order.city, order.address, order.delivery_method, order.payment_method, order.comment,
       JSON.stringify(order.items), order.subtotal, Math.round(order.subtotal * 100), order.currency, order.status, order.created_at,
       order.delivery_fee, order.total, order.delivery_fee == null ? null : Math.round(order.delivery_fee * 100),
@@ -294,6 +298,54 @@ const handleOrderPost = async ({
     return json({ error: 'Не успяхме да запазим поръчката. Моля, опитайте отново след малко.' }, 502)
   }
 
+
+  let irrigationProjectEventId: string | null = null
+  let irrigationProjectForPdf: Record<string, unknown> | null = null
+  if (body.irrigationProject !== undefined && body.irrigationProject !== null) {
+    const validation = validateIrrigationProjectSnapshot({
+      ...(body.irrigationProject as Record<string, unknown>),
+      orderItems,
+    })
+    if (validation.valid) {
+      irrigationProjectForPdf = validation.snapshot as Record<string, unknown>
+      irrigationProjectEventId = crypto.randomUUID()
+      try {
+        await env.DB.prepare(
+          'INSERT INTO order_events (id,order_id,order_number,actor_id,actor_name,actor_role,event_type,from_status,to_status,note,metadata,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+        ).bind(
+          irrigationProjectEventId, orderId, orderNumber, null, 'Florial Irrigation Assistant', 'system',
+          'irrigation_project_attached', order.status, order.status,
+          'Предварителният проект за поливане е запазен към поръчката.',
+          JSON.stringify({ schemaVersion: 1, pdfVersion: 1, deliveryStatus: 'stored', project: irrigationProjectForPdf }),
+          new Date().toISOString(),
+        ).run()
+      } catch (error) {
+        console.error('Irrigation project snapshot persistence failed:', error instanceof Error ? error.message : 'unknown')
+        irrigationProjectEventId = null
+        irrigationProjectForPdf = null
+      }
+    } else {
+      console.warn('Irrigation project snapshot rejected:', validation.reason)
+    }
+  }
+
+  const updateIrrigationProjectDelivery = async (deliveryStatus: string, detail?: string) => {
+    if (!irrigationProjectEventId || !irrigationProjectForPdf) return
+    try {
+      await env.DB.prepare('UPDATE order_events SET metadata=? WHERE id=?').bind(
+        JSON.stringify({
+          schemaVersion: 1,
+          pdfVersion: 1,
+          deliveryStatus,
+          ...(detail ? { deliveryDetail: detail.slice(0, 160) } : {}),
+          project: irrigationProjectForPdf,
+        }),
+        irrigationProjectEventId,
+      ).run()
+    } catch (error) {
+      console.error('Irrigation project delivery status update failed:', error instanceof Error ? error.message : 'unknown')
+    }
+  }
 
   // Push is best-effort and only runs after the order has been committed to D1.
   await dispatchManagerPush(env, 'order', orderNumber)
@@ -375,6 +427,40 @@ const handleOrderPost = async ({
     for (const result of mailResults) {
       if (result.status === 'rejected') console.error('Order email failed:', result.reason)
     }
+
+    if (irrigationProjectForPdf && irrigationProjectEventId) {
+      if (sellerEmail && /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(sellerEmail)) {
+        try {
+          const projectPdf = await createIrrigationProjectPdf(
+            irrigationProjectForPdf as any,
+            orderNumber,
+            String(order.created_at),
+            env.PROFORMA_FONT_URL,
+          )
+          await sendOrderEmail(
+            env.RESEND_API_KEY,
+            env.EMAIL_FROM,
+            sellerEmail,
+            'Предварителен проект за поливане към поръчка ' + orderNumber + ' — Florial',
+            '<h1>Предварителен проект за автоматично поливане</h1><p>Към поръчка ' + escapeHtml(orderNumber) + ' е приложен PDF с геометрията, позициите на разпръсквачите, зонирането, схематичните трасета и ведомостта на материалите.</p><p>Проектът е предварителен и не съдържа хидравлично оразмеряване.</p>',
+            [{
+              filename: 'Florial-' + orderNumber + '-irrigation-project.pdf',
+              content: toBase64(projectPdf),
+              type: 'application/pdf',
+            }],
+            'florial-irrigation-project-' + orderNumber,
+          )
+          await updateIrrigationProjectDelivery('sent')
+        } catch (error) {
+          console.error('Irrigation project PDF/email failed:', error instanceof Error ? error.message : 'unknown')
+          await updateIrrigationProjectDelivery('failed', error instanceof Error ? error.message : 'unknown')
+        }
+      } else {
+        await updateIrrigationProjectDelivery('owner_email_not_configured')
+      }
+    }
+  } else if (irrigationProjectForPdf) {
+    await updateIrrigationProjectDelivery('email_not_configured')
   }
 
   return json({ orderNumber }, 201)

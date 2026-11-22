@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CartItem } from '../types'
-import { createOrder } from '../services/orderService'
+import { createOrder, type IrrigationProjectSnapshot } from '../services/orderService'
 import { trackPostHogEvent } from '../services/trackingService'
 
 interface CartPageProps {
   cart: CartItem[]
+  irrigationProject: IrrigationProjectSnapshot | null
+  onClearIrrigationProject: () => void
   onUpdateQuantity: (itemKey: string, quantity: number) => void
   onRemoveItem: (itemKey: string) => void
   onClearCart: () => void
@@ -14,6 +16,8 @@ interface CartPageProps {
 
 export function CartPage({
   cart,
+  irrigationProject,
+  onClearIrrigationProject,
   onUpdateQuantity,
   onRemoveItem,
   onClearCart,
@@ -102,6 +106,7 @@ export function CartPage({
         delivery_method: deliveryMethod,
         payment_method: paymentMethod,
         comment: formData.comment.trim(),
+        ...(irrigationProject ? { irrigationProject } : {}),
         items: cart.map((item) => ({
           productId: item.product._id,
           qty: item.quantity,
@@ -114,6 +119,7 @@ export function CartPage({
       setOrderNumber(result.orderNumber)
       setOrderSubmitted(true)
       onClearCart()
+      onClearIrrigationProject()
     } catch (error) {
       setSubmitError(
         error instanceof Error
@@ -166,6 +172,13 @@ export function CartPage({
       <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8">
         {t('Количка за пазаруване')}
       </h1>
+
+      {irrigationProject && (
+        <div className="mb-6 rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-950">
+          <p className="font-bold">{language === 'ru' ? 'Проект полива приложен к заказу' : language === 'en' ? 'Irrigation project attached to this order' : 'Проектът за напояване е приложен към поръчката'}</p>
+          <p className="mt-1 leading-6">{language === 'ru' ? 'После успешного оформления Florial получит отдельный PDF со схемой, зонами и ведомостью материалов. Если изменить количество или удалить позицию из комплекта, проект будет отключён, чтобы не отправлять неверную схему.' : language === 'en' ? 'After successful checkout, Florial will receive a separate PDF with the layout, zones and bill of materials. Changing the quantity or removing a kit item detaches the project to prevent sending an outdated plan.' : 'След успешно оформяне Florial ще получи отделен PDF със схемата, зоните и ведомостта на материалите. При промяна на количеството или премахване на артикул от комплекта проектът се изключва, за да не бъде изпратена неточна схема.'}</p>
+        </div>
+      )}
 
       {cart.length === 0 ? (
         <div className="bg-white rounded-2xl border border-slate-100 p-12 text-center shadow-sm">

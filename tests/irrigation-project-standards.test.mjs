@@ -85,9 +85,22 @@ test('a branch with more than six heads is split into independent zones of at mo
     { id: 'interior-1', position: { x: 12.5, y: 2.5 }, arcDeg: 360, source: 'interior' },
   ])
   const zones = buildIrrigationZones(extended, rectangle)
-  assert.deepEqual(zones.map((zone) => zone.sprinklerCount), [6, 6, 1])
-  assert.equal(zones[2].zoneType, 'interior')
+  assert.deepEqual(zones.map((zone) => zone.sprinklerCount), [5, 4, 4])
+  assert.equal(zones[2].zoneType, 'mixed')
   assert.ok(zones.slice(0, 2).every((zone) => zone.zoneType === 'perimeter'))
   assert.ok(zones.every((zone) => zone.sprinklerCount <= 6))
   assert.equal(zones.reduce((sum, zone) => sum + zone.sprinklerCount, 0), extended.length)
+})
+
+
+test('14 perimeter and interior heads are evenly balanced without separating by arc', () => {
+  const fourteen = mixedPerimeterHeads.concat([
+    { id: 'interior-1', position: { x: 10, y: 3 }, arcDeg: 360, source: 'interior' },
+    { id: 'interior-2', position: { x: 15, y: 3 }, arcDeg: 360, source: 'interior' },
+  ])
+  const zones = buildIrrigationZones(fourteen, rectangle)
+  assert.deepEqual(zones.map((zone) => zone.sprinklerCount), [5, 5, 4])
+  assert.equal(zones[2].zoneType, 'mixed')
+  assert.ok(zones.every((zone) => zone.sprinklerCount <= 6))
+  assert.equal(new Set(zones.flatMap((zone) => zone.sprinklerIds)).size, fourteen.length)
 })

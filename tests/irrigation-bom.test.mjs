@@ -19,8 +19,8 @@ test('builds a complete catalog bill of materials per sprinkler and sequential z
     ],
   }
   const zones = [
-    { id: 'zone-01', zoneNumber: 1, zoneType: 'perimeter', sprinklerIds: ['p0','p1','p2','p3','p4','p5'] },
-    { id: 'zone-02', zoneNumber: 2, zoneType: 'interior', sprinklerIds: ['i0','i1'] },
+    { id: 'zone-01', zoneNumber: 1, zoneType: 'perimeter', sprinklerIds: ['p0','p1','p2','p3'] },
+    { id: 'zone-02', zoneNumber: 2, zoneType: 'mixed', sprinklerIds: ['p4','p5','i0','i1'] },
   ]
 
   const result = buildIrrigationBillOfMaterials(layout, zones)
@@ -29,6 +29,8 @@ test('builds a complete catalog bill of materials per sprinkler and sequential z
   assert.equal(result.zoneCount, 2)
   assert.equal(result.flexPipeRequiredM, 8)
   assert.equal(result.flexPipeCoils30m, 1)
+  assert.deepEqual(zones.map((zone) => zone.sprinklerIds.length), [4, 4])
+  assert.equal(zones[1].zoneType, 'mixed')
 
   const quantities = Object.fromEntries(result.items.map((item) => [item.sku, item.quantity]))
   assert.deepEqual(quantities, {

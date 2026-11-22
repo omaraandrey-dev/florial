@@ -127,16 +127,8 @@ function branchDistance(forwardOffsetM, direction, perimeterLengthM) {
 }
 
 /**
- * Splits the complete sprinkler set into balanced zones, independently of
- * perimeter direction or nozzle arc. A zone may be supplied by two source-fed
- * perimeter routes when its heads lie on both sides of the water connection.
- */
-/**
- * Assign perimeter heads in the actual pipe-laying sequence:
- * start at the top-right water connection, move left along the upper edge,
- * then continue around the lawn. Interior 360-degree heads are grouped last.
- * Each group contains at most six heads; perimeter groups are never balanced
- * by borrowing heads from the opposite side of the perimeter.
+ * Preserves installation order but balances the complete sprinkler set across
+ * the minimum number of zones, allowing every arc and source type to coexist.
  */
 export function buildIrrigationZones(sprinklers = [], geometry) {
   const context = buildPerimeterContext(geometry)
@@ -168,40 +160,41 @@ export function buildIrrigationZones(sprinklers = [], geometry) {
     else perimeterEntries.push(entry)
   }
 
-  // Perimeter sequence begins at the water connection and follows the lawn
-  // boundary continuously in the forward direction.
+  // Preserve a deterministic installation sequence: perimeter heads first
+  // from the top-right connection, followed by interior heads in row-major order.
   perimeterEntries.sort((a, b) =>
     a.location.forwardOffsetM - b.location.forwardOffsetM ||
     String(a.sprinkler.id).localeCompare(String(b.sprinkler.id)))
-
-  // Interior circular heads form the final zone group(s), not gaps in the
-  // perimeter sequence. Row-major ordering keeps the result deterministic.
   interiorEntries.sort((a, b) =>
     b.sprinkler.position.y - a.sprinkler.position.y ||
     a.sprinkler.position.x - b.sprinkler.position.x ||
     String(a.sprinkler.id).localeCompare(String(b.sprinkler.id)))
 
+  const entries = perimeterEntries.concat(interiorEntries)
   const limit = FLORIAL_IRRIGATION_PROJECT_STANDARD.zoneCapacity.maxHeadsPerZone
+  const zoneCount = Math.ceil(entries.length / limit)
+  const baseSize = Math.floor(entries.length / zoneCount)
+  const largerZoneCount = entries.length % zoneCount
   const zones = []
-  const appendGroups = (entries, zoneType) => {
-    for (let offset = 0; offset < entries.length; offset += limit) {
-      const batch = entries.slice(offset, offset + limit)
-      const branchDirections = [...new Set(batch.map((entry) => entry.branchDirection))]
-      const zoneNumber = zones.length + 1
-      zones.push(Object.freeze({
-        id: 'zone-' + String(zoneNumber).padStart(2, '0'),
-        zoneNumber,
-        zoneType,
-        branchDirection: branchDirections.length === 1 ? branchDirections[0] : 'mixed',
-        branchDirections: Object.freeze(branchDirections),
-        sprinklerIds: Object.freeze(batch.map((entry) => entry.sprinkler.id)),
-        sprinklerCount: batch.length,
-      }))
-    }
-  }
+  let offset = 0
 
-  appendGroups(perimeterEntries, 'perimeter')
-  appendGroups(interiorEntries, 'interior')
+  for (let index = 0; index < zoneCount; index += 1) {
+    const groupSize = baseSize + (index < largerZoneCount ? 1 : 0)
+    const batch = entries.slice(offset, offset + groupSize)
+    offset += groupSize
+    const branchDirections = [...new Set(batch.map((entry) => entry.branchDirection))]
+    const sourceTypes = new Set(batch.map((entry) => entry.sprinkler.source === 'interior' ? 'interior' : 'perimeter'))
+    const zoneNumber = index + 1
+    zones.push(Object.freeze({
+      id: 'zone-' + String(zoneNumber).padStart(2, '0'),
+      zoneNumber,
+      zoneType: sourceTypes.size === 1 ? [...sourceTypes][0] : 'mixed',
+      branchDirection: branchDirections.length === 1 ? branchDirections[0] : 'mixed',
+      branchDirections: Object.freeze(branchDirections),
+      sprinklerIds: Object.freeze(batch.map((entry) => entry.sprinkler.id)),
+      sprinklerCount: batch.length,
+    }))
+  }
   return Object.freeze(zones)
 }
 
@@ -281,9 +274,9 @@ export function buildPerimeterPipeNetwork(geometry, sprinklers = [], zones = nul
       .map((sprinkler) => {
         const location = locateSprinklerOnPerimeter(sprinkler.position, context)
         if (!location) return null
-        const branchDirection = zone.zoneType === 'perimeter'
-          ? 'forward'
-          : (location.forwardOffsetM < context.perimeterLengthM / 2 - EPSILON ? 'forward' : 'reverse')
+        const branchDirection = sprinkler.source === 'interior'
+          ? (location.forwardOffsetM < context.perimeterLengthM / 2 - EPSILON ? 'forward' : 'reverse')
+          : 'forward'
         return {
           sprinkler,
           location,
