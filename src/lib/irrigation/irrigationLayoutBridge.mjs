@@ -35,7 +35,6 @@ function stripOptions(shortSideM) {
       exact.push(Object.freeze({
         model,
         dimensionsM: point.dimensionsM,
-        flowLpm: point.flowLpm,
         pressureBar: point.pressureBar,
       }))
     }
