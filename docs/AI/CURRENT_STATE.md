@@ -9,6 +9,7 @@
 - Main CI after #476: `45014654327` / `45014654333`; after #477: `45015013305` / `45015013373`; after docs PR #478: `45015394038` / `45015394028`; all succeeded.
 - Final code Preview: `https://988ce669.florial.pages.dev/irrigation-assistant`. Runtime Production deployment `c122e2dd-e854-44fd-a68b-bfc2bcb4524a` succeeded from #477 merge SHA. Documentation-only Production deployment `9d0f5458-5d55-4062-83a7-43acd7fea564` succeeded from current main SHA `6ce23f86620b466b9a8a40cd65556bfd5df14342`; aliases remain `https://florial-bg.com` and `https://www.florial-bg.com`.
 - No Production order or test email was created. Actual Resend inbox delivery and checkout E2E remain unverified pending an owner-approved safe test. No Sanity write, D1 schema/data migration, Cloudflare settings/secrets change.
+- Live Production D1 was checked read-only: `order_events` contains the required `id`, `order_id`, `order_number`, actor, event, note, metadata and timestamp columns; `schema_migrations` confirms versions `0001_initial` through `0017_manager_push_subscriptions`. Both queries reported zero rows written.
 - Hydraulic sizing, dynamic pressure/flow, six-head hydraulic suitability, Ø25/Ø32 mainline confirmation, overspray/DU/CU and field validation remain open. The six-head limit is a grouping rule only.
 - Technical guide: `docs/engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md`.
 
