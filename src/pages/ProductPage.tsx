@@ -203,9 +203,8 @@ export function ProductPage({
   const careGuideBlocks = isPlantProduct(product) && Array.isArray(product.careGuide) ? product.careGuide : []
   const localizedDescription = preferFormattedDescription(product.translations?.[language]?.formattedDescription, localize(product, 'description'))
   const hasDescription = Boolean(toPlainText(localizedDescription).trim())
-  const equipmentSpecifications = !isPlantProduct(product)
-    ? (((localize(product, 'specifications') as any[] | undefined) || product.specifications) || []).filter((spec) => localize(spec, 'name') && localize(spec, 'value'))
-    : []
+  const localizedSpecifications = (((localize(product, 'specifications') as any[] | undefined) || product.specifications) || []).filter((spec) => localize(spec, 'name') && localize(spec, 'value'))
+  const equipmentSpecifications = isPlantProduct(product) ? [] : localizedSpecifications
   const featuredEquipmentSpecifications = equipmentSpecifications.slice(0, 3)
   const hasBotanicalCare = Boolean(plantCare && (
     ['sun', 'partialShade', 'shade'].includes(String(plantCare.light || '')) ||
@@ -554,7 +553,7 @@ export function ProductPage({
                 {featuredEquipmentSpecifications.length > 0 && (
                   <div className="mt-4 grid grid-cols-1 gap-2 border-t border-emerald-100 pt-4 sm:grid-cols-2">
                     {featuredEquipmentSpecifications.map((spec, index) => (
-                      <div key={spec._key || `${localize(spec, 'name')}-${index}`} className="rounded-lg border border-white/80 bg-white/80 px-3 py-2.5">
+                      <div key={`${localize(spec, 'name')}-${index}`} className="rounded-lg border border-white/80 bg-white/80 px-3 py-2.5">
                         <p className="text-xs font-medium text-slate-500">{localize(spec, 'name')}</p>
                         <p className="mt-1 text-sm font-bold text-slate-900">{localize(spec, 'value')} {spec.unit || ''}</p>
                       </div>
@@ -660,11 +659,11 @@ export function ProductPage({
               <h2 className="text-xl font-bold text-slate-900">{t('Технически характеристики')}</h2>
               <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Все параметры, указанные для этого товара.' : language === 'en' ? 'All specifications provided for this product.' : 'Всички посочени параметри за този продукт.'}</p>
             </div>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{equipmentSpecifications.length}</span>
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{localizedSpecifications.length}</span>
           </div>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            {equipmentSpecifications.map((spec, i) => (
-              <div key={spec._key || `${localize(spec, 'name')}-${i}`} className="flex min-h-14 items-center justify-between gap-4 rounded-xl border border-slate-100 bg-slate-50/80 px-4 py-3">
+            {localizedSpecifications.map((spec, i) => (
+              <div key={`${localize(spec, 'name')}-${i}`} className="flex min-h-14 items-center justify-between gap-4 rounded-xl border border-slate-100 bg-slate-50/80 px-4 py-3">
                 <span className="text-sm font-medium text-slate-600">{localize(spec, 'name')}</span>
                 <span className="text-right text-sm font-bold text-slate-900">{localize(spec, 'value')} {spec.unit || ''}</span>
               </div>
