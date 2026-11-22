@@ -34,7 +34,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       length: 'Общая длина, м', width: 'Общая ширина, м', cutoutWidth: 'Ширина выреза, м', cutoutDepth: 'Глубина выреза, м',
       cutoutCorner: 'В каком углу находится вырез?', cornerTopLeft: 'Сверху слева', cornerTopRight: 'Сверху справа', cornerBottomLeft: 'Снизу слева', cornerBottomRight: 'Снизу справа',
       geometryHint: 'Укажите приблизительные размеры. Для Г-образной формы задайте общие габариты и размеры отсутствующей прямоугольной части.',
-      geometryPreview: 'Схема по вашим размерам', calculatedArea: 'Площадь по контуру', perimeter: 'Периметр контура',
+      geometryPreview: 'Предварительная схема по приблизительным размерам', calculatedArea: 'Площадь по контуру', perimeter: 'Периметр контура',
       geometryInvalid: 'Проверьте размеры. Все значения должны быть больше нуля, а вырез — меньше общей длины и ширины.',
       geometryNotConfirmed: 'Подтвердите контур, чтобы продолжить.', geometryAccepted: 'Контур подтверждён вами. Это подтверждение исходных размеров, не инженерная проверка.',
       waterTitle: 'Выберите источник воды', mains: 'Водопровод', well: 'Скважина / колодец', tank: 'Резервуар / ёмкость', unknown: 'Пока не знаю',
@@ -61,7 +61,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
         elevation_profile_or_verified_zero: 'Перепад высот или подтверждение его отсутствия',
         network_restrictions: 'Фильтры, счётчики, клапаны и другие ограничения',
       },
-      disclaimer: 'Это предварительный геометрический сценарий на основе подтверждённого контура и точной таблицы производителя. Он не является гидравлическим расчётом или готовым проектом. Потери в трубах, зоны, давление на соплах, совместимость корпуса и форсунки и отсутствие перелива за границы участка пока не проверены.',
+      disclaimer: 'Это предварительный геометрический сценарий на основе приблизительных размеров и точной таблицы производителя. Он не является гидравлическим расчётом или готовым проектом. Потери в трубах, зоны, давление на соплах, совместимость корпуса и форсунки и отсутствие перелива за границы участка пока не проверены.',
       edit: 'Изменить ответы', home: 'Вернуться в магазин', unit: 'м²', noValue: 'Не указано',
       conversation: 'Диалог с помощником', projectPanel: 'Данные проекта', progress: 'Заполнение проекта',
       assistant: 'Помощник Florial', you: 'Вы', notSent: 'Ответ остаётся в этом окне браузера. На сервер он пока не отправляется.',
@@ -76,10 +76,10 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       length: 'Overall length, m', width: 'Overall width, m', cutoutWidth: 'Cut-out width, m', cutoutDepth: 'Cut-out depth, m',
       cutoutCorner: 'Which corner contains the cut-out?', cornerTopLeft: 'Top left', cornerTopRight: 'Top right', cornerBottomLeft: 'Bottom left', cornerBottomRight: 'Bottom right',
       geometryHint: 'Enter approximate dimensions. For an L-shape, enter the overall dimensions and the missing rectangular corner.',
-      geometryPreview: 'Outline from your measurements', calculatedArea: 'Area from outline', perimeter: 'Outline perimeter',
+      geometryPreview: 'Preliminary outline from approximate dimensions', calculatedArea: 'Area from outline', perimeter: 'Outline perimeter',
       confirmGeometry: 'I confirm these dimensions were measured on site and the outline matches the actual lawn.',
       geometryInvalid: 'Check the dimensions. All values must be greater than zero and the cut-out must be smaller than the overall length and width.',
-      geometryNotConfirmed: 'Confirm the outline to continue.', geometryAccepted: 'You confirmed the outline. This confirms the input dimensions, not an engineering design.',
+      geometryNotConfirmed: 'Enter valid dimensions to continue.', geometryAccepted: 'A preliminary outline has been created from approximate dimensions.',
       waterTitle: 'Choose the water source', mains: 'Mains water', well: 'Borehole / well', tank: 'Storage tank', unknown: 'Not sure yet',
       pressureTitle: 'Water pressure', pressureUnknown: 'Not measured / not sure', static: 'Static — no water flowing', dynamic: 'Dynamic — measured while water flows',
       pressureValue: 'Measured pressure, bar', pressureMeasured: 'I confirm the pressure was measured while water was flowing.',
@@ -104,7 +104,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
         elevation_profile_or_verified_zero: 'Elevation difference or verified zero difference',
         network_restrictions: 'Filters, meters, valves and other restrictions',
       },
-      disclaimer: 'This is a preliminary geometric scenario based on the confirmed boundary and an exact manufacturer table point. It is not a hydraulic calculation or a completed design. Pipe losses, zones, nozzle pressure, body/nozzle compatibility and overspray beyond the lawn boundary have not been verified.',
+      disclaimer: 'This is a preliminary geometric scenario based on approximate dimensions and an exact manufacturer table point. It is not a hydraulic calculation or a completed design. Pipe losses, zones, nozzle pressure, body/nozzle compatibility and overspray beyond the lawn boundary have not been verified.',
       edit: 'Edit answers', home: 'Return to the shop', unit: 'm²', noValue: 'Not provided',
       conversation: 'Assistant conversation', projectPanel: 'Project details', progress: 'Project intake',
       assistant: 'Florial assistant', you: 'You', notSent: 'Your answers stay in this browser view and are not sent to a server yet.',
@@ -119,10 +119,10 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       length: 'Обща дължина, м', width: 'Обща ширина, м', cutoutWidth: 'Ширина на изреза, м', cutoutDepth: 'Дълбочина на изреза, м',
       cutoutCorner: 'В кой ъгъл е изрезът?', cornerTopLeft: 'Горе вляво', cornerTopRight: 'Горе вдясно', cornerBottomLeft: 'Долу вляво', cornerBottomRight: 'Долу вдясно',
       geometryHint: 'Въведете приблизителните размери. За Г-образна форма задайте общите габарити и размерите на липсващата правоъгълна част.',
-      geometryPreview: 'Контур според въведените размери', calculatedArea: 'Площ по контура', perimeter: 'Периметър на контура',
+      geometryPreview: 'Предварителен контур според приблизителните размери', calculatedArea: 'Площ по контура', perimeter: 'Периметър на контура',
       confirmGeometry: 'Потвърждавам, че размерите са измерени на място и контурът съответства на реалната тревна площ.',
       geometryInvalid: 'Проверете размерите. Всички стойности трябва да са положителни, а изрезът — по-малък от общата дължина и ширина.',
-      geometryNotConfirmed: 'Потвърдете контура, за да продължите.', geometryAccepted: 'Вие потвърдихте контура. Това е потвърждение на входните размери, а не инженерно одобрение.',
+      geometryNotConfirmed: 'Въведете валидни размери, за да продължите.', geometryAccepted: 'Предварителният контур е построен по приблизителните размери.',
       waterTitle: 'Изберете водоизточник', mains: 'Водопровод', well: 'Сондаж / кладенец', tank: 'Резервоар / съд', unknown: 'Все още не знам',
       pressureTitle: 'Налягане на водата', pressureUnknown: 'Не е измерено / не знам', static: 'Статично — без протичане на вода', dynamic: 'Динамично — измерено при протичане на вода',
       pressureValue: 'Измерено налягане, bar', pressureMeasured: 'Потвърждавам, че налягането е измерено при протичане на вода.',
@@ -147,7 +147,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
         elevation_profile_or_verified_zero: 'Разлика във височината или потвърдена липса на такава',
         network_restrictions: 'Филтри, водомери, клапани и други ограничения',
       },
-      disclaimer: 'Това е предварителен геометричен сценарий според потвърдения контур и точна точка от таблицата на производителя. Това не е хидравлично изчисление или завършен проект. Загубите в тръбите, зоните, налягането при дюзите, съвместимостта на корпуса и дюзата и разпръскването извън тревната площ все още не са проверени.',
+      disclaimer: 'Това е предварителен геометричен сценарий според приблизителните размери и точна точка от таблицата на производителя. Това не е хидравлично изчисление или завършен проект. Загубите в тръбите, зоните, налягането при дюзите, съвместимостта на корпуса и дюзата и разпръскването извън тревната площ все още не са проверени.',
       edit: 'Промени отговорите', home: 'Обратно към магазина', unit: 'м²', noValue: 'Не е посочено',
       conversation: 'Разговор с помощника', projectPanel: 'Данни за проекта', progress: 'Попълване на проекта',
       assistant: 'Помощник Florial', you: 'Вие', notSent: 'Отговорите остават в този прозорец на браузъра и засега не се изпращат към сървър.',
@@ -254,12 +254,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     if (stage === 1) return geometryAccepted
       ? shapeLabel + ' · ' + length + ' × ' + width + ' м · ' + numberFormat(calculatedArea) + ' ' + copy.unit
       : copy.geometryMissing
-    if (stage === 2) return waterLabel
-    if (stage === 3) {
-      const pressure = pressureBar ? pressureBar + ' bar · ' + pressureLabel : copy.pressureUnknown
-      const flow = flowRate ? flowRate + ' ' + copy.flowValue.split(',')[1]?.trim() : copy.noValue
-      return pressure + ' · ' + flow
-    }
     return notes.trim() || copy.noValue
   }
 
