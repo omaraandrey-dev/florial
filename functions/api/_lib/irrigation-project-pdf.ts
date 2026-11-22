@@ -8,7 +8,8 @@ type IrrigationProject = {
   layout: { model: string; engineVersion: string; algorithm: string; sprinklers: Array<{ id: string; position: ProjectPoint; radiusM: number; arcDeg: number; performanceModel: string; source: string }> }
   zones: Array<{ id: string; zoneNumber: number; zoneType: string; sprinklerIds: string[] }>
   pipeNetwork: { mainDiameterMm: number | null; zoneDiameterMm: number | null; mainRoute: ProjectPoint[]; branches: Array<{ zoneId: string; branchDirection: string; sprinklerIds: string[]; points: ProjectPoint[]; lateralConnections: Array<{ sprinklerId: string; points: ProjectPoint[] }> }> } | null
-  billOfMaterials: { headCount: number; zoneCount: number; flexPipeRequiredM: number | null; flexPipeCoils30m: number | null; items: Array<{ sku: string; quantity: number; name: string }> }
+  automation?: { type: 'manual' | 'tm2' | 'rc2' | 'bat'; controllers: Array<{ sku: string; name: string; capacity: number; quantity: number; zoneNumbers: number[]; priceEUR: number | null }>; valve: { sku: string; name: string; quantity: number; priceEUR: number | null } | null; requiresControlCable: boolean; wifiRequired: boolean; totalPriceEUR: number }
+  billOfMaterials: { headCount: number; zoneCount: number; flexPipeRequiredM: number | null; flexPipeCoils30m: number | null; items: Array<{ sku: string; quantity: number; name: string; priceEUR?: number | null }> }
   warnings: Array<{ code: string; path: string }>
 }
 
@@ -157,11 +158,42 @@ export const createIrrigationProjectPdf = async (
     write(branch.zoneId + ' / ' + branch.branchDirection + ': ' + coords, { size: 6.5 })
   }
 
-  heading('4. Ведомост на материалите')
-  write('Необходима гъвкава връзка: ' + (project.billOfMaterials.flexPipeRequiredM ?? '—') + ' m · Закупуване: ' + (project.billOfMaterials.flexPipeCoils30m ?? '—') + ' бр. ролки по 30 m.')
-  for (const item of project.billOfMaterials.items) write(item.name + ' · ' + item.sku + ' — ' + item.quantity + ' бр.', { size: 7 })
+  heading('4. Автоматика и управление')
+  write('Всички посочени цени са с включен ДДС.', { size: 6.5, color: muted })
+  const automation = project.automation
+  if (!automation) {
+    write('Типът управление не е записан в тази версия на проекта.', { color: muted })
+  } else if (automation.type === 'manual') {
+    write('Ръчно управление с кранове. Автоматични контролери, електромагнитни клапани и кутии за клапани не са включени в комплекта.')
+  } else {
+    for (const controller of automation.controllers) {
+      write(controller.name + ' · ' + controller.quantity + ' бр. · капацитет ' + controller.capacity + ' зони · зони ' + controller.zoneNumbers.join(', '), { size: 7 })
+      if (controller.priceEUR != null) write('Цена: ' + controller.priceEUR.toFixed(2) + ' € / бр. · общо ' + (controller.priceEUR * controller.quantity).toFixed(2) + ' €', { size: 7, color: muted })
+    }
+    if (automation.valve) {
+      write('Съвместим клапан: ' + automation.valve.name + ' · ' + automation.valve.quantity + ' бр. · SKU ' + automation.valve.sku, { size: 7 })
+      if (automation.valve.priceEUR != null) write('Цена: ' + automation.valve.priceEUR.toFixed(2) + ' € / бр. · общо ' + (automation.valve.priceEUR * automation.valve.quantity).toFixed(2) + ' €', { size: 7, color: muted })
+    }
+    write('Обща стойност на избраната автоматика: ' + automation.totalPriceEUR.toFixed(2) + ' €', { size: 8, color: green })
+    if (automation.requiresControlCable) {
+      write('Монтаж: необходимо е полагане на управляващ кабел от контролера до електромагнитните клапани. Кабелът и трудът по полагането не са включени в тази автоматична калкулация.', { size: 7 })
+    }
+    if (automation.wifiRequired) {
+      write('За Wi-Fi контролера е необходим стабилен Wi-Fi сигнал на мястото на монтаж.', { size: 7 })
+    }
+    if (automation.type === 'bat') {
+      write('За всяка зона е предвиден Rain Bird 100-HV-9V (H01040). Съвместимостта с ESP-BAT-BT изисква обновен корпус HV (производство от 30.06.2025 г.) и съвместим фиксиращ соленоид TBOSPSOL 9 V DC; старата ревизия не е съвместима.', { size: 7 })
+    }
+  }
 
-  heading('5. Допускания и ограничения')
+  heading('5. Ведомост на материалите')
+  write('Необходима гъвкава връзка: ' + (project.billOfMaterials.flexPipeRequiredM ?? '—') + ' m · Закупуване: ' + (project.billOfMaterials.flexPipeCoils30m ?? '—') + ' бр. ролки по 30 m.')
+  for (const item of project.billOfMaterials.items) {
+    const price = item.priceEUR == null ? '' : ' · ' + item.priceEUR.toFixed(2) + ' € / бр.'
+    write(item.name + ' · ' + item.sku + ' — ' + item.quantity + ' бр.' + price, { size: 7 })
+  }
+
+  heading('6. Допускания и ограничения')
   const limitations = [
     'Документът е предварителна геометрична схема, а не окончателен монтажен или хидравличен проект.',
     'Не са изчислявани дебит, динамично налягане, загуби по дължина и местни съпротивления, скорости и остатъчно налягане.',

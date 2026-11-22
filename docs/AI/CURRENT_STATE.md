@@ -1,3 +1,15 @@
+# Latest implementation — irrigation automation selection (PR pending)
+
+- Branch: `feat/irrigation-automation-selection`, based on the current main HEAD checked at task start: `b9d4b5e5bcd45721cac9605c36a5eadb2391c3a6`.
+- Added a customer choice after reviewing the lawn BOM: manual, TM2 wired, RC2 Wi-Fi or BAT-BT battery/Bluetooth. Manual excludes both the electromagnetic valve SKU and VBA02672 valve boxes. TM2/RC2 add real Sanity controllers and retain standard valves/boxes; BAT adds ESP-BAT-BT controller(s) and replaces the standard valve with 100-HV-9V SKU H01040 per zone. H01040 compatibility requires the updated HV bonnet manufactured from 30.06.2025 and a compatible TBOSPSOL 9 V DC latching solenoid.
+- Controller allocations follow the owner-approved 9-zone 6+4 and 10–12-zone 6+6 rules. The UI displays catalog photos, live EUR prices, quantities and totals; TM2/RC2 explicitly show cable-routing work, RC2 additionally requires stable Wi-Fi.
+- Automation metadata and resolved price lines are validated server-side against order items and included in the owner project PDF. Existing D1 `order_events.metadata` is reused; no migration is required.
+- Catalog prices were read from published Sanity Production; checked products currently report `onRequest`. No Sanity writes were performed.
+- PR creation, CI, Preview and owner visual review are pending. No merge/Production deployment, real order, test email, D1 or Cloudflare configuration changes have been made.
+- Full audit: `docs/audits/2026-11-22-irrigation-automation-selection.md`.
+
+---
+
 # Latest main and Production — owner irrigation PDF handoff correction (PR #480 merged and deployed)
 
 - PR #480 squash-merged into `main` at `8214cdeef0183af6011f7f27aae5dd3730ef8ad5` (runtime release commit). The documentation closeout was then committed to `main`; read the live branch head for the latest documentation SHA.

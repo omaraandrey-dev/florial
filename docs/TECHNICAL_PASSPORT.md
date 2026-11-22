@@ -1,3 +1,15 @@
+## 2026-11-22 — Irrigation assistant automation selection (PR pending)
+
+- Branch `feat/irrigation-automation-selection`, based on main `b9d4b5e5bcd45721cac9605c36a5eadb2391c3a6`.
+- The assistant now inserts an explicit automation-choice stage before cart handoff: manual, Rain Bird ESP-TM2 wired, ESP-RC2 Wi-Fi or ESP-BAT-BT battery/Bluetooth.
+- Manual selection omits the assistant BOM's standard electromagnetic valve and VBA02672 valve boxes. TM2/RC2 add their controller(s), retain standard valves and valve boxes, and record cable-routing requirements from controller to valves; RC2 also records the stable Wi-Fi requirement. BAT replaces standard 100-HV with owner-selected 100-HV-9V SKU H01040 per zone and records controller-to-zone allocation. H01040 requires the updated HV bonnet manufactured from 30.06.2025 and a compatible TBOSPSOL 9 V DC latching solenoid; the published Sanity description has an older conflicting note.
+- Product cards use current published Sanity product images and EUR prices. Current checked products have `stockStatus=onRequest`.
+- The project snapshot validator reconciles controller and valve SKUs/quantities with server-resolved order lines, derives prices server-side, and stores the automation selection in the existing D1 order event. The owner PDF includes controller models, zone allocations, compatible valve, prices and installation notes.
+- No D1 migration, Sanity write, Cloudflare setting/secret change, Production order or test email. PR/CI/Preview and owner visual review pending.
+- Evidence and SKU/price allocation table: `docs/audits/2026-11-22-irrigation-automation-selection.md`.
+
+---
+
 ## 2026-11-22 — Irrigation project owner delivery and approval workflow (PR #480 merged; Production deployed)
 
 - PR #480 merged into `main` at `8214cdeef0183af6011f7f27aae5dd3730ef8ad5`; Cloudflare Pages Production deployment `e2469d28-10f3-4efc-b1b7-9e9290f3d02b` succeeded from the exact SHA.
