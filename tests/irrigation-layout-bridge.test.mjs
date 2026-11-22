@@ -78,6 +78,7 @@ test('20x10 reference case maintains complete coverage and perimeter head-to-hea
   assert.equal(result.operatingScenario?.model, 'R-VAN18')
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
+  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [4, 3, 6])
   const perimeterHeads = result.layout?.sprinklers?.filter((entry) =>
     Number.isFinite(entry.perimeterOffsetM)) ?? []
   assert.ok(perimeterHeads.length >= 8)
@@ -96,6 +97,7 @@ test('20x15 uses R-VAN24 when additional interior coverage is needed', () => {
   assert.deepEqual(interior.map((entry) => Number(entry.position.x.toFixed(2))), [6.67, 13.33])
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
+  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [4, 3, 4, 3])
 })
 
 test('narrow strips do not fall back to circular R-VAN or HE-VAN nozzles', () => {
