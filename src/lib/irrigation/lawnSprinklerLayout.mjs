@@ -199,16 +199,34 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
   const maxX = Math.max(...xs)
   const minY = Math.min(...ys)
   const maxY = Math.max(...ys)
-  const rowStep = radiusM * Math.sqrt(3) / 2
-  let row = 0
-  for (let y = minY + rowStep / 2; y < maxY - EPSILON; y += rowStep) {
-    const offset = row % 2 ? radiusM / 2 : 0
-    for (let x = minX + radiusM / 2 + offset; x < maxX - EPSILON; x += radiusM) {
-      const position = { x, y }
+    const isRectangle = vertices.length === 4 &&
+    new Set(vertices.map((point, index) => {
+      const next = vertices[(index + 1) % vertices.length]
+      return Math.abs(point.x - next.x) < EPSILON || Math.abs(point.y - next.y) < EPSILON
+    })).size === 1
+  if (isRectangle && Math.min(maxX - minX, maxY - minY) <= radiusM * 2) {
+    const horizontalLongAxis = maxX - minX >= maxY - minY
+    const longLength = horizontalLongAxis ? maxX - minX : maxY - minY
+    const divisions = Math.max(1, Math.ceil(longLength / radiusM))
+    for (let part = 0; part < divisions; part += 1) {
+      const along = (part + 0.5) / divisions
+      const position = horizontalLongAxis
+        ? { x: minX + longLength * along, y: (minY + maxY) / 2 }
+        : { x: (minX + maxX) / 2, y: minY + longLength * along }
       if (pointInRing(position, vertices) === 1) add(position, 360, { x: 1, y: 0 }, 'interior')
-      if (candidates.length > MAX_CANDIDATES) return null
     }
-    row += 1
+  } else {
+    const rowStep = radiusM * Math.sqrt(3) / 2
+    let row = 0
+    for (let y = minY + rowStep / 2; y < maxY - EPSILON; y += rowStep) {
+      const offset = row % 2 ? radiusM / 2 : 0
+      for (let x = minX + radiusM / 2 + offset; x < maxX - EPSILON; x += radiusM) {
+        const position = { x, y }
+        if (pointInRing(position, vertices) === 1) add(position, 360, { x: 1, y: 0 }, 'interior')
+        if (candidates.length > MAX_CANDIDATES) return null
+      }
+      row += 1
+    }
   }
   return candidates
 }
@@ -229,8 +247,10 @@ function evaluateCandidates(candidates, targets) {
   })
 }
 
-function selectGreedy(candidates, targetCount) {
-  const uncovered = new Set(Array.from({ length: targetCount }, (_, index) => index))
+function selectGreedy(candidates, targetCount, initialUncovered = null) {
+  const uncovered = initialUncovered
+    ? new Set(initialUncovered)
+    : new Set(Array.from({ length: targetCount }, (_, index) => index))
   const selected = []
   const available = candidates.slice()
 
@@ -453,7 +473,14 @@ export function generateLawnSprinklerLayout({
     })
   }
   const evaluated = evaluateCandidates(candidates, targets)
-  const { selected: coverageSelection, uncovered } = selectGreedy(evaluated, targets.length)
+  const perimeterCandidates = evaluated.filter((candidate) => candidate.source !== 'interior')
+  const interiorCandidates = evaluated.filter((candidate) => candidate.source === 'interior')
+  const perimeterCovered = new Set(perimeterCandidates.flatMap((candidate) => candidate.covered))
+  const perimeterUncovered = new Set(Array.from({ length: targets.length }, (_, index) => index)
+    .filter((index) => !perimeterCovered.has(index)))
+  const interiorSelection = selectGreedy(interiorCandidates, targets.length, perimeterUncovered)
+  const coverageSelection = [...perimeterCandidates, ...interiorSelection.selected]
+  const uncovered = interiorSelection.uncovered
   const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = evaluateHeadToHeadSpacing(sprinklers)
@@ -471,7 +498,7 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'deterministic-greedy-set-cover-v1',
+    algorithm: 'perimeter-first-corners-edges-then-interior-row-v2',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
