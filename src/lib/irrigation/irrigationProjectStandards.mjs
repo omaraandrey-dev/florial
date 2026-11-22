@@ -167,8 +167,17 @@ export function buildIrrigationZones(sprinklers = [], geometry) {
       String(a.sprinkler.id).localeCompare(String(b.sprinkler.id)))
 
     const limit = FLORIAL_IRRIGATION_PROJECT_STANDARD.zoneCapacity.maxHeadsPerZone
-    for (let offset = 0; offset < ordered.length; offset += limit) {
-      const batch = ordered.slice(offset, offset + limit)
+    const zoneCount = Math.ceil(ordered.length / limit)
+    const baseSize = Math.floor(ordered.length / zoneCount)
+    const extraHeads = ordered.length % zoneCount
+    let offset = 0
+
+    // Balance the last zone instead of creating an avoidable one-head zone
+    // (for example, 7 heads become 4 + 3 rather than 6 + 1).
+    for (let zoneIndex = 0; zoneIndex < zoneCount; zoneIndex += 1) {
+      const batchSize = baseSize + (zoneIndex < extraHeads ? 1 : 0)
+      const batch = ordered.slice(offset, offset + batchSize)
+      offset += batchSize
       zones.push(Object.freeze({
         id: 'zone-' + String(zones.length + 1).padStart(2, '0'),
         branchDirection,
