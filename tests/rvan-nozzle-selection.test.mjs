@@ -20,6 +20,7 @@ test('preferred R-VAN model is retained when possible and changed only when loca
   assert.equal(selectRvanModelForRadius(4.5, 'R-VAN18'), 'R-VAN18')
   assert.equal(selectRvanModelForRadius(3.5, 'R-VAN18'), 'R-VAN14')
   assert.equal(selectRvanModelForRadius(6.0, 'R-VAN18'), 'R-VAN24')
+  assert.equal(selectRvanModelForRadius(4.5, 'R-VAN18', 3.1, 360), 'R-VAN24')
 })
 
 test('radius resolution never reduces below the manufacturer's minimum', () => {
