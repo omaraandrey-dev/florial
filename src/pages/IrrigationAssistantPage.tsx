@@ -64,6 +64,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     ready: 'Схема подготовлена по стандартным условиям Florial', geometryReady: 'Контур принят для предварительной схемы', geometryMissing: 'Проверьте геометрию участка',
     waterTitle: 'Стандартные условия водоснабжения',
     waterAssumptions: 'Подключение к дюймовому крану в правом верхнем углу участка · давление 4 бара · подводящая труба Ø25 мм.',
+    manufacturerBasis: 'Радиусы R-VAN берутся из таблицы Rain Bird при рекомендованных 3,1 бар на форсунке. 4 бара — заданное давление в точке подключения; гидравлические потери не рассчитываются.',
     pipeAssumptions: 'Основная разводка по периметру — Ø32 мм. Ответвления к внутренним дождевателям — Ø25 мм.',
     lineAssumptions: 'На одну линию: до 6 дождевателей с секторным поливом или до 4 дождевателей с круговым поливом 360°.',
     hydraulicNotCalculated: 'Гидравлический расчёт не выполняется. Схема строится по заданным стандартным условиям Florial.',
@@ -97,6 +98,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     ready: 'Layout prepared using Florial standard assumptions', geometryReady: 'Outline accepted for preliminary layout', geometryMissing: 'Check the lawn geometry',
     waterTitle: 'Standard water-supply assumptions',
     waterAssumptions: 'Connection to a 1-inch tap at the top-right corner · 4 bar pressure · 25 mm supply pipe.',
+    manufacturerBasis: 'R-VAN radii use the Rain Bird table at its recommended 3.1 bar nozzle pressure. The 4 bar value is the fixed inlet-tap assumption; hydraulic losses are not calculated.',
     pipeAssumptions: 'Main route along the perimeter — 32 mm. Branches to internal sprinklers — 25 mm.',
     lineAssumptions: 'Per line: up to 6 sector sprinklers or up to 4 full-circle 360° sprinklers.',
     hydraulicNotCalculated: 'No hydraulic calculation is performed. The layout uses Florial’s predefined standard assumptions.',
@@ -130,6 +132,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     ready: 'Схемата е подготвена според стандартните условия на Florial', geometryReady: 'Контурът е приет за предварителна схема', geometryMissing: 'Проверете геометрията на тревната площ',
     waterTitle: 'Стандартни условия за водоснабдяване',
     waterAssumptions: 'Свързване към кран 1 цол в горния десен ъгъл · налягане 4 bar · захранваща тръба Ø25 мм.',
+    manufacturerBasis: 'Радиусите на R-VAN са по таблицата на Rain Bird при препоръчителни 3,1 bar при дюзата. 4 bar е зададеното налягане при входния кран; хидравличните загуби не се изчисляват.',
     pipeAssumptions: 'Основно трасе по периметъра — Ø32 мм. Отклонения към вътрешните разпръсквачи — Ø25 мм.',
     lineAssumptions: 'На една линия: до 6 секторни разпръсквача или до 4 кръгови разпръсквача 360°.',
     hydraulicNotCalculated: 'Не се извършва хидравлично изчисление. Схемата използва предварително зададените стандартни условия на Florial.',
@@ -307,7 +310,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
               <section className="rounded-2xl border border-slate-200 p-4">
                 <h3 className="font-bold text-slate-900">{copy.waterTitle}</h3>
                 <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
-                  <li>{copy.waterAssumptions}</li><li>{copy.pipeAssumptions}</li><li>{copy.lineAssumptions}</li>
+                  <li>{copy.waterAssumptions}</li><li>{copy.pipeAssumptions}</li><li>{copy.lineAssumptions}</li><li>{copy.manufacturerBasis}</li><li>{copy.manufacturerBasis}</li>
                 </ul>
               </section>
 
