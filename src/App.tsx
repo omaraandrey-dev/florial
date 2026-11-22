@@ -15,6 +15,7 @@ import { toPlainText } from './lib/richTextUtils.mjs'
 import { getAnalyticsConsent, trackEvent, trackPostHogEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
 import { IrrigationAssistantLauncher } from './components/IrrigationAssistantLauncher'
+import type { IrrigationProjectSnapshot } from './services/orderService'
 
 import type {
   CategoryItem,
@@ -312,6 +313,7 @@ export default function App() {
     return Boolean(route.activeServiceSlug && route.activeServiceSlug !== 'dostavka-poliv')
   })
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
+  const [irrigationProject, setIrrigationProject] = useState<IrrigationProjectSnapshot | null>(null)
   const [irrigationAssistantPhoto, setIrrigationAssistantPhoto] = useState<{ imageUrl?: string; imageAlt?: string; imageAltEn?: string; imageAltRu?: string } | null>(null)
 
   const [loadingProducts, setLoadingProducts] = useState(() => {
@@ -544,19 +546,32 @@ export default function App() {
     })
   }
 
+  const isIrrigationProjectCartItem = (item?: CartItem) => {
+    const sku = item?.product?.sku
+    const bomItems = (irrigationProject as any)?.billOfMaterials?.items
+    return Boolean(sku && Array.isArray(bomItems) && bomItems.some((entry: any) => entry.sku === sku))
+  }
+
   const handleUpdateQuantity = (itemKey: string, quantity: number) => {
     if (quantity <= 0) return handleRemoveFromCart(itemKey)
+    const changedItem = cart.find((item) => getCartItemKey(item.product, item.saleVariant) === itemKey)
+    if (isIrrigationProjectCartItem(changedItem)) setIrrigationProject(null)
     setCart((prev) => prev.map((item) =>
       getCartItemKey(item.product, item.saleVariant) === itemKey ? { ...item, quantity } : item
     ))
   }
 
   const handleRemoveFromCart = (itemKey: string) => {
+    const removedItem = cart.find((item) => getCartItemKey(item.product, item.saleVariant) === itemKey)
+    if (isIrrigationProjectCartItem(removedItem)) setIrrigationProject(null)
     setCart((prev) => prev.filter((item) => getCartItemKey(item.product, item.saleVariant) !== itemKey))
   }
 
   // Очистка корзины
-  const handleClearCart = () => setCart([])
+  const handleClearCart = () => {
+    setCart([])
+    setIrrigationProject(null)
+  }
 
   // Header has its own compact data requests. Neither page data nor route rendering waits for them.
   useEffect(() => {
@@ -1624,12 +1639,14 @@ export default function App() {
           )
       }>
         {isIrrigationAssistantRoute ? (
-          <IrrigationAssistantPage onNavigateHome={navigateToHome} onNavigateCart={navigateToCart} onAddToCart={handleAddToCart} />
+          <IrrigationAssistantPage onNavigateHome={navigateToHome} onNavigateCart={navigateToCart} onAddToCart={handleAddToCart} onSetIrrigationProject={setIrrigationProject} />
       ) : normalizedRoutePath === '/about' ? (
         <AboutPage services={headerServices} categories={categories} />
       ) : isCartOpen ? (
         <CartPage
           cart={cart}
+          irrigationProject={irrigationProject}
+          onClearIrrigationProject={() => setIrrigationProject(null)}
           onUpdateQuantity={handleUpdateQuantity}
           onRemoveItem={handleRemoveFromCart}
           onClearCart={handleClearCart}
