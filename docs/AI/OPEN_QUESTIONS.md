@@ -3,7 +3,7 @@
 - Implementation branch: `feat/irrigation-rvan-mixed-radius-strip-layout`; based on live `main`.
 - OPEN: exact-branch Cloudflare Pages Preview build and visual QA for 10 × 5 m, 20 × 10 m, 1.5 × 10 m strip, 1 × 10 m adjusted strip and vertical strip geometry.
 - OPEN: run the full application/Studio/D1 CI suite on a PR before any merge; no PR has been opened.
-- OPEN: verify test assertions and H2H results for 10 × 5 m perimeter-only and 20 × 10 m R-VAN24 centerline (with R-VAN24-360 full-circle heads).
+- OPEN: verify test assertions and directional H2H results for 10 × 5 m perimeter-only and 20 × 10 m R-VAN24 centerline (with R-VAN24-360 full-circle heads).
 - OPEN: validate L-shaped mixed-model candidate layouts and build LCS/RCS/SST decomposition for L-shaped narrow areas.
 - OPEN: expand circular R-VAN performance data to the complete manufacturer arc catalogue; current dataset remains a subset.
 - OPEN: adjusted-radius-specific flow/precipitation values are not available at arbitrary settings; current displayed flows remain nominal table points. Hydraulic feasibility, zones, pipe losses, precipitation uniformity and overspray are not evaluated.
