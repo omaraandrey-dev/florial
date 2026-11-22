@@ -1,7 +1,9 @@
 ## 2026-11-22 — Irrigation assistant R-VAN mixed-radius / strip-layout redesign
 
 - Implementation branch: `feat/irrigation-rvan-mixed-radius-strip-layout`; based on live `main`.
-- OPEN: exact-branch Cloudflare Pages Preview build and visual QA for 10 × 5 m, 20 × 10 m, 1.5 × 10 m strip, 1 × 10 m adjusted strip and vertical strip geometry.
+- PREVIEW BUILD: succeeded on exact commit `fe1b0bd989b84edb7136d994f7fe6fee27abd3f2`; preview `https://8b8b7e8c.florial.pages.dev/irrigation-assistant`.
+- ACCEPTED IN AUTOMATED BROWSER QA: 10 × 5 m R-VAN18 perimeter layout (6 heads, 100% sampled coverage, 0 uncovered, H2H passed) and 20 × 10 m R-VAN24 layout (12 heads; two R-VAN24-360 internal heads at X 6.67/13.33 m, Y 5 m; 100% sampled coverage, 0 uncovered, H2H passed).
+- OPEN: narrow-strip UI acceptance. Browser automation did not consistently reach/render the LCS/RCS/SST layout; one run displayed the narrow-strip note without footprints, another stopped at the preliminary intake summary. Confirm the actual result manually or improve the browser test.
 - OPEN: run the full application/Studio/D1 CI suite on a PR before any merge; no PR has been opened.
 - OPEN: verify test assertions and directional H2H results for 10 × 5 m perimeter-only and 20 × 10 m R-VAN24 centerline (with R-VAN24-360 full-circle heads).
 - OPEN: validate L-shaped mixed-model candidate layouts and build LCS/RCS/SST decomposition for L-shaped narrow areas.
