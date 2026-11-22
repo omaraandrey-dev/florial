@@ -54,7 +54,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
-  if (shortSideM < 2) {
+  if (shortSideM < 2.4) {
     const stripSpecifications = ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'].map((stripModel) => {
       const point = findRainBirdRvanPerformancePoint(stripModel, RVAN_RECOMMENDED_PRESSURE_BAR, null)
       return point ? Object.freeze({
