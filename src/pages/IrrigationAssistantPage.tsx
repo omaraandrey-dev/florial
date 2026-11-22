@@ -25,7 +25,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const [cutoutWidth, setCutoutWidth] = useState('')
   const [cutoutDepth, setCutoutDepth] = useState('')
   const [cutoutCorner, setCutoutCorner] = useState<LawnCutoutCorner>('top-right')
-  const [geometryConfirmed, setGeometryConfirmed] = useState(false)
   const [waterSource, setWaterSource] = useState<WaterSource>('unknown')
   const [pressureType, setPressureType] = useState<PressureType>('unknown')
   const [pressureBar, setPressureBar] = useState('')
@@ -48,9 +47,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       cutoutCorner: 'В каком углу находится вырез?', cornerTopLeft: 'Сверху слева', cornerTopRight: 'Сверху справа', cornerBottomLeft: 'Снизу слева', cornerBottomRight: 'Снизу справа',
       geometryHint: 'Укажите размеры по фактическим измерениям. Для Г-образной формы задайте общие габариты и размеры отсутствующей прямоугольной части.',
       geometryPreview: 'Схема по вашим размерам', calculatedArea: 'Площадь по контуру', perimeter: 'Периметр контура',
-      confirmGeometry: 'Подтверждаю, что размеры измерены на месте и схема соответствует фактическому газону.',
       geometryInvalid: 'Проверьте размеры. Все значения должны быть больше нуля, а вырез — меньше общей длины и ширины.',
-      geometryNotConfirmed: 'Подтвердите контур, чтобы продолжить.', geometryAccepted: 'Контур подтверждён вами. Это подтверждение исходных размеров, не инженерная проверка.',
+      geometryNotConfirmed: 'Контур автоматически построен по указанным вами примерным размерам.', geometryAccepted: 'Контур подтверждён вами. Это подтверждение исходных размеров, не инженерная проверка.',
       waterTitle: 'Выберите источник воды', mains: 'Водопровод', well: 'Скважина / колодец', tank: 'Резервуар / ёмкость', unknown: 'Пока не знаю',
       pressureTitle: 'Давление воды', pressureUnknown: 'Не измерял(а) / не знаю', static: 'Статическое — без открытого расхода', dynamic: 'Динамическое — при текущей воде',
       pressureValue: 'Измеренное давление, бар', pressureMeasured: 'Подтверждаю: давление измерено во время протока воды.',
@@ -91,9 +89,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       cutoutCorner: 'Which corner contains the cut-out?', cornerTopLeft: 'Top left', cornerTopRight: 'Top right', cornerBottomLeft: 'Bottom left', cornerBottomRight: 'Bottom right',
       geometryHint: 'Use actual site measurements. For an L-shape, enter the overall dimensions and the missing rectangular corner.',
       geometryPreview: 'Outline from your measurements', calculatedArea: 'Area from outline', perimeter: 'Outline perimeter',
-      confirmGeometry: 'I confirm these dimensions were measured on site and the outline matches the actual lawn.',
       geometryInvalid: 'Check the dimensions. All values must be greater than zero and the cut-out must be smaller than the overall length and width.',
-      geometryNotConfirmed: 'Confirm the outline to continue.', geometryAccepted: 'You confirmed the outline. This confirms the input dimensions, not an engineering design.',
+      geometryNotConfirmed: 'The outline is generated automatically from the approximate dimensions you entered.', geometryAccepted: 'You confirmed the outline. This confirms the input dimensions, not an engineering design.',
       waterTitle: 'Choose the water source', mains: 'Mains water', well: 'Borehole / well', tank: 'Storage tank', unknown: 'Not sure yet',
       pressureTitle: 'Water pressure', pressureUnknown: 'Not measured / not sure', static: 'Static — no water flowing', dynamic: 'Dynamic — measured while water flows',
       pressureValue: 'Measured pressure, bar', pressureMeasured: 'I confirm the pressure was measured while water was flowing.',
@@ -134,9 +131,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       cutoutCorner: 'В кой ъгъл е изрезът?', cornerTopLeft: 'Горе вляво', cornerTopRight: 'Горе вдясно', cornerBottomLeft: 'Долу вляво', cornerBottomRight: 'Долу вдясно',
       geometryHint: 'Въведете реално измерените размери. За Г-образна форма задайте общите габарити и размерите на липсващата правоъгълна част.',
       geometryPreview: 'Контур според въведените размери', calculatedArea: 'Площ по контура', perimeter: 'Периметър на контура',
-      confirmGeometry: 'Потвърждавам, че размерите са измерени на място и контурът съответства на реалната тревна площ.',
       geometryInvalid: 'Проверете размерите. Всички стойности трябва да са положителни, а изрезът — по-малък от общата дължина и ширина.',
-      geometryNotConfirmed: 'Потвърдете контура, за да продължите.', geometryAccepted: 'Вие потвърдихте контура. Това е потвърждение на входните размери, а не инженерно одобрение.',
+      geometryNotConfirmed: 'Контурът се изгражда автоматично по зададените от вас приблизителни размери.', geometryAccepted: 'Вие потвърдихте контура. Това е потвърждение на входните размери, а не инженерно одобрение.',
       waterTitle: 'Изберете водоизточник', mains: 'Водопровод', well: 'Сондаж / кладенец', tank: 'Резервоар / съд', unknown: 'Все още не знам',
       pressureTitle: 'Налягане на водата', pressureUnknown: 'Не е измерено / не знам', static: 'Статично — без протичане на вода', dynamic: 'Динамично — измерено при протичане на вода',
       pressureValue: 'Измерено налягане, bar', pressureMeasured: 'Потвърждавам, че налягането е измерено при протичане на вода.',
@@ -182,10 +178,10 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     return validateLawnGeometry({
       schemaVersion: 1,
       coordinateSystem: 'local_cartesian_m',
-      status: geometryConfirmed ? 'confirmed' : 'needs_confirmation',
+      status: 'confirmed',
       regions: [{ id: 'lawn-1', boundary: { vertices: boundaryVertices }, exclusions: [] }],
     })
-  }, [boundaryVertices, geometryConfirmed])
+  }, [boundaryVertices])
 
   const intakeInput = {
     language,
@@ -272,7 +268,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
 
   function updateGeometry(setter: (value: string) => void, value: string) {
     setter(value)
-    setGeometryConfirmed(false)
   }
 
   function answerSummary(stage: number) {
@@ -352,8 +347,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                   <h2 className="mb-4 text-lg font-bold text-slate-900">{copy.geometryTitle}</h2>
                   <p className="mb-3 text-sm font-semibold text-slate-700">{copy.shape}</p>
                   <div className="mb-5 grid gap-3 sm:grid-cols-2">
-                    <button type="button" onClick={() => { setShape('rectangle'); setGeometryConfirmed(false) }} aria-pressed={shape === 'rectangle'} className={selectClass + (shape === 'rectangle' ? ' ' + activeClass : '')}>{copy.rectangle}</button>
-                    <button type="button" onClick={() => { setShape('l-shape'); setGeometryConfirmed(false) }} aria-pressed={shape === 'l-shape'} className={selectClass + (shape === 'l-shape' ? ' ' + activeClass : '')}>{copy.lShape}</button>
+                    <button type="button" onClick={() => { setShape('rectangle'); }} aria-pressed={shape === 'rectangle'} className={selectClass + (shape === 'rectangle' ? ' ' + activeClass : '')}>{copy.rectangle}</button>
+                    <button type="button" onClick={() => { setShape('l-shape'); }} aria-pressed={shape === 'l-shape'} className={selectClass + (shape === 'l-shape' ? ' ' + activeClass : '')}>{copy.lShape}</button>
                   </div>
                   <p className="mb-4 text-sm leading-6 text-slate-600">{copy.geometryHint}</p>
                   <div className="grid gap-4 sm:grid-cols-2">
@@ -363,7 +358,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                   {shape === 'l-shape' && <div className="mt-4 grid gap-4 sm:grid-cols-2">
                     <label className="block text-sm font-semibold text-slate-700">{copy.cutoutWidth}<input type="text" inputMode="decimal" value={cutoutWidth} onChange={(event) => updateGeometry(setCutoutWidth, event.target.value)} className={inputClass} /></label>
                     <label className="block text-sm font-semibold text-slate-700">{copy.cutoutDepth}<input type="text" inputMode="decimal" value={cutoutDepth} onChange={(event) => updateGeometry(setCutoutDepth, event.target.value)} className={inputClass} /></label>
-                    <label className="block text-sm font-semibold text-slate-700 sm:col-span-2">{copy.cutoutCorner}<select value={cutoutCorner} onChange={(event) => { setCutoutCorner(event.target.value as LawnCutoutCorner); setGeometryConfirmed(false) }} className={inputClass}>
+                    <label className="block text-sm font-semibold text-slate-700 sm:col-span-2">{copy.cutoutCorner}<select value={cutoutCorner} onChange={(event) => { setCutoutCorner(event.target.value as LawnCutoutCorner); }} className={inputClass}>
                       <option value="top-left">{copy.cornerTopLeft}</option><option value="top-right">{copy.cornerTopRight}</option><option value="bottom-left">{copy.cornerBottomLeft}</option><option value="bottom-right">{copy.cornerBottomRight}</option>
                     </select></label>
                   </div>}
@@ -378,10 +373,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       <div className="rounded-xl bg-white p-3"><p className="text-xs font-semibold text-slate-500">{copy.calculatedArea}</p><p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900">{numberFormat(calculatedArea)} {copy.unit}</p></div>
                       <div className="rounded-xl bg-white p-3"><p className="text-xs font-semibold text-slate-500">{copy.perimeter}</p><p className="mt-1 text-xl font-extrabold tabular-nums text-slate-900">{numberFormat(calculatedPerimeter)} m</p></div>
                     </div>
-                    <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-emerald-200 bg-white p-4 text-sm leading-6 text-slate-800">
-                      <input type="checkbox" checked={geometryConfirmed} onChange={(event) => setGeometryConfirmed(event.target.checked)} className="mt-1 h-4 w-4 shrink-0 accent-emerald-700" /><span>{copy.confirmGeometry}</span>
-                    </label>
-                    <p role="status" className="mt-3 text-sm leading-6 text-emerald-900">{geometryAccepted ? copy.geometryAccepted : copy.geometryNotConfirmed}</p>
+                    <p role="status" className="mt-4 rounded-xl border border-emerald-200 bg-white p-4 text-sm leading-6 text-emerald-900">{geometryAccepted ? copy.geometryAccepted : copy.geometryNotConfirmed}</p>
                   </div>}
                   {!boundaryVertices && (length !== '' || width !== '' || (shape === 'l-shape' && (cutoutWidth !== '' || cutoutDepth !== ''))) && <p role="alert" className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-950">{copy.geometryInvalid}</p>}
                   {boundaryVertices && geometryValidation && !geometryValidation.valid && <p role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm leading-6 text-rose-900">{copy.geometryInvalid}</p>}
