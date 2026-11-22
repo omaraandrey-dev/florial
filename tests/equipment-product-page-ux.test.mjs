@@ -12,7 +12,7 @@ test('equipment product page presents its short description and purchase informa
 })
 
 test('equipment page highlights only existing localized specifications and retains the full list', () => {
-  assert.match(source, /const equipmentSpecifications = !isPlantProduct\(product\)/)
+  assert.match(source, /const equipmentSpecifications = isPlantProduct\(product\) \? \[\] : localizedSpecifications/)
   assert.match(source, /featuredEquipmentSpecifications = equipmentSpecifications\.slice\(0, 3\)/)
   assert.match(source, /Всички посочени параметри за този продукт\./)
   assert.match(source, /localizedSpecifications\.map\(/)
