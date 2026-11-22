@@ -278,13 +278,27 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
         sprinklerIds: zone.sprinklerIds,
         sprinklerCount: zone.sprinklerCount,
       })),
-      pipeNetwork: layoutResult?.pipeNetwork ?? null,
+      pipeNetwork: layoutResult?.pipeNetwork ? {
+        mainDiameterMm: layoutResult.pipeNetwork.mainDiameterMm,
+        zoneDiameterMm: layoutResult.pipeNetwork.zoneDiameterMm,
+        mainRoute: layoutResult.pipeNetwork.mainRoute,
+        branches: layoutResult.pipeNetwork.branches.map((branch: any) => ({
+          zoneId: branch.zoneId,
+          branchDirection: branch.branchDirection,
+          sprinklerIds: branch.sprinklerIds,
+          points: branch.points,
+          lateralConnections: branch.lateralConnections,
+        })),
+      } : null,
       billOfMaterials: {
         headCount: billOfMaterials.headCount,
         zoneCount: billOfMaterials.zoneCount,
         flexPipeRequiredM: billOfMaterials.flexPipeRequiredM,
         flexPipeCoils30m: billOfMaterials.flexPipeCoils30m,
-        items: billOfMaterials.items,
+        items: billOfMaterials.items.map((item: { sku: string; quantity: number }) => ({
+          ...item,
+          name: catalogProducts[item.sku]?.name || item.sku,
+        })),
       },
       warnings: layoutResult?.warnings ?? [],
     } satisfies IrrigationProjectSnapshot
