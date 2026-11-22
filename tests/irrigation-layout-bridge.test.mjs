@@ -36,6 +36,37 @@ test('10x5, 20x5 and 20x10 use the established R-VAN18 family', () => {
   }
 })
 
+test('25x5 reference lawn creates two six-head perimeter zones and continuous Ø25 routes', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(25, 5))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.operatingScenario?.model, 'R-VAN18')
+  assert.equal(result.layout?.sprinklers?.length, 12)
+  assert.equal(result.zones?.length, 2)
+  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [6, 6])
+  assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
+  assert.equal(result.pipeNetwork?.mainDiameterMm, 25)
+  assert.equal(result.pipeNetwork?.zoneDiameterMm, 25)
+  assert.equal(result.pipeNetwork?.branches?.length, 2)
+  assert.ok(result.pipeNetwork?.branches?.every((branch) =>
+    branch.diameterMm === 25 && branch.sprinklerIds.length === 6))
+  assert.equal(result.layout?.headToHead?.passed, true)
+
+  const perimeterHeads = result.layout.sprinklers
+    .filter((entry) => Number.isFinite(entry.perimeterOffsetM))
+    .slice()
+    .sort((a, b) => a.perimeterOffsetM - b.perimeterOffsetM)
+  const perimeterLengthM = perimeterHeads[0].perimeterLengthM
+  for (let index = 0; index < perimeterHeads.length; index += 1) {
+    const current = perimeterHeads[index]
+    const next = perimeterHeads[(index + 1) % perimeterHeads.length]
+    const gapM = (next.perimeterOffsetM - current.perimeterOffsetM + perimeterLengthM) % perimeterLengthM
+    assert.ok(
+      gapM <= Math.min(current.radiusM, next.radiusM) + 1e-8,
+      `perimeter gap ${gapM}m exceeds the adjacent throw radius`,
+    )
+  }
+})
+
 test('20x10 reference case remains perimeter-only', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(20, 10))
   assert.equal(result.operatingScenario?.model, 'R-VAN18')
