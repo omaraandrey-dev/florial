@@ -116,7 +116,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
     sampleStepM,
   })
 
-  return result(layout.status === 'coverage_complete_sampled'
+  return result(layout.status === 'coverage_complete_sampled' && layout.headToHead?.passed
     ? 'layout_generated'
     : 'layout_incomplete', {
     engine: Object.freeze({
