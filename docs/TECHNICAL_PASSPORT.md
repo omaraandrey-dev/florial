@@ -1,8 +1,11 @@
-## 2026-11-22 — Irrigation project owner delivery and approval workflow (PR pending)
+## 2026-11-22 — Irrigation project owner delivery and approval workflow (PR #480 merged; Production deployed)
 
-- Corrected the owner notification email guard in `functions/api/orders.ts`; the prior double-escaped regex prevented a normal `ORDER_NOTIFICATION_EMAIL` from entering the project PDF delivery branch.
-- The owner notification includes both the order/proforma PDF and irrigation project PDF as separate attachments in the same email. The customer receives the project PDF only after Owner approval: `confirm_proforma` for bank-transfer orders, or Owner-only `approve_irrigation_project` for other payment methods.
-- No D1 migration is intended: the validated snapshot remains in `order_events.metadata`.
+- PR #480 merged into `main` at `8214cdeef0183af6011f7f27aae5dd3730ef8ad5`; Cloudflare Pages Production deployment `e2469d28-10f3-4efc-b1b7-9e9290f3d02b` succeeded from the exact SHA.
+- Fixed the double-escaped `ORDER_NOTIFICATION_EMAIL` validation guard in `functions/api/orders.ts`, which prevented the owner project-PDF branch from running with a normal email address.
+- The owner checkout notification attaches both the order/proforma PDF and irrigation project PDF to one email. If a PDF cannot be generated, the notification states which attachment is unavailable.
+- The customer receives the project PDF only after Owner approval: `confirm_proforma` for bank-transfer orders, or Owner-only `approve_irrigation_project` for other payment methods. The latter sends both PDFs to the customer, copies the owner and records the approval event; repeated sends are blocked.
+- The validated project snapshot continues to use existing `order_events.metadata`; no D1 migration, Sanity write, Cloudflare settings/secrets change or test order/email was performed.
+- PR-head D1 validation and Blog/Studio validation both succeeded for `2529cc88dfa7fbb1d972bdbad21699add43f89b7`. Actual Resend inbox receipt and live checkout end-to-end delivery remain unverified pending a safe owner-approved test.
 
 ---
 
