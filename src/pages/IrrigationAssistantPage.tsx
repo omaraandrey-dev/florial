@@ -330,13 +330,13 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                     <svg viewBox={'-0.8 -0.8 ' + (viewWidth + 1.6) + ' ' + (viewHeight + 1.6)} role="img" aria-label={copy.layoutTitle} className="max-h-[30rem] w-full" preserveAspectRatio="xMidYMid meet">
                       <g transform={'translate(0 ' + viewHeight + ') scale(1 -1)'}>
                         <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
-                        {layoutResult.layout.pipeNetwork?.trunk?.length > 1 && <polyline points={svgPolyline(layoutResult.layout.pipeNetwork.trunk)} fill="none" stroke="#334155" strokeWidth="0.1" strokeDasharray="0.35 0.18" strokeLinejoin="round" />}
-                        {layoutResult.layout.pipeNetwork?.branches?.map((branch: { sprinklerId: string; points: Array<{ x: number; y: number }> }) => <polyline key={branch.sprinklerId} points={svgPolyline(branch.points)} fill="none" stroke="#0ea5e9" strokeWidth="0.075" strokeDasharray="0.18 0.14" />)}
-                        {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number; arcDeg: number; directionDeg?: number | null }) => sprinkler.arcDeg === 360
+                        {layoutResult.layout?.pipeNetwork?.trunk?.length > 1 && <polyline points={svgPolyline(layoutResult.layout?.pipeNetwork?.trunk)} fill="none" stroke="#334155" strokeWidth="0.1" strokeDasharray="0.35 0.18" strokeLinejoin="round" />}
+                        {layoutResult.layout?.pipeNetwork?.branches?.map((branch: { sprinklerId: string; points: Array<{ x: number; y: number }> }) => <polyline key={branch.sprinklerId} points={svgPolyline(branch.points)} fill="none" stroke="#0ea5e9" strokeWidth="0.075" strokeDasharray="0.18 0.14" />)}
+                        {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number; arcDeg: number; directionDeg?: number | null }) => sprinkler.arcDeg === 360
                           ? <circle key={sprinkler.id + '-coverage'} cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke="#0f766e" strokeWidth="0.07" strokeDasharray="0.22 0.16" opacity="0.85" />
                           : <polyline key={sprinkler.id + '-coverage'} points={svgPolyline(sprinklerArcPoints(sprinkler))} fill="none" stroke="#0f766e" strokeWidth="0.09" strokeDasharray="0.22 0.16" strokeLinecap="round" opacity="0.9" />)}
                         {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number } }) => <circle key={sprinkler.id} cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.16" fill="#0369a1" stroke="#ffffff" strokeWidth="0.07" />)}
-                        <circle cx={layoutResult.layout.pipeNetwork?.source?.x ?? viewWidth} cy={layoutResult.layout.pipeNetwork?.source?.y ?? viewHeight} r="0.22" fill="#f59e0b" stroke="#ffffff" strokeWidth="0.07" />
+                        <circle cx={layoutResult.layout?.pipeNetwork?.source?.x ?? viewWidth} cy={layoutResult.layout?.pipeNetwork?.source?.y ?? viewHeight} r="0.22" fill="#f59e0b" stroke="#ffffff" strokeWidth="0.07" />
                       </g>
                     </svg>
                     <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs text-slate-600">
