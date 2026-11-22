@@ -1,6 +1,9 @@
 # Engineering specification — lawn irrigation assistant (Rain Bird first)
 
-Status: approved engineering direction; geometry intake, manufacturer datasets and preliminary sampled layout engine implemented; full hydraulic calculator and purchasable equipment selector not yet implemented  
+> **Current implementation:** see [IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md](IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md) for the merged 2026-11-22 runtime behavior, exact zone algorithm, BOM/SKU map, cart integration, verification and unresolved engineering gates. This specification remains the broader product/engineering target; requirements listed below are not proof that each capability is already implemented.
+
+
+Status: geometry intake, exact manufacturer datasets, perimeter-first sampled R-VAN layout, sequential Florial zones, schematic pipe routes and catalogue BOM/cart handoff implemented; full hydraulic calculator and field-certified design remain not implemented
 Date: 2026-11-15  
 Project: Florial Bulgaria  
 Scope: first calculation module — automatic lawn irrigation

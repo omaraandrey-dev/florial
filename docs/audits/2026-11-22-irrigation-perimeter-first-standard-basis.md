@@ -1,5 +1,8 @@
 # Irrigation assistant — perimeter-first standard design basis
 
+> **Final status update — 2026-11-22:** This audit is an implementation history, not a pending branch. PR #473 was squash-merged into `main` at `1926d632cc0861341a46ec932a2130ca94dfa103`; exact-merge Cloudflare Pages Production deployment `0da20669-6b24-4697-8ac4-b281eebec9a2` succeeded. The owner manually accepted the Preview UI. The complete current behavior and limitations are documented in [IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md](../engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md). The current runtime constant is Ø25 mm for both main and zone pipe routes; an earlier audit paragraph below states Ø32 mm for the main, and this discrepancy remains open rather than silently reconciled.
+
+
 Date: 2026-11-22  
 Branch: `feat/irrigation-perimeter-first-standard-basis`  
 Base: `b48d6c5b354c500250957355b4eb90751be072d0`  

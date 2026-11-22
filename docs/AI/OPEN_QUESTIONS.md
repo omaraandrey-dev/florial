@@ -1,3 +1,19 @@
+## 2026-11-22 — Irrigation engineer: release accepted; hydraulic decisions remain open
+
+- PR #473 merged into `main` at `1926d632cc0861341a46ec932a2130ca94dfa103`; Production Pages deployment `0da20669-6b24-4697-8ac4-b281eebec9a2` succeeded from the exact SHA.
+- Owner manually accepted the Preview UI and will provide detailed product/engineering feedback later. Do not treat this as field validation.
+- OPEN: resolve mainline diameter discrepancy: current runtime standard and pipeNetwork output are Ø25 mm, but the 22.11 intermediate audit described mainline Ø32 mm. Confirm the intended nominal diameter before hydraulic calculations or purchase BOM.
+- OPEN: confirm actual dynamic inlet pressure/flow and prove the 3.1 bar R-VAN operating point at the nozzle under design flow; 4 bar is a Florial assumption, not a measured value.
+- OPEN: approve hydraulic zone capacity/flow/pressure limits; current six-head maximum is a deterministic grouping standard only.
+- OPEN: verify 1804 + R-VAN assembly/regulation compatibility for the chosen 3.1 bar operating scenario.
+- OPEN: decide cart policy for active catalogue products with `stockStatus=outOfStock`; current irrigation module resolves `isActive != false` and passes stockStatus to cart but has no independent out-of-stock gate.
+- OPEN: determine exact PE mainline product/length and full installation BOM; current cart deliberately omits unverified mainline and hydraulic accessories.
+- OPEN: extend engineering validation to exclusions/obstacles/overspray, wind, precipitation uniformity (DU/CU), multiple regions and field testing.
+- Scope of owner-approved resumption on 22.11 is the perimeter-first lawn assistant, sequential zones and cart kit documented in `docs/engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md`. It does not automatically authorize all historical Rain Bird 3500/stage-8 roadmap work.
+- No D1 schema/data, Cloudflare settings/secrets, Resend or order data changed. Sanity Production change was limited to the separately approved IQ21520F0N25C correction.
+
+---
+
 ## 2026-11-22 — Storefront plant product page UX acceptance
 
 - PR pending: `feat/plant-product-page-ux` improves plant purchase hierarchy, groups botanical information, consolidates variant details, collapses the care guide and adds a mobile sticky add-to-cart action.
