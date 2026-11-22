@@ -20,12 +20,15 @@ function result(status, extra = {}) {
 }
 
 function selectRvanModel(shortSideM) {
-  if (shortSideM >= 2.4 && shortSideM <= 4.8) return 'R-VAN14'
-  if (shortSideM > 4.8 && shortSideM <= 10.4) return 'R-VAN18'
-  if (shortSideM > 10.4 && shortSideM <= 15) return 'R-VAN24'
-  return null
+  const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
+  for (const model of ['R-VAN14', 'R-VAN18', 'R-VAN24']) {
+    const point = findRainBirdRvanPerformancePoint(model, pressureBar, 180)
+    if (point?.radiusM >= shortSideM - 1e-8) return model
+  }
+  // R-VAN24 remains the largest supported circular-spray candidate. Wider
+  // lawns are handled with additional interior rows instead of rejection.
+  return 'R-VAN24'
 }
-
 function stripOptions(shortSideM) {
   const exact = []
   for (const model of ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST']) {
