@@ -1,0 +1,108 @@
+const PRODUCT_SKUS = Object.freeze({
+  body1804: 'A44120',
+  flex30m: 'A82060',
+  sbe050: 'A46010',
+  valve100HV: 'H01000',
+  valveBoxSmall: 'VBA02672',
+  manifoldTee25: 'IQ2142000N250',
+  sprinklerTee25Half: 'IQ21520F0N25C',
+  sprinklerElbow25Half: 'IQ21820F0N25B',
+  valveAdapter25OneInch: 'IQ21120M0N25D',
+  nozzles: Object.freeze({
+    'R-VAN14': 'A84659',
+    'R-VAN18': 'A84660',
+    'R-VAN24': 'A84661',
+    'R-VAN14-360': 'A84664',
+    'R-VAN18-360': 'A84665',
+    'R-VAN24-360': 'A84666',
+  }),
+})
+
+/**
+ * Creates a catalog-SKU bill of materials from the deterministic sprinkler
+ * layout and the sequential Florial zone assignment.
+ *
+ * Flex pipe is sold as a 30 m coil, so required 1 m laterals are rounded up
+ * to complete coils. All other quantities are discrete pieces.
+ */
+export function buildIrrigationBillOfMaterials(layout, zones) {
+  const sprinklers = Array.isArray(layout?.sprinklers) ? layout.sprinklers : []
+  if (!sprinklers.length || !Array.isArray(zones) || !zones.length) {
+    return Object.freeze({ valid: false, reason: 'missing_layout_or_zones', items: Object.freeze([]) })
+  }
+
+  const counts = new Map()
+  const add = (sku, quantity) => {
+    if (!sku || !Number.isInteger(quantity) || quantity <= 0) return
+    counts.set(sku, (counts.get(sku) ?? 0) + quantity)
+  }
+
+  const zoneHeadIds = new Set(zones.flatMap((zone) => zone.sprinklerIds ?? []))
+  if (zoneHeadIds.size !== sprinklers.length ||
+      sprinklers.some((sprinkler) => !zoneHeadIds.has(sprinkler.id))) {
+    return Object.freeze({ valid: false, reason: 'zone_assignment_incomplete', items: Object.freeze([]) })
+  }
+
+  const nozzleCounts = new Map()
+  for (const sprinkler of sprinklers) {
+    const baseModel = String(sprinkler.performanceModel ?? layout.model ?? '').replace(/-360$/, '')
+    const nozzleKey = sprinkler.arcDeg === 360 ? baseModel + '-360' : baseModel
+    const sku = PRODUCT_SKUS.nozzles[nozzleKey]
+    if (!sku) {
+      return Object.freeze({
+        valid: false,
+        reason: 'unsupported_nozzle_model',
+        unsupportedNozzle: nozzleKey,
+        items: Object.freeze([]),
+      })
+    }
+    nozzleCounts.set(sku, (nozzleCounts.get(sku) ?? 0) + 1)
+  }
+
+  for (const [sku, quantity] of nozzleCounts) add(sku, quantity)
+
+  const headCount = sprinklers.length
+  add(PRODUCT_SKUS.body1804, headCount)
+  add(PRODUCT_SKUS.sbe050, headCount * 2)
+  add(PRODUCT_SKUS.flex30m, Math.ceil(headCount / 30))
+
+  for (const zone of zones) {
+    const zoneHeadCount = zone.sprinklerIds?.length ?? 0
+    if (!zoneHeadCount) {
+      return Object.freeze({ valid: false, reason: 'empty_zone', items: Object.freeze([]) })
+    }
+    add(PRODUCT_SKUS.sprinklerTee25Half, Math.max(0, zoneHeadCount - 1))
+    add(PRODUCT_SKUS.sprinklerElbow25Half, 1)
+  }
+
+  const zoneCount = zones.length
+  add(PRODUCT_SKUS.valve100HV, zoneCount)
+  add(PRODUCT_SKUS.valveAdapter25OneInch, zoneCount * 2)
+  add(PRODUCT_SKUS.valveBoxSmall, zoneCount)
+  add(PRODUCT_SKUS.manifoldTee25, Math.max(0, zoneCount - 1))
+
+  return Object.freeze({
+    valid: true,
+    headCount,
+    zoneCount,
+    flexPipeRequiredM: headCount,
+    flexPipeCoils30m: Math.ceil(headCount / 30),
+    items: Object.freeze([...counts.entries()].map(([sku, quantity]) =>
+      Object.freeze({ sku, quantity }))),
+  })
+}
+
+export const IRRIGATION_BOM_PRODUCT_SKUS = Object.freeze([
+  ...new Set([
+    PRODUCT_SKUS.body1804,
+    PRODUCT_SKUS.flex30m,
+    PRODUCT_SKUS.sbe050,
+    PRODUCT_SKUS.valve100HV,
+    PRODUCT_SKUS.valveBoxSmall,
+    PRODUCT_SKUS.manifoldTee25,
+    PRODUCT_SKUS.sprinklerTee25Half,
+    PRODUCT_SKUS.sprinklerElbow25Half,
+    PRODUCT_SKUS.valveAdapter25OneInch,
+    ...Object.values(PRODUCT_SKUS.nozzles),
+  ]),
+])
