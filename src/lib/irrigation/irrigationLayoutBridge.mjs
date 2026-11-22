@@ -5,8 +5,8 @@ import { buildIrrigationZones, buildPerimeterPipeNetwork, FLORIAL_IRRIGATION_STA
 const RVAN_RECOMMENDED_PRESSURE_BAR = RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar
 const RVAN_MODELS = Object.freeze([
   { model: 'R-VAN14', maximumShortSideM: 4.3 },
-  { model: 'R-VAN18', maximumShortSideM: 5.2 },
-  { model: 'R-VAN24', maximumShortSideM: 14.0 },
+  { model: 'R-VAN18', maximumShortSideM: 10.0 },
+  { model: 'R-VAN24', maximumShortSideM: 15.0 },
 ])
 
 function result(status, extra = {}) {
