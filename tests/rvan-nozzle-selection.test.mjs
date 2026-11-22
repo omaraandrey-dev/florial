@@ -13,6 +13,7 @@ test('selects R-VAN model by required radius and retains a compatible preferred 
   assert.equal(selectRvanModelForRadius(5.0), 'R-VAN18')
   assert.equal(selectRvanModelForRadius(6.5), 'R-VAN24')
   assert.equal(selectRvanModelForRadius(5.2, 'R-VAN24'), 'R-VAN24')
+  assert.equal(selectRvanModelForRadius(5.0, 'R-VAN24'), 'R-VAN24')
 })
 
 test('preferred R-VAN model is retained when possible and changed only when local spacing requires it', () => {
