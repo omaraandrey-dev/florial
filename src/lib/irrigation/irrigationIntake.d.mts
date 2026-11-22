@@ -14,7 +14,7 @@ export interface IrrigationIntakeInput {
   pressureBar?: string | number
   pressureMeasuredWhileFlowing?: boolean
   pressureTestPoint?: 'source' | 'tap' | 'lawn_entry' | 'unknown' | 'one_inch_inlet_tap'
-  flowRate?: string | number
+  flowRate?: string | number | null
   flowMeasurementMethod?: IrrigationFlowMethod
   pipeNetworkCaptured?: boolean
   elevationProfileCaptured?: boolean
