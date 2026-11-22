@@ -1,3 +1,24 @@
+## 2026-11-22 — Irrigation engineer: perimeter-first layout and cart BOM released
+
+PR #473 merged into `main` at `1926d632cc0861341a46ec932a2130ca94dfa103`. The full implementation guide is `docs/engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md`.
+
+Implemented:
+- geometry-only customer intake snapshot v2 for one confirmed rectangle or orthogonal L-shape, with approximate dimensions;
+- Rain Bird R-VAN exact discrete manufacturer operating-point selection at recommended 3.1 bar;
+- deterministic perimeter-first greedy sampled coverage, multi-row 360° interior candidates only when required, and independent head-to-head repair;
+- sequential perimeter zones beginning at the top-right source corner, following top-left → left-down → bottom-right → right-up order, with up to six heads per zone; all interior 360° heads are grouped only after perimeter zones;
+- schematic Ø25 mm route geometry;
+- BOM by exact SKU, including R-VAN nozzles, 1804 bodies, two SBE-050 per head, 1 m/head flex rounded to 30 m coils, terminal elbow/non-terminal tee, one 100-HV valve, two 25×1″ male adapters and one VBA02672 box per zone, and one equal tee per additional zone;
+- Sanity active product lookup and handoff to the existing cart.
+
+Verification: PR-head Blog/Studio runs 45008858032 and 45008807081 and D1 validation run 45008807048 succeeded; Pages Preview build/deploy succeeded; owner accepted Preview visual review. Production Pages deployment 0da20669-6b24-4697-8ac4-b281eebec9a2 succeeded from exact merge SHA 1926d632cc0861341a46ec932a2130ca94dfa103.
+
+Sanity Production write was limited to the owner-approved correction of SKU IQ21520F0N25C to Ø25 × ½″ female thread in BG/RU/EN; backup and document ID are recorded in the implementation guide. No D1 schema/data, Cloudflare settings/secrets, Resend or order data changed.
+
+**Not certified:** actual dynamic source pressure/flow, nozzle residual pressure, hydraulic losses/sizing, six-head hydraulic feasibility, DU/CU, overspray, wind, obstructions/exclusions, actual mainline length, controller/cable/pump selection or field performance. The code currently reports mainDiameterMm=25 while an earlier 22.11 audit states Ø32 mm; owner/engineer confirmation is required before hydraulic sizing.
+
+---
+
 ## 2026-11-22 — Storefront plant product page UX refinement (PR pending)
 
 - Branch: `feat/plant-product-page-ux`, based on main `dc971872b3672d41566565800524add90214bba2`.
