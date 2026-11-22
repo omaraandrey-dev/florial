@@ -80,6 +80,7 @@ export function ProductPage({
   const [requestedPlantSize, setRequestedPlantSize] = useState<string>('')
   const [purchaseActionsInView, setPurchaseActionsInView] = useState(true)
   const purchaseActionsRef = useRef<HTMLDivElement>(null)
+  const equipmentPurchaseButtonRef = useRef<HTMLButtonElement>(null)
 
   const plantSaleVariants = isPlantProduct(product) && Array.isArray(product.saleVariants) ? product.saleVariants : []
   const localizedProductSeo = language === 'bg' ? product.seo : product.translations?.[language]?.seo
@@ -286,7 +287,7 @@ export function ProductPage({
   }, [product, language, initialSaleVariantKey])
 
   useEffect(() => {
-    const actions = purchaseActionsRef.current
+    const actions = isPlantProduct(product) ? purchaseActionsRef.current : equipmentPurchaseButtonRef.current
     if (!actions || typeof IntersectionObserver === 'undefined') return
 
     const observer = new IntersectionObserver(([entry]) => {
@@ -565,7 +566,7 @@ export function ProductPage({
 
           </div>
 
-          <div ref={purchaseActionsRef} className="pt-6 border-t border-slate-100 flex flex-col gap-4">
+          <div ref={isPlantProduct(product) ? purchaseActionsRef : undefined} className="pt-6 border-t border-slate-100 flex flex-col gap-4">
             <div className="flex items-center gap-4">
               <span className="text-sm font-semibold text-slate-700">{t('Количество:')}</span>
               <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
@@ -635,6 +636,7 @@ export function ProductPage({
               </>
             ) : (
             <button
+              ref={equipmentPurchaseButtonRef}
               onClick={handleAdd}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
             >
