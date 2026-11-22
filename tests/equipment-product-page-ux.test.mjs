@@ -20,7 +20,8 @@ test('equipment page highlights only existing localized specifications and retai
 
 test('equipment purchase action remains available in a mobile sticky bar when original controls leave view', () => {
   assert.match(source, /if \(!actions \|\| typeof IntersectionObserver === 'undefined'\) return/)
-  assert.match(source, /<div ref=\{purchaseActionsRef\}/)
+  assert.match(source, /const actions = isPlantProduct\(product\) \? purchaseActionsRef\.current : equipmentPurchaseButtonRef\.current/)
+  assert.match(source, /ref=\{equipmentPurchaseButtonRef\}/)
   assert.match(source, /!purchaseActionsInView && \(/)
   assert.match(source, /onClick=\{handleAdd\} className="min-h-12 flex-1 rounded-xl bg-emerald-700/)
 })
