@@ -1624,7 +1624,7 @@ export default function App() {
           )
       }>
         {isIrrigationAssistantRoute ? (
-          <IrrigationAssistantPage onNavigateHome={navigateToHome} />
+          <IrrigationAssistantPage onNavigateHome={navigateToHome} onNavigateCart={navigateToCart} onAddToCart={handleAddToCart} />
       ) : normalizedRoutePath === '/about' ? (
         <AboutPage services={headerServices} categories={categories} />
       ) : isCartOpen ? (
