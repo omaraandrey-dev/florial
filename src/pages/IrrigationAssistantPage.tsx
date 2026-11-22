@@ -457,7 +457,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                   </div>
                   {layoutResult.status === 'layout_generated' || layoutResult.status === 'layout_incomplete' ? (
                     <>
-                      <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.family} {layoutResult.operatingScenario?.model} · {numberFormat(layoutResult.operatingScenario?.pressureBar ?? 0)} bar</p>
+                      <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.family} · {(layoutResult.operatingScenario?.modelsUsed ?? [layoutResult.operatingScenario?.model]).join(', ')} · {numberFormat(layoutResult.operatingScenario?.pressureBar ?? 0)} bar</p>
                       <p className="mt-2 text-sm leading-6 text-slate-700">{layoutResult.status === 'layout_generated' ? layoutLabels.generated : layoutLabels.incomplete}</p>
                       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.heads}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.sprinklers?.length ?? 0}</dd></div>
