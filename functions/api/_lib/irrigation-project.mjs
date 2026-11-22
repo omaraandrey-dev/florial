@@ -75,11 +75,115 @@ export function validateIrrigationProjectSnapshot(input) {
   }
 
   const orderSkus = new Map()
+  const orderDetails = new Map()
   for (const item of Array.isArray(input.orderItems) ? input.orderItems : []) {
-    if (isRecord(item) && typeof item.sku === 'string') orderSkus.set(item.sku, (orderSkus.get(item.sku) ?? 0) + Number(item.qty))
+    if (!isRecord(item) || typeof item.sku !== 'string') continue
+    orderSkus.set(item.sku, (orderSkus.get(item.sku) ?? 0) + Number(item.qty))
+    orderDetails.set(item.sku, {
+      name: cleanLabel(item.name, 160),
+      price: finite(item.price, 0, 1000000) ? item.price : null,
+    })
   }
   if (bom.items.some((item) => orderSkus.get(item.sku) !== item.quantity)) {
     return { valid: false, reason: 'project_bom_does_not_match_order' }
+  }
+
+  const automationInput = input.automation
+  let automation = null
+  if (automationInput !== undefined && automationInput !== null) {
+    if (!isRecord(automationInput) || !['manual', 'tm2', 'rc2', 'bat'].includes(automationInput.type) ||
+        !Array.isArray(automationInput.controllers)) {
+      return { valid: false, reason: 'invalid_project_automation' }
+    }
+    const type = automationInput.type
+    const skuCapacity = {
+      F54224: 4, F54226: 6, F54228: 8,
+      F56154: 4, F56156: 6, F56158: 8,
+      'ESP-BAT-BT1': 1, 'ESP-BAT-BT2': 2, 'ESP-BAT-BT4': 4, 'ESP-BAT-BT6': 6,
+    }
+    const allowedControllerSkus = type === 'tm2'
+      ? new Set(['F54224', 'F54226', 'F54228'])
+      : type === 'rc2'
+        ? new Set(['F56154', 'F56156', 'F56158'])
+        : type === 'bat'
+          ? new Set(['ESP-BAT-BT1', 'ESP-BAT-BT2', 'ESP-BAT-BT4', 'ESP-BAT-BT6'])
+          : new Set()
+    const controllerCounts = new Map()
+    const assignedZones = []
+    const controllers = []
+    for (const controller of automationInput.controllers) {
+      if (!isRecord(controller) || !allowedControllerSkus.has(controller.sku) ||
+          controller.capacity !== skuCapacity[controller.sku] ||
+          !Number.isInteger(controller.quantity) || controller.quantity !== 1 ||
+          !Array.isArray(controller.zoneNumbers) || controller.zoneNumbers.length < 1 ||
+          controller.zoneNumbers.length > controller.capacity ||
+          controller.zoneNumbers.some((zone) => !Number.isInteger(zone) || zone < 1 || zone > zones.length)) {
+        return { valid: false, reason: 'invalid_project_controller_allocation' }
+      }
+      assignedZones.push(...controller.zoneNumbers)
+      controllerCounts.set(controller.sku, (controllerCounts.get(controller.sku) ?? 0) + 1)
+      const details = orderDetails.get(controller.sku)
+      controllers.push({
+        sku: controller.sku,
+        capacity: controller.capacity,
+        quantity: 1,
+        zoneNumbers: controller.zoneNumbers,
+        name: details?.name || cleanLabel(controller.name, 160) || controller.sku,
+        priceEUR: details?.price ?? null,
+      })
+    }
+    if (type === 'manual') {
+      if (controllers.length || automationInput.valve != null || bom.items.some((item) => item.sku === 'H01000') ||
+          automationInput.requiresControlCable !== false || automationInput.wifiRequired !== false) {
+        return { valid: false, reason: 'manual_automation_contains_valves_or_controllers' }
+      }
+    } else {
+      const expectedZones = Array.from({ length: zones.length }, (_, index) => index + 1)
+      if (!controllers.length || assignedZones.length !== zones.length ||
+          new Set(assignedZones).size !== zones.length ||
+          expectedZones.some((zone) => !assignedZones.includes(zone))) {
+        return { valid: false, reason: 'incomplete_controller_zone_allocation' }
+      }
+      for (const [sku, quantity] of controllerCounts) {
+        if (orderSkus.get(sku) !== quantity || bom.items.find((item) => item.sku === sku)?.quantity !== quantity) {
+          return { valid: false, reason: 'controller_order_quantity_mismatch' }
+        }
+      }
+    }
+    const requiresControlCable = type === 'tm2' || type === 'rc2'
+    const wifiRequired = type === 'rc2'
+    if (automationInput.requiresControlCable !== requiresControlCable || automationInput.wifiRequired !== wifiRequired) {
+      return { valid: false, reason: 'invalid_automation_installation_requirements' }
+    }
+    let valve = null
+    if (type === 'bat') {
+      const candidate = automationInput.valve
+      if (!isRecord(candidate) || candidate.sku !== 'B31440' ||
+          candidate.quantity !== zones.length || orderSkus.get('B31440') !== zones.length ||
+          bom.items.find((item) => item.sku === 'B31440')?.quantity !== zones.length ||
+          bom.items.some((item) => item.sku === 'H01000')) {
+        return { valid: false, reason: 'invalid_bat_valve_compatibility' }
+      }
+      const details = orderDetails.get('B31440')
+      valve = {
+        sku: 'B31440',
+        quantity: zones.length,
+        name: details?.name || cleanLabel(candidate.name, 160) || 'Rain Bird 100-PGA-9V',
+        priceEUR: details?.price ?? null,
+      }
+    } else if (automationInput.valve != null) {
+      return { valid: false, reason: 'unexpected_automation_valve' }
+    }
+    if (type === 'tm2' || type === 'rc2') {
+      if (orderSkus.get('H01000') !== zones.length ||
+          bom.items.find((item) => item.sku === 'H01000')?.quantity !== zones.length ||
+          bom.items.some((item) => item.sku === 'B31440')) {
+        return { valid: false, reason: 'wired_controller_requires_standard_valves' }
+      }
+    }
+    const totalPriceEUR = controllers.reduce((sum, item) => sum + (item.priceEUR ?? 0) * item.quantity, 0) +
+      (valve?.priceEUR ?? 0) * (valve?.quantity ?? 0)
+    automation = { type, controllers, valve, requiresControlCable, wifiRequired, totalPriceEUR }
   }
 
   const operating = isRecord(input.operatingScenario) ? input.operatingScenario : {}
@@ -151,12 +255,21 @@ export function validateIrrigationProjectSnapshot(input) {
           })) : [],
         })) : [],
       } : null,
+      automation,
       billOfMaterials: {
         headCount: bom.headCount,
         zoneCount: bom.zoneCount,
         flexPipeRequiredM: finite(bom.flexPipeRequiredM, 0, 1000) ? bom.flexPipeRequiredM : null,
         flexPipeCoils30m: Number.isInteger(bom.flexPipeCoils30m) ? bom.flexPipeCoils30m : null,
-        items: bom.items.map((item) => ({ sku: item.sku, quantity: item.quantity, name: cleanLabel(item.name, 160) || item.sku })),
+        items: bom.items.map((item) => {
+          const details = orderDetails.get(item.sku)
+          return {
+            sku: item.sku,
+            quantity: item.quantity,
+            name: details?.name || cleanLabel(item.name, 160) || item.sku,
+            priceEUR: details?.price ?? null,
+          }
+        }),
       },
       warnings: Array.isArray(input.warnings) ? input.warnings.slice(0, 30).map((warning) => ({
         code: cleanLabel(warning?.code, 100),
