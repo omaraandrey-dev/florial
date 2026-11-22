@@ -131,20 +131,30 @@ function branchDistance(forwardOffsetM, direction, perimeterLengthM) {
  * perimeter direction or nozzle arc. A zone may be supplied by two source-fed
  * perimeter routes when its heads lie on both sides of the water connection.
  */
+/**
+ * Assign perimeter heads in the actual pipe-laying sequence:
+ * start at the top-right water connection, move left along the upper edge,
+ * then continue around the lawn. Interior 360-degree heads are grouped last.
+ * Each group contains at most six heads; perimeter groups are never balanced
+ * by borrowing heads from the opposite side of the perimeter.
+ */
 export function buildIrrigationZones(sprinklers = [], geometry) {
   const context = buildPerimeterContext(geometry)
   if (!context || !Array.isArray(sprinklers) || sprinklers.length === 0) {
     return Object.freeze([])
   }
 
-  const midpointM = context.perimeterLengthM / 2
-  const ordered = sprinklers.map((sprinkler) => {
+  const perimeterEntries = []
+  const interiorEntries = []
+
+  for (const sprinkler of sprinklers) {
     const location = locateSprinklerOnPerimeter(sprinkler.position, context)
-    if (!location) return null
-    const branchDirection = location.forwardOffsetM < midpointM - EPSILON
+    if (!location) continue
+    const isInterior = sprinkler.source === 'interior'
+    const branchDirection = location.forwardOffsetM < context.perimeterLengthM / 2 - EPSILON
       ? 'forward'
       : 'reverse'
-    return {
+    const entry = {
       sprinkler,
       location,
       branchDirection,
@@ -154,33 +164,44 @@ export function buildIrrigationZones(sprinklers = [], geometry) {
         context.perimeterLengthM,
       ),
     }
-  }).filter(Boolean).sort((a, b) =>
-    a.distanceFromSourceM - b.distanceFromSourceM ||
-    (a.branchDirection === b.branchDirection ? 0 : a.branchDirection === 'forward' ? -1 : 1) ||
+    if (isInterior) interiorEntries.push(entry)
+    else perimeterEntries.push(entry)
+  }
+
+  // Perimeter sequence begins at the water connection and follows the lawn
+  // boundary continuously in the forward direction.
+  perimeterEntries.sort((a, b) =>
+    a.location.forwardOffsetM - b.location.forwardOffsetM ||
+    String(a.sprinkler.id).localeCompare(String(b.sprinkler.id)))
+
+  // Interior circular heads form the final zone group(s), not gaps in the
+  // perimeter sequence. Row-major ordering keeps the result deterministic.
+  interiorEntries.sort((a, b) =>
+    b.sprinkler.position.y - a.sprinkler.position.y ||
+    a.sprinkler.position.x - b.sprinkler.position.x ||
     String(a.sprinkler.id).localeCompare(String(b.sprinkler.id)))
 
   const limit = FLORIAL_IRRIGATION_PROJECT_STANDARD.zoneCapacity.maxHeadsPerZone
-  const zoneCount = Math.ceil(ordered.length / limit)
-  const baseSize = Math.floor(ordered.length / zoneCount)
-  const extraHeads = ordered.length % zoneCount
   const zones = []
-  let offset = 0
-
-  for (let zoneIndex = 0; zoneIndex < zoneCount; zoneIndex += 1) {
-    const batchSize = baseSize + (zoneIndex < extraHeads ? 1 : 0)
-    const batch = ordered.slice(offset, offset + batchSize)
-    offset += batchSize
-    const branchDirections = [...new Set(batch.map((entry) => entry.branchDirection))]
-    zones.push(Object.freeze({
-      id: 'zone-' + String(zoneIndex + 1).padStart(2, '0'),
-      zoneNumber: zoneIndex + 1,
-      branchDirection: branchDirections.length === 1 ? branchDirections[0] : 'mixed',
-      branchDirections: Object.freeze(branchDirections),
-      sprinklerIds: Object.freeze(batch.map((entry) => entry.sprinkler.id)),
-      sprinklerCount: batch.length,
-    }))
+  const appendGroups = (entries, zoneType) => {
+    for (let offset = 0; offset < entries.length; offset += limit) {
+      const batch = entries.slice(offset, offset + limit)
+      const branchDirections = [...new Set(batch.map((entry) => entry.branchDirection))]
+      const zoneNumber = zones.length + 1
+      zones.push(Object.freeze({
+        id: 'zone-' + String(zoneNumber).padStart(2, '0'),
+        zoneNumber,
+        zoneType,
+        branchDirection: branchDirections.length === 1 ? branchDirections[0] : 'mixed',
+        branchDirections: Object.freeze(branchDirections),
+        sprinklerIds: Object.freeze(batch.map((entry) => entry.sprinkler.id)),
+        sprinklerCount: batch.length,
+      }))
+    }
   }
 
+  appendGroups(perimeterEntries, 'perimeter')
+  appendGroups(interiorEntries, 'interior')
   return Object.freeze(zones)
 }
 
