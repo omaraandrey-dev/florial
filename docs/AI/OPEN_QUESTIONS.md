@@ -1,3 +1,16 @@
+## 2026-11-22 — Irrigation assistant R-VAN mixed-radius / strip-layout redesign
+
+- Implementation branch: `feat/irrigation-rvan-mixed-radius-strip-layout`; based on live `main`.
+- OPEN: exact-branch Cloudflare Pages Preview build and visual QA for 10 × 5 m, 20 × 10 m, 1.5 × 10 m strip, 1 × 10 m adjusted strip and vertical strip geometry.
+- OPEN: run the full application/Studio/D1 CI suite on a PR before any merge; no PR has been opened.
+- OPEN: verify test assertions and H2H results for 10 × 5 m perimeter-only and 20 × 10 m R-VAN24 centerline (with R-VAN24-360 full-circle heads).
+- OPEN: validate L-shaped mixed-model candidate layouts and build LCS/RCS/SST decomposition for L-shaped narrow areas.
+- OPEN: expand circular R-VAN performance data to the complete manufacturer arc catalogue; current dataset remains a subset.
+- OPEN: adjusted-radius-specific flow/precipitation values are not available at arbitrary settings; current displayed flows remain nominal table points. Hydraulic feasibility, zones, pipe losses, precipitation uniformity and overspray are not evaluated.
+- A provisional 0.2 m preferred-model continuity tolerance is implemented to retain the owner's requested R-VAN model when the requested spacing is slightly below the manufacturer's minimum; selected radius remains clamped to the manufacturer's minimum and overspray remains unverified. Owner review required.
+- No Production release until the PR is reviewed and the owner explicitly authorizes merge/deployment. No Sanity, D1, Cloudflare settings/secrets, Resend or Production data changes.
+- Audit: `docs/audits/2026-11-22-irrigation-rvan-mixed-radius-strip-layout.md`.
+
 ## 2026-11-22 — Storefront plant product page UX acceptance
 
 - PR pending: `feat/plant-product-page-ux` improves plant purchase hierarchy, groups botanical information, consolidates variant details, collapses the care guide and adds a mobile sticky add-to-cart action.
