@@ -133,7 +133,7 @@ export function validateIrrigationProjectSnapshot(input) {
       })
     }
     if (type === 'manual') {
-      if (controllers.length || automationInput.valve != null || bom.items.some((item) => item.sku === 'H01000') ||
+      if (controllers.length || automationInput.valve != null || bom.items.some((item) => ['H01000', 'H01040', 'B31440'].includes(item.sku) || Object.prototype.hasOwnProperty.call(skuCapacity, item.sku)) ||
           automationInput.requiresControlCable !== false || automationInput.wifiRequired !== false) {
         return { valid: false, reason: 'manual_automation_contains_valves_or_controllers' }
       }
@@ -143,6 +143,14 @@ export function validateIrrigationProjectSnapshot(input) {
           new Set(assignedZones).size !== zones.length ||
           expectedZones.some((zone) => !assignedZones.includes(zone))) {
         return { valid: false, reason: 'incomplete_controller_zone_allocation' }
+      }
+      for (const item of bom.items) {
+        if (Object.prototype.hasOwnProperty.call(skuCapacity, item.sku) && !allowedControllerSkus.has(item.sku)) {
+          return { valid: false, reason: 'unexpected_controller_family_in_bom' }
+        }
+        if (allowedControllerSkus.has(item.sku) && controllerCounts.get(item.sku) !== item.quantity) {
+          return { valid: false, reason: 'controller_order_quantity_mismatch' }
+        }
       }
       for (const [sku, quantity] of controllerCounts) {
         if (orderSkus.get(sku) !== quantity || bom.items.find((item) => item.sku === sku)?.quantity !== quantity) {
@@ -161,7 +169,7 @@ export function validateIrrigationProjectSnapshot(input) {
       if (!isRecord(candidate) || candidate.sku !== 'B31440' ||
           candidate.quantity !== zones.length || orderSkus.get('B31440') !== zones.length ||
           bom.items.find((item) => item.sku === 'B31440')?.quantity !== zones.length ||
-          bom.items.some((item) => item.sku === 'H01000')) {
+          bom.items.some((item) => ['H01000', 'H01040'].includes(item.sku))) {
         return { valid: false, reason: 'invalid_bat_valve_compatibility' }
       }
       const details = orderDetails.get('B31440')
@@ -177,7 +185,7 @@ export function validateIrrigationProjectSnapshot(input) {
     if (type === 'tm2' || type === 'rc2') {
       if (orderSkus.get('H01000') !== zones.length ||
           bom.items.find((item) => item.sku === 'H01000')?.quantity !== zones.length ||
-          bom.items.some((item) => item.sku === 'B31440')) {
+          bom.items.some((item) => ['B31440', 'H01040'].includes(item.sku))) {
         return { valid: false, reason: 'wired_controller_requires_standard_valves' }
       }
     }

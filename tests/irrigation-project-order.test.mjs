@@ -112,7 +112,10 @@ test('persists BAT controller allocation and the 9V PGA valve with server-resolv
 
 test('rejects BAT projects that retain the ordinary 24V valve or omit the 9V valve', () => {
   const project = snapshot()
-  project.billOfMaterials.items.push({ sku: 'H01000', quantity: 2, name: '100-HV' })
+  project.billOfMaterials.items.push(
+    { sku: 'H01000', quantity: 2, name: '100-HV' },
+    { sku: 'ESP-BAT-BT2', quantity: 1, name: 'ESP-BAT-BT, 2 zones' },
+  )
   project.automation = {
     type: 'bat',
     controllers: [{ sku: 'ESP-BAT-BT2', capacity: 2, quantity: 1, zoneNumbers: [1, 2] }],
