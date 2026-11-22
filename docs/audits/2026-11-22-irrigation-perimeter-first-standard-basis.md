@@ -148,7 +148,7 @@ Corrected and published BG/RU/EN name, description, short description, size spec
 ### Verification status after this follow-up
 
 - Code changes are on the existing PR #473 head branch `feat/irrigation-perimeter-first-standard-basis`, based on `main` `b48d6c5b354c500250957355b4eb90751be072d0`.
-- The previous PR #473 CI/Preview/browser QA results apply to its earlier head only. They do **not** validate this follow-up. Exact-head CI, build, Preview deployment and visual QA are pending for the new head.
+- The previous PR #473 CI/browser QA results apply to its earlier head only. For this follow-up, GitHub Blog/Studio validation (including typecheck and website utility tests) passed on code commit `96ec802881646df2dbc93ef0dfb0fca420b3b32f`; D1 migration validation passed on the latest docs commit `72da7edb2914a9f6126270008057cd60fcf4b977`. The latest Blog/Studio workflow for that docs-only commit was still running at the time of this audit update. Cloudflare Pages Preview deployment `94ee37f2-b2d3-4a6e-a261-6ec053119d22` for commit `72da7edb2914a9f6126270008057cd60fcf4b977` completed build and deploy successfully at `https://94ee37f2.florial.pages.dev`. Browser visual QA remains pending because the owner requires explicit permission before Browser Use.
 - Browser Use was not invoked; owner-controlled browser QA remains pending.
 - No merge, Production code deployment, D1 write, Cloudflare settings/secrets change, Resend action or order creation was performed.
 - Sanity Production was changed only for the single explicitly approved product correction described above.
