@@ -231,7 +231,10 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
     incomplete: 'Движок построил вариант, но контрольная сетка содержит непокрытые точки. Нужна инженерная проверка.',
     unsupported: 'Геометрия выходит за текущую область подтверждённого R-VAN-расчёта. Не подменяем расчёт неподтверждённой моделью. Следующий этап — отдельный движок Rain Bird 3500; он пока не включён. До его проверки нужна инженерная оценка.',
-    narrow: 'Полосовые форсунки R-VAN рассчитываются отдельным модулем только для прямоугольной полосы. Для Г-образной узкой зоны требуется отдельная инженерная проверка.',\n    stripAdjustment: 'Геометрическая раскладка построена, но размер форсунки нужно отрегулировать на месте при работающей воде. Производитель не публикует точные пределы регулировки; фактическую ширину/длину и перекрытие необходимо проверить.',\n    stripScenarioNote: 'LCS/RCS/SST используют прямоугольный рисунок полива. Расход и размеры взяты из таблицы Rain Bird для указанного давления; при изменении размера фактические параметры требуют проверки.',\n    stripOverlap: 'Проверка перекрытия полосовых форсунок (50%):',
+    narrow: 'Полосовые форсунки R-VAN рассчитываются отдельным модулем только для прямоугольной полосы. Для Г-образной узкой зоны требуется отдельная инженерная проверка.',
+    stripAdjustment: 'Геометрическая раскладка построена, но размер форсунки нужно отрегулировать на месте при работающей воде. Производитель не публикует точные пределы регулировки; фактическую ширину/длину и перекрытие необходимо проверить.',
+    stripScenarioNote: 'LCS/RCS/SST используют прямоугольный рисунок полива. Расход и размеры взяты из таблицы Rain Bird для указанного давления; при изменении размера фактические параметры требуют проверки.',
+    stripOverlap: 'Проверка перекрытия полосовых форсунок (50%):',
     notReady: 'Для запуска раскладки требуется подтверждённый контур участка.', engineError: 'Текущий инженерный движок не поддерживает эту геометрию или конфигурацию.',
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания',
   } : language === 'en' ? {
@@ -244,12 +247,15 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
     incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
     unsupported: 'The geometry is outside the currently verified R-VAN calculation scope. No unverified model is substituted. The next planned step is a separate Rain Bird 3500 engine; it is not enabled yet. Engineer review is required until that work is validated.',
-    narrow: 'R-VAN strip nozzles are calculated by a separate module for rectangular strips only. A narrow L-shaped area requires separate engineering review.',\n    stripAdjustment: 'The geometric layout is generated, but nozzle size must be adjusted on site while water is running. The manufacturer does not publish exact adjustment limits; verify the actual width/length and overlap in the field.',\n    stripScenarioNote: 'LCS/RCS/SST use rectangular spray patterns. Flow and dimensions come from the Rain Bird table at the selected pressure; actual values after size adjustment require field verification.',\n    stripOverlap: 'Strip nozzle overlap check (50%):',
+    narrow: 'R-VAN strip nozzles are calculated by a separate module for rectangular strips only. A narrow L-shaped area requires separate engineering review.',
+    stripAdjustment: 'The geometric layout is generated, but nozzle size must be adjusted on site while water is running. The manufacturer does not publish exact adjustment limits; verify the actual width/length and overlap in the field.',
+    stripScenarioNote: 'LCS/RCS/SST use rectangular spray patterns. Flow and dimensions come from the Rain Bird table at the selected pressure; actual values after size adjustment require field verification.',
+    stripOverlap: 'Strip nozzle overlap check (50%):',
     notReady: 'A customer-confirmed lawn boundary is required before layout generation.', engineError: 'The current engineering engine does not support this geometry or configuration.',
     headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings',
   } : {
     title: 'Предварителна геометрична схема на разпръсквачите', candidate: 'Кандидат според таблицата на производителя',
-    heads: 'Брой разпръсквачи', totalFlow: 'Общ дебит по таблица, л/мин',
+    heads: 'Брой разпръсквачи', totalFlow: 'Номинален дебит по таблица, л/мин',
     coverage: 'Геометрично покритие по контролна мрежа', uncovered: 'Непокрити контролни точки',
     positions: 'Координати на разпръсквачите, м',
     rvanScenarioNote: '3,1 bar е препоръчителната работна точка за R-VAN според Rain Bird. Това е сценарий по данните на производителя, а не измерено налягане при дюзата.',
@@ -489,7 +495,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                     </>
                   ) : (
                     <>
-                      <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : ['strip_nozzle_layout_required', 'short_side_below_supported_rvan_scope'].includes(layoutResult.status) ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
+                      <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : ['strip_nozzle_layout_required', 'short_side_below_supported_rvan_scope', 'strip_geometry_requires_engineer_review'].includes(layoutResult.status) ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
                       {layoutResult.status === 'strip_nozzle_layout_required' && (
                         <ul className="mt-2 grid gap-1 text-xs text-slate-600">
                           {layoutResult.stripSpecifications?.map((specification: { model: string; widthM: number; lengthM: number }) => (
