@@ -245,7 +245,7 @@ function buildCandidates(vertices, family, preferredModel, pressureBar, radiusM)
 
     const requestedRadiusM = directionalDistances.length ? Math.max(...directionalDistances) : radiusM
     const model = family === 'R-VAN'
-      ? (selectRvanModelForRadius(requestedRadiusM, preferredModel) ?? preferredModel)
+      ? (vertices.length === 4 ? preferredModel : (selectRvanModelForRadius(requestedRadiusM, preferredModel, pressureBar, candidate.arcDeg) ?? preferredModel))
       : preferredModel
     const performanceModel = candidate.arcDeg === 360 && family === 'R-VAN'
       ? model + '-360'
@@ -264,7 +264,9 @@ function buildCandidates(vertices, family, preferredModel, pressureBar, radiusM)
       nominalRadiusM: point.radiusM,
       requestedRadiusM,
       radiusAdjusted: Math.abs(selectedRadiusM - point.radiusM) > EPSILON,
-      radiusWithinManufacturerRange: resolved?.withinManufacturerRange ?? true,\n      radiusRequestedBelowMinimum: resolved?.requestedBelowMinimum ?? false,\n      radiusRequestedAboveNominal: resolved?.requestedAboveNominal ?? false,
+      radiusWithinManufacturerRange: resolved?.withinManufacturerRange ?? true,
+      radiusRequestedBelowMinimum: resolved?.requestedBelowMinimum ?? false,
+      radiusRequestedAboveNominal: resolved?.requestedAboveNominal ?? false,
       flowBasis: 'manufacturer_nominal_operating_point',
       flowLpm: point.flowLpm,
       pressureBar: point.pressureBar,
@@ -436,6 +438,7 @@ export function generateLawnSprinklerLayout({
   model,
   pressureBar,
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
+  spacingRadiusM = null,
 }) {
   const validation = validateLawnGeometry(geometry)
   if (!validation.valid || !['accepted', 'unsupported'].includes(validation.status)) {
@@ -511,7 +514,8 @@ export function generateLawnSprinklerLayout({
     })
   }
 
-  const effectiveSpacingRadiusM = Number.isFinite(spacingRadiusM) && spacingRadiusM > 0 ? spacingRadiusM : probe.radiusM\n  const candidates = buildCandidates(vertices, family, model, pressureBar, effectiveSpacingRadiusM)
+  const effectiveSpacingRadiusM = Number.isFinite(spacingRadiusM) && spacingRadiusM > 0 ? spacingRadiusM : probe.radiusM
+  const candidates = buildCandidates(vertices, family, model, pressureBar, effectiveSpacingRadiusM)
   if (!candidates || candidates.length > MAX_CANDIDATES) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
@@ -541,8 +545,11 @@ export function generateLawnSprinklerLayout({
   if (sprinklers.some((sprinkler) => sprinkler.radiusAdjusted)) {
     warnings.push({ code: 'geometric_radius_adjusted_but_flow_and_precipitation_remain_nominal_table_values', path: 'sprinklers.radiusM' })
   }
-  if (sprinklers.some((sprinkler) => sprinkler.radiusWithinManufacturerRange === false)) {
-    warnings.push({ code: 'requested_radius_exceeds_manufacturer_model_envelope', path: 'sprinklers.radiusM' })
+  if (sprinklers.some((sprinkler) => sprinkler.radiusRequestedBelowMinimum)) {
+    warnings.push({ code: 'minimum_manufacturer_radius_exceeds_target_spacing_overspray_not_evaluated', path: 'sprinklers.radiusM' })
+  }
+  if (sprinklers.some((sprinkler) => sprinkler.radiusRequestedAboveNominal)) {
+    warnings.push({ code: 'required_spacing_exceeds_pressure_specific_nominal_throw', path: 'sprinklers.radiusM' })
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
