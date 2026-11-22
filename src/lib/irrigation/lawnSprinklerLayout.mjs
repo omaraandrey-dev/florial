@@ -191,14 +191,32 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     }
   }
 
-  // Interior heads use a triangular lattice with nearest-neighbour spacing
-  // no greater than the manufacturer's 50%-of-diameter spacing basis.
+  // Build an orthogonal row/column grid from the selected R-VAN throw
+  // radius. This preserves perimeter-first placement and adds internal rows
+  // only when the lawn width exceeds one head-to-head spacing.
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const minX = Math.min(...xs)
   const maxX = Math.max(...xs)
   const minY = Math.min(...ys)
   const maxY = Math.max(...ys)
+  const xDivisions = Math.max(1, Math.ceil((maxX - minX) / radiusM))
+  const yDivisions = Math.max(1, Math.ceil((maxY - minY) / radiusM))
+  for (let row = 1; row < yDivisions; row += 1) {
+    const y = minY + (maxY - minY) * row / yDivisions
+    for (let column = 1; column < xDivisions; column += 1) {
+      const x = minX + (maxX - minX) * column / xDivisions
+      const position = { x, y }
+      if (pointInRing(position, vertices) === 1) {
+        add(position, 360, { x: 1, y: 0 }, 'interior_row')
+      }
+      if (candidates.length > MAX_CANDIDATES) return null
+    }
+  }
+
+  // Additional triangular candidates remain available only as coverage
+  // completion candidates; they do not replace mandatory corner/perimeter
+  // positions or the orthogonal H2H rows above.
   const rowStep = radiusM * Math.sqrt(3) / 2
   let row = 0
   for (let y = minY + rowStep / 2; y < maxY - EPSILON; y += rowStep) {
@@ -231,8 +249,16 @@ function evaluateCandidates(candidates, targets) {
 
 function selectGreedy(candidates, targetCount) {
   const uncovered = new Set(Array.from({ length: targetCount }, (_, index) => index))
-  const selected = []
-  const available = candidates.slice()
+  // Corner and perimeter positions are mandatory. Orthogonal interior rows
+  // are also mandatory whenever the geometry requires additional H2H rows.
+  const mandatory = candidates.filter((candidate) =>
+    ['vertex', 'edge', 'interior_row'].includes(candidate.source))
+  const selected = mandatory.slice(0, MAX_SELECTED_SPRINKLERS)
+  const selectedIds = new Set(selected.map((candidate) => candidate.id))
+  for (const candidate of selected) {
+    for (const targetIndex of candidate.covered) uncovered.delete(targetIndex)
+  }
+  const available = candidates.filter((candidate) => !selectedIds.has(candidate.id))
 
   while (uncovered.size > 0 && selected.length < MAX_SELECTED_SPRINKLERS) {
     let bestIndex = -1
