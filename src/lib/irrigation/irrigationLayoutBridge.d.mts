@@ -35,6 +35,30 @@ export interface PreliminaryLawnLayoutResult {
     customerSourceMeasurementsUsedAsNozzlePressure: false
   }>
   readonly geometry?: Readonly<{ shape: string | null; areaM2: number | null; shortSideM: number }>
+  readonly projectStandard?: Readonly<Record<string, any>>
+  readonly zones?: ReadonlyArray<Readonly<{
+    id: string
+    branchDirection: 'forward' | 'reverse'
+    sprinklerIds: ReadonlyArray<string>
+    sprinklerCount: number
+  }>>
+  readonly pipeNetwork?: Readonly<{
+    connectionPoint: Readonly<{ x: number; y: number }>
+    mainRoute: ReadonlyArray<Readonly<{ x: number; y: number }>>
+    mainDiameterMm: 25
+    zoneDiameterMm: 25
+    branches: ReadonlyArray<Readonly<{
+      zoneId: string
+      branchDirection: 'forward' | 'reverse'
+      sprinklerIds: ReadonlyArray<string>
+      points: ReadonlyArray<Readonly<{ x: number; y: number }>>
+      lateralConnections: ReadonlyArray<Readonly<{
+        sprinklerId: string
+        points: ReadonlyArray<Readonly<{ x: number; y: number }>>
+      }>>
+      diameterMm: 25
+    }>>
+  }>
   readonly layout?: Readonly<Record<string, any>>
   readonly warnings?: ReadonlyArray<Readonly<{ code: string; path: string }>>
 }
