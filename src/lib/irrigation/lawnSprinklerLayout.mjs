@@ -1,5 +1,5 @@
 import { validateLawnGeometry } from './lawnGeometry.mjs'
-import { resolveRvanRadius } from './rvanNozzleSelection.mjs'
+import { resolveRvanRadius, selectRvanModelForRadius } from './rvanNozzleSelection.mjs'
 import {
   findRainBirdRvanPerformancePoint,
   RAIN_BIRD_RVAN_DATASET,
@@ -138,33 +138,29 @@ function supportedModel(family, model) {
   return false
 }
 
-function buildCandidates(vertices, family, model, pressureBar, radiusM) {
-  const candidates = []
+function buildCandidates(vertices, family, preferredModel, pressureBar, radiusM) {
+  const positions = []
+  const seen = new Set()
   const orientation = Math.sign(signedArea(vertices)) || 1
   const add = (position, arcDeg, direction, source) => {
-    const point = performanceFor(family, model, pressureBar, arcDeg)
-    if (!point || !Number.isFinite(point.radiusM) || point.radiusM <= 0) return
-    candidates.push({
-      id: 's' + String(candidates.length + 1).padStart(5, '0'),
+    const directionDeg = arcDeg === 360 ? null : normalizeDegrees(Math.atan2(direction.y, direction.x) * 180 / Math.PI)
+    const key = [
+      position.x.toFixed(6),
+      position.y.toFixed(6),
+      arcDeg,
+      directionDeg === null ? 'full' : directionDeg.toFixed(3),
+    ].join(':')
+    if (seen.has(key)) return
+    seen.add(key)
+    positions.push({
       position: Object.freeze({ x: position.x, y: position.y }),
       arcDeg,
-      directionDeg: arcDeg === 360 ? null : normalizeDegrees(Math.atan2(direction.y, direction.x) * 180 / Math.PI),
+      directionDeg,
       source,
-      model,
-      pattern: 'circular',
-      radiusM: point.radiusM,
-      nominalRadiusM: point.radiusM,
-      flowBasis: 'manufacturer_nominal_operating_point',
-      flowLpm: point.flowLpm,
-      pressureBar: point.pressureBar,
-      precipitationSquareMmH: point.precipitationSquareMmH,
-      precipitationTriangularMmH: point.precipitationTriangularMmH,
-      performanceModel: arcDeg === 360 && family === 'R-VAN' ? model + '-360' : model,
     })
   }
 
-  // Vertex heads: 90-degree arcs at convex corners and 270-degree arcs at
-  // reflex corners, oriented along the inward angle bisector.
+  // Mandatory corner heads: 90-degree convex and 270-degree reflex sectors.
   for (let index = 0; index < vertices.length; index += 1) {
     const previous = vertices[(index - 1 + vertices.length) % vertices.length]
     const current = vertices[index]
@@ -178,8 +174,8 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     add(current, convex ? 90 : 270, bisector, 'vertex')
   }
 
-  // Straight boundary heads: exact 180-degree inward-facing sectors. The
-  // subdivision is based on the tested throw radius, not a generic lawn grid.
+  // Mandatory perimeter positions. Each edge is divided so adjacent heads
+  // are no farther apart than the preferred model's nominal throw.
   for (let index = 0; index < vertices.length; index += 1) {
     const a = vertices[index]
     const b = vertices[(index + 1) % vertices.length]
@@ -196,9 +192,6 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     }
   }
 
-  // Build an orthogonal row/column grid from the selected R-VAN throw
-  // radius. This preserves perimeter-first placement and adds internal rows
-  // only when the lawn width exceeds one head-to-head spacing.
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const minX = Math.min(...xs)
@@ -207,21 +200,20 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
   const maxY = Math.max(...ys)
   const xDivisions = Math.max(1, Math.ceil((maxX - minX) / radiusM))
   const yDivisions = Math.max(1, Math.ceil((maxY - minY) / radiusM))
+
+  // Orthogonal rows are introduced only where the bounding geometry exceeds
+  // one head-to-head spacing. Points in an L-shape cut-out are excluded.
   for (let row = 1; row < yDivisions; row += 1) {
     const y = minY + (maxY - minY) * row / yDivisions
     for (let column = 1; column < xDivisions; column += 1) {
       const x = minX + (maxX - minX) * column / xDivisions
       const position = { x, y }
-      if (pointInRing(position, vertices) === 1) {
-        add(position, 360, { x: 1, y: 0 }, 'interior_row')
-      }
-      if (candidates.length > MAX_CANDIDATES) return null
+      if (pointInRing(position, vertices) === 1) add(position, 360, { x: 1, y: 0 }, 'interior_row')
+      if (positions.length > MAX_CANDIDATES) return null
     }
   }
 
-  // Additional triangular candidates remain available only as coverage
-  // completion candidates; they do not replace mandatory corner/perimeter
-  // positions or the orthogonal H2H rows above.
+  // Coverage-completion candidates remain available after mandatory rows.
   const rowStep = radiusM * Math.sqrt(3) / 2
   let row = 0
   for (let y = minY + rowStep / 2; y < maxY - EPSILON; y += rowStep) {
@@ -229,46 +221,59 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     for (let x = minX + radiusM / 2 + offset; x < maxX - EPSILON; x += radiusM) {
       const position = { x, y }
       if (pointInRing(position, vertices) === 1) add(position, 360, { x: 1, y: 0 }, 'interior')
-      if (candidates.length > MAX_CANDIDATES) return null
+      if (positions.length > MAX_CANDIDATES) return null
     }
     row += 1
   }
-  // Set each head's geometric throw from the maximum adjacent grid spacing.
-  // The manufacturer's flow/precipitation row remains nominal; adjusted-flow
-  // values are not invented when the exact adjusted operating point is absent.
-  return candidates.map((candidate) => {
-    if (candidate.pattern !== 'circular' || !['vertex', 'edge', 'interior_row'].includes(candidate.source)) {
-      return candidate
-    }
+
+  return positions.map((candidate, index) => {
     const directionalDistances = []
     for (const axis of ['x', 'y']) {
       for (const sign of [-1, 1]) {
-        const neighbour = candidates
-          .filter((other) => other.id !== candidate.id && other.pattern === 'circular')
-          .map((other) => {
+        const neighbour = positions
+          .map((other, otherIndex) => {
             const primary = axis === 'x' ? other.position.x - candidate.position.x : other.position.y - candidate.position.y
             const secondary = axis === 'x' ? other.position.y - candidate.position.y : other.position.x - candidate.position.x
-            return { other, primary, secondary }
+            return { otherIndex, primary, secondary }
           })
-          .filter(({ primary, secondary }) => primary * sign > EPSILON && Math.abs(secondary) <= 0.02)
+          .filter(({ otherIndex, primary, secondary }) =>
+            otherIndex !== index && primary * sign > EPSILON && Math.abs(secondary) <= 0.02)
           .sort((a, b) => Math.abs(a.primary) - Math.abs(b.primary))[0]
         if (neighbour) directionalDistances.push(Math.abs(neighbour.primary))
       }
     }
-    if (!directionalDistances.length) return candidate
-    const requestedRadiusM = Math.max(...directionalDistances)
-    const resolved = resolveRvanRadius(model, requestedRadiusM)
-    if (!resolved) return candidate
-    return {
-      ...candidate,
-      radiusM: resolved.radiusM,
-      requestedRadiusM: resolved.requestedRadiusM,
-      radiusAdjusted: Math.abs(resolved.radiusM - candidate.nominalRadiusM) > EPSILON,
-      radiusWithinManufacturerRange: resolved.withinManufacturerRange,
-    }
-  })
-}
 
+    const requestedRadiusM = directionalDistances.length ? Math.max(...directionalDistances) : radiusM
+    const model = family === 'R-VAN'
+      ? (selectRvanModelForRadius(requestedRadiusM, preferredModel) ?? preferredModel)
+      : preferredModel
+    const performanceModel = candidate.arcDeg === 360 && family === 'R-VAN'
+      ? model + '-360'
+      : model
+    const point = performanceFor(family, model, pressureBar, candidate.arcDeg)
+    if (!point) return null
+
+    const resolved = family === 'R-VAN' ? resolveRvanRadius(model, requestedRadiusM) : null
+    const selectedRadiusM = resolved?.radiusM ?? point.radiusM
+    return {
+      id: 's' + String(index + 1).padStart(5, '0'),
+      ...candidate,
+      model,
+      pattern: 'circular',
+      radiusM: selectedRadiusM,
+      nominalRadiusM: point.radiusM,
+      requestedRadiusM,
+      radiusAdjusted: Math.abs(selectedRadiusM - point.radiusM) > EPSILON,
+      radiusWithinManufacturerRange: resolved?.withinManufacturerRange ?? true,
+      flowBasis: 'manufacturer_nominal_operating_point',
+      flowLpm: point.flowLpm,
+      pressureBar: point.pressureBar,
+      precipitationSquareMmH: point.precipitationSquareMmH,
+      precipitationTriangularMmH: point.precipitationTriangularMmH,
+      performanceModel,
+    }
+  }).filter(Boolean)
+}
 function evaluateCandidates(candidates, targets) {
   return candidates.map((candidate) => {
     const covered = []
