@@ -1,5 +1,5 @@
-export type IrrigationPressureType = 'static' | 'dynamic' | 'unknown'
-export type IrrigationFlowMethod = 'bucket' | 'flow_meter' | 'other_verified' | 'unknown'
+export type IrrigationPressureType = 'static' | 'dynamic' | 'unknown' | 'design_assumption'
+export type IrrigationFlowMethod = 'bucket' | 'flow_meter' | 'other_verified' | 'unknown' | 'not_requested_at_customer_intake'
 export interface IrrigationIntakeInput {
   language?: 'bg' | 'ru' | 'en'
   shape?: 'rectangle' | 'l-shape'
@@ -9,12 +9,12 @@ export interface IrrigationIntakeInput {
   cutoutDepth?: string | number
   cutoutCorner?: string
   geometryValidation?: { valid?: boolean; status?: string; supported?: boolean; computedAreaM2?: number; computedPerimeterM?: number; normalizedGeometry?: unknown } | null
-  waterSource?: 'mains' | 'well' | 'tank' | 'unknown'
+  waterSource?: 'mains' | 'well' | 'tank' | 'unknown' | 'standard_design_assumption'
   pressureType?: IrrigationPressureType
   pressureBar?: string | number
   pressureMeasuredWhileFlowing?: boolean
-  pressureTestPoint?: 'source' | 'tap' | 'lawn_entry' | 'unknown'
-  flowRate?: string | number
+  pressureTestPoint?: 'source' | 'tap' | 'lawn_entry' | 'unknown' | 'one_inch_inlet_tap'
+  flowRate?: string | number | null
   flowMeasurementMethod?: IrrigationFlowMethod
   pipeNetworkCaptured?: boolean
   elevationProfileCaptured?: boolean
