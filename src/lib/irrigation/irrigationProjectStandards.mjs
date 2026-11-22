@@ -142,15 +142,17 @@ export function buildPerimeterPipeNetwork(geometry, sprinklers = []) {
       { x: attachment.x, y: sprinkler.position.y },
       sprinkler.position,
     ])
-    const chosen = pathInside(horizontalFirst, vertices) ? horizontalFirst
-      : pathInside(verticalFirst, vertices) ? verticalFirst
+    const horizontalValid = pathInside(horizontalFirst, vertices)
+    const verticalValid = pathInside(verticalFirst, vertices)
+    const chosen = horizontalValid ? horizontalFirst
+      : verticalValid ? verticalFirst
         : [attachment, sprinkler.position]
     return Object.freeze({
       sprinklerId: sprinkler.id,
       zoneId: sprinkler.zoneId ?? null,
       points: Object.freeze(chosen.map((point) => Object.freeze({ x: point.x, y: point.y }))),
       connection: 'nearest_perimeter_point',
-      routeInsideLawnChecked: chosen !== undefined && chosen !== null,
+      routeInsideLawnChecked: horizontalValid || verticalValid,
     })
   }).filter(Boolean)
 
