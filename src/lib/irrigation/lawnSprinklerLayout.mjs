@@ -244,12 +244,16 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       }
     }
     if (yDivisions > 1) {
-      for (let part = 1; part < yDivisions; part += 1) {
-        yPositions.add(minY + lengthY * part / yDivisions)
+      // For a medium-width rectangle, a single true centre row is sufficient.
+      // Wider rectangles get additional evenly spaced rows as well.
+      if (lengthY <= radiusM * 2 + 1) {
+        yPositions.add((minY + maxY) / 2)
+      } else {
+        for (let part = 1; part < yDivisions; part += 1) {
+          yPositions.add(minY + lengthY * part / yDivisions)
+        }
+        yPositions.add((minY + maxY) / 2)
       }
-      // Keep a true centre row available even when equal spacing does not
-      // place one there (for example, a 20 × 15 m rectangle).
-      yPositions.add((minY + maxY) / 2)
     }
 
     if (xPositions.size > 0 && yPositions.size > 0) {
