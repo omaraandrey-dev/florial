@@ -1,12 +1,15 @@
 # Latest main and Production — balanced irrigation zones and owner project PDF (2026-11-22)
 
-- PR #476 merged at `dbcf63e2ad05e2132ba39b2ec30936fdb6c6abe1`; PR #477 merged at current `main` SHA `6ae20420380f5794aba331b65427ac31d3160e2d`.
-- Perimeter and interior sprinkler heads now share one ordered sequence. Different arcs (90°/180°/270°/360°) do not split zones; zone groups are balanced at no more than six heads each.
-- The existing checkout receives the versioned irrigation project snapshot. The server validates it against order SKUs/quantities and persists it in existing D1 `order_events.metadata`; no D1 migration is required.
-- A separate owner-only PDF includes lawn/cut-out dimensions, layout, arcs, zones, drawn pipe routes, catalogue names and BOM SKU/quantities. Customer proforma email is unchanged.
-- Exact PR-head CI: #476 runs `45014451568` / `45014451557`; #477 runs `45014880321` / `45014880308`; all succeeded. Main CI after #476 runs `45014654327` / `45014654333`, both succeeded. Main CI after #477: Blog/Studio run `45015013305` and D1 validation run `45015013373`, both succeeded.
-- Final Preview: `https://988ce669.florial.pages.dev/irrigation-assistant`. Production deployment `c122e2dd-e854-44fd-a68b-bfc2bcb4524a` succeeded from exact main SHA `6ae20420380f5794aba331b65427ac31d3160e2d`.
-- No live order or test email was created; actual Resend delivery and end-to-end checkout remain unverified. No Sanity write, D1 schema migration or Cloudflare settings/secrets change.
+- Runtime PR #476 merged into `main` at `dbcf63e2ad05e2132ba39b2ec30936fdb6c6abe1`; PDF-detail follow-up PR #477 merged at `6ae20420380f5794aba331b65427ac31d3160e2d`.
+- Documentation closeout PR #478 merged at `6ce23f86620b466b9a8a40cd65556bfd5df14342`; this is the current `main` HEAD for this snapshot.
+- Perimeter and interior sprinkler heads share one deterministic sequence. Arc 90°/180°/270°/360° does not split zones; groups are balanced with at most six heads each.
+- Checkout submits the versioned project snapshot; the server validates BOM SKU quantities and zone membership, then persists it in existing D1 `order_events.metadata`. No D1 migration is required.
+- A separate owner-only PDF includes overall/cut-out dimensions, lawn outline, sprinkler positions/arcs/models, balanced zones, drawn main/zone/lateral routes, catalogue names and BOM SKU/quantities. Customer proforma email remains unchanged.
+- Exact PR-head CI: #476 runs `45014451568` / `45014451557`; #477 runs `45014880321` / `45014880308`; #478 docs run `45015264344` / `45015264325`; all succeeded.
+- Main CI after #476: `45014654327` / `45014654333`; after #477: `45015013305` / `45015013373`; after docs PR #478: `45015394038` / `45015394028`; all succeeded.
+- Final code Preview: `https://988ce669.florial.pages.dev/irrigation-assistant`. Runtime Production deployment `c122e2dd-e854-44fd-a68b-bfc2bcb4524a` succeeded from #477 merge SHA. Documentation-only Production deployment `9d0f5458-5d55-4062-83a7-43acd7fea564` succeeded from current main SHA `6ce23f86620b466b9a8a40cd65556bfd5df14342`; aliases remain `https://florial-bg.com` and `https://www.florial-bg.com`.
+- No Production order or test email was created. Actual Resend inbox delivery and checkout E2E remain unverified pending an owner-approved safe test. No Sanity write, D1 schema/data migration, Cloudflare settings/secrets change.
+- Live Production D1 was checked read-only: `order_events` contains the required `id`, `order_id`, `order_number`, actor, event, note, metadata and timestamp columns; `schema_migrations` confirms versions `0001_initial` through `0017_manager_push_subscriptions`. Both queries reported zero rows written.
 - Hydraulic sizing, dynamic pressure/flow, six-head hydraulic suitability, Ø25/Ø32 mainline confirmation, overspray/DU/CU and field validation remain open. The six-head limit is a grouping rule only.
 - Technical guide: `docs/engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md`.
 
