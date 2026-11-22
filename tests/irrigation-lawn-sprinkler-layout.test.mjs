@@ -227,6 +227,21 @@ test('head-to-head spacing rejects nearby sprinklers whose sectors face away fro
   assert.ok(checks.every((entry) => entry.headToHeadNeighborId === null))
 })
 
+test('perimeter head-to-head rejects a 10m same-edge gap even when the opposite-side head is 5m away', () => {
+  const checks = evaluateHeadToHeadSpacing([
+    { id: 'a', position: { x: 0, y: 0 }, arcDeg: 360, directionDeg: null, radiusM: 5, perimeterOffsetM: 0, perimeterLengthM: 30 },
+    { id: 'b', position: { x: 10, y: 0 }, arcDeg: 360, directionDeg: null, radiusM: 5, perimeterOffsetM: 10, perimeterLengthM: 30 },
+    { id: 'c', position: { x: 10, y: 5 }, arcDeg: 360, directionDeg: null, radiusM: 5, perimeterOffsetM: 15, perimeterLengthM: 30 },
+    { id: 'd', position: { x: 0, y: 5 }, arcDeg: 360, directionDeg: null, radiusM: 5, perimeterOffsetM: 25, perimeterLengthM: 30 },
+  ])
+  const first = checks.find((entry) => entry.sprinklerId === 'a')
+  assert.equal(first?.nearestSprinklerId, 'd')
+  assert.equal(first?.separationM, 5)
+  assert.equal(first?.perimeterNextSprinklerId, 'b')
+  assert.equal(first?.perimeterNextGapM, 10)
+  assert.equal(first?.passed, false)
+})
+
 test('head-to-head spacing accepts mutually facing sectors within both throw radii', () => {
   const checks = evaluateHeadToHeadSpacing([
     { id: 'a', position: { x: 0, y: 0 }, arcDeg: 90, directionDeg: 90, radiusM: 5 },
