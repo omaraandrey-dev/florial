@@ -203,7 +203,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     const skus = billOfMaterials.items.map((item: { sku: string }) => item.sku)
     sanityLiveClient.fetch(
       `*[_type == "product" && sku in $skus && isActive != false]{
-        _id, name, sku, priceEUR, stockStatus, vatIncluded, weightKg, translations,
+        _id, name, sku, priceEUR, stockStatus, vatIncluded, weightKg, translations { bg { name }, ru { name }, en { name } },
         "productType": "equipment",
         "slug": { "current": coalesce(slug.current, slug) },
         "brand": brand->name,
