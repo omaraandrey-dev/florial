@@ -87,7 +87,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
   } else if (perimeterSpacingTargetM >= MIN_HEVAN_SHORT_SIDE_M && perimeterSpacingTargetM < MIN_RVAN_SHORT_SIDE_M) {
     family = 'HE-VAN'
     dataset = RAIN_BIRD_HEVAN_DATASET
-    modelSelectionBasis = 'provisional_short_side_candidate_rule_using_manufacturer_spacing_ranges'
+    modelSelectionBasis = 'provisional_half_short_side_spacing_candidate_rule_using_manufacturer_spacing_ranges'
     const matchingModel = dataset.models.find((entry, index) => {
       const [minimum, maximum] = entry.spacingRangeM
       const isLastModel = index === dataset.models.length - 1
