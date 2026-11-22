@@ -50,7 +50,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       ready: 'Исходные данные собраны', geometryReady: 'Геометрия подтверждена для предварительной раскладки', geometryMissing: 'Геометрию нужно уточнить или подтвердить',
       dynamicReady: 'Динамическое давление указано с условиями измерения', dynamicMissing: 'Динамическое давление и точка измерения не подтверждены',
       flowReady: 'Расход указан с методом измерения', flowMissing: 'Не хватает подтверждённого измерения расхода',
-      hydraulicNotReady: 'Гидравлическая проверка пока не выполнена',
       missingTitle: 'Что ещё потребуется для инженерной проверки',
       missing: {
         confirmed_supported_geometry: 'Подтверждённая поддерживаемая геометрия',
@@ -61,7 +60,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
         elevation_profile_or_verified_zero: 'Перепад высот или подтверждение его отсутствия',
         network_restrictions: 'Фильтры, счётчики, клапаны и другие ограничения',
       },
-      disclaimer: 'Это предварительный геометрический сценарий на основе приблизительных размеров и точной таблицы производителя. Он не является гидравлическим расчётом или готовым проектом. Потери в трубах, зоны, давление на соплах, совместимость корпуса и форсунки и отсутствие перелива за границы участка пока не проверены.',
       edit: 'Изменить ответы', home: 'Вернуться в магазин', unit: 'м²', noValue: 'Не указано',
       conversation: 'Диалог с помощником', projectPanel: 'Данные проекта', progress: 'Заполнение проекта',
       assistant: 'Помощник Florial', you: 'Вы', notSent: 'Ответ остаётся в этом окне браузера. На сервер он пока не отправляется.',
@@ -93,7 +91,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       ready: 'Project inputs collected', geometryReady: 'Geometry confirmed for preliminary layout', geometryMissing: 'Geometry needs clarification or confirmation',
       dynamicReady: 'Dynamic pressure and test conditions supplied', dynamicMissing: 'Dynamic pressure and test point are not confirmed',
       flowReady: 'Flow and measurement method supplied', flowMissing: 'A verified flow measurement is still missing',
-      hydraulicNotReady: 'Hydraulic feasibility has not been evaluated',
       missingTitle: 'Still needed for engineering review',
       missing: {
         confirmed_supported_geometry: 'Confirmed supported geometry',
@@ -104,7 +101,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
         elevation_profile_or_verified_zero: 'Elevation difference or verified zero difference',
         network_restrictions: 'Filters, meters, valves and other restrictions',
       },
-      disclaimer: 'This is a preliminary geometric scenario based on approximate dimensions and an exact manufacturer table point. It is not a hydraulic calculation or a completed design. Pipe losses, zones, nozzle pressure, body/nozzle compatibility and overspray beyond the lawn boundary have not been verified.',
       edit: 'Edit answers', home: 'Return to the shop', unit: 'm²', noValue: 'Not provided',
       conversation: 'Assistant conversation', projectPanel: 'Project details', progress: 'Project intake',
       assistant: 'Florial assistant', you: 'You', notSent: 'Your answers stay in this browser view and are not sent to a server yet.',
@@ -136,7 +132,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       ready: 'Входните данни са събрани', geometryReady: 'Геометрията е потвърдена за предварителна схема', geometryMissing: 'Геометрията трябва да се уточни или потвърди',
       dynamicReady: 'Динамичното налягане и условията за измерване са посочени', dynamicMissing: 'Динамичното налягане и точката на измерване не са потвърдени',
       flowReady: 'Посочени са дебит и метод на измерване', flowMissing: 'Липсва потвърдено измерване на дебита',
-      hydraulicNotReady: 'Хидравличната пригодност все още не е изчислена',
       missingTitle: 'Какво още е необходимо за инженерна проверка',
       missing: {
         confirmed_supported_geometry: 'Потвърдена геометрия в поддържан формат',
@@ -147,7 +142,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
         elevation_profile_or_verified_zero: 'Разлика във височината или потвърдена липса на такава',
         network_restrictions: 'Филтри, водомери, клапани и други ограничения',
       },
-      disclaimer: 'Това е предварителен геометричен сценарий според приблизителните размери и точна точка от таблицата на производителя. Това не е хидравлично изчисление или завършен проект. Загубите в тръбите, зоните, налягането при дюзите, съвместимостта на корпуса и дюзата и разпръскването извън тревната площ все още не са проверени.',
       edit: 'Промени отговорите', home: 'Обратно към магазина', unit: 'м²', noValue: 'Не е посочено',
       conversation: 'Разговор с помощника', projectPanel: 'Данни за проекта', progress: 'Попълване на проекта',
       assistant: 'Помощник Florial', you: 'Вие', notSent: 'Отговорите остават в този прозорец на браузъра и засега не се изпращат към сървър.',
@@ -206,7 +200,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     positions: 'Координаты дождевателей, м',
     rvanScenarioNote: '3,1 бар — рекомендованная рабочая точка R-VAN по таблице Rain Bird. Радиус регулируется в пределах, указанных производителем; на схеме показан номинальный радиус таблицы.',
     hevanScenarioNote: 'Для HE-VAN использована точка таблицы 2,07 бар, ближайшая к указанному Rain Bird оптимуму 2,1 бар. Это сценарий производителя, а не измеренное давление на сопле.',
-    limits: 'Используются точные табличные точки Rain Bird R-VAN. Группировка линий следует фиксированным ограничениям Florial по числу дождевателей, но не является гидравлическим расчётом. Потери давления, реальный расход, препятствия и перелив за границы участка не рассчитываются. Это предварительная схема.',
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
     incomplete: 'Движок построил вариант, но контрольная сетка содержит непокрытые точки. Нужна инженерная проверка.',
     unsupported: 'Геометрия выходит за текущий проверенный диапазон автоматической раскладки R-VAN. Не подставляем HE-VAN или другую неподтверждённую модель. Для этого участка требуется отдельная инженерная проверка.',
@@ -220,7 +213,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     positions: 'Sprinkler coordinates, m',
     rvanScenarioNote: '3.1 bar is the Rain Bird R-VAN recommended operating point, not a measured nozzle pressure. The nozzle radius is adjustable within the limits specified by Rain Bird; the diagram shows the nominal tabulated radius.',
     hevanScenarioNote: 'The HE-VAN table point 2.07 bar is used as the closest exact point to Rain Bird’s 2.1 bar optimum. This is a manufacturer scenario, not measured nozzle pressure.',
-    limits: 'Exact Rain Bird R-VAN table points are used. Line grouping follows the fixed Florial sprinkler-count limits and is not a hydraulic calculation. Pressure losses, actual flow, obstacles and overspray beyond the lawn boundary are not calculated. This is a preliminary layout.',
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
     incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
     unsupported: 'The geometry is outside the current verified R-VAN layout range. No HE-VAN or other unverified model is substituted. This site requires a separate engineering review.',
@@ -234,7 +226,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     positions: 'Координати на разпръсквачите, м',
     rvanScenarioNote: '3,1 bar е препоръчителната работна точка за R-VAN според Rain Bird, а не измерено налягане при дюзата. Радиусът се регулира в границите на производителя; схемата показва номиналния табличен радиус.',
     hevanScenarioNote: 'За HE-VAN е използвана точка 2,07 bar — най-близката точна таблична стойност до оптимума 2,1 bar на Rain Bird. Това е сценарий, а не измерено налягане при дюзата.',
-    limits: 'Използват се точни таблични точки на Rain Bird R-VAN. Групирането на линиите следва фиксираните ограничения на Florial за броя разпръсквачи, но не представлява хидравлично изчисление. Загуби на налягане, реален дебит, препятствия и разпръскване извън тревната площ не се изчисляват. Това е предварителна схема.',
     generated: 'Двигателят създаде предварителна схема с покритие на всички контролни точки.',
     incomplete: 'Двигателят създаде вариант, но има непокрити контролни точки. Необходима е инженерна проверка.',
     unsupported: 'Геометрията е извън текущия проверен диапазон за автоматично разполагане на R-VAN. Не се използва HE-VAN или друга непроверена дюза като заместител. Необходима е отделна инженерна проверка.',
@@ -379,10 +370,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
               <div className="rounded-2xl border border-slate-200 p-4">
                 <h3 className="font-bold text-slate-900">{language === 'ru' ? 'Стандартные условия проекта Florial' : language === 'en' ? 'Florial project standard assumptions' : 'Стандартни условия на проекта Florial'}</h3>
                 <ul className="mt-3 list-disc space-y-1 pl-5 text-sm leading-6 text-slate-700">
-                  <li>{language === 'ru' ? 'Кран 1 дюйм; давление на вводе 4 бара; подводящая труба Ø25 мм.' : language === 'en' ? '1-inch tap; 4-bar inlet pressure; Ø25 mm supply pipe.' : 'Кран 1 цол; налягане на входа 4 bar; захранваща тръба Ø25 mm.'}</li>
-                  <li>{language === 'ru' ? 'Подключение условно расположено в правом верхнем углу участка.' : language === 'en' ? 'The assumed connection point is at the top-right corner of the lawn.' : 'Условната точка на свързване е в горния десен ъгъл на тревната площ.'}</li>
-                  <li>{language === 'ru' ? 'Магистраль Ø32 мм; трубы зон Ø25 мм.' : language === 'en' ? 'Ø32 mm main pipe; Ø25 mm zone pipes.' : 'Главна тръба Ø32 mm; тръби на зоните Ø25 mm.'}</li>
-                  <li>{language === 'ru' ? 'До 6 секторных дождевателей или до 4 круговых 360° в одной линии.' : language === 'en' ? 'Up to 6 sector sprinklers or up to 4 full-circle 360° sprinklers per line.' : 'До 6 секторни разпръсквача или до 4 кръгови 360° разпръсквача на една линия.'}</li>
+                  <li>{language === 'ru' ? 'Точка подключения — верхний правый угол участка.' : language === 'en' ? 'Water connection point — top-right corner of the lawn.' : 'Точка на свързване — горният десен ъгъл на тревната площ.'}</li>
+                  <li>{language === 'ru' ? 'Труба — Ø25 мм.' : language === 'en' ? 'Pipe — Ø25 mm.' : 'Тръба — Ø25 mm.'}</li>
                 </ul>
               </div>
 
@@ -408,8 +397,13 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                             <g transform={'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'}>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
                               {layoutResult.pipeNetwork?.mainRoute && <polyline points={layoutResult.pipeNetwork.mainRoute.map((point: { x: number; y: number }) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#ea580c" strokeWidth="0.12" strokeLinejoin="round" />}
-                              {layoutResult.pipeNetwork?.branches?.map((branch: { sprinklerId: string; points: Array<{ x: number; y: number }> }) => (
-                                <polyline key={branch.sprinklerId} points={branch.points.map((point) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#f59e0b" strokeWidth="0.07" strokeDasharray="0.18 0.12" />
+                              {layoutResult.pipeNetwork?.branches?.map((branch: { zoneId: string; branchDirection: 'forward' | 'reverse'; points: Array<{ x: number; y: number }>; lateralConnections: Array<{ sprinklerId: string; points: Array<{ x: number; y: number }> }> }) => (
+                                <g key={branch.zoneId}>
+                                  <polyline points={branch.points.map((point) => point.x + ',' + point.y).join(' ')} fill="none" stroke={branch.branchDirection === 'forward' ? '#f59e0b' : '#d97706'} strokeWidth="0.1" strokeLinejoin="round" />
+                                  {branch.lateralConnections.map((lateral) => (
+                                    <polyline key={lateral.sprinklerId} points={lateral.points.map((point) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#b45309" strokeWidth="0.07" strokeDasharray="0.18 0.12" />
+                                  ))}
+                                </g>
                               ))}
                               {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number }) => (
                                 <g key={sprinkler.id}>
@@ -428,8 +422,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       {layoutResult.zones?.length > 0 && <div className="mt-3 rounded-xl bg-white p-3 text-sm">
                         <p className="font-semibold text-slate-800">{language === 'ru' ? 'Группировка линий' : language === 'en' ? 'Irrigation lines' : 'Групиране на линиите'}</p>
                         <ul className="mt-2 space-y-1 text-slate-600">
-                          {layoutResult.zones.map((zone: { id: string; arcDeg: number; sprinklerCount: number; maximumHeads: number }) => (
-                            <li key={zone.id}>{zone.id}: {zone.arcDeg}° · {zone.sprinklerCount}/{zone.maximumHeads}</li>
+                          {layoutResult.zones.map((zone: { id: string; branchDirection: 'forward' | 'reverse' }) => (
+                            <li key={zone.id}>{zone.id}</li>
                           ))}
                         </ul>
                       </div>}
@@ -450,10 +444,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       <li key={option.model}><strong>{option.model}</strong> · {option.dimensionsM[0]} × {option.dimensionsM[1]} m · {numberFormat(option.pressureBar)} bar</li>
                     ))}
                   </ul>}
-                  <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-6 text-amber-950">{layoutLabels.limits}</p>
                 </section>
               )}
-              <p className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-950">{copy.hydraulicNotReady}. {copy.disclaimer}</p>
               <div className="flex flex-wrap gap-3">
                 <button type="button" onClick={() => { setShowSummary(false); setStep(1) }} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">{copy.edit}</button>
                 <button type="button" onClick={onNavigateHome} className="rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800">{copy.home}</button>
@@ -469,7 +461,11 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
             <div><dt className="text-xs font-semibold text-slate-500">{copy.area}</dt><dd className="mt-1 font-semibold text-slate-900">{geometryAccepted ? numberFormat(calculatedArea) + ' ' + copy.unit : copy.noValue}</dd></div>
             <div><dt className="text-xs font-semibold text-slate-500">{copy.shapeLabel}</dt><dd className="mt-1 font-semibold text-slate-900">{shapeLabel}</dd></div>
           </dl>
-          <div className="mt-5 rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-950">{copy.hydraulicNotReady}</div>
+          <div className="mt-5 rounded-xl bg-slate-50 p-3 text-xs leading-5 text-slate-700">
+            <p className="font-semibold">{language === 'ru' ? 'Стандартные условия проекта' : language === 'en' ? 'Project standard' : 'Стандартни условия на проекта'}</p>
+            <p className="mt-1">{language === 'ru' ? 'Подключение — верхний правый угол.' : language === 'en' ? 'Connection — top-right corner.' : 'Свързване — горен десен ъгъл.'}</p>
+            <p>{language === 'ru' ? 'Труба — Ø25 мм.' : language === 'en' ? 'Pipe — Ø25 mm.' : 'Тръба — Ø25 mm.'}</p>
+          </div>
           <p className="mt-4 text-xs leading-5 text-slate-500">{copy.notSent}</p>
         </aside>
       </div>
