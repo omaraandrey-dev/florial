@@ -3,12 +3,12 @@ import fontkit from '@pdf-lib/fontkit'
 
 type ProjectPoint = { x: number; y: number }
 type IrrigationProject = {
-  geometry: { shape: string; areaM2: number; perimeterM: number; normalized: { regions: Array<{ boundary: { vertices: ProjectPoint[] } }> } }
+  geometry: { shape: string; dimensionsM: { length: number | null; width: number | null; cutoutWidth: number | null; cutoutDepth: number | null; cutoutCorner: string }; areaM2: number; perimeterM: number; normalized: { regions: Array<{ boundary: { vertices: ProjectPoint[] } }> } }
   operatingScenario: { manufacturer: string; family: string; model: string; pressureBar: number | null; actualNozzlePressureVerified: false }
   layout: { model: string; engineVersion: string; algorithm: string; sprinklers: Array<{ id: string; position: ProjectPoint; radiusM: number; arcDeg: number; performanceModel: string; source: string }> }
   zones: Array<{ id: string; zoneNumber: number; zoneType: string; sprinklerIds: string[] }>
-  pipeNetwork: { mainDiameterMm: number | null; zoneDiameterMm: number | null; mainRoute: ProjectPoint[]; branches: Array<{ zoneId: string; branchDirection: string; sprinklerIds: string[]; points: ProjectPoint[] }> } | null
-  billOfMaterials: { headCount: number; zoneCount: number; flexPipeRequiredM: number | null; flexPipeCoils30m: number | null; items: Array<{ sku: string; quantity: number }> }
+  pipeNetwork: { mainDiameterMm: number | null; zoneDiameterMm: number | null; mainRoute: ProjectPoint[]; branches: Array<{ zoneId: string; branchDirection: string; sprinklerIds: string[]; points: ProjectPoint[]; lateralConnections: Array<{ sprinklerId: string; points: ProjectPoint[] }> }> } | null
+  billOfMaterials: { headCount: number; zoneCount: number; flexPipeRequiredM: number | null; flexPipeCoils30m: number | null; items: Array<{ sku: string; quantity: number; name: string }> }
   warnings: Array<{ code: string; path: string }>
 }
 
@@ -107,6 +107,17 @@ export const createIrrigationProjectPdf = async (
     const b = mapped[(index + 1) % mapped.length]
     page.drawLine({ start: a, end: b, color: green, thickness: 1.4 })
   }
+  const drawRoute = (points: ProjectPoint[], color: typeof blue, thickness: number) => {
+    const route = points.map(mapPoint)
+    for (let index = 1; index < route.length; index += 1) {
+      page.drawLine({ start: route[index - 1], end: route[index], color, thickness })
+    }
+  }
+  if (project.pipeNetwork?.mainRoute) drawRoute(project.pipeNetwork.mainRoute, rgb(0.88, 0.34, 0.12), 1.4)
+  for (const branch of project.pipeNetwork?.branches ?? []) {
+    drawRoute(branch.points, rgb(0.92, 0.62, 0.08), 0.9)
+    for (const lateral of branch.lateralConnections) drawRoute(lateral.points, rgb(0.72, 0.46, 0.12), 0.65)
+  }
   const zoneByHead = new Map<string, number>()
   for (const zone of project.zones) for (const id of zone.sprinklerIds) zoneByHead.set(id, zone.zoneNumber)
   for (const sprinkler of project.layout.sprinklers) {
@@ -119,7 +130,8 @@ export const createIrrigationProjectPdf = async (
   y -= 3
 
   heading('1. Геометрия и работен сценарий')
-  write('Форма: ' + project.geometry.shape + ' · Площ: ' + project.geometry.areaM2.toFixed(2) + ' m² · Периметър: ' + project.geometry.perimeterM.toFixed(2) + ' m')
+  const dimensions = project.geometry.dimensionsM
+  write('Форма: ' + project.geometry.shape + ' · Размери: ' + (dimensions.length ?? '—') + ' × ' + (dimensions.width ?? '—') + ' m' + (dimensions.cutoutWidth && dimensions.cutoutDepth ? ' · Изрез: ' + dimensions.cutoutWidth + ' × ' + dimensions.cutoutDepth + ' m (' + dimensions.cutoutCorner + ')' : '') + ' · Площ: ' + project.geometry.areaM2.toFixed(2) + ' m² · Периметър: ' + project.geometry.perimeterM.toFixed(2) + ' m')
   write('Модел: ' + project.operatingScenario.manufacturer + ' ' + project.operatingScenario.family + ' ' + project.operatingScenario.model)
   write('Референтно налягане по таблицата на производителя: ' + (project.operatingScenario.pressureBar == null ? 'не е зададено' : project.operatingScenario.pressureBar.toFixed(2) + ' bar') + ' · Реалното налягане при дюзите не е измерено.')
   write('Размерите са приблизителни. Геометрията и разположението са предварителни.', { color: muted })
@@ -146,7 +158,7 @@ export const createIrrigationProjectPdf = async (
 
   heading('4. Ведомост на материалите')
   write('Необходима гъвкава връзка: ' + (project.billOfMaterials.flexPipeRequiredM ?? '—') + ' m · Закупуване: ' + (project.billOfMaterials.flexPipeCoils30m ?? '—') + ' бр. ролки по 30 m.')
-  for (const item of project.billOfMaterials.items) write(item.sku + ' — ' + item.quantity + ' бр.', { size: 7 })
+  for (const item of project.billOfMaterials.items) write(item.name + ' · ' + item.sku + ' — ' + item.quantity + ' бр.', { size: 7 })
 
   heading('5. Допускания и ограничения')
   const limitations = [

@@ -47,7 +47,7 @@ When the customer adds the complete kit to the cart, the assistant creates a ver
 - sprinkler IDs, coordinates, radii, arcs, model and perimeter/interior source;
 - balanced zone membership;
 - schematic main/zone routes and pipe diameters;
-- BOM SKU quantities;
+- localized catalogue product names, BOM SKUs and quantities;
 - engine warnings.
 
 The snapshot remains in the current application session and is passed with the order request. The cart displays that a project is attached. If the customer changes the quantity or removes a SKU belonging to the generated kit, the application detaches the snapshot so an outdated plan is not sent. Adding unrelated products does not invalidate the kit snapshot.
@@ -69,7 +69,7 @@ Delivery status values include `stored`, `sent`, `failed`, `owner_email_not_conf
 
 The backend generates a separate A4 PDF from the validated, persisted snapshot after the order is saved. It includes:
 
-- lawn outline and sprinkler positions with zone numbers;
+- lawn outline, sprinkler positions with zone numbers and schematic pipe routes;
 - geometry and approximate dimensions;
 - manufacturer model/reference pressure;
 - every sprinkler's coordinates, arc and model;
