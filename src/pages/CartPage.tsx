@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CartItem } from '../types'
-import { createOrder } from '../services/orderService'
+import { createOrder, type IrrigationProjectSnapshot } from '../services/orderService'
 import { trackPostHogEvent } from '../services/trackingService'
 
 interface CartPageProps {
   cart: CartItem[]
+  irrigationProject: IrrigationProjectSnapshot | null
+  onClearIrrigationProject: () => void
   onUpdateQuantity: (itemKey: string, quantity: number) => void
   onRemoveItem: (itemKey: string) => void
   onClearCart: () => void
@@ -14,6 +16,8 @@ interface CartPageProps {
 
 export function CartPage({
   cart,
+  irrigationProject,
+  onClearIrrigationProject,
   onUpdateQuantity,
   onRemoveItem,
   onClearCart,
@@ -102,6 +106,7 @@ export function CartPage({
         delivery_method: deliveryMethod,
         payment_method: paymentMethod,
         comment: formData.comment.trim(),
+        ...(irrigationProject ? { irrigationProject } : {}),
         items: cart.map((item) => ({
           productId: item.product._id,
           qty: item.quantity,
@@ -114,6 +119,7 @@ export function CartPage({
       setOrderNumber(result.orderNumber)
       setOrderSubmitted(true)
       onClearCart()
+      onClearIrrigationProject()
     } catch (error) {
       setSubmitError(
         error instanceof Error
