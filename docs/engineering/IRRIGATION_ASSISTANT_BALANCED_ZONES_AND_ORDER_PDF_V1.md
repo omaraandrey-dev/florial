@@ -1,5 +1,14 @@
 # Florial irrigation assistant — balanced zones and order PDF v1
 
+## Owner delivery and customer approval correction (PR #480)
+
+- The initial owner notification now contains two separate PDF attachments in one email: the order/proforma PDF and the irrigation project PDF. The project PDF labels customer-entered shape, dimensions and cut-out separately from calculated area/perimeter.
+- A checkout customer does not receive the irrigation scheme automatically. The Owner reviews the same project PDF first.
+- For bank-transfer orders, the existing Manager `confirm_proforma` action sends the final proforma and project PDF together.
+- For other payment methods, a new Owner-only Manager action `approve_irrigation_project` sends the order/proforma PDF and project PDF together to the customer and copies the owner. Approval is recorded in `order_events` as `irrigation_project_approved`; repeated sends are blocked.
+- The original owner-email defect was a double-escaped email regex in the project notification branch. The guard now uses the same valid email syntax as the order notification path.
+
+
 Date: 2026-11-22  
 Implementation branch: `feat/irrigation-balanced-zones-project-pdf`
 
@@ -10,7 +19,7 @@ This change completes two owner-approved improvements to the existing Rain Bird 
 1. Mix perimeter and interior sprinkler heads in the same operating zone, regardless of 90°, 180°, 270° or 360° arc.
 2. Carry the exact project snapshot used to build the irrigation kit through checkout, persist it with the D1 order, generate a separate preliminary PDF and email it to the owner after the order is successfully saved.
 
-The work does not add a new checkout, alter product pricing, modify Sanity documents, change the D1 schema, or send the irrigation PDF to the customer.
+The work does not add a new checkout, alter product pricing, modify Sanity documents or change the D1 schema. The irrigation PDF is not sent automatically at checkout; it is sent to the customer only after Owner approval.
 
 ## 1. Zone assignment
 

@@ -376,6 +376,7 @@ const handleOrderPost = async ({
       subtotal.toFixed(2) + ' €</strong></p><p style="text-align:right"><strong>Доставка: ' + (deliveryFee === null ? 'Ще бъде уточнена с Florial' : deliveryFee === 0 ? 'Безплатно' : deliveryFee.toFixed(2) + ' €') + '</strong></p><p style="text-align:right;font-size:18px"><strong>Общо: ' + (grandTotal === null ? 'Ще бъде потвърдено след уточняване на доставката' : grandTotal.toFixed(2) + ' €') + '</strong></p>'
 
     const sellerEmail = cleanText(env.ORDER_NOTIFICATION_EMAIL, 254)
+    const sellerEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sellerEmail)
     const mailTasks: Promise<void>[] = []
     let pdfAttachment: Array<{ filename: string; content: string; type: string }> = []
     try {
@@ -403,25 +404,45 @@ const handleOrderPost = async ({
     } catch (error) {
       console.error('Proforma PDF generation failed; sending email without attachment:', error)
     }
-    if (sellerEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sellerEmail)) {
-      mailTasks.push(sendOrderEmail(
-        env.RESEND_API_KEY,
-        env.EMAIL_FROM,
-        sellerEmail,
-        'Нова поръчка ' + orderNumber + ' — Florial',
-        '<h1>Получена е нова поръчка</h1>' + detailsHtml,
-        pdfAttachment,
-      ))
+    let ownerProjectAttachment: Array<{ filename: string; content: string; type: string }> = []
+    let ownerProjectPdfError: string | null = null
+    if (irrigationProjectForPdf && !pdfAttachment.length) ownerProjectPdfError = 'order_proforma_pdf_generation_failed'
+    if (irrigationProjectForPdf && irrigationProjectEventId && sellerEmailValid) {
+      try {
+        const projectPdf = await createIrrigationProjectPdf(irrigationProjectForPdf as any, orderNumber, String(order.created_at), env.PROFORMA_FONT_URL)
+        ownerProjectAttachment = [{ filename: 'Florial-' + orderNumber + '-irrigation-project.pdf', content: toBase64(projectPdf), type: 'application/pdf' }]
+      } catch (error) {
+        ownerProjectPdfError = error instanceof Error ? error.message : 'unknown'
+        console.error('Irrigation project PDF generation failed:', ownerProjectPdfError)
+      }
     }
+    const ownerAttachments = [...pdfAttachment, ...ownerProjectAttachment]
+    const ownerProjectMailNote = irrigationProjectForPdf
+      ? (pdfAttachment.length && ownerProjectAttachment.length
+        ? '<p>Към писмото са приложени два отделни PDF файла: документът за поръчката и предварителният инженерен проект за поливане. Проектът очаква одобрение от Florial.</p>'
+        : '<p><strong>Внимание:</strong> Не всички PDF документи бяха генерирани. Проверете поръчката в Manager и не изпращайте схемата на клиента, преди да прегледате пълния проект.</p>')
+      : ''
+    let ownerMailTask: Promise<void> | null = null
+    if (sellerEmailValid) {
+      ownerMailTask = sendOrderEmail(
+        env.RESEND_API_KEY, env.EMAIL_FROM, sellerEmail,
+        'Нова поръчка ' + orderNumber + ' — Florial',
+        '<h1>Получена е нова поръчка</h1>' + detailsHtml + ownerProjectMailNote,
+        ownerAttachments, 'florial-order-owner-' + orderId,
+      )
+      mailTasks.push(ownerMailTask)
+    }
+    let customerMailTask: Promise<void> | null = null
     if (email) {
-      mailTasks.push(sendOrderEmail(
+      customerMailTask = sendOrderEmail(
         env.RESEND_API_KEY,
         env.EMAIL_FROM,
         email,
         'Потвърждение на поръчка ' + orderNumber + ' — Florial',
         '<h1>Благодарим ви за поръчката!</h1>' + (paymentMethodInput === 'bank_transfer' ? '<p><strong>Важно:</strong> Поръчката все още не е потвърдена. Първо ще проверим наличностите и ще потвърдим окончателната сума. Моля, изчакайте потвърждение от екипа на Florial, преди да извършите банковия превод. Прикачената проформа е предварителна.</p>' : '<p>Получихме вашата заявка. Екипът на Florial ще се свърже с вас за потвърждение.</p>') + '<p>Прикачили сме проформа за вашата поръчка, ако генерирането е успешно.</p>' + detailsHtml,
         pdfAttachment,
-      ))
+      )
+      mailTasks.push(customerMailTask)
     }
     const mailResults = await Promise.allSettled(mailTasks)
     for (const result of mailResults) {
@@ -429,34 +450,16 @@ const handleOrderPost = async ({
     }
 
     if (irrigationProjectForPdf && irrigationProjectEventId) {
-      if (sellerEmail && /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(sellerEmail)) {
-        try {
-          const projectPdf = await createIrrigationProjectPdf(
-            irrigationProjectForPdf as any,
-            orderNumber,
-            String(order.created_at),
-            env.PROFORMA_FONT_URL,
-          )
-          await sendOrderEmail(
-            env.RESEND_API_KEY,
-            env.EMAIL_FROM,
-            sellerEmail,
-            'Предварителен проект за поливане към поръчка ' + orderNumber + ' — Florial',
-            '<h1>Предварителен проект за автоматично поливане</h1><p>Към поръчка ' + escapeHtml(orderNumber) + ' е приложен PDF с геометрията, позициите на разпръсквачите, зонирането, схематичните трасета и ведомостта на материалите.</p><p>Проектът е предварителен и не съдържа хидравлично оразмеряване.</p>',
-            [{
-              filename: 'Florial-' + orderNumber + '-irrigation-project.pdf',
-              content: toBase64(projectPdf),
-              type: 'application/pdf',
-            }],
-            'florial-irrigation-project-' + orderNumber,
-          )
-          await updateIrrigationProjectDelivery('sent')
-        } catch (error) {
-          console.error('Irrigation project PDF/email failed:', error instanceof Error ? error.message : 'unknown')
-          await updateIrrigationProjectDelivery('failed', error instanceof Error ? error.message : 'unknown')
+      if (!sellerEmailValid) await updateIrrigationProjectDelivery('owner_email_not_configured')
+      else if (ownerProjectPdfError) await updateIrrigationProjectDelivery('failed', ownerProjectPdfError)
+      else {
+        const ownerMailIndex = ownerMailTask ? mailTasks.indexOf(ownerMailTask) : -1
+        const ownerMailResult = ownerMailIndex >= 0 ? mailResults[ownerMailIndex] : null
+        if (ownerMailResult?.status === 'fulfilled') await updateIrrigationProjectDelivery('sent')
+        else {
+          const detail = ownerMailResult?.status === 'rejected' && ownerMailResult.reason instanceof Error ? ownerMailResult.reason.message : 'owner_email_delivery_failed'
+          await updateIrrigationProjectDelivery('failed', detail)
         }
-      } else {
-        await updateIrrigationProjectDelivery('owner_email_not_configured')
       }
     }
   } else if (irrigationProjectForPdf) {

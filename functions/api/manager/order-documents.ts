@@ -1,5 +1,6 @@
 import { checkSameOrigin, json, newId, nowIso, requireUser, type ManagerEnv, type ManagerIdentity } from './_lib'
 import { createProformaPdf, sendOrderEmail, toBase64, type ProformaOrder } from '../_lib/order-documents'
+import { createIrrigationProjectPdf } from '../_lib/irrigation-project-pdf'
 
 type Row={id:string;order_number:string;customer_name:string;phone:string;email:string|null;city:string|null;address:string|null;delivery_method:string;payment_method:string;items:string;subtotal_cents:number;delivery_fee_cents:number|null;total_cents:number|null;created_at:string;updated_at?:string;status:string;is_test:number}
 type RuntimeEnv=ManagerEnv & {PROFORMA_FONT_URL?:string}
@@ -39,7 +40,7 @@ export const onRequestPost=async({request,env}:{request:Request;env:RuntimeEnv})
  if(auth.user.role!=='owner'&&!auth.user.permissionsObject.canEditOrders)return json({error:'Нямате право да изпращате поръчки.'},403)
  let body:Record<string,unknown>;try{body=await request.json() as Record<string,unknown>}catch{return json({error:'Невалидна заявка.'},400)}
  const id=typeof body.id==='string'?body.id:'',action=body.action
- if(!id||!['email_proforma','email_customer','email_store','confirm_proforma'].includes(String(action)))return json({error:'Невалидна операция.'},400)
+ if(!id||!['email_proforma','email_customer','email_store','confirm_proforma','approve_irrigation_project'].includes(String(action)))return json({error:'Невалидна операция.'},400)
  if(!env.RESEND_API_KEY||!env.EMAIL_FROM)return json({error:'Email service is not configured.'},503)
  const db=env.DB!,r=await readOrder(db,id)
  if(!r)return json({error:'Поръчката не е намерена.'},404)
@@ -67,6 +68,33 @@ export const onRequestPost=async({request,env}:{request:Request;env:RuntimeEnv})
   const pdfBody=new Uint8Array(pdf.byteLength);pdfBody.set(pdf)
   return new Response(pdfBody.buffer,{headers:{'Content-Type':'application/pdf','Content-Disposition':'attachment; filename="Florial-Proforma-'+r.order_number+'.pdf"','Cache-Control':'no-store','X-Florial-Proforma-Delivered':'customer-and-owner'}})
  }
+  if(action==='approve_irrigation_project'){
+   if(auth.user.role!=='owner')return json({error:'Само собственикът може да одобри и изпрати инженерния проект.'},403)
+   if(!r.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email))return json({error:'Няма валиден email адрес на клиента.'},400)
+   const projectEvent=await db.prepare("SELECT metadata FROM order_events WHERE order_id=? AND event_type='irrigation_project_attached' ORDER BY created_at DESC,rowid DESC LIMIT 1").bind(id).first<{metadata:string}>()
+   if(!projectEvent?.metadata)return json({error:'Към поръчката няма запазен инженерен проект.'},404)
+   let storedProject:Record<string,unknown>|null=null
+   try{const parsed=JSON.parse(projectEvent.metadata) as Record<string,unknown>;if(parsed.project&&typeof parsed.project==='object'&&!Array.isArray(parsed.project))storedProject=parsed.project as Record<string,unknown>}catch{}
+   if(!storedProject)return json({error:'Запазеният инженерен проект е невалиден.'},409)
+   const previousApproval=await db.prepare("SELECT created_at FROM order_events WHERE order_id=? AND event_type='irrigation_project_approved' ORDER BY created_at DESC,rowid DESC LIMIT 1").bind(id).first<{created_at:string}>()
+   const confirmation=await latestConfirmation(db,id)
+   if(previousApproval||confirmation?.event_type==='proforma_confirmed')return json({error:'Инженерният проект вече е одобрен и изпратен.'},409)
+   const ownerResult=await db.prepare("SELECT email FROM catalog_staff_profiles WHERE role='owner' AND is_active=1 ORDER BY created_at ASC LIMIT 1").first<{email:string}>()
+   const ownerEmail=String(ownerResult?.email||'').trim()
+   if(!ownerEmail||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ownerEmail))return json({error:'Не е намерен активен email адрес на собственика на Florial.'},503)
+   const orderPdf=await makePdf(r,env,items)
+   const projectPdf=await createIrrigationProjectPdf(storedProject as any,r.order_number,r.created_at,env.PROFORMA_FONT_URL)
+   const attachments=[
+    {filename:'Florial-Proforma-'+r.order_number+'.pdf',content:toBase64(orderPdf),type:'application/pdf'},
+    {filename:'Florial-'+r.order_number+'-irrigation-project.pdf',content:toBase64(projectPdf),type:'application/pdf'},
+   ]
+   const ownerBcc=ownerEmail.toLowerCase()===r.email.toLowerCase()?undefined:[ownerEmail]
+   const approvedAt=nowIso()
+   const html='<h2>Одобрен предварителен проект за поливане — Florial</h2><p>Здравейте, '+escapeHtml(r.customer_name)+'. Екипът на Florial прегледа и одобри предварителната схема към поръчка <strong>'+escapeHtml(r.order_number)+'</strong>.</p><p>Към писмото са приложени два PDF документа: документът за поръчката и инженерната схема с въведените параметри на терена, разположението на разпръсквачите, зоните и ведомостта на материалите.</p><p>Схемата е предварителна и не замества хидравличното оразмеряване и проверката на място.</p><p>Благодарим Ви!<br>Екипът на Florial</p>'
+   await sendOrderEmail(env.RESEND_API_KEY,env.EMAIL_FROM,r.email,'Одобрен проект и поръчка '+r.order_number+' — Florial',html,attachments,'florial-irrigation-approved-'+r.id+'-'+String(r.updated_at||r.created_at),ownerBcc)
+   await db.batch([ev(db,r,auth.user,'irrigation_project_approved','Собственикът одобри предварителния проект и изпрати двата PDF документа на клиента и собственика.',{approved_at:approvedAt,recipients:['customer','owner'],attachments:['order-proforma','irrigation-project']})])
+   return json({ok:true,approved_at:approvedAt})
+  }
   if(action==='email_proforma'){
    if(!r.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email))return json({error:'Няма валиден email адрес на клиента.'},400)
    const ownerResult=await db.prepare("SELECT email FROM catalog_staff_profiles WHERE role='owner' AND is_active=1 ORDER BY created_at ASC LIMIT 1").first<{email:string}>()

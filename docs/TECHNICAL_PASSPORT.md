@@ -1,3 +1,11 @@
+## 2026-11-22 — Irrigation project owner delivery and approval workflow (PR pending)
+
+- Corrected the owner notification email guard in `functions/api/orders.ts`; the prior double-escaped regex prevented a normal `ORDER_NOTIFICATION_EMAIL` from entering the project PDF delivery branch.
+- The owner notification includes both the order/proforma PDF and irrigation project PDF as separate attachments in the same email. The customer receives the project PDF only after Owner approval: `confirm_proforma` for bank-transfer orders, or Owner-only `approve_irrigation_project` for other payment methods.
+- No D1 migration is intended: the validated snapshot remains in `order_events.metadata`.
+
+---
+
 ## 2026-11-22 — Irrigation assistant balanced mixed zones and order PDF
 
 PR #476 merged at `dbcf63e2ad05e2132ba39b2ec30936fdb6c6abe1`; PDF detail follow-up PR #477 merged at `6ae20420380f5794aba331b65427ac31d3160e2d`. Current Production Pages deployment `c122e2dd-e854-44fd-a68b-bfc2bcb4524a` succeeded from the exact main SHA.

@@ -131,7 +131,8 @@ export const createIrrigationProjectPdf = async (
 
   heading('1. Геометрия и работен сценарий')
   const dimensions = project.geometry.dimensionsM
-  write('Форма: ' + project.geometry.shape + ' · Размери: ' + (dimensions.length ?? '—') + ' × ' + (dimensions.width ?? '—') + ' m' + (dimensions.cutoutWidth && dimensions.cutoutDepth ? ' · Изрез: ' + dimensions.cutoutWidth + ' × ' + dimensions.cutoutDepth + ' m (' + dimensions.cutoutCorner + ')' : '') + ' · Площ: ' + project.geometry.areaM2.toFixed(2) + ' m² · Периметър: ' + project.geometry.perimeterM.toFixed(2) + ' m')
+  write('Въведени от клиента: форма ' + project.geometry.shape + ' · дължина ' + (dimensions.length ?? '—') + ' m · ширина ' + (dimensions.width ?? '—') + ' m' + (dimensions.cutoutWidth && dimensions.cutoutDepth ? ' · изрез ' + dimensions.cutoutWidth + ' × ' + dimensions.cutoutDepth + ' m · ъгъл ' + dimensions.cutoutCorner : ''))
+  write('Изчислено по контура: площ ' + project.geometry.areaM2.toFixed(2) + ' m² · периметър ' + project.geometry.perimeterM.toFixed(2) + ' m')
   write('Модел: ' + project.operatingScenario.manufacturer + ' ' + project.operatingScenario.family + ' ' + project.operatingScenario.model)
   write('Референтно налягане по таблицата на производителя: ' + (project.operatingScenario.pressureBar == null ? 'не е зададено' : project.operatingScenario.pressureBar.toFixed(2) + ' bar') + ' · Реалното налягане при дюзите не е измерено.')
   write('Размерите са приблизителни. Геометрията и разположението са предварителни.', { color: muted })
