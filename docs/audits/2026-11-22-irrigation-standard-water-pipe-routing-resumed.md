@@ -97,7 +97,7 @@ The owner tested the Preview and requested refinements for 32 × 6 m, 30 × 5 m 
 
 - R-VAN model selection now uses the exact manufacturer 180° radius at the recommended 3.1 bar point. A 6 m short side selects R-VAN24 (7.0 m table radius), avoiding unnecessary mid-edge heads on a 32 × 6 m rectangle. A 5 m short side remains on R-VAN18 (5.2 m table radius).
 - Rectangular candidate generation now includes a multi-row interior lattice of 360° candidates. The perimeter remains the first coverage pass; interior heads are selected only for sampled points left uncovered by the perimeter.
-- The 30 × 30 m case is no longer rejected solely because its short side exceeds 15 m; it is evaluated with R-VAN24 and additional interior rows, subject to the existing sampling and sprinkler-count limits.
+- The 30 × 30 m case is no longer rejected solely because its short side exceeds 15 m; it is evaluated with R-VAN24 and additional interior rows, subject to the existing sampling and sprinkler-count limits. The solver version is now 0.2.0 (`perimeter-first-multi-row-greedy-set-cover-v3`).
 - Zone assignment now balances the complete sprinkler set rather than splitting each perimeter direction independently. A 14-head layout is divided 5 + 5 + 4. A zone may be fed by two independent source-started route legs when its heads lie on both sides of the top-right source.
 - Each sprinkler marker now carries its zone number on the drawing.
 - The intake is reduced to one geometry step. The optional site-notes step and “Site details / Особенности участка” input have been removed.
@@ -107,7 +107,7 @@ The owner tested the Preview and requested refinements for 32 × 6 m, 30 × 5 m 
 
 ### Verification status
 
-- Cloudflare Pages Preview build for commit `ae402cbee0e88d5d3fb6d6e8190ac86f7b295221` completed successfully; deployment URL: `https://bc0776a8.florial.pages.dev`.
+- Cloudflare Pages Preview build for commit `bf60d8797fddc1b466cff705dc07f0690532dcd4` completed successfully; deployment URL: `https://86d30f95.florial.pages.dev`.
 - A follow-up commit versions the multi-row algorithm as `0.2.0`; its Preview build is pending.
 - The updated Node test suite has **not yet been executed** in this environment. The new regression cases are committed but must not be described as passing until CI or a local test run confirms them.
 - Visual browser QA has not been performed. Browser Use remains subject to the owner's explicit permission.
