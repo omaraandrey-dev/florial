@@ -37,8 +37,11 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
     counts.set(sku, (counts.get(sku) ?? 0) + quantity)
   }
 
-  const zoneHeadIds = new Set(zones.flatMap((zone) => zone.sprinklerIds ?? []))
-  if (zoneHeadIds.size !== sprinklers.length ||
+  const assignedHeadIds = zones.flatMap((zone) => zone.sprinklerIds ?? [])
+  const zoneHeadIds = new Set(assignedHeadIds)
+  if (assignedHeadIds.length !== sprinklers.length ||
+      zoneHeadIds.size !== sprinklers.length ||
+      zones.some((zone) => !zone.sprinklerIds?.length || zone.sprinklerIds.length > 6) ||
       sprinklers.some((sprinkler) => !zoneHeadIds.has(sprinkler.id))) {
     return Object.freeze({ valid: false, reason: 'zone_assignment_incomplete', items: Object.freeze([]) })
   }
