@@ -4,6 +4,7 @@ import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { sanityLiveClient } from '../lib/sanity'
 import type { Product } from '../types'
+import type { IrrigationProjectSnapshot } from '../services/orderService'
 import { buildLawnBoundary, type LawnCutoutCorner, type LawnInputShape } from '../lib/irrigation/lawnGeometryInput.mjs'
 import { validateLawnGeometry } from '../lib/irrigation/lawnGeometry.mjs'
 import { buildIrrigationIntakeSnapshot, evaluateIrrigationIntake } from '../lib/irrigation/irrigationIntake.mjs'
@@ -14,9 +15,10 @@ interface IrrigationAssistantPageProps {
   onNavigateHome: () => void
   onNavigateCart: () => void
   onAddToCart: (product: Product, quantity: number) => void
+  onSetIrrigationProject: (project: IrrigationProjectSnapshot) => void
 }
 
-export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddToCart }: IrrigationAssistantPageProps) {
+export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddToCart, onSetIrrigationProject }: IrrigationAssistantPageProps) {
   const { language } = useI18n()
   const [shape, setShape] = useState<LawnInputShape>('rectangle')
   const [length, setLength] = useState('')
@@ -69,7 +71,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       },
       edit: 'Изменить ответы', home: 'Вернуться в магазин', unit: 'м²', noValue: 'Не указано',
       conversation: 'Диалог с помощником', projectPanel: 'Данные проекта', progress: 'Заполнение проекта',
-      assistant: 'Помощник Florial', you: 'Вы', notSent: 'Ответ остаётся в этом окне браузера. На сервер он пока не отправляется.',
+      assistant: 'Помощник Florial', you: 'Вы', notSent: 'Проект будет приложен к заказу и отправлен Florial в отдельном PDF после успешного оформления.',
     }
     if (language === 'en') return {
       title: 'Florial Irrigation Assistant',
@@ -108,7 +110,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       },
       edit: 'Edit answers', home: 'Return to the shop', unit: 'm²', noValue: 'Not provided',
       conversation: 'Assistant conversation', projectPanel: 'Project details', progress: 'Project intake',
-      assistant: 'Florial assistant', you: 'You', notSent: 'Your answers stay in this browser view and are not sent to a server yet.',
+      assistant: 'Florial assistant', you: 'You', notSent: 'The irrigation project will be attached to your order and emailed to Florial as a separate PDF after successful checkout.',
     }
     return {
       title: 'Помощник за напояване Florial',
@@ -239,6 +241,54 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       return
     }
     resolved.forEach((item: { product: Product; quantity: number }) => onAddToCart(item.product, item.quantity))
+    const project = {
+      schemaVersion: 1 as const,
+      projectType: 'automatic_lawn_irrigation' as const,
+      createdAt: new Date().toISOString(),
+      language,
+      geometry: {
+        shape: snapshot.geometry.shape,
+        dimensionsM: snapshot.geometry.dimensionsM,
+        normalized: snapshot.geometry.normalized,
+        areaM2: snapshot.geometry.areaM2,
+        perimeterM: snapshot.geometry.perimeterM,
+        dimensionsAreApproximate: true,
+      },
+      operatingScenario: layoutResult?.operatingScenario ?? null,
+      layout: {
+        model: layoutResult?.layout?.model ?? layoutResult?.operatingScenario?.model ?? null,
+        engineVersion: layoutResult?.engine?.version ?? null,
+        algorithm: layoutResult?.engine?.algorithm ?? null,
+        headToHeadPassed: layoutResult?.layout?.headToHead?.passed === true,
+        sprinklers: (layoutResult?.layout?.sprinklers ?? []).map((sprinkler: any) => ({
+          id: sprinkler.id,
+          position: sprinkler.position,
+          radiusM: sprinkler.radiusM,
+          arcDeg: sprinkler.arcDeg,
+          performanceModel: sprinkler.performanceModel,
+          source: sprinkler.source === 'interior' ? 'interior' : 'perimeter',
+        })),
+      },
+      zones: (layoutResult?.zones ?? []).map((zone: any) => ({
+        id: zone.id,
+        zoneNumber: zone.zoneNumber,
+        zoneType: zone.zoneType,
+        branchDirection: zone.branchDirection,
+        branchDirections: zone.branchDirections,
+        sprinklerIds: zone.sprinklerIds,
+        sprinklerCount: zone.sprinklerCount,
+      })),
+      pipeNetwork: layoutResult?.pipeNetwork ?? null,
+      billOfMaterials: {
+        headCount: billOfMaterials.headCount,
+        zoneCount: billOfMaterials.zoneCount,
+        flexPipeRequiredM: billOfMaterials.flexPipeRequiredM,
+        flexPipeCoils30m: billOfMaterials.flexPipeCoils30m,
+        items: billOfMaterials.items,
+      },
+      warnings: layoutResult?.warnings ?? [],
+    } satisfies IrrigationProjectSnapshot
+    onSetIrrigationProject(project)
     onNavigateCart()
   }
   const calculatedArea = geometryValidation?.computedAreaM2 ?? 0
