@@ -29,7 +29,8 @@ function selectRvanModel(shortSideM) {
   // lawns are handled with additional interior rows instead of rejection.
   return 'R-VAN24'
 }
-\nfunction stripOptions(shortSideM) {
+
+function stripOptions(shortSideM) {
   const exact = []
   for (const model of ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST']) {
     const point = findRainBirdRvanPerformancePoint(model, RECOMMENDED_NOZZLE_PRESSURE_BAR, null)
