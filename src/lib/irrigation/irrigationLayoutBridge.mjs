@@ -108,9 +108,10 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
   }
 
   const modelRange = getRvanRadiusRange(model)
-  const requiresInternalRows = shortSideM > modelRange.maxRadiusM
   const dataset = RAIN_BIRD_RVAN_DATASET
   const pressureBar = dataset.source.recommendedOperatingPressureBar
+  const nominalThrowM = dataset.performancePoints.find((point) => point.model === model && point.pressureBar === pressureBar && point.arcDeg === 180)?.radiusM ?? modelRange.maxRadiusM
+  const requiresInternalRows = shortSideM > nominalThrowM
   const modelEvidence = dataset.models.find((entry) => entry.model === model)
   if (!modelEvidence) return result('manufacturer_model_mapping_missing', { family: 'R-VAN', model, pressureBar })
 
@@ -155,7 +156,6 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
       Object.freeze({ code: 'customer_source_pressure_and_flow_not_used_as_nozzle_operating_point', path: 'intake.water' }),
       Object.freeze({ code: 'hydraulic_network_and_zone_feasibility_not_evaluated', path: 'hydraulics' }),
       Object.freeze({ code: 'obstacles_and_exclusions_not_mapped', path: 'geometry.exclusions' }),
-      ...(requiresInternalRows ? [Object.freeze({ code: 'internal_rows_required_but_corner_first_rule_set_is_pending', path: 'layout.sprinklers' })] : []),
     ]),
   })
 }
