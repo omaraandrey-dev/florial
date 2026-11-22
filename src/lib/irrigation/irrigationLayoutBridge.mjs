@@ -29,7 +29,7 @@ function selectRvanModel(shortSideM) {
   // lawns are handled with additional interior rows instead of rejection.
   return 'R-VAN24'
 }
-function stripOptions(shortSideM) {
+\nfunction stripOptions(shortSideM) {
   const exact = []
   for (const model of ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST']) {
     const point = findRainBirdRvanPerformancePoint(model, RECOMMENDED_NOZZLE_PRESSURE_BAR, null)
@@ -137,8 +137,10 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
       model,
       pressureBar,
       pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
+      modelSelectionBasis: 'smallest_exact_rvan_radius_covering_short_side_or_rvan24_multi_row',
       sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
+      customerSourceMeasurementsUsedAsNozzlePressure: false,
     }),
     geometry: Object.freeze({
       shape: layout.geometry?.shape ?? null,
