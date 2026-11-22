@@ -48,7 +48,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       notesTitle: 'Особенности участка', notesPlaceholder: 'Например: дорожки, терраса, бассейн или участки, которые не нужно поливать.',
       notesHint: 'Пока это текстовое описание. Препятствия ещё не нанесены на геометрическую схему и не вычитаются из площади.',
       next: 'Продолжить', back: 'Назад', finish: 'Проверить собранные данные', summaryTitle: 'Карточка исходных данных',
-      area: 'Площадь', shapeLabel: 'Форма', sourceLabel: 'Источник воды', pressureLabel: 'Давление', flowLabel: 'Расход', notesLabel: 'Ограничения и примечания',
+      area: 'Площадь', shapeLabel: 'Форма', designBasisLabel: 'Принятые условия расчёта', designBasisSummary: '4 атм на входном кране 1″ · подвод Ø25 мм · магистраль Ø32 мм · линии зон Ø25 мм · потери трубы 1 бар/100 м', sourceLabel: 'Источник воды', pressureLabel: 'Давление', flowLabel: 'Расход', notesLabel: 'Ограничения и примечания',
       ready: 'Исходные данные собраны', geometryReady: 'Геометрия подтверждена для предварительной раскладки', geometryMissing: 'Геометрию нужно уточнить или подтвердить',
       dynamicReady: 'Динамическое давление указано с условиями измерения', dynamicMissing: 'Динамическое давление и точка измерения не подтверждены',
       flowReady: 'Расход указан с методом измерения', flowMissing: 'Не хватает подтверждённого измерения расхода',
@@ -91,7 +91,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       notesTitle: 'Site details and restrictions', notesPlaceholder: 'For example: paths, patio, pool or areas that must not be watered.',
       notesHint: 'This is a text note only. Obstacles are not yet drawn on the geometry and are not deducted from the lawn area.',
       next: 'Continue', back: 'Back', finish: 'Review collected information', summaryTitle: 'Project intake record',
-      area: 'Area', shapeLabel: 'Shape', sourceLabel: 'Water source', pressureLabel: 'Pressure', flowLabel: 'Flow', notesLabel: 'Restrictions and notes',
+      area: 'Area', shapeLabel: 'Shape', designBasisLabel: 'Standard design assumptions', designBasisSummary: '4 atm at the 1″ inlet tap · incoming Ø25 mm · main Ø32 mm · zone laterals Ø25 mm · pipe-loss allowance 1 bar/100 m', sourceLabel: 'Water source', pressureLabel: 'Pressure', flowLabel: 'Flow', notesLabel: 'Restrictions and notes',
       ready: 'Project inputs collected', geometryReady: 'Geometry confirmed for preliminary layout', geometryMissing: 'Geometry needs clarification or confirmation',
       dynamicReady: 'Dynamic pressure and test conditions supplied', dynamicMissing: 'Dynamic pressure and test point are not confirmed',
       flowReady: 'Flow and measurement method supplied', flowMissing: 'A verified flow measurement is still missing',
@@ -134,7 +134,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       notesTitle: 'Особености и ограничения на терена', notesPlaceholder: 'Например: алеи, тераса, басейн или зони, които не трябва да се напояват.',
       notesHint: 'Това засега е текстова бележка. Препятствията още не са нанесени върху геометричната схема и не се изваждат от площта.',
       next: 'Напред', back: 'Назад', finish: 'Преглед на събраните данни', summaryTitle: 'Карта на входните данни',
-      area: 'Площ', shapeLabel: 'Форма', sourceLabel: 'Водоизточник', pressureLabel: 'Налягане', flowLabel: 'Дебит', notesLabel: 'Ограничения и бележки',
+      area: 'Площ', shapeLabel: 'Форма', designBasisLabel: 'Стандартни проектни условия', designBasisSummary: '4 атм при входния кран 1″ · входяща тръба Ø25 мм · магистрала Ø32 мм · линии на зоните Ø25 мм · загуби в тръбата 1 bar/100 м', sourceLabel: 'Водоизточник', pressureLabel: 'Налягане', flowLabel: 'Дебит', notesLabel: 'Ограничения и бележки',
       ready: 'Входните данни са събрани', geometryReady: 'Геометрията е потвърдена за предварителна схема', geometryMissing: 'Геометрията трябва да се уточни или потвърди',
       dynamicReady: 'Динамичното налягане и условията за измерване са посочени', dynamicMissing: 'Динамичното налягане и точката на измерване не са потвърдени',
       flowReady: 'Посочени са дебит и метод на измерване', flowMissing: 'Липсва потвърдено измерване на дебита',
@@ -386,7 +386,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                 <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                   <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.area}</dt><dd className="mt-1 font-bold text-slate-900">{geometryAccepted ? numberFormat(calculatedArea) + ' ' + copy.unit : copy.noValue}</dd></div>
                   <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.shapeLabel}</dt><dd className="mt-1 font-bold text-slate-900">{shapeLabel}</dd></div>
-                  <div className="rounded-xl bg-white p-3 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{language === 'ru' ? 'Принятые условия расчёта' : language === 'en' ? 'Standard design assumptions' : 'Стандартни проектни условия'}</dt><dd className="mt-1 font-bold text-slate-900">4 атм на кране 1″ · вход Ø25 мм · магистраль Ø32 мм · зоны Ø25 мм</dd></div>
+                  <div className="rounded-xl bg-white p-3 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{copy.designBasisLabel}</dt><dd className="mt-1 font-bold text-slate-900">{copy.designBasisSummary}</dd></div>
                   <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.perimeter}</dt><dd className="mt-1 font-bold text-slate-900">{geometryAccepted ? numberFormat(calculatedPerimeter) + ' m' : copy.noValue}</dd></div>
                   {notes.trim() && <div className="rounded-xl bg-white p-3 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{copy.notesLabel}</dt><dd className="mt-1 whitespace-pre-wrap text-slate-800">{notes.trim()}</dd></div>}
                 </dl>
@@ -466,7 +466,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
           <dl className="space-y-3 text-sm">
             <div><dt className="text-xs font-semibold text-slate-500">{copy.area}</dt><dd className="mt-1 font-semibold text-slate-900">{geometryAccepted ? numberFormat(calculatedArea) + ' ' + copy.unit : copy.noValue}</dd></div>
             <div><dt className="text-xs font-semibold text-slate-500">{copy.shapeLabel}</dt><dd className="mt-1 font-semibold text-slate-900">{shapeLabel}</dd></div>
-            <div><dt className="text-xs font-semibold text-slate-500">{language === 'ru' ? 'Условия расчёта' : language === 'en' ? 'Design assumptions' : 'Условия за изчисление'}</dt><dd className="mt-1 font-semibold leading-6 text-slate-900">4 атм · Ø25 мм · кран 1″ · Ø32 мм / Ø25 мм</dd></div>
+            <div><dt className="text-xs font-semibold text-slate-500">{copy.designBasisLabel}</dt><dd className="mt-1 font-semibold leading-6 text-slate-900">{copy.designBasisSummary}</dd></div>
           </dl>
           <div className="mt-5 rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-950">{copy.hydraulicNotReady}</div>
           <p className="mt-4 text-xs leading-5 text-slate-500">{copy.notSent}</p>
