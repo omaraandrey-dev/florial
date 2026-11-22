@@ -57,7 +57,7 @@ test('perimeter heads are grouped in continuous top-right counter-clockwise orde
   assert.deepEqual(new Set(zones.flatMap((zone) => zone.sprinklerIds)), new Set(mixedPerimeterHeads.map((head) => head.id)))
   assert.ok(zones.every((zone) => zone.branchDirections.length >= 1))
   assert.deepEqual(zones[0].sprinklerIds, ['top-0', 'top-1', 'top-2', 'top-3', 'top-4', 'top-5'])
-  assert.deepEqual(zones[1].sprinklerIds, ['bottom-0', 'bottom-1', 'bottom-2', 'bottom-3', 'bottom-4', 'bottom-5'])
+  assert.deepEqual(zones[1].sprinklerIds, ['bottom-5', 'bottom-4', 'bottom-3', 'bottom-2', 'bottom-1', 'bottom-0'])
 })
 
 test('pipe network draws one sequential perimeter route per zone from the source', () => {
