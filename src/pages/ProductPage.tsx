@@ -652,8 +652,8 @@ export function ProductPage({
       </div>
 
       {/* Технические характеристики */}
-      {product.specifications && product.specifications.length > 0 && (
-        <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 shadow-sm md:p-8 mb-12">
+      {localizedSpecifications.length > 0 && (
+        <section className="mb-12 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm md:p-8">
           <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
             <div>
               <h2 className="text-xl font-bold text-slate-900">{t('Технически характеристики')}</h2>
