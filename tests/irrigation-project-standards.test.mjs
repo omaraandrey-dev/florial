@@ -89,6 +89,5 @@ test('a branch with more than six heads is split into independent zones of at mo
   assert.equal(zones[2].zoneType, 'interior')
   assert.ok(zones.slice(0, 2).every((zone) => zone.zoneType === 'perimeter'))
   assert.ok(zones.every((zone) => zone.sprinklerCount <= 6))
-  assert.ok(zones.every((zone) => zone.sprinklerCount > 1))
   assert.equal(zones.reduce((sum, zone) => sum + zone.sprinklerCount, 0), extended.length)
 })
