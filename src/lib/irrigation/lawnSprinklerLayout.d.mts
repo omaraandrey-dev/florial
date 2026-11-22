@@ -18,6 +18,7 @@ export interface LawnSprinklerCandidate {
   /** Sector centre, degrees counter-clockwise from +X; null for full circle. */
   readonly directionDeg: number | null
   readonly source: 'vertex' | 'edge' | 'interior'
+  readonly placementGroup?: 'central_row'
   readonly radiusM: number
   readonly flowLpm: number
   readonly pressureBar: number
