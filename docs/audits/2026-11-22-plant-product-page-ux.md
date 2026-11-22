@@ -12,7 +12,7 @@ Branch: `feat/plant-product-page-ux`
 - Consolidated sale height/container/SKU information into the purchase panel and removed the duplicate lower sale-option section.
 - Split botanical information into key characteristics and growing conditions while preserving the existing field values and color semantics.
 - Made the care guide collapsible without changing its Portable Text rendering.
-- Added a mobile-only sticky add-to-cart bar that appears after the original purchase controls leave view; it uses the selected variant price and the same out-of-stock/price/variant guards as the original action.
+- Added a mobile-only sticky purchase bar that appears while the original purchase controls are out of view. It uses the selected variant price, adds to cart only when price/stock/variant permit it, and falls back to WhatsApp enquiry when cart purchase is unavailable.
 - Preserved equipment ProductPage rendering paths, SEO/JSON-LD, Sanity projections, cart callback contract and localized BG/RU/EN labels.
 
 ## Safety and boundaries

@@ -28,5 +28,6 @@ test('mobile sticky purchase action observes the original purchase controls and 
   assert.match(source, /new IntersectionObserver/)
   assert.match(source, /purchaseActionsRef/)
   assert.match(source, /fixed inset-x-0 bottom-0/)
-  assert.match(source, /plantStockStatus === 'outOfStock'/)
+  assert.match(source, /plantStockStatus !== 'outOfStock'/)
+  assert.match(source, /Уточнить в WhatsApp/)
 })

@@ -912,9 +912,15 @@ export function ProductPage({
               <p className="truncate text-xs text-slate-500">{language === 'ru' ? 'Цена выбранного варианта' : language === 'en' ? 'Selected option price' : 'Цена на избрания вариант'}</p>
               <p className="text-lg font-extrabold leading-tight text-emerald-800">{hasPrice ? `${Number(currentPrice).toFixed(2)} €` : (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване')}</p>
             </div>
-            <button type="button" onClick={handleAdd} disabled={!hasPrice || plantStockStatus === 'outOfStock' || !selectedSaleVariant} className="min-h-12 flex-1 rounded-xl bg-emerald-700 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50">
-              {language === 'ru' ? 'Добавить в корзину' : language === 'en' ? 'Add to cart' : 'Добави в количката'}
-            </button>
+            {hasPrice && plantStockStatus !== 'outOfStock' && selectedSaleVariant ? (
+              <button type="button" onClick={handleAdd} className="min-h-12 flex-1 rounded-xl bg-emerald-700 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-800">
+                {language === 'ru' ? 'Добавить в корзину' : language === 'en' ? 'Add to cart' : 'Добави в количката'}
+              </button>
+            ) : (
+              <a href={plantWhatsAppUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center rounded-xl bg-emerald-700 px-4 py-3 text-center text-sm font-bold text-white no-underline shadow-sm transition hover:bg-emerald-800">
+                {language === 'ru' ? 'Уточнить в WhatsApp' : language === 'en' ? 'Enquire on WhatsApp' : 'Запитайте чрез WhatsApp'}
+              </a>
+            )}
           </div>
         </div>
       )}
