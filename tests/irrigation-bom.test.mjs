@@ -1,0 +1,65 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import { buildIrrigationBillOfMaterials } from '../src/lib/irrigation/irrigationBillOfMaterials.mjs'
+
+test('builds a complete catalog bill of materials per sprinkler and sequential zone', () => {
+  const layout = {
+    model: 'R-VAN24',
+    sprinklers: [
+      ...Array.from({ length: 6 }, (_, index) => ({
+        id: 'p' + index,
+        arcDeg: 180,
+        performanceModel: 'R-VAN24',
+      })),
+      ...Array.from({ length: 2 }, (_, index) => ({
+        id: 'i' + index,
+        arcDeg: 360,
+        performanceModel: 'R-VAN24-360',
+      })),
+    ],
+  }
+  const zones = [
+    { id: 'zone-01', zoneNumber: 1, zoneType: 'perimeter', sprinklerIds: ['p0','p1','p2','p3','p4','p5'] },
+    { id: 'zone-02', zoneNumber: 2, zoneType: 'interior', sprinklerIds: ['i0','i1'] },
+  ]
+
+  const result = buildIrrigationBillOfMaterials(layout, zones)
+  assert.equal(result.valid, true)
+  assert.equal(result.headCount, 8)
+  assert.equal(result.zoneCount, 2)
+  assert.equal(result.flexPipeRequiredM, 8)
+  assert.equal(result.flexPipeCoils30m, 1)
+
+  const quantities = Object.fromEntries(result.items.map((item) => [item.sku, item.quantity]))
+  assert.deepEqual(quantities, {
+    A84661: 6,
+    A84666: 2,
+    A44120: 8,
+    A46010: 16,
+    A82060: 1,
+    IQ21520F0N25C: 6,
+    IQ21820F0N25B: 2,
+    H01000: 2,
+    IQ21120M0N25D: 4,
+    VBA02672: 2,
+    IQ2142000N250: 1,
+  })
+})
+
+test('refuses to build a cart when a selected nozzle has no catalog mapping', () => {
+  const result = buildIrrigationBillOfMaterials({
+    model: 'unknown',
+    sprinklers: [{ id: 's1', arcDeg: 180, performanceModel: 'unknown' }],
+  }, [{ sprinklerIds: ['s1'] }])
+  assert.equal(result.valid, false)
+  assert.equal(result.reason, 'unsupported_nozzle_model')
+})
+
+test('refuses to build a cart if any sprinkler is not assigned to a zone', () => {
+  const result = buildIrrigationBillOfMaterials({
+    model: 'R-VAN18',
+    sprinklers: [{ id: 's1', arcDeg: 180, performanceModel: 'R-VAN18' }],
+  }, [])
+  assert.equal(result.valid, false)
+  assert.equal(result.reason, 'missing_layout_or_zones')
+})
