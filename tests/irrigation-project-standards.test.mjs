@@ -1,33 +1,90 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { buildIrrigationZones, buildPerimeterPipeNetwork, FLORIAL_IRRIGATION_PROJECT_STANDARD } from '../src/lib/irrigation/irrigationProjectStandards.mjs'
+import {
+  buildIrrigationZones,
+  buildPerimeterPipeNetwork,
+  FLORIAL_IRRIGATION_PROJECT_STANDARD,
+} from '../src/lib/irrigation/irrigationProjectStandards.mjs'
 
-test('fixed Florial standard contains the agreed source and pipe assumptions', () => {
+const rectangle = {
+  regions: [{
+    boundary: {
+      vertices: [
+        { x: 0, y: 0 },
+        { x: 25, y: 0 },
+        { x: 25, y: 5 },
+        { x: 0, y: 5 },
+      ],
+    },
+  }],
+}
+
+const mixedPerimeterHeads = [
+  { id: 'top-0', position: { x: 25, y: 5 }, arcDeg: 90 },
+  { id: 'top-1', position: { x: 20, y: 5 }, arcDeg: 180 },
+  { id: 'top-2', position: { x: 15, y: 5 }, arcDeg: 180 },
+  { id: 'top-3', position: { x: 10, y: 5 }, arcDeg: 180 },
+  { id: 'top-4', position: { x: 5, y: 5 }, arcDeg: 180 },
+  { id: 'top-5', position: { x: 0, y: 5 }, arcDeg: 90 },
+  { id: 'bottom-0', position: { x: 25, y: 0 }, arcDeg: 90 },
+  { id: 'bottom-1', position: { x: 20, y: 0 }, arcDeg: 180 },
+  { id: 'bottom-2', position: { x: 15, y: 0 }, arcDeg: 180 },
+  { id: 'bottom-3', position: { x: 10, y: 0 }, arcDeg: 180 },
+  { id: 'bottom-4', position: { x: 5, y: 0 }, arcDeg: 180 },
+  { id: 'bottom-5', position: { x: 0, y: 0 }, arcDeg: 90 },
+]
+
+test('Florial standard uses the top-right source and Ø25 mm throughout', () => {
   assert.deepEqual(FLORIAL_IRRIGATION_PROJECT_STANDARD.source, {
-    tapSizeInches: 1, inletPressureBar: 4, supplyPipeDiameterMm: 25, connectionCorner: 'top-right',
+    tapSizeInches: 1,
+    inletPressureBar: 4,
+    supplyPipeDiameterMm: 25,
+    connectionCorner: 'top-right',
   })
-  assert.deepEqual(FLORIAL_IRRIGATION_PROJECT_STANDARD.pipes, { mainDiameterMm: 32, zoneDiameterMm: 25 })
+  assert.deepEqual(FLORIAL_IRRIGATION_PROJECT_STANDARD.pipes, {
+    mainDiameterMm: 25,
+    zoneDiameterMm: 25,
+  })
+  assert.equal(FLORIAL_IRRIGATION_PROJECT_STANDARD.zoneCapacity.maxHeadsPerZone, 6)
 })
 
-test('sector and full-circle sprinklers are split into bounded lines', () => {
-  const sprinklers = [
-    ...Array.from({ length: 7 }, (_, index) => ({ id: 's' + index, arcDeg: 180 })),
-    ...Array.from({ length: 5 }, (_, index) => ({ id: 'f' + index, arcDeg: 360 })),
-  ]
-  const zones = buildIrrigationZones(sprinklers)
-  assert.deepEqual(zones.map((zone) => zone.sprinklerCount), [6, 1, 4, 1])
-  assert.deepEqual(zones.map((zone) => zone.maximumHeads), [6, 6, 4, 4])
+test('mixed 90° and 180° heads form two source-fed zones of six, not arc-based zones', () => {
+  const zones = buildIrrigationZones(mixedPerimeterHeads, rectangle)
+  assert.equal(zones.length, 2)
+  assert.deepEqual(zones.map((zone) => zone.sprinklerCount), [6, 6])
+  assert.deepEqual(zones.map((zone) => zone.branchDirection), ['forward', 'reverse'])
+  assert.ok(zones.every((zone) => zone.sprinklerIds.length <= 6))
+  assert.deepEqual(zones[0].sprinklerIds, [
+    'top-0', 'top-1', 'top-2', 'top-3', 'top-4', 'top-5',
+  ])
+  assert.deepEqual(zones[1].sprinklerIds, [
+    'bottom-5', 'bottom-4', 'bottom-3', 'bottom-2', 'bottom-1', 'bottom-0',
+  ])
 })
 
-test('perimeter pipe route starts at the assumed top-right tap and branches to sprinklers', () => {
-  const geometry = { regions: [{ boundary: { vertices: [
-    { x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 5 }, { x: 0, y: 5 },
-  ] } }] }
-  const sprinklers = [{ id: 'corner', position: { x: 10, y: 5 }, arcDeg: 90 }]
-  const network = buildPerimeterPipeNetwork(geometry, sprinklers)
-  assert.deepEqual(network.connectionPoint, { x: 10, y: 5 })
-  assert.deepEqual(network.mainRoute[0], { x: 10, y: 5 })
-  assert.equal(network.mainDiameterMm, 32)
-  assert.equal(network.branches[0].diameterMm, 25)
-  assert.equal(network.hydraulicCalculation, 'not_performed')
+test('pipe network draws one sequential perimeter route per zone from the source', () => {
+  const zones = buildIrrigationZones(mixedPerimeterHeads, rectangle)
+  const network = buildPerimeterPipeNetwork(rectangle, mixedPerimeterHeads, zones)
+  assert.deepEqual(network.connectionPoint, { x: 25, y: 5 })
+  assert.equal(network.mainDiameterMm, 25)
+  assert.equal(network.zoneDiameterMm, 25)
+  assert.equal(network.branches.length, 2)
+
+  for (const branch of network.branches) {
+    assert.equal(branch.points[0].x, 25)
+    assert.equal(branch.points[0].y, 5)
+    assert.equal(branch.diameterMm, 25)
+    assert.equal(branch.sprinklerIds.length, 6)
+    assert.ok(branch.points.length >= 6)
+    assert.equal(branch.lateralConnections.length, 0)
+  }
+})
+
+test('a branch with more than six heads is split into independent zones of at most six', () => {
+  const extended = mixedPerimeterHeads.concat([
+    { id: 'interior-1', position: { x: 12.5, y: 2.5 }, arcDeg: 360 },
+  ])
+  const zones = buildIrrigationZones(extended, rectangle)
+  assert.ok(zones.every((zone) => zone.sprinklerCount <= 6))
+  assert.equal(zones.reduce((sum, zone) => sum + zone.sprinklerCount, 0), extended.length)
 })
