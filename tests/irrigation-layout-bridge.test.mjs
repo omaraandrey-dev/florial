@@ -67,11 +67,16 @@ test('orthogonal L-shape remains supported with perimeter routing', () => {
   assert.equal(result.layout?.pipeNetwork?.status, 'schematic_route_generated')
 })
 
-test('narrow strip identifies the three Rain Bird R-VAN strip nozzle families without inventing a layout', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor({ length: 10, width: 1.5 }))
-  assert.equal(result.status, 'strip_nozzle_layout_requires_exact_pattern_engine')
-  assert.deepEqual(result.supportedStripModels, ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'])
-  assert.equal(result.layout, undefined)
+test('1m, 1.5m and 2m narrow strips are routed to exact Rain Bird strip-nozzle review', () => {
+  for (const width of [1, 1.5, 2]) {
+    const result = buildPreliminaryLawnLayout(snapshotFor({ length: 10, width }))
+    assert.equal(result.status, 'strip_nozzle_layout_requires_exact_pattern_engine')
+    assert.deepEqual(result.supportedStripModels, ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'])
+    assert.deepEqual(result.stripSpecifications.map((entry) => entry.model), ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'])
+    assert.equal(result.stripSpecifications[0].dimensionsM[0], 1.5)
+    assert.equal(result.stripSpecifications[2].dimensionsM[1], 9.1)
+    assert.equal(result.layout, undefined)
+  }
 })
 
 test('unaccepted geometry is not passed to the layout solver', () => {
