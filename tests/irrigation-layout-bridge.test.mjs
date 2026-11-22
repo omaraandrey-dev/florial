@@ -98,6 +98,24 @@ test('wider geometry remains in the R-VAN family and selects R-VAN24 for a multi
   assert.equal(result.layout?.family, 'R-VAN')
 })
 
+test('10x5 lawn keeps perimeter-only R-VAN18 layout and adjusts each head to 5m spacing', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor({ length: 10, width: 5 }))
+  assert.equal(result.operatingScenario?.model, 'R-VAN18')
+  assert.equal(result.layout?.sprinklers.some((sprinkler) => sprinkler.source === 'interior_row'), false)
+  assert.ok(result.layout?.sprinklers.every((sprinkler) => Math.abs(sprinkler.radiusM - 5) < 0.01))
+  assert.equal(result.layout?.headToHead?.passed, true)
+})
+
+test('20x10 lawn adds a longitudinal R-VAN24 internal row and adjusts radius to grid spacing', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor({ length: 20, width: 10 }))
+  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  const internal = result.layout?.sprinklers.filter((sprinkler) => sprinkler.source === 'interior_row') ?? []
+  assert.equal(internal.length, 2)
+  assert.ok(internal.every((sprinkler) => Math.abs(sprinkler.position.y - 5) < 0.01))
+  assert.ok(result.layout?.sprinklers.every((sprinkler) => sprinkler.radiusM >= 5.2 && sprinkler.radiusM <= 7.3))
+  assert.equal(result.layout?.headToHead?.passed, true)
+})
+
 test('source dynamic pressure is not silently treated as nozzle operating pressure', () => {
   const first = buildPreliminaryLawnLayout(snapshotFor({ pressureBar: 2.4 }))
   const second = buildPreliminaryLawnLayout(snapshotFor({ pressureBar: 4.0 }))
