@@ -8,10 +8,6 @@ function dot(a, b) {
   return a.x * b.x + a.y * b.y
 }
 
-function distance(a, b) {
-  return Math.hypot(a.x - b.x, a.y - b.y)
-}
-
 function isAxisAlignedRectangle(vertices, bounds) {
   if (!Array.isArray(vertices) || vertices.length !== 4) return false
   const corners = new Set([
