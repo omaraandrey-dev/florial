@@ -3,7 +3,7 @@
 Date: 2026-11-22  
 Branch: `feat/irrigation-standard-water-pipe-routing-resumed`  
 Base: `main` at `b48d6c5b354c500250957355b4eb90751be072d0`  
-Latest verified source checkpoint before this audit refresh: `5d69fca651c7b71049177aebfae30d30fe0d1668`
+Latest verified source checkpoint before this audit refresh: `b14a734f05303c666d589475ac18245b1ff106b0`
 
 ## Scope implemented
 
@@ -12,7 +12,7 @@ Latest verified source checkpoint before this audit refresh: `5d69fca651c7b71049
 - Applied fixed Florial assumptions internally: 1-inch tap, 4 bar inlet pressure, incoming Ø25 mm pipe, top-right connection point.
 - All displayed pipe sections now use nominal Ø25 mm; the previous Ø32 mm main-line assumption was removed.
 - The internal zone rule is a maximum of six sprinkler heads per zone, regardless of arc. 90°, 180°, 270° and 360° heads may be mixed in one zone.
-- Each zone is represented by its own pipe route starting at the top-right source and following the perimeter in one direction. Sprinkler heads are connected sequentially along that route; individual take-offs are retained only for interior heads.
+- Each zone is represented by its own pipe route starting at the top-right source and following the perimeter in one direction. Sprinkler heads are connected sequentially along that route; individual take-offs are retained only for interior heads. When a branch has more than six heads, its heads are balanced across zones (for example, seven become 4 + 3 rather than 6 + 1) to avoid an unnecessary single-head zone.
 - For the 25 × 5 m and 26 × 5 m reference rectangles, the layout produces 12 perimeter heads, two zones of six, two source-fed pipe routes and Ø25 mm throughout.
 - The layout solver remains perimeter-first. Rectangles can receive an optional centreline parallel to the long side only if the perimeter pass leaves sampled points uncovered. L-shapes retain interior candidates for uncovered areas.
 - Narrow-strip intake exposes exact manufacturer pattern options where the table provides an exact width match (for example, 1.5 m at the selected manufacturer operating point). It does not generate a strip placement plan yet; unsupported widths fail closed.
@@ -67,8 +67,8 @@ Targeted executable checks were run against the exact source files at the curren
 
 - **25 × 5 m:** 12 heads; two zones of six; two routes from the top-right source; Ø25 mm; 100% sampled coverage; head-to-head passed; maximum perimeter gap 5.0 m with 5.2 m nominal radius.
 - **26 × 5 m:** 12 heads; two zones of six; two routes from the top-right source; Ø25 mm; 100% sampled coverage; head-to-head passed; maximum perimeter gap 5.2 m with 5.2 m nominal radius.
-- **20 × 10 m:** 100% sampled coverage and head-to-head passed.
-- **20 × 15 m:** 100% sampled coverage and head-to-head passed.
+- **20 × 10 m:** 13 heads in balanced zones of 4 + 3 + 6; 100% sampled coverage; head-to-head passed.
+- **20 × 15 m:** 14 heads in balanced zones of 4 + 3 + 4 + 3; 100% sampled coverage; head-to-head passed.
 - **12 × 8 m rectangle and orthogonal L-shape variants:** 100% sampled coverage and head-to-head passed.
 - The synthetic false-positive test confirms that a 10 m perimeter gap fails even when an opposite-side head is only 5 m away.
 
