@@ -61,9 +61,10 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
     if (stripLayout.status === 'strip_manufacturer_point_missing') {
       return result('manufacturer_model_mapping_missing', { family: 'R-VAN', pressureBar })
     }
-    return result(stripLayout.sizeAdjustmentRequired
-      ? 'strip_layout_requires_field_adjustment'
-      : stripLayout.status === 'coverage_complete_sampled' ? 'strip_layout_generated' : 'strip_layout_incomplete', {
+    const stripStatus = stripLayout.status !== 'coverage_complete_sampled'
+      ? 'strip_layout_incomplete'
+      : stripLayout.sizeAdjustmentRequired ? 'strip_layout_requires_field_adjustment' : 'strip_layout_generated'
+    return result(stripStatus, {
       engine: Object.freeze({ name: 'Florial R-VAN strip layout', version: stripLayout.engineVersion, algorithm: stripLayout.algorithm }),
       operatingScenario: Object.freeze({
         manufacturer: RAIN_BIRD_RVAN_DATASET.manufacturer,
