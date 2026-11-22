@@ -18,6 +18,7 @@ export interface LawnSprinklerCandidate {
   /** Sector centre, degrees counter-clockwise from +X; null for full circle. */
   readonly directionDeg: number | null
   readonly source: 'vertex' | 'edge' | 'interior'
+  readonly placementGroup?: 'central_row'
   readonly radiusM: number
   readonly flowLpm: number
   readonly pressureBar: number
@@ -29,6 +30,9 @@ export interface LawnSprinklerCandidate {
 export interface LawnSprinklerLayoutResult {
   readonly engineVersion: string
   readonly algorithm?: string
+  readonly placementStrategy?: 'perimeter_first_then_interior_if_required'
+  readonly perimeterPass?: Readonly<{ sampledCoverageComplete: boolean; selectedSprinklers: number; uncoveredPointsBeforeInteriorPass: number; uncoveredSamplesBeforeInteriorPass: ReadonlyArray<Readonly<{ x: number; y: number }>> }>
+  readonly interiorPass?: Readonly<{ activated: boolean; selectedSprinklers: number; activationReason: string }>
   readonly status: string
   readonly coverageScope?: 'sampled_geometry_only'
   readonly family?: 'R-VAN' | 'HE-VAN'
