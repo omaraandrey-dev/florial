@@ -127,8 +127,9 @@ function branchDistance(forwardOffsetM, direction, perimeterLengthM) {
 }
 
 /**
- * Assigns sprinklers to source-fed perimeter branches. Sprinkler arc is
- * deliberately ignored: every zone has the same six-head maximum.
+ * Splits the complete sprinkler set into balanced zones, independently of
+ * perimeter direction or nozzle arc. A zone may be supplied by two source-fed
+ * perimeter routes when its heads lie on both sides of the water connection.
  */
 export function buildIrrigationZones(sprinklers = [], geometry) {
   const context = buildPerimeterContext(geometry)
@@ -136,55 +137,48 @@ export function buildIrrigationZones(sprinklers = [], geometry) {
     return Object.freeze([])
   }
 
-  const byDirection = { forward: [], reverse: [] }
   const midpointM = context.perimeterLengthM / 2
-
-  for (const sprinkler of sprinklers) {
+  const ordered = sprinklers.map((sprinkler) => {
     const location = locateSprinklerOnPerimeter(sprinkler.position, context)
-    if (!location) continue
-
-    // The exact opposite point belongs to the reverse branch. This keeps
-    // the two routes disjoint while preserving a deterministic tie-break.
+    if (!location) return null
     const branchDirection = location.forwardOffsetM < midpointM - EPSILON
       ? 'forward'
       : 'reverse'
-
-    byDirection[branchDirection].push({
+    return {
       sprinkler,
       location,
+      branchDirection,
       distanceFromSourceM: branchDistance(
         location.forwardOffsetM,
         branchDirection,
         context.perimeterLengthM,
       ),
-    })
-  }
-
-  const zones = []
-  for (const branchDirection of ['forward', 'reverse']) {
-    const ordered = byDirection[branchDirection].sort((a, b) =>
-      a.distanceFromSourceM - b.distanceFromSourceM ||
-      String(a.sprinkler.id).localeCompare(String(b.sprinkler.id)))
-
-    const limit = FLORIAL_IRRIGATION_PROJECT_STANDARD.zoneCapacity.maxHeadsPerZone
-    const zoneCount = Math.ceil(ordered.length / limit)
-    const baseSize = Math.floor(ordered.length / zoneCount)
-    const extraHeads = ordered.length % zoneCount
-    let offset = 0
-
-    // Balance the last zone instead of creating an avoidable one-head zone
-    // (for example, 7 heads become 4 + 3 rather than 6 + 1).
-    for (let zoneIndex = 0; zoneIndex < zoneCount; zoneIndex += 1) {
-      const batchSize = baseSize + (zoneIndex < extraHeads ? 1 : 0)
-      const batch = ordered.slice(offset, offset + batchSize)
-      offset += batchSize
-      zones.push(Object.freeze({
-        id: 'zone-' + String(zones.length + 1).padStart(2, '0'),
-        branchDirection,
-        sprinklerIds: Object.freeze(batch.map((entry) => entry.sprinkler.id)),
-        sprinklerCount: batch.length,
-      }))
     }
+  }).filter(Boolean).sort((a, b) =>
+    a.distanceFromSourceM - b.distanceFromSourceM ||
+    (a.branchDirection === b.branchDirection ? 0 : a.branchDirection === 'forward' ? -1 : 1) ||
+    String(a.sprinkler.id).localeCompare(String(b.sprinkler.id)))
+
+  const limit = FLORIAL_IRRIGATION_PROJECT_STANDARD.zoneCapacity.maxHeadsPerZone
+  const zoneCount = Math.ceil(ordered.length / limit)
+  const baseSize = Math.floor(ordered.length / zoneCount)
+  const extraHeads = ordered.length % zoneCount
+  const zones = []
+  let offset = 0
+
+  for (let zoneIndex = 0; zoneIndex < zoneCount; zoneIndex += 1) {
+    const batchSize = baseSize + (zoneIndex < extraHeads ? 1 : 0)
+    const batch = ordered.slice(offset, offset + batchSize)
+    offset += batchSize
+    const branchDirections = [...new Set(batch.map((entry) => entry.branchDirection))]
+    zones.push(Object.freeze({
+      id: 'zone-' + String(zoneIndex + 1).padStart(2, '0'),
+      zoneNumber: zoneIndex + 1,
+      branchDirection: branchDirections.length === 1 ? branchDirections[0] : 'mixed',
+      branchDirections: Object.freeze(branchDirections),
+      sprinklerIds: Object.freeze(batch.map((entry) => entry.sprinkler.id)),
+      sprinklerCount: batch.length,
+    }))
   }
 
   return Object.freeze(zones)
@@ -248,38 +242,58 @@ function buildZoneRoute(context, branchDirection, entries) {
 }
 
 /**
- * Builds one continuous pipe route per irrigation zone. Perimeter heads are
- * connected in sequence; only interior heads receive short lateral take-offs.
+ * Builds one source-fed route for each zone/direction pair. A single zone can
+ * contain heads on both sides of the top-right source; those are drawn as two
+ * independent pipe runs but share one zone number and operate together.
  */
 export function buildPerimeterPipeNetwork(geometry, sprinklers = [], zones = null) {
   const context = buildPerimeterContext(geometry)
   if (!context) return null
 
   const resolvedZones = zones ?? buildIrrigationZones(sprinklers, geometry)
-  const branches = resolvedZones.map((zone) => {
+  const branches = []
+
+  for (const zone of resolvedZones) {
     const entries = zone.sprinklerIds
       .map((id) => sprinklers.find((sprinkler) => sprinkler.id === id))
       .filter(Boolean)
       .map((sprinkler) => {
         const location = locateSprinklerOnPerimeter(sprinkler.position, context)
-        const distanceFromSourceM = location
-          ? branchDistance(location.forwardOffsetM, zone.branchDirection, context.perimeterLengthM)
-          : 0
-        return { sprinkler, location, distanceFromSourceM }
+        if (!location) return null
+        const branchDirection = location.forwardOffsetM < context.perimeterLengthM / 2 - EPSILON
+          ? 'forward'
+          : 'reverse'
+        return {
+          sprinkler,
+          location,
+          branchDirection,
+          distanceFromSourceM: branchDistance(
+            location.forwardOffsetM,
+            branchDirection,
+            context.perimeterLengthM,
+          ),
+        }
       })
-      .filter((entry) => entry.location)
-      .sort((a, b) => a.distanceFromSourceM - b.distanceFromSourceM)
+      .filter(Boolean)
 
-    const route = buildZoneRoute(context, zone.branchDirection, entries)
-    return Object.freeze({
-      zoneId: zone.id,
-      branchDirection: zone.branchDirection,
-      sprinklerIds: zone.sprinklerIds,
-      points: route.points,
-      lateralConnections: route.lateralConnections,
-      diameterMm: FLORIAL_IRRIGATION_PROJECT_STANDARD.pipes.zoneDiameterMm,
-    })
-  })
+    for (const branchDirection of ['forward', 'reverse']) {
+      const branchEntries = entries
+        .filter((entry) => entry.branchDirection === branchDirection)
+        .sort((a, b) => a.distanceFromSourceM - b.distanceFromSourceM)
+      if (branchEntries.length === 0) continue
+      const route = buildZoneRoute(context, branchDirection, branchEntries)
+      branches.push(Object.freeze({
+        id: zone.id + '-' + branchDirection,
+        zoneId: zone.id,
+        zoneNumber: zone.zoneNumber,
+        branchDirection,
+        sprinklerIds: Object.freeze(branchEntries.map((entry) => entry.sprinkler.id)),
+        points: route.points,
+        lateralConnections: route.lateralConnections,
+        diameterMm: FLORIAL_IRRIGATION_PROJECT_STANDARD.pipes.zoneDiameterMm,
+      }))
+    }
+  }
 
   return Object.freeze({
     connectionPoint: Object.freeze(context.connection),
@@ -292,4 +306,5 @@ export function buildPerimeterPipeNetwork(geometry, sprinklers = [], zones = nul
     zoneDiameterMm: FLORIAL_IRRIGATION_PROJECT_STANDARD.pipes.zoneDiameterMm,
     branches: Object.freeze(branches),
   })
+}
 }
