@@ -108,7 +108,7 @@ test('unconfirmed geometry is never passed to the layout solver', () => {
 test('geometry beyond the verified R-VAN24 envelope is not forced into a nozzle layout', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor({ width: 15.2 }))
   assert.equal(result.status, 'requires_rotor_engine')
-  assert.equal(result.reason, 'requires_large_rotor_engine_or_engineer_review')
+  assert.equal(result.reason, 'half_short_side_exceeds_connected_rotary_nozzle_spacing_range')
   assert.equal(result.plannedNextFamily, 'Rain Bird 3500')
   assert.equal(result.layout, undefined)
 })
