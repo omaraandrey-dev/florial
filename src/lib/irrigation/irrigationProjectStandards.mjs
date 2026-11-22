@@ -76,7 +76,8 @@ export function buildPerimeterPipeNetwork(geometry, sprinklers = []) {
     }
   })
   const ordered = vertices.slice(startIndex).concat(vertices.slice(0, startIndex))
-  const mainRoute = [...ordered, ordered[0]].map((point) => Object.freeze({ x: point.x, y: point.y }))
+  const mainRoute = [connection, ...ordered, ordered[0], connection]
+    .map((point) => Object.freeze({ x: point.x, y: point.y }))
   const boundarySegments = mainRoute.slice(0, -1).map((point, index) => ({
     a: point,
     b: mainRoute[index + 1],
