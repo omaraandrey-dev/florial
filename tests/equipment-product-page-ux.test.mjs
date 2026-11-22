@@ -15,7 +15,7 @@ test('equipment page highlights only existing localized specifications and retai
   assert.match(source, /const equipmentSpecifications = !isPlantProduct\(product\)/)
   assert.match(source, /featuredEquipmentSpecifications = equipmentSpecifications\.slice\(0, 3\)/)
   assert.match(source, /Всички посочени параметри за този продукт\./)
-  assert.match(source, /equipmentSpecifications\.map\(/)
+  assert.match(source, /localizedSpecifications\.map\(/)
 })
 
 test('equipment purchase action remains available in a mobile sticky bar when original controls leave view', () => {
