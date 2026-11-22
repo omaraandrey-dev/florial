@@ -85,6 +85,8 @@ test('a branch with more than six heads is split into independent zones of at mo
     { id: 'interior-1', position: { x: 12.5, y: 2.5 }, arcDeg: 360 },
   ])
   const zones = buildIrrigationZones(extended, rectangle)
+  assert.deepEqual(zones.map((zone) => zone.sprinklerCount), [4, 3, 6])
   assert.ok(zones.every((zone) => zone.sprinklerCount <= 6))
+  assert.ok(zones.every((zone) => zone.sprinklerCount > 1))
   assert.equal(zones.reduce((sum, zone) => sum + zone.sprinklerCount, 0), extended.length)
 })
