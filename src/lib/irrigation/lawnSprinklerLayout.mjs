@@ -8,7 +8,7 @@ import {
   RAIN_BIRD_HEVAN_DATASET,
 } from './rainBirdHevanPerformanceData.mjs'
 
-const ENGINE_VERSION = '0.1.0'
+const ENGINE_VERSION = '0.2.0'
 const EPSILON = 1e-8
 const DEFAULT_SAMPLE_STEP_M = 0.25
 const MAX_SAMPLE_POINTS = 30000
@@ -656,7 +656,7 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'perimeter-first-greedy-set-cover-v2',
+    algorithm: 'perimeter-first-multi-row-greedy-set-cover-v3',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
