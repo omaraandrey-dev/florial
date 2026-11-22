@@ -1,3 +1,10 @@
+## 2026-11-22 — Storefront plant product page UX acceptance
+
+- PR pending: `feat/plant-product-page-ux` improves plant purchase hierarchy, groups botanical information, consolidates variant details, collapses the care guide and adds a mobile sticky add-to-cart action.
+- OPEN: exact-branch CI and Preview deployment; visual acceptance on desktop/mobile in BG/RU/EN; test variant changes, inStock/onRequest/outOfStock, missing price, no sale variants, long plant names and sticky action visibility/overlap with the mobile safe area.
+- No Production release until the PR is reviewed and the owner explicitly authorizes merge/deployment. No Sanity/D1/Cloudflare/Resend writes are part of this UI-only task.
+- Audit: `docs/audits/2026-11-22-plant-product-page-ux.md`.
+
 ## 2026-11-21 — Manager plant editor UX acceptance
 
 - Exact PR head `a7219381ed47ebaa6cc44f3ee2365d3cb08be7a1`: Blog and Studio run `44921957018` and D1 validation run `44921957051` both succeeded.
