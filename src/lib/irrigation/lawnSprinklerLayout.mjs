@@ -140,7 +140,7 @@ function supportedModel(family, model) {
 function buildCandidates(vertices, family, model, pressureBar, radiusM) {
   const candidates = []
   const orientation = Math.sign(signedArea(vertices)) || 1
-  const add = (position, arcDeg, direction, source) => {
+  const add = (position, arcDeg, direction, source, placementGroup = null) => {
     const point = performanceFor(family, model, pressureBar, arcDeg)
     if (!point || !Number.isFinite(point.radiusM) || point.radiusM <= 0) return
     candidates.push({
@@ -149,6 +149,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       arcDeg,
       directionDeg: arcDeg === 360 ? null : normalizeDegrees(Math.atan2(direction.y, direction.x) * 180 / Math.PI),
       source,
+      placementGroup,
       radiusM: point.radiusM,
       flowLpm: point.flowLpm,
       pressureBar: point.pressureBar,
@@ -227,7 +228,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
   if (axisAlignedRectangle) {
     const rowAlongX = spanX >= spanY
     const lineLength = rowAlongX ? spanX : spanY
-    const divisions = Math.max(1, Math.ceil(lineLength / radiusM))
+    const divisions = Math.max(2, Math.ceil(lineLength / radiusM))
     const center = rowAlongX
       ? { x: 0, y: (minY + maxY) / 2 }
       : { x: (minX + maxX) / 2, y: 0 }
@@ -236,7 +237,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       const position = rowAlongX
         ? { x: minX + along, y: center.y }
         : { x: center.x, y: minY + along }
-      add(position, 360, { x: 1, y: 0 }, 'interior')
+      add(position, 360, { x: 1, y: 0 }, 'interior', 'central_row')
     }
   } else {
     const rowStep = radiusM * Math.sqrt(3) / 2
@@ -268,6 +269,14 @@ function evaluateCandidates(candidates, targets) {
     }
     return { ...candidate, covered }
   })
+}
+
+function selectAllCandidates(candidates, targetCount, initialUncovered) {
+  const uncovered = new Set(initialUncovered ?? Array.from({ length: targetCount }, (_, index) => index))
+  for (const candidate of candidates) {
+    for (const targetIndex of candidate.covered) uncovered.delete(targetIndex)
+  }
+  return { selected: candidates.slice(), uncovered }
 }
 
 function selectGreedy(candidates, targetCount, initialUncovered = null) {
@@ -506,7 +515,10 @@ export function generateLawnSprinklerLayout({
   // The perimeter is always evaluated first. Interior candidates are admitted
   // only when the perimeter-only pass leaves sampled lawn points uncovered.
   if (uncovered.size > 0 && interiorCandidates.length > 0) {
-    const interiorPass = selectGreedy(interiorCandidates, targets.length, uncovered)
+    const hasCentralRow = interiorCandidates.some((candidate) => candidate.placementGroup === 'central_row')
+    const interiorPass = hasCentralRow
+      ? selectAllCandidates(interiorCandidates, targets.length, uncovered)
+      : selectGreedy(interiorCandidates, targets.length, uncovered)
     coverageSelection = [...coverageSelection, ...interiorPass.selected]
     uncovered = interiorPass.uncovered
     interiorPassUsed = interiorPass.selected.length > 0
