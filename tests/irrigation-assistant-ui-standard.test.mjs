@@ -22,3 +22,13 @@ test('layout view draws one sequential route per zone and keeps sprinkler radius
   assert.match(source, /branch\.zoneId/)
   assert.match(source, /branch\.lateralConnections/)
 })
+
+test('single-step intake removes site notes and scrolls to the form/results automatically', () => {
+  assert.doesNotMatch(source, /notesTitle|notesPlaceholder|notesHint|notesLabel|setNotes/)
+  assert.match(source, /scrollIntoView\(\{ behavior: 'smooth', block: 'start' \}\)/)
+  assert.match(source, /ref=\{formRef\}/)
+  assert.match(source, /ref=\{summaryRef\}/)
+  assert.match(source, /onClick=\{\(\) => setShowSummary\(false\)\}/)
+  assert.match(source, /zoneNumber/)
+  assert.match(source, /<text[^>]*>\{zoneNumber\}<\/text>/)
+})
