@@ -94,11 +94,14 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
     })
   }
 
-  // Select a circular model whose manufacturer envelope covers the local
-  // short-side spacing. For wider lawns, retain R-VAN24 and require internal
-  // rows rather than switching to HE-VAN or an unsupported rotor calculation.
-  const model = shortSideM <= 7.3
-    ? selectRvanModelForRadius(shortSideM)
+  const dataset = RAIN_BIRD_RVAN_DATASET
+  const pressureBar = dataset.source.recommendedOperatingPressureBar
+
+  // The selected model is based on the exact 3.1 bar manufacturer throw,
+  // not the broad catalogue radius envelope. Above that throw, R-VAN24 is
+  // retained and additional rows are generated.
+  const model = shortSideM <= 7.0
+    ? selectRvanModelForRadius(shortSideM, null, pressureBar, 180)
     : shortSideM <= 14.6 ? 'R-VAN24' : null
   if (!model) {
     return result('requires_rotor_engine', {
@@ -109,10 +112,12 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
   }
 
   const modelRange = getRvanRadiusRange(model)
-  const dataset = RAIN_BIRD_RVAN_DATASET
-  const pressureBar = dataset.source.recommendedOperatingPressureBar
-  const nominalThrowM = dataset.performancePoints.find((point) => point.model === model && point.pressureBar === pressureBar && point.arcDeg === 180)?.radiusM ?? modelRange.maxRadiusM
+  const nominalThrowM = dataset.performancePoints.find((point) =>
+    point.model === model && point.pressureBar === pressureBar && point.arcDeg === 180)?.radiusM ?? modelRange.maxRadiusM
+  const fullCircleThrowM = dataset.performancePoints.find((point) =>
+    point.model === model + '-360' && point.pressureBar === pressureBar && point.arcDeg === 360)?.radiusM ?? nominalThrowM
   const requiresInternalRows = shortSideM > nominalThrowM
+  const spacingRadiusM = requiresInternalRows ? Math.min(nominalThrowM, fullCircleThrowM) : nominalThrowM
   const modelEvidence = dataset.models.find((entry) => entry.model === model)
   if (!modelEvidence) return result('manufacturer_model_mapping_missing', { family: 'R-VAN', model, pressureBar })
 
@@ -122,6 +127,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
     model,
     pressureBar,
     sampleStepM,
+    spacingRadiusM,
   })
 
   return result(layout.status === 'coverage_complete_sampled' ? 'layout_generated' : 'layout_incomplete', {
@@ -137,9 +143,11 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
       modelsUsed: layout.modelsUsed,
       pressureBar,
       pressureBasis: 'manufacturer_recommended_operating_pressure',
-      modelSelectionBasis: 'R-VAN_model_selected_from_manufacturer_radius_envelope',
+      modelSelectionBasis: 'R-VAN_model_selected_from_exact_pressure_specific_manufacturer_throw',
       modelRadiusRangeM: Object.freeze([modelRange.minRadiusM, modelRange.maxRadiusM]),
       requiresInternalRows,
+      spacingRadiusM,
+      fullCircleThrowM,
       sourceUrl: dataset.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
