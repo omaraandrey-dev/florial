@@ -1,6 +1,6 @@
 # Irrigation automation selection after the lawn assistant
 
-Status: implementation prepared on branch `feat/irrigation-automation-selection`; PR/CI and owner visual review pending. Source catalogue was read-only; no Sanity documents were changed.
+Status: PR #481 merged into `main` at `1ce629772e8a1e3f7be6d0af6d20d60e76849202`; Production deployment succeeded. Source catalogue was read-only; no Sanity documents were changed.
 
 ## Customer flow
 
@@ -79,3 +79,12 @@ The owner project PDF includes the selected control type, controller models and 
 - No Sanity writes, D1 migrations/data writes, Cloudflare settings/secrets changes, Production orders or test emails were performed as part of implementation.
 - CI, Pages Preview deployment, PDF generation in a real order and owner inbox delivery must be checked after the PR is created.
 - Browser visual QA is not performed automatically; owner review is required.
+
+
+## Release verification
+
+- PR #481 head `71cf237e5523dc18dc9594816a26499ada2bc2cc`: Blog/Studio validation run `45053370930` — success; D1 validation run `45053357011` — success.
+- Pages Preview deployment `97fc94d3-ca3b-4ff0-8a0e-33111b86ae63` — success from the exact PR head.
+- PR #481 squash-merged to main at `1ce629772e8a1e3f7be6d0af6d20d60e76849202`.
+- Cloudflare Pages Production deployment `eb9110fc-1b98-41cc-8b65-a63272cf8049` — success from the exact merge SHA; aliases include `https://florial-bg.com` and `https://www.florial-bg.com`.
+- No Sanity writes, D1 migration/data writes, Cloudflare settings/secrets changes, Production orders or test emails. Owner visual review of the latest live revision and safe checkout/E2E remain unverified; Browser was not used.

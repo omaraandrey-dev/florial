@@ -1,11 +1,12 @@
-## 2026-11-22 — Irrigation assistant automation selection (PR pending)
+## 2026-11-22 — Irrigation assistant automation selection (PR #481 merged; Production deployed)
 
-- Branch `feat/irrigation-automation-selection`, based on main `b9d4b5e5bcd45721cac9605c36a5eadb2391c3a6`.
+- PR #481 squash-merged into `main` at `1ce629772e8a1e3f7be6d0af6d20d60e76849202`.
 - The assistant now inserts an explicit automation-choice stage before cart handoff: manual, Rain Bird ESP-TM2 wired, ESP-RC2 Wi-Fi or ESP-BAT-BT battery/Bluetooth.
 - Manual selection omits the assistant BOM's standard electromagnetic valve and VBA02672 valve boxes. TM2/RC2 add their controller(s), retain standard valves and valve boxes, and record cable-routing requirements from controller to valves; RC2 also records the stable Wi-Fi requirement. BAT replaces standard 100-HV with owner-selected 100-HV-9V SKU H01040 per zone and records controller-to-zone allocation. H01040 requires the updated HV bonnet manufactured from 30.06.2025 and a compatible TBOSPSOL 9 V DC latching solenoid; the published Sanity description has an older conflicting note.
 - Product cards use current published Sanity product images and EUR prices. Current checked products have `stockStatus=onRequest`.
 - The project snapshot validator reconciles controller and valve SKUs/quantities with server-resolved order lines, derives prices server-side, and stores the automation selection in the existing D1 order event. The owner PDF includes controller models, zone allocations, compatible valve, prices and installation notes.
-- No D1 migration, Sanity write, Cloudflare setting/secret change, Production order or test email. PR/CI/Preview and owner visual review pending.
+- Exact PR-head CI succeeded: Blog/Studio `45053370930`, D1 validation `45053357011` (head `71cf237e5523dc18dc9594816a26499ada2bc2cc`). Pages Preview `97fc94d3-ca3b-4ff0-8a0e-33111b86ae63` and Production `eb9110fc-1b98-41cc-8b65-a63272cf8049` succeeded; Production alias https://florial-bg.com.
+- No D1 migration, Sanity write, Cloudflare settings/secrets change, Production order or test email. Latest Production owner visual review and safe checkout/E2E remain open.
 - Evidence and SKU/price allocation table: `docs/audits/2026-11-22-irrigation-automation-selection.md`.
 
 ---

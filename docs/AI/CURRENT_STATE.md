@@ -1,11 +1,12 @@
-# Latest implementation — irrigation automation selection (PR pending)
+# Latest main and Production — irrigation automation selection (PR #481 merged and deployed)
 
-- Branch: `feat/irrigation-automation-selection`, based on the current main HEAD checked at task start: `b9d4b5e5bcd45721cac9605c36a5eadb2391c3a6`.
+- PR #481 squash-merged into `main`: `1ce629772e8a1e3f7be6d0af6d20d60e76849202`.
 - Added a customer choice after reviewing the lawn BOM: manual, TM2 wired, RC2 Wi-Fi or BAT-BT battery/Bluetooth. Manual excludes both the electromagnetic valve SKU and VBA02672 valve boxes. TM2/RC2 add real Sanity controllers and retain standard valves/boxes; BAT adds ESP-BAT-BT controller(s) and replaces the standard valve with 100-HV-9V SKU H01040 per zone. H01040 compatibility requires the updated HV bonnet manufactured from 30.06.2025 and a compatible TBOSPSOL 9 V DC latching solenoid.
 - Controller allocations follow the owner-approved 9-zone 6+4 and 10–12-zone 6+6 rules. The UI displays catalog photos, live EUR prices, quantities and totals; TM2/RC2 explicitly show cable-routing work, RC2 additionally requires stable Wi-Fi.
 - Automation metadata and resolved price lines are validated server-side against order items and included in the owner project PDF. Existing D1 `order_events.metadata` is reused; no migration is required.
 - Catalog prices were read from published Sanity Production; checked products currently report `onRequest`. No Sanity writes were performed.
-- PR creation, CI, Preview and owner visual review are pending. No merge/Production deployment, real order, test email, D1 or Cloudflare configuration changes have been made.
+- Exact PR-head Blog/Studio run `45053370930` and D1 validation run `45053357011` succeeded for `71cf237e5523dc18dc9594816a26499ada2bc2cc`. Preview `97fc94d3-ca3b-4ff0-8a0e-33111b86ae63` and Production `eb9110fc-1b98-41cc-8b65-a63272cf8049` both deployed successfully. Production aliases: https://florial-bg.com and https://www.florial-bg.com.
+- No D1 migration, Sanity write, Cloudflare settings/secrets change, real order or test email. Owner review of the latest live revision and a safe checkout/E2E test remain open; Browser was not used.
 - Full audit: `docs/audits/2026-11-22-irrigation-automation-selection.md`.
 
 ---

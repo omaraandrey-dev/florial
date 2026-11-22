@@ -1,13 +1,13 @@
-## 2026-11-22 — Irrigation automation selection (implementation PR pending)
+## 2026-11-22 — Irrigation automation selection (PR #481 merged; Production deployed)
 
-- IMPLEMENTED IN PR BRANCH — customer chooses manual, TM2, RC2 or BAT-BT before the generated kit is added to the cart.
-- IMPLEMENTED IN PR BRANCH — manual mode omits the assistant BOM's electromagnetic valve SKU and VBA02672 valve boxes; TM2/RC2 add selected controller SKUs and preserve standard valves/boxes; BAT replaces the ordinary valve with Rain Bird 100-HV-9V (H01040) per zone and adds BAT-BT controllers. H01040 requires the updated HV bonnet (manufactured from 30.06.2025) and compatible TBOSPSOL 9 V DC latching solenoid.
-- IMPLEMENTED IN PR BRANCH — live catalog images/prices, controller zone allocation, cable notice for TM2/RC2, Wi-Fi notice for RC2, server-side snapshot validation and owner project-PDF automation section.
-- OPEN — exact-head CI, Pages Preview and visual review in BG/RU/EN; no Browser use without owner permission.
+- CLOSED — customer chooses manual, TM2, RC2 or BAT-BT before the generated kit is added to the cart.
+- CLOSED — manual mode omits the assistant BOM's electromagnetic valve SKU and VBA02672 valve boxes; TM2/RC2 add selected controller SKUs and preserve standard valves/boxes; BAT replaces the ordinary valve with Rain Bird 100-HV-9V (H01040) per zone and adds BAT-BT controllers. H01040 requires the updated HV bonnet (manufactured from 30.06.2025) and compatible TBOSPSOL 9 V DC latching solenoid.
+- CLOSED — live catalog images/prices, controller zone allocation, cable notice for TM2/RC2, Wi-Fi notice for RC2, server-side snapshot validation and owner project-PDF automation section.
+- CLOSED — exact-head CI and Pages Preview succeeded. Owner visual review of the latest Production revision remains open; Browser use requires owner permission.
 - OPEN — safe checkout test with owner approval to confirm cart contents, server validation, both PDF attachments and Resend inbox delivery. Do not create Production orders or test emails before agreement.
 - OPEN — owner confirmation whether to expose indoor/outdoor model variants as an additional choice. Current defaults: TM2 outdoor; RC2 indoor.
 - Catalogue note: checked automation products currently have `stockStatus=onRequest`; the displayed price is the current published Sanity price, not a live stock guarantee. H01040's published Sanity description still contains an older incompatibility statement; verify the supplied bonnet revision and TBOSPSOL fitment before fulfilment.
-- Implementation branch: `feat/irrigation-automation-selection`; catalog audit: `../audits/2026-11-22-irrigation-automation-selection.md`.
+- Release: PR #481 merged at `1ce629772e8a1e3f7be6d0af6d20d60e76849202`; Production deployment `eb9110fc-1b98-41cc-8b65-a63272cf8049` succeeded. Catalog audit: `../audits/2026-11-22-irrigation-automation-selection.md`.
 
 ---
 
