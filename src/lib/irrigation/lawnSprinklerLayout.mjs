@@ -275,7 +275,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       row += 1
     }
   }
-  return candidates  return candidates
+  return candidates
 }
 
 function evaluateCandidates(candidates, targets) {
