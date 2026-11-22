@@ -42,6 +42,8 @@ export function resolveRvanRadius(model, requestedRadiusM, pressureBar = 3.1, ar
     radiusM,
     adjusted: Math.abs(radiusM - nominalRadiusM) > 1e-8,
     withinManufacturerRange: requestedRadiusM >= range.minRadiusM && requestedRadiusM <= nominalRadiusM,
+    requestedBelowMinimum: requestedRadiusM < range.minRadiusM,
+    requestedAboveNominal: requestedRadiusM > nominalRadiusM,
     minRadiusM: range.minRadiusM,
     maxRadiusM: nominalRadiusM,
     nominalRadiusM,
