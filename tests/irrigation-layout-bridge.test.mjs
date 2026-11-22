@@ -42,7 +42,7 @@ test('20x10m lawn uses perimeter-only Rain Bird R-VAN18 layout when perimeter co
   assert.equal(result.layout?.placementStrategy, 'perimeter_first_then_interior_if_required')
   assert.equal(result.geometry?.shortSideM, 10)
   assert.equal(result.geometry?.perimeterSpacingTargetM, 5)
-  assert.equal(result.layout?.perimeterPass?.sampledCoverageComplete, true)
+  assert.equal(result.layout?.perimeterPass?.sampledCoverageComplete, true, JSON.stringify(result.layout?.perimeterPass?.uncoveredSamplesBeforeInteriorPass))
   assert.equal(result.layout?.interiorPass?.activated, false)
   assert.ok(result.layout?.perimeterPass?.selectedSprinklers > 0)
   assert.equal(
