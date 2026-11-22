@@ -159,6 +159,7 @@ export const createIrrigationProjectPdf = async (
   }
 
   heading('4. Автоматика и управление')
+  write('Всички посочени цени са с включен ДДС.', { size: 6.5, color: muted })
   const automation = project.automation
   if (!automation) {
     write('Типът управление не е записан в тази версия на проекта.', { color: muted })

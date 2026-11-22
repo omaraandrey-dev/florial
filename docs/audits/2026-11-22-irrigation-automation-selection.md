@@ -11,7 +11,7 @@ After the generated irrigation kit is reviewed, the customer opens a separate au
 - Rain Bird ESP-RC2: Wi-Fi controller. The selected catalog variants are indoor-mount 4/6/8 station models. Keep standard 100-HV valves. Show both requirements: stable Wi-Fi at the controller location and a control cable from controller to solenoid valves. Cable length/product and installation labour are not auto-priced.
 - Rain Bird ESP-BAT-BT: battery/Bluetooth controller. Replace the ordinary BOM valve with Rain Bird 100-PGA-9V (SKU B31440), one per irrigation zone. Do not use 100-HV-9V (SKU H01040): its published Sanity description explicitly says it is incompatible with ESP-BAT-BT.
 
-Each option displays real Sanity product images, model/name, unit price, quantity, line total and total automation cost. Prices are read at runtime from published Sanity documents; they are not hardcoded. All checked products currently have `stockStatus=onRequest`, so this is a catalogue price, not a live stock confirmation.
+Each option displays real Sanity product images, model/name, unit price, quantity, line total and total automation cost. Prices are read at runtime from published Sanity documents; they are not hardcoded. All checked products have `vatIncluded=true` and `stockStatus=onRequest`: the UI prices include VAT, while stock availability is still confirmed on request.
 
 ## Published Sanity products checked
 

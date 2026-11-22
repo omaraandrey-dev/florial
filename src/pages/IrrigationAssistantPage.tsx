@@ -617,6 +617,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                 <section className="rounded-2xl border border-sky-200 bg-sky-50/60 p-4" aria-labelledby="irrigation-automation-title">
                   <h3 id="irrigation-automation-title" className="text-lg font-bold text-slate-900">{language === 'ru' ? 'Как вы хотите управлять поливом?' : language === 'en' ? 'How would you like to control irrigation?' : 'Как желаете да управлявате напояването?'}</h3>
                   <p className="mt-1 text-sm leading-6 text-slate-600">{language === 'ru' ? 'Подобрали автоматику по количеству зон. Перед добавлением покажем реальные товары из каталога и их стоимость.' : language === 'en' ? 'The controller configuration is based on the number of zones. Review the actual catalogue products and prices before adding the kit.' : 'Автоматиката е подбрана според броя зони. Преди добавяне ще видите реалните продукти от каталога и техните цени.'}</p>
+                  <p className="mt-1 text-xs text-slate-500">{language === 'ru' ? 'Цены в EUR указаны с НДС. Наличие товаров — по запросу.' : language === 'en' ? 'Prices are in EUR including VAT. Availability is on request.' : 'Цените са в EUR с включен ДДС. Наличността се потвърждава при запитване.'}</p>
                   <div className="mt-4 grid gap-3">
                     {automationOptions.map((option) => {
                       const labels = {
