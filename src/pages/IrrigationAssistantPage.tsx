@@ -234,7 +234,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     narrow: 'Полосовые форсунки R-VAN рассчитываются отдельным модулем только для прямоугольной полосы. Для Г-образной узкой зоны требуется отдельная инженерная проверка.',
     stripAdjustment: 'Геометрическая раскладка построена, но размер форсунки нужно отрегулировать на месте при работающей воде. Производитель не публикует точные пределы регулировки; фактическую ширину/длину и перекрытие необходимо проверить.',
     stripScenarioNote: 'LCS/RCS/SST используют прямоугольный рисунок полива. Расход и размеры взяты из таблицы Rain Bird для указанного давления; при изменении размера фактические параметры требуют проверки.',
-    stripOverlap: 'Проверка перекрытия полосовых форсунок (50%):',
+    stripOverlap: 'Проверка перекрытия полосовых форсунок (50%):',\n    stripLcs: 'Полоса от левого угла', stripRcs: 'Полоса от правого угла', stripSst: 'Боковая полоса',
     notReady: 'Для запуска раскладки требуется подтверждённый контур участка.', engineError: 'Текущий инженерный движок не поддерживает эту геометрию или конфигурацию.',
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания',
   } : language === 'en' ? {
@@ -250,7 +250,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     narrow: 'R-VAN strip nozzles are calculated by a separate module for rectangular strips only. A narrow L-shaped area requires separate engineering review.',
     stripAdjustment: 'The geometric layout is generated, but nozzle size must be adjusted on site while water is running. The manufacturer does not publish exact adjustment limits; verify the actual width/length and overlap in the field.',
     stripScenarioNote: 'LCS/RCS/SST use rectangular spray patterns. Flow and dimensions come from the Rain Bird table at the selected pressure; actual values after size adjustment require field verification.',
-    stripOverlap: 'Strip nozzle overlap check (50%):',
+    stripOverlap: 'Strip nozzle overlap check (50%):',\n    stripLcs: 'Left-corner strip', stripRcs: 'Right-corner strip', stripSst: 'Side strip',
     notReady: 'A customer-confirmed lawn boundary is required before layout generation.', engineError: 'The current engineering engine does not support this geometry or configuration.',
     headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings',
   } : {
@@ -266,7 +266,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     narrow: 'Лентовите дюзи R-VAN се изчисляват с отделен модул само за правоъгълни ивици. За тясна Г-образна зона е необходима отделна инженерна проверка.',
     stripAdjustment: 'Геометричната схема е генерирана, но размерът на дюзата трябва да се регулира на място при работеща вода. Производителят не публикува точни граници на регулиране; проверете реалната ширина/дължина и припокриването на място.',
     stripScenarioNote: 'LCS/RCS/SST използват правоъгълен модел на поливане. Дебитът и размерите са от таблицата на Rain Bird за избраното налягане; след регулиране фактическите стойности изискват проверка на място.',
-    stripOverlap: 'Проверка на припокриването на лентовите дюзи (50%):',
+    stripOverlap: 'Проверка на припокриването на лентовите дюзи (50%):',\n    stripLcs: 'Лентова дюза за ляв ъгъл', stripRcs: 'Лентова дюза за десен ъгъл', stripSst: 'Странична лентова дюза',
     notReady: 'За изчисление е необходим контур, потвърден от клиента.', engineError: 'Текущият инженерен двигател не поддържа тази геометрия или конфигурация.',
     headToHead: 'Проверка на разстоянието head-to-head', passed: 'Успешна', failed: 'Има забележки',
   }
@@ -492,7 +492,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
                           {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; performanceModel: string; pattern?: string; patternLabel?: string; radiusM: number | null; dimensionsM?: number[]; position: { x: number; y: number }; arcDeg: number | null }) => (
-                            <li key={sprinkler.id}>{sprinkler.id}: {sprinkler.performanceModel} · {sprinkler.pattern === 'strip' ? (sprinkler.patternLabel + ' · ' + numberFormat(sprinkler.dimensionsM?.[0] ?? 0) + ' × ' + numberFormat(sprinkler.dimensionsM?.[1] ?? 0) + ' m') : ('R ' + numberFormat(sprinkler.radiusM ?? 0) + ' m · ' + sprinkler.arcDeg + '°')} · X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)}</li>
+                            <li key={sprinkler.id}>{sprinkler.id}: {sprinkler.performanceModel} · {sprinkler.pattern === 'strip' ? ((sprinkler.performanceModel === 'R-VAN-LCS' ? layoutLabels.stripLcs : sprinkler.performanceModel === 'R-VAN-RCS' ? layoutLabels.stripRcs : layoutLabels.stripSst) + ' · ' + numberFormat(sprinkler.dimensionsM?.[0] ?? 0) + ' × ' + numberFormat(sprinkler.dimensionsM?.[1] ?? 0) + ' m') : ('R ' + numberFormat(sprinkler.radiusM ?? 0) + ' m · ' + sprinkler.arcDeg + '°')} · X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)}</li>
                           ))}
                         </ol>
                       </details>
