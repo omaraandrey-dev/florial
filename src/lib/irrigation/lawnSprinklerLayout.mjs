@@ -4,10 +4,6 @@ import {
   findRainBirdRvanPerformancePoint,
   RAIN_BIRD_RVAN_DATASET,
 } from './rainBirdRvanPerformanceData.mjs'
-import {
-  findRainBirdHevanPerformancePoint,
-  RAIN_BIRD_HEVAN_DATASET,
-} from './rainBirdHevanPerformanceData.mjs'
 
 const ENGINE_VERSION = '0.1.0'
 const EPSILON = 1e-8
@@ -128,13 +124,12 @@ function performanceFor(family, model, pressureBar, arcDeg) {
     const exactModel = arcDeg === 360 ? model + '-360' : model
     return findRainBirdRvanPerformancePoint(exactModel, pressureBar, arcDeg)
   }
-  return findRainBirdHevanPerformancePoint(model, pressureBar, arcDeg)
+  return null
 }
 
 function supportedModel(family, model) {
   if (family === 'R-VAN') return RAIN_BIRD_RVAN_DATASET.models.some((entry) =>
     entry.model === model && ['R-VAN14', 'R-VAN18', 'R-VAN24'].includes(entry.model))
-  if (family === 'HE-VAN') return RAIN_BIRD_HEVAN_DATASET.models.some((entry) => entry.model === model)
   return false
 }
 
