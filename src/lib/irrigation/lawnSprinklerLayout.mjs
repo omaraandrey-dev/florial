@@ -501,7 +501,9 @@ export function generateLawnSprinklerLayout({
       selectedSprinklers: interiorSprinklerCount,
       activationReason: interiorPassUsed || interiorSprinklerCount > 0
         ? 'perimeter_pass_did_not_fully_cover_or_head_to_head_repair_required'
-        : 'perimeter_pass_sufficient',
+        : perimeterPass.uncovered.size > 0
+          ? 'no_valid_interior_candidates'
+          : 'perimeter_pass_sufficient',
     }),
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
