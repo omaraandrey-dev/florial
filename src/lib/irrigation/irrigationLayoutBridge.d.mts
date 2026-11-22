@@ -38,7 +38,9 @@ export interface PreliminaryLawnLayoutResult {
   readonly projectStandard?: Readonly<Record<string, any>>
   readonly zones?: ReadonlyArray<Readonly<{
     id: string
-    branchDirection: 'forward' | 'reverse'
+    zoneNumber: number
+    branchDirection: 'forward' | 'reverse' | 'mixed'
+    branchDirections: ReadonlyArray<'forward' | 'reverse'>
     sprinklerIds: ReadonlyArray<string>
     sprinklerCount: number
   }>>
@@ -48,7 +50,9 @@ export interface PreliminaryLawnLayoutResult {
     mainDiameterMm: 25
     zoneDiameterMm: 25
     branches: ReadonlyArray<Readonly<{
+      id: string
       zoneId: string
+      zoneNumber: number
       branchDirection: 'forward' | 'reverse'
       sprinklerIds: ReadonlyArray<string>
       points: ReadonlyArray<Readonly<{ x: number; y: number }>>
