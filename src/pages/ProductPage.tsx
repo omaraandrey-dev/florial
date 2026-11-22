@@ -80,6 +80,7 @@ export function ProductPage({
   const [requestedPlantSize, setRequestedPlantSize] = useState<string>('')
   const [purchaseActionsInView, setPurchaseActionsInView] = useState(true)
   const purchaseActionsRef = useRef<HTMLDivElement>(null)
+  const equipmentPurchaseButtonRef = useRef<HTMLButtonElement>(null)
 
   const plantSaleVariants = isPlantProduct(product) && Array.isArray(product.saleVariants) ? product.saleVariants : []
   const localizedProductSeo = language === 'bg' ? product.seo : product.translations?.[language]?.seo
@@ -203,6 +204,9 @@ export function ProductPage({
   const careGuideBlocks = isPlantProduct(product) && Array.isArray(product.careGuide) ? product.careGuide : []
   const localizedDescription = preferFormattedDescription(product.translations?.[language]?.formattedDescription, localize(product, 'description'))
   const hasDescription = Boolean(toPlainText(localizedDescription).trim())
+  const localizedSpecifications = (((localize(product, 'specifications') as any[] | undefined) || product.specifications) || []).filter((spec) => localize(spec, 'name') && localize(spec, 'value'))
+  const equipmentSpecifications = isPlantProduct(product) ? [] : localizedSpecifications
+  const featuredEquipmentSpecifications = equipmentSpecifications.slice(0, 3)
   const hasBotanicalCare = Boolean(plantCare && (
     ['sun', 'partialShade', 'shade'].includes(String(plantCare.light || '')) ||
     ['low', 'medium', 'high'].includes(String(plantCare.waterNeeds || '')) ||
@@ -283,8 +287,8 @@ export function ProductPage({
   }, [product, language, initialSaleVariantKey])
 
   useEffect(() => {
-    const actions = purchaseActionsRef.current
-    if (!isPlantProduct(product) || !actions || typeof IntersectionObserver === 'undefined') return
+    const actions = isPlantProduct(product) ? purchaseActionsRef.current : equipmentPurchaseButtonRef.current
+    if (!actions || typeof IntersectionObserver === 'undefined') return
 
     const observer = new IntersectionObserver(([entry]) => {
       setPurchaseActionsInView(entry.isIntersecting)
@@ -412,7 +416,7 @@ export function ProductPage({
       </nav>
 
       {/* Основной блок товара и галерея */}
-      <div className={`bg-white rounded-2xl border border-slate-100 shadow-sm p-5 sm:p-6 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 mb-12 ${isPlantProduct(product) && !purchaseActionsInView ? 'pb-28 lg:pb-8' : ''}`}>
+      <div className={`bg-white rounded-2xl border border-slate-100 shadow-sm p-5 sm:p-6 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 mb-12 ${!purchaseActionsInView ? 'pb-28 lg:pb-8' : ''}`}>
         <div className="flex flex-col gap-4">
           {isPlantProduct(product) && selectedImage && !failedImageUrls.includes(selectedImage) && typeof minimumWinterTemperature === 'number' && (
             <div className="flex min-h-3 items-center gap-0.5" aria-label={language === 'ru' ? `Минимальная зимняя температура: ${winterTemperatureLabel}` : language === 'en' ? `Minimum winter temperature: ${winterTemperatureLabel}` : `Минимална зимна температура: ${winterTemperatureLabel}`}>
@@ -479,6 +483,9 @@ export function ProductPage({
             {isPlantProduct(product) && product.shortDescription && (
               <p className="mb-5 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">{localize(product, 'shortDescription')}</p>
             )}
+            {!isPlantProduct(product) && product.shortDescription && (
+              <p className="mb-5 max-w-2xl rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700 sm:text-base">{localize(product, 'shortDescription')}</p>
+            )}
 
             {isPlantProduct(product) ? (
               <div className="mb-6 rounded-2xl border border-emerald-100 bg-gradient-to-b from-emerald-50/80 to-white p-4 shadow-sm sm:p-5">
@@ -531,14 +538,29 @@ export function ProductPage({
                 </div>
               </div>
             ) : (
-              <div className="mb-6">
-                <div className="flex items-baseline gap-4">
-                  <span className="text-3xl font-extrabold text-emerald-800">{(product.priceEUR || 0).toFixed(2)} €</span>
+              <div className="mb-6 rounded-2xl border border-emerald-100 bg-gradient-to-b from-emerald-50/80 to-white p-4 shadow-sm sm:p-5">
+                <div className="flex flex-wrap items-baseline gap-3">
+                  <span className="text-3xl font-extrabold tracking-tight text-emerald-900">{(product.priceEUR || 0).toFixed(2)} €</span>
                   {hasDiscount && <span className="text-lg text-slate-400 line-through">{Number(currentOldPrice).toFixed(2)} €</span>}
                   {hasDiscount && <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-bold text-rose-700">−{discountPercent}%</span>}
                 </div>
-                {hasDiscount && <p className="mt-1 text-sm font-semibold text-emerald-700">{language === 'ru' ? `Экономия: ${discountSaving.toFixed(2)} €` : language === 'en' ? `You save: ${discountSaving.toFixed(2)} €` : `Спестявате: ${discountSaving.toFixed(2)} €`}</p>}
-                <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
+                {hasDiscount && <p className="mt-1 text-sm font-semibold text-emerald-800">{language === 'ru' ? `Экономия: ${discountSaving.toFixed(2)} €` : language === 'en' ? `You save: ${discountSaving.toFixed(2)} €` : `Спестявате: ${discountSaving.toFixed(2)} €`}</p>}
+                <p className="mt-1 text-sm text-slate-600">{language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'}</p>
+                {imageBadgeStatus && imageBadgeLabel && (
+                  <div className="mt-4 border-t border-emerald-100 pt-3">
+                    <span className={`inline-flex rounded-full px-3 py-1.5 text-xs font-bold ${imageBadgeStatus === 'outOfStock' ? 'bg-rose-100 text-rose-800' : imageBadgeStatus === 'onRequest' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}`}>{imageBadgeLabel}</span>
+                  </div>
+                )}
+                {featuredEquipmentSpecifications.length > 0 && (
+                  <div className="mt-4 grid grid-cols-1 gap-2 border-t border-emerald-100 pt-4 sm:grid-cols-2">
+                    {featuredEquipmentSpecifications.map((spec, index) => (
+                      <div key={`${localize(spec, 'name')}-${index}`} className="rounded-lg border border-white/80 bg-white/80 px-3 py-2.5">
+                        <p className="text-xs font-medium text-slate-500">{localize(spec, 'name')}</p>
+                        <p className="mt-1 text-sm font-bold text-slate-900">{localize(spec, 'value')} {spec.unit || ''}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
@@ -614,6 +636,7 @@ export function ProductPage({
               </>
             ) : (
             <button
+              ref={equipmentPurchaseButtonRef}
               onClick={handleAdd}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-6 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
             >
@@ -631,16 +654,20 @@ export function ProductPage({
       </div>
 
       {/* Технические характеристики */}
-      {product.specifications && product.specifications.length > 0 && (
-        <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
-          <h2 className="text-xl font-bold text-slate-900 mb-6">{t('Технически характеристики')}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(((localize(product, 'specifications') as any[] | undefined) || product.specifications) || []).map((spec, i) => (
-              <div key={i} className="flex justify-between py-3 px-4 bg-slate-50 rounded-xl">
-                <span className="text-slate-500 text-sm font-medium">{localize(spec, 'name')}</span>
-                <span className="text-slate-900 text-sm font-semibold text-right">
-                  {localize(spec, 'value')} {spec.unit || ''}
-                </span>
+      {localizedSpecifications.length > 0 && (
+        <section className="mb-12 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm md:p-8">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900">{t('Технически характеристики')}</h2>
+              <p className="mt-1 text-sm text-slate-500">{language === 'ru' ? 'Все параметры, указанные для этого товара.' : language === 'en' ? 'All specifications provided for this product.' : 'Всички посочени параметри за този продукт.'}</p>
+            </div>
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{localizedSpecifications.length}</span>
+          </div>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {localizedSpecifications.map((spec, i) => (
+              <div key={`${localize(spec, 'name')}-${i}`} className="flex min-h-14 items-center justify-between gap-4 rounded-xl border border-slate-100 bg-slate-50/80 px-4 py-3">
+                <span className="text-sm font-medium text-slate-600">{localize(spec, 'name')}</span>
+                <span className="text-right text-sm font-bold text-slate-900">{localize(spec, 'value')} {spec.unit || ''}</span>
               </div>
             ))}
           </div>
@@ -734,42 +761,27 @@ export function ProductPage({
 
       {/* Съвместимост на продукта */}
       {((localize(product, 'compatibility') as string[] | undefined) || product.compatibility || []).length > 0 && (
-        <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">{t('Съвместимост')}</h2>
-          <ul className="list-disc pl-5 space-y-2 text-slate-600">
+        <section className="mb-12 rounded-2xl border border-cyan-100 bg-cyan-50/30 p-5 shadow-sm md:p-8">
+          <h2 className="mb-2 text-xl font-bold text-slate-900">{t('Съвместимост')}</h2>
+          <p className="mb-4 text-sm text-slate-600">{language === 'ru' ? 'Проверьте совместимость перед покупкой.' : language === 'en' ? 'Check compatibility before purchasing.' : 'Проверете съвместимостта преди покупка.'}</p>
+          <div className="flex flex-wrap gap-2">
             {(((localize(product, 'compatibility') as string[] | undefined) || product.compatibility) || []).map((item, index) => (
-              <li key={index}>{item}</li>
+              <span key={index} className="rounded-lg border border-cyan-100 bg-white px-3 py-2 text-sm font-medium text-slate-700">{item}</span>
             ))}
-          </ul>
-        </section>
-      )}
-
-      {/* Инструкции и каталози в PDF */}
-      {(product.manualPDFUrl || product.catalogPDFUrl) && (
-        <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">{t('Документи и инструкции')}</h2>
-          <div className="flex flex-col gap-3">
-            {product.manualPDFUrl && <a href={product.manualPDFUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-700 hover:underline">{t('Изтегляне на инструкция (PDF)')} ↓</a>}
-            {product.catalogPDFUrl && <a href={product.catalogPDFUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-emerald-700 hover:underline">{t('Изтегляне на каталог (PDF)')} ↓</a>}
           </div>
         </section>
       )}
 
-      {/* Документы и инструкции */}
-      {product.documents && product.documents.length > 0 && (
-        <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-12">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">{t('Документи и инструкции')}</h2>
-          <div className="flex flex-col gap-3">
-            {product.documents.map((doc, i) => (
-              <a
-                key={i}
-                href={doc.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between p-4 bg-slate-50 hover:bg-emerald-50/50 rounded-xl border border-slate-200 transition"
-              >
-                <span className="font-semibold text-slate-800 text-sm">{localize(doc, 'title')}</span>
-                <span className="text-emerald-700 text-xs font-bold uppercase">{t('Изтегляне ↓')}</span>
+      {(product.manualPDFUrl || product.catalogPDFUrl || (product.documents && product.documents.length > 0)) && (
+        <section className="mb-12 rounded-2xl border border-sky-100 bg-sky-50/30 p-5 shadow-sm md:p-8">
+          <h2 className="mb-2 text-xl font-bold text-slate-900">{t('Документи и инструкции')}</h2>
+          <p className="mb-4 text-sm text-slate-600">{language === 'ru' ? 'Инструкции и каталоги производителя для ознакомления.' : language === 'en' ? 'Manufacturer manuals and catalogues for reference.' : 'Инструкции и каталози на производителя за справка.'}</p>
+          <div className="flex flex-col gap-2">
+            {product.manualPDFUrl && <a href={product.manualPDFUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-3 rounded-xl border border-sky-100 bg-white px-4 py-3 text-sm font-semibold text-sky-800 transition hover:bg-sky-50">{t('Изтегляне на инструкция (PDF)')} <span aria-hidden="true">↓</span></a>}
+            {product.catalogPDFUrl && <a href={product.catalogPDFUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-3 rounded-xl border border-sky-100 bg-white px-4 py-3 text-sm font-semibold text-sky-800 transition hover:bg-sky-50">{t('Изтегляне на каталог (PDF)')} <span aria-hidden="true">↓</span></a>}
+            {product.documents?.map((doc, i) => (
+              <a key={i} href={doc.fileUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-3 rounded-xl border border-sky-100 bg-white px-4 py-3 text-sm font-semibold text-sky-800 transition hover:bg-sky-50">
+                <span>{localize(doc, 'title')}</span><span className="text-xs font-bold uppercase">{t('Изтегляне ↓')}</span>
               </a>
             ))}
           </div>
@@ -905,21 +917,25 @@ export function ProductPage({
           </div>
         </section>
       )}
-      {isPlantProduct(product) && !purchaseActionsInView && (
+      {!purchaseActionsInView && (
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-emerald-100 bg-white/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden">
           <div className="mx-auto flex max-w-7xl items-center gap-3">
             <div className="min-w-0 flex-1">
-              <p className="truncate text-xs text-slate-500">{language === 'ru' ? 'Цена выбранного варианта' : language === 'en' ? 'Selected option price' : 'Цена на избрания вариант'}</p>
+              <p className="truncate text-xs text-slate-500">{isPlantProduct(product) ? (language === 'ru' ? 'Цена выбранного варианта' : language === 'en' ? 'Selected option price' : 'Цена на избрания вариант') : (language === 'ru' ? 'Цена товара' : language === 'en' ? 'Product price' : 'Цена на продукта')}</p>
               <p className="text-lg font-extrabold leading-tight text-emerald-800">{hasPrice ? `${Number(currentPrice).toFixed(2)} €` : (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване')}</p>
             </div>
-            {hasPrice && plantStockStatus !== 'outOfStock' && selectedSaleVariant ? (
-              <button type="button" onClick={handleAdd} className="min-h-12 flex-1 rounded-xl bg-emerald-700 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-800">
-                {language === 'ru' ? 'Добавить в корзину' : language === 'en' ? 'Add to cart' : 'Добави в количката'}
-              </button>
+            {isPlantProduct(product) ? (
+              hasPrice && plantStockStatus !== 'outOfStock' && selectedSaleVariant ? (
+                <button type="button" onClick={handleAdd} className="min-h-12 flex-1 rounded-xl bg-emerald-700 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-800">
+                  {language === 'ru' ? 'Добавить в корзину' : language === 'en' ? 'Add to cart' : 'Добави в количката'}
+                </button>
+              ) : (
+                <a href={plantWhatsAppUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center rounded-xl bg-emerald-700 px-4 py-3 text-center text-sm font-bold text-white no-underline shadow-sm transition hover:bg-emerald-800">
+                  {language === 'ru' ? 'Уточнить в WhatsApp' : language === 'en' ? 'Enquire on WhatsApp' : 'Запитайте чрез WhatsApp'}
+                </a>
+              )
             ) : (
-              <a href={plantWhatsAppUrl} target="_blank" rel="noopener noreferrer" className="flex min-h-12 flex-1 items-center justify-center rounded-xl bg-emerald-700 px-4 py-3 text-center text-sm font-bold text-white no-underline shadow-sm transition hover:bg-emerald-800">
-                {language === 'ru' ? 'Уточнить в WhatsApp' : language === 'en' ? 'Enquire on WhatsApp' : 'Запитайте чрез WhatsApp'}
-              </a>
+              <button type="button" onClick={handleAdd} className="min-h-12 flex-1 rounded-xl bg-emerald-700 px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-800">{t('Добави в количката')}</button>
             )}
           </div>
         </div>
