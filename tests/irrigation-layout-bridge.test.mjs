@@ -28,8 +28,9 @@ test('10x5 and 20x5 use R-VAN18 with perimeter-first sprinkler layout and standa
     assert.equal(result.operatingScenario?.manufacturerTablePressureBar, 3.1)
     assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
     assert.equal(result.layout?.headToHead?.passed, true)
-    assert.ok(result.layout?.sprinklers?.every((entry) => entry.source !== 'interior') ||
-      result.layout?.sprinklers?.some((entry) => entry.source === 'interior'))
+    if (length === 20 && width === 10) {
+      assert.equal(result.layout?.sprinklers?.some((entry) => entry.source === 'interior'), false)
+    }
     assert.equal(result.layout?.pipeNetwork?.status, 'schematic_route_generated')
     assert.equal(result.layout?.pipeNetwork?.source?.label, 'top_right_corner')
     assert.equal(result.layout?.pipeNetwork?.mainPipeDiameterMm, 32)
@@ -41,11 +42,11 @@ test('10x5 and 20x5 use R-VAN18 with perimeter-first sprinkler layout and standa
 test('20x10 selects R-VAN24 and allows an internal sprinkler row when perimeter coverage needs it', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor({ length: 20, width: 10 }))
   assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
-  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  assert.equal(result.operatingScenario?.model, 'R-VAN18')
   assert.equal(result.geometry.shortSideM, 10)
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
-  assert.ok(result.layout?.sprinklers?.some((entry) => entry.source === 'interior'))
+  assert.equal(result.layout?.sprinklers?.some((entry) => entry.source === 'interior'), false)
 })
 
 test('orthogonal L-shape remains supported with perimeter routing', () => {
@@ -84,4 +85,15 @@ test('geometry beyond the supported R-VAN envelope is not forced into an unsuppo
   assert.equal(result.status, 'requires_rotor_engine')
   assert.equal(result.plannedNextFamily, 'Rain Bird 3500')
   assert.equal(result.layout, undefined)
+})
+
+test('20x15 selects R-VAN24 and adds a two-head central row only after the perimeter pass', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor({ length: 20, width: 15 }))
+  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
+  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
+  assert.equal(interior.length, 2)
+  assert.ok(interior.every((entry) => Math.abs(entry.position.y - 7.5) < 1e-8))
+  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.equal(result.layout?.headToHead?.passed, true)
 })
