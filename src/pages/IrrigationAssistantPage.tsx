@@ -16,6 +16,30 @@ interface IrrigationAssistantPageProps {
   onNavigateHome: () => void
 }
 
+function getStripFootprintPoints(sprinkler: {
+  position: { x: number; y: number }
+  tangent: { x: number; y: number }
+  inward: { x: number; y: number }
+  dimensionsM: number[]
+  alongMode: 'forward' | 'backward' | 'centered'
+}) {
+  const [widthM, lengthM] = sprinkler.dimensionsM
+  const startAlong = sprinkler.alongMode === 'forward' ? 0 :
+    sprinkler.alongMode === 'backward' ? -lengthM : -lengthM / 2
+  const endAlong = sprinkler.alongMode === 'backward' ? 0 :
+    sprinkler.alongMode === 'forward' ? lengthM : lengthM / 2
+  const pointAt = (along: number, depth: number) => ({
+    x: sprinkler.position.x + sprinkler.tangent.x * along + sprinkler.inward.x * depth,
+    y: sprinkler.position.y + sprinkler.tangent.y * along + sprinkler.inward.y * depth,
+  })
+  return [
+    pointAt(startAlong, 0),
+    pointAt(endAlong, 0),
+    pointAt(endAlong, widthM),
+    pointAt(startAlong, widthM),
+  ].map((point) => point.x + ',' + point.y).join(' ')
+}
+
 export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantPageProps) {
   const { language } = useI18n()
   const [step, setStep] = useState(1)
@@ -480,6 +504,9 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                           <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={layoutLabels.title} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
                             <g transform={'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'}>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
+                              {layoutResult.layout.sprinklers.filter((sprinkler: { pattern?: string }) => sprinkler.pattern === 'strip').map((sprinkler: { id: string; position: { x: number; y: number }; tangent: { x: number; y: number }; inward: { x: number; y: number }; dimensionsM: number[]; alongMode: 'forward' | 'backward' | 'centered' }) => (
+                                <polygon key={sprinkler.id} points={getStripFootprintPoints(sprinkler)} fill="#0ea5e9" fillOpacity="0.18" stroke="#0284c7" strokeWidth="0.06" />
+                              ))}
                               {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number } }) => (
                                 <circle key={sprinkler.id} cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill="#0369a1" stroke="#ffffff" strokeWidth="0.08" />
                               ))}
