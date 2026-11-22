@@ -18,7 +18,7 @@ const acceptedGeometry = {
   },
 }
 
-test('static pressure and an unqualified flow do not unlock hydraulic readiness', () => {
+test('customer intake uses the standard design basis without requesting source or flow measurements', () => {
   const result = evaluateIrrigationIntake({
     geometryValidation: acceptedGeometry,
     waterSource: 'mains',
@@ -34,27 +34,18 @@ test('static pressure and an unqualified flow do not unlock hydraulic readiness'
   assert.equal(result.flowReady, false)
   assert.equal(result.hydraulicReady, false)
   assert.equal(result.hydraulicFeasibility, 'not_evaluated')
-  assert.ok(result.missing.includes('dynamic_pressure_and_test_point'))
-  assert.ok(result.missing.includes('measured_flow_and_method'))
-  assert.ok(result.missing.includes('pipe_network'))
+  assert.deepEqual(result.missing, [])
 })
 
-test('dynamic pressure is accepted only with flowing condition and defined test point', () => {
-  const base = {
+test('geometry readiness does not depend on customer source or flow measurements', () => {
+  const result = evaluateIrrigationIntake({
     geometryValidation: acceptedGeometry,
-    waterSource: 'mains',
-    pressureType: 'dynamic',
-    pressureBar: '3,1',
-    pressureMeasuredWhileFlowing: true,
-    pressureTestPoint: 'lawn_entry',
-    flowRate: '18,5',
-    flowMeasurementMethod: 'bucket',
-  }
-  const result = evaluateIrrigationIntake(base)
-  assert.equal(result.dynamicPressureReady, true)
-  assert.equal(result.flowReady, true)
+  })
+  assert.equal(result.geometryReady, true)
+  assert.equal(result.dynamicPressureReady, false)
+  assert.equal(result.flowReady, false)
   assert.equal(result.hydraulicReady, false)
-  assert.ok(result.missing.includes('pipe_network'))
+  assert.deepEqual(result.missing, [])
 })
 
 test('unconfirmed geometry never becomes eligible for preliminary layout', () => {
@@ -85,7 +76,14 @@ test('snapshot is versioned, metric and records customer confirmation as provena
   assert.equal(snapshot.schemaVersion, 1)
   assert.equal(snapshot.geometry.areaM2, 96)
   assert.equal(snapshot.geometry.confirmation, 'customer_assertion')
-  assert.equal(snapshot.water.pressure.valueBar, 3.5)
+  assert.equal(snapshot.water.pressure.valueBar, 4.053)
+  assert.equal(snapshot.water.pressure.provenance, 'florial_standard_design_basis')
+  assert.equal(snapshot.designBasis.supplyPressureAtm, 4)
+  assert.equal(snapshot.designBasis.incomingPipeNominalDiameterMm, 25)
+  assert.equal(snapshot.designBasis.inletTapNominalSizeIn, 1)
+  assert.equal(snapshot.designBasis.mainPipeNominalDiameterMm, 32)
+  assert.equal(snapshot.designBasis.zonePipeNominalDiameterMm, 25)
+  assert.equal(snapshot.designBasis.siteElevationModel, 'flat_site_assumption')
   assert.equal(snapshot.constraints.exclusionsMapped, false)
   assert.equal(snapshot.readiness.hydraulicFeasibility, 'not_evaluated')
 })
