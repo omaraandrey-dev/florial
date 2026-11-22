@@ -267,7 +267,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     heads: 'Sprinkler count', totalFlow: 'Nominal tabulated flow, L/min',
     coverage: 'Sampled geometric coverage', uncovered: 'Uncovered sample points',
     positions: 'Sprinkler coordinates, m',
-    rvanScenarioNote: '3.1 bar is the Rain Bird R-VAN recommended operating point. Radius is selected per position within the model range; displayed flow remains the nominal manufacturer-table value. If the manufacturer's minimum radius exceeds the required spacing, possible overspray has not been evaluated.',
+    rvanScenarioNote: '3.1 bar is the Rain Bird R-VAN recommended operating point. Radius is selected per position within the model range; displayed flow remains the nominal manufacturer-table value. If the manufacturer’s minimum radius exceeds the required spacing, possible overspray has not been evaluated.',
     limits: 'R-VAN model and radius are selected from the geometry for each position. Strip nozzles use separate rectangular footprints and overlap checks. Hydraulics, pipe losses, zoning, body/nozzle compatibility, obstacles and overspray beyond the lawn boundary have not been evaluated. This is not a purchasable equipment specification.',
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
     incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
