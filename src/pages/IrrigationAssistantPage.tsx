@@ -445,7 +445,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                             <g transform={'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'}>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
                               {layoutResult.pipeNetwork?.mainRoute && <polyline points={layoutResult.pipeNetwork.mainRoute.map((point: { x: number; y: number }) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#ea580c" strokeWidth="0.12" strokeLinejoin="round" />}
-                              {layoutResult.pipeNetwork?.branches?.map((branch: { id: string; zoneId: string; branchDirection: 'forward' | 'reverse'; points: Array<{ x: number; y: number }>; lateralConnections: Array<{ sprinklerId: string; points: Array<{ x: number; y: number }> }> }) => (
+                              {layoutResult.pipeNetwork?.branches?.map((branch) => (
                                 <g key={branch.id}>
                                   <polyline points={branch.points.map((point) => point.x + ',' + point.y).join(' ')} fill="none" stroke={branch.branchDirection === 'forward' ? '#f59e0b' : '#d97706'} strokeWidth="0.1" strokeLinejoin="round" />
                                   {branch.lateralConnections.map((lateral) => (
