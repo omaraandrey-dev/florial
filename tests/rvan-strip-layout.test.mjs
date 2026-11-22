@@ -31,6 +31,14 @@ test('20x1.5 strip spaces SST heads with manufacturer 50-percent overlap basis',
   assert.equal(result.coverage.uncoveredPoints, 0)
 })
 
+test('vertical narrow strip uses the long Y axis and inward X direction', () => {
+  const result = generateRvanStripLayout({ geometry: rectangleGeometry(1.5, 10), pressureBar: 3.1 })
+  assert.equal(result.status, 'coverage_complete_sampled')
+  assert.equal(result.coverage.uncoveredPoints, 0)
+  assert.ok(result.sprinklers.every((head) => head.tangent.x === 0 && head.tangent.y === 1))
+  assert.ok(result.sprinklers.every((head) => head.inward.x === 1 && head.inward.y === 0))
+})
+
 test('adjusted strip width is shown as preliminary and requires field verification', () => {
   const result = generateRvanStripLayout({ geometry: rectangleGeometry(10, 1), pressureBar: 3.1 })
   assert.equal(result.status, 'coverage_complete_sampled')
