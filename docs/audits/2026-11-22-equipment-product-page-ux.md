@@ -1,8 +1,9 @@
 # Irrigation equipment product page UX implementation
 
 Date: 2026-11-22  
-Base: `main` at `95b0c2cf5e5f54f5970ad2d62556a0075bc93b9b`  
-Branch: `feat/equipment-product-page-ux`
+Implementation PR: [#471](https://github.com/omaraandrey-dev/florial/pull/471)  
+Implementation merge commit: `48d39e50616638e3d1fe42644e021dc19e0cbc8b`  
+Original implementation base: `95b0c2cf5e5f54f5970ad2d62556a0075bc93b9b`
 
 ## Implemented scope
 
@@ -20,11 +21,19 @@ Branch: `feat/equipment-product-page-ux`
 - UI-only change. No Sanity documents/schemas, D1, Cloudflare configuration/secrets, Resend, order data, Header, navigation, Footer or Production data changed.
 - No product facts, stock quantities, compatibility claims or specification groups are generated.
 - The first three existing specifications are highlighted as supplied; no semantic classification is inferred from field names.
-- SEO, JSON-LD, product projections and cart callback contracts are not intentionally changed.
+- SEO, JSON-LD, product projections and cart callback contracts were not intentionally changed.
 
-## Verification
+## Merge and verification
 
-- Source-level regression tests: `tests/equipment-product-page-ux.test.mjs`.
-- Exact-branch CI, Pages Preview and visual QA are pending until workflows run.
-- Manual acceptance should cover desktop/mobile and BG/RU/EN, image present/missing, each stock status, discounts, long descriptions/specification values and sticky bar visibility/safe-area spacing.
-- Shared documentation files `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` are not changed in this branch because another open documentation PR (#409) is already modifying them. Add the release record after that documentation PR is resolved and the branch is synchronized with current main.
+- PR #471 was squash-merged into `main`; the resulting merge commit is `48d39e50616638e3d1fe42644e021dc19e0cbc8b`.
+- The owner reviewed the Cloudflare Preview and approved the visual result.
+- PR-head validation reported successful TypeScript, lint, regression tests, website build and D1 validation. A final successful Studio build result was not captured in the closeout evidence available here; do not infer it from the other checks.
+- On the merge commit, the Cloudflare Pages check and one D1 validation check were reported successful. A second validation check was still in progress at the last recorded observation; its final result is not confirmed here.
+- Exact Production deployment metadata and a fresh visual/browser check of the live product page were not independently captured. Preview acceptance and a successful Pages check are not represented as Production visual QA.
+- Manual follow-up, if required: verify desktop/mobile and BG/RU/EN, image present/missing, stock states, discounts, long descriptions/specification values and sticky-bar visibility/safe-area spacing.
+
+## Documentation boundary
+
+- This audit is the dedicated closeout record for the equipment product-page UX change.
+- The shared files `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` are intentionally not modified in this closeout. Open PR #409 continues to own its separate Google Product Schema documentation scope; none of its content is included, reconciled or merged by this change.
+- No unrelated documentation PRs are merged as part of this task.
