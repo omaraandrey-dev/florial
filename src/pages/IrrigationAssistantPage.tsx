@@ -201,7 +201,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const numberFormat = (value: number) => value.toLocaleString(locale, { maximumFractionDigits: 2 })
   const layoutLabels = language === 'ru' ? {
     title: 'Предварительная геометрическая раскладка', candidate: 'Кандидат по таблице производителя',
-    heads: 'Количество дождевателей', totalFlow: 'Суммарный расход по таблице, л/мин',
+    heads: 'Количество дождевателей',
     coverage: 'Выборочное геометрическое покрытие', uncovered: 'Непокрытых контрольных точек',
     positions: 'Координаты дождевателей, м',
     rvanScenarioNote: '3,1 бар — рекомендованная рабочая точка R-VAN по таблице Rain Bird. Это сценарий производителя, а не измеренное давление на сопле.',
@@ -215,7 +215,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания',
   } : language === 'en' ? {
     title: 'Preliminary geometric sprinkler layout', candidate: 'Manufacturer-table candidate',
-    heads: 'Sprinkler count', totalFlow: 'Total tabulated flow, L/min',
+    heads: 'Sprinkler count',
     coverage: 'Sampled geometric coverage', uncovered: 'Uncovered sample points',
     positions: 'Sprinkler coordinates, m',
     rvanScenarioNote: '3.1 bar is the Rain Bird R-VAN recommended operating point. This is a manufacturer scenario, not measured pressure at the nozzle.',
@@ -229,7 +229,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings',
   } : {
     title: 'Предварителна геометрична схема на разпръсквачите', candidate: 'Кандидат според таблицата на производителя',
-    heads: 'Брой разпръсквачи', totalFlow: 'Общ дебит по таблица, л/мин',
+    heads: 'Брой разпръсквачи',
     coverage: 'Геометрично покритие по контролна мрежа', uncovered: 'Непокрити контролни точки',
     positions: 'Координати на разпръсквачите, м',
     rvanScenarioNote: '3,1 bar е препоръчителната работна точка за R-VAN според Rain Bird. Това е сценарий по данните на производителя, а не измерено налягане при дюзата.',
@@ -446,8 +446,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                     <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : layoutResult.status.startsWith('strip_') ? layoutLabels.narrow : layoutResult.status === 'needs_valid_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
                   )}
                   {layoutResult.stripNozzleOptions?.length > 0 && <ul className="mt-3 space-y-2 rounded-xl bg-white p-3 text-sm text-slate-700">
-                    {layoutResult.stripNozzleOptions.map((option: { model: string; dimensionsM: number[]; flowLpm: number; pressureBar: number }) => (
-                      <li key={option.model}><strong>{option.model}</strong> · {option.dimensionsM[0]} × {option.dimensionsM[1]} m · {numberFormat(option.flowLpm)} L/min · {numberFormat(option.pressureBar)} bar</li>
+                    {layoutResult.stripNozzleOptions.map((option: { model: string; dimensionsM: number[]; pressureBar: number }) => (
+                      <li key={option.model}><strong>{option.model}</strong> · {option.dimensionsM[0]} × {option.dimensionsM[1]} m · {numberFormat(option.pressureBar)} bar</li>
                     ))}
                   </ul>}
                   <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-6 text-amber-950">{layoutLabels.limits}</p>
