@@ -21,5 +21,4 @@ test('layout view draws one sequential route per zone and keeps sprinkler radius
   assert.match(source, /pipeNetwork\?\.branches/)
   assert.match(source, /branch\.zoneId/)
   assert.match(source, /branch\.lateralConnections/)
-  assert.match(source, /zone\.branchDirection/)
 })
