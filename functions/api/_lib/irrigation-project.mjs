@@ -96,7 +96,13 @@ export function validateIrrigationProjectSnapshot(input) {
       language: ['bg', 'ru', 'en'].includes(input.language) ? input.language : 'bg',
       geometry: {
         shape: cleanLabel(geometry.shape, 40),
-        dimensionsM: isRecord(geometry.dimensionsM) ? geometry.dimensionsM : {},
+        dimensionsM: {
+          length: finite(geometry.dimensionsM?.length, 0, 500) ? geometry.dimensionsM.length : null,
+          width: finite(geometry.dimensionsM?.width, 0, 500) ? geometry.dimensionsM.width : null,
+          cutoutWidth: finite(geometry.dimensionsM?.cutoutWidth, 0, 500) ? geometry.dimensionsM.cutoutWidth : null,
+          cutoutDepth: finite(geometry.dimensionsM?.cutoutDepth, 0, 500) ? geometry.dimensionsM.cutoutDepth : null,
+          cutoutCorner: cleanLabel(geometry.dimensionsM?.cutoutCorner, 40),
+        },
         normalized: { regions: [{ boundary: { vertices } }] },
         areaM2: geometry.areaM2,
         perimeterM: geometry.perimeterM,
@@ -139,6 +145,10 @@ export function validateIrrigationProjectSnapshot(input) {
           branchDirection: cleanLabel(branch.branchDirection, 20),
           sprinklerIds: Array.isArray(branch.sprinklerIds) ? branch.sprinklerIds.slice(0, 150) : [],
           points: safePoints(branch.points),
+          lateralConnections: Array.isArray(branch.lateralConnections) ? branch.lateralConnections.slice(0, 150).map((lateral) => ({
+            sprinklerId: cleanLabel(lateral?.sprinklerId, 80),
+            points: safePoints(lateral?.points),
+          })) : [],
         })) : [],
       } : null,
       billOfMaterials: {
@@ -146,7 +156,7 @@ export function validateIrrigationProjectSnapshot(input) {
         zoneCount: bom.zoneCount,
         flexPipeRequiredM: finite(bom.flexPipeRequiredM, 0, 1000) ? bom.flexPipeRequiredM : null,
         flexPipeCoils30m: Number.isInteger(bom.flexPipeCoils30m) ? bom.flexPipeCoils30m : null,
-        items: bom.items.map((item) => ({ sku: item.sku, quantity: item.quantity })),
+        items: bom.items.map((item) => ({ sku: item.sku, quantity: item.quantity, name: cleanLabel(item.name, 160) || item.sku })),
       },
       warnings: Array.isArray(input.warnings) ? input.warnings.slice(0, 30).map((warning) => ({
         code: cleanLabel(warning?.code, 100),
