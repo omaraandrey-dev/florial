@@ -1,5 +1,3 @@
-const finitePositive = (value) => Number.isFinite(value) && value > 0
-
 const normalizeOptionalNumber = (value) => {
   if (value === null || value === undefined || value === '') return null
   const normalized = typeof value === 'string' ? value.trim().replace(',', '.') : value
@@ -40,7 +38,7 @@ export function buildIrrigationIntakeSnapshot(input) {
       source: 'standard_design_assumption',
       pressure: Object.freeze({
         type: 'design_assumption',
-        valueBar: 4,
+        valueBar: 4.053,
         measuredWhileFlowing: false,
         testPoint: 'one_inch_inlet_tap',
         provenance: 'florial_standard_design_basis',
@@ -52,7 +50,9 @@ export function buildIrrigationIntakeSnapshot(input) {
       }),
     }),
     designBasis: Object.freeze({
-      supplyPressureBar: 4,
+      supplyPressureAtm: 4,
+      supplyPressureBar: 4.053,
+      hydraulicReferencePoint: 'one_inch_inlet_tap',
       incomingPipeNominalDiameterMm: 25,
       inletTapNominalSizeIn: 1,
       mainPipeNominalDiameterMm: 32,
