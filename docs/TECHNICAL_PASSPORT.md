@@ -18,7 +18,7 @@ PR #476 merged at `dbcf63e2ad05e2132ba39b2ec30936fdb6c6abe1`; PDF detail follow-
 - Changing/removing a generated kit SKU in the cart detaches the snapshot. Server validation also prevents emailing a snapshot whose BOM quantities differ from the final server-resolved order.
 
 ### Verification boundary
-- PR #476 exact-head Blog/Studio and D1 workflows: `45014451568`, `45014451557` — success; PR #477: `45014880321`, `45014880308` — success. Main CI after PR #476: `45014654327`, `45014654333` — success.
+- PR #476 exact-head Blog/Studio and D1 workflows: `45014451568`, `45014451557` — success; PR #477: `45014880321`, `45014880308` — success. Main CI after PR #476: `45014654327`, `45014654333` — success; after PDF-detail PR #477 merge SHA: `45015013305`, `45015013373` — success.
 - Final PR #477 Preview: `https://988ce669.florial.pages.dev/irrigation-assistant`; Production deployment above succeeded from PR #477 merge SHA.
 - No real order or test email was created. Resend delivery, PDF inbox receipt and live checkout E2E remain unverified. Do not claim them as passed.
 - Not certified: actual dynamic pressure/flow, nozzle residual pressure, hydraulic losses/sizing, six-head hydraulic feasibility, DU/CU, wind, overspray, obstructions/exclusions, actual pipe lengths and field performance. The six-head limit remains a grouping rule only.
