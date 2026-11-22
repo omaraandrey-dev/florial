@@ -6,6 +6,7 @@ const MIN_HEVAN_SHORT_SIDE_M = 1.8
 const MIN_RVAN_SHORT_SIDE_M = 4
 const RVAN14_MAX_SHORT_SIDE_M = 4.6
 const RVAN18_MAX_SHORT_SIDE_M = 5.5
+const RVAN24_MAX_SHORT_SIDE_M = 7.0
 
 function result(status, extra = {}) {
   return Object.freeze({
@@ -68,9 +69,8 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
   let dataset
   let modelSelectionBasis = 'provisional_short_side_candidate_rule'
 
-  // Keep the owner-preferred R-VAN path for the established 4.0–5.5m
-  // preliminary envelope. Narrower sites are evaluated with HE-VAN's own
-  // manufacturer model spacing bands and its own exact pressure table.
+  // Prefer R-VAN for the supported short-side envelope. Narrower sites use
+  // Rain Bird HE-VAN's separate manufacturer spacing bands and exact table.
   if (shortSideM >= MIN_RVAN_SHORT_SIDE_M && shortSideM <= RVAN14_MAX_SHORT_SIDE_M) {
     family = 'R-VAN'
     model = 'R-VAN14'
@@ -78,6 +78,10 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
   } else if (shortSideM > RVAN14_MAX_SHORT_SIDE_M && shortSideM <= RVAN18_MAX_SHORT_SIDE_M) {
     family = 'R-VAN'
     model = 'R-VAN18'
+    dataset = RAIN_BIRD_RVAN_DATASET
+  } else if (shortSideM > RVAN18_MAX_SHORT_SIDE_M && shortSideM <= RVAN24_MAX_SHORT_SIDE_M) {
+    family = 'R-VAN'
+    model = 'R-VAN24'
     dataset = RAIN_BIRD_RVAN_DATASET
   } else if (shortSideM >= MIN_HEVAN_SHORT_SIDE_M && shortSideM < MIN_RVAN_SHORT_SIDE_M) {
     family = 'HE-VAN'
