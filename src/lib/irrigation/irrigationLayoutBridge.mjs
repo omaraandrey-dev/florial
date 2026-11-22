@@ -1,5 +1,5 @@
 import { generateLawnSprinklerLayout } from './lawnSprinklerLayout.mjs'
-import { RAIN_BIRD_RVAN_DATASET } from './rainBirdRvanPerformanceData.mjs'
+import { findRainBirdRvanPerformancePoint, RAIN_BIRD_RVAN_DATASET } from './rainBirdRvanPerformanceData.mjs'
 import { buildIrrigationZones, buildPerimeterPipeNetwork, FLORIAL_IRRIGATION_STANDARD } from './irrigationProjectStandards.mjs'
 
 const RVAN_RECOMMENDED_PRESSURE_BAR = RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar
@@ -55,10 +55,20 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
   if (shortSideM < 2) {
+    const stripSpecifications = ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'].map((stripModel) => {
+      const point = findRainBirdRvanPerformancePoint(stripModel, RVAN_RECOMMENDED_PRESSURE_BAR, null)
+      return point ? Object.freeze({
+        model: stripModel,
+        dimensionsM: point.dimensionsM,
+        flowLpm: point.flowLpm,
+        pressureBar: point.pressureBar,
+      }) : null
+    }).filter(Boolean)
     return result('strip_nozzle_layout_requires_exact_pattern_engine', {
       shortSideM,
       supportedStripModels: ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'],
-      note: 'Strip nozzles must be placed only after their exact footprint orientation and overlap are represented.',
+      stripSpecifications: Object.freeze(stripSpecifications),
+      note: 'Only exact manufacturer footprints are shown; orientation and overlap must be validated before automatic placement.',
     })
   }
 
