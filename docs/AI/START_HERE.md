@@ -38,13 +38,13 @@ GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Supabase 
 - [Branch hygiene](../operations/BRANCH_HYGIENE.md) — правила использования main и старых веток.
 
 ## Профильные документы
-- **Irrigation engineer / lawn designer:** [perimeter-first implementation guide](../engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md) — текущий алгоритм, зоны, трассы, BOM, cart, проверки и открытые гидравлические решения.
+- **Irrigation engineer / lawn designer:** [perimeter-first implementation guide](../engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md) — геометрия, размещение, mixed/balanced zones, pipe routes and BOM; [balanced zones + owner PDF handoff](../engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md) — checkout snapshot, D1 event persistence, owner email/PDF and verification boundaries.
 - Plant editor UX: [role-based workflow and interface rules](../manager/PLANT_EDITOR_UX.md).
 Manager: [FLORIAL_MANAGER_ARCHITECTURE](../FLORIAL_MANAGER_ARCHITECTURE.md); [Seller Orders quick guides (RU/BG)](../manager/SELLER_ORDERS_QUICK_GUIDES.md); [Manager Web Push rollout roadmap](../roadmaps/MANAGER_PUSH_NOTIFICATIONS_ROADMAP_2026-11-21.md); checkout: [CHECKOUT_SETUP](../../CHECKOUT_SETUP.md); content: [SERVICE_CONTENT_PLAYBOOK](../SERVICE_CONTENT_PLAYBOOK.md); performance: [ROADMAP_PERFORMANCE_OPTIMIZATION](../ROADMAP_PERFORMANCE_OPTIMIZATION.md); Google Shopping / SEO visibility: [GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18](../roadmaps/GOOGLE_SHOPPING_SEO_ROADMAP_2026-11-18.md) — обязательный план для всех последующих чатов по этой задаче; D1 migrations: [docs/migrations](../migrations/0013_manager_product_audit.sql).
 
 При конфликте определить, относится ли факт к коду, бизнес-требованию или живому сервису. Для бизнес-требований использовать утверждённое решение владельца; для кода — main; для live состояния — соответствующий сервис. Расхождение записывать в OPEN_QUESTIONS.md.
 
 
-## Paused work handoff — irrigation engineer assistant
+## Irrigation engineer assistant — bounded resumption
 
-The irrigation-engineering assistant / Rain Bird 3500 work is intentionally paused after stage 7. PR #349 is merged into main at `1ddd1d99dd6cf086303c09ff2f856e96db84a8e6`. Do not begin stage 8 until the owner explicitly resumes this engineering work. For the exact pause state, decisions, verified merge, technical limits and roadmap, read [PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md](PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md).
+The owner resumed the bounded lawn-layout work on 2026-11-22. PR #473 delivered the perimeter-first R-VAN layout and cart BOM; PRs #476/#477 added balanced mixed zones and the owner-only order PDF. The current implementation and limitations are documented in the engineering guides above. This does **not** authorize the broader historical Rain Bird 3500 stage-8 roadmap; that work remains paused until separately approved. The historical pause record remains available at [PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md](PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md).
