@@ -2,11 +2,11 @@ import { generateLawnSprinklerLayout } from './lawnSprinklerLayout.mjs'
 import { RAIN_BIRD_RVAN_DATASET } from './rainBirdRvanPerformanceData.mjs'
 import { RAIN_BIRD_HEVAN_DATASET } from './rainBirdHevanPerformanceData.mjs'
 
-const MIN_HEVAN_SHORT_SIDE_M = 1.8
-const MIN_RVAN_SHORT_SIDE_M = 4
-const RVAN14_MAX_SHORT_SIDE_M = 4.6
-const RVAN18_MAX_SHORT_SIDE_M = 5.5
-const RVAN24_MAX_HALF_SPAN_M = 7.5
+const MIN_HEVAN_SPACING_TARGET_M = 1.8
+const MIN_RVAN_SPACING_TARGET_M = 4
+const RVAN14_MAX_SPACING_TARGET_M = 4.6
+const RVAN18_MAX_SPACING_TARGET_M = 5.5
+const RVAN24_MAX_SPACING_TARGET_M = 7.5
 
 function result(status, extra = {}) {
   return Object.freeze({
@@ -72,19 +72,19 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
 
   // Prefer R-VAN for the supported short-side envelope. Narrower sites use
   // Rain Bird HE-VAN's separate manufacturer spacing bands and exact table.
-  if (perimeterSpacingTargetM >= MIN_RVAN_SHORT_SIDE_M && perimeterSpacingTargetM <= RVAN14_MAX_SHORT_SIDE_M) {
+  if (perimeterSpacingTargetM >= MIN_RVAN_SPACING_TARGET_M && perimeterSpacingTargetM <= RVAN14_MAX_SPACING_TARGET_M) {
     family = 'R-VAN'
     model = 'R-VAN14'
     dataset = RAIN_BIRD_RVAN_DATASET
-  } else if (perimeterSpacingTargetM > RVAN14_MAX_SHORT_SIDE_M && perimeterSpacingTargetM <= RVAN18_MAX_SHORT_SIDE_M) {
+  } else if (perimeterSpacingTargetM > RVAN14_MAX_SPACING_TARGET_M && perimeterSpacingTargetM <= RVAN18_MAX_SPACING_TARGET_M) {
     family = 'R-VAN'
     model = 'R-VAN18'
     dataset = RAIN_BIRD_RVAN_DATASET
-  } else if (perimeterSpacingTargetM > RVAN18_MAX_SHORT_SIDE_M && perimeterSpacingTargetM <= RVAN24_MAX_HALF_SPAN_M) {
+  } else if (perimeterSpacingTargetM > RVAN18_MAX_SPACING_TARGET_M && perimeterSpacingTargetM <= RVAN24_MAX_SPACING_TARGET_M) {
     family = 'R-VAN'
     model = 'R-VAN24'
     dataset = RAIN_BIRD_RVAN_DATASET
-  } else if (perimeterSpacingTargetM >= MIN_HEVAN_SHORT_SIDE_M && perimeterSpacingTargetM < MIN_RVAN_SHORT_SIDE_M) {
+  } else if (perimeterSpacingTargetM >= MIN_HEVAN_SPACING_TARGET_M && perimeterSpacingTargetM < MIN_RVAN_SPACING_TARGET_M) {
     family = 'HE-VAN'
     dataset = RAIN_BIRD_HEVAN_DATASET
     modelSelectionBasis = 'provisional_half_short_side_spacing_candidate_rule_using_manufacturer_spacing_ranges'
@@ -94,7 +94,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
       return perimeterSpacingTargetM >= minimum && (perimeterSpacingTargetM < maximum || (isLastModel && perimeterSpacingTargetM <= maximum))
     })
     model = matchingModel?.model
-  } else if (perimeterSpacingTargetM < MIN_HEVAN_SHORT_SIDE_M) {
+  } else if (perimeterSpacingTargetM < MIN_HEVAN_SPACING_TARGET_M) {
     return result('short_side_below_supported_spray_nozzle_scope', {
       shortSideM,
       perimeterSpacingTargetM,
