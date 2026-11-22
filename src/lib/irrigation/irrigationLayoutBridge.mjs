@@ -113,10 +113,16 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
 
   const modelRange = getRvanRadiusRange(model)
   const nominalThrowM = dataset.performancePoints.find((point) =>
-    point.model === model && point.pressureBar === pressureBar && point.arcDeg === 180)?.radiusM ?? modelRange.maxRadiusM
-  const fullCircleThrowM = dataset.performancePoints.find((point) =>
-    point.model === model + '-360' && point.pressureBar === pressureBar && point.arcDeg === 360)?.radiusM ?? nominalThrowM
+    point.model === model && point.pressureBar === pressureBar && point.arcDeg === 180)?.radiusM ?? null
+  if (!Number.isFinite(nominalThrowM)) {
+    return result('manufacturer_model_mapping_missing', { family: 'R-VAN', model, pressureBar, arcDeg: 180 })
+  }
   const requiresInternalRows = shortSideM > nominalThrowM
+  const fullCircleThrowM = dataset.performancePoints.find((point) =>
+    point.model === model + '-360' && point.pressureBar === pressureBar && point.arcDeg === 360)?.radiusM ?? null
+  if (requiresInternalRows && !Number.isFinite(fullCircleThrowM)) {
+    return result('manufacturer_model_mapping_missing', { family: 'R-VAN', model: model + '-360', pressureBar, arcDeg: 360 })
+  }
   const spacingRadiusM = requiresInternalRows ? Math.min(nominalThrowM, fullCircleThrowM) : nominalThrowM
   const modelEvidence = dataset.models.find((entry) => entry.model === model)
   if (!modelEvidence) return result('manufacturer_model_mapping_missing', { family: 'R-VAN', model, pressureBar })
