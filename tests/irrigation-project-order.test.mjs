@@ -75,7 +75,7 @@ test('rejects project snapshots when the BOM does not match submitted order quan
   assert.equal(result.reason, 'project_bom_does_not_match_order')
 })
 
-test('persists manual automation without adding valve products', () => {
+test('persists manual automation without valves or valve boxes', () => {
   const project = snapshot()
   project.automation = { type: 'manual', controllers: [], valve: null, requiresControlCable: false, wifiRequired: false }
   const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
@@ -84,33 +84,45 @@ test('persists manual automation without adding valve products', () => {
   assert.equal(result.snapshot.automation.controllers.length, 0)
 })
 
-test('persists BAT controller allocation and the 9V PGA valve with server-resolved prices', () => {
+test('rejects manual automation when a valve box remains in the BOM', () => {
+  const project = snapshot()
+  project.billOfMaterials.items.push({ sku: 'VBA02672', quantity: 2, name: 'Valve box' })
+  project.automation = { type: 'manual', controllers: [], valve: null, requiresControlCable: false, wifiRequired: false }
+  const result = validateIrrigationProjectSnapshot({
+    ...project,
+    orderItems: [...orderItems, { sku: 'VBA02672', qty: 2 }],
+  })
+  assert.equal(result.valid, false)
+  assert.equal(result.reason, 'manual_automation_contains_valves_or_controllers')
+})
+
+test('persists BAT controller allocation and the 100-HV-9V valve with server-resolved prices', () => {
   const project = snapshot()
   project.billOfMaterials.items.push(
     { sku: 'ESP-BAT-BT2', quantity: 1, name: 'ESP-BAT-BT, 2 zones' },
-    { sku: 'B31440', quantity: 2, name: 'Rain Bird 100-PGA-9V' },
+    { sku: 'H01040', quantity: 2, name: 'Rain Bird 100-HV-9V' },
   )
   project.automation = {
     type: 'bat',
     controllers: [{ sku: 'ESP-BAT-BT2', capacity: 2, quantity: 1, zoneNumbers: [1, 2], name: 'ESP-BAT-BT, 2 zones' }],
-    valve: { sku: 'B31440', quantity: 2, name: 'Rain Bird 100-PGA-9V' },
+    valve: { sku: 'H01040', quantity: 2, name: 'Rain Bird 100-HV-9V' },
     requiresControlCable: false,
     wifiRequired: false,
   }
   const items = [
     ...orderItems,
     { sku: 'ESP-BAT-BT2', qty: 1, name: 'ESP-BAT-BT, 2 zones', price: 200.59 },
-    { sku: 'B31440', qty: 2, name: 'Rain Bird 100-PGA-9V', price: 141.27 },
+    { sku: 'H01040', qty: 2, name: 'Rain Bird 100-HV-9V', price: 58.89 },
   ]
   const result = validateIrrigationProjectSnapshot({ ...project, orderItems: items })
   assert.equal(result.valid, true)
-  assert.equal(result.snapshot.automation.valve.sku, 'B31440')
-  assert.equal(result.snapshot.automation.valve.priceEUR, 141.27)
-  assert.equal(result.snapshot.automation.totalPriceEUR, 483.13)
-  assert.equal(result.snapshot.billOfMaterials.items.find((item) => item.sku === 'B31440').priceEUR, 141.27)
+  assert.equal(result.snapshot.automation.valve.sku, 'H01040')
+  assert.equal(result.snapshot.automation.valve.priceEUR, 58.89)
+  assert.equal(result.snapshot.automation.totalPriceEUR, 318.37)
+  assert.equal(result.snapshot.billOfMaterials.items.find((item) => item.sku === 'H01040').priceEUR, 58.89)
 })
 
-test('rejects BAT projects that retain the ordinary 24V valve or omit the 9V valve', () => {
+test('rejects BAT projects that retain standard valves or add the wrong 9V valve', () => {
   const project = snapshot()
   project.billOfMaterials.items.push(
     { sku: 'H01000', quantity: 2, name: '100-HV' },
@@ -119,13 +131,13 @@ test('rejects BAT projects that retain the ordinary 24V valve or omit the 9V val
   project.automation = {
     type: 'bat',
     controllers: [{ sku: 'ESP-BAT-BT2', capacity: 2, quantity: 1, zoneNumbers: [1, 2] }],
-    valve: { sku: 'B31440', quantity: 2 },
+    valve: { sku: 'H01040', quantity: 2 },
     requiresControlCable: false,
     wifiRequired: false,
   }
   const result = validateIrrigationProjectSnapshot({
     ...project,
-    orderItems: [...orderItems, { sku: 'H01000', qty: 2 }, { sku: 'ESP-BAT-BT2', qty: 1 }, { sku: 'B31440', qty: 2 }],
+    orderItems: [...orderItems, { sku: 'H01000', qty: 2 }, { sku: 'ESP-BAT-BT2', qty: 1 }, { sku: 'H01040', qty: 2 }],
   })
   assert.equal(result.valid, false)
   assert.equal(result.reason, 'invalid_bat_valve_compatibility')

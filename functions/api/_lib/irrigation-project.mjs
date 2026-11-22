@@ -133,7 +133,7 @@ export function validateIrrigationProjectSnapshot(input) {
       })
     }
     if (type === 'manual') {
-      if (controllers.length || automationInput.valve != null || bom.items.some((item) => ['H01000', 'H01040', 'B31440'].includes(item.sku) || Object.prototype.hasOwnProperty.call(skuCapacity, item.sku)) ||
+      if (controllers.length || automationInput.valve != null || bom.items.some((item) => ['H01000', 'H01040', 'B31440', 'VBA02672'].includes(item.sku) || Object.prototype.hasOwnProperty.call(skuCapacity, item.sku)) ||
           automationInput.requiresControlCable !== false || automationInput.wifiRequired !== false) {
         return { valid: false, reason: 'manual_automation_contains_valves_or_controllers' }
       }
@@ -166,17 +166,17 @@ export function validateIrrigationProjectSnapshot(input) {
     let valve = null
     if (type === 'bat') {
       const candidate = automationInput.valve
-      if (!isRecord(candidate) || candidate.sku !== 'B31440' ||
-          candidate.quantity !== zones.length || orderSkus.get('B31440') !== zones.length ||
-          bom.items.find((item) => item.sku === 'B31440')?.quantity !== zones.length ||
-          bom.items.some((item) => ['H01000', 'H01040'].includes(item.sku))) {
+      if (!isRecord(candidate) || candidate.sku !== 'H01040' ||
+          candidate.quantity !== zones.length || orderSkus.get('H01040') !== zones.length ||
+          bom.items.find((item) => item.sku === 'H01040')?.quantity !== zones.length ||
+          bom.items.some((item) => ['H01000', 'B31440'].includes(item.sku))) {
         return { valid: false, reason: 'invalid_bat_valve_compatibility' }
       }
-      const details = orderDetails.get('B31440')
+      const details = orderDetails.get('H01040')
       valve = {
-        sku: 'B31440',
+        sku: 'H01040',
         quantity: zones.length,
-        name: details?.name || cleanLabel(candidate.name, 160) || 'Rain Bird 100-PGA-9V',
+        name: details?.name || cleanLabel(candidate.name, 160) || 'Rain Bird 100-HV-9V',
         priceEUR: details?.price ?? null,
       }
     } else if (automationInput.valve != null) {

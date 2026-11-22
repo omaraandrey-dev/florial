@@ -41,7 +41,7 @@ test('controller plans assign sequential zone numbers and require cable only for
 
   const bat = buildIrrigationAutomationPlan('bat', 7)
   assert.equal(bat.requiresControlCable, false)
-  assert.equal(bat.valve.sku, 'B31440')
+  assert.equal(bat.valve.sku, 'H01040')
   assert.equal(bat.valve.quantity, 7)
 })
 
@@ -52,10 +52,13 @@ test('manual BOM excludes solenoid valves; BAT replaces them with compatible 9V 
   }
   const manual = buildIrrigationAutomationBillOfMaterials(base, buildIrrigationAutomationPlan('manual', 2))
   assert.equal(manual.items.some((item) => item.sku === 'H01000'), false)
+  assert.equal(manual.items.some((item) => item.sku === 'VBA02672'), false)
+  assert.equal(manual.items.some((item) => item.sku === 'H01040'), false)
   assert.equal(manual.items.some((item) => item.sku === 'B31440'), false)
 
   const bat = buildIrrigationAutomationBillOfMaterials(base, buildIrrigationAutomationPlan('bat', 2))
   assert.equal(bat.items.some((item) => item.sku === 'H01000'), false)
-  assert.equal(bat.items.find((item) => item.sku === 'B31440')?.quantity, 2)
+  assert.equal(bat.items.some((item) => item.sku === 'B31440'), false)
+  assert.equal(bat.items.find((item) => item.sku === 'H01040')?.quantity, 2)
   assert.equal(bat.items.find((item) => item.sku === 'ESP-BAT-BT2')?.quantity, 1)
 })

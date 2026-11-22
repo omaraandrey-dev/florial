@@ -8,7 +8,7 @@ export const IRRIGATION_AUTOMATION_PRODUCT_SKUS = Object.freeze([
   ...Object.values(CONTROLLER_SKUS.tm2),
   ...Object.values(CONTROLLER_SKUS.rc2),
   ...Object.values(CONTROLLER_SKUS.bat),
-  'B31440',
+  'H01040',
 ])
 
 const chooseCapacities = (zoneCount, sizes) => {
@@ -98,7 +98,7 @@ export function buildIrrigationAutomationPlan(type, zoneCount) {
   })
 
   const valve = type === 'bat'
-    ? Object.freeze({ sku: 'B31440', quantity: zoneCount })
+    ? Object.freeze({ sku: 'H01040', quantity: zoneCount })
     : null
 
   return Object.freeze({
@@ -117,12 +117,15 @@ export function buildIrrigationAutomationBillOfMaterials(baseBom, plan) {
 
   const quantities = new Map(baseBom.items.map((item) => [item.sku, item.quantity]))
   quantities.delete('H01000')
+  quantities.delete('H01040')
+  quantities.delete('B31440')
+  if (plan.type === 'manual') quantities.delete('VBA02672')
 
   if (plan.type === 'tm2' || plan.type === 'rc2') {
     quantities.set('H01000', baseBom.zoneCount)
   }
   if (plan.type === 'bat') {
-    quantities.set('B31440', plan.valve?.quantity ?? baseBom.zoneCount)
+    quantities.set('H01040', plan.valve?.quantity ?? baseBom.zoneCount)
   }
   for (const controller of plan.controllers) {
     quantities.set(controller.sku, (quantities.get(controller.sku) ?? 0) + controller.quantity)

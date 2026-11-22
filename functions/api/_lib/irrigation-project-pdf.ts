@@ -164,7 +164,7 @@ export const createIrrigationProjectPdf = async (
   if (!automation) {
     write('Типът управление не е записан в тази версия на проекта.', { color: muted })
   } else if (automation.type === 'manual') {
-    write('Ръчно управление с кранове. Автоматични контролери и електромагнитни клапани не са включени в комплекта.')
+    write('Ръчно управление с кранове. Автоматични контролери, електромагнитни клапани и клапанни колодци не са включени в комплекта.')
   } else {
     for (const controller of automation.controllers) {
       write(controller.name + ' · ' + controller.quantity + ' бр. · капацитет ' + controller.capacity + ' зони · зони ' + controller.zoneNumbers.join(', '), { size: 7 })
@@ -182,7 +182,7 @@ export const createIrrigationProjectPdf = async (
       write('За Wi-Fi контролера е необходим стабилен Wi-Fi сигнал на мястото на монтаж.', { size: 7 })
     }
     if (automation.type === 'bat') {
-      write('За всяка зона е предвиден клапан с фиксиращ соленоид 9 V DC. Стандартният 100-HV-9V не е съвместим с ESP-BAT-BT.', { size: 7 })
+      write('За всяка зона е предвиден Rain Bird 100-HV-9V (H01040). Съвместимостта с ESP-BAT-BT изисква обновен корпус HV (производство от 30.06.2025 г.) и съвместим фиксиращ соленоид TBOSPSOL 9 V DC; старата ревизия не е съвместима.', { size: 7 })
     }
   }
 

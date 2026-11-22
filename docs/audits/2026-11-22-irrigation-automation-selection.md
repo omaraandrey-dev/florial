@@ -6,10 +6,10 @@ Status: implementation prepared on branch `feat/irrigation-automation-selection`
 
 After the generated irrigation kit is reviewed, the customer opens a separate automation-choice step before anything is added to the cart. Four choices are available:
 
-- Manual operation: no controller and no electromagnetic valve SKU in the assistant-generated BOM. The existing zone boxes and connection fittings remain in the BOM.
+- Manual operation: no controller, electromagnetic valve SKU or VBA02672 valve box is included in the assistant-generated BOM. Other pipe fittings remain in the BOM.
 - Rain Bird ESP-TM2: wired controller. The selected catalog variants are outdoor-mount 4/6/8 station models. Keep standard 100-HV valves. Show a clear requirement to route control cable from the controller to the solenoid valves; cable length/product and installation labour are not auto-priced.
 - Rain Bird ESP-RC2: Wi-Fi controller. The selected catalog variants are indoor-mount 4/6/8 station models. Keep standard 100-HV valves. Show both requirements: stable Wi-Fi at the controller location and a control cable from controller to solenoid valves. Cable length/product and installation labour are not auto-priced.
-- Rain Bird ESP-BAT-BT: battery/Bluetooth controller. Replace the ordinary BOM valve with Rain Bird 100-PGA-9V (SKU B31440), one per irrigation zone. Do not use 100-HV-9V (SKU H01040): its published Sanity description explicitly says it is incompatible with ESP-BAT-BT.
+- Rain Bird ESP-BAT-BT: battery/Bluetooth controller. Replace the ordinary BOM valve with Rain Bird 100-HV-9V (SKU H01040), one per irrigation zone. Use only the updated HV bonnet manufactured from 30 June 2025 and a compatible TBOSPSOL 9 V DC latching solenoid; older HV bonnet revisions are not compatible.
 
 Each option displays real Sanity product images, model/name, unit price, quantity, line total and total automation cost. Prices are read at runtime from published Sanity documents; they are not hardcoded. All checked products have `vatIncluded=true` and `stockStatus=onRequest`: the UI prices include VAT, while stock availability is still confirmed on request.
 
@@ -29,7 +29,7 @@ Dataset: `production`; perspective: `published`; project: `bxvcy0qs`. Query was 
 | BAT-BT 2 | ESP-BAT-BT2 | ESP-BAT-BT, 2 zones | 200.59 | yes | onRequest |
 | BAT-BT 4 | ESP-BAT-BT4 | ESP-BAT-BT, 4 zones | 243.96 | yes | onRequest |
 | BAT-BT 6 | ESP-BAT-BT6 | ESP-BAT-BT, 6 zones | 295.32 | yes | onRequest |
-| BAT-compatible valve | B31440 | Rain Bird 100-PGA-9V, 1 inch, 9 V DC latching solenoid | 141.27 | yes | onRequest |
+| BAT valve selected by owner | H01040 | Rain Bird 100-HV-9V, 1 inch, 9 V DC latching solenoid | 58.89 | yes | onRequest |
 
 Other catalogue variants were found but are not the selected defaults: TM2 indoor SKUs F54234/F54236/F54238; RC2 outdoor 8-zone SKU F56128 (442.58 EUR). The current UI uses TM2 outdoor and RC2 indoor variants to keep one clear default per controller family. Revisit if owner wants an indoor/outdoor selector.
 
@@ -63,10 +63,10 @@ Controller zone allocations are recorded as explicit sequential zone-number list
 
 ## BAT valve compatibility evidence
 
-- Published Florial Sanity document B31440 is Rain Bird 100-PGA-9V. Its BG/RU/EN description and specifications identify a 9 V DC latching solenoid and compatibility with battery controllers that support a 9 V latching-solenoid output.
-- Published Florial product H01040 (100-HV-9V) explicitly states that it is not compatible with ESP-BAT-BT.
-- Rain Bird's official ESP-BAT-BT product page states that the controller requires a 9 V DC latching solenoid (TBOSPSOL) and lists PGA valves among compatible valve series when fitted with that solenoid; it explicitly excludes the 100-HV-9V version. Source: https://www.rainbird.com/products/esp-bat-bt
-- The selected B31440 product is the catalogue's PGA 9V latching valve for battery-powered controllers. The cart does not add a separate TBOSPSOL SKU because no separate TBOSPSOL product was found in the published Florial catalogue.
+- Published Florial Sanity document H01040 is Rain Bird 100-HV-9V, priced at €58.89, VAT included, stock status `onRequest`, with a product image. Its title identifies it as a valve for battery controllers, while an older paragraph in the published description still says it is incompatible; that content discrepancy has not been changed in Sanity.
+- Rain Bird's current compatibility guidance says HV valves manufactured on or after 30 June 2025 are compatible with ESP-BAT-BT when fitted with the TBOSPSOL 9 V DC latching solenoid; older HV bonnet revisions are not compatible. Source: https://www.rainbird.com/esp-bat-bt-designed-for-the-field
+- Rain Bird's ESP-BAT-BT product page still carries a generic note that it is not compatible with 100HV9V, so compatibility depends on the updated bonnet revision and correct TBOSPSOL fitment, not merely the 9 V coil label. Source: https://www.rainbird.com/products/esp-bat-bt
+- Owner-selected cart product: H01040 (100-HV-9V), one per zone. The product is added by SKU and priced from the published Sanity record; before supply, confirm the stock batch has the updated bonnet and the compatible TBOSPSOL solenoid. No separate TBOSPSOL product was found in the published Florial catalogue, and no Sanity writes were made.
 
 ## Order and PDF persistence
 

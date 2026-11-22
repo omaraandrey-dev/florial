@@ -1,10 +1,10 @@
 ## 2026-11-22 — Irrigation automation selection (implementation PR pending)
 
 - Added a dedicated automation choice after the lawn irrigation kit review: manual, Rain Bird ESP-TM2 wired, ESP-RC2 Wi-Fi and ESP-BAT-BT battery/Bluetooth.
-- Manual mode excludes the electromagnetic valve SKU from the assistant-generated cart BOM. TM2/RC2 retain standard valves and add catalog controllers; BAT replaces the ordinary valve with Rain Bird 100-PGA-9V (B31440) per zone and adds the selected BAT-BT controller allocation.
+- Manual mode excludes both the electromagnetic valve SKU and VBA02672 valve boxes from the assistant-generated cart BOM. TM2/RC2 retain standard valves and boxes and add catalog controllers; BAT replaces the ordinary valve with Rain Bird 100-HV-9V (H01040) per zone and adds the selected BAT-BT controller allocation. H01040 compatibility requires the updated HV bonnet (manufactured from 30.06.2025) and compatible TBOSPSOL 9 V DC latching solenoid.
 - Controller cards use published Sanity images and live EUR prices. TM2/RC2 display the requirement for control cable from controller to valves; RC2 also requires stable Wi-Fi. Cable quantity and installation labour are not guessed or added as products.
 - The project snapshot now records automation type, controller SKU/capacity/zone assignments, valve compatibility, and cable/Wi-Fi requirements. Server validation reconciles automation products and prices with server-resolved order lines. The owner project PDF gains a dedicated automation section and catalog price lines.
-- Read-only Sanity audit confirmed the selected products and current published prices; all have `stockStatus=onRequest`. BAT uses 100-PGA-9V SKU B31440; 100-HV-9V SKU H01040 is explicitly incompatible with ESP-BAT-BT. No Sanity writes were made.
+- Read-only Sanity audit confirmed the selected products and current published prices; all have `stockStatus=onRequest`. BAT uses owner-selected 100-HV-9V SKU H01040 (€58.89, VAT included, on request). Rain Bird's updated compatibility guidance requires the post-30.06.2025 HV bonnet and compatible TBOSPSOL 9 V DC latching solenoid; the published Sanity description contains an older contradictory incompatibility note and was not edited.
 - Implementation branch: `feat/irrigation-automation-selection`. PR, exact-head CI, Pages Preview and owner visual review are pending. No merge, Production deployment, D1 migration, Production order or test email performed.
 - Full catalog evidence and allocation rules: `docs/audits/2026-11-22-irrigation-automation-selection.md`.
 
