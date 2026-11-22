@@ -151,9 +151,9 @@ export function buildIrrigationZones(sprinklers = [], geometry) {
     const location = locateSprinklerOnPerimeter(sprinkler.position, context)
     if (!location) continue
     const isInterior = sprinkler.source === 'interior'
-    const branchDirection = location.forwardOffsetM < context.perimeterLengthM / 2 - EPSILON
-      ? 'forward'
-      : 'reverse'
+    const branchDirection = isInterior
+      ? (location.forwardOffsetM < context.perimeterLengthM / 2 - EPSILON ? 'forward' : 'reverse')
+      : 'forward'
     const entry = {
       sprinkler,
       location,
@@ -281,9 +281,9 @@ export function buildPerimeterPipeNetwork(geometry, sprinklers = [], zones = nul
       .map((sprinkler) => {
         const location = locateSprinklerOnPerimeter(sprinkler.position, context)
         if (!location) return null
-        const branchDirection = location.forwardOffsetM < context.perimeterLengthM / 2 - EPSILON
+        const branchDirection = zone.zoneType === 'perimeter'
           ? 'forward'
-          : 'reverse'
+          : (location.forwardOffsetM < context.perimeterLengthM / 2 - EPSILON ? 'forward' : 'reverse')
         return {
           sprinkler,
           location,
