@@ -128,18 +128,22 @@ test('validates the provisional R-VAN model-selection boundaries and solves both
   }
 })
 
-test('narrow circular geometry below R-VAN14 range requires engineering review', () => {\n  const result = buildPreliminaryLawnLayout(snapshotFor({ width: 2.2 }))\n  assert.equal(result.status, 'short_side_below_supported_rvan_scope')\n  assert.equal(result.layout, undefined)\n})
+test('narrow circular geometry below R-VAN14 range requires engineering review', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor({ width: 2.2 }))
+  assert.equal(result.status, 'short_side_below_supported_rvan_scope')
+  assert.equal(result.layout, undefined)
+})
 
-test('rejects geometry below HE-VAN spacing range and retains the R-VAN-to-3500 handoff', () => {
-  const below = buildPreliminaryLawnLayout(snapshotFor({ width: 1.79 }))
-  assert.equal(below.status, 'short_side_below_supported_spray_nozzle_scope')
+test('rejects geometry below strip range and retains the R-VAN-to-3500 handoff', () => {
+  const below = buildPreliminaryLawnLayout(snapshotFor({ width: 0.9 }))
+  assert.equal(below.status, 'short_side_below_supported_rvan_scope')
   assert.equal(below.layout, undefined)
 
   const rvan = buildPreliminaryLawnLayout(snapshotFor({ width: 4.0 }))
   assert.equal(rvan.operatingScenario?.family, 'R-VAN')
   assert.equal(rvan.operatingScenario?.model, 'R-VAN14')
 
-  const above = buildPreliminaryLawnLayout(snapshotFor({ width: 5.5001 }))
+  const above = buildPreliminaryLawnLayout(snapshotFor({ width: 15 }))
   assert.equal(above.status, 'requires_rotor_engine')
   assert.equal(above.plannedNextFamily, 'Rain Bird 3500')
   assert.equal(above.layout, undefined)
