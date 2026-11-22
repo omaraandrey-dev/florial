@@ -63,3 +63,18 @@ test('refuses to build a cart if any sprinkler is not assigned to a zone', () =>
   assert.equal(result.valid, false)
   assert.equal(result.reason, 'missing_layout_or_zones')
 })
+
+test('refuses duplicated sprinkler membership across zones', () => {
+  const result = buildIrrigationBillOfMaterials({
+    model: 'R-VAN18',
+    sprinklers: [
+      { id: 's1', arcDeg: 180, performanceModel: 'R-VAN18' },
+      { id: 's2', arcDeg: 180, performanceModel: 'R-VAN18' },
+    ],
+  }, [
+    { sprinklerIds: ['s1', 's2'] },
+    { sprinklerIds: ['s1'] },
+  ])
+  assert.equal(result.valid, false)
+  assert.equal(result.reason, 'zone_assignment_incomplete')
+})
