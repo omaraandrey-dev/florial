@@ -50,21 +50,23 @@ This is still sampled geometric coverage at the configured sample interval. It i
 
 ## Rain Bird preference and current manufacturer-data boundary
 
-Rain Bird R-VAN is the preferred rotary-nozzle family in the current supported envelope. The bridge uses:
-- R-VAN14 for the existing 4.0–4.6 m short-side candidate band;
-- R-VAN18 for above 4.6 m through 5.5 m;
-- R-VAN24 for above 5.5 m through 7.0 m;
-- the existing Rain Bird HE-VAN dataset for narrower geometry (1.8 m to below 4.0 m).
+Rain Bird R-VAN is the preferred rotary-nozzle family. Model selection uses half the lawn's short side as the initial cross-lawn head-spacing target, consistent with the manufacturer's 50%-of-throw-diameter spacing basis. The bridge uses:
+- R-VAN14 for a half-short-side target of 4.0–4.6 m (lawn short side 8.0–9.2 m);
+- R-VAN18 for above 4.6 m through 5.5 m (lawn short side above 9.2 m through 11.0 m);
+- R-VAN24 for above 5.5 m through 7.5 m (lawn short side above 11.0 m through 15.0 m);
+- the existing Rain Bird HE-VAN dataset for narrower geometry (half-short-side target 1.8 m to below 4.0 m).
 
-Model choice remains a preliminary candidate rule and requires engineering review. Exact manufacturer operating points are used; there is no interpolation. The R-VAN24 3.1 bar table point has a 7.0 m radius, which is why this bridge envelope is capped at 7.0 m.
+Model choice remains a preliminary candidate rule and requires engineering review. Exact manufacturer operating points are used; there is no interpolation. At the 3.1 bar design point, the R-VAN18 radius is 5.2 m and the R-VAN24 radius is 7.0 m.
 
-### Explicit unresolved example: 20 × 10 m
+### Owner reference cases: 20 × 10 m and 20 × 15 m
 
-A 20 × 10 m lawn has a 10 m short side and is outside the currently connected R-VAN bridge envelope. The present code therefore escalates it instead of inventing a 10 m R-VAN throw.
+The solver now has regression scenarios for both owner examples:
+- **20 × 10 m:** the initial target is 5.0 m; R-VAN18 is selected. The perimeter-only pass is expected to cover the sampled lawn, so no central row is selected.
+- **20 × 15 m:** the initial target is 7.5 m; R-VAN24 is selected. The perimeter-only pass leaves a central coverage band, so a single central row parallel to the long side is evaluated and selected to fill it.
 
-The repository contains Rain Bird 3500 manufacturer performance data, but its existing evaluator only accepts supplied 180° rotor positions. The manufacturer precipitation table is based on half-circle operation, and the existing component does not generate a complete perimeter-first 3500 layout. It must not be enabled by copying half-circle performance values to other arcs or by assuming an unverified radius.
+For rectangles, interior candidates are generated as one central row parallel to the long side, not a generic triangular lattice. That row is only used if the perimeter pass leaves sampled points uncovered. L-shaped lawns retain the existing conservative interior lattice.
 
-The owner described a preferred rotary sprinkler that “waters 10 metres” and subsequently confirmed the R-VAN interpretation. The exact meaning of 10 m (radius versus diameter) and the exact Rain Bird model/table point remain to be reconciled with the currently verified R-VAN dataset. Do not change manufacturer values to force the 20 × 10 example to pass. Resolve this before claiming the example is supported.
+These are sampled-geometry scenarios, not continuous coverage proofs or hydraulic certification. The 3500 dataset remains outside the placement solver because its existing evaluator accepts supplied 180° positions only and the manufacturer precipitation table is based on half-circle operation. Do not copy those values to other arcs.
 
 ## Not implemented in this increment
 
