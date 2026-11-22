@@ -173,13 +173,24 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     add(current, convex ? 90 : 270, bisector, 'vertex')
   }
 
-  // Straight boundary heads: exact 180-degree inward-facing sectors. The
-  // subdivision is based on the tested throw radius, not a generic lawn grid.
+  // Straight boundary heads: exact 180-degree inward-facing sectors.
+  // Edge spacing is constrained by the smaller corner-arc radius so that
+  // the first edge head remains head-to-head with the 90/270-degree corner.
+  // Even segment counts also place a head at each edge midpoint, avoiding a
+  // central dry gap on the long sides of rectangular lawns.
+  const corner90 = performanceFor(family, model, pressureBar, 90)
+  const corner270 = performanceFor(family, model, pressureBar, 270)
+  const boundarySpacingM = Math.min(
+    radiusM,
+    corner90?.radiusM ?? radiusM,
+    corner270?.radiusM ?? radiusM,
+  )
   for (let index = 0; index < vertices.length; index += 1) {
     const a = vertices[index]
     const b = vertices[(index + 1) % vertices.length]
     const length = distance(a, b)
-    const divisions = Math.max(1, Math.ceil(length / radiusM))
+    let divisions = Math.max(1, Math.ceil(length / boundarySpacingM))
+    if (divisions % 2 !== 0) divisions += 1
     const normal = inwardNormal(a, b, orientation)
     if (!normal) continue
     for (let part = 1; part < divisions; part += 1) {
