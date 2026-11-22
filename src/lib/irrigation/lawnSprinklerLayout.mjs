@@ -214,8 +214,10 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     }
   }
 
-  // Rectangles get one optional centreline parallel to the long side.
-  // L-shapes retain an interior candidate lattice for their bays.
+  // Rectangles use a perimeter-first, multi-row interior candidate lattice.
+  // The centreline is always included when there is room for an interior row;
+  // additional rows are added only as the dimensions require them. The
+  // sampled set-cover pass decides whether any of these candidates are needed.
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const minX = Math.min(...xs)
@@ -231,13 +233,34 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
   if (isRectangle) {
     const lengthX = maxX - minX
     const lengthY = maxY - minY
-    const divisions = Math.max(1, Math.ceil(Math.max(lengthX, lengthY) / radiusM))
-    for (let part = 1; part < divisions; part += 1) {
-      const ratio = part / divisions
-      const position = lengthX >= lengthY
-        ? { x: minX + lengthX * ratio, y: (minY + maxY) / 2 }
-        : { x: (minX + maxX) / 2, y: minY + lengthY * ratio }
-      if (pointInRing(position, vertices) === 1) add(position, 360, { x: 1, y: 0 }, 'interior')
+    const xDivisions = Math.max(1, Math.ceil(lengthX / radiusM))
+    const yDivisions = Math.max(1, Math.ceil(lengthY / radiusM))
+    const xPositions = new Set()
+    const yPositions = new Set()
+
+    if (xDivisions > 1) {
+      for (let part = 1; part < xDivisions; part += 1) {
+        xPositions.add(minX + lengthX * part / xDivisions)
+      }
+    }
+    if (yDivisions > 1) {
+      for (let part = 1; part < yDivisions; part += 1) {
+        yPositions.add(minY + lengthY * part / yDivisions)
+      }
+      // Keep a true centre row available even when equal spacing does not
+      // place one there (for example, a 20 × 15 m rectangle).
+      yPositions.add((minY + maxY) / 2)
+    }
+
+    if (xPositions.size > 0 && yPositions.size > 0) {
+      for (const y of [...yPositions].sort((a, b) => a - b)) {
+        for (const x of [...xPositions].sort((a, b) => a - b)) {
+          const position = { x, y }
+          if (pointInRing(position, vertices) === 1) {
+            add(position, 360, { x: 1, y: 0 }, 'interior')
+          }
+        }
+      }
     }
   } else {
     const rowStep = radiusM * Math.sqrt(3) / 2
@@ -252,7 +275,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       row += 1
     }
   }
-  return candidates
+  return candidates  return candidates
 }
 
 function evaluateCandidates(candidates, targets) {
