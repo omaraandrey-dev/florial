@@ -137,7 +137,7 @@ function supportedModel(family, model) {
   return false
 }
 
-function buildCandidates(vertices, family, model, pressureBar, radiusM) {
+function buildCandidates(vertices, family, model, pressureBar, radiusM, { perimeterSpacingM = radiusM, includeInterior = true } = {}) {
   const candidates = []
   const orientation = Math.sign(signedArea(vertices)) || 1
   const add = (position, arcDeg, direction, source) => {
@@ -179,7 +179,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     const a = vertices[index]
     const b = vertices[(index + 1) % vertices.length]
     const length = distance(a, b)
-    const divisions = Math.max(1, Math.ceil(length / radiusM))
+    const divisions = Math.max(1, Math.ceil(length / perimeterSpacingM))
     const normal = inwardNormal(a, b, orientation)
     if (!normal) continue
     for (let part = 1; part < divisions; part += 1) {
@@ -191,8 +191,10 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     }
   }
 
-  // Interior heads use a triangular lattice with nearest-neighbour spacing
-  // no greater than the manufacturer's 50%-of-diameter spacing basis.
+  if (!includeInterior) return candidates
+
+  // Interior heads use a centerline on simple rectangles when it can close
+  // the remaining sampled gaps; L-shapes use a triangular lattice.
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const minX = Math.min(...xs)
@@ -274,6 +276,29 @@ function selectGreedy(candidates, targetCount, initialUncovered = null) {
     for (const targetIndex of chosen.covered) uncovered.delete(targetIndex)
   }
   return { selected, uncovered }
+}
+
+function selectPerimeterFirst(evaluated, targetCount) {
+  const corners = evaluated.filter((candidate) => candidate.source === 'vertex')
+  const edges = evaluated.filter((candidate) => candidate.source === 'edge')
+  const cornerCovered = new Set(corners.flatMap((candidate) => candidate.covered))
+  const uncoveredAfterCorners = new Set(Array.from({ length: targetCount }, (_, index) => index)
+    .filter((index) => !cornerCovered.has(index)))
+  const edgeSelection = selectGreedy(edges, targetCount, uncoveredAfterCorners)
+  return {
+    selected: [...corners, ...edgeSelection.selected],
+    uncovered: edgeSelection.uncovered,
+    candidates: evaluated,
+  }
+}
+
+function minimumRvanSpacing(model, fallback) {
+  const minimums = {
+    'R-VAN14': 2.4,
+    'R-VAN18': 4.0,
+    'R-VAN24': 5.2,
+  }
+  return minimums[model] ?? fallback
 }
 
 export function evaluateHeadToHeadSpacing(selected) {
@@ -462,8 +487,13 @@ export function generateLawnSprinklerLayout({
     })
   }
 
-  const candidates = buildCandidates(vertices, family, model, pressureBar, probe.radiusM)
-  if (!candidates || candidates.length > MAX_CANDIDATES) {
+  const minimumSpacingM = minimumRvanSpacing(model, probe.radiusM)
+  let perimeterSpacingM = probe.radiusM
+  let perimeterCandidates = buildCandidates(vertices, family, model, pressureBar, probe.radiusM, {
+    perimeterSpacingM,
+    includeInterior: false,
+  })
+  if (!perimeterCandidates || perimeterCandidates.length > MAX_CANDIDATES) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
       status: 'candidate_limit_exceeded',
@@ -472,17 +502,63 @@ export function generateLawnSprinklerLayout({
       sprinklers: Object.freeze([]),
     })
   }
-  const evaluated = evaluateCandidates(candidates, targets)
-  const perimeterCandidates = evaluated.filter((candidate) => candidate.source !== 'interior')
-  const interiorCandidates = evaluated.filter((candidate) => candidate.source === 'interior')
-  const perimeterCovered = new Set(perimeterCandidates.flatMap((candidate) => candidate.covered))
-  const perimeterUncovered = new Set(Array.from({ length: targets.length }, (_, index) => index)
-    .filter((index) => !perimeterCovered.has(index)))
-  const interiorSelection = selectGreedy(interiorCandidates, targets.length, perimeterUncovered)
-  const coverageSelection = [...perimeterCandidates, ...interiorSelection.selected]
-  const uncovered = interiorSelection.uncovered
-  const spacingCandidates = perimeterUncovered.size === 0 ? perimeterCandidates : evaluated
+  let perimeterSelection = selectPerimeterFirst(evaluateCandidates(perimeterCandidates, targets), targets.length)
+
+  // If nominal manufacturer throw spacing leaves sampled gaps, densify the
+  // perimeter down to the published minimum spacing before adding an inner row.
+  if (perimeterSelection.uncovered.size > 0 && minimumSpacingM < perimeterSpacingM - EPSILON) {
+    const denseCandidates = buildCandidates(vertices, family, model, pressureBar, probe.radiusM, {
+      perimeterSpacingM: minimumSpacingM,
+      includeInterior: false,
+    })
+    if (!denseCandidates || denseCandidates.length > MAX_CANDIDATES) {
+      return Object.freeze({
+        engineVersion: ENGINE_VERSION,
+        status: 'candidate_limit_exceeded',
+        errors: Object.freeze([{ code: 'layout_candidate_limit_exceeded', path: 'geometry' }]),
+        warnings: Object.freeze([]),
+        sprinklers: Object.freeze([]),
+      })
+    }
+    const denseSelection = selectPerimeterFirst(evaluateCandidates(denseCandidates, targets), targets.length)
+    if (denseSelection.uncovered.size < perimeterSelection.uncovered.size) {
+      perimeterSpacingM = minimumSpacingM
+      perimeterCandidates = denseCandidates
+      perimeterSelection = denseSelection
+    }
+  }
+
+  let coverageSelection = perimeterSelection.selected
+  let uncovered = perimeterSelection.uncovered
+  let spacingCandidates = perimeterSelection.candidates
+  if (uncovered.size > 0) {
+    const allCandidates = buildCandidates(vertices, family, model, pressureBar, probe.radiusM, {
+      perimeterSpacingM,
+      includeInterior: true,
+    })
+    if (!allCandidates || allCandidates.length > MAX_CANDIDATES) {
+      return Object.freeze({
+        engineVersion: ENGINE_VERSION,
+        status: 'candidate_limit_exceeded',
+        errors: Object.freeze([{ code: 'layout_candidate_limit_exceeded', path: 'geometry' }]),
+        warnings: Object.freeze([]),
+        sprinklers: Object.freeze([]),
+      })
+    }
+    const evaluatedAll = evaluateCandidates(allCandidates, targets)
+    const evaluatedPerimeter = evaluatedAll.filter((candidate) => candidate.source !== 'interior')
+    const evaluatedInterior = evaluatedAll.filter((candidate) => candidate.source === 'interior')
+    perimeterSelection = selectPerimeterFirst(evaluatedPerimeter, targets.length)
+    const interiorSelection = selectGreedy(evaluatedInterior, targets.length, perimeterSelection.uncovered)
+    coverageSelection = [...perimeterSelection.selected, ...interiorSelection.selected]
+    uncovered = interiorSelection.uncovered
+    spacingCandidates = evaluatedAll
+  }
+
   const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, spacingCandidates)
+  const coveredAfterSpacing = new Set(spacingSelection.flatMap((candidate) => candidate.covered))
+  uncovered = new Set(Array.from({ length: targets.length }, (_, index) => index)
+    .filter((index) => !coveredAfterSpacing.has(index)))
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = evaluateHeadToHeadSpacing(sprinklers)
   const allHeadToHead = checks.every((entry) => entry.passed)
@@ -499,7 +575,7 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'perimeter-first-corners-edges-then-interior-row-v2',
+    algorithm: 'perimeter-first-corners-edges-densify-then-interior-row-v3',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
