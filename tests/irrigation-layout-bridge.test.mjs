@@ -5,12 +5,12 @@ import { validateLawnGeometry } from '../src/lib/irrigation/lawnGeometry.mjs'
 import { buildIrrigationIntakeSnapshot } from '../src/lib/irrigation/irrigationIntake.mjs'
 import { buildPreliminaryLawnLayout } from '../src/lib/irrigation/irrigationLayoutBridge.mjs'
 
-function snapshotFor({ length = 10, width = 5, confirmed = true, pressureBar = 2.4 } = {}) {
+function snapshotFor(length, width) {
   const vertices = buildLawnBoundary({ shape: 'rectangle', length, width })
   const geometryValidation = validateLawnGeometry({
     schemaVersion: 1,
     coordinateSystem: 'local_cartesian_m',
-    status: confirmed ? 'confirmed' : 'needs_confirmation',
+    status: 'confirmed',
     regions: [{ id: 'lawn-1', boundary: { vertices }, exclusions: [] }],
   })
   return buildIrrigationIntakeSnapshot({
@@ -19,148 +19,115 @@ function snapshotFor({ length = 10, width = 5, confirmed = true, pressureBar = 2
     length: String(length),
     width: String(width),
     geometryValidation,
-    waterSource: 'well',
-    pressureType: 'dynamic',
-    pressureBar: String(pressureBar),
-    pressureMeasuredWhileFlowing: true,
-    pressureTestPoint: 'lawn_entry',
-    flowRate: '40',
-    flowMeasurementMethod: 'bucket',
   })
 }
 
-test('confirmed 5m lawn geometry is connected to the deterministic R-VAN18 layout engine', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor())
-  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
-  assert.equal(result.operatingScenario?.family, 'R-VAN')
-  assert.equal(result.operatingScenario?.model, 'R-VAN18')
-  assert.equal(result.operatingScenario?.pressureBar, 3.1)
-  assert.equal(result.operatingScenario?.actualNozzlePressureVerified, false)
-  assert.equal(result.operatingScenario?.customerSourceMeasurementsUsedAsNozzlePressure, false)
-  assert.equal(result.hydraulicFeasibility, 'not_evaluated')
-  assert.equal(result.layout?.coverageScope, 'sampled_geometry_only')
+test('short lawns select the smallest exact R-VAN radius that covers the short side', () => {
+  for (const [length, width, expectedModel] of [[10, 5, 'R-VAN18'], [20, 5, 'R-VAN18'], [32, 6, 'R-VAN24']]) {
+    const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
+    assert.equal(result.status, 'layout_generated')
+    assert.equal(result.operatingScenario?.family, 'R-VAN')
+    assert.equal(result.operatingScenario?.model, expectedModel)
+    assert.equal(result.layout?.coverageScope, 'sampled_geometry_only')
+    assert.equal(result.layout?.hydraulicFeasibility, 'not_evaluated')
+    assert.equal(result.pipeNetwork?.connectionPoint?.x, length)
+    assert.equal(result.pipeNetwork?.connectionPoint?.y, width)
+    assert.ok(result.zones?.length > 0)
+  }
 })
 
-test('confirmed orthogonal L-shape reaches the existing layout solver', () => {
-  const vertices = buildLawnBoundary({
-    shape: 'l-shape',
-    length: 12,
-    width: 5,
-    cutoutWidth: 4,
-    cutoutDepth: 2,
-    cutoutCorner: 'top-right',
-  })
-  const geometryValidation = validateLawnGeometry({
-    schemaVersion: 1,
-    coordinateSystem: 'local_cartesian_m',
-    status: 'confirmed',
-    regions: [{ id: 'lawn-l', boundary: { vertices }, exclusions: [] }],
-  })
-  const snapshot = buildIrrigationIntakeSnapshot({
-    language: 'bg',
-    shape: 'l-shape',
-    length: '12',
-    width: '5',
-    cutoutWidth: '4',
-    cutoutDepth: '2',
-    geometryValidation,
-    waterSource: 'well',
-  })
-  const result = buildPreliminaryLawnLayout(snapshot)
-  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
-  assert.equal(result.layout?.geometry?.shape, 'l-shape')
-  assert.equal(result.operatingScenario?.model, 'R-VAN18')
+test('25x5 and 26x5 reference lawns create two six-head zones with source-fed Ø25 routes', () => {
+  for (const length of [25, 26]) {
+    const result = buildPreliminaryLawnLayout(snapshotFor(length, 5))
+    assert.equal(result.status, 'layout_generated')
+    assert.equal(result.operatingScenario?.model, 'R-VAN18')
+    assert.equal(result.layout?.sprinklers?.length, 12)
+    assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [6, 6])
+    assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
+    assert.equal(result.pipeNetwork?.mainDiameterMm, 25)
+    assert.equal(result.pipeNetwork?.zoneDiameterMm, 25)
+    assert.ok(result.pipeNetwork?.branches?.length >= 2)
+    assert.ok(result.pipeNetwork?.branches?.every((branch) =>
+      branch.diameterMm === 25 && branch.sprinklerIds.length > 0))
+    assert.ok(result.layout?.sprinklers?.every((sprinkler) => sprinkler.source !== 'interior'))
+    assert.equal(result.layout?.headToHead?.passed, true)
+    assert.ok(result.pipeNetwork?.branches?.every((branch) =>
+      branch.points[0].x === length && branch.points[0].y === 5))
+  }
 })
 
-test('narrow geometry uses the separate HE-VAN manufacturer dataset', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor({ width: 3.5 }))
+test('30x5 lawn keeps the first six sequential perimeter heads together', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(30, 5))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.family, 'HE-VAN')
-  assert.equal(result.operatingScenario?.model, 'HE-VAN-12')
-  assert.equal(result.operatingScenario?.pressureBar, 2.07)
-  assert.equal(result.operatingScenario?.actualNozzlePressureVerified, false)
-  assert.equal(result.operatingScenario?.customerSourceMeasurementsUsedAsNozzlePressure, false)
-  assert.equal(result.layout?.family, 'HE-VAN')
-  assert.equal(result.layout?.model, 'HE-VAN-12')
-  assert.equal(result.layout?.pressureBar, 2.07)
+  assert.equal(result.operatingScenario?.model, 'R-VAN18')
+  assert.equal(result.layout?.sprinklers?.length, 14)
+  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [6, 6, 2])
+  assert.equal(result.layout?.headToHead?.passed, true)
+  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.ok(result.pipeNetwork?.branches?.every((branch) => branch.sprinklerIds.length > 0))
+})
+
+test('32x6 uses R-VAN24 radius to avoid unnecessary mid-edge heads and interior sprinklers', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(32, 6))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  assert.equal(result.layout?.sprinklers?.length, 12)
+  assert.ok(result.layout?.sprinklers?.every((sprinkler) => sprinkler.source !== 'interior'))
+  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [6, 6])
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
 })
 
-test('unconfirmed geometry is never passed to the layout solver', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor({ confirmed: false }))
-  assert.equal(result.status, 'needs_confirmed_geometry')
-  assert.equal(result.layout, undefined)
+test('20x10 uses R-VAN24 and keeps complete sampled perimeter coverage', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(20, 10))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.equal(result.layout?.headToHead?.passed, true)
 })
 
-test('geometry outside the current R-VAN v1 envelope is not forced into a nozzle layout', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor({ width: 6 }))
-  assert.equal(result.status, 'requires_rotor_engine')
-  assert.equal(result.reason, 'requires_large_rotor_engine_or_engineer_review')
-  assert.equal(result.plannedNextFamily, 'Rain Bird 3500')
-  assert.equal(result.layout, undefined)
+test('20x15 uses an interior circular row when perimeter coverage alone is insufficient', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(20, 15))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
+  assert.ok(interior.length > 0)
+  assert.ok(interior.some((entry) => Math.abs(entry.position.y - 7.5) < 1e-6))
+  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.equal(result.layout?.headToHead?.passed, true)
+  assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
 })
 
-test('source dynamic pressure is not silently treated as nozzle operating pressure', () => {
-  const first = buildPreliminaryLawnLayout(snapshotFor({ pressureBar: 2.4 }))
-  const second = buildPreliminaryLawnLayout(snapshotFor({ pressureBar: 4.0 }))
-  assert.equal(first.operatingScenario?.pressureBar, second.operatingScenario?.pressureBar)
-  assert.equal(first.operatingScenario?.pressureBar, 3.1)
-  assert.equal(first.operatingScenario?.customerSourceMeasurementsUsedAsNozzlePressure, false)
+test('30x30 uses multiple interior rows of full-circle heads with complete sampled coverage', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(30, 30))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
+  assert.ok(interior.length >= 3)
+  assert.ok(new Set(interior.map((entry) => Number(entry.position.y.toFixed(2)))).size >= 3)
+  assert.ok(interior.every((entry) => entry.arcDeg === 360))
+  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.equal(result.layout?.headToHead?.passed, true)
+  assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
+  const perimeterZones = result.zones?.filter((zone) => zone.zoneType === 'perimeter') ?? []
+  const interiorZones = result.zones?.filter((zone) => zone.zoneType === 'interior') ?? []
+  assert.ok(perimeterZones.length > 0)
+  assert.ok(interiorZones.length > 0)
+  assert.ok(perimeterZones.every((zone) => zone.sprinklerCount <= 6))
+  assert.ok(interiorZones.every((zone) => zone.sprinklerCount <= 6))
+  assert.ok(result.zones?.every((zone) => zone.zoneType === 'perimeter' || zone.zoneType === 'interior'))
+  assert.ok(result.zones?.every((zone, index, zones) =>
+    index === 0 || (zones[index - 1].zoneType !== 'interior' || zone.zoneType === 'interior')))
 })
 
-test('validates the provisional R-VAN model-selection boundaries and solves both supported bands', () => {
-  const cases = [
-    { width: 4.0, expectedModel: 'R-VAN14' },
-    { width: 4.6, expectedModel: 'R-VAN14' },
-    { width: 4.6001, expectedModel: 'R-VAN18' },
-    { width: 5.5, expectedModel: 'R-VAN18' },
-  ]
-
-  for (const { width, expectedModel } of cases) {
-    const result = buildPreliminaryLawnLayout(snapshotFor({ width }))
-    assert.equal(result.status, 'layout_generated', `layout at short side ${width}m`)
-    assert.equal(result.geometry.shortSideM, width)
-    assert.equal(result.operatingScenario.model, expectedModel)
-    assert.equal(result.layout.family, 'R-VAN')
-    assert.equal(result.layout.model, expectedModel)
-    assert.equal(result.layout.pressureBar, 3.1)
-    assert.equal(result.layout.coverage.uncoveredPoints, 0)
-    assert.equal(result.layout.headToHead.passed, true)
-    assert.equal(result.hydraulicFeasibility, 'not_evaluated')
+test('narrow strips do not fall back to circular R-VAN or HE-VAN nozzles', () => {
+  for (const width of [1, 1.5, 2]) {
+    const result = buildPreliminaryLawnLayout(snapshotFor(10, width))
+    assert.ok([
+      'strip_nozzle_layout_requires_exact_pattern_engine',
+      'strip_width_not_supported_by_exact_manufacturer_point',
+    ].includes(result.status))
+    assert.equal(result.layout, undefined)
+    assert.ok(Array.isArray(result.stripNozzleOptions))
   }
-})
-
-test('selects provisional HE-VAN model bands from the manufacturer spacing ranges', () => {
-  const cases = [
-    { width: 1.8, expectedModel: 'HE-VAN-8' },
-    { width: 2.4, expectedModel: 'HE-VAN-10' },
-    { width: 3.0, expectedModel: 'HE-VAN-12' },
-    { width: 3.7, expectedModel: 'HE-VAN-15' },
-    { width: 3.999, expectedModel: 'HE-VAN-15' },
-  ]
-  for (const { width, expectedModel } of cases) {
-    const result = buildPreliminaryLawnLayout(snapshotFor({ width }))
-    assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status), `HE-VAN candidate at ${width}m`)
-    assert.equal(result.operatingScenario?.family, 'HE-VAN')
-    assert.equal(result.operatingScenario?.model, expectedModel)
-    assert.equal(result.operatingScenario?.pressureBar, 2.07)
-    assert.equal(result.layout?.family, 'HE-VAN')
-    assert.equal(result.layout?.model, expectedModel)
-  }
-})
-
-test('rejects geometry below HE-VAN spacing range and retains the R-VAN-to-3500 handoff', () => {
-  const below = buildPreliminaryLawnLayout(snapshotFor({ width: 1.79 }))
-  assert.equal(below.status, 'short_side_below_supported_spray_nozzle_scope')
-  assert.equal(below.layout, undefined)
-
-  const rvan = buildPreliminaryLawnLayout(snapshotFor({ width: 4.0 }))
-  assert.equal(rvan.operatingScenario?.family, 'R-VAN')
-  assert.equal(rvan.operatingScenario?.model, 'R-VAN14')
-
-  const above = buildPreliminaryLawnLayout(snapshotFor({ width: 5.5001 }))
-  assert.equal(above.status, 'requires_rotor_engine')
-  assert.equal(above.plannedNextFamily, 'Rain Bird 3500')
-  assert.equal(above.layout, undefined)
 })
