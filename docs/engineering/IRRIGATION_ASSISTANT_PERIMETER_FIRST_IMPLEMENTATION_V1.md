@@ -201,16 +201,17 @@ zoneCapacity: {
 - Каждая perimeter head проецируется на ближайший сегмент границы.
 - Вычисляется `forwardOffsetM` — длина пути от верхнего правого угла по принятому направлению.
 - Периметральные головки сортируются по `forwardOffsetM`, затем по ID для детерминизма.
-- Первые 6 последовательных головок — zone-01; следующие 6 — zone-02; далее аналогично.
-- Запрещено «балансировать» зону, забирая головки с противоположной стороны источника. Периметр не делится на независимые половины.
-- После назначения всех периметральных головок внутренние головки сортируются отдельно: сверху вниз (y descending), внутри ряда слева направо (x ascending), затем по ID.
-- Внутренние головки образуют следующие зоны, также не более 6 головок в каждой.
-- Тип зоны явно записан как `perimeter` или `interior`; ID имеют вид `zone-01`, `zone-02` и т. д.
+- Внутренние головки добавляются после периметральных в порядке рядов: сверху вниз (y descending), внутри ряда слева направо (x ascending), затем по ID.
+- Периметриальные и внутренние головки объединяются в одну последовательность. Arc 90°/180°/270°/360° и признак perimeter/interior не создают самостоятельную границу зоны.
+- Минимальное число зон равно `ceil(headCount / 6)`. Головки распределяются максимально равномерно при сохранении общей последовательности; остаток по одному добавляется в первые зоны.
+- Примеры: 14 → 5+5+4; 13 → 5+4+4; 12 → 6+6; 8 → 4+4.
+- Каждая зона содержит не более 6 головок; `zoneType` равен `mixed`, если в группе есть perimeter и interior. ID имеют вид `zone-01`, `zone-02` и т. д.
+- Направление pipe branch рассчитывается для каждой головки по её source. Поэтому одна смешанная зона может иметь forward и reverse schematic branches, но остаётся одной рабочей зоной.
 
 ### 7.3 Схематические трубы
 `buildPerimeterPipeNetwork()` строит маршруты от общей точки подключения:
-- perimeter zones используют только направление `forward`, поэтому маршрут следует непрерывному обходу периметра;
-- interior zone heads могут быть распределены по направлению forward/reverse в зависимости от ближайшей половины периметра;
+- для perimeter heads используется направление `forward` по принятому обходу границы;
+- для interior heads направление `forward/reverse` выбирается индивидуально по ближайшей половине периметра; смешанная зона может иметь оба направления;
 - маршруты строятся как набор точек вдоль границы с боковыми ответвлениями к головкам, если позиция не лежит прямо на boundary;
 - диаметр ветви в текущей модели берётся из стандарта Ø25 mm;
 - в ответе есть connectionPoint, mainRoute, mainDiameterMm, zoneDiameterMm и branches.
@@ -308,7 +309,7 @@ BOM строится только после layout и zone assignment. Он о�
 Проверяемые свойства:
 - geometry-only intake и отсутствие требования измерений воды для preliminary layout;
 - top-right perimeter start, последовательное зонирование и capacity ≤ 6;
-- 30 × 5 m: 14 heads, zones [6, 6, 2];
+- 30 × 5 m: 14 heads, zones [5, 5, 4];
 - 25 × 5 и 26 × 5 m: 12 heads, zones [6, 6];
 - 32 × 6 m: R-VAN24, perimeter-only layout, [6, 6];
 - 20 × 15 m: внутренний ряд 360° только при необходимости, zero uncovered samples и head-to-head pass;
@@ -379,3 +380,12 @@ Production deployment проверен по Cloudflare deployment metadata. От
 - `docs/audits/2026-11-22-irrigation-perimeter-first-standard-basis.md` — implementation audit and history.
 - `docs/AI/OPEN_QUESTIONS.md` — live unresolved decisions.
 - `docs/AI/PAUSED_WORK_IRRIGATION_ENGINEER_ASSISTANT_2026-11-16.md` — historical pause handoff, amended with the 22.11 scoped resumption.
+
+
+## 15. Owner PDF handoff after irrigation-assisted checkout
+
+Current implementation details, validation rules, D1 persistence, email delivery, PDF contents and release boundaries are documented in [IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md](IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md).
+
+The project snapshot is attached to the normal checkout request only after the complete generated kit is added. The order endpoint validates the submitted snapshot against the server-resolved cart SKU quantities and persists it in the existing `order_events.metadata` field with event type `irrigation_project_attached`; no D1 migration is introduced. A separate preliminary PDF is emailed to the owner after order persistence. Customer confirmation/proforma email is unchanged. If PDF generation or delivery fails, the saved order remains valid and the event records the delivery status where possible.
+
+The cart detaches the snapshot when any generated kit SKU quantity is changed or removed. The PDF explicitly states that hydraulic sizing, dynamic source pressure/flow, nozzle residual pressure, six-head hydraulic suitability, DU/CU, wind, overspray, exclusions and complete mainline sizing are not verified.
