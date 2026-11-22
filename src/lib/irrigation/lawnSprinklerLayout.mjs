@@ -1,4 +1,5 @@
 import { validateLawnGeometry } from './lawnGeometry.mjs'
+import { resolveRvanRadius } from './rvanNozzleSelection.mjs'
 import {
   findRainBirdRvanPerformancePoint,
   RAIN_BIRD_RVAN_DATASET,
@@ -149,7 +150,11 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       arcDeg,
       directionDeg: arcDeg === 360 ? null : normalizeDegrees(Math.atan2(direction.y, direction.x) * 180 / Math.PI),
       source,
+      model,
+      pattern: 'circular',
       radiusM: point.radiusM,
+      nominalRadiusM: point.radiusM,
+      flowBasis: 'manufacturer_nominal_operating_point',
       flowLpm: point.flowLpm,
       pressureBar: point.pressureBar,
       precipitationSquareMmH: point.precipitationSquareMmH,
@@ -228,7 +233,40 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     }
     row += 1
   }
-  return candidates
+  // Set each head's geometric throw from the maximum adjacent grid spacing.
+  // The manufacturer's flow/precipitation row remains nominal; adjusted-flow
+  // values are not invented when the exact adjusted operating point is absent.
+  return candidates.map((candidate) => {
+    if (candidate.pattern !== 'circular' || !['vertex', 'edge', 'interior_row'].includes(candidate.source)) {
+      return candidate
+    }
+    const directionalDistances = []
+    for (const axis of ['x', 'y']) {
+      for (const sign of [-1, 1]) {
+        const neighbour = candidates
+          .filter((other) => other.id !== candidate.id && other.pattern === 'circular')
+          .map((other) => {
+            const primary = axis === 'x' ? other.position.x - candidate.position.x : other.position.y - candidate.position.y
+            const secondary = axis === 'x' ? other.position.y - candidate.position.y : other.position.x - candidate.position.x
+            return { other, primary, secondary }
+          })
+          .filter(({ primary, secondary }) => primary * sign > EPSILON && Math.abs(secondary) <= 0.02)
+          .sort((a, b) => Math.abs(a.primary) - Math.abs(b.primary))[0]
+        if (neighbour) directionalDistances.push(Math.abs(neighbour.primary))
+      }
+    }
+    if (!directionalDistances.length) return candidate
+    const requestedRadiusM = Math.max(...directionalDistances)
+    const resolved = resolveRvanRadius(model, requestedRadiusM)
+    if (!resolved) return candidate
+    return {
+      ...candidate,
+      radiusM: resolved.radiusM,
+      requestedRadiusM: resolved.requestedRadiusM,
+      radiusAdjusted: Math.abs(resolved.radiusM - candidate.nominalRadiusM) > EPSILON,
+      radiusWithinManufacturerRange: resolved.withinManufacturerRange,
+    }
+  })
 }
 
 function evaluateCandidates(candidates, targets) {
