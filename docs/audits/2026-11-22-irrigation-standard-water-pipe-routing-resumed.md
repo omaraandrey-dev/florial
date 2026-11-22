@@ -3,7 +3,7 @@
 Date: 2026-11-22  
 Branch: `feat/irrigation-standard-water-pipe-routing-resumed`  
 Base: `main` at `b48d6c5b354c500250957355b4eb90751be072d0`  
-Owner-feedback code checkpoint before this audit update: `a5726844801947e42567c14109e323117f171bdb`
+Latest verified source checkpoint before this audit refresh: `5d69fca651c7b71049177aebfae30d30fe0d1668`
 
 ## Scope implemented
 
