@@ -478,8 +478,15 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                           <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={layoutLabels.title} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
                             <g transform={'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'}>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
-                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number } }) => (
-                                <circle key={sprinkler.id} cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill="#0369a1" stroke="#ffffff" strokeWidth="0.08" />
+                              {layoutResult.pipeNetwork?.mainRoute && <polyline points={layoutResult.pipeNetwork.mainRoute.map((point: { x: number; y: number }) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#ea580c" strokeWidth="0.12" strokeLinejoin="round" />}
+                              {layoutResult.pipeNetwork?.branches?.map((branch: { sprinklerId: string; points: Array<{ x: number; y: number }> }) => (
+                                <polyline key={branch.sprinklerId} points={branch.points.map((point) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#f59e0b" strokeWidth="0.07" strokeDasharray="0.18 0.12" />
+                              ))}
+                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number }) => (
+                                <g key={sprinkler.id}>
+                                  <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke="#0284c7" strokeWidth="0.045" strokeDasharray="0.22 0.14" opacity="0.7" />
+                                  <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill="#0369a1" stroke="#ffffff" strokeWidth="0.08" />
+                                </g>
                               ))}
                             </g>
                           </svg>
@@ -489,6 +496,14 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                         <p className="font-semibold text-slate-800">{layoutLabels.headToHead}: <span className={layoutResult.layout?.headToHead?.passed ? 'text-emerald-700' : 'text-amber-700'}>{layoutResult.layout?.headToHead?.passed ? layoutLabels.passed : layoutLabels.failed}</span></p>
                         <p className="mt-2 text-xs leading-5 text-slate-600">{(layoutResult.operatingScenario?.family === 'HE-VAN' ? layoutLabels.hevanScenarioNote : layoutLabels.rvanScenarioNote)}</p>
                       </div>
+                      {layoutResult.zones?.length > 0 && <div className="mt-3 rounded-xl bg-white p-3 text-sm">
+                        <p className="font-semibold text-slate-800">{language === 'ru' ? 'Группировка линий' : language === 'en' ? 'Irrigation lines' : 'Групиране на линиите'}</p>
+                        <ul className="mt-2 space-y-1 text-slate-600">
+                          {layoutResult.zones.map((zone: { id: string; arcDeg: number; sprinklerCount: number; maximumHeads: number }) => (
+                            <li key={zone.id}>{zone.id}: {zone.arcDeg}° · {zone.sprinklerCount}/{zone.maximumHeads}</li>
+                          ))}
+                        </ul>
+                      </div>}
                       <details className="mt-3 rounded-xl bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
