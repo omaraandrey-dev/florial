@@ -375,7 +375,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       <p className="mt-2 text-sm leading-6 text-slate-700">{layoutResult.status === 'layout_generated' ? layoutLabels.generated : layoutLabels.incomplete}</p>
                       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.heads}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.sprinklers?.length ?? 0}</dd></div>
-                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.totalFlow}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{numberFormat(layoutResult.layout?.totalFlowLpm ?? 0)}</dd></div>
+                        
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.coverage}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{numberFormat(layoutResult.layout?.coverage?.coveragePercent ?? 0)}%</dd></div>
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.uncovered}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverage?.uncoveredPoints ?? 0}</dd></div>
                       </dl>
@@ -412,7 +412,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                         <p className="mt-2 text-xs leading-5 text-slate-600">{(layoutResult.operatingScenario?.family === 'HE-VAN' ? layoutLabels.hevanScenarioNote : layoutLabels.rvanScenarioNote)}</p>
                       </div>
                       {layoutResult.zones?.length > 0 && <div className="mt-3 rounded-xl bg-white p-3 text-sm">
-                        <p className="font-semibold text-slate-800">{language === 'ru' ? 'Группировка линий' : language === 'en' ? 'Irrigation lines' : 'Групиране на линиите'}</p>
+                        <p className="font-semibold text-slate-800">{language === 'ru' ? 'Зоны полива' : language === 'en' ? 'Irrigation zones' : 'Зони за напояване'}</p>
                         <ul className="mt-2 space-y-1 text-slate-600">
                           {layoutResult.zones.map((zone: { id: string; zoneNumber: number; sprinklerCount: number }) => (
                             <li key={zone.id}>{language === 'ru' ? 'Зона' : language === 'en' ? 'Zone' : 'Зона'} {zone.zoneNumber} · {zone.sprinklerCount}</li>
