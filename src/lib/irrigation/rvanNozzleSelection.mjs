@@ -1,3 +1,5 @@
+import { findRainBirdRvanPerformancePoint } from './rainBirdRvanPerformanceData.mjs'
+
 const CIRCULAR_MODEL_RANGES = Object.freeze({
   'R-VAN14': Object.freeze({ minRadiusM: 2.4, maxRadiusM: 4.6, fullCircleModel: 'R-VAN14-360' }),
   'R-VAN18': Object.freeze({ minRadiusM: 4.0, maxRadiusM: 5.5, fullCircleModel: 'R-VAN18-360' }),
@@ -15,24 +17,36 @@ export function getRvanRadiusRange(model) {
   return CIRCULAR_MODEL_RANGES[model] ?? null
 }
 
+function exactPerformanceModel(model, arcDeg) {
+  return arcDeg === 360 ? model + '-360' : model
+}
+
+function nominalRadiusAtPressure(model, pressureBar, arcDeg) {
+  const point = findRainBirdRvanPerformancePoint(exactPerformanceModel(model, arcDeg), pressureBar, arcDeg)
+  return point?.radiusM ?? null
+}
+
 /**
- * Keeps the requested model when possible and clamps only to its published
- * radius envelope. The caller must surface a warning when the requested
- * radius is outside the model range; no interpolation of flow/precipitation
- * is performed here.
+ * Clamps the requested geometric radius to the model's minimum and the exact
+ * manufacturer radius at the selected pressure/arc. It does not extrapolate
+ * beyond the pressure-specific performance row.
  */
-export function resolveRvanRadius(model, requestedRadiusM) {
+export function resolveRvanRadius(model, requestedRadiusM, pressureBar = 3.1, arcDeg = 180) {
   const range = getRvanRadiusRange(model)
-  if (!range || !Number.isFinite(requestedRadiusM) || requestedRadiusM <= 0) return null
-  const radiusM = Math.min(range.maxRadiusM, Math.max(range.minRadiusM, requestedRadiusM))
+  const nominalRadiusM = nominalRadiusAtPressure(model, pressureBar, arcDeg)
+  if (!range || !Number.isFinite(requestedRadiusM) || requestedRadiusM <= 0 || !Number.isFinite(nominalRadiusM)) return null
+  const radiusM = Math.min(nominalRadiusM, Math.max(range.minRadiusM, requestedRadiusM))
   return Object.freeze({
     model,
     requestedRadiusM,
     radiusM,
-    adjusted: Math.abs(radiusM - requestedRadiusM) > 1e-8,
-    withinManufacturerRange: requestedRadiusM >= range.minRadiusM && requestedRadiusM <= range.maxRadiusM,
+    adjusted: Math.abs(radiusM - nominalRadiusM) > 1e-8,
+    withinManufacturerRange: requestedRadiusM >= range.minRadiusM && requestedRadiusM <= nominalRadiusM,
     minRadiusM: range.minRadiusM,
-    maxRadiusM: range.maxRadiusM,
+    maxRadiusM: nominalRadiusM,
+    nominalRadiusM,
+    pressureBar,
+    arcDeg,
     performanceFlowStatus: 'nominal_table_point_only',
   })
 }
@@ -43,18 +57,16 @@ export function resolveRvanRadius(model, requestedRadiusM) {
  * one layout cluster to retain a consistent model while other local zones
  * can select a different R-VAN model.
  */
-export function selectRvanModelForRadius(requiredRadiusM, preferredModel = null) {
+export function selectRvanModelForRadius(requiredRadiusM, preferredModel = null, pressureBar = 3.1, arcDeg = 180) {
   if (!Number.isFinite(requiredRadiusM) || requiredRadiusM <= 0) return null
-  if (preferredModel && getRvanRadiusRange(preferredModel)) {
-    const preferred = getRvanRadiusRange(preferredModel)
-    if (requiredRadiusM >= preferred.minRadiusM && requiredRadiusM <= preferred.maxRadiusM) {
-      return preferredModel
-    }
+  const supports = (model) => {
+    const range = getRvanRadiusRange(model)
+    const nominalRadiusM = nominalRadiusAtPressure(model, pressureBar, arcDeg)
+    return Boolean(range && Number.isFinite(nominalRadiusM) &&
+      requiredRadiusM >= range.minRadiusM && requiredRadiusM <= nominalRadiusM)
   }
-  return ['R-VAN14', 'R-VAN18', 'R-VAN24'].find((model) => {
-    const range = CIRCULAR_MODEL_RANGES[model]
-    return requiredRadiusM >= range.minRadiusM && requiredRadiusM <= range.maxRadiusM
-  }) ?? null
+  if (preferredModel && supports(preferredModel)) return preferredModel
+  return ['R-VAN14', 'R-VAN18', 'R-VAN24'].find(supports) ?? null
 }
 
 export function getRvanStripSpecification(model) {
