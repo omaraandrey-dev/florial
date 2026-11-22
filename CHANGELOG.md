@@ -1,3 +1,16 @@
+## 2026-11-22 — Irrigation assistant: R-VAN mixed-radius and strip-nozzle redesign (branch in progress)
+
+- Branch `feat/irrigation-rvan-mixed-radius-strip-layout` started from current `main`.
+- Removed the customer checkbox claiming dimensions were measured. Valid entered geometry is automatically accepted as approximate customer input; the interface still distinguishes this from engineering approval.
+- Circular layout now uses R-VAN only. It places corners/perimeter positions first, adds orthogonal internal rows when the selected 180° throw requires them, and derives per-head radius from adjacent geometry. Rectangular lawns retain one selected R-VAN model; L-shape candidates may mix R-VAN14/18/24 by local spacing.
+- Added pressure-specific radius clamping against exact Rain Bird table points. When an internal row is required, grid spacing also respects the exact 360° full-circle throw. Adjusted-radius flow/precipitation remain nominal table values and are explicitly flagged.
+- Added a dedicated rectangular strip solver for R-VAN-LCS/RCS/SST using manufacturer footprints, exact 3.1 bar table dimensions/flows, sampled coverage and a 50% overlap check. 1–2 m widths are routed here; dimensions requiring adjustment are flagged for field verification. Narrow L-shaped strip decomposition remains unsupported and returns engineer review.
+- Added tests for automatic geometry acceptance, per-head R-VAN selection/radius, 10 × 5 m perimeter-only layout, 20 × 10 m R-VAN24 internal row, and horizontal/vertical strip layouts.
+- Cloudflare Pages Preview build on the exact code commit is still in progress. Full Node test suite has not run in CI because no PR was opened. The branch is not merged; no Production deployment, Sanity, D1, Cloudflare settings/secrets, Resend or Production data changed.
+- Audit: `docs/audits/2026-11-22-irrigation-rvan-mixed-radius-strip-layout.md`.
+
+---
+
 ## 2026-11-22 — Storefront: plant product page UX refinement (PR pending)
 
 - `src/pages/ProductPage.tsx`: clearer plant title/intro and purchase hierarchy; confirmed foliage/Black Sea suitability highlights; consolidated sale-variant dimensions into the purchase panel; separated key characteristics from growing conditions; collapsible care guide; mobile sticky add-to-cart action after the original controls scroll out of view.
