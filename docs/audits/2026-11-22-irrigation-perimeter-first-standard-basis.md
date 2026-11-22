@@ -125,6 +125,7 @@ Added `src/lib/irrigation/irrigationBillOfMaterials.mjs` to create a determinist
 - Two SBE-050 elbows (A46010) per sprinkler.
 - One metre of SPX-FLEX per sprinkler; catalogue product A82060 is sold as a 30 m coil, so cart quantity is rounded up to complete coils.
 - Per zone: one Rain Bird 100-HV valve (H01000), two 25 × 1-inch male compression adapters (IQ21120M0N25D), one smallest valve box Rain Bird VBA02672, and one 25 × ½-inch female-thread elbow (IQ21820F0N25B) for the last sprinkler.
+- The published VBA02672 product record confirms it is the smallest valve box in the current Florial catalogue search: 160 mm lid diameter, 200 mm base diameter, 236.5 mm height; it is described for one valve. The BOM therefore uses one box per valve.
 - Per zone, all other sprinklers use the corrected 25 × ½-inch female-thread tee (IQ21520F0N25C), one per non-terminal head.
 - Between zones: one 25 mm equal tee (IQ2142000N250) for each additional valve connection; quantity = zone count − 1.
 
