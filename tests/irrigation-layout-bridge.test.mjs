@@ -113,8 +113,9 @@ test('20x10 lawn adds a longitudinal R-VAN24 internal row and adjusts radius to 
   const result = buildPreliminaryLawnLayout(snapshotFor({ length: 20, width: 10 }))
   assert.equal(result.operatingScenario?.model, 'R-VAN24')
   const internal = result.layout?.sprinklers.filter((sprinkler) => sprinkler.source === 'interior_row') ?? []
-  assert.equal(internal.length, 2)
+  assert.equal(internal.length, 3)
   assert.ok(internal.every((sprinkler) => Math.abs(sprinkler.position.y - 5) < 0.01))
+  assert.deepEqual(internal.map((sprinkler) => Math.round(sprinkler.position.x)), [5, 10, 15])
   assert.ok(internal.every((sprinkler) => sprinkler.performanceModel === 'R-VAN24-360'))
   assert.deepEqual(result.layout?.modelsUsed, ['R-VAN24'])
   assert.ok(result.layout?.sprinklers.every((sprinkler) => sprinkler.radiusM >= 5.2 && sprinkler.radiusM <= 7.3))
@@ -132,9 +133,12 @@ test('source dynamic pressure is not silently treated as nozzle operating pressu
 test('validates the provisional R-VAN model-selection boundaries and solves both supported bands', () => {
   const cases = [
     { width: 4.0, expectedModel: 'R-VAN14' },
-    { width: 4.6, expectedModel: 'R-VAN14' },
-    { width: 4.6001, expectedModel: 'R-VAN18' },
-    { width: 5.5, expectedModel: 'R-VAN18' },
+    { width: 4.3, expectedModel: 'R-VAN14' },
+    { width: 4.3001, expectedModel: 'R-VAN18' },
+    { width: 4.6, expectedModel: 'R-VAN18' },
+    { width: 5.2, expectedModel: 'R-VAN18' },
+    { width: 5.2001, expectedModel: 'R-VAN24' },
+    { width: 5.5, expectedModel: 'R-VAN24' },
   ]
 
   for (const { width, expectedModel } of cases) {
