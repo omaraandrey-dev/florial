@@ -75,6 +75,84 @@ test('rejects project snapshots when the BOM does not match submitted order quan
   assert.equal(result.reason, 'project_bom_does_not_match_order')
 })
 
+test('persists manual automation without adding valve products', () => {
+  const project = snapshot()
+  project.automation = { type: 'manual', controllers: [], valve: null, requiresControlCable: false, wifiRequired: false }
+  const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
+  assert.equal(result.valid, true)
+  assert.equal(result.snapshot.automation.type, 'manual')
+  assert.equal(result.snapshot.automation.controllers.length, 0)
+})
+
+test('persists BAT controller allocation and the 9V PGA valve with server-resolved prices', () => {
+  const project = snapshot()
+  project.billOfMaterials.items.push(
+    { sku: 'ESP-BAT-BT2', quantity: 1, name: 'ESP-BAT-BT, 2 zones' },
+    { sku: 'B31440', quantity: 2, name: 'Rain Bird 100-PGA-9V' },
+  )
+  project.automation = {
+    type: 'bat',
+    controllers: [{ sku: 'ESP-BAT-BT2', capacity: 2, quantity: 1, zoneNumbers: [1, 2], name: 'ESP-BAT-BT, 2 zones' }],
+    valve: { sku: 'B31440', quantity: 2, name: 'Rain Bird 100-PGA-9V' },
+    requiresControlCable: false,
+    wifiRequired: false,
+  }
+  const items = [
+    ...orderItems,
+    { sku: 'ESP-BAT-BT2', qty: 1, name: 'ESP-BAT-BT, 2 zones', price: 200.59 },
+    { sku: 'B31440', qty: 2, name: 'Rain Bird 100-PGA-9V', price: 141.27 },
+  ]
+  const result = validateIrrigationProjectSnapshot({ ...project, orderItems: items })
+  assert.equal(result.valid, true)
+  assert.equal(result.snapshot.automation.valve.sku, 'B31440')
+  assert.equal(result.snapshot.automation.valve.priceEUR, 141.27)
+  assert.equal(result.snapshot.automation.totalPriceEUR, 483.13)
+  assert.equal(result.snapshot.billOfMaterials.items.find((item) => item.sku === 'B31440').priceEUR, 141.27)
+})
+
+test('rejects BAT projects that retain the ordinary 24V valve or omit the 9V valve', () => {
+  const project = snapshot()
+  project.billOfMaterials.items.push({ sku: 'H01000', quantity: 2, name: '100-HV' })
+  project.automation = {
+    type: 'bat',
+    controllers: [{ sku: 'ESP-BAT-BT2', capacity: 2, quantity: 1, zoneNumbers: [1, 2] }],
+    valve: { sku: 'B31440', quantity: 2 },
+    requiresControlCable: false,
+    wifiRequired: false,
+  }
+  const result = validateIrrigationProjectSnapshot({
+    ...project,
+    orderItems: [...orderItems, { sku: 'H01000', qty: 2 }, { sku: 'ESP-BAT-BT2', qty: 1 }, { sku: 'B31440', qty: 2 }],
+  })
+  assert.equal(result.valid, false)
+  assert.equal(result.reason, 'invalid_bat_valve_compatibility')
+})
+
+test('persists wired TM2 selection with explicit cable requirement and server price', () => {
+  const project = snapshot()
+  project.billOfMaterials.items.push(
+    { sku: 'H01000', quantity: 2, name: 'Rain Bird 100-HV' },
+    { sku: 'F54224', quantity: 1, name: 'Rain Bird ESP-TM2 4 zones' },
+  )
+  project.automation = {
+    type: 'tm2',
+    controllers: [{ sku: 'F54224', capacity: 4, quantity: 1, zoneNumbers: [1, 2], name: 'Rain Bird ESP-TM2 4 zones' }],
+    valve: null,
+    requiresControlCable: true,
+    wifiRequired: false,
+  }
+  const items = [
+    ...orderItems,
+    { sku: 'H01000', qty: 2, name: 'Rain Bird 100-HV', price: 58.89 },
+    { sku: 'F54224', qty: 1, name: 'Rain Bird ESP-TM2 4 zones', price: 249.08 },
+  ]
+  const result = validateIrrigationProjectSnapshot({ ...project, orderItems: items })
+  assert.equal(result.valid, true)
+  assert.equal(result.snapshot.automation.requiresControlCable, true)
+  assert.equal(result.snapshot.automation.wifiRequired, false)
+  assert.equal(result.snapshot.automation.totalPriceEUR, 249.08)
+})
+
 test('rejects unbalanced zone partitions and zones above six heads', () => {
   const unbalanced = snapshot()
   unbalanced.zones[0].sprinklerIds = ['head-0','head-1','head-2','head-3','head-4']
@@ -121,7 +199,7 @@ test('irrigation project PDF contains the drawing, zone assignment, BOM and expl
   const pdf = await readFile(new URL('../functions/api/_lib/irrigation-project-pdf.ts', import.meta.url), 'utf8')
   assert.match(pdf, /ПРЕДВАРИТЕЛЕН ПРОЕКТ ЗА АВТОМАТИЧНО ПОЛИВАНЕ/)
   assert.match(pdf, /Схематични трасета на тръбите/)
-  assert.match(pdf, /Ведомост на материалите/)
+  assert.match(pdf, /Автоматика и управление/)\n  assert.match(pdf, /Ведомост на материалите/)
   assert.match(pdf, /Въведени от клиента/)
   assert.match(pdf, /drawRoute\(branch\.points/)
   assert.match(pdf, /item\.name \+ ' · ' \+ item\.sku/)

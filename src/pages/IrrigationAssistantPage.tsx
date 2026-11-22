@@ -10,6 +10,7 @@ import { validateLawnGeometry } from '../lib/irrigation/lawnGeometry.mjs'
 import { buildIrrigationIntakeSnapshot, evaluateIrrigationIntake } from '../lib/irrigation/irrigationIntake.mjs'
 import { buildPreliminaryLawnLayout } from '../lib/irrigation/irrigationLayoutBridge.mjs'
 import { buildIrrigationBillOfMaterials } from '../lib/irrigation/irrigationBillOfMaterials.mjs'
+import { buildIrrigationAutomationBillOfMaterials, buildIrrigationAutomationPlan, IRRIGATION_AUTOMATION_PRODUCT_SKUS } from '../lib/irrigation/irrigationAutomation.mjs'
 
 interface IrrigationAssistantPageProps {
   onNavigateHome: () => void
@@ -30,6 +31,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   const [catalogProducts, setCatalogProducts] = useState<Record<string, Product>>({})
   const [catalogLoading, setCatalogLoading] = useState(false)
   const [catalogError, setCatalogError] = useState('')
+  const [showAutomationChoice, setShowAutomationChoice] = useState(false)
+  const [automationChoice, setAutomationChoice] = useState<'manual' | 'tm2' | 'rc2' | 'bat' | null>(null)
   const formRef = useRef<HTMLDivElement>(null)
   const summaryRef = useRef<HTMLDivElement>(null)
   const hasMountedRef = useRef(false)
@@ -196,20 +199,37 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       ? buildIrrigationBillOfMaterials(layoutResult.layout, layoutResult.zones)
       : null,
   [layoutResult])
+  const automationOptions = useMemo(() => {
+    if (!billOfMaterials?.valid) return []
+    return (['manual', 'tm2', 'rc2', 'bat'] as const).map((type) => {
+      const plan = buildIrrigationAutomationPlan(type, billOfMaterials.zoneCount)
+      const lines = [...plan.controllers, ...(plan.valve ? [plan.valve] : [])]
+      const products = lines.map((line) => ({ ...line, product: catalogProducts[line.sku] }))
+      const missing = products.some(({ product }) => !product || typeof product.priceEUR !== 'number' || !Number.isFinite(product.priceEUR) || product.priceEUR < 0)
+      const totalPriceEUR = products.reduce((sum, line) => sum + (line.product?.priceEUR ?? 0) * line.quantity, 0)
+      return { type, plan, products, missing, totalPriceEUR }
+    })
+  }, [billOfMaterials, catalogProducts])
+  const selectedAutomationOption = automationOptions.find((option) => option.type === automationChoice) ?? null
+  const formatEuro = (value: number) => value.toLocaleString(language === 'ru' ? 'ru-RU' : language === 'en' ? 'en-GB' : 'bg-BG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'
+  const localizedProductName = (product: Product) => language === 'ru'
+    ? product.translations?.ru?.name || product.name
+    : language === 'en' ? product.translations?.en?.name || product.name : product.translations?.bg?.name || product.name
 
   useEffect(() => {
     if (!billOfMaterials?.valid) return
     let cancelled = false
     setCatalogLoading(true)
     setCatalogError('')
-    const skus = billOfMaterials.items.map((item: { sku: string }) => item.sku)
+    const baseSkus = billOfMaterials.items.map((item: { sku: string }) => item.sku)
+    const skus = [...new Set([...baseSkus, ...IRRIGATION_AUTOMATION_PRODUCT_SKUS])]
     sanityLiveClient.fetch(
       `*[_type == "product" && sku in $skus && isActive != false]{
         _id, name, sku, priceEUR, stockStatus, vatIncluded, weightKg, translations { bg { name }, ru { name }, en { name } },
         "productType": "equipment",
         "slug": { "current": coalesce(slug.current, slug) },
         "brand": brand->name,
-        "imageUrl": mainImage.asset->url,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
         "imageAlt": mainImage.alt,
         "imageAltEn": mainImage.altEn,
         "imageAltRu": mainImage.altRu
@@ -220,7 +240,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       const bySku: Record<string, Product> = {}
       for (const product of records ?? []) if (product.sku) bySku[product.sku] = product
       setCatalogProducts(bySku)
-      const missing = skus.filter((sku: string) => !bySku[sku])
+      const missing = baseSkus.filter((sku: string) => !bySku[sku])
       if (missing.length) setCatalogError('missing_catalogue_products')
     }).catch(() => {
       if (!cancelled) setCatalogError('catalog_lookup_failed')
@@ -230,13 +250,16 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     return () => { cancelled = true }
   }, [billOfMaterials])
 
-  const addKitToCart = () => {
+  const addKitToCart = (type: 'manual' | 'tm2' | 'rc2' | 'bat') => {
     if (!billOfMaterials?.valid || catalogLoading || catalogError) return
-    const resolved = billOfMaterials.items.map((item: { sku: string; quantity: number }) => ({
+    const plan = buildIrrigationAutomationPlan(type, billOfMaterials.zoneCount)
+    const finalBom = buildIrrigationAutomationBillOfMaterials(billOfMaterials, plan)
+    const resolved = finalBom.items.map((item: { sku: string; quantity: number }) => ({
+      sku: item.sku,
       product: catalogProducts[item.sku],
       quantity: item.quantity,
     }))
-    if (resolved.some((item: { product?: Product; quantity: number }) => !item.product)) {
+    if (resolved.some((item: { product?: Product; quantity: number }) => !item.product || typeof item.product.priceEUR !== 'number' || !Number.isFinite(item.product.priceEUR) || item.product.priceEUR < 0)) {
       setCatalogError('missing_catalogue_products')
       return
     }
@@ -290,15 +313,19 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
           lateralConnections: branch.lateralConnections,
         })),
       } : null,
+      automation: {
+        type,
+        controllers: plan.controllers.map((controller) => ({ ...controller, name: catalogProducts[controller.sku]?.name || controller.sku, priceEUR: catalogProducts[controller.sku]?.priceEUR ?? null })),
+        valve: plan.valve ? { ...plan.valve, name: catalogProducts[plan.valve.sku]?.name || plan.valve.sku, priceEUR: catalogProducts[plan.valve.sku]?.priceEUR ?? null } : null,
+        requiresControlCable: plan.requiresControlCable,
+        wifiRequired: plan.wifiRequired,
+      },
       billOfMaterials: {
         headCount: billOfMaterials.headCount,
         zoneCount: billOfMaterials.zoneCount,
         flexPipeRequiredM: billOfMaterials.flexPipeRequiredM,
         flexPipeCoils30m: billOfMaterials.flexPipeCoils30m,
-        items: billOfMaterials.items.map((item: { sku: string; quantity: number }) => ({
-          ...item,
-          name: catalogProducts[item.sku]?.name || item.sku,
-        })),
+        items: finalBom.items.map((item: { sku: string; quantity: number }) => ({ ...item, name: catalogProducts[item.sku]?.name || item.sku, priceEUR: catalogProducts[item.sku]?.priceEUR ?? null })),
       },
       warnings: layoutResult?.warnings ?? [],
     } satisfies IrrigationProjectSnapshot
@@ -571,20 +598,67 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                     {billOfMaterials.headCount} {language === 'ru' ? 'дождевателей' : language === 'en' ? 'sprinklers' : 'разпръсквача'} · {billOfMaterials.zoneCount} {language === 'ru' ? 'зоны' : language === 'en' ? 'zones' : 'зони'} · {billOfMaterials.flexPipeRequiredM} {language === 'ru' ? 'м гибкой трубы; продаётся бухтами по 30 м' : language === 'en' ? 'm of flex pipe; sold in 30 m coils' : 'm гъвкава тръба; продава се на ролки по 30 m'}
                   </p>
                   <p className="mt-1 text-xs text-emerald-800">
-                    {language === 'ru' ? 'В комплект входят подобранные форсунки, корпуса 1804, гибкие соединения, фитинги, клапаны 100-HV и клапанные колодцы.' : language === 'en' ? 'Includes selected nozzles, 1804 bodies, flexible connections, fittings, 100-HV valves and valve boxes.' : 'Включва избраните дюзи, тела 1804, гъвкави връзки, фитинги, клапани 100-HV и шахти за клапани.'}
+                    {language === 'ru' ? 'В комплект входят подобранные форсунки, корпуса 1804, гибкие соединения и фитинги. Тип клапанов и автоматики выберете на следующем шаге.' : language === 'en' ? 'Includes selected nozzles, 1804 bodies, flexible connections and fittings. Choose the valve and controller arrangement in the next step.' : 'Включва избрани дюзи, тела 1804, гъвкави връзки и фитинги. Изберете вида клапани и управление на следващата стъпка.'}
                   </p>
                   <button
                     type="button"
-                    onClick={addKitToCart}
+                    onClick={() => setShowAutomationChoice(true)}
                     disabled={catalogLoading || Boolean(catalogError)}
                     className="mt-3 rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {catalogLoading
                       ? (language === 'ru' ? 'Проверяем товары…' : language === 'en' ? 'Checking products…' : 'Проверка на продуктите…')
-                      : (language === 'ru' ? 'Добавить комплект в корзину' : language === 'en' ? 'Add complete kit to cart' : 'Добави комплекта в количката')}
+                      : (language === 'ru' ? 'Выбрать автоматику и продолжить' : language === 'en' ? 'Choose automation and continue' : 'Изберете управление и продължете')}
                   </button>
                   {catalogError && <p role="alert" className="mt-2 text-xs font-medium text-red-700">{language === 'ru' ? 'Не удалось загрузить полный комплект из каталога. Пожалуйста, свяжитесь с Florial.' : language === 'en' ? 'The complete kit could not be loaded from the catalogue. Please contact Florial.' : 'Пълният комплект не може да бъде зареден от каталога. Моля, свържете се с Florial.'}</p>}
                 </div>
+              )}
+              {showAutomationChoice && billOfMaterials?.valid && (
+                <section className="rounded-2xl border border-sky-200 bg-sky-50/60 p-4" aria-labelledby="irrigation-automation-title">
+                  <h3 id="irrigation-automation-title" className="text-lg font-bold text-slate-900">{language === 'ru' ? 'Как вы хотите управлять поливом?' : language === 'en' ? 'How would you like to control irrigation?' : 'Как желаете да управлявате напояването?'}</h3>
+                  <p className="mt-1 text-sm leading-6 text-slate-600">{language === 'ru' ? 'Подобрали автоматику по количеству зон. Перед добавлением покажем реальные товары из каталога и их стоимость.' : language === 'en' ? 'The controller configuration is based on the number of zones. Review the actual catalogue products and prices before adding the kit.' : 'Автоматиката е подбрана според броя зони. Преди добавяне ще видите реалните продукти от каталога и техните цени.'}</p>
+                  <div className="mt-4 grid gap-3">
+                    {automationOptions.map((option) => {
+                      const labels = {
+                        manual: language === 'ru' ? 'Ручное управление кранами' : language === 'en' ? 'Manual valve operation' : 'Ръчно управление с кранове',
+                        tm2: 'Rain Bird ESP-TM2', rc2: 'Rain Bird ESP-RC2 Wi-Fi', bat: 'Rain Bird ESP-BAT-BT',
+                      }
+                      const descriptions = {
+                        manual: language === 'ru' ? 'Полив включается и выключается вручную. Клапаны в корзину не добавляются.' : language === 'en' ? 'Open and close irrigation manually. No solenoid valves are added to the cart.' : 'Напояването се включва и спира ръчно. В количката не се добавят електромагнитни клапани.',
+                        tm2: language === 'ru' ? 'Проводной контроллер, внешний монтаж. Нужен управляющий кабель от контроллера до клапанов.' : language === 'en' ? 'Wired controller for outdoor installation. A control cable must be routed from the controller to the valves.' : 'Кабелен контролер за външен монтаж. Необходимо е полагане на управляващ кабел от контролера до клапаните.',
+                        rc2: language === 'ru' ? 'Wi-Fi контроллер, внутренний монтаж. Нужны стабильный Wi-Fi и кабель от контроллера до клапанов.' : language === 'en' ? 'Wi-Fi controller for indoor installation. Stable Wi-Fi and a cable from the controller to the valves are required.' : 'Wi-Fi контролер за вътрешен монтаж. Необходими са стабилен Wi-Fi сигнал и кабел от контролера до клапаните.',
+                        bat: language === 'ru' ? 'Автономный Bluetooth-контроллер на батарейках. Для каждой зоны подбирается клапан с совместимым фиксирующим соленоидом 9 V DC.' : language === 'en' ? 'Battery-powered Bluetooth controller. Each zone is paired with a valve fitted with a compatible 9 V DC latching solenoid.' : 'Автономен Bluetooth контролер на батерии. За всяка зона се избира клапан със съвместим фиксиращ соленоид 9 V DC.',
+                      }
+                      return (
+                        <div key={option.type} className={'rounded-xl border bg-white p-3 ' + (automationChoice === option.type ? 'border-sky-500 ring-2 ring-sky-100' : 'border-slate-200')}>
+                          <button type="button" aria-pressed={automationChoice === option.type} onClick={() => setAutomationChoice(option.type)} className="flex w-full items-start justify-between gap-3 text-left">
+                            <span className="min-w-0"><span className="block font-bold text-slate-900">{labels[option.type]}</span><span className="mt-1 block text-sm leading-5 text-slate-600">{descriptions[option.type]}</span></span>
+                            <span className={'mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs ' + (automationChoice === option.type ? 'border-sky-600 bg-sky-600 text-white' : 'border-slate-300 text-transparent')}>✓</span>
+                          </button>
+                          {option.products.length > 0 && <div className="mt-3 space-y-2">
+                            {option.products.map((line, index) => (
+                              <div key={line.sku + '-' + index} className="flex items-center gap-3 rounded-lg bg-slate-50 p-2">
+                                <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white">
+                                  {line.product?.imageUrl ? <img src={line.product.imageUrl} alt={localizedProductName(line.product)} className="h-full w-full object-contain p-1" /> : <span className="text-[10px] text-slate-400">{language === 'ru' ? 'Нет фото' : language === 'en' ? 'No image' : 'Няма снимка'}</span>}
+                                </div>
+                                <div className="min-w-0 flex-1"><p className="text-sm font-semibold text-slate-800">{line.product ? localizedProductName(line.product) : line.sku}</p><p className="text-xs text-slate-500">{line.quantity} × {line.product?.priceEUR != null ? formatEuro(line.product.priceEUR) : '—'}{line.capacity ? ' · ' + (language === 'ru' ? 'ёмкость ' : language === 'en' ? 'capacity ' : 'капацитет ') + line.capacity + (language === 'ru' ? ' зон' : language === 'en' ? ' zones' : ' зони') + ' · ' + (language === 'ru' ? 'зоны ' : language === 'en' ? 'zones ' : 'зони ') + line.zoneNumbers.join(', ') : ''}</p><p className="text-sm font-bold text-slate-900">{line.product?.priceEUR != null ? formatEuro(line.product.priceEUR * line.quantity) : '—'}</p></div>
+                              </div>
+                            ))}
+                          </div>}
+                          {option.type === 'tm2' && <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900">{language === 'ru' ? 'Важно: требуется прокладка управляющего кабеля от контроллера до электромагнитных клапанов. Работы по прокладке кабеля рассчитываются отдельно.' : language === 'en' ? 'Important: a control cable must be routed from the controller to the solenoid valves. Cable installation is charged separately.' : 'Важно: необходимо полагане на управляващ кабел от контролера до електромагнитните клапани. Полагането на кабела се калкулира отделно.'}</p>}
+                          {option.type === 'rc2' && <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900">{language === 'ru' ? 'Важно: требуется стабильный сигнал Wi-Fi в месте установки и прокладка управляющего кабеля от контроллера до электромагнитных клапанов. Работы по кабелю рассчитываются отдельно.' : language === 'en' ? 'Important: stable Wi-Fi is required at the installation point, as well as a control cable from the controller to the solenoid valves. Cable installation is charged separately.' : 'Важно: необходим е стабилен Wi-Fi сигнал на мястото на монтаж и полагане на управляващ кабел от контролера до електромагнитните клапани. Работата по кабела се калкулира отделно.'}</p>}
+                          {option.type === 'bat' && <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs leading-5 text-amber-900">{language === 'ru' ? 'Для BAT подобраны клапаны Rain Bird 100-PGA-9V с бистабильным соленоидом 9 V DC. Обычный 100-HV-9V для ESP-BAT-BT не подходит.' : language === 'en' ? 'BAT uses Rain Bird 100-PGA-9V valves with a 9 V DC latching solenoid. The standard 100-HV-9V is not compatible with ESP-BAT-BT.' : 'За BAT са избрани клапани Rain Bird 100-PGA-9V с фиксиращ соленоид 9 V DC. Стандартният 100-HV-9V не е съвместим с ESP-BAT-BT.'}</p>}
+                          <p className="mt-3 text-sm font-bold text-slate-900">{language === 'ru' ? 'Стоимость автоматики:' : language === 'en' ? 'Automation total:' : 'Обща стойност на автоматиката:'} {option.missing ? (language === 'ru' ? 'Нет полного товара в каталоге' : language === 'en' ? 'Catalogue item unavailable' : 'Липсва продукт в каталога') : formatEuro(option.totalPriceEUR)}</p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                  {selectedAutomationOption && <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                    <p className="text-sm text-slate-600">{language === 'ru' ? 'Выбрано:' : language === 'en' ? 'Selected:' : 'Избрано:'} <strong>{selectedAutomationOption.type.toUpperCase()}</strong></p>
+                    <button type="button" onClick={() => addKitToCart(selectedAutomationOption.type)} disabled={catalogLoading || Boolean(catalogError) || selectedAutomationOption.missing} className="rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50">{language === 'ru' ? 'Добавить выбранный комплект в корзину' : language === 'en' ? 'Add selected kit to cart' : 'Добави избрания комплект в количката'}</button>
+                  </div>}
+                  <button type="button" onClick={() => { setShowAutomationChoice(false); setAutomationChoice(null) }} className="mt-3 text-sm font-semibold text-slate-600 underline">{language === 'ru' ? 'Назад к комплекту' : language === 'en' ? 'Back to the kit' : 'Назад към комплекта'}</button>
+                </section>
               )}
               <div className="flex flex-wrap gap-3">
                 <button type="button" onClick={() => setShowSummary(false)} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">{copy.edit}</button>
