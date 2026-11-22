@@ -223,10 +223,10 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const numberFormat = (value: number) => value.toLocaleString(locale, { maximumFractionDigits: 2 })
   const layoutLabels = language === 'ru' ? {
     title: 'Предварительная геометрическая раскладка', candidate: 'Кандидат по таблице производителя',
-    heads: 'Количество дождевателей', totalFlow: 'Суммарный расход по таблице, л/мин',
+    heads: 'Количество дождевателей', totalFlow: 'Номинальный расход по таблице, л/мин',
     coverage: 'Выборочное геометрическое покрытие', uncovered: 'Непокрытых контрольных точек',
     positions: 'Координаты дождевателей, м',
-    rvanScenarioNote: '3,1 бар — рекомендованная рабочая точка R-VAN по таблице Rain Bird. Это сценарий производителя, а не измеренное давление на сопле.',
+    rvanScenarioNote: '3,1 бар — рекомендованная рабочая точка R-VAN. Радиус подбирается отдельно для каждой позиции в пределах модели; расход показывается по номинальной точке таблицы и не пересчитывается для произвольной регулировки радиуса.',
     hevanScenarioNote: 'Для HE-VAN использована точка таблицы 2,07 бар, ближайшая к указанному Rain Bird оптимуму 2,1 бар. Это сценарий производителя, а не измеренное давление на сопле.',
     limits: 'Выбор семейства и модели по короткой стороне — предварительное правило для кандидата и требует инженерной проверки. Используются отдельные таблицы R-VAN и HE-VAN. Гидравлика, потери в трубах, зонирование, совместимость корпуса и форсунки, препятствия и перелив за границы участка не проверены. Это не готовая спецификация оборудования.',
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
@@ -237,10 +237,10 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания',
   } : language === 'en' ? {
     title: 'Preliminary geometric sprinkler layout', candidate: 'Manufacturer-table candidate',
-    heads: 'Sprinkler count', totalFlow: 'Total tabulated flow, L/min',
+    heads: 'Sprinkler count', totalFlow: 'Nominal tabulated flow, L/min',
     coverage: 'Sampled geometric coverage', uncovered: 'Uncovered sample points',
     positions: 'Sprinkler coordinates, m',
-    rvanScenarioNote: '3.1 bar is the Rain Bird R-VAN recommended operating point. This is a manufacturer scenario, not measured pressure at the nozzle.',
+    rvanScenarioNote: '3.1 bar is the Rain Bird R-VAN recommended operating point. Radius is selected per position within the model range; displayed flow remains the nominal manufacturer-table value and is not recalculated for an arbitrary radius setting.',
     hevanScenarioNote: 'The HE-VAN table point 2.07 bar is used as the closest exact point to Rain Bird’s 2.1 bar optimum. This is a manufacturer scenario, not measured nozzle pressure.',
     limits: 'Family and model selection from the shorter side is a provisional candidate rule requiring engineering review. Separate R-VAN and HE-VAN manufacturer tables are used. Hydraulics, pipe losses, zoning, body/nozzle compatibility, obstacles and overspray beyond the lawn boundary have not been evaluated. This is not a purchasable equipment specification.',
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
@@ -484,8 +484,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       <details className="mt-3 rounded-xl bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
-                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number }) => (
-                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.arcDeg}°</li>
+                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; model: string; radiusM: number; position: { x: number; y: number }; arcDeg: number }) => (
+                            <li key={sprinkler.id}>{sprinkler.id}: {sprinkler.model} · R {numberFormat(sprinkler.radiusM)} m · X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.arcDeg}°</li>
                           ))}
                         </ol>
                       </details>
