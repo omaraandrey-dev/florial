@@ -56,12 +56,12 @@ test('25x5 and 26x5 reference lawns create two six-head zones with source-fed Ø
   }
 })
 
-test('30x5 lawn keeps the first six sequential perimeter heads together', () => {
+test('30x5 lawn balances all perimeter and interior heads across three zones', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(30, 5))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.model, 'R-VAN18')
   assert.equal(result.layout?.sprinklers?.length, 14)
-  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [6, 6, 2])
+  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [5, 5, 4])
   assert.equal(result.layout?.headToHead?.passed, true)
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.ok(result.pipeNetwork?.branches?.every((branch) => branch.sprinklerIds.length > 0))
@@ -98,7 +98,7 @@ test('20x15 uses an interior circular row when perimeter coverage alone is insuf
   assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
 })
 
-test('30x30 uses multiple interior rows of full-circle heads with complete sampled coverage', () => {
+test('30x30 uses multiple interior rows and permits mixed balanced zones', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(30, 30))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.model, 'R-VAN24')
@@ -109,15 +109,11 @@ test('30x30 uses multiple interior rows of full-circle heads with complete sampl
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
   assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
-  const perimeterZones = result.zones?.filter((zone) => zone.zoneType === 'perimeter') ?? []
-  const interiorZones = result.zones?.filter((zone) => zone.zoneType === 'interior') ?? []
-  assert.ok(perimeterZones.length > 0)
-  assert.ok(interiorZones.length > 0)
-  assert.ok(perimeterZones.every((zone) => zone.sprinklerCount <= 6))
-  assert.ok(interiorZones.every((zone) => zone.sprinklerCount <= 6))
-  assert.ok(result.zones?.every((zone) => zone.zoneType === 'perimeter' || zone.zoneType === 'interior'))
-  assert.ok(result.zones?.every((zone, index, zones) =>
-    index === 0 || (zones[index - 1].zoneType !== 'interior' || zone.zoneType === 'interior')))
+  const zoneSizes = result.zones?.map((zone) => zone.sprinklerCount) ?? []
+  assert.equal(result.zones?.length, Math.ceil((result.layout?.sprinklers?.length ?? 0) / 6))
+  assert.ok(Math.max(...zoneSizes) - Math.min(...zoneSizes) <= 1)
+  assert.ok(result.zones?.some((zone) => zone.zoneType === 'mixed'))
+  assert.ok(result.zones?.every((zone) => ['perimeter', 'interior', 'mixed'].includes(zone.zoneType)))
 })
 
 test('narrow strips do not fall back to circular R-VAN or HE-VAN nozzles', () => {
