@@ -72,19 +72,15 @@ test('confirmed orthogonal L-shape reaches the existing layout solver', () => {
   assert.equal(result.operatingScenario?.model, 'R-VAN18')
 })
 
-test('narrow geometry uses the separate HE-VAN manufacturer dataset', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor({ width: 3.5 }))
-  assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.family, 'HE-VAN')
-  assert.equal(result.operatingScenario?.model, 'HE-VAN-12')
-  assert.equal(result.operatingScenario?.pressureBar, 2.07)
-  assert.equal(result.operatingScenario?.actualNozzlePressureVerified, false)
-  assert.equal(result.operatingScenario?.customerSourceMeasurementsUsedAsNozzlePressure, false)
-  assert.equal(result.layout?.family, 'HE-VAN')
-  assert.equal(result.layout?.model, 'HE-VAN-12')
-  assert.equal(result.layout?.pressureBar, 2.07)
-  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
-  assert.equal(result.layout?.headToHead?.passed, true)
+test('narrow strip geometry returns R-VAN strip nozzle candidates instead of the fallback family', () => {
+  for (const width of [1, 1.5, 2]) {
+    const result = buildPreliminaryLawnLayout(snapshotFor({ width }))
+    assert.equal(result.status, 'strip_nozzle_layout_required')
+    assert.deepEqual(result.stripSpecifications.map((entry) => entry.model), ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'])
+    assert.equal(result.nominalStripWidthM, 1.5)
+    assert.equal(result.manufacturerSizeAdjustmentLimitsPublished, false)
+    assert.equal(result.layout, undefined)
+  }
 })
 
 test('unconfirmed geometry is never passed to the layout solver', () => {
@@ -93,12 +89,13 @@ test('unconfirmed geometry is never passed to the layout solver', () => {
   assert.equal(result.layout, undefined)
 })
 
-test('geometry outside the current R-VAN v1 envelope is not forced into a nozzle layout', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor({ width: 6 }))
-  assert.equal(result.status, 'requires_rotor_engine')
-  assert.equal(result.reason, 'requires_large_rotor_engine_or_engineer_review')
-  assert.equal(result.plannedNextFamily, 'Rain Bird 3500')
-  assert.equal(result.layout, undefined)
+test('wider geometry remains in the R-VAN family and selects R-VAN24 for a multi-row candidate', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor({ width: 10 }))
+  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
+  assert.equal(result.operatingScenario?.family, 'R-VAN')
+  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  assert.equal(result.operatingScenario?.requiresInternalRows, true)
+  assert.equal(result.layout?.family, 'R-VAN')
 })
 
 test('source dynamic pressure is not silently treated as nozzle operating pressure', () => {
@@ -131,24 +128,7 @@ test('validates the provisional R-VAN model-selection boundaries and solves both
   }
 })
 
-test('selects provisional HE-VAN model bands from the manufacturer spacing ranges', () => {
-  const cases = [
-    { width: 1.8, expectedModel: 'HE-VAN-8' },
-    { width: 2.4, expectedModel: 'HE-VAN-10' },
-    { width: 3.0, expectedModel: 'HE-VAN-12' },
-    { width: 3.7, expectedModel: 'HE-VAN-15' },
-    { width: 3.999, expectedModel: 'HE-VAN-15' },
-  ]
-  for (const { width, expectedModel } of cases) {
-    const result = buildPreliminaryLawnLayout(snapshotFor({ width }))
-    assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status), `HE-VAN candidate at ${width}m`)
-    assert.equal(result.operatingScenario?.family, 'HE-VAN')
-    assert.equal(result.operatingScenario?.model, expectedModel)
-    assert.equal(result.operatingScenario?.pressureBar, 2.07)
-    assert.equal(result.layout?.family, 'HE-VAN')
-    assert.equal(result.layout?.model, expectedModel)
-  }
-})
+test('narrow circular geometry below R-VAN14 range requires engineering review', () => {\n  const result = buildPreliminaryLawnLayout(snapshotFor({ width: 2.2 }))\n  assert.equal(result.status, 'short_side_below_supported_rvan_scope')\n  assert.equal(result.layout, undefined)\n})
 
 test('rejects geometry below HE-VAN spacing range and retains the R-VAN-to-3500 handoff', () => {
   const below = buildPreliminaryLawnLayout(snapshotFor({ width: 1.79 }))
