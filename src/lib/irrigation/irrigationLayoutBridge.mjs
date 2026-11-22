@@ -1,6 +1,7 @@
 import { generateLawnSprinklerLayout } from './lawnSprinklerLayout.mjs'
 import { RAIN_BIRD_RVAN_DATASET } from './rainBirdRvanPerformanceData.mjs'
 import { selectRvanModelForRadius, getRvanRadiusRange, getRvanStripSpecification } from './rvanNozzleSelection.mjs'
+import { generateRvanStripLayout } from './rvanStripLayout.mjs'
 
 function result(status, extra = {}) {
   return Object.freeze({
@@ -46,18 +47,42 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
-  // Strip products have rectangular spray patterns, not circular radii. Keep
-  // them out of the circular solver until their footprint/overlap engine is used.
+  // Strip products use dedicated rectangular footprints and overlap checks.
   if (shortSideM >= 1 && shortSideM <= 2) {
-    const stripSpecifications = ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST']
-      .map((model) => getRvanStripSpecification(model))
-    return result('strip_nozzle_layout_required', {
-      shortSideM,
-      stripSpecifications,
-      nominalStripWidthM: 1.5,
-      sizeAdjustmentRequired: Math.abs(shortSideM - 1.5) > 1e-8,
-      reason: 'strip_patterns_require_dedicated_footprint_and_overlap_solver',
-      manufacturerSizeAdjustmentLimitsPublished: false,
+    const pressureBar = RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar
+    const stripLayout = generateRvanStripLayout({ geometry, pressureBar, sampleStepM })
+    if (stripLayout.status === 'strip_geometry_not_supported' || stripLayout.status === 'strip_geometry_outside_scope') {
+      return result('strip_geometry_requires_engineer_review', {
+        shortSideM,
+        stripSpecifications: ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'].map((model) => getRvanStripSpecification(model)),
+        reason: stripLayout.reason ?? 'strip_geometry_outside_supported_dimensions',
+      })
+    }
+    if (stripLayout.status === 'strip_manufacturer_point_missing') {
+      return result('manufacturer_model_mapping_missing', { family: 'R-VAN', pressureBar })
+    }
+    return result(stripLayout.sizeAdjustmentRequired
+      ? 'strip_layout_requires_field_adjustment'
+      : stripLayout.status === 'coverage_complete_sampled' ? 'strip_layout_generated' : 'strip_layout_incomplete', {
+      engine: Object.freeze({ name: 'Florial R-VAN strip layout', version: stripLayout.engineVersion, algorithm: stripLayout.algorithm }),
+      operatingScenario: Object.freeze({
+        manufacturer: RAIN_BIRD_RVAN_DATASET.manufacturer,
+        family: 'R-VAN',
+        model: 'R-VAN strip',
+        modelsUsed: stripLayout.modelsUsed,
+        pressureBar,
+        pressureBasis: 'manufacturer_recommended_operating_pressure',
+        sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
+        actualNozzlePressureVerified: false,
+        customerSourceMeasurementsUsedAsNozzlePressure: false,
+      }),
+      geometry: Object.freeze({ shape: 'rectangle', areaM2: stripLayout.geometry.areaM2, shortSideM }),
+      layout: stripLayout,
+      warnings: Object.freeze([
+        ...stripLayout.warnings,
+        Object.freeze({ code: 'strip_nozzle_geometry_is_preliminary_and_requires_engineer_review', path: 'layout.sprinklers' }),
+        Object.freeze({ code: 'hydraulic_network_and_zone_feasibility_not_evaluated', path: 'hydraulics' }),
+      ]),
     })
   }
 
