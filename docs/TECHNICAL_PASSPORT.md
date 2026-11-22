@@ -1,3 +1,13 @@
+## 2026-11-22 — Storefront plant product page UX refinement (PR pending)
+
+- Branch: `feat/plant-product-page-ux`, based on main `dc971872b3672d41566565800524add90214bba2`.
+- `src/pages/ProductPage.tsx` updates plant-only storefront hierarchy: selected variant/price/stock emphasis, confirmed plant badges, consolidated sale-size details, grouped botanical characteristics, collapsible care guide and a mobile sticky cart action after the original controls scroll out of view.
+- `tests/plant-product-page-ux.test.mjs` adds source-level regression coverage. Equipment product rendering and SEO/JSON-LD/cart interfaces are intended to remain unchanged.
+- No Sanity, D1, Cloudflare configuration/secrets, Resend or Production data changed.
+- CI, Preview, Production deployment and authenticated visual QA are pending. Full scope: `docs/audits/2026-11-22-plant-product-page-ux.md`.
+
+---
+
 ## 2026-11-21 — Manager plant editor UX (PR pending)
 
 - Branch: `feat/manager-plant-editor-ux`, based on main `f4a16acc5d612e82b7ed8ea6892580292d68b264`.

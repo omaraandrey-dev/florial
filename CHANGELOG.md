@@ -1,3 +1,12 @@
+## 2026-11-22 — Storefront: plant product page UX refinement (PR pending)
+
+- `src/pages/ProductPage.tsx`: clearer plant title/intro and purchase hierarchy; confirmed foliage/Black Sea suitability highlights; consolidated sale-variant dimensions into the purchase panel; separated key characteristics from growing conditions; collapsible care guide; mobile sticky add-to-cart action after the original controls scroll out of view.
+- Added source-level regression tests in `tests/plant-product-page-ux.test.mjs`.
+- No Sanity, D1, Cloudflare configuration/secrets, Resend, order data, Header, navigation, Footer or Production data changed. No new botanical claims are generated; Black Sea suitability badges require an explicit confirmed status.
+- CI, Preview, Production deployment and authenticated visual QA remain pending. Audit: `docs/audits/2026-11-22-plant-product-page-ux.md`.
+
+---
+
 ## 2026-11-22 — Manager: подробная инструкция продавцу по кнопкам, проформам и статусам
 
 - Расширена русская и болгарская памятка `docs/manager/SELLER_ORDERS_QUICK_GUIDES.md`: описаны «Изтегли сметката», «Изпрати проформа + изтегли PDF», ожидание подтверждения наличности/окончательной суммы и кнопка окончательного подтверждения с отправкой проформы.
