@@ -30,6 +30,11 @@ https://www.rainbird.com/sites/default/files/media/documents/2025-10/026549_rb_r
 
 Performance data already present in `src/lib/irrigation/rainBirdRvanPerformanceData.mjs` includes all nine product/SKU bindings and exact points at 2.1, 2.4, 2.8, 3.1, 3.4 and 3.8 bar. Its circular arc coverage is currently only a subset of the manufacturer's complete chart. The engine must not assume that the current subset is the complete arc catalogue.
 
+Additional official pattern reference: Rain Bird *Landscape Solutions 2026–2027*, page 68:  
+https://www-app.rainbird.com/sites/default/files/media/documents/2026-08/2026-2027_golf_catalog.pdf
+
+The catalog diagrams show LCS as a corner-origin rectangular footprint, RCS as its mirrored corner-origin footprint, and SST as a rectangle with the nozzle centered on one long side. The strip performance table gives exact dimensions and flows for all six pressure points. The implementation uses the 3.1 bar table row and applies a separate geometric 50% overlap check.
+
 ## Important engineering constraints
 
 - A geometric radius may be adjusted within a manufacturer's allowed model range, but the engine must distinguish the selected geometric radius from the exact tabulated nominal performance point. Do not invent flow or precipitation at an arbitrary adjustment setting. If a hydraulic result depends on an unverified adjusted operating point, mark it not evaluated / engineer review.
@@ -50,7 +55,7 @@ Performance data already present in `src/lib/irrigation/rainBirdRvanPerformanceD
 - For adjusted radii, the output deliberately retains the nominal manufacturer-table flow/precipitation values and emits a warning; it does not invent adjusted flow values. The UI labels the displayed flow as nominal and shows the exact performance model variant, radius, coordinates and arc.
 - Added regression scenarios for 10 × 5 m perimeter-only R-VAN18 and 20 × 10 m R-VAN24 with an internal longitudinal row.
 - The circular solver now selects the preferred R-VAN model per lawn, then may select R-VAN14/18/24 independently for each head when local aligned spacing falls outside the preferred model's range. It preserves the preferred model whenever that model supports the required radius. The exact per-head product variant is exposed as `performanceModel` (including `-360`).
-- Added `src/lib/irrigation/rvanStripLayout.mjs` for axis-aligned rectangular strips. It uses manufacturer LCS/RCS corner footprints and SST side-strip footprints, their exact table dimensions/flows at the selected pressure, and a separate 50% overlap check. It generates a preliminary pattern for 1–2 m widths; widths/lengths differing from exact table points are explicitly marked as requiring on-site size adjustment and verification.
+- Added `src/lib/irrigation/rvanStripLayout.mjs` for axis-aligned rectangular strips. It uses manufacturer LCS/RCS corner footprints and SST side-strip footprints, exact table dimensions/flows at 3.1 bar, sampled rectangular coverage and a separate 50% overlap check. The bridge routes 1–2 m rectangular widths to this engine. Widths/lengths differing from exact table points are explicitly marked as requiring on-site size adjustment and verification.
 - **Not yet implemented:** LCS/RCS/SST decomposition for L-shaped or multi-segment strips; full manufacturer circular arc table (the current circular dataset still has only a subset of arcs); robust concave/L-shape local row decomposition and adversarial tests; adjusted-radius-specific flow/precipitation data; continuous coverage/overspray proof.
 - The branch is not merged. No Production deployment, Sanity/D1/Cloudflare configuration/secret, Resend or Production data changes were made. Cloudflare Pages branch build is in progress; application test suite has not yet been run in CI because no PR was opened.
 
