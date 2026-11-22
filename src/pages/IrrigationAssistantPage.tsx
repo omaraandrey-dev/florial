@@ -292,12 +292,9 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
           <div className="space-y-4" aria-live="polite">
             <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">{copy.welcome}</div>
             {showSummary && (
-              <div key={stage} className="space-y-2">
-                <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">{steps[stage - 1]}</div>
-                <div className="ml-auto max-w-[92%] rounded-2xl rounded-tr-sm bg-slate-100 px-4 py-3 text-sm leading-6 text-slate-800">
-                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-slate-500">{copy.you}</p>
-                  {answerSummary()}
-                </div>
+              <div className="ml-auto max-w-[92%] rounded-2xl rounded-tr-sm bg-slate-100 px-4 py-3 text-sm leading-6 text-slate-800">
+                <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-slate-500">{copy.you}</p>
+                {answerSummary()}
               </div>
             )}
             {!showSummary && <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">{steps[0]}</div>}
