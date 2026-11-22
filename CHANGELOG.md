@@ -1,9 +1,13 @@
-## 2026-11-22 — Irrigation project PDF owner delivery fix (PR pending)
+## 2026-11-22 — Irrigation project PDF owner delivery fix (PR #480 merged; Production deployed)
 
-- Fix owner email validation that prevented the project PDF from being sent.
-- Combine the order/proforma PDF and irrigation project PDF as two attachments in the same owner notification email.
-- Keep the engineering project internal until Owner approval; bank-transfer orders send it with the final proforma through `confirm_proforma`, while other payment methods use Owner-only `approve_irrigation_project` to send both PDFs.
-- D1 schema/data, Sanity, Cloudflare settings/secrets and Production orders are not changed by this implementation.
+- PR #480 squash-merged into `main` at `8214cdeef0183af6011f7f27aae5dd3730ef8ad5`.
+- Cloudflare Pages Production deployment `e2469d28-10f3-4efc-b1b7-9e9290f3d02b` succeeded from that exact merge SHA; the production alias is `https://florial-bg.com` (www remains configured).
+- Fixed the double-escaped `ORDER_NOTIFICATION_EMAIL` validation regex that rejected normal email addresses and skipped the owner project-PDF delivery branch.
+- The owner notification now includes two separate attachments in one email: the order/proforma PDF and the preliminary irrigation project PDF. If either PDF cannot be generated, the email explicitly reports the missing attachment rather than implying both are present.
+- The project PDF remains internal until Owner approval. For bank-transfer orders it is attached to the final proforma through `confirm_proforma`; for other payment methods the Owner uses the Manager action `approve_irrigation_project`, which sends both PDFs to the customer and copies the owner. Repeated approval sends are blocked and the approval is recorded in `order_events`.
+- PR-head validation for `2529cc88dfa7fbb1d972bdbad21699add43f89b7`: D1 validation run `45042467098` and Blog/Studio validation run `45042467160` — both succeeded. Lint, application/Pages Functions type-check, website utility tests, website build, migration dry-run, Studio type-check and Studio build all passed.
+- Preview deployment `https://9c15b61d.florial.pages.dev/irrigation-assistant` succeeded. Production deployment above is independently verified in the live Cloudflare Pages deployment list.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes or Production test orders/emails were performed. Actual Resend inbox receipt and checkout end-to-end delivery remain **not verified** and require a safe owner-approved test.
 
 ---
 
