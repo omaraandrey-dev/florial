@@ -375,6 +375,70 @@ export function evaluateHeadToHeadSpacing(selected) {
   }))
 }
 
+
+function evaluateDirectionalHeadToHeadSpacing(selected, vertices) {
+  const directions = [
+    { key: 'east', x: 1, y: 0 },
+    { key: 'west', x: -1, y: 0 },
+    { key: 'north', x: 0, y: 1 },
+    { key: 'south', x: 0, y: -1 },
+  ]
+  const checks = []
+  for (const sprinkler of selected) {
+    for (const direction of directions) {
+      const probe = {
+        x: sprinkler.position.x + direction.x * 0.05,
+        y: sprinkler.position.y + direction.y * 0.05,
+      }
+      if (pointInRing(probe, vertices) < 0) continue
+
+      const neighbour = selected
+        .filter((other) => other.id !== sprinkler.id)
+        .map((other) => {
+          const dx = other.position.x - sprinkler.position.x
+          const dy = other.position.y - sprinkler.position.y
+          return {
+            other,
+            along: dx * direction.x + dy * direction.y,
+            across: Math.abs(dx * direction.y - dy * direction.x),
+          }
+        })
+        .filter((entry) => entry.along > EPSILON && entry.across <= 0.02)
+        .sort((a, b) => a.along - b.along)[0]
+
+      const separationM = neighbour?.along ?? null
+      const requiredMaximumM = neighbour
+        ? Math.min(sprinkler.radiusM, neighbour.other.radiusM)
+        : null
+      const mutuallyReaches = Boolean(neighbour &&
+        separationM <= requiredMaximumM + EPSILON &&
+        sectorContains(
+          sprinkler.position,
+          neighbour.other.position,
+          sprinkler.directionDeg ?? 0,
+          sprinkler.arcDeg,
+          sprinkler.radiusM,
+        ) &&
+        sectorContains(
+          neighbour.other.position,
+          sprinkler.position,
+          neighbour.other.directionDeg ?? 0,
+          neighbour.other.arcDeg,
+          neighbour.other.radiusM,
+        ))
+      checks.push(Object.freeze({
+        sprinklerId: sprinkler.id,
+        direction: direction.key,
+        neighbourId: neighbour?.other.id ?? null,
+        separationM,
+        requiredMaximumM,
+        passed: mutuallyReaches,
+      }))
+    }
+  }
+  return Object.freeze({ passed: checks.every((check) => check.passed), checks: Object.freeze(checks) })
+}
+
 function enforceHeadToHeadSpacing(selectedInput, candidates) {
   const selected = selectedInput.slice()
   let changed = true
@@ -525,7 +589,8 @@ export function generateLawnSprinklerLayout({
   const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = evaluateHeadToHeadSpacing(sprinklers)
-  const allHeadToHead = checks.every((entry) => entry.passed)
+  const directionalChecks = evaluateDirectionalHeadToHeadSpacing(sprinklers, vertices)
+  const allHeadToHead = checks.every((entry) => entry.passed) && directionalChecks.passed
   const warnings = [
     { code: 'sampled_coverage_is_not_a_continuous_mathematical_proof', path: 'coverage' },
     { code: 'hydraulic_feasibility_not_evaluated', path: 'hydraulics' },
@@ -534,6 +599,7 @@ export function generateLawnSprinklerLayout({
     { code: 'overspray_not_evaluated', path: 'boundary' },
   ]
   if (!allHeadToHead) warnings.push({ code: 'head_to_head_spacing_check_failed', path: 'sprinklers' })
+  if (!directionalChecks.passed) warnings.push({ code: 'directional_head_to_head_grid_check_failed', path: 'sprinklers' })
   if (family === 'R-VAN' && pressureBar !== 3.1) {
     warnings.push({ code: 'rvan_pressure_differs_from_recommended_3_1_bar', path: 'pressureBar' })
   }
@@ -549,7 +615,7 @@ export function generateLawnSprinklerLayout({
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
     algorithm: 'rvan-corner-perimeter-orthogonal-h2h-v2',
-    status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
+    status: uncovered.size === 0 && allHeadToHead ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
     model,
@@ -573,6 +639,7 @@ export function generateLawnSprinklerLayout({
     headToHead: Object.freeze({
       passed: allHeadToHead,
       checks: Object.freeze(checks),
+      directionalChecks: directionalChecks.checks,
     }),
     totalFlowLpm: sprinklers.reduce((sum, sprinkler) => sum + sprinkler.flowLpm, 0),
     warnings: Object.freeze(warnings.map((entry) => Object.freeze(entry))),
