@@ -1,4 +1,7 @@
-# Handoff: irrigation engineer assistant — paused work (2026-11-16)
+# Handoff: irrigation engineer assistant — historical pause and scoped resumption
+
+> **Status update — 2026-11-22:** The owner explicitly resumed a bounded part of this workstream: perimeter-first R-VAN lawn layout, sequential zones, schematic routes and catalogue BOM/cart. PR #473 is merged at `1926d632cc0861341a46ec932a2130ca94dfa103`, and exact-merge Pages Production deployment succeeded. The former blanket pause is superseded only for this delivered scope. Read `docs/engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md` before further work. This does **not** authorize the remaining Rain Bird 3500 stage-8 roadmap, full hydraulic solver or other unapproved expansion; those remain gated by owner approval and engineering decisions.
+
 
 ## Purpose of this document
 
