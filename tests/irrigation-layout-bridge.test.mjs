@@ -50,6 +50,10 @@ test('25x5 and 26x5 reference lawns create two six-head perimeter zones with Ø2
     assert.equal(result.pipeNetwork?.branches?.length, 2)
     assert.ok(result.pipeNetwork?.branches?.every((branch) =>
       branch.diameterMm === 25 && branch.sprinklerIds.length === 6))
+    assert.ok(result.layout?.sprinklers?.every((sprinkler) => sprinkler.source !== 'interior'))
+    assert.ok(result.pipeNetwork?.branches?.[0]?.points?.every((point) => Math.abs(point.y - 5) < 1e-8))
+    assert.ok(result.pipeNetwork?.branches?.[1]?.points?.every((point) =>
+      Math.abs(point.x - length) < 1e-8 || Math.abs(point.y) < 1e-8))
     assert.equal(result.layout?.headToHead?.passed, true)
 
     const perimeterHeads = result.layout.sprinklers
