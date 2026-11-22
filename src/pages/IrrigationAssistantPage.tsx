@@ -2,16 +2,21 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
+import { sanityLiveClient } from '../lib/sanity'
+import type { Product } from '../types'
 import { buildLawnBoundary, type LawnCutoutCorner, type LawnInputShape } from '../lib/irrigation/lawnGeometryInput.mjs'
 import { validateLawnGeometry } from '../lib/irrigation/lawnGeometry.mjs'
 import { buildIrrigationIntakeSnapshot, evaluateIrrigationIntake } from '../lib/irrigation/irrigationIntake.mjs'
 import { buildPreliminaryLawnLayout } from '../lib/irrigation/irrigationLayoutBridge.mjs'
+import { buildIrrigationBillOfMaterials } from '../lib/irrigation/irrigationBillOfMaterials.mjs'
 
 interface IrrigationAssistantPageProps {
   onNavigateHome: () => void
+  onNavigateCart: () => void
+  onAddToCart: (product: Product, quantity: number) => void
 }
 
-export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantPageProps) {
+export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddToCart }: IrrigationAssistantPageProps) {
   const { language } = useI18n()
   const [shape, setShape] = useState<LawnInputShape>('rectangle')
   const [length, setLength] = useState('')
@@ -20,6 +25,9 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const [cutoutDepth, setCutoutDepth] = useState('')
   const [cutoutCorner, setCutoutCorner] = useState<LawnCutoutCorner>('top-right')
   const [showSummary, setShowSummary] = useState(false)
+  const [catalogProducts, setCatalogProducts] = useState<Record<string, Product>>({})
+  const [catalogLoading, setCatalogLoading] = useState(false)
+  const [catalogError, setCatalogError] = useState('')
   const formRef = useRef<HTMLDivElement>(null)
   const summaryRef = useRef<HTMLDivElement>(null)
   const hasMountedRef = useRef(false)
@@ -181,6 +189,58 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   ])
 
   const layoutResult = useMemo(() => showSummary ? buildPreliminaryLawnLayout(snapshot) : null, [snapshot, showSummary])
+  const billOfMaterials = useMemo(() =>
+    layoutResult?.status === 'layout_generated'
+      ? buildIrrigationBillOfMaterials(layoutResult.layout, layoutResult.zones)
+      : null,
+  [layoutResult])
+
+  useEffect(() => {
+    if (!billOfMaterials?.valid) return
+    let cancelled = false
+    setCatalogLoading(true)
+    setCatalogError('')
+    const skus = billOfMaterials.items.map((item: { sku: string }) => item.sku)
+    sanityLiveClient.fetch(
+      `*[_type == "product" && sku in $skus && isActive != false]{
+        _id, name, sku, priceEUR, stockStatus, vatIncluded, weightKg, translations,
+        "productType": "equipment",
+        "slug": { "current": coalesce(slug.current, slug) },
+        "brand": brand->name,
+        "imageUrl": mainImage.asset->url,
+        "imageAlt": mainImage.alt,
+        "imageAltEn": mainImage.altEn,
+        "imageAltRu": mainImage.altRu
+      }`,
+      { skus },
+    ).then((records: Product[]) => {
+      if (cancelled) return
+      const bySku: Record<string, Product> = {}
+      for (const product of records ?? []) if (product.sku) bySku[product.sku] = product
+      setCatalogProducts(bySku)
+      const missing = skus.filter((sku: string) => !bySku[sku])
+      if (missing.length) setCatalogError('Missing active catalogue products: ' + missing.join(', '))
+    }).catch((error: unknown) => {
+      if (!cancelled) setCatalogError(error instanceof Error ? error.message : 'Catalogue lookup failed')
+    }).finally(() => {
+      if (!cancelled) setCatalogLoading(false)
+    })
+    return () => { cancelled = true }
+  }, [billOfMaterials])
+
+  const addKitToCart = () => {
+    if (!billOfMaterials?.valid || catalogLoading || catalogError) return
+    const resolved = billOfMaterials.items.map((item: { sku: string; quantity: number }) => ({
+      product: catalogProducts[item.sku],
+      quantity: item.quantity,
+    }))
+    if (resolved.some((item: { product?: Product; quantity: number }) => !item.product)) {
+      setCatalogError('One or more products are missing from the active catalogue.')
+      return
+    }
+    resolved.forEach((item: { product: Product; quantity: number }) => onAddToCart(item.product, item.quantity))
+    onNavigateCart()
+  }
   const calculatedArea = geometryValidation?.computedAreaM2 ?? 0
   const calculatedPerimeter = geometryValidation?.computedPerimeterM ?? 0
   const geometryAccepted = readiness.geometryReady
