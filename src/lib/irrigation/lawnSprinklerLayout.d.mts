@@ -29,6 +29,9 @@ export interface LawnSprinklerCandidate {
 export interface LawnSprinklerLayoutResult {
   readonly engineVersion: string
   readonly algorithm?: string
+  readonly placementStrategy?: 'perimeter_first_then_interior_if_required'
+  readonly perimeterPass?: Readonly<{ sampledCoverageComplete: boolean; selectedSprinklers: number; uncoveredPointsBeforeInteriorPass: number }>
+  readonly interiorPass?: Readonly<{ activated: boolean; selectedSprinklers: number; activationReason: string }>
   readonly status: string
   readonly coverageScope?: 'sampled_geometry_only'
   readonly family?: 'R-VAN' | 'HE-VAN'
