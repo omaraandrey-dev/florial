@@ -1,4 +1,4 @@
-const finitePositive = (value) => Number.isFinite(value) && value > 0
+import { FLORIAL_IRRIGATION_STANDARD } from './irrigationProjectStandards.mjs'
 
 const normalizeOptionalNumber = (value) => {
   if (value === null || value === undefined || value === '') return null
@@ -8,21 +8,21 @@ const normalizeOptionalNumber = (value) => {
 }
 
 /**
- * Build a privacy-minimized, versioned intake snapshot for the lawn assistant.
- * It is an in-memory project contract only; it does not persist or transmit data.
+ * Builds a preliminary project snapshot from approximate customer dimensions.
+ * Water assumptions are fixed Florial design conditions, not customer inputs.
  */
 export function buildIrrigationIntakeSnapshot(input) {
   const geometryValidation = input.geometryValidation ?? null
-  const geometryAccepted = geometryValidation?.valid === true &&
+  const geometryReady = geometryValidation?.valid === true &&
     geometryValidation?.status === 'accepted' &&
     geometryValidation?.supported === true
 
   return Object.freeze({
-    schemaVersion: 1,
+    schemaVersion: 2,
     projectType: 'automatic_lawn_irrigation',
     language: input.language,
     geometry: Object.freeze({
-      status: geometryAccepted ? 'customer_confirmed' : 'not_confirmed',
+      status: geometryReady ? 'preliminary_from_approximate_dimensions' : 'not_ready',
       shape: input.shape,
       dimensionsM: Object.freeze({
         length: normalizeOptionalNumber(input.length),
@@ -31,40 +31,39 @@ export function buildIrrigationIntakeSnapshot(input) {
         cutoutDepth: normalizeOptionalNumber(input.cutoutDepth),
         cutoutCorner: input.cutoutCorner ?? null,
       }),
-      normalized: geometryAccepted ? geometryValidation.normalizedGeometry : null,
-      areaM2: geometryAccepted ? geometryValidation.computedAreaM2 : null,
-      perimeterM: geometryAccepted ? geometryValidation.computedPerimeterM : null,
-      confirmation: 'customer_assertion',
+      normalized: geometryReady ? geometryValidation.normalizedGeometry : null,
+      areaM2: geometryReady ? geometryValidation.computedAreaM2 : null,
+      perimeterM: geometryReady ? geometryValidation.computedPerimeterM : null,
+      dimensionBasis: 'customer_approximate_dimensions',
     }),
     water: Object.freeze({
-      source: input.waterSource ?? 'unknown',
-      pressure: Object.freeze({
-        type: input.pressureType ?? 'unknown',
-        valueBar: normalizeOptionalNumber(input.pressureBar),
-        measuredWhileFlowing: input.pressureMeasuredWhileFlowing === true,
-        testPoint: input.pressureTestPoint ?? 'unknown',
-        provenance: 'customer_input',
-      }),
-      flow: Object.freeze({
-        valueLpm: normalizeOptionalNumber(input.flowRate),
-        method: input.flowMeasurementMethod ?? 'unknown',
-        provenance: 'customer_input',
-      }),
+      connection: FLORIAL_IRRIGATION_STANDARD.connection.description,
+      nominalPressureBar: FLORIAL_IRRIGATION_STANDARD.connection.nominalPressureBar,
+      supplyPipeDiameterMm: FLORIAL_IRRIGATION_STANDARD.connection.supplyPipeDiameterMm,
+      entryCorner: FLORIAL_IRRIGATION_STANDARD.connection.entryCorner,
+      lineCapacity: FLORIAL_IRRIGATION_STANDARD.lineCapacity,
+      source: 'standard_florial_assumption',
+    }),
+    pipeDesign: Object.freeze({
+      mainDiameterMm: FLORIAL_IRRIGATION_STANDARD.pipes.mainDiameterMm,
+      zoneDiameterMm: FLORIAL_IRRIGATION_STANDARD.pipes.zoneDiameterMm,
+      routingPreference: FLORIAL_IRRIGATION_STANDARD.pipes.routingPreference,
+      hydraulicLossesCalculated: false,
     }),
     constraints: Object.freeze({
       notes: String(input.notes ?? '').trim(),
       exclusionsMapped: false,
       obstaclesMapped: false,
       elevationProfileCaptured: false,
-      pipeNetworkCaptured: false,
     }),
     readiness: evaluateIrrigationIntake(input),
   })
 }
 
 /**
- * Readiness gates are intentionally conservative. Intake completion is not
- * hydraulic readiness and never certifies source/network feasibility.
+ * Intake readiness depends on supported lawn geometry only.
+ * Hydraulic calculation and measured customer water data are intentionally
+ * outside the Florial assistant's scope.
  */
 export function evaluateIrrigationIntake(input) {
   const geometry = input.geometryValidation
@@ -72,33 +71,12 @@ export function evaluateIrrigationIntake(input) {
     geometry?.status === 'accepted' &&
     geometry?.supported === true
 
-  const pressureBar = normalizeOptionalNumber(input.pressureBar)
-  const flowRate = normalizeOptionalNumber(input.flowRate)
-  const dynamicPressureReady = input.pressureType === 'dynamic' &&
-    finitePositive(pressureBar) &&
-    input.pressureMeasuredWhileFlowing === true &&
-    typeof input.pressureTestPoint === 'string' &&
-    input.pressureTestPoint !== 'unknown'
-
-  const flowReady = finitePositive(flowRate) &&
-    ['bucket', 'flow_meter', 'other_verified'].includes(input.flowMeasurementMethod)
-
-  const missing = []
-  if (!geometryReady) missing.push('confirmed_supported_geometry')
-  if (!input.waterSource || input.waterSource === 'unknown') missing.push('water_source')
-  if (!dynamicPressureReady) missing.push('dynamic_pressure_and_test_point')
-  if (!flowReady) missing.push('measured_flow_and_method')
-  if (input.pipeNetworkCaptured !== true) missing.push('pipe_network')
-  if (input.elevationProfileCaptured !== true) missing.push('elevation_profile_or_verified_zero')
-  if (input.restrictionsCaptured !== true) missing.push('network_restrictions')
-
   return Object.freeze({
     status: geometryReady ? 'geometry_ready_for_preliminary_layout' : 'intake_incomplete',
     geometryReady,
-    dynamicPressureReady,
-    flowReady,
-    hydraulicFeasibility: 'not_evaluated',
+    standardWaterAssumptionsApplied: true,
+    hydraulicFeasibility: 'not_calculated_by_scope',
     hydraulicReady: false,
-    missing: Object.freeze(missing),
+    missing: Object.freeze(geometryReady ? [] : ['supported_lawn_geometry']),
   })
 }
