@@ -46,6 +46,8 @@ Water source, static/dynamic pressure, measured flow, test-point and elevation q
 4. Run the existing head-to-head repair pass. It may add a further candidate, including an interior head, if a selected head has no valid mutual head-to-head neighbour.
 5. Return diagnostics describing whether the perimeter-only pass was sufficient and why the interior pass was activated.
 
+Boundary edge spacing is constrained by the smaller 90°/270° corner-arc radius, not just the 180° edge-head radius. Even segment division also places a candidate at each edge midpoint, so a corner's shorter throw does not leave an unsupported gap at the start of an edge.
+
 This is still sampled geometric coverage at the configured sample interval. It is not a continuous mathematical proof, a precipitation-uniformity calculation or a finished hydraulic design.
 
 ## Rain Bird preference and current manufacturer-data boundary
