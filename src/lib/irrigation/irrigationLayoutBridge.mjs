@@ -141,6 +141,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
       shortSideM,
     }),
     layout,
+    designBasis: snapshot.designBasis ?? null,
     warnings: Object.freeze([
       ...layout.warnings,
       Object.freeze({ code: 'manufacturer_operating_point_is_a_scenario_not_site_measurement', path: 'operatingScenario.pressureBar' }),
