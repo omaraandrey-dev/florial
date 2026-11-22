@@ -45,7 +45,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       flowTitle: 'Расход воды', flowValue: 'Измеренный расход, л/мин', flowMethod: 'Как измеряли расход?', bucket: 'Ёмкость и секундомер', flowMeter: 'Расходомер', otherVerified: 'Другой измерительный прибор', methodUnknown: 'Не измерял(а) / не знаю',
       measurementHint: 'Статическое давление не показывает, какое давление останется при работе дождевателей. Для гидравлической проверки нужны динамическое давление, расход и сведения о трубопроводе.',
       next: 'Продолжить', back: 'Назад', finish: 'Проверить собранные данные', summaryTitle: 'Карточка исходных данных',
-      area: 'Площадь', shapeLabel: 'Форма', sourceLabel: 'Источник воды', pressureLabel: 'Давление', flowLabel: 'Расход'
+      area: 'Площадь', shapeLabel: 'Форма', sourceLabel: 'Источник воды', pressureLabel: 'Давление', flowLabel: 'Расход',
       ready: 'Исходные данные собраны', geometryReady: 'Геометрия подтверждена для предварительной раскладки', geometryMissing: 'Геометрию нужно уточнить или подтвердить',
       dynamicReady: 'Динамическое давление указано с условиями измерения', dynamicMissing: 'Динамическое давление и точка измерения не подтверждены',
       flowReady: 'Расход указан с методом измерения', flowMissing: 'Не хватает подтверждённого измерения расхода',
@@ -84,7 +84,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       flowTitle: 'Water flow', flowValue: 'Measured flow rate, L/min', flowMethod: 'How was the flow measured?', bucket: 'Container and stopwatch', flowMeter: 'Flow meter', otherVerified: 'Other measuring device', methodUnknown: 'Not measured / not sure',
       measurementHint: 'Static pressure does not show the pressure available while sprinklers operate. Hydraulic review needs dynamic pressure, measured flow and pipe-network information.',
       next: 'Continue', back: 'Back', finish: 'Review collected information', summaryTitle: 'Project intake record',
-      area: 'Area', shapeLabel: 'Shape', sourceLabel: 'Water source', pressureLabel: 'Pressure', flowLabel: 'Flow'
+      area: 'Area', shapeLabel: 'Shape', sourceLabel: 'Water source', pressureLabel: 'Pressure', flowLabel: 'Flow',
       ready: 'Project inputs collected', geometryReady: 'Geometry confirmed for preliminary layout', geometryMissing: 'Geometry needs clarification or confirmation',
       dynamicReady: 'Dynamic pressure and test conditions supplied', dynamicMissing: 'Dynamic pressure and test point are not confirmed',
       flowReady: 'Flow and measurement method supplied', flowMissing: 'A verified flow measurement is still missing',
@@ -123,7 +123,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       flowTitle: 'Дебит на водата', flowValue: 'Измерен дебит, л/мин', flowMethod: 'Как измерихте дебита?', bucket: 'Съд и хронометър', flowMeter: 'Дебитомер', otherVerified: 'Друг измервателен уред', methodUnknown: 'Не е измерен / не знам',
       measurementHint: 'Статичното налягане не показва какво налягане ще има при работещи разпръсквачи. За хидравлична проверка са нужни динамично налягане, измерен дебит и данни за тръбната мрежа.',
       next: 'Напред', back: 'Назад', finish: 'Преглед на събраните данни', summaryTitle: 'Карта на входните данни',
-      area: 'Площ', shapeLabel: 'Форма', sourceLabel: 'Водоизточник', pressureLabel: 'Налягане', flowLabel: 'Дебит'
+      area: 'Площ', shapeLabel: 'Форма', sourceLabel: 'Водоизточник', pressureLabel: 'Налягане', flowLabel: 'Дебит',
       ready: 'Входните данни са събрани', geometryReady: 'Геометрията е потвърдена за предварителна схема', geometryMissing: 'Геометрията трябва да се уточни или потвърди',
       dynamicReady: 'Динамичното налягане и условията за измерване са посочени', dynamicMissing: 'Динамичното налягане и точката на измерване не са потвърдени',
       flowReady: 'Посочени са дебит и метод на измерване', flowMissing: 'Липсва потвърдено измерване на дебита',
