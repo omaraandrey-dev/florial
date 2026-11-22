@@ -229,8 +229,10 @@ function evaluateCandidates(candidates, targets) {
   })
 }
 
-function selectGreedy(candidates, targetCount) {
-  const uncovered = new Set(Array.from({ length: targetCount }, (_, index) => index))
+function selectGreedy(candidates, targetCount, initiallyUncovered = null) {
+  const uncovered = initiallyUncovered
+    ? new Set(initiallyUncovered)
+    : new Set(Array.from({ length: targetCount }, (_, index) => index))
   const selected = []
   const available = candidates.slice()
 
@@ -453,7 +455,20 @@ export function generateLawnSprinklerLayout({
     })
   }
   const evaluated = evaluateCandidates(candidates, targets)
-  const { selected: coverageSelection, uncovered } = selectGreedy(evaluated, targets.length)
+  const perimeterCandidates = evaluated.filter((candidate) => candidate.source !== 'interior')
+  const interiorCandidates = evaluated.filter((candidate) => candidate.source === 'interior')
+  const perimeterPass = selectGreedy(perimeterCandidates, targets.length)
+  let coverageSelection = perimeterPass.selected
+  let uncovered = perimeterPass.uncovered
+
+  // Keep the perimeter-first pattern: add interior heads only for points
+  // that remain uncovered after all useful perimeter candidates are selected.
+  if (uncovered.size > 0 && interiorCandidates.length > 0) {
+    const interiorPass = selectGreedy(interiorCandidates, targets.length, uncovered)
+    coverageSelection = coverageSelection.concat(interiorPass.selected)
+    uncovered = interiorPass.uncovered
+  }
+
   const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = evaluateHeadToHeadSpacing(sprinklers)
@@ -471,7 +486,7 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'deterministic-greedy-set-cover-v1',
+    algorithm: 'perimeter-first-greedy-set-cover-v2',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
