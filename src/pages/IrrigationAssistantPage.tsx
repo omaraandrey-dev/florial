@@ -386,7 +386,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                 <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                   <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.area}</dt><dd className="mt-1 font-bold text-slate-900">{geometryAccepted ? numberFormat(calculatedArea) + ' ' + copy.unit : copy.noValue}</dd></div>
                   <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.shapeLabel}</dt><dd className="mt-1 font-bold text-slate-900">{shapeLabel}</dd></div>
-                  <div className="rounded-xl bg-white p-3 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{language === 'ru' ? 'Принятые условия расчёта' : language === 'en' ? 'Standard design assumptions' : 'Стандартни проектни условия'}</dt><dd className="mt-1 font-bold text-slate-900">4 bar · вход Ø25 mm · кран 1″ · магистраль Ø32 mm · зоны Ø25 mm</dd></div>
+                  <div className="rounded-xl bg-white p-3 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{language === 'ru' ? 'Принятые условия расчёта' : language === 'en' ? 'Standard design assumptions' : 'Стандартни проектни условия'}</dt><dd className="mt-1 font-bold text-slate-900">4 атм на кране 1″ · вход Ø25 мм · магистраль Ø32 мм · зоны Ø25 мм</dd></div>
                   <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.perimeter}</dt><dd className="mt-1 font-bold text-slate-900">{geometryAccepted ? numberFormat(calculatedPerimeter) + ' m' : copy.noValue}</dd></div>
                   {notes.trim() && <div className="rounded-xl bg-white p-3 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{copy.notesLabel}</dt><dd className="mt-1 whitespace-pre-wrap text-slate-800">{notes.trim()}</dd></div>}
                 </dl>
@@ -466,7 +466,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
           <dl className="space-y-3 text-sm">
             <div><dt className="text-xs font-semibold text-slate-500">{copy.area}</dt><dd className="mt-1 font-semibold text-slate-900">{geometryAccepted ? numberFormat(calculatedArea) + ' ' + copy.unit : copy.noValue}</dd></div>
             <div><dt className="text-xs font-semibold text-slate-500">{copy.shapeLabel}</dt><dd className="mt-1 font-semibold text-slate-900">{shapeLabel}</dd></div>
-            <div><dt className="text-xs font-semibold text-slate-500">{language === 'ru' ? 'Условия расчёта' : language === 'en' ? 'Design assumptions' : 'Условия за изчисление'}</dt><dd className="mt-1 font-semibold leading-6 text-slate-900">4 bar · Ø25 mm · кран 1″ · Ø32 mm / Ø25 mm</dd></div>
+            <div><dt className="text-xs font-semibold text-slate-500">{language === 'ru' ? 'Условия расчёта' : language === 'en' ? 'Design assumptions' : 'Условия за изчисление'}</dt><dd className="mt-1 font-semibold leading-6 text-slate-900">4 атм · Ø25 мм · кран 1″ · Ø32 мм / Ø25 мм</dd></div>
           </dl>
           <div className="mt-5 rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-950">{copy.hydraulicNotReady}</div>
           <p className="mt-4 text-xs leading-5 text-slate-500">{copy.notSent}</p>
