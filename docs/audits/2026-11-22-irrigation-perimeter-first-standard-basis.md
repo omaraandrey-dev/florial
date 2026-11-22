@@ -135,7 +135,7 @@ No controller, cable, source pump, mainline PE pipe length or full hydraulic pip
 
 Owner identified a catalogue description error for `IQ21520F0N25C` (document `19c359d0-0db5-43da-87ab-0e495c8df85a`). The published product was incorrectly described as 25 × ¾-inch female thread. Owner confirmed the correct item is 25 × ½-inch female thread.
 
-Corrected and published BG/RU/EN name, description, short description, size specifications, SEO H1/title/description and image alt text. SKU, slug, price, stock status, image asset, brand and references were preserved. Read-after-write verified the published document at revision `OponBjXsnmvGHZLuzZgQsa`. Pre-change snapshot: `docs/backups/sanity-product-IQ21520F0N25C-before-2026-11-22.json.md`.
+Corrected and published BG/RU/EN name, description, short description, size specifications, SEO H1/title/description and image alt text. The exact three-way size is now stated as Ø25 × ½″ female thread × Ø25 mm (two 25 mm compression ends plus one ½″ female-thread outlet). SKU, slug, price, stock status, image asset, brand and references were preserved. Read-after-write verified the published document at revision `OponBjXsnmvGHZLuzZhRoC`. Pre-change snapshot: `docs/backups/sanity-product-IQ21520F0N25C-before-2026-11-22.json.md`.
 
 ### UI and cart
 
