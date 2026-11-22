@@ -229,8 +229,10 @@ function evaluateCandidates(candidates, targets) {
   })
 }
 
-function selectGreedy(candidates, targetCount) {
-  const uncovered = new Set(Array.from({ length: targetCount }, (_, index) => index))
+function selectGreedy(candidates, targetCount, initialUncovered = null) {
+  const uncovered = initialUncovered
+    ? new Set(initialUncovered)
+    : new Set(Array.from({ length: targetCount }, (_, index) => index))
   const selected = []
   const available = candidates.slice()
 
@@ -453,11 +455,27 @@ export function generateLawnSprinklerLayout({
     })
   }
   const evaluated = evaluateCandidates(candidates, targets)
-  const { selected: coverageSelection, uncovered } = selectGreedy(evaluated, targets.length)
+  const perimeterCandidates = evaluated.filter((candidate) => candidate.source !== 'interior')
+  const interiorCandidates = evaluated.filter((candidate) => candidate.source === 'interior')
+  const perimeterPass = selectGreedy(perimeterCandidates, targets.length)
+  let coverageSelection = perimeterPass.selected
+  let uncovered = perimeterPass.uncovered
+  let interiorPassUsed = false
+
+  // The perimeter is always evaluated first. Interior candidates are admitted
+  // only when the perimeter-only pass leaves sampled lawn points uncovered.
+  if (uncovered.size > 0 && interiorCandidates.length > 0) {
+    const interiorPass = selectGreedy(interiorCandidates, targets.length, uncovered)
+    coverageSelection = [...coverageSelection, ...interiorPass.selected]
+    uncovered = interiorPass.uncovered
+    interiorPassUsed = interiorPass.selected.length > 0
+  }
+
   const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = evaluateHeadToHeadSpacing(sprinklers)
   const allHeadToHead = checks.every((entry) => entry.passed)
+  const interiorSprinklerCount = sprinklers.filter((entry) => entry.source === 'interior').length
   const warnings = [
     { code: 'sampled_coverage_is_not_a_continuous_mathematical_proof', path: 'coverage' },
     { code: 'hydraulic_feasibility_not_evaluated', path: 'hydraulics' },
@@ -471,7 +489,20 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'deterministic-greedy-set-cover-v1',
+    algorithm: 'perimeter-first-greedy-set-cover-v2',
+    placementStrategy: 'perimeter_first_then_interior_if_required',
+    perimeterPass: Object.freeze({
+      sampledCoverageComplete: perimeterPass.uncovered.size === 0,
+      selectedSprinklers: perimeterPass.selected.length,
+      uncoveredPointsBeforeInteriorPass: perimeterPass.uncovered.size,
+    }),
+    interiorPass: Object.freeze({
+      activated: interiorPassUsed || interiorSprinklerCount > 0,
+      selectedSprinklers: interiorSprinklerCount,
+      activationReason: interiorPassUsed || interiorSprinklerCount > 0
+        ? 'perimeter_pass_did_not_fully_cover_or_head_to_head_repair_required'
+        : 'perimeter_pass_sufficient',
+    }),
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
