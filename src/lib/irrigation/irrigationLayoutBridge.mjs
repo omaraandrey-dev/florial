@@ -1,144 +1,145 @@
 import { generateLawnSprinklerLayout } from './lawnSprinklerLayout.mjs'
-import { RAIN_BIRD_RVAN_DATASET } from './rainBirdRvanPerformanceData.mjs'
-import { RAIN_BIRD_HEVAN_DATASET } from './rainBirdHevanPerformanceData.mjs'
+import {
+  findRainBirdRvanPerformancePoint,
+  RAIN_BIRD_RVAN_DATASET,
+} from './rainBirdRvanPerformanceData.mjs'
+import {
+  buildIrrigationZones,
+  buildPerimeterPipeNetwork,
+  FLORIAL_IRRIGATION_PROJECT_STANDARD,
+} from './irrigationProjectStandards.mjs'
 
-const MIN_HEVAN_SPACING_TARGET_M = 1.8
-const MIN_RVAN_SPACING_TARGET_M = 4
-const RVAN14_MAX_SPACING_TARGET_M = 4.6
-const RVAN18_MAX_SPACING_TARGET_M = 5.5
-const RVAN24_MAX_SPACING_TARGET_M = 7.5
+const RECOMMENDED_NOZZLE_PRESSURE_BAR = RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar
 
 function result(status, extra = {}) {
   return Object.freeze({
     status,
     hydraulicFeasibility: 'not_evaluated',
-    precipitationUniformity: 'not_evaluated',
-    bodyCompatibility: 'not_evaluated',
-    overspray: 'not_evaluated',
     ...extra,
   })
 }
 
+function selectRvanModel(shortSideM) {
+  const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
+  for (const model of ['R-VAN14', 'R-VAN18', 'R-VAN24']) {
+    const point = findRainBirdRvanPerformancePoint(model, pressureBar, 180)
+    if (point?.radiusM >= shortSideM - 1e-8) return model
+  }
+  // R-VAN24 remains the largest supported circular-spray candidate. Wider
+  // lawns are handled with additional interior rows instead of rejection.
+  return 'R-VAN24'
+}
+
+function stripOptions(shortSideM) {
+  const exact = []
+  for (const model of ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST']) {
+    const point = findRainBirdRvanPerformancePoint(model, RECOMMENDED_NOZZLE_PRESSURE_BAR, null)
+    if (!point?.dimensionsM) continue
+    if (Math.abs(point.dimensionsM[0] - shortSideM) < 1e-9) {
+      exact.push(Object.freeze({
+        model,
+        dimensionsM: point.dimensionsM,
+        pressureBar: point.pressureBar,
+      }))
+    }
+  }
+  return Object.freeze(exact)
+}
+
 /**
- * Connects a confirmed, privacy-minimized intake snapshot to the existing
- * deterministic lawn-layout engine.
- *
- * The bridge provides provisional R-VAN and HE-VAN candidates from separate
- * manufacturer datasets. Family/model selection uses the lawn's short side
- * only as a candidate rule; it is not a final nozzle specification.
- * Manufacturer optimum pressure is a scenario, never a site nozzle-pressure
- * measurement. Customer source pressure/flow are not converted into it.
+ * Connects approximate customer geometry to the deterministic Rain Bird
+ * R-VAN solver and attaches Florial's fixed pipe/zone project standards.
+ * No customer water-source, pressure or flow inputs are requested or used.
  */
 export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}) {
-  if (!snapshot || snapshot.schemaVersion !== 1 ||
+  if (!snapshot || snapshot.schemaVersion !== 2 ||
       snapshot.projectType !== 'automatic_lawn_irrigation') {
     return result('invalid_intake_snapshot')
   }
 
-  if (snapshot.geometry?.status !== 'customer_confirmed' ||
+  if (snapshot.geometry?.status !== 'preliminary_geometry_available' ||
       snapshot.geometry?.normalized?.status !== 'confirmed') {
-    return result('needs_confirmed_geometry')
+    return result('needs_valid_geometry')
   }
 
   const geometry = snapshot.geometry.normalized
   if (!Array.isArray(geometry.regions) || geometry.regions.length !== 1) {
-    return result('geometry_not_supported', {
-      reason: 'single_region_only',
-    })
+    return result('geometry_not_supported', { reason: 'single_region_only' })
   }
 
   const region = geometry.regions[0]
   if (!Array.isArray(region.boundary?.vertices) || region.boundary.vertices.length < 4) {
-    return result('geometry_not_supported', {
-      reason: 'invalid_or_missing_boundary',
-    })
+    return result('geometry_not_supported', { reason: 'invalid_or_missing_boundary' })
   }
   if (region.exclusions?.length) {
-    return result('geometry_not_supported', {
-      reason: 'exclusions_not_supported_by_layout_engine',
-    })
+    return result('geometry_not_supported', { reason: 'exclusions_not_supported_by_layout_engine' })
   }
 
   const vertices = region.boundary.vertices
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
-  const perimeterSpacingTargetM = shortSideM / 2
 
-  let family
-  let model
-  let dataset
-  let modelSelectionBasis = 'provisional_half_short_side_head_spacing_candidate_rule'
-
-  // Prefer R-VAN for the supported short-side envelope. Narrower sites use
-  // Rain Bird HE-VAN's separate manufacturer spacing bands and exact table.
-  if (perimeterSpacingTargetM >= MIN_RVAN_SPACING_TARGET_M && perimeterSpacingTargetM <= RVAN14_MAX_SPACING_TARGET_M) {
-    family = 'R-VAN'
-    model = 'R-VAN14'
-    dataset = RAIN_BIRD_RVAN_DATASET
-  } else if (perimeterSpacingTargetM > RVAN14_MAX_SPACING_TARGET_M && perimeterSpacingTargetM <= RVAN18_MAX_SPACING_TARGET_M) {
-    family = 'R-VAN'
-    model = 'R-VAN18'
-    dataset = RAIN_BIRD_RVAN_DATASET
-  } else if (perimeterSpacingTargetM > RVAN18_MAX_SPACING_TARGET_M && perimeterSpacingTargetM <= RVAN24_MAX_SPACING_TARGET_M) {
-    family = 'R-VAN'
-    model = 'R-VAN24'
-    dataset = RAIN_BIRD_RVAN_DATASET
-  } else if (perimeterSpacingTargetM >= MIN_HEVAN_SPACING_TARGET_M && perimeterSpacingTargetM < MIN_RVAN_SPACING_TARGET_M) {
-    family = 'HE-VAN'
-    dataset = RAIN_BIRD_HEVAN_DATASET
-    modelSelectionBasis = 'provisional_half_short_side_spacing_candidate_rule_using_manufacturer_spacing_ranges'
-    const matchingModel = dataset.models.find((entry, index) => {
-      const [minimum, maximum] = entry.spacingRangeM
-      const isLastModel = index === dataset.models.length - 1
-      return perimeterSpacingTargetM >= minimum && (perimeterSpacingTargetM < maximum || (isLastModel && perimeterSpacingTargetM <= maximum))
-    })
-    model = matchingModel?.model
-  } else if (perimeterSpacingTargetM < MIN_HEVAN_SPACING_TARGET_M) {
-    return result('short_side_below_supported_spray_nozzle_scope', {
+  if (shortSideM < 2.4) {
+    const options = stripOptions(shortSideM)
+    return result(options.length
+      ? 'strip_nozzle_layout_requires_exact_pattern_engine'
+      : 'strip_width_not_supported_by_exact_manufacturer_point', {
       shortSideM,
-      perimeterSpacingTargetM,
-      reason: 'half_short_side_below_manufacturer_hevan_spacing_range',
-    })
-  } else {
-    return result('requires_rotor_engine', {
-      shortSideM,
-      perimeterSpacingTargetM,
-      reason: 'half_short_side_exceeds_connected_rotary_nozzle_spacing_range',
-      plannedNextFamily: 'Rain Bird 3500',
+      manufacturer: 'Rain Bird',
+      family: 'R-VAN',
+      stripNozzleOptions: options,
+      manufacturerPressureBar: RECOMMENDED_NOZZLE_PRESSURE_BAR,
+      reason: 'No circular spray substitute is allowed for a narrow strip; exact pattern placement and orientation must be validated.',
+      projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
     })
   }
 
-  const pressureBar = dataset.source.recommendedOperatingPressureBar
-  const modelEvidence = dataset.models.find((entry) => entry.model === model)
-  if (!modelEvidence) {
-    return result('manufacturer_model_mapping_missing', { family, model, pressureBar })
+  const model = selectRvanModel(shortSideM)
+  if (!model) {
+    return result('requires_engineer_review', {
+      shortSideM,
+      reason: 'geometry_exceeds_verified_rvan_layout_envelope',
+    })
   }
 
+  const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
   const layout = generateLawnSprinklerLayout({
     geometry,
-    family,
+    family: 'R-VAN',
     model,
     pressureBar,
     sampleStepM,
   })
 
-  return result(layout.status === 'coverage_complete_sampled' && layout.headToHead?.passed
-    ? 'layout_generated'
-    : 'layout_incomplete', {
+  if (layout.status !== 'coverage_complete_sampled' && layout.status !== 'coverage_incomplete') {
+    return result('layout_incomplete', {
+      shortSideM,
+      manufacturer: 'Rain Bird',
+      family: 'R-VAN',
+      model,
+      layout,
+      projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
+    })
+  }
+
+  const zones = buildIrrigationZones(layout.sprinklers, geometry)
+  const pipeNetwork = buildPerimeterPipeNetwork(geometry, layout.sprinklers, zones)
+
+  return result(layout.status === 'coverage_complete_sampled' ? 'layout_generated' : 'layout_incomplete', {
     engine: Object.freeze({
       name: 'Florial deterministic lawn layout',
       version: layout.engineVersion,
       algorithm: layout.algorithm ?? null,
     }),
     operatingScenario: Object.freeze({
-      manufacturer: dataset.manufacturer,
-      family,
+      manufacturer: 'Rain Bird',
+      family: 'R-VAN',
       model,
       pressureBar,
-      pressureBasis: 'manufacturer_recommended_operating_pressure',
-      modelSelectionBasis,
-      sourceUrl: dataset.source.url,
+      pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
+      modelSelectionBasis: 'smallest_exact_rvan_radius_covering_short_side_or_rvan24_multi_row',
+      sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
     }),
@@ -146,17 +147,19 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
       shape: layout.geometry?.shape ?? null,
       areaM2: layout.geometry?.areaM2 ?? snapshot.geometry.areaM2,
       shortSideM,
-      perimeterSpacingTargetM,
+      dimensionsAreApproximate: true,
     }),
+    projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
+    zones,
+    pipeNetwork,
     layout,
-    designBasis: snapshot.designBasis ?? null,
     warnings: Object.freeze([
       ...layout.warnings,
-      Object.freeze({ code: 'manufacturer_operating_point_is_a_scenario_not_site_measurement', path: 'operatingScenario.pressureBar' }),
-      Object.freeze({ code: 'family_and_model_selection_is_provisional_and_requires_engineer_review', path: 'operatingScenario.model' }),
-      Object.freeze({ code: 'customer_source_pressure_and_flow_not_used_as_nozzle_operating_point', path: 'intake.water' }),
-      Object.freeze({ code: 'hydraulic_network_and_zone_feasibility_not_evaluated', path: 'hydraulics' }),
-      Object.freeze({ code: 'obstacles_and_exclusions_not_mapped', path: 'geometry.exclusions' }),
+      Object.freeze({ code: 'approximate_customer_dimensions', path: 'geometry' }),
+      Object.freeze({ code: 'manufacturer_nozzle_pressure_is_reference_not_measured_site_pressure', path: 'operatingScenario.pressureBar' }),
+      Object.freeze({ code: 'hydraulic_calculation_not_performed', path: 'hydraulics' }),
+      Object.freeze({ code: 'sampled_coverage_is_not_continuous_proof', path: 'layout.coverage' }),
+      Object.freeze({ code: 'overspray_not_evaluated', path: 'layout.overspray' }),
     ]),
   })
 }
