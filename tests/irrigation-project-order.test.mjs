@@ -48,7 +48,7 @@ const snapshot = () => ({
     zoneCount: 2,
     flexPipeRequiredM: 7,
     flexPipeCoils30m: 1,
-    items: [{ sku: 'A44120', quantity: 7 }, { sku: 'A84666', quantity: 1 }],
+    items: [{ sku: 'A44120', quantity: 7, name: 'Rain Bird 1804' }, { sku: 'A84666', quantity: 1, name: 'R-VAN24 360°' }],
   },
   warnings: [{ code: 'hydraulic_calculation_not_performed', path: 'hydraulics' }],
 })
@@ -97,6 +97,9 @@ test('order endpoint persists a valid project and emails a separate PDF only to 
   assert.match(api, /Предварителен проект за поливане към поръчка/)
   assert.match(api, /updateIrrigationProjectDelivery\('sent'\)/)
   assert.match(api, /deliveryStatus/)
+  const assistant = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
+  assert.match(assistant, /name: catalogProducts\[item\.sku\]\?\.name \|\| item\.sku/)
+  assert.match(assistant, /lateralConnections: branch\.lateralConnections/)
 })
 
 test('irrigation project PDF contains the drawing, zone assignment, BOM and explicit engineering limits', async () => {
@@ -104,6 +107,9 @@ test('irrigation project PDF contains the drawing, zone assignment, BOM and expl
   assert.match(pdf, /ПРЕДВАРИТЕЛЕН ПРОЕКТ ЗА АВТОМАТИЧНО ПОЛИВАНЕ/)
   assert.match(pdf, /Схематични трасета на тръбите/)
   assert.match(pdf, /Ведомост на материалите/)
+  assert.match(pdf, /Размери:/)
+  assert.match(pdf, /drawRoute\(branch\.points/)
+  assert.match(pdf, /item\.name \+ ' · ' \+ item\.sku/)
   assert.match(pdf, /Не са изчислявани дебит, динамично налягане/)
   assert.match(pdf, /Не е потвърдена хидравличната възможност/)
 })
