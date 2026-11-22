@@ -220,7 +220,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       setCatalogProducts(bySku)
       const missing = skus.filter((sku: string) => !bySku[sku])
       if (missing.length) setCatalogError('missing_catalogue_products')
-    }).catch((error: unknown) => {
+    }).catch(() => {
       if (!cancelled) setCatalogError('catalog_lookup_failed')
     }).finally(() => {
       if (!cancelled) setCatalogLoading(false)
