@@ -58,7 +58,7 @@ test('mixed 90° and 180° heads form two source-fed zones of six, not arc-based
     'top-0', 'top-1', 'top-2', 'top-3', 'top-4', 'top-5',
   ])
   assert.deepEqual(zones[1].sprinklerIds, [
-    'bottom-5', 'bottom-4', 'bottom-3', 'bottom-2', 'bottom-1', 'bottom-0',
+    'bottom-0', 'bottom-1', 'bottom-2', 'bottom-3', 'bottom-4', 'bottom-5',
   ])
 })
 
