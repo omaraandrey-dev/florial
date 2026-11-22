@@ -24,6 +24,9 @@ export interface LawnSprinklerCandidate {
   readonly precipitationSquareMmH: number
   readonly precipitationTriangularMmH: number
   readonly performanceModel: string
+  /** Distance from the source around the polygon; present for perimeter heads. */
+  readonly perimeterOffsetM?: number
+  readonly perimeterLengthM?: number
 }
 
 export interface LawnSprinklerLayoutResult {
@@ -54,6 +57,11 @@ export interface LawnSprinklerLayoutResult {
       headToHeadNeighborId: string | null
       headToHeadSeparationM: number | null
       headToHeadRequiredMaximumM: number | null
+      perimeterPreviousSprinklerId?: string | null
+      perimeterNextSprinklerId?: string | null
+      perimeterPreviousGapM?: number | null
+      perimeterNextGapM?: number | null
+      perimeterSpacingPassed?: boolean | null
       passed: boolean
     }>>
   }>
@@ -74,6 +82,11 @@ export interface HeadToHeadSpacingCheck {
   readonly headToHeadNeighborId: string | null
   readonly headToHeadSeparationM: number | null
   readonly headToHeadRequiredMaximumM: number | null
+  readonly perimeterPreviousSprinklerId?: string | null
+  readonly perimeterNextSprinklerId?: string | null
+  readonly perimeterPreviousGapM?: number | null
+  readonly perimeterNextGapM?: number | null
+  readonly perimeterSpacingPassed?: boolean | null
   readonly passed: boolean
 }
 
