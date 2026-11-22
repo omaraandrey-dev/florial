@@ -79,7 +79,10 @@ export function selectRvanModelForRadius(requiredRadiusM, preferredModel = null,
         requiredRadiusM <= preferredNominal &&
         (supports(preferredModel) || slightlyBelowMinimum)) return preferredModel
   }
-  return ['R-VAN14', 'R-VAN18', 'R-VAN24'].find(supports) ?? null
+  return ['R-VAN14', 'R-VAN18', 'R-VAN24'].find((model) => {
+    const nominalRadiusM = nominalRadiusAtPressure(model, pressureBar, arcDeg)
+    return requiredRadiusM >= 2.4 && Number.isFinite(nominalRadiusM) && requiredRadiusM <= nominalRadiusM
+  }) ?? null
 }
 
 export function getRvanStripSpecification(model) {
