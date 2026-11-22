@@ -43,8 +43,15 @@ Performance data already present in `src/lib/irrigation/rainBirdRvanPerformanceD
 
 - Branch: `feat/irrigation-rvan-mixed-radius-strip-layout`, created from the live `main` HEAD on 2026-11-22.
 - Commit `839f1ee703ec3cfbcbe208f2fb805f3dab36bbbf`: removed the measured-dimensions checkbox and made valid entered geometry automatically accepted; the interface continues to explain that the contour is based on the customer's entered dimensions and is not an engineering approval.
-- Added a source-level regression test for the geometry confirmation behavior.
-- The mixed-model/radius solver, corner-first selection and strip footprint engine are not yet implemented or verified. Existing HE-VAN behavior remains in the unmerged baseline until the replacement R-VAN logic is complete; do not merge this partial branch or treat it as a completed change.
+- Added source-level regression coverage for automatic geometry acceptance.
+- Added `src/lib/irrigation/rvanNozzleSelection.mjs`: manufacturer radius envelopes for R-VAN14/18/24, preferred-model retention when its range supports the requested radius, and separate LCS/RCS/SST nominal strip specifications.
+- The circular bridge now selects only R-VAN. It does not substitute HE-VAN. Widths from 1–2 m return explicit LCS/RCS/SST candidates instead of being passed to the circular solver; the dedicated strip footprint engine is still pending, so no strip layout is claimed.
+- The circular solver now selects mandatory corner and perimeter positions first, creates orthogonal interior row candidates when the bounding dimensions require additional head-to-head spacing, and derives a geometric radius per selected head from the largest adjacent aligned spacing. It clamps that radius to the manufacturer's model envelope.
+- For adjusted radii, the output deliberately retains the nominal manufacturer-table flow/precipitation values and emits a warning; it does not invent adjusted flow values. The UI labels the displayed flow as nominal and shows the exact performance model variant, radius, coordinates and arc.
+- Added regression scenarios for 10 × 5 m perimeter-only R-VAN18 and 20 × 10 m R-VAN24 with an internal longitudinal row.
+- **Not yet implemented:** multiple circular R-VAN models within one single layout (the current bridge still selects one base model for the whole geometry); exact LCS/RCS/SST footprint orientation and strip overlap engine; full manufacturer arc table (the current circular dataset still has only a subset of arcs); robust concave/L-shape local row decomposition and adversarial tests; adjusted-radius-specific flow/precipitation data; continuous coverage/overspray proof.
+- The branch is not merged. No Production deployment, Sanity/D1/Cloudflare configuration/secret, Resend or Production data changes were made. Cloudflare Pages branch build is in progress; application test suite has not yet been run in CI because no PR was opened.
+
 
 ## Acceptance scenarios
 
