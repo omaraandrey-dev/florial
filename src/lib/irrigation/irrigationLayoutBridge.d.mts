@@ -15,26 +15,26 @@ export interface IrrigationLayoutBridgeSnapshot {
 }
 export interface PreliminaryLawnLayoutResult {
   readonly status: string
-  readonly hydraulicFeasibility: 'not_evaluated'
+  readonly hydraulicFeasibility: 'not_calculated_by_scope'
   readonly precipitationUniformity: 'not_evaluated'
   readonly bodyCompatibility: 'not_evaluated'
   readonly overspray: 'not_evaluated'
   readonly reason?: string
   readonly shortSideM?: number
   readonly plannedNextFamily?: 'Rain Bird 3500'
+  readonly supportedStripModels?: ReadonlyArray<'R-VAN-LCS' | 'R-VAN-RCS' | 'R-VAN-SST'>
   readonly engine?: Readonly<{ name: string; version: string; algorithm: string | null }>
   readonly operatingScenario?: Readonly<{
     manufacturer: string
-    family: 'R-VAN' | 'HE-VAN'
+    family: 'R-VAN'
     model: string
-    pressureBar: number
-    pressureBasis: string
-    modelSelectionBasis: string
+    manufacturerTablePressureBar: number
+    sourcePressureBar: number
+    sourcePressureBasis: string
     sourceUrl: string
-    actualNozzlePressureVerified: false
-    customerSourceMeasurementsUsedAsNozzlePressure: false
   }>
-  readonly geometry?: Readonly<{ shape: string | null; areaM2: number | null; shortSideM: number }>
+  readonly standardAssumptions?: Readonly<Record<string, any>>
+  readonly geometry?: Readonly<{ shape: string | null; areaM2: number | null; shortSideM: number; dimensionsBasis: string }>
   readonly layout?: Readonly<Record<string, any>>
   readonly warnings?: ReadonlyArray<Readonly<{ code: string; path: string }>>
 }
