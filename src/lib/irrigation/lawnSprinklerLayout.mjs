@@ -489,7 +489,7 @@ export function generateLawnSprinklerLayout({
     uncovered = interiorPass.uncovered
   }
 
-  const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
+  const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, perimeterCandidates)
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = evaluateHeadToHeadSpacing(sprinklers)
   const allHeadToHead = checks.every((entry) => entry.passed)
