@@ -82,7 +82,7 @@ test('pipe network draws one sequential perimeter route per zone from the source
 
 test('a branch with more than six heads is split into independent zones of at most six', () => {
   const extended = mixedPerimeterHeads.concat([
-    { id: 'interior-1', position: { x: 12.5, y: 2.5 }, arcDeg: 360 },
+    { id: 'interior-1', position: { x: 12.5, y: 2.5 }, arcDeg: 360, source: 'interior' },
   ])
   const zones = buildIrrigationZones(extended, rectangle)
   assert.deepEqual(zones.map((zone) => zone.sprinklerCount), [6, 6, 1])
