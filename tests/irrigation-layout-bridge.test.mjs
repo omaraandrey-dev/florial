@@ -56,12 +56,12 @@ test('25x5 and 26x5 reference lawns create two six-head zones with source-fed Ø
   }
 })
 
-test('30x5 lawn with 14 heads is split into three balanced zones of 5, 5 and 4', () => {
+test('30x5 lawn keeps the first six sequential perimeter heads together', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(30, 5))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.model, 'R-VAN18')
   assert.equal(result.layout?.sprinklers?.length, 14)
-  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [5, 5, 4])
+  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [6, 6, 2])
   assert.equal(result.layout?.headToHead?.passed, true)
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.ok(result.pipeNetwork?.branches?.every((branch) => branch.sprinklerIds.length > 0))
@@ -109,7 +109,13 @@ test('30x30 uses multiple interior rows of full-circle heads with complete sampl
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
   assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
-  assert.equal(result.zones?.length, Math.ceil((result.layout?.sprinklers?.length ?? 0) / 6))
+  const perimeterZones = result.zones?.filter((zone) => zone.zoneType === 'perimeter') ?? []
+  const interiorZones = result.zones?.filter((zone) => zone.zoneType === 'interior') ?? []
+  assert.ok(perimeterZones.length > 0)
+  assert.ok(interiorZones.length > 0)
+  assert.ok(result.zones?.every((zone) => zone.zoneType === 'perimeter' || zone.zoneType === 'interior'))
+  assert.ok(result.zones?.every((zone, index, zones) =>
+    index === 0 || (zones[index - 1].zoneType !== 'interior' || zone.zoneType === 'interior')))
   assert.ok(result.zones?.every((zone, index, zones) =>
     index === 0 || Math.abs(zone.sprinklerCount - zones[index - 1].sprinklerCount) <= 1))
 })
