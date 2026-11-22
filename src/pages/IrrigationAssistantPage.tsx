@@ -189,9 +189,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     notes,
   ])
   const snapshot = useMemo(() => buildIrrigationIntakeSnapshot(intakeInput), [
-    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, geometryValidation,
-    waterSource, pressureType, pressureBar, pressureMeasuredWhileFlowing, pressureTestPoint,
-    flowRate, flowMeasurementMethod, notes,
+    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, geometryValidation, notes,
   ])
 
   const layoutResult = useMemo(() => showSummary ? buildPreliminaryLawnLayout(snapshot) : null, [snapshot, showSummary])
@@ -212,7 +210,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
     incomplete: 'Движок построил вариант, но контрольная сетка содержит непокрытые точки. Нужна инженерная проверка.',
     unsupported: 'Геометрия выходит за текущую область R-VAN/HE-VAN. Не подменяем расчёт неподтверждённой моделью. Следующий этап — отдельный движок Rain Bird 3500; он пока не включён. До его проверки нужна инженерная оценка.',
-    narrow: 'Короткая сторона меньше минимального диапазона HE-VAN 1,8 м. Не уменьшаем радиус по неподтверждённому правилу; нужна инженерная проверка.',
+    narrow: 'Для узкой полосы рассматриваются только специальные полосовые форсунки Rain Bird R-VAN LCS, RCS и SST. Круглые форсунки вместо них не подставляются. Схема размещения требует точной проверки направления и перекрытия полос.',
     notReady: 'Для запуска раскладки требуется подтверждённый контур участка.', engineError: 'Текущий инженерный движок не поддерживает эту геометрию или конфигурацию.',
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания',
   } : language === 'en' ? {
@@ -226,7 +224,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
     incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
     unsupported: 'The geometry is outside the current R-VAN/HE-VAN scope. No unverified model is substituted. The next planned step is a separate Rain Bird 3500 engine; it is not enabled yet. Engineer review is required until that work is validated.',
-    narrow: 'The short side is below the HE-VAN manufacturer spacing range of 1.8 m. Do not reduce throw radius using an unverified rule; engineer review is required.',
+    narrow: 'Narrow strips require dedicated Rain Bird R-VAN LCS, RCS or SST strip nozzles. Circular nozzles are not substituted. Placement still requires exact pattern orientation and overlap validation.',
     notReady: 'A customer-confirmed lawn boundary is required before layout generation.', engineError: 'The current engineering engine does not support this geometry or configuration.',
     headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings',
   } : {
@@ -445,8 +443,13 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       </details>
                     </>
                   ) : (
-                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : layoutResult.status === 'short_side_below_supported_spray_nozzle_scope' ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
+                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : layoutResult.status.startsWith('strip_') ? layoutLabels.narrow : layoutResult.status === 'needs_valid_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
                   )}
+                  {layoutResult.stripNozzleOptions?.length > 0 && <ul className="mt-3 space-y-2 rounded-xl bg-white p-3 text-sm text-slate-700">
+                    {layoutResult.stripNozzleOptions.map((option: { model: string; dimensionsM: number[]; flowLpm: number; pressureBar: number }) => (
+                      <li key={option.model}><strong>{option.model}</strong> · {option.dimensionsM[0]} × {option.dimensionsM[1]} m · {numberFormat(option.flowLpm)} L/min · {numberFormat(option.pressureBar)} bar</li>
+                    ))}
+                  </ul>}
                   <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-6 text-amber-950">{layoutLabels.limits}</p>
                 </section>
               )}
