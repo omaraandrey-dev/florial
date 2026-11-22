@@ -413,15 +413,15 @@ function evaluateDirectionalHeadToHeadSpacing(selected, vertices) {
       const mutuallyReaches = Boolean(neighbour &&
         separationM <= requiredMaximumM + EPSILON &&
         sectorContains(
-          sprinkler.position,
           neighbour.other.position,
+          sprinkler.position,
           sprinkler.directionDeg ?? 0,
           sprinkler.arcDeg,
           sprinkler.radiusM,
         ) &&
         sectorContains(
-          neighbour.other.position,
           sprinkler.position,
+          neighbour.other.position,
           neighbour.other.directionDeg ?? 0,
           neighbour.other.arcDeg,
           neighbour.other.radiusM,
