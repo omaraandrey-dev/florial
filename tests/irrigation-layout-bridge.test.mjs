@@ -150,8 +150,8 @@ test('20x15m lawn adds one central sprinkler row only after perimeter coverage i
   assert.equal(result.operatingScenario?.model, 'R-VAN24')
   assert.equal(result.layout?.perimeterPass?.sampledCoverageComplete, false)
   assert.equal(result.layout?.interiorPass?.activated, true)
-  assert.ok(result.layout?.sprinklers?.some((entry) => entry.source === 'interior'))
-  assert.ok(result.layout?.sprinklers?.every((entry) => entry.source !== 'interior' || Math.abs(entry.position.y - 7.5) < 1e-6))
+  assert.equal(result.layout?.sprinklers?.filter((entry) => entry.source === 'interior').length, 2)
+  assert.ok(result.layout?.sprinklers?.every((entry) => entry.source !== 'interior' || (Math.abs(entry.position.y - 7.5) < 1e-6 && entry.placementGroup === 'central_row')))
 })
 
 test('selects Rain Bird R-VAN24 within its supported spacing envelope', () => {
