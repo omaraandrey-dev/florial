@@ -112,6 +112,8 @@ test('20x10 lawn adds a longitudinal R-VAN24 internal row and adjusts radius to 
   const internal = result.layout?.sprinklers.filter((sprinkler) => sprinkler.source === 'interior_row') ?? []
   assert.equal(internal.length, 2)
   assert.ok(internal.every((sprinkler) => Math.abs(sprinkler.position.y - 5) < 0.01))
+  assert.ok(internal.every((sprinkler) => sprinkler.performanceModel === 'R-VAN24-360'))
+  assert.deepEqual(result.layout?.modelsUsed, ['R-VAN24'])
   assert.ok(result.layout?.sprinklers.every((sprinkler) => sprinkler.radiusM >= 5.2 && sprinkler.radiusM <= 7.3))
   assert.equal(result.layout?.headToHead?.passed, true)
 })
