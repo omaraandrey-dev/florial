@@ -498,6 +498,30 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                   </ul>}
                 </section>
               )}
+              {billOfMaterials?.valid && (
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+                  <p className="font-bold text-emerald-950">
+                    {language === 'ru' ? 'Комплект оборудования для этой схемы' : language === 'en' ? 'Equipment kit for this layout' : 'Комплект оборудване за тази схема'}
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-emerald-900">
+                    {billOfMaterials.headCount} {language === 'ru' ? 'дождевателей' : language === 'en' ? 'sprinklers' : 'разпръсквача'} · {billOfMaterials.zoneCount} {language === 'ru' ? 'зоны' : language === 'en' ? 'zones' : 'зони'} · {billOfMaterials.flexPipeRequiredM} {language === 'ru' ? 'м гибкой трубы; продаётся бухтами по 30 м' : language === 'en' ? 'm of flex pipe; sold in 30 m coils' : 'm гъвкава тръба; продава се на ролки по 30 m'}
+                  </p>
+                  <p className="mt-1 text-xs text-emerald-800">
+                    {language === 'ru' ? 'В комплект входят подобранные форсунки, корпуса 1804, гибкие соединения, фитинги, клапаны 100-HV и клапанные колодцы.' : language === 'en' ? 'Includes selected nozzles, 1804 bodies, flexible connections, fittings, 100-HV valves and valve boxes.' : 'Включва избраните дюзи, тела 1804, гъвкави връзки, фитинги, клапани 100-HV и шахти за клапани.'}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={addKitToCart}
+                    disabled={catalogLoading || Boolean(catalogError)}
+                    className="mt-3 rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {catalogLoading
+                      ? (language === 'ru' ? 'Проверяем товары…' : language === 'en' ? 'Checking products…' : 'Проверка на продуктите…')
+                      : (language === 'ru' ? 'Добавить комплект в корзину' : language === 'en' ? 'Add complete kit to cart' : 'Добави комплекта в количката')}
+                  </button>
+                  {catalogError && <p role="alert" className="mt-2 text-xs font-medium text-red-700">{language === 'ru' ? 'Не удалось собрать комплект из активных товаров каталога: ' : language === 'en' ? 'Could not assemble the kit from active catalogue products: ' : 'Комплектът не може да се състави от активните продукти в каталога: '}{catalogError}</p>}
+                </div>
+              )}
               <div className="flex flex-wrap gap-3">
                 <button type="button" onClick={() => setShowSummary(false)} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">{copy.edit}</button>
                 <button type="button" onClick={onNavigateHome} className="rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800">{copy.home}</button>
