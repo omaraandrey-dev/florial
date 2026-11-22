@@ -219,9 +219,9 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       for (const product of records ?? []) if (product.sku) bySku[product.sku] = product
       setCatalogProducts(bySku)
       const missing = skus.filter((sku: string) => !bySku[sku])
-      if (missing.length) setCatalogError('Missing active catalogue products: ' + missing.join(', '))
+      if (missing.length) setCatalogError('missing_catalogue_products')
     }).catch((error: unknown) => {
-      if (!cancelled) setCatalogError(error instanceof Error ? error.message : 'Catalogue lookup failed')
+      if (!cancelled) setCatalogError('catalog_lookup_failed')
     }).finally(() => {
       if (!cancelled) setCatalogLoading(false)
     })
@@ -235,7 +235,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       quantity: item.quantity,
     }))
     if (resolved.some((item: { product?: Product; quantity: number }) => !item.product)) {
-      setCatalogError('One or more products are missing from the active catalogue.')
+      setCatalogError('missing_catalogue_products')
       return
     }
     resolved.forEach((item: { product: Product; quantity: number }) => onAddToCart(item.product, item.quantity))
@@ -519,7 +519,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       ? (language === 'ru' ? 'Проверяем товары…' : language === 'en' ? 'Checking products…' : 'Проверка на продуктите…')
                       : (language === 'ru' ? 'Добавить комплект в корзину' : language === 'en' ? 'Add complete kit to cart' : 'Добави комплекта в количката')}
                   </button>
-                  {catalogError && <p role="alert" className="mt-2 text-xs font-medium text-red-700">{language === 'ru' ? 'Не удалось собрать комплект из активных товаров каталога: ' : language === 'en' ? 'Could not assemble the kit from active catalogue products: ' : 'Комплектът не може да се състави от активните продукти в каталога: '}{catalogError}</p>}
+                  {catalogError && <p role="alert" className="mt-2 text-xs font-medium text-red-700">{language === 'ru' ? 'Не удалось загрузить полный комплект из каталога. Пожалуйста, свяжитесь с Florial.' : language === 'en' ? 'The complete kit could not be loaded from the catalogue. Please contact Florial.' : 'Пълният комплект не може да бъде зареден от каталога. Моля, свържете се с Florial.'}</p>}
                 </div>
               )}
               <div className="flex flex-wrap gap-3">
