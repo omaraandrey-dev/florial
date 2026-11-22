@@ -180,11 +180,30 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
   // central dry gap on the long sides of rectangular lawns.
   const corner90 = performanceFor(family, model, pressureBar, 90)
   const corner270 = performanceFor(family, model, pressureBar, 270)
-  const boundarySpacingM = Math.min(
+  const xs = vertices.map((point) => point.x)
+  const ys = vertices.map((point) => point.y)
+  const minX = Math.min(...xs)
+  const maxX = Math.max(...xs)
+  const minY = Math.min(...ys)
+  const maxY = Math.max(...ys)
+  const spanX = maxX - minX
+  const spanY = maxY - minY
+  const axisAlignedRectangle = vertices.length === 4 && vertices.every((point, index) => {
+    const next = vertices[(index + 1) % vertices.length]
+    return Math.abs(point.x - next.x) <= EPSILON || Math.abs(point.y - next.y) <= EPSILON
+  })
+  const cornerSpacingM = Math.min(
     radiusM,
     corner90?.radiusM ?? radiusM,
     corner270?.radiusM ?? radiusM,
   )
+  const halfCrossSpanM = Math.min(spanX, spanY) / 2
+  const maximumAlongEdgeSpacingM = radiusM > halfCrossSpanM
+    ? 2 * Math.sqrt(radiusM * radiusM - halfCrossSpanM * halfCrossSpanM)
+    : cornerSpacingM
+  const boundarySpacingM = axisAlignedRectangle
+    ? Math.min(cornerSpacingM, maximumAlongEdgeSpacingM)
+    : cornerSpacingM
   for (let index = 0; index < vertices.length; index += 1) {
     const a = vertices[index]
     const b = vertices[(index + 1) % vertices.length]
@@ -205,19 +224,6 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
   // Rectangles get one central row parallel to the long side. It is
   // only selected by the second pass if the perimeter-only layout leaves
   // sampled lawn points uncovered. L-shapes retain the conservative lattice.
-  const xs = vertices.map((point) => point.x)
-  const ys = vertices.map((point) => point.y)
-  const minX = Math.min(...xs)
-  const maxX = Math.max(...xs)
-  const minY = Math.min(...ys)
-  const maxY = Math.max(...ys)
-  const spanX = maxX - minX
-  const spanY = maxY - minY
-  const axisAlignedRectangle = vertices.length === 4 && vertices.every((point, index) => {
-    const next = vertices[(index + 1) % vertices.length]
-    return Math.abs(point.x - next.x) <= EPSILON || Math.abs(point.y - next.y) <= EPSILON
-  })
-
   if (axisAlignedRectangle) {
     const rowAlongX = spanX >= spanY
     const lineLength = rowAlongX ? spanX : spanY
