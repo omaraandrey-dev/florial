@@ -560,6 +560,7 @@ export function generateLawnSprinklerLayout({
     model,
     pressureBar,
     sampleStepM,
+    spacingRadiusM: effectiveSpacingRadiusM,
     geometry: Object.freeze({
       regionId: geometry.regions[0].id,
       shape: validation.regions[0].shape,
