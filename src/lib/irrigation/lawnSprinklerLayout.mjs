@@ -530,6 +530,7 @@ export function generateLawnSprinklerLayout({
       sampledCoverageComplete: perimeterPass.uncovered.size === 0,
       selectedSprinklers: perimeterPass.selected.length,
       uncoveredPointsBeforeInteriorPass: perimeterPass.uncovered.size,
+      uncoveredSamplesBeforeInteriorPass: Object.freeze([...perimeterPass.uncovered].slice(0, 30).map((index) => targets[index])),
     }),
     interiorPass: Object.freeze({
       activated: interiorPassUsed || interiorSprinklerCount > 0,
