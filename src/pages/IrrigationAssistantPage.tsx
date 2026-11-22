@@ -491,14 +491,16 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       </details>
                     </>
                   ) : (
-                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : ['strip_nozzle_layout_required', 'short_side_below_supported_rvan_scope'].includes(layoutResult.status) ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
-                    {layoutResult.status === 'strip_nozzle_layout_required' && (
-                      <ul className="mt-2 grid gap-1 text-xs text-slate-600">
-                        {layoutResult.stripSpecifications?.map((specification: { model: string; widthM: number; lengthM: number }) => (
-                          <li key={specification.model}>{specification.model} · {numberFormat(specification.widthM)} × {numberFormat(specification.lengthM)} m</li>
-                        ))}
-                      </ul>
-                    )}
+                    <>
+                      <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : ['strip_nozzle_layout_required', 'short_side_below_supported_rvan_scope'].includes(layoutResult.status) ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
+                      {layoutResult.status === 'strip_nozzle_layout_required' && (
+                        <ul className="mt-2 grid gap-1 text-xs text-slate-600">
+                          {layoutResult.stripSpecifications?.map((specification: { model: string; widthM: number; lengthM: number }) => (
+                            <li key={specification.model}>{specification.model} · {numberFormat(specification.widthM)} × {numberFormat(specification.lengthM)} m</li>
+                          ))}
+                        </ul>
+                      )}
+                    </>
                   )}
                   <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-6 text-amber-950">{layoutLabels.limits}</p>
                 </section>
