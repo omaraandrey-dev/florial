@@ -307,4 +307,3 @@ export function buildPerimeterPipeNetwork(geometry, sprinklers = [], zones = nul
     branches: Object.freeze(branches),
   })
 }
-}
