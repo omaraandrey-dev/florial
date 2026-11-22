@@ -84,3 +84,13 @@ Customer email is required in the UI and API so the order confirmation can be se
 - Manager action `Потвърди наличност и сума` records `proforma_confirmed` in the existing `order_events` audit log, then emails the final PDF to the customer and owner. The five-calendar-day payment period starts on that confirmation event date, not order creation or PDF issue date.
 - Editing item identity, quantity, unit price, delivery method or delivery fee after confirmation records `proforma_confirmation_invalidated`. The final PDF then reverts to the pending state until the manager confirms again. No D1 schema migration is needed.
 - Do not test by creating a Production order or sending a customer email without an agreed safe test procedure. Verify PDF rendering and the exact PR/Production SHA separately.
+
+
+## Irrigation-assisted orders and owner project PDF (2026-11-22)
+
+- The existing irrigation assistant adds its complete catalogue kit to the normal cart and attaches a versioned project snapshot to the existing `POST /api/orders` request. The cart detaches the snapshot when a generated kit SKU quantity is changed or removed.
+- The endpoint validates the geometry, sprinkler arcs/positions, balanced zone membership (max six heads), and BOM SKU quantities against the server-resolved order items. Invalid/stale project metadata is ignored without blocking an otherwise valid order.
+- After the order is committed to D1, the validated snapshot is stored in the existing `order_events.metadata` field under event type `irrigation_project_attached`. No D1 schema migration is required.
+- The function generates a separate preliminary A4 PDF and emails it only to `ORDER_NOTIFICATION_EMAIL` through the existing Resend helper with a stable per-order idempotency key. The PDF contains dimensions, outline, sprinkler positions/arcs, mixed zones, schematic pipe/lateral routes, catalogue names, BOM SKUs/quantities and engineering limitations. It is not sent to the customer and does not replace the proforma.
+- PDF/email failure is best-effort and does not roll back the saved order; delivery status is updated in the order event where possible. Actual inbox delivery and live checkout E2E remain unverified until an owner-approved safe test is run.
+- Implementation details: `docs/engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md`.
