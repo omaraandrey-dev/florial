@@ -46,6 +46,7 @@ test('20x10 selects R-VAN24 and allows an internal sprinkler row when perimeter 
   assert.equal(result.geometry.shortSideM, 10)
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
+  assert.equal(result.layout?.sprinklers?.length, 14)
   assert.equal(result.layout?.sprinklers?.some((entry) => entry.source === 'interior'), false)
 })
 
