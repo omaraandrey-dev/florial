@@ -85,4 +85,12 @@ No Sanity, D1, Cloudflare settings/secrets, Resend, catalogue or Production data
 
 ## Verification status
 
-Source changes and regression tests are present in the branch. GitHub Actions CI, build/type-check, Preview deployment and visual browser QA are pending. No merge to `main` and no Production deployment have been performed.
+Verified on PR head `05b765b41d6e23a561510121576a00cc56c3f296`:
+
+- Blog and Studio validation run `44985634905`: success. Application/Pages Functions type-check, lint, 390 website utility tests, website build, migration syntax check, read-only description-migration dry-run, Studio dependency install, Studio type-check and Studio build all passed.
+- D1 migration validation run `44985634921`: success.
+- Cloudflare Pages Preview deployment `4e90b20d-cca0-4c83-8a75-268efc10cde9`: success. Preview URL: https://4e90b20d.florial.pages.dev.
+- Read-only browser QA on the Preview confirmed the Russian, English and Bulgarian language variants; only lawn geometry and optional notes are requested. A confirmed 20 × 10 m rectangle produced 200 m², Rain Bird R-VAN18, 14 sprinklers all on the perimeter, 100% sampled coverage and zero uncovered control points. No interior row was selected. Water-source, pressure, flow and elevation questions were absent.
+- The 20 × 15 m central-row scenario is covered by an automated regression test; it was not separately entered during browser QA.
+
+The browser check did not submit external forms or change analytics consent. No Sanity, D1 application data, Cloudflare settings/secrets, Resend, catalogue or Production data changed. No merge to `main` and no Production deployment have been performed.
