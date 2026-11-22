@@ -27,7 +27,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
   const copy = useMemo(() => {
     if (language === 'ru') return {
       title: 'Помощник подбора полива Florial',
-      intro: 'Расскажите о своём участке. Я последовательно соберу исходные данные и покажу, чего не хватает для инженерной проверки.',
+      intro: 'Укажите форму и размеры газона. Я подготовлю предварительную схему расположения дождевателей.',
       module: 'Проектирование автоматического полива · Газон',
       step: 'Этап', of: 'из 2', welcome: 'Здравствуйте! Помогу подготовить исходные данные для системы полива газона. Начнём с формы и размеров участка.',
       prompts: ['Какую форму имеет газон и каковы его фактические размеры?', 'Откуда поступает вода для полива?', 'Какие измерения давления и расхода воды у вас есть?', 'Есть ли препятствия или ограничения на участке?'],
@@ -45,7 +45,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       testPoint: 'Где измеряли давление?', source: 'На выходе источника / насоса', tap: 'На ближайшем кране', lawnEntry: 'В точке входа воды на участок',
       flowTitle: 'Расход воды', flowValue: 'Измеренный расход, л/мин', flowMethod: 'Как измеряли расход?', bucket: 'Ёмкость и секундомер', flowMeter: 'Расходомер', otherVerified: 'Другой измерительный прибор', methodUnknown: 'Не измерял(а) / не знаю',
       measurementHint: 'Статическое давление не показывает, какое давление останется при работе дождевателей. Для гидравлической проверки нужны динамическое давление, расход и сведения о трубопроводе.',
-      notesTitle: 'Особенности участка', notesPlaceholder: 'Например: дорожки, терраса, деревья, клумбы, бассейн, уклон или зоны, которые нельзя поливать.',
+      notesTitle: 'Особенности участка', notesPlaceholder: 'Например: дорожки, терраса, бассейн или участки, которые не нужно поливать.',
       notesHint: 'Пока это текстовое описание. Препятствия ещё не нанесены на геометрическую схему и не вычитаются из площади.',
       next: 'Продолжить', back: 'Назад', finish: 'Проверить собранные данные', summaryTitle: 'Карточка исходных данных',
       area: 'Площадь', shapeLabel: 'Форма', sourceLabel: 'Источник воды', pressureLabel: 'Давление', flowLabel: 'Расход', notesLabel: 'Ограничения и примечания',
@@ -70,7 +70,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     }
     if (language === 'en') return {
       title: 'Florial Irrigation Assistant',
-      intro: 'Tell us about your site. I will collect the project inputs step by step and show what is still needed for engineering review.',
+      intro: 'Enter the lawn shape and dimensions. I will prepare a preliminary sprinkler layout.',
       module: 'Automatic irrigation design · Lawn',
       step: 'Stage', of: 'of 2', welcome: 'Hello! I will help prepare the information for your lawn irrigation project. Let’s start with the lawn shape and measured dimensions.',
       prompts: ['What is the lawn shape and its measured size?', 'Where will the irrigation water come from?', 'What pressure and flow measurements do you have?', 'Are there obstacles or site restrictions?'],
@@ -88,7 +88,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       testPoint: 'Where was pressure measured?', source: 'At source / pump outlet', tap: 'At a nearby tap', lawnEntry: 'At the water entry point to the lawn',
       flowTitle: 'Water flow', flowValue: 'Measured flow rate, L/min', flowMethod: 'How was the flow measured?', bucket: 'Container and stopwatch', flowMeter: 'Flow meter', otherVerified: 'Other measuring device', methodUnknown: 'Not measured / not sure',
       measurementHint: 'Static pressure does not show the pressure available while sprinklers operate. Hydraulic review needs dynamic pressure, measured flow and pipe-network information.',
-      notesTitle: 'Site details and restrictions', notesPlaceholder: 'For example: paths, patio, trees, planting beds, pool, slope or areas that must not be watered.',
+      notesTitle: 'Site details and restrictions', notesPlaceholder: 'For example: paths, patio, pool or areas that must not be watered.',
       notesHint: 'This is a text note only. Obstacles are not yet drawn on the geometry and are not deducted from the lawn area.',
       next: 'Continue', back: 'Back', finish: 'Review collected information', summaryTitle: 'Project intake record',
       area: 'Area', shapeLabel: 'Shape', sourceLabel: 'Water source', pressureLabel: 'Pressure', flowLabel: 'Flow', notesLabel: 'Restrictions and notes',
@@ -113,7 +113,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     }
     return {
       title: 'Помощник за напояване Florial',
-      intro: 'Разкажете за терена. Ще събера последователно данните за проекта и ще покажа какво още е необходимо за инженерна проверка.',
+      intro: 'Посочете формата и размерите на тревната площ. Ще подготвя предварителна схема на разпръсквачите.',
       module: 'Проектиране на автоматично напояване · Тревна площ',
       step: 'Етап', of: 'от 2', welcome: 'Здравейте! Ще помогна да подготвим данните за напояване на тревната площ. Нека започнем с формата и измерените размери.',
       prompts: ['Каква е формата на тревната площ и какви са измерените размери?', 'Откъде ще идва водата за напояване?', 'Какви измервания на налягането и дебита имате?', 'Има ли препятствия или ограничения в терена?'],
@@ -131,7 +131,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       testPoint: 'Къде е измерено налягането?', source: 'На изхода на водоизточника / помпата', tap: 'На близък кран', lawnEntry: 'На входа на водата към терена',
       flowTitle: 'Дебит на водата', flowValue: 'Измерен дебит, л/мин', flowMethod: 'Как измерихте дебита?', bucket: 'Съд и хронометър', flowMeter: 'Дебитомер', otherVerified: 'Друг измервателен уред', methodUnknown: 'Не е измерен / не знам',
       measurementHint: 'Статичното налягане не показва какво налягане ще има при работещи разпръсквачи. За хидравлична проверка са нужни динамично налягане, измерен дебит и данни за тръбната мрежа.',
-      notesTitle: 'Особености и ограничения на терена', notesPlaceholder: 'Например: алеи, тераса, дървета, цветни лехи, басейн, наклон или зони, които не трябва да се напояват.',
+      notesTitle: 'Особености и ограничения на терена', notesPlaceholder: 'Например: алеи, тераса, басейн или зони, които не трябва да се напояват.',
       notesHint: 'Това засега е текстова бележка. Препятствията още не са нанесени върху геометричната схема и не се изваждат от площта.',
       next: 'Напред', back: 'Назад', finish: 'Преглед на събраните данни', summaryTitle: 'Карта на входните данни',
       area: 'Площ', shapeLabel: 'Форма', sourceLabel: 'Водоизточник', pressureLabel: 'Налягане', flowLabel: 'Дебит', notesLabel: 'Ограничения и бележки',
