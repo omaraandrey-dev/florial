@@ -6,7 +6,7 @@ const CIRCULAR_MODEL_RANGES = Object.freeze({
   'R-VAN24': Object.freeze({ minRadiusM: 5.2, maxRadiusM: 7.3, fullCircleModel: 'R-VAN24-360' }),
 })
 
-const STRIP_MODELS = Object.freeze({
+const PREFERRED_MODEL_MINIMUM_RADIUS_TOLERANCE_M = 0.2\n\nconst STRIP_MODELS = Object.freeze({
   'R-VAN-LCS': Object.freeze({ pattern: 'left_corner_strip', widthM: 1.5, lengthM: 4.6 }),
   'R-VAN-RCS': Object.freeze({ pattern: 'right_corner_strip', widthM: 1.5, lengthM: 4.6 }),
   'R-VAN-SST': Object.freeze({ pattern: 'side_strip', widthM: 1.5, lengthM: 9.1 }),
@@ -67,7 +67,16 @@ export function selectRvanModelForRadius(requiredRadiusM, preferredModel = null,
     return Boolean(range && Number.isFinite(nominalRadiusM) &&
       requiredRadiusM >= range.minRadiusM && requiredRadiusM <= nominalRadiusM)
   }
-  if (preferredModel && supports(preferredModel)) return preferredModel
+  if (preferredModel) {
+    const preferredRange = getRvanRadiusRange(preferredModel)
+    const preferredNominal = nominalRadiusAtPressure(preferredModel, pressureBar, arcDeg)
+    const slightlyBelowMinimum = preferredRange &&
+      requiredRadiusM < preferredRange.minRadiusM &&
+      preferredRange.minRadiusM - requiredRadiusM <= PREFERRED_MODEL_MINIMUM_RADIUS_TOLERANCE_M + 1e-8
+    if (preferredRange && Number.isFinite(preferredNominal) &&
+        requiredRadiusM <= preferredNominal &&
+        (supports(preferredModel) || slightlyBelowMinimum)) return preferredModel
+  }
   return ['R-VAN14', 'R-VAN18', 'R-VAN24'].find(supports) ?? null
 }
 
