@@ -150,7 +150,6 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       directionDeg: arcDeg === 360 ? null : normalizeDegrees(Math.atan2(direction.y, direction.x) * 180 / Math.PI),
       source,
       radiusM: point.radiusM,
-      flowLpm: point.flowLpm,
       pressureBar: point.pressureBar,
       precipitationSquareMmH: point.precipitationSquareMmH,
       precipitationTriangularMmH: point.precipitationTriangularMmH,
@@ -259,15 +258,14 @@ function selectGreedy(candidates, targetCount, initiallyUncovered = null) {
   while (uncovered.size > 0 && selected.length < MAX_SELECTED_SPRINKLERS) {
     let bestIndex = -1
     let bestGain = 0
-    let bestFlow = Number.POSITIVE_INFINITY
     for (let index = 0; index < available.length; index += 1) {
       const candidate = available[index]
       let gain = 0
       for (const targetIndex of candidate.covered) if (uncovered.has(targetIndex)) gain += 1
-      if (gain > bestGain || (gain === bestGain && gain > 0 && candidate.flowLpm < bestFlow)) {
+      if (gain > bestGain || (gain === bestGain && gain > 0 &&
+          (bestIndex < 0 || candidate.id.localeCompare(available[bestIndex].id) < 0))) {
         bestIndex = index
         bestGain = gain
-        bestFlow = candidate.flowLpm
       }
     }
     if (bestIndex < 0) break
@@ -365,7 +363,6 @@ function enforceHeadToHeadSpacing(selectedInput, candidates) {
           ))
         .sort((a, b) =>
           a.separation - b.separation ||
-          a.candidate.flowLpm - b.candidate.flowLpm ||
           a.candidate.id.localeCompare(b.candidate.id))[0]
       if (neighbour) {
         selected.push(neighbour.candidate)
@@ -530,7 +527,6 @@ export function generateLawnSprinklerLayout({
       passed: allHeadToHead,
       checks: Object.freeze(checks),
     }),
-    totalFlowLpm: sprinklers.reduce((sum, sprinkler) => sum + sprinkler.flowLpm, 0),
     warnings: Object.freeze(warnings.map((entry) => Object.freeze(entry))),
     hydraulicFeasibility: 'not_evaluated',
     precipitationUniformity: 'not_evaluated',
