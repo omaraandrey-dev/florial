@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises'
 
 test('irrigation assistant loads catalogue products and adds the generated complete kit to cart', async () => {
   const page = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
+  const automation = await readFile(new URL('../src/lib/irrigation/irrigationAutomation.mjs', import.meta.url), 'utf8')
   const app = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8')
   assert.match(page, /buildIrrigationBillOfMaterials/)
   assert.match(page, /sanityLiveClient\.fetch/)
@@ -15,7 +16,7 @@ test('irrigation assistant loads catalogue products and adds the generated compl
   assert.match(page, /ESP-BAT-BT/)
   assert.match(page, /100-HV-9V/)
   assert.match(page, /H01040/)
-  assert.match(page, /VBA02672/)
+  assert.match(automation, /quantities\.delete\('VBA02672'\)/)
   assert.match(page, /прокладка управляющего кабеля от контроллера до электромагнитных клапанов/)
   assert.match(app, /onNavigateCart=\{navigateToCart\}/)
   assert.match(app, /onAddToCart=\{handleAddToCart\}/)

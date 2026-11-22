@@ -164,7 +164,7 @@ export const createIrrigationProjectPdf = async (
   if (!automation) {
     write('Типът управление не е записан в тази версия на проекта.', { color: muted })
   } else if (automation.type === 'manual') {
-    write('Ръчно управление с кранове. Автоматични контролери, електромагнитни клапани и клапанни колодци не са включени в комплекта.')
+    write('Ръчно управление с кранове. Автоматични контролери, електромагнитни клапани и кутии за клапани не са включени в комплекта.')
   } else {
     for (const controller of automation.controllers) {
       write(controller.name + ' · ' + controller.quantity + ' бр. · капацитет ' + controller.capacity + ' зони · зони ' + controller.zoneNumbers.join(', '), { size: 7 })

@@ -133,7 +133,7 @@ export function validateIrrigationProjectSnapshot(input) {
       })
     }
     if (type === 'manual') {
-      if (controllers.length || automationInput.valve != null || bom.items.some((item) => ['H01000', 'H01040', 'B31440', 'VBA02672'].includes(item.sku) || Object.prototype.hasOwnProperty.call(skuCapacity, item.sku)) ||
+      if (controllers.length || automationInput.valve != null || ['H01000', 'H01040', 'B31440', 'VBA02672'].some((sku) => orderSkus.has(sku) || bom.items.some((item) => item.sku === sku)) || Object.keys(skuCapacity).some((sku) => orderSkus.has(sku) || bom.items.some((item) => item.sku === sku)) ||
           automationInput.requiresControlCable !== false || automationInput.wifiRequired !== false) {
         return { valid: false, reason: 'manual_automation_contains_valves_or_controllers' }
       }
@@ -169,7 +169,7 @@ export function validateIrrigationProjectSnapshot(input) {
       if (!isRecord(candidate) || candidate.sku !== 'H01040' ||
           candidate.quantity !== zones.length || orderSkus.get('H01040') !== zones.length ||
           bom.items.find((item) => item.sku === 'H01040')?.quantity !== zones.length ||
-          bom.items.some((item) => ['H01000', 'B31440'].includes(item.sku))) {
+          orderSkus.has('H01000') || orderSkus.has('B31440') || bom.items.some((item) => ['H01000', 'B31440'].includes(item.sku))) {
         return { valid: false, reason: 'invalid_bat_valve_compatibility' }
       }
       const details = orderDetails.get('H01040')
@@ -185,7 +185,7 @@ export function validateIrrigationProjectSnapshot(input) {
     if (type === 'tm2' || type === 'rc2') {
       if (orderSkus.get('H01000') !== zones.length ||
           bom.items.find((item) => item.sku === 'H01000')?.quantity !== zones.length ||
-          bom.items.some((item) => ['B31440', 'H01040'].includes(item.sku))) {
+          orderSkus.has('B31440') || orderSkus.has('H01040') || bom.items.some((item) => ['B31440', 'H01040'].includes(item.sku))) {
         return { valid: false, reason: 'wired_controller_requires_standard_valves' }
       }
     }

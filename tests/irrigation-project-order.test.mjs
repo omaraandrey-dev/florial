@@ -84,9 +84,8 @@ test('persists manual automation without valves or valve boxes', () => {
   assert.equal(result.snapshot.automation.controllers.length, 0)
 })
 
-test('rejects manual automation when a valve box remains in the BOM', () => {
+test('rejects manual automation when a valve box remains in order lines', () => {
   const project = snapshot()
-  project.billOfMaterials.items.push({ sku: 'VBA02672', quantity: 2, name: 'Valve box' })
   project.automation = { type: 'manual', controllers: [], valve: null, requiresControlCable: false, wifiRequired: false }
   const result = validateIrrigationProjectSnapshot({
     ...project,
