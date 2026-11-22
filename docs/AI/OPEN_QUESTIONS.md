@@ -1,3 +1,17 @@
+## 2026-11-22 — Irrigation assistant balanced zones and owner PDF release
+
+- PR #476 and PDF-detail follow-up PR #477 are merged into `main`; final merge SHA: `6ae20420380f5794aba331b65427ac31d3160e2d`.
+- CLOSED — zoning behavior: perimeter and interior 90°/180°/270°/360° heads may share one zone. The complete deterministic sequence is evenly partitioned into the minimum number of zones, max six heads each (14 → 5+5+4; 13 → 5+4+4; 12 → 6+6). Mixed zone branch direction is handled per head.
+- CLOSED — project handoff implementation: checkout sends a versioned snapshot, server validates it against resolved order SKU quantities, and D1 persists it in existing `order_events.metadata` (`irrigation_project_attached`) without schema migration.
+- CLOSED — owner PDF implementation: separate A4 preliminary project PDF includes geometry/dimensions, sprinkler positions/arcs, zones, pipe-route drawing, catalogue names and BOM SKU/quantities. It is emailed only to the owner through existing Resend helper with a per-order idempotency key. Existing customer proforma/confirmation remains separate.
+- NOT VERIFIED — actual end-to-end checkout and Resend inbox delivery. No Production order or test email was created by the assistant. Arrange a safe owner-approved test before claiming delivery is confirmed.
+- OPEN engineering decisions remain: resolve mainline Ø25 vs earlier audit Ø32; measure dynamic source pressure/flow and prove nozzle operating pressure; hydraulically size zones and verify six-head suitability; confirm 1804/regulator compatibility; decide out-of-stock cart policy; complete PE mainline/accessory BOM; add exclusions/obstacles/overspray/wind/DU-CU and field validation.
+- Production deployment `c122e2dd-e854-44fd-a68b-bfc2bcb4524a` succeeded from merge SHA above. No Sanity write, D1 schema/data migration, Cloudflare settings/secrets change or test order/email was performed.
+
+Implementation: [balanced zones and order PDF](../engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md).
+
+---
+
 ## 2026-11-22 — Irrigation engineer: release accepted; hydraulic decisions remain open
 
 - PR #473 merged into `main` at `1926d632cc0861341a46ec932a2130ca94dfa103`; Production Pages deployment `0da20669-6b24-4697-8ac4-b281eebec9a2` succeeded from the exact SHA.
