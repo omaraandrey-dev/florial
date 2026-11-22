@@ -253,7 +253,7 @@ function buildCandidates(vertices, family, preferredModel, pressureBar, radiusM)
     const point = performanceFor(family, model, pressureBar, candidate.arcDeg)
     if (!point) return null
 
-    const resolved = family === 'R-VAN' ? resolveRvanRadius(model, requestedRadiusM) : null
+    const resolved = family === 'R-VAN' ? resolveRvanRadius(model, requestedRadiusM, pressureBar, candidate.arcDeg) : null
     const selectedRadiusM = resolved?.radiusM ?? point.radiusM
     return {
       id: 's' + String(index + 1).padStart(5, '0'),
@@ -264,7 +264,7 @@ function buildCandidates(vertices, family, preferredModel, pressureBar, radiusM)
       nominalRadiusM: point.radiusM,
       requestedRadiusM,
       radiusAdjusted: Math.abs(selectedRadiusM - point.radiusM) > EPSILON,
-      radiusWithinManufacturerRange: resolved?.withinManufacturerRange ?? true,
+      radiusWithinManufacturerRange: resolved?.withinManufacturerRange ?? true,\n      radiusRequestedBelowMinimum: resolved?.requestedBelowMinimum ?? false,\n      radiusRequestedAboveNominal: resolved?.requestedAboveNominal ?? false,
       flowBasis: 'manufacturer_nominal_operating_point',
       flowLpm: point.flowLpm,
       pressureBar: point.pressureBar,
@@ -511,7 +511,7 @@ export function generateLawnSprinklerLayout({
     })
   }
 
-  const candidates = buildCandidates(vertices, family, model, pressureBar, probe.radiusM)
+  const effectiveSpacingRadiusM = Number.isFinite(spacingRadiusM) && spacingRadiusM > 0 ? spacingRadiusM : probe.radiusM\n  const candidates = buildCandidates(vertices, family, model, pressureBar, effectiveSpacingRadiusM)
   if (!candidates || candidates.length > MAX_CANDIDATES) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
