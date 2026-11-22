@@ -484,8 +484,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       <details className="mt-3 rounded-xl bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
-                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; model: string; radiusM: number; position: { x: number; y: number }; arcDeg: number }) => (
-                            <li key={sprinkler.id}>{sprinkler.id}: {sprinkler.model} · R {numberFormat(sprinkler.radiusM)} m · X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.arcDeg}°</li>
+                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; performanceModel: string; radiusM: number; position: { x: number; y: number }; arcDeg: number }) => (
+                            <li key={sprinkler.id}>{sprinkler.id}: {sprinkler.performanceModel} · R {numberFormat(sprinkler.radiusM)} m · X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.arcDeg}°</li>
                           ))}
                         </ol>
                       </details>
