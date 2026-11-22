@@ -76,13 +76,16 @@ export function validateIrrigationProjectSnapshot(input) {
 
   const orderSkus = new Map()
   for (const item of Array.isArray(input.orderItems) ? input.orderItems : []) {
-    if (isRecord(item) && typeof item.sku === 'string') orderSkus.set(item.sku, Number(item.qty))
+    if (isRecord(item) && typeof item.sku === 'string') orderSkus.set(item.sku, (orderSkus.get(item.sku) ?? 0) + Number(item.qty))
   }
   if (bom.items.some((item) => orderSkus.get(item.sku) !== item.quantity)) {
     return { valid: false, reason: 'project_bom_does_not_match_order' }
   }
 
   const operating = isRecord(input.operatingScenario) ? input.operatingScenario : {}
+  const safePoints = (points) => Array.isArray(points) ? points.slice(0, 40).filter((point) =>
+    isRecord(point) && finite(point.x, -500, 500) && finite(point.y, -500, 500)
+  ).map((point) => ({ x: point.x, y: point.y })) : []
   const pipeNetwork = isRecord(input.pipeNetwork) ? input.pipeNetwork : null
   return {
     valid: true,
@@ -130,12 +133,12 @@ export function validateIrrigationProjectSnapshot(input) {
       pipeNetwork: pipeNetwork ? {
         mainDiameterMm: finite(pipeNetwork.mainDiameterMm, 1, 200) ? pipeNetwork.mainDiameterMm : null,
         zoneDiameterMm: finite(pipeNetwork.zoneDiameterMm, 1, 200) ? pipeNetwork.zoneDiameterMm : null,
-        mainRoute: Array.isArray(pipeNetwork.mainRoute) ? pipeNetwork.mainRoute.slice(0, 20) : [],
+        mainRoute: safePoints(pipeNetwork.mainRoute).slice(0, 20),
         branches: Array.isArray(pipeNetwork.branches) ? pipeNetwork.branches.slice(0, 60).map((branch) => ({
           zoneId: cleanLabel(branch.zoneId, 40),
           branchDirection: cleanLabel(branch.branchDirection, 20),
           sprinklerIds: Array.isArray(branch.sprinklerIds) ? branch.sprinklerIds.slice(0, 150) : [],
-          points: Array.isArray(branch.points) ? branch.points.slice(0, 40) : [],
+          points: safePoints(branch.points),
         })) : [],
       } : null,
       billOfMaterials: {
