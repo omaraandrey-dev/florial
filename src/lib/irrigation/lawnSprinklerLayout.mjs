@@ -481,7 +481,8 @@ export function generateLawnSprinklerLayout({
   const interiorSelection = selectGreedy(interiorCandidates, targets.length, perimeterUncovered)
   const coverageSelection = [...perimeterCandidates, ...interiorSelection.selected]
   const uncovered = interiorSelection.uncovered
-  const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
+  const spacingCandidates = perimeterUncovered.size === 0 ? perimeterCandidates : evaluated
+  const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, spacingCandidates)
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = evaluateHeadToHeadSpacing(sprinklers)
   const allHeadToHead = checks.every((entry) => entry.passed)
