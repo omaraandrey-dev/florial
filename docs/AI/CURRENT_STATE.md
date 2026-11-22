@@ -1,6 +1,6 @@
 # Latest main and Production — owner irrigation PDF handoff correction (PR #480 merged and deployed)
 
-- PR #480 squash-merged into `main` at `8214cdeef0183af6011f7f27aae5dd3730ef8ad5`; this is the verified current `main` HEAD.
+- PR #480 squash-merged into `main` at `8214cdeef0183af6011f7f27aae5dd3730ef8ad5` (runtime release commit). The documentation closeout was then committed to `main`; read the live branch head for the latest documentation SHA.
 - Cloudflare Pages Production deployment `e2469d28-10f3-4efc-b1b7-9e9290f3d02b` completed successfully from that exact SHA. Production: https://florial-bg.com.
 - Root cause: the owner notification guard in `functions/api/orders.ts` used a double-escaped email regex, rejecting ordinary email addresses and skipping the project-PDF branch.
 - The owner receives one notification with two separate attachments: order/proforma PDF and irrigation project PDF. Missing PDF generation is reported explicitly in the email.
