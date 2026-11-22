@@ -533,6 +533,12 @@ export function generateLawnSprinklerLayout({
   if (family === 'R-VAN' && pressureBar !== 3.1) {
     warnings.push({ code: 'rvan_pressure_differs_from_recommended_3_1_bar', path: 'pressureBar' })
   }
+  if (sprinklers.some((sprinkler) => sprinkler.radiusAdjusted)) {
+    warnings.push({ code: 'geometric_radius_adjusted_but_flow_and_precipitation_remain_nominal_table_values', path: 'sprinklers.radiusM' })
+  }
+  if (sprinklers.some((sprinkler) => sprinkler.radiusWithinManufacturerRange === false)) {
+    warnings.push({ code: 'requested_radius_exceeds_manufacturer_model_envelope', path: 'sprinklers.radiusM' })
+  }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
     algorithm: 'deterministic-greedy-set-cover-v1',
