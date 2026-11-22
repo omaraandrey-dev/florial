@@ -1,3 +1,11 @@
+# Latest main and Production — owner irrigation PDF handoff correction (PR pending)
+
+- Root cause found in `functions/api/orders.ts`: the project-only owner email guard used a double-escaped email regex, which rejects ordinary email addresses. The project PDF branch therefore skipped delivery.
+- The correction groups the order/proforma PDF and irrigation project PDF into one owner notification. Customer project delivery is gated behind Owner approval: bank-transfer orders use `confirm_proforma`; other payment methods use the new Owner-only `approve_irrigation_project` Manager action.
+- Implementation branch starts from main `3bf427cf6665a4783e9612010909c880e27c90a5`. No live D1, Sanity, Cloudflare settings/secrets or Resend writes are part of the code change.
+
+---
+
 # Latest main and Production — balanced irrigation zones and owner project PDF (2026-11-22)
 
 - Runtime PR #476 merged into `main` at `dbcf63e2ad05e2132ba39b2ec30936fdb6c6abe1`; PDF-detail follow-up PR #477 merged at `6ae20420380f5794aba331b65427ac31d3160e2d`.

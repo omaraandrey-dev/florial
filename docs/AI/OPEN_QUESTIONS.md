@@ -1,3 +1,11 @@
+## 2026-11-22 — Owner irrigation PDF handoff correction (implementation in PR)
+
+- Исправляется дефект в проверке `ORDER_NOTIFICATION_EMAIL`: в проектной ветке regex был двойным экранирован, поэтому обычный адрес владельца не проходил проверку и генерация/отправка PDF проекта пропускалась.
+- Владелец получает одним письмом два отдельных вложения: PDF заказа/проформа и предварительный PDF проекта. Клиенту проект не отправляется при первичном checkout; для банковского перевода проект прикладывается к окончательной проформе через `confirm_proforma`, а для остальных способов оплаты Owner использует отдельное действие `approve_irrigation_project`.
+- Ошибка генерации или отправки проекта отражается в `order_events.metadata.deliveryStatus`; заказ не отменяется. Проверить CI и безопасный тест Resend/checkout; реальные Production заказы и тестовые письма без согласованного безопасного сценария не создавать.
+
+---
+
 ## 2026-11-22 — Irrigation assistant balanced zones and owner PDF release
 
 - PR #476 and PDF-detail follow-up PR #477 are merged into `main`; final merge SHA: `6ae20420380f5794aba331b65427ac31d3160e2d`.

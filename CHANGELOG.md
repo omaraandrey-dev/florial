@@ -1,3 +1,12 @@
+## 2026-11-22 — Irrigation project PDF owner delivery fix (PR pending)
+
+- Fix owner email validation that prevented the project PDF from being sent.
+- Combine the order/proforma PDF and irrigation project PDF as two attachments in the same owner notification email.
+- Keep the engineering project internal until Owner approval; bank-transfer orders send it with the final proforma through `confirm_proforma`, while other payment methods use Owner-only `approve_irrigation_project` to send both PDFs.
+- D1 schema/data, Sanity, Cloudflare settings/secrets and Production orders are not changed by this implementation.
+
+---
+
 ## 2026-11-22 — Irrigation assistant: balanced mixed zones and owner project PDF (PRs #476 and #477 merged)
 
 - PR #476 merged into `main` at `dbcf63e2ad05e2132ba39b2ec30936fdb6c6abe1`; PR #477 PDF-detail follow-up merged at `6ae20420380f5794aba331b65427ac31d3160e2d`.
