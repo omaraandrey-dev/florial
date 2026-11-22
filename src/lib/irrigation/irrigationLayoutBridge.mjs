@@ -119,8 +119,8 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
     })
   }
 
-  const zones = buildIrrigationZones(layout.sprinklers)
-  const pipeNetwork = buildPerimeterPipeNetwork(geometry, layout.sprinklers)
+  const zones = buildIrrigationZones(layout.sprinklers, geometry)
+  const pipeNetwork = buildPerimeterPipeNetwork(geometry, layout.sprinklers, zones)
 
   return result(layout.status === 'coverage_complete_sampled' ? 'layout_generated' : 'layout_incomplete', {
     engine: Object.freeze({
