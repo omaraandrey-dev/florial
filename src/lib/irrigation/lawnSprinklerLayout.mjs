@@ -140,77 +140,69 @@ function supportedModel(family, model) {
 function buildCandidates(vertices, family, model, pressureBar, radiusM) {
   const candidates = []
   const orientation = Math.sign(signedArea(vertices)) || 1
-  const add = (position, arcDeg, direction, source, placementGroup = null) => {
+  const segmentLengths = vertices.map((point, index) =>
+    distance(point, vertices[(index + 1) % vertices.length]))
+  const perimeterOffsets = []
+  let perimeterLengthM = 0
+  for (const length of segmentLengths) {
+    perimeterOffsets.push(perimeterLengthM)
+    perimeterLengthM += length
+  }
+
+  const add = (position, arcDeg, direction, source, perimeterOffsetM = null) => {
     const point = performanceFor(family, model, pressureBar, arcDeg)
     if (!point || !Number.isFinite(point.radiusM) || point.radiusM <= 0) return
-    candidates.push({
+    const candidate = {
       id: 's' + String(candidates.length + 1).padStart(5, '0'),
       position: Object.freeze({ x: position.x, y: position.y }),
       arcDeg,
       directionDeg: arcDeg === 360 ? null : normalizeDegrees(Math.atan2(direction.y, direction.x) * 180 / Math.PI),
       source,
-      placementGroup,
       radiusM: point.radiusM,
-      flowLpm: point.flowLpm,
       pressureBar: point.pressureBar,
       precipitationSquareMmH: point.precipitationSquareMmH,
       precipitationTriangularMmH: point.precipitationTriangularMmH,
       performanceModel: arcDeg === 360 && family === 'R-VAN' ? model + '-360' : model,
-    })
+    }
+    if (Number.isFinite(perimeterOffsetM)) {
+      candidate.perimeterOffsetM = perimeterOffsetM
+      candidate.perimeterLengthM = perimeterLengthM
+    }
+    candidates.push(candidate)
   }
 
-  // Vertex heads: 90-degree arcs at convex corners and 270-degree arcs at
-  // reflex corners, oriented along the inward angle bisector.
-  for (let index = 0; index < vertices.length; index += 1) {
+  const vertexSpecs = vertices.map((current, index) => {
     const previous = vertices[(index - 1 + vertices.length) % vertices.length]
-    const current = vertices[index]
     const next = vertices[(index + 1) % vertices.length]
     const incoming = inwardNormal(previous, current, orientation)
     const outgoing = inwardNormal(current, next, orientation)
-    if (!incoming || !outgoing) continue
+    if (!incoming || !outgoing) return { arcDeg: 90, direction: { x: 1, y: 0 }, radiusM }
     const bisector = unit({ x: incoming.x + outgoing.x, y: incoming.y + outgoing.y })
-    if (!bisector) continue
     const convex = cross(previous, current, next) * orientation > 0
-    add(current, convex ? 90 : 270, bisector, 'vertex')
+    const arcDeg = convex ? 90 : 270
+    const point = performanceFor(family, model, pressureBar, arcDeg)
+    return {
+      arcDeg,
+      direction: bisector ?? incoming,
+      radiusM: Number.isFinite(point?.radiusM) && point.radiusM > 0 ? point.radiusM : radiusM,
+    }
+  })
+
+  // Every boundary vertex is a candidate, with its exact 90° or 270° table radius.
+  for (let index = 0; index < vertices.length; index += 1) {
+    const spec = vertexSpecs[index]
+    add(vertices[index], spec.arcDeg, spec.direction, 'vertex', perimeterOffsets[index])
   }
 
-  // Straight boundary heads: exact 180-degree inward-facing sectors.
-  // Edge spacing is constrained by the smaller corner-arc radius so that
-  // the first edge head remains head-to-head with the 90/270-degree corner.
-  // Even segment counts also place a head at each edge midpoint, avoiding a
-  // central dry gap on the long sides of rectangular lawns.
-  const corner90 = performanceFor(family, model, pressureBar, 90)
-  const corner270 = performanceFor(family, model, pressureBar, 270)
-  const xs = vertices.map((point) => point.x)
-  const ys = vertices.map((point) => point.y)
-  const minX = Math.min(...xs)
-  const maxX = Math.max(...xs)
-  const minY = Math.min(...ys)
-  const maxY = Math.max(...ys)
-  const spanX = maxX - minX
-  const spanY = maxY - minY
-  const axisAlignedRectangle = vertices.length === 4 && vertices.every((point, index) => {
-    const next = vertices[(index + 1) % vertices.length]
-    return Math.abs(point.x - next.x) <= EPSILON || Math.abs(point.y - next.y) <= EPSILON
-  })
-  const cornerSpacingM = Math.min(
-    radiusM,
-    corner90?.radiusM ?? radiusM,
-    corner270?.radiusM ?? radiusM,
-  )
-  const halfCrossSpanM = Math.min(spanX, spanY) / 2
-  const maximumAlongEdgeSpacingM = radiusM > halfCrossSpanM
-    ? 2 * Math.sqrt(radiusM * radiusM - halfCrossSpanM * halfCrossSpanM)
-    : cornerSpacingM
-  const boundarySpacingM = axisAlignedRectangle
-    ? Math.min(cornerSpacingM, maximumAlongEdgeSpacingM)
-    : cornerSpacingM
+  // Divide every boundary edge using the smaller radius of its two corner
+  // heads and the straight-edge head. This prevents a corner-to-edge gap.
   for (let index = 0; index < vertices.length; index += 1) {
     const a = vertices[index]
     const b = vertices[(index + 1) % vertices.length]
-    const length = distance(a, b)
-    let divisions = Math.max(1, Math.ceil(length / boundarySpacingM))
-    if (divisions % 2 !== 0) divisions += 1
+    const length = segmentLengths[index]
+    const nextIndex = (index + 1) % vertices.length
+    const spacingRadiusM = Math.min(radiusM, vertexSpecs[index].radiusM, vertexSpecs[nextIndex].radiusM)
+    const divisions = Math.max(1, Math.ceil(length / spacingRadiusM))
     const normal = inwardNormal(a, b, orientation)
     if (!normal) continue
     for (let part = 1; part < divisions; part += 1) {
@@ -218,26 +210,61 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       add({
         x: a.x + (b.x - a.x) * ratio,
         y: a.y + (b.y - a.y) * ratio,
-      }, 180, normal, 'edge')
+      }, 180, normal, 'edge', perimeterOffsets[index] + length * ratio)
     }
   }
 
-  // Rectangles get one central row parallel to the long side. It is
-  // only selected by the second pass if the perimeter-only layout leaves
-  // sampled lawn points uncovered. L-shapes retain the conservative lattice.
-  if (axisAlignedRectangle) {
-    const rowAlongX = spanX >= spanY
-    const lineLength = rowAlongX ? spanX : spanY
-    const divisions = Math.max(2, Math.ceil(lineLength / radiusM))
-    const center = rowAlongX
-      ? { x: 0, y: (minY + maxY) / 2 }
-      : { x: (minX + maxX) / 2, y: 0 }
-    for (let part = 1; part < divisions; part += 1) {
-      const along = part / divisions * lineLength
-      const position = rowAlongX
-        ? { x: minX + along, y: center.y }
-        : { x: center.x, y: minY + along }
-      add(position, 360, { x: 1, y: 0 }, 'interior', 'central_row')
+  // Rectangles use a perimeter-first, multi-row interior candidate lattice.
+  // The centreline is always included when there is room for an interior row;
+  // additional rows are added only as the dimensions require them. The
+  // sampled set-cover pass decides whether any of these candidates are needed.
+  const xs = vertices.map((point) => point.x)
+  const ys = vertices.map((point) => point.y)
+  const minX = Math.min(...xs)
+  const maxX = Math.max(...xs)
+  const minY = Math.min(...ys)
+  const maxY = Math.max(...ys)
+  const isRectangle = vertices.length === 4 &&
+    vertices.every((point, index) => {
+      const next = vertices[(index + 1) % vertices.length]
+      return Math.abs(point.x - next.x) <= EPSILON || Math.abs(point.y - next.y) <= EPSILON
+    })
+
+  if (isRectangle) {
+    const lengthX = maxX - minX
+    const lengthY = maxY - minY
+    const xDivisions = Math.max(1, Math.ceil(lengthX / radiusM))
+    const yDivisions = Math.max(1, Math.ceil(lengthY / radiusM))
+    const xPositions = new Set()
+    const yPositions = new Set()
+
+    if (xDivisions > 1) {
+      for (let part = 1; part < xDivisions; part += 1) {
+        xPositions.add(minX + lengthX * part / xDivisions)
+      }
+    }
+    if (yDivisions > 1) {
+      // For a medium-width rectangle, a single true centre row is sufficient.
+      // Wider rectangles get additional evenly spaced rows as well.
+      if (lengthY <= radiusM * 2 + 1) {
+        yPositions.add((minY + maxY) / 2)
+      } else {
+        for (let part = 1; part < yDivisions; part += 1) {
+          yPositions.add(minY + lengthY * part / yDivisions)
+        }
+        yPositions.add((minY + maxY) / 2)
+      }
+    }
+
+    if (xPositions.size > 0 && yPositions.size > 0) {
+      for (const y of [...yPositions].sort((a, b) => a - b)) {
+        for (const x of [...xPositions].sort((a, b) => a - b)) {
+          const position = { x, y }
+          if (pointInRing(position, vertices) === 1) {
+            add(position, 360, { x: 1, y: 0 }, 'interior')
+          }
+        }
+      }
     }
   } else {
     const rowStep = radiusM * Math.sqrt(3) / 2
@@ -271,17 +298,9 @@ function evaluateCandidates(candidates, targets) {
   })
 }
 
-function selectAllCandidates(candidates, targetCount, initialUncovered) {
-  const uncovered = new Set(initialUncovered ?? Array.from({ length: targetCount }, (_, index) => index))
-  for (const candidate of candidates) {
-    for (const targetIndex of candidate.covered) uncovered.delete(targetIndex)
-  }
-  return { selected: candidates.slice(), uncovered }
-}
-
-function selectGreedy(candidates, targetCount, initialUncovered = null) {
-  const uncovered = initialUncovered
-    ? new Set(initialUncovered)
+function selectGreedy(candidates, targetCount, initiallyUncovered = null) {
+  const uncovered = initiallyUncovered
+    ? new Set(initiallyUncovered)
     : new Set(Array.from({ length: targetCount }, (_, index) => index))
   const selected = []
   const available = candidates.slice()
@@ -289,15 +308,14 @@ function selectGreedy(candidates, targetCount, initialUncovered = null) {
   while (uncovered.size > 0 && selected.length < MAX_SELECTED_SPRINKLERS) {
     let bestIndex = -1
     let bestGain = 0
-    let bestFlow = Number.POSITIVE_INFINITY
     for (let index = 0; index < available.length; index += 1) {
       const candidate = available[index]
       let gain = 0
       for (const targetIndex of candidate.covered) if (uncovered.has(targetIndex)) gain += 1
-      if (gain > bestGain || (gain === bestGain && gain > 0 && candidate.flowLpm < bestFlow)) {
+      if (gain > bestGain || (gain === bestGain && gain > 0 &&
+          (bestIndex < 0 || candidate.id.localeCompare(available[bestIndex].id) < 0))) {
         bestIndex = index
         bestGain = gain
-        bestFlow = candidate.flowLpm
       }
     }
     if (bestIndex < 0) break
@@ -308,7 +326,35 @@ function selectGreedy(candidates, targetCount, initialUncovered = null) {
   return { selected, uncovered }
 }
 
+function positiveModulo(value, modulus) {
+  return ((value % modulus) + modulus) % modulus
+}
+
+function sectorsMutuallyReach(a, b) {
+  const separation = distance(a.position, b.position)
+  if (separation > Math.min(a.radiusM, b.radiusM) + EPSILON) return false
+  return sectorContains(
+    a.position,
+    b.position,
+    b.directionDeg ?? 0,
+    b.arcDeg,
+    b.radiusM,
+  ) && sectorContains(
+    b.position,
+    a.position,
+    a.directionDeg ?? 0,
+    a.arcDeg,
+    a.radiusM,
+  )
+}
+
 export function evaluateHeadToHeadSpacing(selected) {
+  const perimeterHeads = selected
+    .filter((entry) => Number.isFinite(entry.perimeterOffsetM) && Number.isFinite(entry.perimeterLengthM))
+    .slice()
+    .sort((a, b) => a.perimeterOffsetM - b.perimeterOffsetM)
+  const perimeterLengthM = perimeterHeads[0]?.perimeterLengthM ?? null
+
   return Object.freeze(selected.map((sprinkler) => {
     let nearest = null
     let nearestDistanceM = Number.POSITIVE_INFINITY
@@ -322,30 +368,51 @@ export function evaluateHeadToHeadSpacing(selected) {
         nearestDistanceM = separation
         nearest = other
       }
-
-      const maximumSpacing = Math.min(sprinkler.radiusM, other.radiusM)
-      const mutuallyReaches = separation <= maximumSpacing + EPSILON &&
-        sectorContains(
-          sprinkler.position,
-          other.position,
-          other.directionDeg ?? 0,
-          other.arcDeg,
-          other.radiusM,
-        ) &&
-        sectorContains(
-          other.position,
-          sprinkler.position,
-          sprinkler.directionDeg ?? 0,
-          sprinkler.arcDeg,
-          sprinkler.radiusM,
-        )
-      if (mutuallyReaches && separation < headToHeadDistanceM) {
+      if (sectorsMutuallyReach(sprinkler, other) && separation < headToHeadDistanceM) {
         headToHeadDistanceM = separation
         headToHeadNeighbor = other
       }
     }
 
     const nearestLimit = nearest ? Math.min(sprinkler.radiusM, nearest.radiusM) : null
+    const perimeterIndex = perimeterHeads.findIndex((entry) => entry.id === sprinkler.id)
+    let perimeterPreviousSprinklerId = null
+    let perimeterNextSprinklerId = null
+    let perimeterPreviousGapM = null
+    let perimeterNextGapM = null
+    let perimeterSpacingPassed = null
+    let passed = headToHeadNeighbor !== null
+
+    if (perimeterIndex >= 0 && perimeterHeads.length > 1 && perimeterLengthM > 0) {
+      const previous = perimeterHeads[(perimeterIndex - 1 + perimeterHeads.length) % perimeterHeads.length]
+      const next = perimeterHeads[(perimeterIndex + 1) % perimeterHeads.length]
+      perimeterPreviousSprinklerId = previous.id
+      perimeterNextSprinklerId = next.id
+      perimeterPreviousGapM = positiveModulo(
+        sprinkler.perimeterOffsetM - previous.perimeterOffsetM,
+        perimeterLengthM,
+      )
+      perimeterNextGapM = positiveModulo(
+        next.perimeterOffsetM - sprinkler.perimeterOffsetM,
+        perimeterLengthM,
+      )
+      const previousPasses = perimeterPreviousGapM <= Math.min(sprinkler.radiusM, previous.radiusM) + EPSILON &&
+        sectorsMutuallyReach(sprinkler, previous)
+      const nextPasses = perimeterNextGapM <= Math.min(sprinkler.radiusM, next.radiusM) + EPSILON &&
+        sectorsMutuallyReach(sprinkler, next)
+      perimeterSpacingPassed = previousPasses && nextPasses
+      passed = perimeterSpacingPassed
+      headToHeadNeighbor = nextPasses ? next : previousPasses ? previous : null
+      headToHeadDistanceM = headToHeadNeighbor
+        ? distance(sprinkler.position, headToHeadNeighbor.position)
+        : Number.POSITIVE_INFINITY
+    } else if (perimeterIndex >= 0) {
+      perimeterSpacingPassed = false
+      passed = false
+      headToHeadNeighbor = null
+      headToHeadDistanceM = Number.POSITIVE_INFINITY
+    }
+
     return Object.freeze({
       sprinklerId: sprinkler.id,
       nearestSprinklerId: nearest?.id ?? null,
@@ -356,53 +423,110 @@ export function evaluateHeadToHeadSpacing(selected) {
       headToHeadRequiredMaximumM: headToHeadNeighbor
         ? Math.min(sprinkler.radiusM, headToHeadNeighbor.radiusM)
         : null,
-      passed: headToHeadNeighbor !== null,
+      perimeterPreviousSprinklerId,
+      perimeterNextSprinklerId,
+      perimeterPreviousGapM,
+      perimeterNextGapM,
+      perimeterSpacingPassed,
+      passed,
     })
   }))
 }
 
+function findPerimeterGapRepair(current, next, gapM, perimeterLengthM, candidates, selected) {
+  return candidates
+    .filter((candidate) =>
+      Number.isFinite(candidate.perimeterOffsetM) &&
+      !selected.some((entry) => entry.id === candidate.id))
+    .map((candidate) => {
+      const alongGapM = positiveModulo(candidate.perimeterOffsetM - current.perimeterOffsetM, perimeterLengthM)
+      const remainingGapM = gapM - alongGapM
+      const reachesCurrent = alongGapM > EPSILON &&
+        alongGapM <= Math.min(current.radiusM, candidate.radiusM) + EPSILON &&
+        sectorsMutuallyReach(current, candidate)
+      const reachesNext = remainingGapM > EPSILON &&
+        remainingGapM <= Math.min(candidate.radiusM, next.radiusM) + EPSILON &&
+        sectorsMutuallyReach(candidate, next)
+      return {
+        candidate,
+        alongGapM,
+        reachesCurrent,
+        reachesNext,
+      }
+    })
+    .filter(({ alongGapM, reachesCurrent, reachesNext }) =>
+      alongGapM > EPSILON && alongGapM < gapM - EPSILON &&
+      (reachesCurrent || reachesNext))
+    .sort((a, b) =>
+      Number(b.reachesCurrent && b.reachesNext) - Number(a.reachesCurrent && a.reachesNext) ||
+      Math.max(a.alongGapM, gapM - a.alongGapM) - Math.max(b.alongGapM, gapM - b.alongGapM) ||
+      Math.abs(a.alongGapM - gapM / 2) - Math.abs(b.alongGapM - gapM / 2) ||
+      a.candidate.id.localeCompare(b.candidate.id))[0]?.candidate ?? null
+}
+
 function enforceHeadToHeadSpacing(selectedInput, candidates) {
   const selected = selectedInput.slice()
-  let changed = true
-  while (changed && selected.length < MAX_SELECTED_SPRINKLERS) {
-    changed = false
-    const checks = evaluateHeadToHeadSpacing(selected)
-    for (const check of checks) {
-      if (check.passed) continue
-      const sprinkler = selected.find((entry) => entry.id === check.sprinklerId)
-      if (!sprinkler) continue
-      const neighbour = candidates
-        .filter((candidate) => !selected.some((entry) => entry.id === candidate.id))
-        .map((candidate) => ({
-          candidate,
-          separation: distance(sprinkler.position, candidate.position),
-        }))
-        .filter(({ candidate, separation }) =>
-          separation <= Math.min(sprinkler.radiusM, candidate.radiusM) + EPSILON &&
-          sectorContains(
-            sprinkler.position,
-            candidate.position,
-            candidate.directionDeg ?? 0,
-            candidate.arcDeg,
-            candidate.radiusM,
-          ) &&
-          sectorContains(
-            candidate.position,
-            sprinkler.position,
-            sprinkler.directionDeg ?? 0,
-            sprinkler.arcDeg,
-            sprinkler.radiusM,
-          ))
-        .sort((a, b) =>
-          a.separation - b.separation ||
-          a.candidate.flowLpm - b.candidate.flowLpm ||
-          a.candidate.id.localeCompare(b.candidate.id))[0]
-      if (neighbour) {
-        selected.push(neighbour.candidate)
-        changed = true
+  let attempts = 0
+
+  while (selected.length < MAX_SELECTED_SPRINKLERS && attempts < MAX_SELECTED_SPRINKLERS * 2) {
+    attempts += 1
+    let repair = null
+
+    const perimeterHeads = selected
+      .filter((entry) => Number.isFinite(entry.perimeterOffsetM) && Number.isFinite(entry.perimeterLengthM))
+      .slice()
+      .sort((a, b) => a.perimeterOffsetM - b.perimeterOffsetM)
+    const perimeterLengthM = perimeterHeads[0]?.perimeterLengthM
+
+    if (perimeterHeads.length > 1 && perimeterLengthM > 0) {
+      for (let index = 0; index < perimeterHeads.length; index += 1) {
+        const current = perimeterHeads[index]
+        const next = perimeterHeads[(index + 1) % perimeterHeads.length]
+        const gapM = positiveModulo(
+          next.perimeterOffsetM - current.perimeterOffsetM,
+          perimeterLengthM,
+        )
+        const spacingOk = gapM <= Math.min(current.radiusM, next.radiusM) + EPSILON
+        if (spacingOk && sectorsMutuallyReach(current, next)) continue
+        repair = findPerimeterGapRepair(
+          current,
+          next,
+          gapM,
+          perimeterLengthM,
+          candidates.filter((candidate) => candidate.source !== 'interior'),
+          selected,
+        )
+        if (repair) break
       }
     }
+
+    if (repair) {
+      selected.push(repair)
+      continue
+    }
+
+    const failedInterior = evaluateHeadToHeadSpacing(selected).find((check) => {
+      const sprinkler = selected.find((entry) => entry.id === check.sprinklerId)
+      return sprinkler && !Number.isFinite(sprinkler.perimeterOffsetM) && !check.passed
+    })
+    if (failedInterior) {
+      const sprinkler = selected.find((entry) => entry.id === failedInterior.sprinklerId)
+      repair = candidates
+        .filter((candidate) =>
+          !selected.some((entry) => entry.id === candidate.id) &&
+          sectorsMutuallyReach(sprinkler, candidate))
+        .sort((a, b) =>
+          distance(sprinkler.position, a.position) - distance(sprinkler.position, b.position) ||
+          a.id.localeCompare(b.id))[0] ?? null
+      if (repair) {
+        selected.push(repair)
+        continue
+      }
+    }
+
+    break
   }
+
   return selected
 }
 
@@ -510,25 +634,19 @@ export function generateLawnSprinklerLayout({
   const perimeterPass = selectGreedy(perimeterCandidates, targets.length)
   let coverageSelection = perimeterPass.selected
   let uncovered = perimeterPass.uncovered
-  let interiorPassUsed = false
 
-  // The perimeter is always evaluated first. Interior candidates are admitted
-  // only when the perimeter-only pass leaves sampled lawn points uncovered.
+  // Keep the perimeter-first pattern: add interior heads only for points
+  // that remain uncovered after all useful perimeter candidates are selected.
   if (uncovered.size > 0 && interiorCandidates.length > 0) {
-    const hasCentralRow = interiorCandidates.some((candidate) => candidate.placementGroup === 'central_row')
-    const interiorPass = hasCentralRow
-      ? selectAllCandidates(interiorCandidates, targets.length, uncovered)
-      : selectGreedy(interiorCandidates, targets.length, uncovered)
-    coverageSelection = [...coverageSelection, ...interiorPass.selected]
+    const interiorPass = selectGreedy(interiorCandidates, targets.length, uncovered)
+    coverageSelection = coverageSelection.concat(interiorPass.selected)
     uncovered = interiorPass.uncovered
-    interiorPassUsed = interiorPass.selected.length > 0
   }
 
   const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = evaluateHeadToHeadSpacing(sprinklers)
   const allHeadToHead = checks.every((entry) => entry.passed)
-  const interiorSprinklerCount = sprinklers.filter((entry) => entry.source === 'interior').length
   const warnings = [
     { code: 'sampled_coverage_is_not_a_continuous_mathematical_proof', path: 'coverage' },
     { code: 'hydraulic_feasibility_not_evaluated', path: 'hydraulics' },
@@ -542,23 +660,7 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'perimeter-first-greedy-set-cover-v2',
-    placementStrategy: 'perimeter_first_then_interior_if_required',
-    perimeterPass: Object.freeze({
-      sampledCoverageComplete: perimeterPass.uncovered.size === 0,
-      selectedSprinklers: perimeterPass.selected.length,
-      uncoveredPointsBeforeInteriorPass: perimeterPass.uncovered.size,
-      uncoveredSamplesBeforeInteriorPass: Object.freeze([...perimeterPass.uncovered].slice(0, 30).map((index) => targets[index])),
-    }),
-    interiorPass: Object.freeze({
-      activated: interiorPassUsed || interiorSprinklerCount > 0,
-      selectedSprinklers: interiorSprinklerCount,
-      activationReason: interiorPassUsed || interiorSprinklerCount > 0
-        ? 'perimeter_pass_did_not_fully_cover_or_head_to_head_repair_required'
-        : perimeterPass.uncovered.size > 0
-          ? 'no_valid_interior_candidates'
-          : 'perimeter_pass_sufficient',
-    }),
+    algorithm: 'perimeter-first-multi-row-greedy-set-cover-v3',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
@@ -582,7 +684,6 @@ export function generateLawnSprinklerLayout({
       passed: allHeadToHead,
       checks: Object.freeze(checks),
     }),
-    totalFlowLpm: sprinklers.reduce((sum, sprinkler) => sum + sprinkler.flowLpm, 0),
     warnings: Object.freeze(warnings.map((entry) => Object.freeze(entry))),
     hydraulicFeasibility: 'not_evaluated',
     precipitationUniformity: 'not_evaluated',
