@@ -23,6 +23,7 @@ export interface PreliminaryLawnLayoutResult {
   readonly shortSideM?: number
   readonly plannedNextFamily?: 'Rain Bird 3500'
   readonly supportedStripModels?: ReadonlyArray<'R-VAN-LCS' | 'R-VAN-RCS' | 'R-VAN-SST'>
+  readonly stripSpecifications?: ReadonlyArray<Readonly<{ model: string; dimensionsM: ReadonlyArray<number>; flowLpm: number; pressureBar: number }>>
   readonly engine?: Readonly<{ name: string; version: string; algorithm: string | null }>
   readonly operatingScenario?: Readonly<{
     manufacturer: string
