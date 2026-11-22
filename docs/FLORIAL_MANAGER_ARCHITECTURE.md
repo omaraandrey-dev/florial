@@ -12,7 +12,8 @@
 
 - Added two separate seller-facing quick guides in Russian and Bulgarian at `docs/manager/SELLER_ORDERS_QUICK_GUIDES.md`.
 - Both cover order-card review, opening an order, next-step status action, editing/replacing catalog items, quantity-zero removal, filters and seller safety rules.
-- The guides intentionally avoid hardcoding the complete status vocabulary or staff permissions; those remain governed by the live Manager UI and assigned role.
+- The expanded guide now explains the exact PDF/proforma buttons, bank-transfer availability confirmation and invalidation after financial edits, all eight order statuses, all five payment statuses, internal notes, and the difference between downloading a PDF and emailing it.
+- The guide is grounded in `src/manager/OrdersManager.tsx`, `functions/api/manager/orders.ts`, `functions/api/manager/order-documents.ts` and `CHECKOUT_SETUP.md`; role-based availability and server-side validation remain authoritative.
 
 ---
 
