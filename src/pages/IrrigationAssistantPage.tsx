@@ -77,7 +77,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     incomplete: 'Схема построена не полностью. Требуется проверить отмеченные ограничения.',
     unsupported: 'Для этой геометрии пока нет подтверждённого автоматического варианта. Не подменяем его неподтверждённой схемой.',
     narrow: 'Для узкой полосы нужно подобрать и ориентировать полосовые форсунки R-VAN LCS, RCS или SST по точным размерам производителя. Автоматический вариант для этих размеров пока не подтверждён.',
-    legendHeads: 'Место установки дождевателя', legendCoverage: 'Дуга / радиус полива', legendPipe: 'Трасса трубы',
+    legendHeads: 'Место установки дождевателя', legendCoverage: 'Дуга / радиус полива', legendPipe: 'Трасса трубы', stripSpecsTitle: 'Полосовые форсунки Rain Bird по таблице производителя (3,1 бар)',
   } : language === 'en' ? {
     title: 'Florial irrigation assistant',
     intro: 'Enter approximate lawn dimensions. We will prepare a preliminary sprinkler and pipe layout using Florial standard assumptions.',
@@ -110,7 +110,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     incomplete: 'The layout is incomplete. Review the displayed limitations.',
     unsupported: 'There is no confirmed automatic layout for this geometry yet. No unsupported layout is substituted.',
     narrow: 'A narrow strip requires exact orientation and sizing of Rain Bird R-VAN LCS, RCS or SST strip nozzles. An automatic layout for these dimensions is not yet confirmed.',
-    legendHeads: 'Sprinkler location', legendCoverage: 'Spray arc / radius', legendPipe: 'Pipe route',
+    legendHeads: 'Sprinkler location', legendCoverage: 'Spray arc / radius', legendPipe: 'Pipe route', stripSpecsTitle: 'Rain Bird strip-nozzle data from the manufacturer table (3.1 bar)',
   } : {
     title: 'Помощник за напояване Florial',
     intro: 'Въведете приблизителните размери на тревната площ. Ще подготвим предварителна схема на разпръсквачите и тръбите според стандартните условия на Florial.',
@@ -143,7 +143,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     incomplete: 'Схемата е създадена частично. Проверете показаните ограничения.',
     unsupported: 'За тази геометрия все още няма потвърдена автоматична схема. Не заместваме резултата с непроверен вариант.',
     narrow: 'За тясна ивица трябва да се подберат и ориентират лентови дюзи Rain Bird R-VAN LCS, RCS или SST според точните размери на производителя. Автоматичен вариант за тези размери все още не е потвърден.',
-    legendHeads: 'Място на разпръсквача', legendCoverage: 'Дъга / радиус на поливане', legendPipe: 'Трасе на тръбата',
+    legendHeads: 'Място на разпръсквача', legendCoverage: 'Дъга / радиус на поливане', legendPipe: 'Трасе на тръбата', stripSpecsTitle: 'Лентови дюзи Rain Bird според таблицата на производителя (3,1 bar)',
   }, [language])
 
   const boundaryVertices = useMemo(() => buildLawnBoundary({
@@ -354,7 +354,15 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number; radiusM: number; zoneId?: string; performanceModel?: string }) => <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.performanceModel ?? layoutResult.operatingScenario?.model} · {sprinkler.arcDeg}° · R {numberFormat(sprinkler.radiusM)} м · {sprinkler.zoneId}</li>)}
                     </ol>
                   </details>
-                </> : <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'strip_nozzle_layout_requires_exact_pattern_engine' ? copy.narrow : copy.unsupported}</p>}
+                </> : layoutResult.status === 'strip_nozzle_layout_requires_exact_pattern_engine' ? <>
+                  <p className="mt-3 text-sm leading-6 text-amber-900">{copy.narrow}</p>
+                  <div className="mt-3 rounded-xl bg-white p-3">
+                    <p className="text-sm font-semibold text-slate-800">{copy.stripSpecsTitle}</p>
+                    <ul className="mt-2 space-y-1 text-xs text-slate-600">
+                      {layoutResult.stripSpecifications?.map((spec: { model: string; dimensionsM: number[]; flowLpm: number }) => <li key={spec.model}>{spec.model}: {spec.dimensionsM[0]} × {spec.dimensionsM[1]} m · {numberFormat(spec.flowLpm)} L/min</li>)}
+                    </ul>
+                  </div>
+                </> : <p className="mt-3 text-sm leading-6 text-amber-900">{copy.unsupported}</p>}
               </section>}
 
               <p className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-950">{copy.hydraulicNotCalculated} {copy.disclaimer}</p>
