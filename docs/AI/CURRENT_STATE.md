@@ -1,3 +1,16 @@
+# Latest main and Production — irrigation engineer release (2026-11-22)
+
+- PR #473 merged into main as `1926d632cc0861341a46ec932a2130ca94dfa103`.
+- Perimeter-first R-VAN layout, sequential zones (max six), schematic route, catalogue BOM and existing cart handoff are now in main.
+- Exact PR-head Blog/Studio validation runs `45008858032` and `45008807081` succeeded; D1 validation run `45008807048` succeeded.
+- Cloudflare Pages Production deployment `0da20669-6b24-4697-8ac4-b281eebec9a2` succeeded from exact merge SHA. Preview was manually accepted by the owner.
+- Owner-approved Sanity correction: SKU `IQ21520F0N25C` is Ø25 × ½″ female thread, corrected and published BG/RU/EN; pre-change backup is in `docs/backups/`.
+- Full technical handoff: `docs/engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md`.
+- Open engineering decisions: mainline Ø25 vs earlier audit Ø32; measured dynamic pressure/flow; hydraulic losses and zone limits; body/regulator compatibility; out-of-stock cart policy; full PE mainline BOM; overspray/DU/wind/field validation. See `docs/AI/OPEN_QUESTIONS.md`.
+- The irrigation work was explicitly resumed only for this bounded feature scope. Broader Rain Bird 3500 stage-8 work remains unapproved.
+
+---
+
 # Florial — CURRENT STATE
 
 > Snapshot date: 2026-11-21. Verified against live GitHub main, GitHub Actions and Cloudflare Pages. This is a handoff summary, not a substitute for the mandatory startup protocol or live checks before future changes.
