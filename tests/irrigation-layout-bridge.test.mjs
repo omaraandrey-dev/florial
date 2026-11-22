@@ -39,6 +39,14 @@ test('confirmed 5m lawn geometry is connected to the deterministic R-VAN18 layou
   assert.equal(result.operatingScenario?.customerSourceMeasurementsUsedAsNozzlePressure, false)
   assert.equal(result.hydraulicFeasibility, 'not_evaluated')
   assert.equal(result.layout?.coverageScope, 'sampled_geometry_only')
+  assert.equal(result.layout?.placementStrategy, 'perimeter_first_then_interior_if_required')
+  assert.ok(result.layout?.perimeterPass?.selectedSprinklers > 0)
+  assert.equal(
+    result.layout?.interiorPass?.activated,
+    result.layout?.interiorPass?.selectedSprinklers > 0,
+  )
+  assert.equal(result.designBasis?.supplyPressureAtm, 4)
+  assert.equal(result.designBasis?.hydraulicReferencePoint, 'one_inch_inlet_tap')
 })
 
 test('confirmed orthogonal L-shape reaches the existing layout solver', () => {
