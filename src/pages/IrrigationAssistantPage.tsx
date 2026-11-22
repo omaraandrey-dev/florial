@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
@@ -13,22 +13,23 @@ interface IrrigationAssistantPageProps {
 
 export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantPageProps) {
   const { language } = useI18n()
-  const [step, setStep] = useState(1)
   const [shape, setShape] = useState<LawnInputShape>('rectangle')
   const [length, setLength] = useState('')
   const [width, setWidth] = useState('')
   const [cutoutWidth, setCutoutWidth] = useState('')
   const [cutoutDepth, setCutoutDepth] = useState('')
   const [cutoutCorner, setCutoutCorner] = useState<LawnCutoutCorner>('top-right')
-  const [notes, setNotes] = useState('')
   const [showSummary, setShowSummary] = useState(false)
+  const formRef = useRef<HTMLDivElement>(null)
+  const summaryRef = useRef<HTMLDivElement>(null)
+  const hasMountedRef = useRef(false)
 
   const copy = useMemo(() => {
     if (language === 'ru') return {
       title: 'Помощник подбора полива Florial',
       intro: 'Укажите приблизительные размеры газона. Я подготовлю предварительную схему дождевателей и трассу труб по стандартным условиям Florial.',
       module: 'Проектирование автоматического полива · Газон',
-      step: 'Этап', of: 'из 2', welcome: 'Здравствуйте! Помогу подготовить исходные данные для системы полива газона. Начнём с формы и размеров участка.',
+      step: 'Этап', of: 'из 1', welcome: 'Здравствуйте! Помогу подготовить исходные данные для системы полива газона. Начнём с формы и размеров участка.',
       prompts: ['Какую форму и примерные размеры имеет газон?', 'Есть ли препятствия или ограничения на участке?'],
       geometryTitle: 'Сначала определим контур газона', shape: 'Форма участка', rectangle: 'Прямоугольник', lShape: 'Г-образный участок',
       length: 'Общая длина, м', width: 'Общая ширина, м', cutoutWidth: 'Ширина выреза, м', cutoutDepth: 'Глубина выреза, м',
@@ -43,10 +44,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       testPoint: 'Где измеряли давление?', source: 'На выходе источника / насоса', tap: 'На ближайшем кране', lawnEntry: 'В точке входа воды на участок',
       flowTitle: 'Расход воды', flowValue: 'Измеренный расход, л/мин', flowMethod: 'Как измеряли расход?', bucket: 'Ёмкость и секундомер', flowMeter: 'Расходомер', otherVerified: 'Другой измерительный прибор', methodUnknown: 'Не измерял(а) / не знаю',
       measurementHint: 'Статическое давление не показывает, какое давление останется при работе дождевателей. Для гидравлической проверки нужны динамическое давление, расход и сведения о трубопроводе.',
-      notesTitle: 'Особенности участка', notesPlaceholder: 'Например: дорожки, терраса, деревья, клумбы, бассейн или зоны, которые нельзя поливать.',
-      notesHint: 'Пока это текстовое описание. Препятствия ещё не нанесены на геометрическую схему и не вычитаются из площади.',
       next: 'Продолжить', back: 'Назад', finish: 'Проверить собранные данные', summaryTitle: 'Карточка исходных данных',
-      area: 'Площадь', shapeLabel: 'Форма', sourceLabel: 'Источник воды', pressureLabel: 'Давление', flowLabel: 'Расход', notesLabel: 'Ограничения и примечания',
+      area: 'Площадь', shapeLabel: 'Форма', sourceLabel: 'Источник воды', pressureLabel: 'Давление', flowLabel: 'Расход'
       ready: 'Исходные данные собраны', geometryReady: 'Геометрия подтверждена для предварительной раскладки', geometryMissing: 'Геометрию нужно уточнить или подтвердить',
       dynamicReady: 'Динамическое давление указано с условиями измерения', dynamicMissing: 'Динамическое давление и точка измерения не подтверждены',
       flowReady: 'Расход указан с методом измерения', flowMissing: 'Не хватает подтверждённого измерения расхода',
@@ -68,7 +67,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       title: 'Florial Irrigation Assistant',
       intro: 'Enter the approximate lawn dimensions. I will prepare a preliminary sprinkler layout and pipe route using Florial standard assumptions.',
       module: 'Automatic irrigation design · Lawn',
-      step: 'Stage', of: 'of 2', welcome: 'Hello! I will help prepare the information for your lawn irrigation project. Let’s start with the lawn shape and measured dimensions.',
+      step: 'Stage', of: 'of 1', welcome: 'Hello! I will help prepare the information for your lawn irrigation project. Let’s start with the lawn shape and measured dimensions.',
       prompts: ['What is the lawn shape and approximate size?', 'Are there obstacles or site restrictions?'],
       geometryTitle: 'First, define the lawn outline', shape: 'Lawn shape', rectangle: 'Rectangle', lShape: 'L-shaped lawn',
       length: 'Overall length, m', width: 'Overall width, m', cutoutWidth: 'Cut-out width, m', cutoutDepth: 'Cut-out depth, m',
@@ -84,10 +83,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       testPoint: 'Where was pressure measured?', source: 'At source / pump outlet', tap: 'At a nearby tap', lawnEntry: 'At the water entry point to the lawn',
       flowTitle: 'Water flow', flowValue: 'Measured flow rate, L/min', flowMethod: 'How was the flow measured?', bucket: 'Container and stopwatch', flowMeter: 'Flow meter', otherVerified: 'Other measuring device', methodUnknown: 'Not measured / not sure',
       measurementHint: 'Static pressure does not show the pressure available while sprinklers operate. Hydraulic review needs dynamic pressure, measured flow and pipe-network information.',
-      notesTitle: 'Site details and restrictions', notesPlaceholder: 'For example: paths, patio, trees, planting beds, pool or areas that must not be watered.',
-      notesHint: 'This is a text note only. Obstacles are not yet drawn on the geometry and are not deducted from the lawn area.',
       next: 'Continue', back: 'Back', finish: 'Review collected information', summaryTitle: 'Project intake record',
-      area: 'Area', shapeLabel: 'Shape', sourceLabel: 'Water source', pressureLabel: 'Pressure', flowLabel: 'Flow', notesLabel: 'Restrictions and notes',
+      area: 'Area', shapeLabel: 'Shape', sourceLabel: 'Water source', pressureLabel: 'Pressure', flowLabel: 'Flow'
       ready: 'Project inputs collected', geometryReady: 'Geometry confirmed for preliminary layout', geometryMissing: 'Geometry needs clarification or confirmation',
       dynamicReady: 'Dynamic pressure and test conditions supplied', dynamicMissing: 'Dynamic pressure and test point are not confirmed',
       flowReady: 'Flow and measurement method supplied', flowMissing: 'A verified flow measurement is still missing',
@@ -109,7 +106,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       title: 'Помощник за напояване Florial',
       intro: 'Въведете приблизителните размери на тревната площ. Ще подготвя предварителна схема на разпръсквачите и трасето на тръбите според стандартните условия на Florial.',
       module: 'Проектиране на автоматично напояване · Тревна площ',
-      step: 'Етап', of: 'от 2', welcome: 'Здравейте! Ще помогна да подготвим данните за напояване на тревната площ. Нека започнем с формата и измерените размери.',
+      step: 'Етап', of: 'от 1', welcome: 'Здравейте! Ще помогна да подготвим данните за напояване на тревната площ. Нека започнем с формата и измерените размери.',
       prompts: ['Каква е формата и приблизителният размер на тревната площ?', 'Има ли препятствия или ограничения в терена?'],
       geometryTitle: 'Първо задайте контура на тревната площ', shape: 'Форма на терена', rectangle: 'Правоъгълна', lShape: 'Г-образна тревна площ',
       length: 'Обща дължина, м', width: 'Обща ширина, м', cutoutWidth: 'Ширина на изреза, м', cutoutDepth: 'Дълбочина на изреза, м',
@@ -125,10 +122,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       testPoint: 'Къде е измерено налягането?', source: 'На изхода на водоизточника / помпата', tap: 'На близък кран', lawnEntry: 'На входа на водата към терена',
       flowTitle: 'Дебит на водата', flowValue: 'Измерен дебит, л/мин', flowMethod: 'Как измерихте дебита?', bucket: 'Съд и хронометър', flowMeter: 'Дебитомер', otherVerified: 'Друг измервателен уред', methodUnknown: 'Не е измерен / не знам',
       measurementHint: 'Статичното налягане не показва какво налягане ще има при работещи разпръсквачи. За хидравлична проверка са нужни динамично налягане, измерен дебит и данни за тръбната мрежа.',
-      notesTitle: 'Особености и ограничения на терена', notesPlaceholder: 'Например: алеи, тераса, дървета, цветни лехи, басейн или зони, които не трябва да се напояват.',
-      notesHint: 'Това засега е текстова бележка. Препятствията още не са нанесени върху геометричната схема и не се изваждат от площта.',
       next: 'Напред', back: 'Назад', finish: 'Преглед на събраните данни', summaryTitle: 'Карта на входните данни',
-      area: 'Площ', shapeLabel: 'Форма', sourceLabel: 'Водоизточник', pressureLabel: 'Налягане', flowLabel: 'Дебит', notesLabel: 'Ограничения и бележки',
+      area: 'Площ', shapeLabel: 'Форма', sourceLabel: 'Водоизточник', pressureLabel: 'Налягане', flowLabel: 'Дебит'
       ready: 'Входните данни са събрани', geometryReady: 'Геометрията е потвърдена за предварителна схема', geometryMissing: 'Геометрията трябва да се уточни или потвърди',
       dynamicReady: 'Динамичното налягане и условията за измерване са посочени', dynamicMissing: 'Динамичното налягане и точката на измерване не са потвърдени',
       flowReady: 'Посочени са дебит и метод на измерване', flowMissing: 'Липсва потвърдено измерване на дебита',
@@ -176,14 +171,13 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     cutoutDepth,
     cutoutCorner,
     geometryValidation,
-    notes,
+    notes: '',
   }
   const readiness = useMemo(() => evaluateIrrigationIntake(intakeInput), [
-    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, geometryValidation,
-    notes,
+    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, geometryValidation
   ])
   const snapshot = useMemo(() => buildIrrigationIntakeSnapshot(intakeInput), [
-    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, geometryValidation, notes,
+    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, geometryValidation
   ])
 
   const layoutResult = useMemo(() => showSummary ? buildPreliminaryLawnLayout(snapshot) : null, [snapshot, showSummary])
@@ -233,27 +227,33 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     headToHead: 'Проверка на разстоянието head-to-head', passed: 'Успешна', failed: 'Има забележки',
   }
   const svgPoints = boundaryVertices?.map((point) => String(Math.round(point.x * 1000) / 1000) + ',' + String(Math.round(point.y * 1000) / 1000)).join(' ')
-  const progress = showSummary ? 100 : Math.round(step / 2 * 100)
+  const progress = 100
 
   function updateGeometry(setter: (value: string) => void, value: string) {
     setter(value)
   }
 
-  function answerSummary(stage: number) {
-    if (stage === 1) return geometryAccepted
-      ? shapeLabel + ' · ' + length + ' × ' + width + ' м · ' + numberFormat(calculatedArea) + ' ' + copy.unit
-      : copy.geometryMissing
-    return notes.trim() || copy.noValue
+  function answerSummary() {
+    return shapeLabel + ' · ' + length + ' × ' + width + ' м · ' + numberFormat(calculatedArea) + ' ' + copy.unit
   }
 
   useEffect(() => {
     applyPageSeo({ fallbackTitle: copy.title + ' | Florial', fallbackDescription: copy.intro, noIndex: true, language })
   }, [copy, language])
 
+  useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true
+      return
+    }
+    const target = showSummary ? summaryRef.current : formRef.current
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [showSummary])
+
   const selectClass = 'w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-left text-sm text-slate-800 transition hover:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-200'
   const activeClass = 'border-emerald-700 bg-emerald-50 text-emerald-900 ring-1 ring-emerald-700'
   const inputClass = 'mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 font-normal text-slate-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100'
-  const steps = [copy.prompts[0], copy.prompts[1]]
+  const steps = [copy.prompts[0]]
 
   return (
     <main className="mx-auto min-h-[70vh] w-full max-w-6xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
@@ -276,7 +276,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
       </header>
 
       <div className="mb-5 flex items-center justify-between gap-4 text-sm font-semibold text-slate-600">
-        <span>{copy.progress}</span><span>{copy.step} {showSummary ? 2 : step} {copy.of}</span>
+        <span>{copy.progress}</span><span>{copy.step} 1 {copy.of}</span>
       </div>
       <div className="mb-7 h-2 overflow-hidden rounded-full bg-slate-100">
         <div className="h-full rounded-full bg-emerald-600 transition-all" style={{ width: progress + '%' }} />
@@ -291,22 +291,21 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
 
           <div className="space-y-4" aria-live="polite">
             <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">{copy.welcome}</div>
-            {Array.from({ length: showSummary ? 2 : step - 1 }, (_, index) => index + 1).map((stage) => (
+            {showSummary && (
               <div key={stage} className="space-y-2">
                 <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">{steps[stage - 1]}</div>
                 <div className="ml-auto max-w-[92%] rounded-2xl rounded-tr-sm bg-slate-100 px-4 py-3 text-sm leading-6 text-slate-800">
                   <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-slate-500">{copy.you}</p>
-                  {answerSummary(stage)}
+                  {answerSummary()}
                 </div>
               </div>
-            ))}
-            {!showSummary && <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">{steps[step - 1]}</div>}
+            )}
+            {!showSummary && <div className="max-w-[92%] rounded-2xl rounded-tl-sm bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950">{steps[0]}</div>}
           </div>
 
           {!showSummary ? (
-            <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
-              {step === 1 ? (
-                <div>
+            <div ref={formRef} className="mt-5 scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+              <div>
                   <h2 className="mb-4 text-lg font-bold text-slate-900">{copy.geometryTitle}</h2>
                   <p className="mb-3 text-sm font-semibold text-slate-700">{copy.shape}</p>
                   <div className="mb-5 grid gap-3 sm:grid-cols-2">
@@ -341,21 +340,14 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                   {!boundaryVertices && (length !== '' || width !== '' || (shape === 'l-shape' && (cutoutWidth !== '' || cutoutDepth !== ''))) && <p role="alert" className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-6 text-amber-950">{copy.geometryInvalid}</p>}
                   {boundaryVertices && geometryValidation && !geometryValidation.valid && <p role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm leading-6 text-rose-900">{copy.geometryInvalid}</p>}
                 </div>
-              ) : (
-                <div>
-                  <h2 className="mb-4 text-lg font-bold text-slate-900">{copy.notesTitle}</h2>
-                  <textarea rows={5} value={notes} onChange={(event) => setNotes(event.target.value)} placeholder={copy.notesPlaceholder} className="w-full rounded-xl border border-slate-300 px-3 py-3 text-sm leading-6 text-slate-900 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-100" />
-                  <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm leading-6 text-amber-950">{copy.notesHint}</p>
-                </div>
-              )}
 
-              <div className="mt-6 flex flex-wrap justify-between gap-3">
-                <button type="button" disabled={step === 1} onClick={() => setStep((current) => Math.max(1, current - 1))} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 disabled:opacity-40">{copy.back}</button>
-                {step < 2 ? <button type="button" disabled={step === 1 && !geometryAccepted} onClick={() => setStep((current) => Math.min(2, current + 1))} className="rounded-xl bg-emerald-700 px-6 py-3 text-sm font-bold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-40">{copy.next}</button> : <button type="button" onClick={() => setShowSummary(true)} className="rounded-xl bg-emerald-700 px-6 py-3 text-sm font-bold text-white hover:bg-emerald-800">{copy.finish}</button>}
+
+              <div className="mt-6 flex justify-end">
+                <button type="button" disabled={!geometryAccepted} onClick={() => setShowSummary(true)} className="rounded-xl bg-emerald-700 px-6 py-3 text-sm font-bold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:opacity-40">{copy.finish}</button>
               </div>
             </div>
           ) : (
-            <div className="mt-5 space-y-5">
+            <div ref={summaryRef} className="mt-5 scroll-mt-24 space-y-5">
               <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
                 <p className="text-sm font-bold uppercase tracking-wide text-emerald-800">{copy.ready}</p>
                 <h2 className="mt-2 text-xl font-bold text-slate-900">{copy.summaryTitle}</h2>
@@ -363,7 +355,6 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                   <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.area}</dt><dd className="mt-1 font-bold text-slate-900">{geometryAccepted ? numberFormat(calculatedArea) + ' ' + copy.unit : copy.noValue}</dd></div>
                   <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.shapeLabel}</dt><dd className="mt-1 font-bold text-slate-900">{shapeLabel}</dd></div>
                   <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{copy.perimeter}</dt><dd className="mt-1 font-bold text-slate-900">{geometryAccepted ? numberFormat(calculatedPerimeter) + ' m' : copy.noValue}</dd></div>
-                  {notes.trim() && <div className="rounded-xl bg-white p-3 sm:col-span-2"><dt className="text-xs font-semibold text-slate-500">{copy.notesLabel}</dt><dd className="mt-1 whitespace-pre-wrap text-slate-800">{notes.trim()}</dd></div>}
                 </dl>
               </div>
 
@@ -397,20 +388,24 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                             <g transform={'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'}>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
                               {layoutResult.pipeNetwork?.mainRoute && <polyline points={layoutResult.pipeNetwork.mainRoute.map((point: { x: number; y: number }) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#ea580c" strokeWidth="0.12" strokeLinejoin="round" />}
-                              {layoutResult.pipeNetwork?.branches?.map((branch: { zoneId: string; branchDirection: 'forward' | 'reverse'; points: Array<{ x: number; y: number }>; lateralConnections: Array<{ sprinklerId: string; points: Array<{ x: number; y: number }> }> }) => (
-                                <g key={branch.zoneId}>
+                              {layoutResult.pipeNetwork?.branches?.map((branch: { id: string; zoneId: string; branchDirection: 'forward' | 'reverse'; points: Array<{ x: number; y: number }>; lateralConnections: Array<{ sprinklerId: string; points: Array<{ x: number; y: number }> }> }) => (
+                                <g key={branch.id}>
                                   <polyline points={branch.points.map((point) => point.x + ',' + point.y).join(' ')} fill="none" stroke={branch.branchDirection === 'forward' ? '#f59e0b' : '#d97706'} strokeWidth="0.1" strokeLinejoin="round" />
                                   {branch.lateralConnections.map((lateral) => (
                                     <polyline key={lateral.sprinklerId} points={lateral.points.map((point) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#b45309" strokeWidth="0.07" strokeDasharray="0.18 0.12" />
                                   ))}
                                 </g>
                               ))}
-                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number }) => (
+                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number }) => {
+                                const zoneNumber = layoutResult.zones?.find((zone: { zoneNumber: number; sprinklerIds: string[] }) => zone.sprinklerIds.includes(sprinkler.id))?.zoneNumber
+                                return (
                                 <g key={sprinkler.id}>
                                   <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke="#0284c7" strokeWidth="0.045" strokeDasharray="0.22 0.14" opacity="0.7" />
                                   <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill="#0369a1" stroke="#ffffff" strokeWidth="0.08" />
+                                  {zoneNumber !== undefined && <g transform={'translate(' + (sprinkler.position.x + 0.22) + ' ' + sprinkler.position.y + ') scale(1 -1)'}><text x="0" y="-0.22" fontSize="0.72" fontWeight="700" fill="#0f172a" stroke="#ffffff" strokeWidth="0.12" paintOrder="stroke">{zoneNumber}</text></g>}
                                 </g>
-                              ))}
+                                )
+                              })}
                             </g>
                           </svg>
                         </div>
@@ -422,8 +417,8 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       {layoutResult.zones?.length > 0 && <div className="mt-3 rounded-xl bg-white p-3 text-sm">
                         <p className="font-semibold text-slate-800">{language === 'ru' ? 'Группировка линий' : language === 'en' ? 'Irrigation lines' : 'Групиране на линиите'}</p>
                         <ul className="mt-2 space-y-1 text-slate-600">
-                          {layoutResult.zones.map((zone: { id: string; branchDirection: 'forward' | 'reverse' }) => (
-                            <li key={zone.id}>{zone.id}</li>
+                          {layoutResult.zones.map((zone: { id: string; zoneNumber: number; sprinklerCount: number }) => (
+                            <li key={zone.id}>{language === 'ru' ? 'Зона' : language === 'en' ? 'Zone' : 'Зона'} {zone.zoneNumber} · {zone.sprinklerCount}</li>
                           ))}
                         </ul>
                       </div>}
@@ -447,7 +442,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                 </section>
               )}
               <div className="flex flex-wrap gap-3">
-                <button type="button" onClick={() => { setShowSummary(false); setStep(1) }} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">{copy.edit}</button>
+                <button type="button" onClick={() => setShowSummary(false)} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700">{copy.edit}</button>
                 <button type="button" onClick={onNavigateHome} className="rounded-xl bg-emerald-700 px-5 py-3 text-sm font-bold text-white hover:bg-emerald-800">{copy.home}</button>
               </div>
               <p className="text-xs text-slate-500">{copy.notSent} <span className="sr-only">Snapshot version {snapshot.schemaVersion}</span></p>
