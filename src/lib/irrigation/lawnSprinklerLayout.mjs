@@ -411,20 +411,28 @@ function findPerimeterGapRepair(current, next, gapM, perimeterLengthM, candidate
     .filter((candidate) =>
       Number.isFinite(candidate.perimeterOffsetM) &&
       !selected.some((entry) => entry.id === candidate.id))
-    .map((candidate) => ({
-      candidate,
-      alongGapM: positiveModulo(candidate.perimeterOffsetM - current.perimeterOffsetM, perimeterLengthM),
-    }))
-    .filter(({ candidate, alongGapM }) => {
-      if (alongGapM <= EPSILON || alongGapM >= gapM - EPSILON) return false
+    .map((candidate) => {
+      const alongGapM = positiveModulo(candidate.perimeterOffsetM - current.perimeterOffsetM, perimeterLengthM)
       const remainingGapM = gapM - alongGapM
-      const firstSpacingOk = alongGapM <= Math.min(current.radiusM, candidate.radiusM) + EPSILON
-      const secondSpacingOk = remainingGapM <= Math.min(candidate.radiusM, next.radiusM) + EPSILON
-      return firstSpacingOk && secondSpacingOk &&
-        sectorsMutuallyReach(current, candidate) &&
+      const reachesCurrent = alongGapM > EPSILON &&
+        alongGapM <= Math.min(current.radiusM, candidate.radiusM) + EPSILON &&
+        sectorsMutuallyReach(current, candidate)
+      const reachesNext = remainingGapM > EPSILON &&
+        remainingGapM <= Math.min(candidate.radiusM, next.radiusM) + EPSILON &&
         sectorsMutuallyReach(candidate, next)
+      return {
+        candidate,
+        alongGapM,
+        reachesCurrent,
+        reachesNext,
+      }
     })
+    .filter(({ alongGapM, reachesCurrent, reachesNext }) =>
+      alongGapM > EPSILON && alongGapM < gapM - EPSILON &&
+      (reachesCurrent || reachesNext))
     .sort((a, b) =>
+      Number(b.reachesCurrent && b.reachesNext) - Number(a.reachesCurrent && a.reachesNext) ||
+      Math.max(a.alongGapM, gapM - a.alongGapM) - Math.max(b.alongGapM, gapM - b.alongGapM) ||
       Math.abs(a.alongGapM - gapM / 2) - Math.abs(b.alongGapM - gapM / 2) ||
       a.candidate.id.localeCompare(b.candidate.id))[0]?.candidate ?? null
 }
