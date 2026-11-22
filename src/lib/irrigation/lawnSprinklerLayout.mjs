@@ -204,7 +204,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       const next = vertices[(index + 1) % vertices.length]
       return Math.abs(point.x - next.x) < EPSILON || Math.abs(point.y - next.y) < EPSILON
     })).size === 1
-  if (isRectangle && Math.min(maxX - minX, maxY - minY) <= radiusM * 2) {
+  if (isRectangle && Math.min(maxX - minX, maxY - minY) <= radiusM * 2 + 1) {
     const horizontalLongAxis = maxX - minX >= maxY - minY
     const longLength = horizontalLongAxis ? maxX - minX : maxY - minY
     const divisions = Math.max(1, Math.ceil(longLength / radiusM))
