@@ -5,7 +5,7 @@ import {
   RAIN_BIRD_RVAN_DATASET,
 } from './rainBirdRvanPerformanceData.mjs'
 
-const ENGINE_VERSION = '0.1.0'
+const ENGINE_VERSION = '0.2.0'
 const EPSILON = 1e-8
 const DEFAULT_SAMPLE_STEP_M = 0.25
 const MAX_SAMPLE_POINTS = 30000
@@ -548,7 +548,7 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'deterministic-greedy-set-cover-v1',
+    algorithm: 'rvan-corner-perimeter-orthogonal-h2h-v2',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
