@@ -37,19 +37,31 @@ export function buildIrrigationIntakeSnapshot(input) {
       confirmation: 'customer_assertion',
     }),
     water: Object.freeze({
-      source: input.waterSource ?? 'unknown',
+      source: 'standard_design_assumption',
       pressure: Object.freeze({
-        type: input.pressureType ?? 'unknown',
-        valueBar: normalizeOptionalNumber(input.pressureBar),
-        measuredWhileFlowing: input.pressureMeasuredWhileFlowing === true,
-        testPoint: input.pressureTestPoint ?? 'unknown',
-        provenance: 'customer_input',
+        type: 'design_assumption',
+        valueBar: 4,
+        measuredWhileFlowing: false,
+        testPoint: 'one_inch_inlet_tap',
+        provenance: 'florial_standard_design_basis',
       }),
       flow: Object.freeze({
-        valueLpm: normalizeOptionalNumber(input.flowRate),
-        method: input.flowMeasurementMethod ?? 'unknown',
-        provenance: 'customer_input',
+        valueLpm: null,
+        method: 'not_requested_at_customer_intake',
+        provenance: 'not_collected',
       }),
+    }),
+    designBasis: Object.freeze({
+      supplyPressureBar: 4,
+      incomingPipeNominalDiameterMm: 25,
+      inletTapNominalSizeIn: 1,
+      mainPipeNominalDiameterMm: 32,
+      zonePipeNominalDiameterMm: 25,
+      assumedPipeLossBarPer100m: 1,
+      assumedElevationLossBarPer10m: 1,
+      siteElevationModel: 'flat_site_assumption',
+      sprinklerFamilyPreference: 'Rain Bird R-VAN',
+      placementStrategy: 'perimeter_first_then_interior_if_required',
     }),
     constraints: Object.freeze({
       notes: String(input.notes ?? '').trim(),
@@ -72,25 +84,11 @@ export function evaluateIrrigationIntake(input) {
     geometry?.status === 'accepted' &&
     geometry?.supported === true
 
-  const pressureBar = normalizeOptionalNumber(input.pressureBar)
-  const flowRate = normalizeOptionalNumber(input.flowRate)
-  const dynamicPressureReady = input.pressureType === 'dynamic' &&
-    finitePositive(pressureBar) &&
-    input.pressureMeasuredWhileFlowing === true &&
-    typeof input.pressureTestPoint === 'string' &&
-    input.pressureTestPoint !== 'unknown'
-
-  const flowReady = finitePositive(flowRate) &&
-    ['bucket', 'flow_meter', 'other_verified'].includes(input.flowMeasurementMethod)
+  const dynamicPressureReady = false
+  const flowReady = false
 
   const missing = []
   if (!geometryReady) missing.push('confirmed_supported_geometry')
-  if (!input.waterSource || input.waterSource === 'unknown') missing.push('water_source')
-  if (!dynamicPressureReady) missing.push('dynamic_pressure_and_test_point')
-  if (!flowReady) missing.push('measured_flow_and_method')
-  if (input.pipeNetworkCaptured !== true) missing.push('pipe_network')
-  if (input.elevationProfileCaptured !== true) missing.push('elevation_profile_or_verified_zero')
-  if (input.restrictionsCaptured !== true) missing.push('network_restrictions')
 
   return Object.freeze({
     status: geometryReady ? 'geometry_ready_for_preliminary_layout' : 'intake_incomplete',
