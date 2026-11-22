@@ -48,7 +48,7 @@ test('Florial standard uses the top-right source and Ø25 mm throughout', () => 
   assert.equal(FLORIAL_IRRIGATION_PROJECT_STANDARD.zoneCapacity.maxHeadsPerZone, 6)
 })
 
-test('mixed 90° and 180° heads form two source-fed zones of six, not arc-based zones', () => {
+test('perimeter heads are grouped in continuous top-right counter-clockwise order', () => {
   const zones = buildIrrigationZones(mixedPerimeterHeads, rectangle)
   assert.equal(zones.length, 2)
   assert.deepEqual(zones.map((zone) => zone.sprinklerCount), [6, 6])
@@ -56,6 +56,8 @@ test('mixed 90° and 180° heads form two source-fed zones of six, not arc-based
   assert.ok(zones.every((zone) => zone.sprinklerIds.length <= 6))
   assert.deepEqual(new Set(zones.flatMap((zone) => zone.sprinklerIds)), new Set(mixedPerimeterHeads.map((head) => head.id)))
   assert.ok(zones.every((zone) => zone.branchDirections.length >= 1))
+  assert.deepEqual(zones[0].sprinklerIds, ['top-0', 'top-1', 'top-2', 'top-3', 'top-4', 'top-5'])
+  assert.deepEqual(zones[1].sprinklerIds, ['bottom-0', 'bottom-1', 'bottom-2', 'bottom-3', 'bottom-4', 'bottom-5'])
 })
 
 test('pipe network draws one sequential perimeter route per zone from the source', () => {
@@ -83,7 +85,9 @@ test('a branch with more than six heads is split into independent zones of at mo
     { id: 'interior-1', position: { x: 12.5, y: 2.5 }, arcDeg: 360 },
   ])
   const zones = buildIrrigationZones(extended, rectangle)
-  assert.deepEqual(zones.map((zone) => zone.sprinklerCount), [5, 4, 4])
+  assert.deepEqual(zones.map((zone) => zone.sprinklerCount), [6, 6, 1])
+  assert.equal(zones[2].zoneType, 'interior')
+  assert.ok(zones.slice(0, 2).every((zone) => zone.zoneType === 'perimeter'))
   assert.ok(zones.every((zone) => zone.sprinklerCount <= 6))
   assert.ok(zones.every((zone) => zone.sprinklerCount > 1))
   assert.equal(zones.reduce((sum, zone) => sum + zone.sprinklerCount, 0), extended.length)
