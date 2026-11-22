@@ -1,8 +1,12 @@
-# Latest main and Production — owner irrigation PDF handoff correction (PR pending)
+# Latest main and Production — owner irrigation PDF handoff correction (PR #480 merged and deployed)
 
-- Root cause found in `functions/api/orders.ts`: the project-only owner email guard used a double-escaped email regex, which rejects ordinary email addresses. The project PDF branch therefore skipped delivery.
-- The correction groups the order/proforma PDF and irrigation project PDF into one owner notification. Customer project delivery is gated behind Owner approval: bank-transfer orders use `confirm_proforma`; other payment methods use the new Owner-only `approve_irrigation_project` Manager action.
-- Implementation branch starts from main `3bf427cf6665a4783e9612010909c880e27c90a5`. No live D1, Sanity, Cloudflare settings/secrets or Resend writes are part of the code change.
+- PR #480 squash-merged into `main` at `8214cdeef0183af6011f7f27aae5dd3730ef8ad5`; this is the verified current `main` HEAD.
+- Cloudflare Pages Production deployment `e2469d28-10f3-4efc-b1b7-9e9290f3d02b` completed successfully from that exact SHA. Production: https://florial-bg.com.
+- Root cause: the owner notification guard in `functions/api/orders.ts` used a double-escaped email regex, rejecting ordinary email addresses and skipping the project-PDF branch.
+- The owner receives one notification with two separate attachments: order/proforma PDF and irrigation project PDF. Missing PDF generation is reported explicitly in the email.
+- The project PDF is not sent to the customer during checkout. Bank-transfer orders send it with the final proforma through `confirm_proforma`; other payment methods require the Owner-only Manager action `approve_irrigation_project`, which sends both PDFs to the customer, copies the owner and records approval in `order_events`. Repeated approval sends are blocked.
+- PR-head SHA `2529cc88dfa7fbb1d972bdbad21699add43f89b7`: D1 validation run `45042467098` and Blog/Studio validation run `45042467160` succeeded, including lint, type-checks, website tests/build, migration dry-run and Studio build. Preview `https://9c15b61d.florial.pages.dev/irrigation-assistant` succeeded.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes or test orders/emails were performed. Actual Resend inbox receipt and full checkout end-to-end delivery remain unverified; a safe owner-approved test is still required.
 
 ---
 
