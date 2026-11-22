@@ -566,6 +566,7 @@ export function generateLawnSprinklerLayout({
       uncoveredSamples: Object.freeze([...uncovered].slice(0, 100).map((index) => targets[index])),
     }),
     sprinklers: Object.freeze(sprinklers),
+    modelsUsed: Object.freeze([...new Set(sprinklers.map((sprinkler) => sprinkler.model))]),
     headToHead: Object.freeze({
       passed: allHeadToHead,
       checks: Object.freeze(checks),
