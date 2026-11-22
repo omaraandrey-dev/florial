@@ -1,3 +1,17 @@
+## 2026-11-22 — Irrigation engineer: perimeter-first lawn design, sequential zones and complete cart kit (PR #473 merged)
+
+- PR #473 squash-merged into `main` at `1926d632cc0861341a46ec932a2130ca94dfa103`.
+- Added deterministic Rain Bird R-VAN perimeter-first placement, sampled coverage and head-to-head repair, multi-row 360° interior heads, top-right perimeter traversal, sequential groups of up to six heads, schematic pipe routes, SKU BOM and Sanity-to-existing-cart integration.
+- The cart is gated on generated layout, passed head-to-head checks, complete unique zone assignment and successful resolution of every required active Sanity SKU. Current published prices, stock metadata, translations and images are passed from Sanity; BOM SKU/quantity mapping is code-owned.
+- Corrected and published Sanity Production product SKU `IQ21520F0N25C` from the incorrect 25 × ¾″ female thread description to 25 × ½″ female thread in BG/RU/EN. Snapshot retained at `docs/backups/sanity-product-IQ21520F0N25C-before-2026-11-22.json.md`; document ID `19c359d0-0db5-43da-87ab-0e495c8df85a`; read-after-write verified.
+- Exact PR-head validation: Blog/Studio runs `45008858032` and `45008807081` — success; D1 validation run `45008807048` — success. Preview `https://89a09c61.florial.pages.dev/irrigation-assistant` build/deploy succeeded and owner manually accepted the visual result.
+- Cloudflare Pages Production deployment `0da20669-6b24-4697-8ac4-b281eebec9a2` succeeded from exact merge SHA `1926d632cc0861341a46ec932a2130ca94dfa103`.
+- No D1 schema/data, Cloudflare settings/secrets, Resend or order data changed. The only live data write was the owner-approved Sanity correction above.
+- This is a preliminary geometric design, not a hydraulic calculation or field-certified project. The current code uses Ø25 mm for main and zone routes, while an earlier audit mentions Ø32 mm main; this discrepancy is open and must be resolved before hydraulic sizing.
+- Full operating guide: `docs/engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md`.
+
+---
+
 ## 2026-11-22 — Storefront: plant product page UX refinement (PR pending)
 
 - `src/pages/ProductPage.tsx`: clearer plant title/intro and purchase hierarchy; confirmed foliage/Black Sea suitability highlights; consolidated sale-variant dimensions into the purchase panel; separated key characteristics from growing conditions; collapsible care guide; mobile sticky add-to-cart action after the original controls scroll out of view.
