@@ -72,17 +72,20 @@ test('confirmed orthogonal L-shape reaches the existing layout solver', () => {
   assert.equal(result.operatingScenario?.model, 'R-VAN18')
 })
 
-test('narrow strip geometry returns R-VAN strip nozzle candidates instead of the fallback family', () => {
-  for (const width of [1, 1.5, 2]) {
-    const result = buildPreliminaryLawnLayout(snapshotFor({ width }))
-    assert.equal(result.status, 'strip_nozzle_layout_required')
-    assert.deepEqual(result.stripSpecifications.map((entry) => entry.model), ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'])
-    assert.equal(result.nominalStripWidthM, 1.5)
-    assert.equal(result.manufacturerSizeAdjustmentLimitsPublished, false)
-    assert.equal(result.layout, undefined)
+test('narrow strip geometry routes to dedicated R-VAN strip layout and exposes adjustment status', () => {
+  const exact = buildPreliminaryLawnLayout(snapshotFor({ width: 1.5 }))
+  assert.equal(exact.status, 'strip_layout_generated')
+  assert.deepEqual(exact.layout.modelsUsed, ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'])
+  assert.equal(exact.layout.coverage.uncoveredPoints, 0)
+  assert.equal(exact.layout.headToHead.passed, true)
+
+  for (const width of [1, 2]) {
+    const adjusted = buildPreliminaryLawnLayout(snapshotFor({ width }))
+    assert.equal(adjusted.status, 'strip_layout_requires_field_adjustment')
+    assert.equal(adjusted.layout.sizeAdjustmentRequired, true)
+    assert.equal(adjusted.layout.sizeAdjustmentVerified, false)
   }
 })
-
 test('unconfirmed geometry is never passed to the layout solver', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor({ confirmed: false }))
   assert.equal(result.status, 'needs_confirmed_geometry')
