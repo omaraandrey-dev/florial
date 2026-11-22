@@ -107,6 +107,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
       manufacturer: dataset.manufacturer,
       family: 'R-VAN',
       model,
+      modelsUsed: layout.modelsUsed,
       pressureBar,
       pressureBasis: 'manufacturer_recommended_operating_pressure',
       modelSelectionBasis: 'R-VAN_model_selected_from_manufacturer_radius_envelope',
