@@ -34,7 +34,7 @@ export interface PreliminaryLawnLayoutResult {
     actualNozzlePressureVerified: false
     customerSourceMeasurementsUsedAsNozzlePressure: false
   }>
-  readonly geometry?: Readonly<{ shape: string | null; areaM2: number | null; shortSideM: number }>
+  readonly geometry?: Readonly<{ shape: string | null; areaM2: number | null; shortSideM: number; dimensionsAreApproximate: true }>
   readonly projectStandard?: Readonly<Record<string, any>>
   readonly zones?: ReadonlyArray<Readonly<{
     id: string
