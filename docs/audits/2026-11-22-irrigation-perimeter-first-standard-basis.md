@@ -141,14 +141,14 @@ Corrected and published BG/RU/EN name, description, short description, size spec
 
 - Added an explicit “Add complete kit to cart” action to the generated layout result.
 - Connected it to the existing storefront `handleAddToCart` and `navigateToCart` flows. The cart receives catalogue product IDs, current published prices, translations, image metadata, stock status and weights.
-- Product lookup is read-only. No catalogue product price or stock is copied into a hardcoded BOM; the SKU mapping is limited to engineering compatibility and quantities.
+- Product lookup is read-only. No catalogue product price or stock is copied into a hardcoded BOM; the SKU mapping is limited to engineering compatibility and quantities. The GROQ cart lookup selects only translated product names (not full Portable Text translations); a full 15-SKU query exceeded Sanity's 64 KiB response limit, while the reduced query was successfully validated against all 15 active product records.
 - The customer is routed to the cart after all kit lines are added. Existing cart behavior merges matching product IDs.
 - Added regression tests for sequential zones, BOM quantities, unknown nozzle mapping, incomplete zone assignment and cart integration.
 
 ### Verification status after this follow-up
 
 - Code changes are on the existing PR #473 head branch `feat/irrigation-perimeter-first-standard-basis`, based on `main` `b48d6c5b354c500250957355b4eb90751be072d0`.
-- The previous PR #473 CI/browser QA results apply to its earlier head only. For this follow-up, GitHub Blog/Studio validation (including typecheck and website utility tests) passed on code commit `96ec802881646df2dbc93ef0dfb0fca420b3b32f`; D1 migration validation passed on the latest docs commit `72da7edb2914a9f6126270008057cd60fcf4b977`. The latest Blog/Studio workflow for that docs-only commit was still running at the time of this audit update. Cloudflare Pages Preview deployment `94ee37f2-b2d3-4a6e-a261-6ec053119d22` for commit `72da7edb2914a9f6126270008057cd60fcf4b977` completed build and deploy successfully at `https://94ee37f2.florial.pages.dev`. Browser visual QA remains pending because the owner requires explicit permission before Browser Use.
+- The previous PR #473 browser QA results apply to its earlier head only. GitHub Blog/Studio validation (including typecheck and website utility tests) and D1 migration validation passed on code/docs commit `4abb74a46e0087f3135c4bdce153df8a707247f4`. The latest follow-up commit `82c6f8037d05737803a9f68e26acc1c49de51cfe` narrows the Sanity cart lookup query; D1 validation passed for this commit and Blog/Studio validation was still running at the time of this audit update. Cloudflare Pages Preview deployment `eabdb214-b9bd-4aa2-97ab-2397cb3ede14` for commit `82c6f8037d05737803a9f68e26acc1c49de51cfe` completed build and deploy successfully at `https://eabdb214.florial.pages.dev`. Browser visual QA remains pending because the owner requires explicit permission before Browser Use.
 - Browser Use was not invoked; owner-controlled browser QA remains pending.
 - No merge, Production code deployment, D1 write, Cloudflare settings/secrets change, Resend action or order creation was performed.
 - Sanity Production was changed only for the single explicitly approved product correction described above.
