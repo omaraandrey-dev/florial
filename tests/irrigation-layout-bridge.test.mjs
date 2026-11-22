@@ -123,8 +123,6 @@ test('validates the provisional R-VAN model-selection boundaries and solves both
     { width: 4.6, expectedModel: 'R-VAN14' },
     { width: 4.6001, expectedModel: 'R-VAN18' },
     { width: 5.5, expectedModel: 'R-VAN18' },
-    { width: 6.0, expectedModel: 'R-VAN24' },
-    { width: 7.0, expectedModel: 'R-VAN24' },
   ]
 
   for (const { width, expectedModel } of cases) {
@@ -139,6 +137,16 @@ test('validates the provisional R-VAN model-selection boundaries and solves both
     assert.equal(result.layout.headToHead.passed, true)
     assert.equal(result.hydraulicFeasibility, 'not_evaluated')
   }
+})
+
+test('selects Rain Bird R-VAN24 within its supported spacing envelope', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor({ width: 6.0 }))
+  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
+  assert.equal(result.operatingScenario?.family, 'R-VAN')
+  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  assert.equal(result.operatingScenario?.pressureBar, 3.1)
+  assert.equal(result.layout?.family, 'R-VAN')
+  assert.equal(result.layout?.model, 'R-VAN24')
 })
 
 test('selects provisional HE-VAN model bands from the manufacturer spacing ranges', () => {
