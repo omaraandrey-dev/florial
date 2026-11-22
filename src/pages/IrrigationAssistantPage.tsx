@@ -232,7 +232,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
     incomplete: 'Движок построил вариант, но контрольная сетка содержит непокрытые точки. Нужна инженерная проверка.',
     unsupported: 'Геометрия выходит за текущую область R-VAN/HE-VAN. Не подменяем расчёт неподтверждённой моделью. Следующий этап — отдельный движок Rain Bird 3500; он пока не включён. До его проверки нужна инженерная оценка.',
-    narrow: 'Короткая сторона меньше минимального диапазона HE-VAN 1,8 м. Не уменьшаем радиус по неподтверждённому правилу; нужна инженерная проверка.',
+    narrow: 'Для узких полос 1–2 м предусмотрены R-VAN-LCS, R-VAN-RCS и R-VAN-SST. Их прямоугольный рисунок полива требует отдельной проверки ориентации и перекрытия; круговой расчёт здесь не подменяем.',
     notReady: 'Для запуска раскладки требуется подтверждённый контур участка.', engineError: 'Текущий инженерный движок не поддерживает эту геометрию или конфигурацию.',
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания',
   } : language === 'en' ? {
@@ -246,7 +246,7 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
     incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
     unsupported: 'The geometry is outside the current R-VAN/HE-VAN scope. No unverified model is substituted. The next planned step is a separate Rain Bird 3500 engine; it is not enabled yet. Engineer review is required until that work is validated.',
-    narrow: 'The short side is below the HE-VAN manufacturer spacing range of 1.8 m. Do not reduce throw radius using an unverified rule; engineer review is required.',
+    narrow: 'For 1–2 m narrow strips, the candidate products are R-VAN-LCS, R-VAN-RCS and R-VAN-SST. Their rectangular spray footprints require a dedicated orientation and overlap check; the circular solver is not used as a substitute.',
     notReady: 'A customer-confirmed lawn boundary is required before layout generation.', engineError: 'The current engineering engine does not support this geometry or configuration.',
     headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings',
   } : {
@@ -491,7 +491,14 @@ export function IrrigationAssistantPage({ onNavigateHome }: IrrigationAssistantP
                       </details>
                     </>
                   ) : (
-                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : layoutResult.status === 'short_side_below_supported_spray_nozzle_scope' ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
+                    <p className="mt-3 text-sm leading-6 text-amber-900">{layoutResult.status === 'requires_rotor_engine' ? layoutLabels.unsupported : ['strip_nozzle_layout_required', 'short_side_below_supported_rvan_scope'].includes(layoutResult.status) ? layoutLabels.narrow : layoutResult.status === 'needs_confirmed_geometry' ? layoutLabels.notReady : layoutLabels.engineError}</p>
+                    {layoutResult.status === 'strip_nozzle_layout_required' && (
+                      <ul className="mt-2 grid gap-1 text-xs text-slate-600">
+                        {layoutResult.stripSpecifications?.map((specification: { model: string; widthM: number; lengthM: number }) => (
+                          <li key={specification.model}>{specification.model} · {numberFormat(specification.widthM)} × {numberFormat(specification.lengthM)} m</li>
+                        ))}
+                      </ul>
+                    )}
                   )}
                   <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-6 text-amber-950">{layoutLabels.limits}</p>
                 </section>
