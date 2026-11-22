@@ -1,13 +1,15 @@
-# Latest main and Production — irrigation engineer release (2026-11-22)
+# Latest main and Production — balanced irrigation zones and owner project PDF (2026-11-22)
 
-- PR #473 merged into main as `1926d632cc0861341a46ec932a2130ca94dfa103`.
-- Perimeter-first R-VAN layout, sequential zones (max six), schematic route, catalogue BOM and existing cart handoff are now in main.
-- Exact PR-head Blog/Studio validation runs `45008858032` and `45008807081` succeeded; D1 validation run `45008807048` succeeded.
-- Cloudflare Pages Production deployment `0da20669-6b24-4697-8ac4-b281eebec9a2` succeeded from exact merge SHA. Preview was manually accepted by the owner.
-- Owner-approved Sanity correction: SKU `IQ21520F0N25C` is Ø25 × ½″ female thread, corrected and published BG/RU/EN; pre-change backup is in `docs/backups/`.
-- Full technical handoff: `docs/engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md`.
-- Open engineering decisions: mainline Ø25 vs earlier audit Ø32; measured dynamic pressure/flow; hydraulic losses and zone limits; body/regulator compatibility; out-of-stock cart policy; full PE mainline BOM; overspray/DU/wind/field validation. See `docs/AI/OPEN_QUESTIONS.md`.
-- The irrigation work was explicitly resumed only for this bounded feature scope. Broader Rain Bird 3500 stage-8 work remains unapproved.
+- PR #476 merged at `dbcf63e2ad05e2132ba39b2ec30936fdb6c6abe1`; PR #477 merged at current `main` SHA `6ae20420380f5794aba331b65427ac31d3160e2d`.
+- Perimeter and interior sprinkler heads now share one ordered sequence. Different arcs (90°/180°/270°/360°) do not split zones; zone groups are balanced at no more than six heads each.
+- The existing checkout receives the versioned irrigation project snapshot. The server validates it against order SKUs/quantities and persists it in existing D1 `order_events.metadata`; no D1 migration is required.
+- A separate owner-only PDF includes lawn/cut-out dimensions, layout, arcs, zones, drawn pipe routes, catalogue names and BOM SKU/quantities. Customer proforma email is unchanged.
+- Exact PR-head CI: #476 runs `45014451568` / `45014451557`; #477 runs `45014880321` / `45014880308`; all succeeded. Main CI after #476 runs `45014654327` / `45014654333`, both succeeded. Main CI after #477: Blog/Studio run `45015013305` and D1 validation run `45015013373`, both succeeded.
+- Final Preview: `https://988ce669.florial.pages.dev/irrigation-assistant`. Production deployment `c122e2dd-e854-44fd-a68b-bfc2bcb4524a` succeeded from exact main SHA `6ae20420380f5794aba331b65427ac31d3160e2d`.
+- No live order or test email was created; actual Resend delivery and end-to-end checkout remain unverified. No Sanity write, D1 schema migration or Cloudflare settings/secrets change.
+- Hydraulic sizing, dynamic pressure/flow, six-head hydraulic suitability, Ø25/Ø32 mainline confirmation, overspray/DU/CU and field validation remain open. The six-head limit is a grouping rule only.
+- Technical guide: `docs/engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md`.
+
 
 ---
 

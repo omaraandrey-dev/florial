@@ -1,3 +1,32 @@
+## 2026-11-22 — Irrigation assistant balanced mixed zones and order PDF
+
+PR #476 merged at `dbcf63e2ad05e2132ba39b2ec30936fdb6c6abe1`; PDF detail follow-up PR #477 merged at `6ae20420380f5794aba331b65427ac31d3160e2d`. Current Production Pages deployment `c122e2dd-e854-44fd-a68b-bfc2bcb4524a` succeeded from the exact main SHA.
+
+### Zone assignment
+- Perimeter heads retain the top-right connection traversal order; interior heads follow in row-major order.
+- Both sets are combined before zoning. 90°/180°/270°/360° arc, nozzle model and perimeter/interior source do not independently split zones.
+- Minimum zone count is `ceil(headCount / 6)`; sizes are distributed evenly while preserving sequence. Examples: 14 → 5+5+4; 13 → 5+4+4; 12 → 6+6.
+- `zoneType=mixed` identifies zones containing perimeter and interior heads. Pipe direction is calculated per head; one zone can have separate forward/reverse schematic branches.
+- BOM gates require unique complete membership, max six heads, minimum zone count and balanced group sizes.
+
+### Checkout project handoff
+- The assistant stores a versioned project snapshot in the current app session and sends it with the existing `POST /api/orders` checkout request.
+- The endpoint independently validates the geometry, sprinkler list/arcs, zone membership, balance and BOM SKU/quantity match against server-resolved order items.
+- A validated snapshot is stored in existing `order_events.metadata` under event type `irrigation_project_attached`. No D1 migration/table/column/index change is required.
+- The owner receives a separate preliminary A4 PDF after the order insert succeeds. The PDF includes overall and L-shape cut-out dimensions, lawn outline, sprinkler IDs/positions/arcs/models, zone labels, drawn main/zone/lateral routes, catalogue product names and BOM SKU/quantities, warnings and limitations.
+- The project PDF is owner-only; customer confirmation and proforma behavior remain unchanged. A stable per-order Resend idempotency key is used. PDF/email failure is best-effort and does not undo the saved order; event metadata records delivery status where possible.
+- Changing/removing a generated kit SKU in the cart detaches the snapshot. Server validation also prevents emailing a snapshot whose BOM quantities differ from the final server-resolved order.
+
+### Verification boundary
+- PR #476 exact-head Blog/Studio and D1 workflows: `45014451568`, `45014451557` — success; PR #477: `45014880321`, `45014880308` — success. Main CI after PR #476: `45014654327`, `45014654333` — success; after PDF-detail PR #477 merge SHA: `45015013305`, `45015013373` — success.
+- Final PR #477 Preview: `https://988ce669.florial.pages.dev/irrigation-assistant`; Production deployment above succeeded from PR #477 merge SHA.
+- No real order or test email was created. Resend delivery, PDF inbox receipt and live checkout E2E remain unverified. Do not claim them as passed.
+- Not certified: actual dynamic pressure/flow, nozzle residual pressure, hydraulic losses/sizing, six-head hydraulic feasibility, DU/CU, wind, overspray, obstructions/exclusions, actual pipe lengths and field performance. The six-head limit remains a grouping rule only.
+
+Detailed implementation: `docs/engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md`.
+
+---
+
 ## 2026-11-22 — Irrigation engineer: perimeter-first layout and cart BOM released
 
 PR #473 merged into `main` at `1926d632cc0861341a46ec932a2130ca94dfa103`. The full implementation guide is `docs/engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md`.

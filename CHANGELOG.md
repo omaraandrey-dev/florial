@@ -1,3 +1,18 @@
+## 2026-11-22 — Irrigation assistant: balanced mixed zones and owner project PDF (PRs #476 and #477 merged)
+
+- PR #476 merged into `main` at `dbcf63e2ad05e2132ba39b2ec30936fdb6c6abe1`; PR #477 PDF-detail follow-up merged at `6ae20420380f5794aba331b65427ac31d3160e2d`.
+- Zone assignment now combines perimeter and interior sprinklers into one deterministic sequence. Arc values 90°/180°/270°/360° do not create separate zones. The minimum number of zones is used, each with no more than six heads, and group sizes are balanced: 14 → 5+5+4; 13 → 5+4+4; 12 → 6+6; 8 → 4+4. Mixed zones can contain both perimeter and 360° interior heads; pipe direction is resolved per head.
+- The assistant attaches a versioned project snapshot to the existing checkout request. The server validates geometry, sprinkler arcs/coordinates, unique zone membership, balanced capacity and exact BOM SKU quantities against server-resolved order items.
+- After the order is committed, the snapshot is persisted in existing `order_events.metadata` under `irrigation_project_attached`; no D1 schema migration was introduced.
+- A separate A4 preliminary project PDF is generated and emailed only to the configured owner notification address using Resend with a per-order idempotency key. It contains lawn/cut-out dimensions, outline, sprinkler positions and arcs, balanced zones, drawn main/zone/lateral pipe routes, catalogue names, BOM SKUs/quantities, assumptions and explicit engineering limitations. The existing customer confirmation/proforma email is unchanged.
+- Cart changes to generated kit SKU quantities/removals detach the snapshot to prevent sending a stale project. PDF/email failure does not roll back a saved order; delivery status is recorded in the order event where possible.
+- Exact PR-head CI: PR #476 head `efbb69d5f38375c1a108f39d79555072905d6f65` — Blog/Studio run `45014451568` and D1 validation run `45014451557`, both success; PR #477 head `845af5cc4c97fa59c25ee16e076c56925b22bc1a` — Blog/Studio run `45014880321` and D1 validation run `45014880308`, both success. Exact main merge CI: PR #476 runs `45014654327` and `45014654333`, both success; PR #477 merge SHA `6ae20420380f5794aba331b65427ac31d3160e2d` runs `45015013305` and `45015013373`, both success.
+- Final PDF-detail Preview: `https://988ce669.florial.pages.dev/irrigation-assistant`; Cloudflare Pages Preview build/deploy succeeded for PR #477 head. Production deployment `c122e2dd-e854-44fd-a68b-bfc2bcb4524a` succeeded from exact main SHA `6ae20420380f5794aba331b65427ac31d3160e2d`; aliases remain `https://florial-bg.com` and `https://www.florial-bg.com`.
+- No Sanity writes, D1 schema/data migration, Cloudflare settings/secrets changes or test orders/emails were performed. No actual Resend inbox delivery or checkout end-to-end test is claimed; this remains to be verified through an owner-approved safe test procedure.
+- Full technical details: `docs/engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md` and `docs/engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md`.
+
+---
+
 ## 2026-11-22 — Irrigation engineer: perimeter-first lawn design, sequential zones and complete cart kit (PR #473 merged)
 
 - PR #473 squash-merged into `main` at `1926d632cc0861341a46ec932a2130ca94dfa103`.
