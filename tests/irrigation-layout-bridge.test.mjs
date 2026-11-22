@@ -113,11 +113,11 @@ test('30x30 uses multiple interior rows of full-circle heads with complete sampl
   const interiorZones = result.zones?.filter((zone) => zone.zoneType === 'interior') ?? []
   assert.ok(perimeterZones.length > 0)
   assert.ok(interiorZones.length > 0)
+  assert.ok(perimeterZones.every((zone) => zone.sprinklerCount <= 6))
+  assert.ok(interiorZones.every((zone) => zone.sprinklerCount <= 6))
   assert.ok(result.zones?.every((zone) => zone.zoneType === 'perimeter' || zone.zoneType === 'interior'))
   assert.ok(result.zones?.every((zone, index, zones) =>
     index === 0 || (zones[index - 1].zoneType !== 'interior' || zone.zoneType === 'interior')))
-  assert.ok(result.zones?.every((zone, index, zones) =>
-    index === 0 || Math.abs(zone.sprinklerCount - zones[index - 1].sprinklerCount) <= 1))
 })
 
 test('narrow strips do not fall back to circular R-VAN or HE-VAN nozzles', () => {
