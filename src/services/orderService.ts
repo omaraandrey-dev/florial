@@ -1,3 +1,9 @@
+export interface IrrigationProjectSnapshot {
+  schemaVersion: 1
+  projectType: 'automatic_lawn_irrigation'
+  [key: string]: unknown
+}
+
 export interface OrderData {
   customer_name: string
   phone: string
@@ -7,6 +13,7 @@ export interface OrderData {
   delivery_method?: string
   payment_method?: string
   comment?: string
+  irrigationProject?: IrrigationProjectSnapshot
   items: Array<{
     productId: string
     qty: number
