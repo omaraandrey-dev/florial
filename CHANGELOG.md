@@ -9,6 +9,14 @@
 - RU mobile and EN desktop rendered-HTML checks confirmed localized intro, H1, four category labels and Filters button; no publication-type filter or Project/Article card chip. Full screenshot-based and interactive click QA remains unconfirmed because Browser Use credits were unavailable.
 - Detailed evidence and exact slug mapping: `docs/audits/2026-11-23-blog-filter-localization-corrections.md`.
 
+## 2026-11-23 — Blog/portfolio localization and filters Production release (PR #509)
+
+- PR #509 merged at `f899e0592bcab4221d606568ddb459ba39941e35`; final documentation commit is `c44e3bbd007c7ae4599dad84a540043ee0ecd2f8`.
+- Cloudflare Pages Production deployment `e006bf14-6b8c-4796-924e-761e40a150a6` succeeded from `main` SHA `c44e3bbd007c7ae4599dad84a540043ee0ecd2f8`; aliases `https://florial-bg.com` and `https://www.florial-bg.com` are attached. Live rendered HTML checks on Production confirmed the BG page (mobile), RU page (mobile) and EN page (mobile) each have their localized intro/H1, all four localized category labels and the compact filter button; publication-type filter is absent.
+- Production BG/RU/EN HTML smoke confirms localized intros, H1s, four category labels and compact filter button; no publication-type filter. Full visual and interaction QA remains open.
+- Sanity schema/documents/tags/assets were not changed. No D1, Cloudflare settings/secrets, Resend, Header, menu, Footer or route changes.
+- Detailed editorial slug mapping and validation evidence: `docs/audits/2026-11-23-blog-filter-localization-corrections.md`.
+
 ## 2026-11-23 — Blog and portfolio landing page UX (PR #508 merged)
 
 - PR #508 squash-merged into `main` at `6828e44409c7bc7f805de703fc71d68544bff241`.

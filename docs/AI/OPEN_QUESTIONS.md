@@ -1,5 +1,11 @@
 ## 2026-11-23 — Blog/portfolio correction release (PR #509)
 
+- **CLOSED — Production deployment and localized HTML smoke:** Cloudflare Pages Production deployment `e006bf14-6b8c-4796-924e-761e40a150a6` succeeded from `main` SHA `c44e3bbd007c7ae4599dad84a540043ee0ecd2f8`; aliases `https://florial-bg.com` and `https://www.florial-bg.com` are attached. Live rendered HTML checks on Production confirmed the BG page (mobile), RU page (mobile) and EN page (mobile) each have their localized intro/H1, all four localized category labels and the compact filter button; publication-type filter is absent.
+- **OPEN — full visual and interaction QA:** screenshot inspection and actual dropdown/category clicks, combined-filter behavior, empty/reset states and detailed visual review remain unconfirmed. Browser Use could not run because project credits were unavailable; rendered HTML is not a substitute for interaction testing.
+- Evidence: `../audits/2026-11-23-blog-filter-localization-corrections.md`.
+
+## 2026-11-23 — Blog/portfolio correction release (PR #509)
+
 - **CLOSED — merge and exact-head CI:** PR #509 merged to `main` at `f899e0592bcab4221d606568ddb459ba39941e35`. Blog/Studio runs `45245064385` and `45245088129`, plus D1 run `45245064540`, succeeded. Preview `01588588.florial.pages.dev` deployed from the exact PR head.
 - **CLOSED — rendered HTML localization smoke:** RU mobile and EN desktop preview responses contain localized intro, H1, all four category labels and Filters button. Publication-type filter and Project/Article card chips are absent.
 - **OPEN — full visual and interaction QA:** screenshot inspection and actual dropdown/category clicks, combined-filter behavior, empty/reset states and full BG/RU/EN visual review remain unconfirmed. Browser Use could not run because project credits were unavailable; rendered HTML is not a substitute for interaction testing.

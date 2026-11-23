@@ -7,6 +7,15 @@
 - Exact PR head CI: Blog/Studio runs `45245064385` and `45245088129`; D1 run `45245064540` — all succeeded. Preview deployment `01588588.florial.pages.dev` succeeded. Production deployment from post-merge documentation-integrated main SHA is tracked by Cloudflare Pages after this documentation commit.
 - HTML smoke confirmed RU mobile and EN desktop localized content and absence of publication-type/Project chips. Full screenshot-based visual QA and real interaction testing remain open.
 
+## 2026-11-23 — Blog/portfolio localization and filter corrections (PR #509)
+
+- PR #509 merged at `f899e0592bcab4221d606568ddb459ba39941e35`; documentation closeout commit: `c44e3bbd007c7ae4599dad84a540043ee0ecd2f8`.
+- Localized BG/RU/EN intro, category copy and topic tags; search/year/sort/secondary topics are in one compact dropdown; publication-type filter and Project/Article card chips removed.
+- Editorial category mapping reviewed all 19 currently published posts; the terrace/gazebo mist-cooling article is not categorized as plant irrigation. Untagged content remains in the general listing.
+- Cloudflare Pages Production deployment `e006bf14-6b8c-4796-924e-761e40a150a6` succeeded from `main` SHA `c44e3bbd007c7ae4599dad84a540043ee0ecd2f8`; aliases `https://florial-bg.com` and `https://www.florial-bg.com` are attached. Live rendered HTML checks on Production confirmed the BG page (mobile), RU page (mobile) and EN page (mobile) each have their localized intro/H1, all four localized category labels and the compact filter button; publication-type filter is absent.
+- Production HTML smoke confirms localized copy and controls across BG/RU/EN. Screenshot-based and interactive filter QA remains open. No Sanity writes/schema changes or D1/infrastructure changes.
+- Audit: `docs/audits/2026-11-23-blog-filter-localization-corrections.md`; tests: `tests/blog-portfolio-page.test.mjs`.
+
 ## 2026-11-23 — Blog and portfolio listing UX
 
 - PR #508 is integrated into `main` at `6828e44409c7bc7f805de703fc71d68544bff241`.

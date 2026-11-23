@@ -32,4 +32,4 @@
 - Cloudflare Pages Preview deployment `52695a2a-dcad-4d48-93c8-818b90220961` succeeded from the exact implementation head.
 - Cloudflare Browser Rendering read-only checks on the final Preview confirmed the Russian mobile and English desktop pages have their localized intro, H1, all four category labels and the compact Filters button. Both locales omit the publication-type filter; article-card topic chips are translated and the generic Project/Проект chip is absent.
 - Browser Use could not run because its project had insufficient credits. Full screenshot-based desktop/mobile review and clicking through the dropdown/category filters therefore remain unconfirmed; HTML rendering alone does not verify click behavior or visual overflow.
-- Production deployment awaits the owner's explicit release approval. No Sanity writes or schema changes were made.
+- Production deployment is confirmed as above. No Sanity writes or schema changes were made.
