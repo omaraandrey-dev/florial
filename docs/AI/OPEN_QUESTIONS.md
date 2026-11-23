@@ -1,3 +1,9 @@
+## 2026-11-23 — Blog and portfolio UX release verification
+
+- **OPEN — public visual QA:** PR #508 is merged to `main` at `6828e44409c7bc7f805de703fc71d68544bff241`; exact-head CI passed. Confirm the live `/blog` page on desktop and mobile, including category card imagery, combined filters, localized BG/RU/EN text and empty/reset states. Browser visual QA was not completed before merge because the connected browser/search service was unavailable due to credits. Do not mark this item closed without a real post-deployment check.
+- **PENDING AT DOCUMENTATION UPDATE — Pages Production:** verify the deployment is built from the merge commit and run safe read-only HTTP/HTML smoke checks. No deployment success is asserted here.
+- Evidence: `../audits/2026-11-23-blog-portfolio-ux.md`.
+
 ## 2026-11-23 — Published Florial Irrigation Assistant service: remaining QA
 
 - **CLOSED — publication:** Sanity Production service `c265afd2-f31d-41f0-b377-ed95664a6d20`, slug `inzhener-pomoshtnik-florial-online`, BG/RU/EN content, localized SEO/ALT, linked cover image and four related irrigation categories. Published-perspective read-back succeeded. Evidence: `../audits/2026-11-23-irrigation-assistant-service-publication-closeout.md`.
