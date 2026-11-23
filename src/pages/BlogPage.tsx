@@ -92,7 +92,7 @@ export function BlogPage() {
       ? 'Здесь мы показываем реализованные проекты, делимся идеями для сада и публикуем практические материалы о растениях, озеленении и системах автоматического полива. Посмотрите наши работы и найдите решения для своего участка.'
       : language === 'en'
         ? 'Explore our completed projects, garden ideas and practical articles about plants, landscaping and automatic irrigation. See how we work and find ideas and solutions for your own outdoor space.'
-        : 'В блога на Florial споделяме реализирани проекти, идеи и практически решения за създаване и поддържане на красиви градини. Тук ще откриете примери от нашата работа по ландшафтно проектиране, автоматизирани поливни системи, озеленяване и полагане на рулонен тревен чим, както и полезни статии за растенията и грижата за зелените площи. Разгледайте нашите проекти и открийте идеи за своята градина.',
+        : 'В блога на Florial споделяме реализирани проекти, идеи и практически решения за създаване и поддържане на красиви градини. Ще откриете примери от нашата работа по ландшафтно проектиране, изграждане на автоматизирани поливни системи, озеленяване и полагане на рулонен тревен чим, както и полезни статии за растенията и грижата за зелените площи. Разгледайте проектите ни и почерпете идеи за своята градина.',
     directions: language === 'ru' ? 'Выберите направление' : language === 'en' ? 'Explore by topic' : 'Разгледайте по направления',
     all: language === 'ru' ? 'Все публикации' : language === 'en' ? 'All publications' : 'Всички публикации',
     search: language === 'ru' ? 'Поиск по названию, описанию или теме' : language === 'en' ? 'Search titles, descriptions or topics' : 'Търсене по заглавие, описание или тема',
@@ -155,7 +155,7 @@ export function BlogPage() {
     const matchesType = selectedType === 'all' || (selectedType === 'project' ? isProject(post) : !isProject(post))
     const matchesYear = selectedYear === 'all' || (post.publishedAt && new Date(post.publishedAt).getFullYear().toString() === selectedYear)
     const search = searchQuery.trim().toLocaleLowerCase()
-    const matchesSearch = !search || [content.title, content.shortDescription, ...(post.tags || [])].some((value) => value?.toLocaleLowerCase().includes(search))
+    const matchesSearch = !search || [content.title, content.shortDescription, ...(post.tags || []).map((tag) => localizedTag(tag, language))].some((value) => value?.toLocaleLowerCase().includes(search))
     return matchesCategory && matchesTag && matchesType && matchesYear && matchesSearch
   }).sort((a, b) => {
     const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0
@@ -163,7 +163,7 @@ export function BlogPage() {
     return sortOrder === 'newest' ? dateB - dateA : dateA - dateB
   })
 
-  const hasActiveFilters = Boolean(selectedCategory || selectedTag || selectedType !== 'all' || selectedYear !== 'all' || searchQuery.trim())
+  const hasActiveFilters = Boolean(selectedCategory || selectedTag || selectedType !== 'all' || selectedYear !== 'all' || sortOrder !== 'newest' || searchQuery.trim())
 
   function clearFilters() {
     setSelectedCategory(null)
@@ -193,7 +193,7 @@ export function BlogPage() {
           <button type="button" onClick={clearFilters} className="text-sm font-semibold text-[#647746] underline-offset-4 hover:underline">{copy.all}</button>
         </div>
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
-          {blogCategories.map((category) => {
+          {blogCategories.map((category, categoryIndex) => {
             const matchingPosts = posts.filter((post) => hasAnyTag(post, category.tags))
             const imagePost = matchingPosts.find((post) => post.cover?.asset?.url)
             const active = selectedCategory === category.id
