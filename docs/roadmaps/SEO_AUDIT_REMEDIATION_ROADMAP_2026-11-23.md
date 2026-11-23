@@ -105,10 +105,14 @@ Confirmed findings:
 - iBusiness.bg still links to legacy drop.od.ua and has no phone; legacy DROP and another Florial-branded plant site expose older hours/service-area data. The relationship/status of those properties requires owner confirmation.
 - Prior geo-filtered GSC sample was only 3 impressions / 0 clicks; too small for local-demand conclusions. No authoritative backlink-index report was available.
 
-**Owner confirmation gate before remediation:**
-- Confirm whether Ravda is a real customer-facing Florial location and whether visitors can access the exact Maps address.
-- Confirm actual hours for each location, correct local phone assignment, current on-site service areas (especially Burgas/Varna), and official related websites/social profiles.
-- After confirmation, prepare exact code/profile/listing changes for separate approval. Do not edit Google profiles or external listings without approval.
+**Owner confirmation update (23.11.2026):**
+- **CLOSED:** the owner confirmed Ravda is a new, active customer-facing Florial garden centre where customers can visit. Retain its separate Google Maps record and `GardenStore` entity; do not merge it with Nessebar or classify it as service-area-only.
+- **CLOSED:** the owner confirmed Ravda operates every day, **09:00–17:00**. This is owner-supplied information; public Maps, website and JSON-LD have not yet been changed or independently verified.
+- **CLOSED:** the owner confirmed that Bulgarian-language legacy DROP pages redirect to the current Bulgarian Florial website. Do not treat the old DROP URL in an external citation as a separate active-site conflict solely because the legacy URL is displayed. Exact redirect chains and page-to-page destinations have not been independently tested.
+- **OPEN:** confirm actual opening hours separately for Nessebar, including Sunday/seasonal schedules.
+- **OPEN:** confirm the primary local phone assignment for each centre; current public evidence is +359876777902 for Nessebar and +359877055605 for Ravda, while +359885834860 is the additional ENG/UA/RU number.
+- **OPEN:** confirm current on-site service areas (especially Burgas/Varna) separately from delivery-only coverage, and confirm canonical official social profiles / the status of `palmandolivetrees.com`.
+- After remaining facts are confirmed, prepare exact code/profile/listing changes for separate approval. Do not edit Google profiles or external listings without approval.
 - Do not create thin city doorway pages or claim on-site service where Florial only delivers.
 
 **Status:** audit closed; remediation remains pending owner confirmation.

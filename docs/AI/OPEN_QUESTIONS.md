@@ -1,12 +1,15 @@
-## 2026-11-23 — Local SEO public audit; owner confirmations required
+## 2026-11-23 — Local SEO public audit; owner confirmations updated
 
 - **CLOSED — read-only audit:** public Google Maps listings for Nessebar and Ravda, website NAP/hours, live GardenStore/Organization JSON-LD, service-area statements and indexed external mentions reviewed. Evidence: `../audits/2026-11-23-local-seo-readonly-audit.md`.
-- **OPEN — Ravda status:** confirm whether the public Maps record at Чешме тарла is an active customer-facing Florial location, pickup point, or service-only location; confirm visitor access.
-- **OPEN — hours:** confirm actual opening hours separately for Nessebar and Ravda. Current website, JSON-LD and Google Maps values conflict; Ravda Maps Friday/Saturday values appear anomalous.
+- **CLOSED — Ravda status:** owner confirms Ravda is a new, active Florial garden centre where customers can visit in person. Keep its separate Maps record and `GardenStore` entity; do not merge it with Nessebar or treat it as service-area-only.
+- **CLOSED — Ravda hours:** owner confirms daily opening hours of 09:00–17:00. Public Maps/site/schema values have not yet been updated or independently verified against this schedule.
+- **CLOSED — legacy Bulgarian DROP site status:** owner confirms Bulgarian-language legacy DROP pages redirect to the current Bulgarian Florial website. The exact redirect chain and page-to-page destination mapping have not been independently tested; do not treat the old URL in a citation as a separate active-site conflict solely on that basis.
+- **OPEN — Nessebar hours:** confirm actual opening hours for Nessebar, including Sunday and seasonal schedules. Website, JSON-LD and public Maps values currently conflict; Ravda Maps Friday/Saturday values appear anomalous.
 - **OPEN — phone assignment:** confirm +359876777902 as Nessebar's primary Bulgarian number and +359877055605 as Ravda's local number; current Nessebar JSON-LD uses the additional ENG/UA/RU number +359885834860.
-- **OPEN — service areas:** confirm whether Burgas and Varna are current on-site service areas or delivery-only areas; current site footer and older Florial-branded web properties differ.
-- **OPEN — related web/social properties:** confirm whether drop.od.ua and palmandolivetrees.com are official/current Florial properties and identify canonical Facebook/Instagram profiles.
-- No Google Business Profile, directory, website, Sanity or Production edits were made. Do not change public listings until the owner confirms the facts and approves an exact plan.
+- **OPEN — service areas:** confirm whether Burgas and Varna are current on-site service areas or delivery-only areas.
+- **OPEN — related web/social properties:** confirm whether `palmandolivetrees.com` is an official/current Florial property and identify canonical Facebook/Instagram profiles.
+- No Google Business Profile, directory, website, Sanity or Production edits were made. Do not change public listings until the remaining facts are confirmed and an exact plan is approved.
+
 
 ## 2026-11-23 — SEO roadmap: desktop GSC checkpoint and next stage
 
