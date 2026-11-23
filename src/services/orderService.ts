@@ -82,7 +82,7 @@ export async function createOrder(data: OrderData): Promise<CreatedOrder> {
         value: analytics.value,
         ...(typeof analytics.shipping === 'number' && Number.isFinite(analytics.shipping) ? { shipping: analytics.shipping } : {}),
         currency: 'EUR' as const,
-        items: analyticsItems as CreatedOrder['analyticsPurchase'] extends infer T ? T extends { items: infer I } ? I : never : never,
+        items: analyticsItems as NonNullable<CreatedOrder['analyticsPurchase']>['items'],
       }
     : undefined
 
