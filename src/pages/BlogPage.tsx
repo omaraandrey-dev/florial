@@ -24,7 +24,7 @@ const blogCategories: BlogCategory[] = [
   {
     id: 'irrigation',
     tags: ['автоматично напояване', 'автоматично поливане', 'поливни системи'],
-    slugs: ['kak-raboti-avtomatichnata-polivna-sistema', 'avtomatika-za-polivane-rain-bird-kontroleri', 'polivane-na-treva-razprskvachi-dyuzhi', 'sravnenie-rotatorni-dyuzi-rain-bird-r-van-hunter-mp-rotator', 'cena-sistema-avtomatichno-napoyavane-burgas', 'sistema-magluvane-terasa-besedka', 'etapi-montazh-avtomatichna-polivna-instalatsiya', 'rain-bird-oborudvane', 'podroben-landshaften-proekt-gradina'],
+    slugs: ['kak-raboti-avtomatichnata-polivna-sistema', 'avtomatika-za-polivane-rain-bird-kontroleri', 'polivane-na-treva-razprskvachi-dyuzhi', 'sravnenie-rotatorni-dyuzi-rain-bird-r-van-hunter-mp-rotator', 'cena-sistema-avtomatichno-napoyavane-burgas', 'etapi-montazh-avtomatichna-polivna-instalatsiya', 'rain-bird-oborudvane', 'podroben-landshaften-proekt-gradina'],
     label: {bg: 'Автоматично напояване', ru: 'Автоматический полив', en: 'Automatic irrigation'},
     description: {bg: 'Проектиране, монтаж и оборудване', ru: 'Проектирование, монтаж и оборудование', en: 'Design, installation and equipment'},
   },
@@ -78,11 +78,31 @@ function hasAnyTag(post: BlogPostCard, tags: string[]) {
   return tags.some((tag) => postTags.includes(normalizedTag(tag)))
 }
 
-const editorialCategorySlugs = new Set(blogCategories.flatMap((category) => category.slugs))
+const reviewedBlogSlugs = new Set([
+  'kak-raboti-avtomatichnata-polivna-sistema',
+  'avtomatika-za-polivane-rain-bird-kontroleri',
+  'polivane-na-treva-razprskvachi-dyuzhi',
+  'sravnenie-rotatorni-dyuzi-rain-bird-r-van-hunter-mp-rotator',
+  'podroben-landshaften-proekt-gradina',
+  'cena-sistema-avtomatichno-napoyavane-burgas',
+  'sistema-magluvane-terasa-besedka',
+  'rozi-sympathy',
+  'nov-vnos-palmi-2025',
+  'maslina-sredizemnomorie',
+  'prodavane-traven-chim',
+  'kiparis-totem',
+  'kupete-travna-plosht',
+  'etapi-montazh-avtomatichna-polivna-instalatsiya',
+  'rain-bird-oborudvane',
+  'landshaften-dizain-proekt-zasazhdenie',
+  'landshaften-proekt-zima-burgas',
+  'landshaften-proekt-nesebar',
+  'etapi-landshaften-proekt-nesebar',
+])
 
 function matchesBlogCategory(post: BlogPostCard, category: BlogCategory) {
   const slug = blogSlug(post)
-  return editorialCategorySlugs.has(slug)
+  return reviewedBlogSlugs.has(slug)
     ? category.slugs.includes(slug)
     : hasAnyTag(post, category.tags)
 }
