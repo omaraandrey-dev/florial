@@ -1,5 +1,5 @@
 const CONTROLLER_SKUS = Object.freeze({
-  tm2: Object.freeze({ 4: 'F54224', 6: 'F54226', 8: 'F54228' }),
+  tm2: Object.freeze({ 4: 'F54234', 6: 'F54236', 8: 'F54238' }),
   rc2: Object.freeze({ 4: 'F56154', 6: 'F56156', 8: 'F56158' }),
   bat: Object.freeze({ 1: 'ESP-BAT-BT1', 2: 'ESP-BAT-BT2', 4: 'ESP-BAT-BT4', 6: 'ESP-BAT-BT6' }),
 })
@@ -99,7 +99,7 @@ export function buildIrrigationAutomationPlan(type, zoneCount) {
 
   const valve = type === 'bat'
     ? Object.freeze({ sku: 'H01040', quantity: zoneCount })
-    : null
+    : Object.freeze({ sku: 'H01000', quantity: zoneCount })
 
   return Object.freeze({
     type,
@@ -119,7 +119,11 @@ export function buildIrrigationAutomationBillOfMaterials(baseBom, plan) {
   quantities.delete('H01000')
   quantities.delete('H01040')
   quantities.delete('B31440')
-  if (plan.type === 'manual') quantities.delete('VBA02672')
+  if (plan.type === 'manual') {
+    quantities.delete('VBA02672')
+    quantities.delete('IQ21120M0N25D')
+    quantities.delete('IQ2142000N250')
+  }
 
   if (plan.type === 'tm2' || plan.type === 'rc2') {
     quantities.set('H01000', baseBom.zoneCount)
