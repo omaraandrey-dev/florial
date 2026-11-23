@@ -1,3 +1,11 @@
+## 2026-11-23 — Russian and English versions published for the automatic irrigation article
+
+- Added and published complete RU and EN translations to the existing blogPost document 031de407-90ea-40c2-99d5-701be5d1ad02. The BG translation was left unchanged.
+- Both translations contain 60 Portable Text blocks, 8 inline category images and 10 internal category-link annotations. The existing Sanity image asset references and category destinations were preserved; all image ALT texts and captions were translated.
+- Added localized title, short description, cover ALT, SEO title and SEO description for RU and EN.
+- Sanity Production read-back confirms isPublished=true, unchanged slug kak-raboti-avtomatichnata-polivna-sistema, BG/RU/EN body counts of 60 each, and 8 images / 10 link annotations in both new locales.
+- Before-write snapshot of the published BG-only version: docs/backups/sanity/2026-11-23-automatic-irrigation-blog-before-ru-en-translations.xml.
+- No schema, code, category, product, Cloudflare or deployment changes. Sanity validator reports valid; complete=false because custom validation callbacks were not executed.
 ## 2026-11-23 — Automatic irrigation explainer article published
 
 - Updated the owner's existing draft in Sanity Production (031de407-90ea-40c2-99d5-701be5d1ad02) and published it as a Bulgarian-language educational article: Как работи автоматичната поливна система: разпръсквачи, капково напояване, тръби и клапани.
