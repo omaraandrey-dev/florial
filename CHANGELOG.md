@@ -4,7 +4,7 @@
 - Added explicit page/product/cart/add/remove/checkout/purchase events. Purchase analytics are returned only after successful D1 order persistence and use server-validated Sanity catalogue prices; direct customer contact fields are excluded. Existing D1 order persistence shape and tracking are preserved.
 - Updated consent and Privacy Policy copy in BG/RU/EN. The wording is a technical disclosure; legal basis, provider terms, retention and international transfer details remain subject to controller review.
 - Live GA4 read-back verified property `properties/557273710`: EUR / Europe/Sofia; stream `16395579273`, Measurement ID `G-2H9DQTLVZY`; Enhanced Measurement enabled with automatic page changes and form interactions disabled; email and approved URL query redaction enabled; `purchase` remains a key event counted `ONCE_PER_EVENT`.
-- Exact final PR head `1e768cce1e39edbb16ef0fba7ff079d4eec550a4`: Blog/Studio runs `45131488823`, `45131459900` and D1 validation run `45131459908` all completed successfully.
+- Exact final PR head `67e24cd08297ba9f3a1601480ca08721239526be`: Blog/Studio validation run `45135358072` and D1 migration validation run `45135358098` completed successfully.
 - No D1 schema migration, Sanity write, Cloudflare settings/secrets change, live test order or test email was performed. PR #488 squash-merged as `5ca0276fe3098f45a6871cb866f1ea96df325fb2`; Cloudflare Pages Production deployment `db6bb828-698b-47ac-a5b7-6173a033475f` succeeded from that exact commit. A post-deployment GA4 Realtime query returned no events in the observed 30-minute window, so event receipt remains unconfirmed; no test order was created.
 - Audit: `docs/audits/2026-11-23-ga4-rollout.md`.
 
