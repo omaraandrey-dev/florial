@@ -23,8 +23,8 @@ The owner approved this separate editorial refresh workflow. This approval does 
 | 2 | Valve boxes, hydrants and keys | 7 products | **COMPLETE — 7/7 published** |
 | 3 | Spray and rotary nozzles | 26 products | **COMPLETE — 26/26 published** |
 | 4 | Ready-made irrigation kits | 12 products | **PARTIAL — 11/12 published; 10 × 5 m held for controller/valve compatibility decision** |
-| 5 | Controllers | 23 active products in current Sanity read-back | NOT STARTED — reconcile count before editing |
-| 6 | Sprinklers | 20 active products in current Sanity read-back | NOT STARTED |
+| 5 | Controllers | 23 active products in current Sanity read-back | **CONTENT COMPLETE FOR CURRENT 23/23**; historical 24-vs-23 inventory discrepancy remains open |
+| 6 | Sprinklers | 20 active products in current Sanity read-back | **COMPLETE — 20/20 published; delivery/service section added in BG/RU/EN** |
 
 ## Completed: nozzle category
 
@@ -46,23 +46,27 @@ Detailed evidence and the manufacturer source register: [Nozzle description refr
 - Detailed evidence: [kit description refresh audit](../audits/2026-11-23-irrigation-kit-descriptions-refresh.md).
 - Next action in this category: resolve the 10 × 5 m controller/valve pairing; do not change `kitComponents` without owner approval.
 
-## Controllers — count reconciliation required
+## Controllers — current descriptions complete; inventory discrepancy remains open
 
-- Current Sanity read-back: 23 active published products linked to the controller root category.
-- Existing audit `docs/audits/2026-11-15-irrigation-controller-product-descriptions.md` states 24 products.
-- Current count without the `isActive` filter is also 23. The one-product difference is unresolved and must be reconciled by comparing the exact IDs/SKUs in the previous audit with the current category tree before editing.
-- After reconciliation, audit model variants, station count, power source, battery type, programs, Wi-Fi/Bluetooth, valve/solenoid compatibility and IP rating. Do not infer values from family-level marketing copy.
+- Current published Sanity read-back: **23 products** linked to the controller root category.
+- The 15.11.2026 audit records 24 products. The historical audit included the RSD-BEx rain sensor; a current published lookup by SKU `RSD-BEx` returns no document. The reason for its absence is **NOT KNOWN — needs confirmation**; do not infer deletion, unpublishing or category reassignment.
+- All 23 currently published controller-category products have BG `description` and RU/EN `formattedDescription`; read-back of all 23 final blocks confirms the required Econt / engineer delivery / paid installation wording in all three locales. A representative full-description read-back and all 23 closing-block read-backs were checked. No controller Sanity writes were made in this refresh pass.
+- The earlier controller audit remains the technical-content record: `docs/audits/2026-11-15-irrigation-controller-product-descriptions.md`.
 
-## Sprinklers
+## Sprinklers — 20/20 published
 
-- Current active published count: 20 products.
-- Audit each model's radius, arc, pressure, flow, trajectory, nozzle/body compatibility and connection type against manufacturer performance data.
-- Do not use a single generic description where models have different performance tables.
+- Current published category count: **20** products.
+- Existing full descriptions were already present in BG/RU/EN. The refresh appended a localized final H2 delivery/service section and paragraph to all 20 cards; the prior description body, technical specifications, compatibility, product identity and commercial fields were left unchanged.
+- Published read-back confirmed all 20 documents, the final delivery/service paragraphs in BG/RU/EN and **zero remaining target drafts**.
+- Sanity validation: 20/20 reported `valid`; `complete=false` because custom validation callbacks (including custom slug uniqueness callbacks) are not executed by the available validation tool. Built-in checks ran.
+- Detailed evidence and SKU/ID register: [sprinkler delivery refresh audit](../audits/2026-11-23-sprinkler-delivery-refresh.md).
+- Manufacturer family references were consulted for context; this pass did not change or certify every individual technical specification. A separate line-by-line specification audit remains outside the scope of this append-only content update.
 
 ## Final close-out
 
 After all remaining categories:
 
+- Resolve the 10 × 5 m kit's ESP-BAT-BT1 / 100-HV-9V compatibility conflict with the owner; do not change its components without that decision.
 - Run a cross-category BG/RU/EN terminology and technical-token consistency audit.
 - Confirm delivery and paid installation/service wording in every product description.
 - Verify all internal links against published Sanity routes.
