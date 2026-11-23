@@ -1,3 +1,15 @@
+# Latest content publication — Florial Irrigation Assistant service (2026-11-23)
+
+- Sanity Production service: `c265afd2-f31d-41f0-b377-ed95664a6d20`, slug `inzhener-pomoshtnik-florial-online`, route `/services/inzhener-pomoshtnik-florial-online`.
+- Published BG/RU/EN content, localized SEO/ALT, original linked cover image and four related irrigation category references. Sanity published read-back succeeded.
+- The service explains the existing online Irrigation Assistant as a preliminary geometric layout and catalogue-selection tool; it does not claim hydraulic calculation.
+- Backup and audit: `docs/backups/sanity/2026-11-23-irrigation-assistant-service-before-edit.json`, `docs/audits/2026-11-23-irrigation-assistant-service-content.md`, and `docs/audits/2026-11-23-irrigation-assistant-service-publication-closeout.md`.
+- **Owner action required before considering the lead form ready:** add required `location` and rename `message` to `details` in the three localized form configurations. No further Sanity write was made because the page is now protected published content and this exact correction awaits separate approval.
+- Public visual QA was not possible in this session (Browser Use insufficient credits; public fetch inaccessible). Sanity publication is confirmed, not browser rendering.
+- No schema, frontend, infrastructure or deployment changes.
+
+---
+
 # Latest main and Production — irrigation automation selection (PR #481 merged and deployed)
 
 - PR #481 squash-merged into `main`: `1ce629772e8a1e3f7be6d0af6d20d60e76849202`.
