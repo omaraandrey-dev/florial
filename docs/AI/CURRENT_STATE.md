@@ -1,3 +1,15 @@
+# SEO audit — current execution status (2026-11-23)
+
+- Documentation is complete on `main`: the Corey Haines `seo-audit` Agent Skill is installed and Florial guardrails are recorded in `docs/AI/SEO_AUDIT_SKILL.md`; the read-only audit is in `docs/audits/2026-11-23-comprehensive-seo-audit.md`; the seven-step execution plan is in `docs/roadmaps/SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md`.
+- Remediation has **not started**. Step 1 (Production indexability/noindex/canonical verification) is blocked pending the owner's explicit permission to use Browser for raw Production HTML and response-header inspection.
+- GSC sample: 17 inspected URLs; 11 report noindex; three Bulgarian product URLs have Google-selected canonicals pointing to unrelated product URLs. Root cause is not established. Do not change code or Sanity before live evidence and an owner-approved plan.
+- GA4 property `florial-29eac` currently has no Web Data Stream or key events; no GA4 implementation has been authorized. D1/PostHog tracking is separate.
+- No runtime code, Sanity documents/schema, Cloudflare settings/secrets, D1, Resend or Google settings were changed by the audit.
+- PR #409 remains open and untouched.
+- Execute the seven roadmap steps sequentially; record evidence and status after each step. See the roadmap for criteria, dependencies and owner-approval gates.
+
+---
+
 # Latest main and Production — irrigation automation selection (PR #481 merged and deployed)
 
 - PR #481 squash-merged into `main`: `1ce629772e8a1e3f7be6d0af6d20d60e76849202`.
