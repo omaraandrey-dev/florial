@@ -1,0 +1,956 @@
+Found document "433b1190-beaf-4eb4-a66c-db2c6b24cc35": 
+<document>
+  <_createdAt>2026-10-23T13:05:11Z</_createdAt>
+  <_id>433b1190-beaf-4eb4-a66c-db2c6b24cc35</_id>
+  <_rev>Wxh00JcLN6cQgy9skwfVLf</_rev>
+  <_system>
+    <base>
+      <id>433b1190-beaf-4eb4-a66c-db2c6b24cc35</id>
+      <rev>Wxh00JcLN6cQgy9skuoIWp</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-15T12:04:53Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>65742b44-11c2-43ae-9551-e91eb675dc93</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-valves-24v</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-valves-24v</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>b00</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>LFV-075</text>
+    </children>
+    <children>
+      <_key>b01</_key>
+      <_type>span</_type>
+      <text> — мембранен електромагнитен клапан ¾″ за автоматична поливна система.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h10</_key>
+      <_type>span</_type>
+      <text>Предназначение и принцип на работа</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p10</_key>
+      <_type>span</_type>
+      <text>Контролерът подава електрически сигнал към соленоида, който задейства мембраната и отваря водния проход. След прекратяване на сигнала клапанът се затваря автоматично. Серията LFV е разработена специално за капково напояване и малък воден поток. Специалната мембрана и конструкцията на седлото подпомагат надеждното затваряне при нисък дебит.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h20</_key>
+      <_type>span</_type>
+      <text>Конструкция и особености на модела</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p20</_key>
+      <_type>span</_type>
+      <text>Специалната мембрана е създадена за надеждно управление на малък поток в капкова зона. Специалната мембрана е предназначена за стабилна работа при нисък дебит.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h30</_key>
+      <_type>span</_type>
+      <text>Хидравлични и електрически параметри</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p30</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Размер ¾″; работно налягане 1,0–10,3 bar; дебит 0,6–30,0 l/min (0,2–8 GPM); соленоид 24 V AC. Реалният дебит зависи от загубите по тръбите, филтрите, арматурата и наличното налягане.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h40</_key>
+      <_type>span</_type>
+      <text>Монтаж, настройка и обслужване</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p40</_key>
+      <_type>span</_type>
+      <text>Присъединяване: вътрешна резба ¾″. Преди монтаж проверете посоката на потока, работното налягане и резбовия стандарт. Монтирайте в достъпна клапанна кутия и промийте тръбопровода преди пускане. При обслужване проверявайте мембраната, пилотния филтър, соленоида и уплътненията. LFV е специално конструиран за нисък дебит. Типът и разположението на филтъра следват указанията за серията LFV и качеството на водата.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l00</_key>
+      <_type>span</_type>
+      <text>Проверете посоката на потока и не надвишавайте допустимото налягане.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l10</_key>
+      <_type>span</_type>
+      <text>Промийте тръбите преди свързване, за да не попаднат пясък и стружки в пилотния контур.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l20</_key>
+      <_type>span</_type>
+      <text>Осигурете достъп за бъдеща профилактика.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h50</_key>
+      <_type>span</_type>
+      <text>Избор на съвместим контролер</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p50</_key>
+      <_type>span</_type>
+      <text>Този вариант е със соленоид 24 V AC и изисква контролер със стандартни изходи за 24 VAC клапани.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>p6</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p60</_key>
+      <_type>span</_type>
+      <text>Полезни връзки: </text>
+    </children>
+    <children>
+      <_key>p61</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <marks>c</marks>
+      <text>контролери за автоматично напояване</text>
+    </children>
+    <children>
+      <_key>p62</_key>
+      <_type>span</_type>
+      <text> и </text>
+    </children>
+    <children>
+      <_key>p63</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <marks>s</marks>
+      <text>услуга за монтаж и ремонт на клапани</text>
+    </children>
+    <children>
+      <_key>p64</_key>
+      <_type>span</_type>
+      <text>.</text>
+    </children>
+    <markDefs>
+      <_key>c</_key>
+      <_type>link</_type>
+      <href>/category/controllers</href>
+    </markDefs>
+    <markDefs>
+      <_key>s</_key>
+      <_type>link</_type>
+      <href>/services/montazh-remont-elektromagnitni-klapani</href>
+    </markDefs>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>gallerylfv07520261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-b8a32f18e913a1d8b5c6157c2c51e36e52904c2c-1400x1400-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird LFV-075 — електромагнитен клапан 3/4″ за малък дебит, 24 V</alt>
+    <altEn>Rain Bird LFV-075 — 3/4″ low-flow solenoid valve, 24 V</altEn>
+    <altRu>Rain Bird LFV-075 — низкопоточный электромагнитный клапан 3/4″, 24 В</altRu>
+    <asset>
+      <_ref>image-0065d3f610c7acdc07d2622b43beaf6a96f4d24d-1400x1400-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-1e3d2b909ea7771ad714351e3bc1d20c67df786d-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird LFV-075 — електромагнитен клапан 3/4″, 24 V</name>
+  <priceEUR>49.78</priceEUR>
+  <relatedContent>
+    <_key>3bZOs0N0PGXlOTrFSiusVn</_key>
+    <_ref>d6dd1e83-f504-45a2-83de-974e144669e8</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBBuJ</_key>
+    <_ref>ca6f1767-67a3-4054-a9b5-9ea093d02737</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBBxz</_key>
+    <_ref>97df3a43-ed85-434e-a064-0119374dc140</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBC1f</_key>
+    <_ref>8625a364-c72b-4a1b-b957-b48b5e0f5ef1</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBC5L</_key>
+    <_ref>1ca2120e-744f-4aff-9d7e-affa2122a4fb</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>KiM51uGFELqBzH1LHtBC91</_key>
+    <_ref>ef0a57bc-d0ff-4ceb-98ce-55da7be19586</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird LFV-075 — електромагнитен клапан 3/4″, 24 V</h1>
+    <metaDescription>Rain Bird LFV-075 — електромагнитен клапан 3/4″, 24 V за автоматично поливане. Оборудване за поливни системи в района на Свети Влас.</metaDescription>
+    <metaTitle>Rain Bird LFV-075 — електромагнитен клапан 3/4″, 24 V | Свети Влас</metaTitle>
+  </seo>
+  <shortDescription>Нискодебитен клапан 3/4″ за капково напояване, соленоид 24 VAC.</shortDescription>
+  <sku>X12100</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-lfv-075-24v</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>LFV-075</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>LFV Low Flow</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Електромагнитен клапан за капково напояване с нисък дебит</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>lfv-075, low flow valve, drip irrigation</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Размер на връзката</name>
+    <value>¾″ вътрешна резба</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>1,0–10,3 bar</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Дебит</name>
+    <value>0,6–30,0 l/min (0,2–8 GPM; диапазон за модела LFV-075)</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Захранване на соленоида</name>
+    <value>24 V AC, 50/60 Hz</value>
+  </specifications>
+  <specifications>
+    <_key>spec9</_key>
+    <_type>productSpec</_type>
+    <name>Пусков ток</name>
+    <value>0,30 A (7,2 VA), 24 V AC</value>
+  </specifications>
+  <specifications>
+    <_key>spec10</_key>
+    <_type>productSpec</_type>
+    <name>Ток на задържане</name>
+    <value>0,19 A (4,56 VA), 24 V AC</value>
+  </specifications>
+  <specifications>
+    <_key>spec11</_key>
+    <_type>productSpec</_type>
+    <name>Размери</name>
+    <value>Височина 11.4 cm; дължина 11.1 cm; ширина 8.4 cm</value>
+  </specifications>
+  <specifications>
+    <_key>spec12</_key>
+    <_type>productSpec</_type>
+    <name>Особености</name>
+    <value>Мембрана за надеждна работа при много нисък дебит; вътрешно и външно ръчно управление</value>
+  </specifications>
+  <specifications>
+    <_key>lfvResistance</_key>
+    <_type>productSpec</_type>
+    <name>Съпротивление на бобината</name>
+    <value>38 Ω</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird LFV-075 is a solenoid valve designed specifically for drip irrigation and low flow rates. Its specialised diaphragm supports reliable operation at low flow and helps prevent valve weeping. External manual bleed makes flushing during installation and servicing easier. Series specifications: 3/4″ connection; approximate flow range 0.6–37.8 l/min; pressure 1.0–10.3 bar; 24 VAC, 50/60 Hz solenoid.</description>
+      <formattedDescription>
+        <_key>b0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b00</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>LFV-075</text>
+        </children>
+        <children>
+          <_key>b01</_key>
+          <_type>span</_type>
+          <text> — a ¾″ diaphragm solenoid valve for automatic irrigation.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h10</_key>
+          <_type>span</_type>
+          <text>Purpose and operating principle</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p10</_key>
+          <_type>span</_type>
+          <text>The controller energises the solenoid, which operates the diaphragm and opens the water passage. When the signal stops, the valve closes automatically. The LFV series is designed specifically for drip irrigation and low flow. Its specialised diaphragm and seat design support reliable shut-off at low flow rates.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h20</_key>
+          <_type>span</_type>
+          <text>Construction and model-specific features</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p20</_key>
+          <_type>span</_type>
+          <text>The specialised diaphragm is designed to control small flows in drip-irrigation zones. The specialised diaphragm is designed for reliable operation at low flow.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h30</_key>
+          <_type>span</_type>
+          <text>Hydraulic and electrical specifications</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p30</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Size ¾″; operating pressure 1,0–10,3 bar; flow 0,6–30,0 l/min (0,2–8 GPM); solenoid 24 VAC. Actual flow depends on pipe, filter and fitting losses as well as available pressure.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h40</_key>
+          <_type>span</_type>
+          <text>Installation, adjustment and maintenance</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p40</_key>
+          <_type>span</_type>
+          <text>Connection: ¾″ female thread. Before installation, confirm flow direction, operating pressure and thread standard. Fit the valve in an accessible valve box and flush the pipework before commissioning. During service, inspect the diaphragm, pilot filter, solenoid and seals. LFV is specifically designed for low-flow operation. Select filter type and placement according to the LFV instructions and water quality.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l00</_key>
+          <_type>span</_type>
+          <text>Check flow direction and stay within the permitted operating pressure.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l10</_key>
+          <_type>span</_type>
+          <text>Flush pipework before connection to keep sand and swarf out of the pilot circuit.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l20</_key>
+          <_type>span</_type>
+          <text>Leave access for future maintenance.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h50</_key>
+          <_type>span</_type>
+          <text>Choosing a compatible controller</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p50</_key>
+          <_type>span</_type>
+          <text>This version uses a 24 VAC solenoid and requires a controller with standard 24 VAC valve outputs.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p60</_key>
+          <_type>span</_type>
+          <text>Useful links: </text>
+        </children>
+        <children>
+          <_key>p61</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>c</marks>
+          <text>automatic irrigation controllers</text>
+        </children>
+        <children>
+          <_key>p62</_key>
+          <_type>span</_type>
+          <text> and </text>
+        </children>
+        <children>
+          <_key>p63</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>s</marks>
+          <text>valve installation and repair service</text>
+        </children>
+        <children>
+          <_key>p64</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>c</_key>
+          <_type>link</_type>
+          <href>/category/controllers</href>
+        </markDefs>
+        <markDefs>
+          <_key>s</_key>
+          <_type>link</_type>
+          <href>/services/montazh-remont-elektromagnitni-klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird LFV-075 — 3/4″ low-flow solenoid valve, 24 V</name>
+      <seo>
+        <h1>Rain Bird LFV-075 — 3/4″ low-flow solenoid valve, 24 V</h1>
+        <metaDescription>For sale: Rain Bird LFV-075 ¾″ low-flow solenoid valve for drip irrigation, with a 24 VAC solenoid. Florial, Sveti Vlas.</metaDescription>
+        <metaTitle>Rain Bird LFV-075 ¾″ low-flow valve | Sveti Vlas | Florial</metaTitle>
+      </seo>
+      <shortDescription>3/4″ low-flow valve designed for drip irrigation, with a 24 VAC solenoid.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>LFV-075</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>LFV Low Flow</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Low-flow solenoid valve for drip irrigation</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>lfv-075, low-flow valve, drip irrigation</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Connection size</name>
+        <value>¾″ female thread</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>1.0–10.3 bar</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Flow rate</name>
+        <value>0.6–30.0 L/min (0.2–8 GPM; LFV-075 model range)</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Solenoid power supply</name>
+        <value>24 VAC, 50/60 Hz</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Inrush current</name>
+        <value>0.30 A (7.2 VA), 24 VAC</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Holding current</name>
+        <value>0.19 A (4.56 VA), 24 VAC</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Dimensions</name>
+        <value>Height 11.4 cm; length 11.1 cm; width 8.4 cm</value>
+      </specifications>
+      <specifications>
+        <_key>spec12</_key>
+        <_type>productSpec</_type>
+        <name>Features</name>
+        <value>Diaphragm designed for reliable operation at very low flow; internal and external manual bleed</value>
+      </specifications>
+      <specifications>
+        <_key>lfvResistance</_key>
+        <_type>productSpec</_type>
+        <name>Coil resistance</name>
+        <value>38 Ω</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird LFV-075 — электромагнитный клапан, специально разработанный для капельного полива и малых расходов. Особая мембрана обеспечивает надёжную работу при низком расходе и помогает предотвратить подтекание. Внешний ручной сброс облегчает промывку при монтаже и обслуживании. Характеристики серии: подключение 3/4″; примерный расход 0,6–37,8 л/мин; давление 1,0–10,3 бар; соленоид 24 В переменного тока, 50/60 Гц.</description>
+      <formattedDescription>
+        <_key>b0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b00</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>LFV-075</text>
+        </children>
+        <children>
+          <_key>b01</_key>
+          <_type>span</_type>
+          <text> — мембранный электромагнитный клапан ¾″ для автоматического полива.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h10</_key>
+          <_type>span</_type>
+          <text>Назначение и принцип работы</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p10</_key>
+          <_type>span</_type>
+          <text>Контроллер подаёт электрический сигнал на соленоид, который приводит в действие мембрану и открывает проход воды. После прекращения сигнала клапан автоматически закрывается. Серия LFV разработана специально для капельного полива и малого расхода. Особая мембрана и конструкция седла помогают надёжно закрывать клапан при низком расходе.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h20</_key>
+          <_type>span</_type>
+          <text>Конструкция и особенности модели</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p20</_key>
+          <_type>span</_type>
+          <text>The specialised diaphragm is designed to control small flows in drip-irrigation zones. Специальная мембрана рассчитана на стабильную работу при низком расходе.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h30</_key>
+          <_type>span</_type>
+          <text>Гидравлические и электрические параметры</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p30</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Размер ¾″; рабочее давление 1,0–10,3 bar; расход 0,6–30,0 l/min (0,2–8 GPM); соленоид 24 В AC. Фактический расход зависит от потерь в трубах, фильтрах, арматуре и доступного давления.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h40</_key>
+          <_type>span</_type>
+          <text>Монтаж, настройка и обслуживание</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p40</_key>
+          <_type>span</_type>
+          <text>Подключение: внутренняя резьба ¾″. Перед монтажом проверьте направление потока, рабочее давление и стандарт резьбы. Установите клапан в доступном боксе и промойте трубопровод перед запуском. При обслуживании проверяйте мембрану, пилотный фильтр, соленоид и уплотнения. LFV специально разработан для низкого расхода. Тип и расположение фильтра выбирают по инструкции к серии LFV и с учётом качества воды.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l00</_key>
+          <_type>span</_type>
+          <text>Проверьте направление потока и не превышайте допустимое давление.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l10</_key>
+          <_type>span</_type>
+          <text>Промойте трубы до подключения, чтобы песок и стружка не попали в пилотный контур.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l20</_key>
+          <_type>span</_type>
+          <text>Оставьте доступ для последующего обслуживания.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h50</_key>
+          <_type>span</_type>
+          <text>Выбор совместимого контроллера</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p50</_key>
+          <_type>span</_type>
+          <text>Эта версия оснащена соленоидом 24 В AC и требует контроллера со стандартными выходами для клапанов 24 VAC.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p60</_key>
+          <_type>span</_type>
+          <text>Полезные ссылки: </text>
+        </children>
+        <children>
+          <_key>p61</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>c</marks>
+          <text>контроллеры автоматического полива</text>
+        </children>
+        <children>
+          <_key>p62</_key>
+          <_type>span</_type>
+          <text> и </text>
+        </children>
+        <children>
+          <_key>p63</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>s</marks>
+          <text>услуга монтажа и ремонта клапанов</text>
+        </children>
+        <children>
+          <_key>p64</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>c</_key>
+          <_type>link</_type>
+          <href>/category/controllers</href>
+        </markDefs>
+        <markDefs>
+          <_key>s</_key>
+          <_type>link</_type>
+          <href>/services/montazh-remont-elektromagnitni-klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird LFV-075 — низкопоточный электромагнитный клапан 3/4″, 24 В</name>
+      <seo>
+        <h1>Rain Bird LFV-075 — низкопоточный электромагнитный клапан 3/4″, 24 В</h1>
+        <metaDescription>Продажа низкопоточного электромагнитного клапана Rain Bird LFV-075 ¾″ для капельного полива, с соленоидом 24 В AC. Флориал, Святой Влас.</metaDescription>
+        <metaTitle>Rain Bird LFV-075 ¾″ для капельного полива | Святой Влас | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Низкопоточный клапан 3/4″ для капельного полива, соленоид 24 В переменного тока.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>LFV-075</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>LFV Low Flow</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Клапан для капельного полива с низким расходом</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>lfv-075, клапан низкого расхода, капельный полив</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Размер подключения</name>
+        <value>Внутренняя резьба ¾″</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>1,0–10,3 бар</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Расход</name>
+        <value>0,6–30,0 л/мин (0,2–8 GPM; диапазон модели LFV-075)</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Питание соленоида</name>
+        <value>24 В AC, 50/60 Гц</value>
+      </specifications>
+      <specifications>
+        <_key>spec9</_key>
+        <_type>productSpec</_type>
+        <name>Пусковой ток</name>
+        <value>0,30 A (7,2 VA), 24 В AC</value>
+      </specifications>
+      <specifications>
+        <_key>spec10</_key>
+        <_type>productSpec</_type>
+        <name>Ток удержания</name>
+        <value>0,19 A (4,56 VA), 24 В AC</value>
+      </specifications>
+      <specifications>
+        <_key>spec11</_key>
+        <_type>productSpec</_type>
+        <name>Размеры</name>
+        <value>Высота 11,4 см; длина 11,1 см; ширина 8,4 см</value>
+      </specifications>
+      <specifications>
+        <_key>spec12</_key>
+        <_type>productSpec</_type>
+        <name>Особенности</name>
+        <value>Мембрана для надёжной работы при очень низком расходе; внутренний и внешний ручной сброс давления</value>
+      </specifications>
+      <specifications>
+        <_key>lfvResistance</_key>
+        <_type>productSpec</_type>
+        <name>Сопротивление катушки</name>
+        <value>38 Ом</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.431</weightKg>
+</document>
