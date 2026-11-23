@@ -61,6 +61,11 @@ const tagTranslations: Record<string, {bg: string; ru: string; en: string}> = {
   'Rain Bird R-VAN': {bg: 'Rain Bird R-VAN', ru: 'Rain Bird R-VAN', en: 'Rain Bird R-VAN'},
   'Hunter MP Rotator': {bg: 'Hunter MP Rotator', ru: 'Hunter MP Rotator', en: 'Hunter MP Rotator'},
   'дюзи за тревни площи': {bg: 'Дюзи за тревни площи', ru: 'Форсунки для газона', en: 'Lawn nozzles'},
+  'автоматично поливане': {bg: 'Автоматично напояване', ru: 'Автоматический полив', en: 'Automatic irrigation'},
+  'ротаторни дюзи': {bg: 'Ротаторни дюзи', ru: 'Ротаторные форсунки', en: 'Rotary nozzles'},
+  'Rain Bird R-VAN': {bg: 'Rain Bird R-VAN', ru: 'Rain Bird R-VAN', en: 'Rain Bird R-VAN'},
+  'Hunter MP Rotator': {bg: 'Hunter MP Rotator', ru: 'Hunter MP Rotator', en: 'Hunter MP Rotator'},
+  'дюзи за тревни площи': {bg: 'Дюзи за тревни площи', ru: 'Форсунки для газона', en: 'Lawn nozzles'},
 }
 
 function localizedTag(tag: string, language: 'bg' | 'ru' | 'en') {
