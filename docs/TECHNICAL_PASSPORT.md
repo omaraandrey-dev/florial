@@ -4189,3 +4189,13 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - PR #488 merged as `5ca0276fe3098f45a6871cb866f1ea96df325fb2`; Cloudflare Pages Production deployment `db6bb828-698b-47ac-a5b7-6173a033475f` succeeded from the exact merge commit.
 - GA4 Realtime query after deployment returned no events in the observed last-30-minute window. Event receipt and consent interaction QA remain unconfirmed; no live test order was created.
 - Privacy governance review (legal basis, provider terms, retention and international transfer disclosures) remains open. Full evidence: `docs/audits/2026-11-23-ga4-rollout.md`.
+
+
+## 2026-11-23 — Blog index performance remediation (PR #510)
+
+- PR #510 merged into main at f0913f3d379c718bc140d539e5b66beb7411a8f2; exact PR head d32e6717de33aec4d1b10ca59f49002ceba35e3f passed Blog/Studio CI run 45267333166 and D1 validation run 45267333146. Preview deployment 905e4a1d-f586-439e-abb9-f48802b5f177 and Production deployment b7fd5ab1-4628-46b4-90af-8d6dd1853674 succeeded.
+- On /blog and /blog/*, App skips the two full Sanity category indexes with nested product counts; route transition to non-blog pages still loads the category index. A ref prevents repeat fetches after successful completion.
+- Lazy chunk and Sanity data loading now reserve viewport space and render layout-matched skeletons, reducing the chance of the Footer entering the initial viewport before the long blog list appears. This targets the owner's reported Footer-associated CLS 0.337; actual reduction remains unmeasured.
+- Middleware adds preconnect hints for the Sanity query CDN and image CDN only on the blog index. Blog category/article cards use tighter sizes and Sanity image quality 68; original assets unchanged.
+- Production BG/RU/EN mobile rendered-HTML smoke passed. No screenshot/interactive QA and no matched post-change PSI/Lighthouse runs; do not claim a numerical performance gain. Baseline: Performance 79, FCP 0.9 s, LCP 2.7 s, TBT 10 ms, CLS 0.337, Speed Index 2.9 s.
+- No Footer/Header/menu/global CSS/routes, Sanity schema/documents/assets, D1, Cloudflare settings/secrets/DNS or Resend changes. Audit: docs/audits/2026-11-23-blog-performance-remediation.md.
