@@ -37,8 +37,7 @@ GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Supabase 
 - [Repository release readiness](../operations/REPOSITORY_RELEASE_READINESS_2026-11-18.md) — точный CI/Production baseline.
 - [Branch hygiene](../operations/BRANCH_HYGIENE.md) — правила использования main и старых веток.
 
-- SEO Audit Agent Skill: [installation, scope and Florial guardrails](SEO_AUDIT_SKILL.md).
-- **SEO audit (23.11.2026):** [comprehensive findings](../audits/2026-11-23-comprehensive-seo-audit.md), [remediation roadmap](../roadmaps/SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md), [Agent Skill and Florial guardrails](SEO_AUDIT_SKILL.md).
+- **SEO Audit (23.11.2026):** [comprehensive findings](../audits/2026-11-23-comprehensive-seo-audit.md), [remediation roadmap](../roadmaps/SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md), [installed Agent Skill and Florial guardrails](SEO_AUDIT_SKILL.md).
 ## Профильные документы
 - **Irrigation engineer / lawn designer:** [perimeter-first implementation guide](../engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md) — геометрия, размещение, mixed/balanced zones, pipe routes and BOM; [balanced zones + owner PDF handoff](../engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md) — checkout snapshot, D1 event persistence, owner email/PDF and verification boundaries.
 - Plant editor UX: [role-based workflow and interface rules](../manager/PLANT_EDITOR_UX.md).
