@@ -39,7 +39,7 @@ The current Florial Contacts page links to two distinct Google Maps place record
 - Public category shown: **Garden center**.
 - Public hours currently displayed: Monday–Thursday **08:00–17:00**; Friday **00:30–17:00**; Saturday **00:00–01:00**; Sunday **08:00–17:00**. Friday/Saturday values appear anomalous and must not be treated as reliable without owner confirmation.
 - Public snapshot: **5.0 / 2 reviews**, **2 photos**.
-- This is a separate public Maps record, not merely a service-area mention. Whether it is an active customer-facing Florial branch, a pickup point, or another type of location is **NOT VERIFIED** from public data alone. Do not merge, delete, rename or edit it until the owner confirms its real-world status.
+- This is a separate public Maps record, not merely a service-area mention. **OWNER CONFIRMATION (23.11.2026): Ravda is a new, active Florial garden centre where customers can visit in person.** Treat it as a genuine customer-facing location with its own Maps record and `GardenStore` entity; do not merge it with Nessebar or treat it as service-area-only.
 
 ## 2. NAP and contact consistency
 
@@ -111,7 +111,7 @@ The implementation is in `functions/_middleware.ts`. The public contact cards an
 This is a limited public-search sample, not a complete citation or backlink inventory.
 
 1. [iBusiness.bg — Градински център „Флориал“](https://www.ibusiness.bg/bulgaria/nessebar/%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B8/%D0%B3%D1%80%D0%B0%D0%B4%D0%B8%D0%BD%D1%81%D0%BA%D0%B8-%D1%86%D0%B5%D0%BD%D1%82%D1%8A%D1%80-%D1%84%D0%BB%D0%BE%D1%80%D0%B8%D0%B0%D0%BB) — name and Nessebar / Han Krum address are present; phone field is empty; website points to legacy `https://www.drop.od.ua/bg`, not the current official domain.
-2. [Legacy DROP contact page](https://www.drop.od.ua/bg/location) and [legacy garden-centre page](https://www.drop.od.ua/bg/post/garden-center-florial-nessebar) — show the main phone +359876777902, Nessebar / Han Krum address, 09:00–18:00 hours and a wider historical service-area list. The old site remains publicly accessible and indexed.
+2. [Legacy DROP contact page](https://www.drop.od.ua/bg/location) and [legacy garden-centre page](https://www.drop.od.ua/bg/post/garden-center-florial-nessebar) — historically showed the main phone +359876777902, Nessebar / Han Krum address, 09:00–18:00 hours and a wider service-area list. **OWNER CONFIRMATION (23.11.2026): the Bulgarian-language legacy DROP pages now redirect to the current Bulgarian Florial website.** Therefore, the legacy URL appearing in an old citation is not by itself evidence of a live competing Bulgarian website. The exact redirect chain and page-to-page destination mapping were not independently tested in this audit.
 3. [Palms and Olive Trees — Nessebar](https://www.palmandolivetrees.com/) — Florial-branded plant site shows +359876777902 and 09:00–18:00 hours, and mentions on-site services in Burgas and Varna. Whether this is an official sister site/current business property needs owner confirmation.
 4. [Dun & Bradstreet — FLORIAL LTD OOD](https://www.dnb.com/business-directory/bg/burgas/nesebar/other-miscellaneous-retailers/companies) — lists the legal company in Nessebar, but the surfaced listing does not provide the customer-facing NAP.
 5. [Finansi.bg — FLORIAL OOD](https://finansi.bg/florial) — provides legal-entity registry details and a registered office address that differs from the public garden-centre address. Do not substitute the legal registered office for the customer-facing location in local citations.
@@ -123,11 +123,11 @@ No citation edits were performed. No authoritative backlink metrics were obtaine
 
 ### Owner confirmation required before changes
 
-1. Confirm whether the Ravda Maps record is an active customer-facing Florial garden centre, a pickup point, or only a service location. Confirm whether customers may visit the exact Чешме тарла location.
-2. Confirm the actual opening hours separately for Nessebar and Ravda, including Sunday and seasonal schedule.
-3. Confirm the correct primary telephone for each location. Public evidence currently supports +359876777902 as the Nessebar main Bulgarian number and +359877055605 for the Ravda Maps record; +359885834860 is the additional ENG/UA/RU line.
-4. Confirm current on-site service areas, especially Burgas and Varna, and distinguish them from delivery-only areas.
-5. Confirm whether `drop.od.ua` and `palmandolivetrees.com` are official/current Florial properties and which Facebook/Instagram pages are canonical official profiles.
+1. **CLOSED — Ravda status:** the owner confirmed that Ravda is a new active garden centre where customers can visit. Keep it as a separate physical Florial location; no merge/delete action is indicated.
+2. **OPEN — hours:** confirm actual opening hours separately for Nessebar and Ravda, including Sunday and seasonal schedules.
+3. **OPEN — phone assignment:** confirm the correct primary telephone for each location. Public evidence supports +359876777902 as the Nessebar main Bulgarian number and +359877055605 for the Ravda Maps record; +359885834860 is the additional ENG/UA/RU line.
+4. **OPEN — service areas:** confirm current on-site service areas, especially Burgas and Varna, and distinguish them from delivery-only areas.
+5. **OPEN — related web/social properties:** confirm whether `palmandolivetrees.com` is an official/current Florial property and which Facebook/Instagram pages are canonical official profiles. The owner has confirmed that the Bulgarian legacy DROP pages redirect to the current Bulgarian Florial website; exact redirect destinations have not been independently checked.
 
 ### Proposed remediation after confirmation and separate approval
 
@@ -143,6 +143,6 @@ No citation edits were performed. No authoritative backlink metrics were obtaine
 ## 7. Close-out
 
 - **Read-only Local SEO audit: COMPLETED.**
-- **Remediation: NOT STARTED** — several changes depend on owner confirmation of physical location status, hours, phone assignment, service areas and related web properties.
+- **Remediation: NOT STARTED** — Ravda's physical customer-facing status and the legacy DROP redirect status have now been clarified by the owner. Remaining owner confirmations concern location-specific hours, phone assignment, current service areas and canonical related web/social properties.
 - No Google Business Profile, external directory, website, Sanity, Cloudflare, D1, Resend or Production data was changed.
-- Next owner decision: confirm the Ravda location's real-world status before considering any profile or site updates.
+- Next owner decision: confirm actual hours for Nessebar and Ravda; then prepare a precise, separate remediation proposal. No public profile or site edits are authorized by these factual clarifications alone.
