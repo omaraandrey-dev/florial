@@ -1,0 +1,802 @@
+Found document "42f54182-8fc4-41ee-9b8c-2c50b504907d": 
+<document>
+  <_createdAt>2026-10-18T08:20:04Z</_createdAt>
+  <_id>42f54182-8fc4-41ee-9b8c-2c50b504907d</_id>
+  <_rev>FtwFw4yqYwP9yFXZAJH7UE</_rev>
+  <_system>
+    <base>
+      <id>42f54182-8fc4-41ee-9b8c-2c50b504907d</id>
+      <rev>Wxh00JcLN6cQgy9skweYaW</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-20T09:14:36Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>ad3914b4-5ab0-49e3-868a-52621c4654a7</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>6690848d-a4a5-4386-b9ae-5f63604914b1</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6690848d-a4a5-4386-b9ae-5f63604914b1</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-h1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-h1s0</_key>
+      <_type>span</_type>
+      <text>Роторна дюза за тесни ивици и ъгли</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p1s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Rain Bird R-VAN-RCS</text>
+    </children>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p1s1</_key>
+      <_type>span</_type>
+      <text> е ротаторна дюза със специален модел на покритие за тесни правоъгълни пространства. Тя е предназначена за поливане покрай алеи, огради и граници на тревни площи, където стандартната кръгова струя би излизала извън очертанията.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-h2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-h2s0</_key>
+      <_type>span</_type>
+      <text>Размер на покритието и работни параметри</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p2s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Технически данни: </text>
+    </children>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p2s1</_key>
+      <_type>span</_type>
+      <text>форма дясна ъглова ивица; размер на покритието 1,5 × 4,6 m; работно налягане 2,1–3,8 bar и препоръчително 3,1 bar. Дебитът е 0,68–1,06 l/min, според налягането в системата.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-h3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-h3s0</_key>
+      <_type>span</_type>
+      <text>Настройка на формата на поливане</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p3s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Регулиране: </text>
+    </children>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p3s1</_key>
+      <_type>span</_type>
+      <text>размерът и границите на покритието се настройват при работеща система. Многопоточната ротаторна струя създава по-едри капки, а настройката без специален инструмент улеснява прецизното напасване към контура на ивицата.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-h4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-h4s0</_key>
+      <_type>span</_type>
+      <text>Избор на лява, дясна или странична ивица</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p4s0</_key>
+      <_type>span</_type>
+      <text>LCS оформя лява ъглова ивица, RCS — дясна ъглова ивица, а SST — дълга странична ивица. Изберете ориентацията според положението на разпръсквача и не заменяйте левия и десния модел един с друг.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-h5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-h5s0</_key>
+      <_type>span</_type>
+      <text>Проектиране, монтаж и поддръжка</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p5s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>При проектирането: </text>
+    </children>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p5s1</_key>
+      <_type>span</_type>
+      <text>проверете налягането при дюзата и подредете съседните зони така, че да няма сухи пролуки или излишно поливане на настилката. За оптимална работа Rain Bird препоръчва корпус 1800 PRS-45 при 3,1 bar. Вижте </text>
+    </children>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p5s2</_key>
+      <_type>span</_type>
+      <marks>category</marks>
+      <text>ротаторните форсунки</text>
+    </children>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p5s3</_key>
+      <_type>span</_type>
+      <text> и статията за </text>
+    </children>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p5s4</_key>
+      <_type>span</_type>
+      <marks>sprinkler-help</marks>
+      <text>монтаж, настройка и ремонт на разпръсквачи</text>
+    </children>
+    <children>
+      <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-bg-p5s5</_key>
+      <_type>span</_type>
+      <text>.</text>
+    </children>
+    <markDefs>
+      <_key>category</_key>
+      <_type>link</_type>
+      <href>/category/rotator-nozzles</href>
+    </markDefs>
+    <markDefs>
+      <_key>sprinkler-help</_key>
+      <_type>link</_type>
+      <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+    </markDefs>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>rvanrcs20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-949f2de6bfab7e369d415c789139a364f8ce8695-1000x1000-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>rvan-overview-rcs-20261027</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <isFeatured>false</isFeatured>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird R-VAN-RCS — ротаторна дюза за тясна ивица отдясно</alt>
+    <altEn>Rain Bird R-VAN-RCS — right-side strip nozzle</altEn>
+    <altRu>Rain Bird R-VAN-RCS — форсунка для узкой полосы справа</altRu>
+    <asset>
+      <_ref>image-5955fffd504ac40f0dcc2fa84d2274665356977e-1086x1448-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-4d6eb332c58481f28619c0b1345809ad184d558b-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird R-VAN-RCS — дюза за десен ъгъл</name>
+  <priceEUR>11.16</priceEUR>
+  <relatedContent>
+    <_key>sprinklerBlogRef</_key>
+    <_ref>8a4ec08b-e064-4d85-8d97-52837afe6d6f</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedContent>
+    <_key>rotatorComparisonBlogRef</_key>
+    <_ref>19fdf008-53df-4258-bf36-bfa86592ed8e</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlf6fG</_key>
+    <_ref>97436060-98f6-430e-ba36-3fa11b085b24</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlf6iV</_key>
+    <_ref>a84929ff-e088-437c-bb33-f8ec9b2817f3</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlf6lk</_key>
+    <_ref>dac0f67b-0638-48e8-884c-10ea19cffe4d</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlf6oz</_key>
+    <_ref>556bb59c-ec52-4884-b811-5687d2310343</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlf6sE</_key>
+    <_ref>4854cd78-5a9c-4b44-bcd3-1399162d572c</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird R-VAN-RCS — ротаторна дюза за десен ъгъл</h1>
+    <metaDescription>Продажба на Rain Bird R-VAN-RCS — ротаторна дюза за десен ъгъл. Ротаторна дюза за напояване на тесни ивици от дясната страна. Флориал, Поморие.</metaDescription>
+    <metaTitle>Rain Bird R-VAN-RCS | Поморие | Флориал</metaTitle>
+  </seo>
+  <shortDescription>Ротаторна дюза Rain Bird R-VAN-RCS за тесни ивици от дясната страна.</shortDescription>
+  <sku>A84668</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>a84668</current>
+  </slug>
+  <sortOrder>12</sortOrder>
+  <specifications>
+    <_key>s1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>R-VAN-RCS</value>
+  </specifications>
+  <specifications>
+    <_key>s2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>R-VAN</value>
+  </specifications>
+  <specifications>
+    <_key>s3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Дюза за дясна ъглова ивица</value>
+  </specifications>
+  <specifications>
+    <_key>s4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>r-van-rcs, rotator nozzle, irrigation</value>
+  </specifications>
+  <specifications>
+    <_key>s5</_key>
+    <_type>productSpec</_type>
+    <name>Размер на покритие</name>
+    <value>1,5 × 4,6 m</value>
+  </specifications>
+  <specifications>
+    <_key>s6</_key>
+    <_type>productSpec</_type>
+    <name>Сектор/форма на поливане</name>
+    <value>Дясна ъглова ивица</value>
+  </specifications>
+  <specifications>
+    <_key>s7</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>2,1–3,8 bar</value>
+  </specifications>
+  <specifications>
+    <_key>s8</_key>
+    <_type>productSpec</_type>
+    <name>Препоръчително работно налягане</name>
+    <value>3,1 bar</value>
+  </specifications>
+  <specifications>
+    <_key>s9</_key>
+    <_type>productSpec</_type>
+    <name>Регулиране</name>
+    <value>Размерът на покритието се настройва при работеща система</value>
+  </specifications>
+  <specifications>
+    <_key>s10</_key>
+    <_type>productSpec</_type>
+    <name>Особености</name>
+    <value>Едри водни капки, висока равномерност и съгласувана норма на валеж; дебит 0,68–1,06 l/min според налягането</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird R-VAN-RCS is a rotary nozzle designed to deliver controlled, water-efficient irrigation for landscaped areas. Multiple rotating streams apply water more slowly than many conventional spray nozzles, helping the soil absorb it and reducing runoff when the system is correctly designed. The stated coverage is 1.5 × 4.6 m; the watering pattern is right corner; recommended operating pressure is 2.1–3.8 bar.
+
+R-VAN nozzles are useful for matching irrigation coverage to the shape of the planting area, including standard arcs and narrow strips. Select the pattern to suit the location and maintain compatible pressure and flow. Use with compatible Rain Bird 1800/RD1800 spray bodies or other approved bodies as specified by the manufacturer.
+
+Actual radius and uniformity depend on pressure, spacing, soil and wind conditions.</description>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-h1s0</_key>
+          <_type>span</_type>
+          <text>Rotary nozzle for narrow strips and corners</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p1s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Rain Bird R-VAN-RCS</text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p1s1</_key>
+          <_type>span</_type>
+          <text> is a rotary nozzle with a dedicated pattern for narrow rectangular spaces. It is designed for strips alongside paths, fences and lawn edges where a standard circular spray would extend beyond the intended area.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-h2s0</_key>
+          <_type>span</_type>
+          <text>Coverage dimensions and operating data</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p2s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Technical data: </text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p2s1</_key>
+          <_type>span</_type>
+          <text>pattern дясна ъглова ивица; coverage 1.5 × 4.6 m; operating pressure 2.1–3.8 bar, recommended 3.1 bar. Flow is 0.68–1.06 L/min, depending on system pressure.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-h3s0</_key>
+          <_type>span</_type>
+          <text>Adjusting the spray pattern</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p3s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Adjustment: </text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p3s1</_key>
+          <_type>span</_type>
+          <text>coverage size and boundaries are adjusted while the system is running. The multi-stream rotary pattern produces larger droplets, and tool-free adjustment helps match the spray to the strip outline.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-h4s0</_key>
+          <_type>span</_type>
+          <text>Choosing left, right or side-strip coverage</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p4s0</_key>
+          <_type>span</_type>
+          <text>LCS creates a left-corner strip, RCS a right-corner strip, and SST a long side strip. Select the pattern according to the sprinkler position; left- and right-corner models are not interchangeable.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-h5s0</_key>
+          <_type>span</_type>
+          <text>Design, installation and maintenance</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p5s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>For system design: </text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p5s1</_key>
+          <_type>span</_type>
+          <text>check pressure at the nozzle and position neighbouring zones to avoid dry gaps or overspray onto paving. For optimum operation, Rain Bird recommends an 1800 PRS-45 body at 3.1 bar. Explore </text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p5s2</_key>
+          <_type>span</_type>
+          <marks>category</marks>
+          <text>rotary nozzles</text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p5s3</_key>
+          <_type>span</_type>
+          <text>; also read </text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p5s4</_key>
+          <_type>span</_type>
+          <marks>sprinkler-help</marks>
+          <text>sprinkler installation, adjustment and repair</text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-en-p5s5</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>category</_key>
+          <_type>link</_type>
+          <href>/category/rotator-nozzles</href>
+        </markDefs>
+        <markDefs>
+          <_key>sprinkler-help</_key>
+          <_type>link</_type>
+          <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird R-VAN-RCS — right-side strip nozzle</name>
+      <seo>
+        <h1>Rain Bird R-VAN-RCS — right-side rotary strip nozzle</h1>
+        <metaDescription>For sale: Rain Bird R-VAN-RCS — right-side rotary strip nozzle. Rotary nozzle designed to irrigate narrow strips along the right side. Florial, Pomorie.</metaDescription>
+        <metaTitle>Rain Bird R-VAN-RCS | Pomorie | Florial</metaTitle>
+      </seo>
+      <shortDescription>Rain Bird R-VAN-RCS rotary nozzle for watering narrow strips along the right side.</shortDescription>
+      <specifications>
+        <_key>s1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>R-VAN-RCS</value>
+      </specifications>
+      <specifications>
+        <_key>s2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>R-VAN</value>
+      </specifications>
+      <specifications>
+        <_key>s3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Corner-strip nozzle</value>
+      </specifications>
+      <specifications>
+        <_key>s4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>r-van-rcs, rotary nozzle, irrigation</value>
+      </specifications>
+      <specifications>
+        <_key>s5</_key>
+        <_type>productSpec</_type>
+        <name>Coverage dimensions</name>
+        <value>1.5 × 4.6 m</value>
+      </specifications>
+      <specifications>
+        <_key>s6</_key>
+        <_type>productSpec</_type>
+        <name>Spray arc/pattern</name>
+        <value>Right corner strip</value>
+      </specifications>
+      <specifications>
+        <_key>s7</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>2.1–3.8 bar</value>
+      </specifications>
+      <specifications>
+        <_key>s8</_key>
+        <_type>productSpec</_type>
+        <name>Recommended operating pressure</name>
+        <value>3.1 bar</value>
+      </specifications>
+      <specifications>
+        <_key>s9</_key>
+        <_type>productSpec</_type>
+        <name>Adjustment</name>
+        <value>Coverage dimensions can be adjusted while the system is running</value>
+      </specifications>
+      <specifications>
+        <_key>s10</_key>
+        <_type>productSpec</_type>
+        <name>Features</name>
+        <value>Large water droplets, high uniformity and matched precipitation rate; flow 0.68–1.06 L/min depending on pressure</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird R-VAN-RCS — ротаторная форсунка для управляемого и экономичного полива ландшафтных зон. Несколько вращающихся струй подают воду медленнее, чем многие обычные веерные форсунки, что помогает почве впитывать влагу и снижает сток при правильно спроектированной системе. Указанный радиус — 1.5 × 4.6 m; форма полива — right corner; рекомендуемое рабочее давление — 2.1–3.8 bar.
+
+Форсунки R-VAN позволяют подобрать полив под конфигурацию посадок, включая стандартные сектора и узкие полосы. Выбирайте рисунок полива по расположению зоны и соблюдайте требования к давлению и расходу. Используются с совместимыми корпусами Rain Bird 1800/RD1800 или другими корпусами, разрешёнными производителем.
+
+Фактический радиус и равномерность зависят от давления, расстояния между дождевателями, типа почвы и ветра.</description>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-h1s0</_key>
+          <_type>span</_type>
+          <text>Роторная форсунка для узких полос и углов</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p1s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Rain Bird R-VAN-RCS</text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p1s1</_key>
+          <_type>span</_type>
+          <text> — роторная форсунка со специальной формой покрытия для узких прямоугольных участков. Она подходит для полива вдоль дорожек, ограждений и границ газона, где обычная круговая струя выходила бы за пределы нужной зоны.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-h2s0</_key>
+          <_type>span</_type>
+          <text>Размер покрытия и рабочие параметры</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p2s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Технические данные: </text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p2s1</_key>
+          <_type>span</_type>
+          <text>форма дясна ъглова ивица; размер покрытия 1,5 × 4,6 m; рабочее давление 2,1–3,8 bar, рекомендуемое — 3,1 bar. Расход составляет 0,68–1,06 l/min в зависимости от давления в системе.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-h3s0</_key>
+          <_type>span</_type>
+          <text>Настройка формы полива</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p3s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Регулировка: </text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p3s1</_key>
+          <_type>span</_type>
+          <text>размер и границы покрытия настраиваются при работающей системе. Многопоточная роторная струя формирует более крупные капли, а регулировка без специального инструмента позволяет точно подстроить полив под контур полосы.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-h4s0</_key>
+          <_type>span</_type>
+          <text>Выбор левой, правой или боковой полосы</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p4s0</_key>
+          <_type>span</_type>
+          <text>LCS формирует левую угловую полосу, RCS — правую, а SST — длинную боковую полосу. Выбирайте направление по положению дождевателя; левую и правую модели нельзя считать взаимозаменяемыми.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-h5s0</_key>
+          <_type>span</_type>
+          <text>Проектирование, монтаж и обслуживание</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p5s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>При проектировании: </text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p5s1</_key>
+          <_type>span</_type>
+          <text>проверьте давление на форсунке и расположите соседние зоны так, чтобы не оставалось сухих промежутков и не переувлажнялась дорожка. Для оптимальной работы Rain Bird рекомендует корпус 1800 PRS-45 при 3,1 bar. Подробнее — </text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p5s2</_key>
+          <_type>span</_type>
+          <marks>category</marks>
+          <text>роторные форсунки</text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p5s3</_key>
+          <_type>span</_type>
+          <text> и также статья о </text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p5s4</_key>
+          <_type>span</_type>
+          <marks>sprinkler-help</marks>
+          <text>монтаж, настройка и ремонт дождевателей</text>
+        </children>
+        <children>
+          <_key>42f54182-8fc4-41ee-9b8c-2c50b504907d-ru-p5s5</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>category</_key>
+          <_type>link</_type>
+          <href>/category/rotator-nozzles</href>
+        </markDefs>
+        <markDefs>
+          <_key>sprinkler-help</_key>
+          <_type>link</_type>
+          <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird R-VAN-RCS — форсунка для узкой полосы справа</name>
+      <seo>
+        <h1>Rain Bird R-VAN-RCS — ротаторная форсунка для правой полосы</h1>
+        <metaDescription>Продажа: Rain Bird R-VAN-RCS — ротаторная форсунка для правой полосы. Ротаторная форсунка для полива узких полос с правой стороны. Флориал, Поморие.</metaDescription>
+        <metaTitle>Rain Bird R-VAN-RCS | Поморие | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Ротаторная форсунка Rain Bird R-VAN-RCS для полива узких полос справа.</shortDescription>
+      <specifications>
+        <_key>s1</_key>
+        <_type>productSpec</_type>
+        <name>Модел</name>
+        <value>R-VAN-RCS</value>
+      </specifications>
+      <specifications>
+        <_key>s2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>R-VAN</value>
+      </specifications>
+      <specifications>
+        <_key>s3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделие</name>
+        <value>Дюза для угловой полосы</value>
+      </specifications>
+      <specifications>
+        <_key>s4</_key>
+        <_type>productSpec</_type>
+        <name>Тагове</name>
+        <value>r-van-rcs, ротаторна дюза, полив</value>
+      </specifications>
+      <specifications>
+        <_key>s5</_key>
+        <_type>productSpec</_type>
+        <name>Размер на покритието</name>
+        <value>1,5 × 4,6 м</value>
+      </specifications>
+      <specifications>
+        <_key>s6</_key>
+        <_type>productSpec</_type>
+        <name>Сектор/форма на поливане</name>
+        <value>Дясна ъглова ивица</value>
+      </specifications>
+      <specifications>
+        <_key>s7</_key>
+        <_type>productSpec</_type>
+        <name>Работно налягане</name>
+        <value>2,1–3,8 bar</value>
+      </specifications>
+      <specifications>
+        <_key>s8</_key>
+        <_type>productSpec</_type>
+        <name>Препоръчително работно налягане</name>
+        <value>3,1 bar</value>
+      </specifications>
+      <specifications>
+        <_key>s9</_key>
+        <_type>productSpec</_type>
+        <name>Регулиране</name>
+        <value>Размерът на покритието се настройва при работеща система</value>
+      </specifications>
+      <specifications>
+        <_key>s10</_key>
+        <_type>productSpec</_type>
+        <name>Особености</name>
+        <value>Едри водни капки, висока равномерност и съгласувана норма на валеж; дебит 0,68–1,06 l/min според налягането</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.0186</weightKg>
+</document>
