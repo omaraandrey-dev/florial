@@ -335,6 +335,7 @@ export default function App() {
   const [isContactsOpen, setIsContactsOpen] = useState(initialRoute.isContactsOpen)
   const [isCartOpen, setIsCartOpen] = useState(initialRoute.isCartOpen)
   const [routeRevision, setRouteRevision] = useState(0)
+  const [consentRevision, setConsentRevision] = useState(0)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
   const isIrrigationAssistantRoute = window.location.pathname.replace(/\/+$/, '') === '/irrigation-assistant'
@@ -344,6 +345,12 @@ export default function App() {
   const needsCatalogue = Boolean(activeCategorySlug)
   const lastTrackedPage = useRef<string | null>(null)
   const lastTrackedContent = useRef<string | null>(null)
+
+  useEffect(() => {
+    const onConsentChange = () => setConsentRevision((revision) => revision + 1)
+    window.addEventListener('florial:analytics-consent-change', onConsentChange)
+    return () => window.removeEventListener('florial:analytics-consent-change', onConsentChange)
+  }, [])
 
 
   // Persist the customer's cart between visits on this browser/device.
@@ -443,7 +450,7 @@ export default function App() {
         items,
       })
     }
-  }, [activeProductSlug, currentProduct, initialSaleVariantKey, cart, activeCategorySlug, currentCategoryDetails, isCartOpen, language, normalizedRoutePath, routeRevision])
+  }, [activeProductSlug, currentProduct, initialSaleVariantKey, cart, activeCategorySlug, currentCategoryDetails, isCartOpen, language, normalizedRoutePath, routeRevision, consentRevision])
 
 
 
