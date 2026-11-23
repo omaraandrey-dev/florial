@@ -1,3 +1,23 @@
+## 2026-11-23 — Ready-made kit descriptions (11/12 published)
+
+- Updated and published 11 of 12 active irrigation kits in BG/RU/EN. Each locale now has five H2 sections, two verified internal links, and the required Econt / engineer delivery / paid installation-service wording.
+- Read-back confirmed 11/11 published descriptions; component arrays were compared with the full 12-product pre-write snapshot and remain unchanged.
+- The 10 × 5 m kit remains unchanged: its component list contains ESP-BAT-BT1 and 100-HV-9V, while the published product specs identify them as incompatible. Its short description still says WPX1. Owner decision required before any composition or controller/valve correction.
+- The full Sanity snapshot is `docs/backups/sanity-kits-current-2026-11-23-complete.json`; detailed findings are in `docs/audits/2026-11-23-irrigation-kit-descriptions-refresh.md`.
+- The 1ZEHTMR kits now state that two AA batteries are not included. ESP-TM2 kits specify 230 V AC / 50 Hz input, 24 V AC valve output, and LNK2 Wi-Fi module sold separately. Existing water-source requirements were retained, not recalculated.
+- Sanity validator: 11 valid; custom slug callbacks were not executed. Live category count remains 12; target draft count is zero.
+- No kit components, quantities, prices, stock, images, category references, SEO fields, schema, code or Production infrastructure were changed.
+
+## 2026-11-23 — Sanity nozzle descriptions refresh (26 products)
+
+- Refreshed all 26 active nozzle products in Sanity Production across Bulgarian, Russian and English: 7 VAN, 4 HE-VAN, 6 MPR strip and 9 R-VAN.
+- Updated localized full descriptions and short descriptions; corrected verified radius/arc discrepancies in selected VAN, HE-VAN and R-VAN cards. MPR strip descriptions now distinguish side, centre, end and left/right corner patterns and state the manufacturer's 2.1 bar performance dimensions/flows.
+- Published read-back confirmed 26 active category products, five H2 sections and two verified internal links in each locale; target draft count is zero. Sanity validation reported 26 valid documents, but custom slug validation callbacks were not run by the available validation tool.
+- Sanity before-write snapshots are stored in the PR under `docs/backups/sanity-nozzles-*`; the detailed technical audit and source register is `docs/audits/2026-11-23-nozzle-product-descriptions-refresh.md`.
+- Added `docs/roadmaps/PRODUCT_DESCRIPTION_REFRESH_ROADMAP_2026-11-23.md` and synchronized the roadmap status index and open questions. Next category: 12 ready-made irrigation kits. Controller inventory must be reconciled (live 23 vs previous audit 24) before that category is edited.
+- No application code, schema, SEO metadata, prices, stock, images, category references, Cloudflare, D1 or Resend changes were made. No Production deployment was required for this content-only task.
+- The Humanizer connector was not available in the connected plugin directory; no Humanizer usage is claimed.
+
 ## 2026-11-23 — Roadmap synchronization and next-work handoff
 
 - Added `docs/roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md` as the cross-workstream status index for SEO, Google Shopping, Manager Web Push and Performance.
