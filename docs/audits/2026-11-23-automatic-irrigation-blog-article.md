@@ -71,3 +71,18 @@ All referenced category documents and image assets were read from Sanity Product
 - Sanity Production: one existing blogPost document updated and published.
 - GitHub: backup and audit records.
 - No changes to Studio schema, app code, categories, products, Cloudflare Pages/Functions/D1, Resend or DNS.
+
+
+## 2026-11-23 — RU and EN translations added
+
+The owner approved adding the missing Russian and English translations while preserving the published Bulgarian version.
+
+- Before-write snapshot of the published BG-only document: `docs/backups/sanity/2026-11-23-automatic-irrigation-blog-before-ru-en-translations.xml`.
+- Updated only `translations.ru` and `translations.en`; Bulgarian translation, root title, slug, publication timestamp, cover image, tags and publication status were not changed.
+- Both RU and EN versions include localized title, short description, full Portable Text body, cover ALT, SEO title and SEO description.
+- Each translation contains 60 Portable Text blocks, 8 image blocks and 10 internal link annotations.
+- All image blocks reuse the existing published Sanity image asset references. Captions and ALT text are localized. Existing internal category URL paths were preserved.
+- Sanity draft was read back and validated before publication. Validator status: valid; complete=false because custom validation callbacks, including custom slug uniqueness callbacks, were not executed.
+- Published Sanity read-back confirms: `isPublished=true`; unchanged slug `kak-raboti-avtomatichnata-polivna-sistema`; 60 blocks in each of BG, RU and EN; 8 images and 10 linked paragraphs in each of RU and EN; localized RU/EN SEO titles are present.
+- No changes to schema, Studio, frontend code, categories, products, Cloudflare, D1, Resend, DNS or deployment.
+
