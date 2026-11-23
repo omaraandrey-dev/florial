@@ -16,9 +16,9 @@ test('blog portfolio introduction and category copy are localized in Bulgarian, 
   assert.ok(page.includes('Здесь собраны проекты Florial'))
   assert.ok(page.includes('Explore Florial projects'))
   assert.ok(page.includes('В блога на Florial ще откриете'))
-  assert.ok(page.includes("description: {bg:"))
-  assert.ok(page.includes("description: {ru:"))
-  assert.ok(page.includes("description: {en:"))
+  assert.ok(page.includes("description: {bg: 'Идеи, проекти и решения за градината'"))
+  assert.ok(page.includes("ru: 'Идеи, проекты и решения для сада'"))
+  assert.ok(page.includes("en: 'Garden ideas, projects and solutions'"))
 })
 
 test('four visual categories use editorial slug mapping as well as existing Sanity tags', async () => {
