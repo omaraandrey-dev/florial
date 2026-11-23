@@ -6,21 +6,21 @@ import { getAnalyticsConsent, setAnalyticsConsent, trackPostHogEvent } from '../
 const copy = {
   bg: {
     title: 'Настройки за поверителност',
-    body: 'Сайтът записва основна статистика за използването му в Cloudflare D1 (вид събитие, език, адрес на страницата и дата/час) независимо от избора ви. Допълнителни аналитични събития се изпращат до PostHog само ако ги разрешите. Не изпращаме данни за поръчки или контакти.',
+    body: 'Сайтът записва основна статистика за използването му в Cloudflare D1 (вид събитие, език, адрес на страницата и дата/час) независимо от избора ви. Допълнителната аналитика чрез PostHog и Google Analytics 4 се активира само след съгласие. При съгласие GA4 получава данни за разглежданите продукти и стойността на изпратената поръчка, но не и вашето име, телефон, имейл или адрес.',
     accept: 'Приемам аналитиката',
     reject: 'Отказвам',
     privacy: 'Политика за поверителност',
   },
   ru: {
     title: 'Настройки конфиденциальности',
-    body: 'Сайт записывает базовую статистику использования в Cloudflare D1 (тип события, язык, путь страницы и дата/время) независимо от вашего выбора. Дополнительные аналитические события отправляются в PostHog только с вашего разрешения. Данные заказов и контакты не передаются.',
+    body: 'Сайт записывает базовую статистику использования в Cloudflare D1 (тип события, язык, путь страницы и дата/время) независимо от вашего выбора. Дополнительная аналитика через PostHog и Google Analytics 4 включается только после согласия. При согласии GA4 получает сведения о просмотренных товарах и стоимости отправленного заказа, но не ваше имя, телефон, email или адрес.',
     accept: 'Разрешить аналитику',
     reject: 'Отклонить',
     privacy: 'Политика конфиденциальности',
   },
   en: {
     title: 'Privacy settings',
-    body: 'The website records basic usage statistics in Cloudflare D1 (event type, language, page path and date/time) regardless of your choice. Additional analytics events are sent to PostHog only if you allow them. Order details and contact information are not sent.',
+    body: 'The website records basic usage statistics in Cloudflare D1 (event type, language, page path and date/time) regardless of your choice. Additional analytics through PostHog and Google Analytics 4 is enabled only with your consent. If you consent, GA4 receives product-view information and the value of a submitted order, but not your name, phone number, email or address.',
     accept: 'Allow analytics',
     reject: 'Reject',
     privacy: 'Privacy Policy',
