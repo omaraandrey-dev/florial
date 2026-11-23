@@ -16,7 +16,7 @@ test('irrigation assistant loads catalogue products and adds the generated compl
   assert.match(page, /ESP-BAT-BT/)
   assert.match(page, /TBOSPSOL/)
   assert.doesNotMatch(page, /Для BAT выбран Rain Bird 100-HV-9V/)
-  assert.match(page, /H01040/)
+  assert.match(automation, /H01040/)
   assert.match(automation, /quantities\.delete\('VBA02672'\)/)
   assert.match(page, /требуется управляющий кабель от контроллера до электромагнитных клапанов/)
   assert.doesNotMatch(page, /рассчитываются отдельно|charged separately|се калкулира отделно/)
