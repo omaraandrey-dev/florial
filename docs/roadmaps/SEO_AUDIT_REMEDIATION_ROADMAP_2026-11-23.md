@@ -63,17 +63,17 @@
 
 ## Phase 3 — P2: targeted content improvements
 
-После проверки индексации:
+**Status on 23.11.2026:** this remains the content/SEO workstream corresponding to Step 4 in the unified roadmap index. The next pass is read-only. Four documents already received the narrowly approved SEO updates described in [the partial remediation audit](../audits/2026-11-23-sanity-seo-partial-remediation.md). Do not repeat those writes.
 
-- [ ] Пересмотреть 13 plant product meta descriptions >160 символов и 2 plant category descriptions >160. 160 символов — редакционный ориентир, не жёсткий лимит Google.
-- [ ] Выборочно дополнить полные RU и EN descriptions у одних и тех же 12 irrigation kit products; у них уже есть короткие RU/EN descriptions. Точные Sanity IDs и slugs перечислены в аудите.
-- [ ] Проверить полные RU/EN descriptions услуги `dostavka-poliv` (Sanity ID `9e4efe1b-e434-4cfe-a646-1cc9d9c93bce`); короткие описания есть.
-- [ ] Заполнить explicit ALT BG/RU/EN для 2 equipment products и 2 equipment categories после проверки frontend fallback; exact IDs приведены в аудите.
-- [ ] Развести дублирующиеся BG/RU/EN metaTitle у двух Irritec Connecto elbows (female thread SKU IQ21820F0N25B / male thread SKU IQ21920M0N25B), сохранив утверждённый формат и точные отличия товара.
-- [ ] Проверить заголовки/сниппеты homepage и category Rotor Sprinklers на основе большего набора запросов, не переписывать метаданные по единичным impressions.
-- [ ] Каждое Sanity изменение — отдельный список IDs/fields + backup + owner approval.
+- [ ] Read-only review of 13 plant product meta descriptions >160 characters and 2 plant category descriptions >160. 160 characters is an editorial guideline, not a Google limit. Do not rewrite plant descriptions from the separately stopped editorial pilot.
+- [ ] Read-only review of the 12 irrigation-kit localized full descriptions. Their BG/RU/EN descriptions were refreshed in the separate product-description stream; do not rewrite them as part of this SEO pass.
+- [ ] Review full RU/EN descriptions for service `dostavka-poliv` (Sanity ID `9e4efe1b-e434-4cfe-a646-1cc9d9c93bce`); short descriptions exist.
+- [ ] Inspect frontend ALT fallback and read-only ALT state for 2 equipment products and 2 equipment categories. Nipel-mufa category ALT is already published; do not overwrite it.
+- [x] Two Irritec Connecto elbow localized metaTitle values (female SKU IQ21820F0N25B / male SKU IQ21920M0N25B) were separated and published; read-only verify only.
+- [ ] Evaluate homepage and Rotor Sprinklers snippets against a sufficient GSC query sample. Rotor category metaTitle is already updated; CTR/intent review remains open.
+- [ ] No Sanity writes during this Step 4 pass. Any future content change requires an exact ID/field proposal, backup where required by project protocol, and separate owner approval.
 
-**Критерий закрытия:** только согласованные документы изменены; Published read-back подтверждён; нет дубликатов/потери переводов.
+**Criterion for closure:** the published values and frontend output have been checked, remaining gaps are listed with exact IDs/fields and BG/RU/EN proposals, and no unapproved data is changed.
 
 ## Phase 4 — P2: search opportunity pages
 

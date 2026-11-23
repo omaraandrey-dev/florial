@@ -2,7 +2,7 @@
 
 **Срез:** 23.11.2026  
 **main на начало редакторского цикла:** `7e657dea3093acd83a41ec9a53290bddd6b22a64`
-**Базовый GitHub main:** `57b99420eee021bb7081a21b890227ddd5f31a3b`  
+**Интеграционная база GitHub main:** `49074e24b665a6885f4f1b40f68da4e502112f5d`  
 **Назначение:** единая точка сверки статусов между самостоятельными дорожными картами. Этот индекс не заменяет подробные планы; он устраняет противоречия в статусах и определяет ближайший рабочий поток. После каждого существенного этапа обновлять соответствующую дорожную карту и этот реестр.
 
 ## 1. Главный активный поток — SEO Florial (7 последовательных этапов)
@@ -14,7 +14,7 @@
 | 1 | Индексация, noindex, canonical, Production HTML | **В РАБОТЕ.** В выборке Production initial HTML и hydrated DOM показывают `index, follow`, self-canonical, без `X-Robots-Tag`; robots/sitemap доступны, sitemap 1,372 URL, GSC сообщает 0 errors/warnings. Но сохранённые GSC URL Inspection всё ещё содержат исторические noindex для 11 URL и 3 canonical mismatch. Google live URL Test и post-recrawl пока не подтверждены. Причину менять в коде/Sanity без нового доказательства нельзя. |
 | 2 | Google Rich Results / Schema.org | **ЗАВЕРШЁН ПО ПОДТВЕРЖДЕНИЮ ВЛАДЕЛЬЦА в предыдущем чате;** отдельный отчёт/скриншот результата ещё не сохранён в GitHub. Не смешивать это с незавершёнными специальными Google Shopping проверками ниже. |
 | 3 | GA4 ecommerce | **ИНТЕГРАЦИЯ ЗАВЕРШЕНА, ПРИЁМ СОБЫТИЙ НАБЛЮДАЕТСЯ.** PR #488 merged; Production deployment подтверждён. В Realtime сразу после релиза событий не было. Владелец проверит реальные события при посещении с согласием. Не создавать заказ ради проверки без отдельного согласования. |
-| 4 | Контент и SEO-поля Sanity | **СЛЕДУЮЩИЙ ЭТАП.** Начать с read-only проверки опубликованных документов и полей, сверить список из SEO-аудита, подготовить BG/RU/EN предложения. Никаких Sanity writes без точного списка IDs/fields, backup и отдельного approval. Страницы с нерешённой Google indexability anomaly не переписывать. |
+| 4 | Контент и SEO-поля Sanity | **ЧАСТИЧНО ВЫПОЛНЕНО; ЭТАП ОСТАЁТСЯ ОТКРЫТЫМ.** В отдельной согласованной партии опубликованы и read-back проверены BG/RU/EN metaTitle двух Irritec Connecto elbows и Rotor Sprinklers category, а также ALT изображения Nipel-mufa category. Остаток этапа — read-only аудит опубликованных значений, frontend fallback и подготовка предложений. Никаких новых Sanity writes без точного списка IDs/fields и отдельного approval. Страницы с нерешённой Google indexability anomaly не переписывать. Подробности: [partial remediation audit](../audits/2026-11-23-sanity-seo-partial-remediation.md). |
 | 5 | Возможности Google Search Console | ОЖИДАЕТ подтверждения этапа 1 и накопления сопоставимых данных. После этого — запросы/страницы, CTR, позиции, интент и приоритеты. |
 | 6 | Local SEO | НЕ НАЧАТО. Нужен read-only аудит реальных Google Business Profile, NAP, service areas и citations; не создавать doorway pages. |
 | 7 | Core Web Vitals | НЕ НАЧАТО в рамках SEO-плана. Измерить Lighthouse/CrUX только по отдельному плану производительности и сопоставимому baseline. |
@@ -23,13 +23,13 @@
 
 **Этап 4 — Sanity content/SEO fields, только read-only аудит и подготовка предложений.**
 
-Исходные пункты из аудита:
-- 13 plant product meta descriptions длиннее 160 символов и 2 plant category descriptions длиннее 160 символов (160 — редакционный ориентир, не лимит Google).
-- Полные RU/EN descriptions для 12 irrigation kit products.
-- Полные RU/EN descriptions услуги `dostavka-poliv`.
-- Explicit ALT BG/RU/EN для 2 equipment products и 2 equipment categories после проверки frontend fallback.
-- Развести дублирующиеся локализованные metaTitle двух Irritec Connecto elbows: female SKU `IQ21820F0N25B`, male SKU `IQ21920M0N25B`.
-- Отдельно оценить homepage и Rotor Sprinklers snippets на достаточной выборке GSC.
+Исходные пункты аудита с учётом уже выполненной работы:
+- Read-only пересмотреть 13 plant product meta descriptions длиннее 160 символов и 2 plant category descriptions длиннее 160 символов (160 — редакционный ориентир, не лимит Google). Растительные описания из отдельного редакторского пилота не переписывать.
+- 12 комплектов: полные BG/RU/EN descriptions обновлены в отдельном product-description stream; в SEO Step 4 только проверить текущую опубликованную полноту и соответствие интенту, без переписывания.
+- Проверить полные RU/EN descriptions услуги `dostavka-poliv` (остаётся открытым пунктом).
+- ALT: проверить frontend fallback и read-only состояние для 2 equipment products и 2 equipment categories. ALT Nipel-mufa category уже опубликован; повторно не менять.
+- Локализованные metaTitle двух Irritec Connecto elbows (female SKU `IQ21820F0N25B`, male SKU `IQ21920M0N25B`) уже разведены и опубликованы; выполнить только read-back, не редактировать повторно.
+- Homepage и Rotor Sprinklers snippets оценить по достаточной выборке GSC; Rotor category metaTitle уже обновлён, но оценка CTR/интента остаётся открытой.
 
 Точные Sanity IDs/slugs находятся в [SEO audit](../audits/2026-11-23-comprehensive-seo-audit.md). В новом чате сначала перечитать аудит и перепроверить опубликованные значения read-only; не полагаться на старый список без live read-back.
 
@@ -39,8 +39,9 @@
 
 - Отдельная задача с разрешением владельца на редакторские Sanity writes; не смешивать с SEO Step 4, где остаётся отдельный read-only процесс для SEO-полей.
 - **Форсунки: ЗАВЕРШЕНО — 26/26 опубликованы и прочитаны обратно** (7 VAN, 4 HE-VAN, 6 MPR strip, 9 R-VAN). Аудит: [nozzle description refresh](../audits/2026-11-23-nozzle-product-descriptions-refresh.md).
-- **Готовые комплекты: ЧАСТИЧНО ЗАВЕРШЕНО — 11/12 опубликованы**; 10 × 5 m оставлен без изменений из-за несовместимости ESP-BAT-BT1 + 100-HV-9V. Полный backup и аудит: [kit refresh](../audits/2026-11-23-irrigation-kit-descriptions-refresh.md).
-- Контроллеры: live Sanity показывает 23 активных товара, тогда как аудит 15.11.2026 указывает 24; расхождение нужно устранить до редактирования. Дождеватели: 20 активных товаров.
+- **Готовые комплекты: ЗАВЕРШЕНО — 12/12 опубликованы.** Для набора 10 × 5 m владелец подтвердил практическую совместимость ESP-BAT-BT1 с производственными версиями 100-HV-9V от 01.01.2026 при подходящем соленоиде 9 V DC; более ранние версии не заявляются совместимыми. Карточки клапана H01040 и контроллера ESP-BAT-BT1 синхронизированы на BG/RU/EN. Состав и количества комплекта не менялись. Аудит: [kit refresh](../audits/2026-11-23-irrigation-kit-descriptions-refresh.md), [compatibility copy follow-up](../audits/2026-11-23-esp-bat-bt1-100-hv-9v-compatibility-copy.md).
+- Контроллеры: live Sanity показывает 23 активных товара, тогда как аудит 15.11.2026 указывает 24; расхождение нужно устранить до редактирования. Дождеватели: **ЗАВЕРШЕНО — 20/20 опубликованы** с добавленным локализованным блоком доставки и услуг; read-back подтвердил 20 карточек и 0 drafts. Существующие описания и технические данные сохранены. Аудит: [sprinkler delivery refresh](../audits/2026-11-23-sprinkler-delivery-refresh.md).
+- **Растения — отдельный редакторский пилот приостановлен по решению владельца.** 13 карточек «Палми и юки» были опубликованы с новыми BG/RU/EN описаниями, но владелец не принял результат; дальнейшая редактура растений остановлена. Карточки «Маслини» не изменены. Не смешивать этот пилот с SEO Step 4 и irrigation product-description roadmap. См. [plant editing stop record](../audits/2026-11-23-plant-description-editing-stop.md).
 - Humanizer connector в доступном каталоге не найден; текущая партия отредактирована вручную.
 
 ## 2. Отдельный поток — Google Shopping
@@ -79,9 +80,13 @@
 
 ## 6. Устаревшие PR и evidence
 
-- PR #486 содержит старые статусы (GA4 not started, Rich Results waiting) и базируется на старом main SHA; **не объединять без синхронизации**.
-- PR #487 содержит полезный уникальный live indexability audit, но основан на устаревшем base и GitHub отмечает его как not mergeable. Аудит сохранён отдельным файлом в этой синхронизации; сам PR не использовать как основу новой работы.
-- PR #409 остаётся открытым и не затрагивается этой синхронизацией.
+- PR #486 содержит устаревшие статусы и старую базу; его SEO roadmap не использовать как основу — актуальный порядок сохранён в `main` и синхронизирован в этом индексе.
+- Уникальный live indexability audit из PR #487 уже сохранён в `main` как `docs/audits/2026-11-23-production-indexability-live-check.md`; сам отставший PR не использовать как интеграционную основу.
+- PR #490: уникальный audit частичной Sanity SEO remediation перенесён в этот интеграционный набор; статус Step 4 отражён выше.
+- PR #493 и #494: sprinkler close-out и финальный kit/compatibility close-out интегрированы вместе, чтобы не перезаписывать общие документы параллельно.
+- PR #491: его ранний общий snapshot/узкий spray-nozzle audit не переносится отдельно, поскольку последующий PR #492 содержит актуальный 26-product audit и семейные snapshots.
+- PR #468: актуальная документация закрытия Plant Editor UX включена в этот интеграционный набор.
+- PR #409: уникальные выводы Google Shopping audit уже были перенесены в `main` отдельной синхронизацией PR #424; старый PR не использовать повторно и не переносить его устаревшую общую документацию.
 - Исторические записи внутри подробных roadmap-файлов сохраняются; актуальный status snapshot в начале каждого файла и этот индекс имеют приоритет над старой датированной записью.
 
 ## 7. Правила следующего чата
@@ -95,3 +100,4 @@
 ## Журнал синхронизации
 
 - 23.11.2026 — объединены статусы SEO 7-step plan, Google Shopping, Manager Web Push и Performance в один реестр; добавлена live indexability audit запись из PR #487. Код, Sanity, Cloudflare, D1, Resend и Google settings не менялись.
+- 23.11.2026 — интеграционный проход по PR #493, #494, #490 и #468: обновлены статусы kit 12/12, sprinklers 20/20, частичной SEO remediation и Manager Plant Editor; добавлены связанные аудиты. Растительный редакторский пилот зафиксирован как остановленный по решению владельца. Исторические/устаревшие PR не объединялись вслепую.

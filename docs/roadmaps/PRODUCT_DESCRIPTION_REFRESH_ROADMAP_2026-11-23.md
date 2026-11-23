@@ -22,9 +22,9 @@ The owner approved this separate editorial refresh workflow. This approval does 
 | 1 | Solenoid valves | 17 products | **COMPLETE — 17/17 published** |
 | 2 | Valve boxes, hydrants and keys | 7 products | **COMPLETE — 7/7 published** |
 | 3 | Spray and rotary nozzles | 26 products | **COMPLETE — 26/26 published** |
-| 4 | Ready-made irrigation kits | 12 products | **PARTIAL — 11/12 published; 10 × 5 m held for controller/valve compatibility decision** |
+| 4 | Ready-made irrigation kits | 12 products | **COMPLETE — 12/12 published; 10 × 5 m compatibility condition confirmed by owner** |
 | 5 | Controllers | 23 active products in current Sanity read-back | NOT STARTED — reconcile count before editing |
-| 6 | Sprinklers | 20 active products in current Sanity read-back | NOT STARTED |
+| 6 | Sprinklers | 20 products | **COMPLETE — 20/20 published** |
 
 ## Completed: nozzle category
 
@@ -37,14 +37,15 @@ All 26 are published in BG/RU/EN. Published read-back confirms 26 active product
 
 Detailed evidence and the manufacturer source register: [Nozzle description refresh audit](../audits/2026-11-23-nozzle-product-descriptions-refresh.md).
 
-## Ready-made irrigation kits — 11/12 published; one held
+## Ready-made irrigation kits — COMPLETE, 12/12 published
 
 - Live published category count: 12 products.
-- Complete before-write snapshot: `docs/backups/sanity-kits-current-2026-11-23-complete.json`.
-- **11 products were edited and published** in BG/RU/EN. Published read-back confirmed five H2 sections, two internal links and Econt delivery wording in each locale. All 11 component arrays were compared with the snapshot and remain unchanged.
-- **10 × 5 m kit is held unchanged.** Its components include ESP-BAT-BT1 and 100-HV-9V, which the two published product specifications identify as incompatible. Its short description still says WPX1 while the component list says ESP-BAT-BT1. Owner decision is required before correcting or publishing this kit.
-- Detailed evidence: [kit description refresh audit](../audits/2026-11-23-irrigation-kit-descriptions-refresh.md).
-- Next action in this category: resolve the 10 × 5 m controller/valve pairing; do not change `kitComponents` without owner approval.
+- Complete before-write kit snapshot: `docs/backups/sanity-kits-current-2026-11-23-complete.json`.
+- All 12 products are now published. The 10 × 5 m kit was initially held and was subsequently corrected after the owner confirmed the newer 100-HV-9V production version is compatible with ESP-BAT-BT1 from 01.01.2026, with a suitable 9 V DC latching solenoid.
+- The 10 × 5 m kit now identifies ESP-BAT-BT1 consistently in BG/RU/EN; WPX1 was removed from its short description and SEO text. Its component list, quantities, prices and SKU were not changed.
+- The separate H01040 valve and ESP-BAT-BT1 controller cards were synchronized in BG/RU/EN. Full descriptions and corresponding compatibility specification values now distinguish 100-HV-9V versions manufactured from 01.01.2026 from earlier versions.
+- Before-write snapshot for the valve/controller compatibility copy: `docs/backups/sanity/2026-11-23-esp-bat-bt1-and-100-hv-9v-before-compatibility-copy.json`.
+- Detailed evidence: [kit refresh audit](../audits/2026-11-23-irrigation-kit-descriptions-refresh.md) and [compatibility copy follow-up](../audits/2026-11-23-esp-bat-bt1-100-hv-9v-compatibility-copy.md).
 
 ## Controllers — count reconciliation required
 
@@ -53,11 +54,14 @@ Detailed evidence and the manufacturer source register: [Nozzle description refr
 - Current count without the `isActive` filter is also 23. The one-product difference is unresolved and must be reconciled by comparing the exact IDs/SKUs in the previous audit with the current category tree before editing.
 - After reconciliation, audit model variants, station count, power source, battery type, programs, Wi-Fi/Bluetooth, valve/solenoid compatibility and IP rating. Do not infer values from family-level marketing copy.
 
-## Sprinklers
+## Sprinklers — COMPLETE, 20/20 published
 
-- Current active published count: 20 products.
-- Audit each model's radius, arc, pressure, flow, trajectory, nozzle/body compatibility and connection type against manufacturer performance data.
-- Do not use a single generic description where models have different performance tables.
+- The published category contained 20 active products. Full BG descriptions and RU/EN formatted descriptions already existed; existing text, headings, internal links and technical details were preserved.
+- Appended the required localized final section to all 20 products: Econt delivery throughout Bulgaria; optional engineer delivery to a site in Nessebar / the Burgas area; installation, setup and repair for an additional fee.
+- Published read-back confirmed 20/20 products and the final delivery/service paragraph in BG/RU/EN. Target draft count: 0.
+- Sanity validation: 20 reported valid; custom validation callbacks (including slug uniqueness callbacks) were not executed by the available validator.
+- No specifications, compatibility values, short descriptions, SKUs, names, prices, stock, images, categories, SEO fields, schema, code or Production infrastructure changed. No Sanity snapshot was created for this assignment, per the owner's explicit instruction.
+- Detailed evidence: [sprinkler delivery refresh audit](../audits/2026-11-23-sprinkler-delivery-refresh.md).
 
 ## Final close-out
 

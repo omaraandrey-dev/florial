@@ -4,7 +4,7 @@
 - Переводы, SEO, ботанические характеристики и уход остаются Owner-only; сотрудники не видят эти поля и не заполняют их пустыми значениями.
 - В редактор добавлены быстрые переходы по разделам, сворачивание длинных блоков и предупреждения о незаписанных изменениях.
 - Подробная UX-спецификация: `docs/manager/PLANT_EDITOR_UX.md`. Изменения не затрагивают API, права, Sanity, D1 и Production configuration.
-- Exact PR head `a7219381ed47ebaa6cc44f3ee2365d3cb08be7a1`: Blog/Studio validation run `44921957018` and D1 validation run `44921957051` passed. Preview, Production deployment and authenticated role QA remain pending.
+- Exact code/test head `a7219381ed47ebaa6cc44f3ee2365d3cb08be7a1`: Blog/Studio validation run `44921957018` (379 tests, typecheck, lint, website build, migration dry-run, Studio typecheck/build) and D1 validation run `44921957051` passed. PR #467 merged into `main` as `d01c628e828f086c38eec946c8b61b42ab48fb77`. Cloudflare Pages Production deployment `faed12c2-46eb-4e5c-be1b-15e192e6540a` succeeded from that exact merge SHA. Preview was not run; authenticated Owner/Seller/Manager role QA on phone and desktop remains open.
 
 ---
 
@@ -12,8 +12,7 @@
 
 - Added two separate seller-facing quick guides in Russian and Bulgarian at `docs/manager/SELLER_ORDERS_QUICK_GUIDES.md`.
 - Both cover order-card review, opening an order, next-step status action, editing/replacing catalog items, quantity-zero removal, filters and seller safety rules.
-- The expanded guide now explains the exact PDF/proforma buttons, bank-transfer availability confirmation and invalidation after financial edits, all eight order statuses, all five payment statuses, internal notes, and the difference between downloading a PDF and emailing it.
-- The guide is grounded in `src/manager/OrdersManager.tsx`, `functions/api/manager/orders.ts`, `functions/api/manager/order-documents.ts` and `CHECKOUT_SETUP.md`; role-based availability and server-side validation remain authoritative.
+- The guides intentionally avoid hardcoding the complete status vocabulary or staff permissions; those remain governed by the live Manager UI and assigned role.
 
 ---
 

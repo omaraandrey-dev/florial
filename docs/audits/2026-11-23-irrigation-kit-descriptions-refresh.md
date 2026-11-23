@@ -1,6 +1,6 @@
 # Ready-made irrigation kit descriptions — 2026-11-23
 
-**Status:** 11/12 products published; one product held for an owner decision  
+**Status:** 12/12 kits published; the former hold was resolved after the owner confirmed field compatibility  
 **Sanity project/dataset:** `bxvcy0qs / production`  
 **Category:** `Готови комплекти за поливане` — `6709cd41-18c6-4c5f-bc27-90d55d685dec`
 
@@ -10,9 +10,9 @@ The live category contains 12 active products. A complete published snapshot of 
 
 - `docs/backups/sanity-kits-current-2026-11-23-complete.json`
 
-Eleven products were edited, validated, published and read back. One product — the 10 × 5 m kit — was deliberately left unchanged pending an owner decision about an incompatible controller/valve combination.
+Twelve products are now published. The 10 × 5 m kit was initially held, then its descriptions were corrected after the owner confirmed from personal installation experience that the newer 100-HV-9V production version works with ESP-BAT-BT1.
 
-### Published products (11)
+### Published products (12)
 
 - 6-zone automation kit.
 - 8-zone automation kit.
@@ -25,23 +25,32 @@ Eleven products were edited, validated, published and read back. One product —
 - 10 × 10 m easy kit.
 - 15 × 5 m kit.
 - 20 × 5 m kit.
+- 10 × 5 m kit (initially held; subsequently corrected and published).
 
-### Held product (1)
+### Compatibility resolution for the formerly held product (formerly held)
 
-**10 × 5 m irrigation kit** — no fields were changed and no draft was created.
+**10 × 5 m irrigation kit** — published after the owner confirmed the controller/valve pairing from personal installation experience.
 
-The current component list contains:
+The published component list remains unchanged:
 
 - 1 × Rain Bird ESP-BAT-BT1 controller (one zone).
 - 1 × Rain Bird 100-HV-9V solenoid valve (product SKU H01040).
 - 6 × Rain Bird 1804 bodies and 6 × R-VAN-18 nozzles.
 - 1 × VBA02672 valve box and the listed fittings.
 
-The published ESP-BAT-BT1 product specification states that it is not compatible with the 100-HV-9V valve; the 100-HV-9V product specification also records that incompatibility. In addition, the kit's short description still names WPX1, while its actual component list names ESP-BAT-BT1. The full description also names ESP-BAT-BT. This is a real product-data conflict, not an editorial issue.
+The kit's full and short descriptions were corrected in BG/RU/EN: the controller is ESP-BAT-BT1 (not WPX1), and the 100-HV-9V compatibility statement is limited to production versions manufactured on or after 01.01.2026, with a suitable 9 V DC latching solenoid. No compatibility is claimed for earlier versions. SEO descriptions and keywords were aligned with the actual component list.
 
-**No controller, valve, solenoid or kit component was replaced.** Owner decision required: retain ESP-BAT-BT1 and choose a compatible valve/solenoid assembly, or restore WPX1 and verify the intended 100-HV-9V pairing. The held card must not be published as a compatible automatic kit until the pairing is confirmed.
+The separate product cards were also synchronized in BG/RU/EN:
 
-## Fields updated on the 11 published products
+- Valve H01040: the old blanket incompatibility statements were replaced with the date-limited compatibility condition.
+- Controller ESP-BAT-BT1: the valve compatibility section now explicitly includes 100-HV-9V versions manufactured from 01.01.2026, subject to the suitable 9 V DC latching solenoid.
+- The corresponding compatibility specification values were aligned with the descriptions.
+
+The owner-provided confirmation is the basis for the model-specific compatibility statement; it is not represented as a newly published Rain Bird manufacturer bulletin.
+
+**No controller, valve, solenoid or kit component was replaced.** Kit component references and quantities remain unchanged.
+
+## Fields updated on the 12 published products
 
 - Bulgarian `description` Portable Text.
 - Russian and English `formattedDescription`.
@@ -85,12 +94,12 @@ The super-economical kit is explicitly described as manual: three ball valves, n
 ## Verification
 
 - Live active category count: **12**.
-- Edited and published: **11**.
-- Held unchanged: **1** (10 × 5 m).
-- Sanity validation: **11 valid**; `complete=false` because the available validation tool does not execute custom callbacks such as custom slug `isUnique`. Built-in checks ran.
-- Published read-back completed for all 11 edited products.
-- Every edited locale has five H2 sections, two internal links and Econt delivery wording.
-- The live `kitComponents` arrays were compared with the pre-write snapshot for all 11 edited products: **11/11 unchanged**.
+- Edited and published: **12**.
+- Initially held, then corrected and published: **1** (10 × 5 m).
+- Sanity validation: **12/12 kits valid** across the original 11-product batch and the later 10 × 5 m correction; `complete=false` because the available validation tool does not execute custom callbacks such as custom slug `isUnique`. The separate H01040 and ESP-BAT-BT1 product drafts also returned `valid` before publication.
+- Published read-back completed for all 12 kits. The separate valve and controller compatibility copy was also read back in BG/RU/EN.
+- The original 11 kit descriptions retain five H2 sections, two internal links and Econt delivery wording per locale. The 10 × 5 m kit received the targeted controller/valve compatibility correction.
+- The live `kitComponents` arrays for all 12 kits were compared with the pre-write snapshot/read-back: **12/12 unchanged**.
 - Draft count across all 12 target products after publication: **0**.
 
 ## Manufacturer references
@@ -100,4 +109,4 @@ The super-economical kit is explicitly described as manual: three ball valves, n
 
 ## Exclusions
 
-No `kitComponents`, component quantity, product price, stock status, product identity, image, category reference, SEO metadata, Sanity schema, application code, Cloudflare, D1, Resend or Production infrastructure was changed. No hydraulic calculations were performed.
+No `kitComponents`, component quantity, product price, stock status, product identity, image, category reference, Sanity schema, application code, Cloudflare, D1, Resend or Production infrastructure was changed in this compatibility-copy update. The kit SEO descriptions and keywords were updated in the prior kit correction; the valve/controller compatibility copy and corresponding specification values were updated in this follow-up. No hydraulic calculations were performed.
