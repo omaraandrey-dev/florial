@@ -189,7 +189,7 @@ Google Rich Results Test после текущего Production deployment не 
 
 GA4 property `florial-29eac`:
 - property ID `557273710`;
-- timezone `Etc/GMT-3`;
+- timezone `Etc/GMT-3` (fixed UTC+3, not DST-aware `Europe/Sofia`);
 - currency `USD`;
 - data streams: 0;
 - key events: 0;
@@ -213,7 +213,7 @@ GA4 property `florial-29eac`:
 1. **P1 — Разобраться с noindex/canonical расхождением** на затронутых товарах. Нужна проверка фактического Production HTML/headers в Browser с разрешения владельца. Это первый блокирующий этап.
 2. **P1 — Определить целевую GA4 архитектуру**: подключать ли GA4 property, создать Web Data Stream, установить EUR и key events с учётом consent.
 3. **P2 — После подтверждения индексации** улучшить страницы с поисковым потенциалом: Yucca, Buddha's hand, Brahea, Washingtonia и категорию роторных дождевателей. Не начинать с noindex страниц до проверки.
-4. **P2 — Точечная редактура** 15 длинных meta descriptions, 12 отсутствующих RU/EN full descriptions equipment и 4 набора отсутствующих ALT-полей; перед Sanity write показать точные document IDs/поля и получить отдельное подтверждение.
+4. **P2 — Точечная редактура** 15 длинных meta descriptions, по 12 отсутствующих полных описаний RU и EN для equipment (пересечение document IDs не проверено) и 4 набора отсутствующих ALT-полей; перед Sanity write показать точные document IDs/поля и получить отдельное подтверждение.
 5. **P2 — Повторить Product Rich Results Test** после live проверки актуального Production HTML; не добавлять фиктивные отзывы, GTIN, availability или shipping.
 6. **P3 — Local authority audit**: сверить реальные GBP profiles, NAP, категории, фото, citations и локальные запросы.
 7. **P3 — Performance audit**: измерить Lighthouse/CrUX на мобильных и desktop для homepage, category, product и service шаблонов.
