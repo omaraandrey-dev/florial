@@ -4261,3 +4261,13 @@ Backups:
 - Android launcher icon refresh remains a post-deployment device check because launchers may cache installed app artwork.
 - Source artwork is currently 64×64; enlarged exports do not increase source detail. A higher-resolution/vector master remains a future asset improvement if the owner supplies/confirms one.
 - No Production settings, Sanity, D1 data, orders or storefront branding changed.
+
+
+## 2026-11-23 — Blog index performance remediation (PR #510 merged and deployed)
+
+- PR #510 squash-merged into main at f0913f3d379c718bc140d539e5b66beb7411a8f2; exact PR head d32e6717de33aec4d1b10ca59f49002ceba35e3f. Blog/Studio validation run 45267333166 and D1 validation run 45267333146 both succeeded. Cloudflare Pages Preview deployment 905e4a1d-f586-439e-abb9-f48802b5f177 succeeded. Cloudflare Pages Production deployment b7fd5ab1-4628-46b4-90af-8d6dd1853674 succeeded from the merge commit; aliases https://florial-bg.com and https://www.florial-bg.com are attached.
+- Production Browser Rendering HTML smoke (390×844 mobile viewport) passed for BG, RU and EN: localized title/intro, all four category labels, localized Filters control, footer and blog-specific preconnects to bxvcy0qs.apicdn.sanity.io and cdn.sanity.io are present; the loading skeleton is absent after content load.
+- Reduced initial blog-route work by skipping the unrelated full equipment and plant category-index queries; Header's compact data projections remain. Added viewport-reserving loading skeletons, route-specific Sanity CDN preconnects, narrower responsive image sizes and Sanity card-image quality 68.
+- Exact-head Blog/Studio and D1 CI passed; Preview and Production deployments succeeded. No Sanity, D1, Cloudflare settings/secrets, Resend, Footer, Header/menu or global CSS changes.
+- **Measurement boundary:** no matched post-change PSI/Lighthouse result is available yet. Do not claim the baseline score 79 or CLS 0.337 improved until the same mobile profile is rerun. Screenshot/interaction QA also remains open because Browser Use credits were unavailable.
+- Detailed evidence: docs/audits/2026-11-23-blog-performance-remediation.md.
