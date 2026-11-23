@@ -2,8 +2,10 @@
 
 Сверять место этого самостоятельного потока с [единым реестром дорожных карт](roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md).
 
-- Performance optimization остаётся **ПРИОСТАНОВЛЕННОЙ**; исторические оптимизации и отдельные исправления CLS не являются измерением текущих Core Web Vitals.
-- Следующий шаг при отдельном возобновлении: Network waterfall по основным типам страниц и локалям, затем сопоставимый Lighthouse mobile/desktop и CrUX baseline.
+- Общая performance-оптимизация сайта остаётся **ПРИОСТАНОВЛЕННОЙ**, кроме отдельной задачи блога, явно возобновлённой владельцем 23.11.2026 и выпущенной через PR #510.
+- **Блог /blog — runtime-исправления объединены и опубликованы:** PR #510, merge f0913f3d379c718bc140d539e5b66beb7411a8f2; Preview и Production успешны. Устранены два лишних полных category-index запроса Sanity, добавлены viewport-reserving skeleton, blog-only preconnect к Sanity query/image CDN и более точные размеры изображений с quality 68.
+- **Измерения после релиза ещё не выполнены:** baseline владельца — Performance 79, FCP 0.9 s, LCP 2.7 s, TBT 10 ms, CLS 0.337, Speed Index 2.9 s. Не утверждать, что Core Web Vitals улучшились, пока нет повторного Lighthouse/PSI на том же профиле.
+- Следующий шаг: три мобильных прогона PageSpeed Insights на Production с тем же профилем Moto G Power / Lighthouse 13.6 / low-end 4G, сравнить медианы; затем desktop и визуальная/интерактивная QA. Полный аудит других типов страниц остаётся приостановленным.
 - Не заявлять улучшение LCP/INP/CLS без измерений до/после.
 
 ---
@@ -237,3 +239,12 @@ PR #147 перевёл десять non-home pages в `src/App.tsx` на React.l
 - CI runs `43359151357` (Blog/Studio) и `43359151359` (D1) — success. Owner browser QA подтверждает BG/RU/EN switching, категории, товары, корзину, поиск и переводы.
 - Initial entry: 398.12/108.66 kB raw/gzip → 336.08/97.95 kB; снижение 62.04 kB raw и 10.71 kB gzip. Build artifact comparison не равен браузерному transfer/LCP замеру.
 - **Следующий performance measurement:** собрать Network waterfall для homepage и маршрутов category/product/search/service при BG, затем при RU/EN; проверить, что RU/EN и route chunks загружаются только по необходимости. Повторить Lighthouse mobile/desktop и сравнить LCP/INP/CLS с сопоставимым baseline. До этого не заявлять улучшение Core Web Vitals.
+
+
+## 2026-11-23 — Scoped blog performance remediation (PR #510)
+
+- PR #510 squash-merged into main at f0913f3d379c718bc140d539e5b66beb7411a8f2; exact PR head d32e6717de33aec4d1b10ca59f49002ceba35e3f. Blog/Studio validation run 45267333166 and D1 validation run 45267333146 both succeeded. Cloudflare Pages Preview deployment 905e4a1d-f586-439e-abb9-f48802b5f177 succeeded. Cloudflare Pages Production deployment b7fd5ab1-4628-46b4-90af-8d6dd1853674 succeeded from the merge commit; aliases https://florial-bg.com and https://www.florial-bg.com are attached.
+- Production Browser Rendering HTML smoke (390×844 mobile viewport) passed for BG, RU and EN: localized title/intro, all four category labels, localized Filters control, footer and blog-specific preconnects to bxvcy0qs.apicdn.sanity.io and cdn.sanity.io are present; the loading skeleton is absent after content load.
+- Implementation: blog-specific viewport-reserving skeletons in src/App.tsx and src/pages/BlogPage.tsx; skip the full equipment/plants category index queries only while on /blog and /blog/*; add blog-only preconnect hints in functions/_middleware.ts; narrow card sizes and Sanity image quality 68. Regression tests in tests/content-route-performance.test.mjs.
+- Footer, Header/menu, global CSS, route architecture, Sanity schema/data, D1, Cloudflare settings/secrets and Resend were not changed.
+- Remaining: matched post-change PSI/Lighthouse measurement and screenshot/interaction QA. Browser Use lacked credits; rendered HTML checks do not prove visual or click behavior. No numeric improvement is claimed. Audit: docs/audits/2026-11-23-blog-performance-remediation.md.
