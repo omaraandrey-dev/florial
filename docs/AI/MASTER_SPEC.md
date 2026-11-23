@@ -1,4 +1,11 @@
 # Florial — мастер-спецификация бизнеса и продукта
+## Owner decisions — irrigation assistant (23.11.2026)
+
+- The assistant performs geometric layout and equipment selection only. Hydraulic calculations are explicitly out of scope and will not be implemented: do not add flow, dynamic pressure, friction-loss, velocity or hydraulic zone-capacity calculations.
+- The fixed Florial pipe diameter is Ø25 mm for both main and zone lines. The earlier Ø25/Ø32 discrepancy is closed; Ø32 mm is not an alternative.
+- The generated project PDF must place the site-specific scheme and equipment specification first, followed by the complete three-page Bulgarian installation guide with its illustrations in the original page order. The guide is generic installation reference material, not a site-specific calculation.
+
+
 
 ## Бизнес
 Florial — самостоятельный интернет-магазин в Болгарии. Основные направления: оборудование для автоматического полива и готовые комплекты; растения и садовый центр. Дополнительные услуги: проектирование, монтаж и обслуживание полива, ландшафтный дизайн, озеленение и посадка растений. Рынок — Болгария, особое внимание Черноморскому побережью. Основной язык — болгарский; дополнительные — русский и английский. Валюта — EUR.
