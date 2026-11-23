@@ -96,15 +96,22 @@
 
 ## Phase 5 — P3: local SEO and authority
 
-**NEXT ACTIVE STEP (23.11.2026):** начать read-only проверку фактических Google Business Profile, NAP, service areas и citations. Исторический geo-filtered GSC sample был слишком мал; не создавать doorway pages и не менять внешние профили без согласования.
+**READ-ONLY AUDIT COMPLETED (23.11.2026).** See [Local SEO audit](../audits/2026-11-23-local-seo-readonly-audit.md). Public Google Maps listings, website NAP/hours, live GardenStore JSON-LD, service-area statements and indexed external mentions were checked. No profile, directory, site, Sanity or Production changes were made.
 
-GSC geo-filtered Bulgarian queries дали только 3 impressions / 0 clicks за период; данных пока недостаточно для выводов о локальном спросе.
+Confirmed findings:
+- Two public Google Maps records are linked from the current Contacts page: Nessebar and Ravda. Public owner/manager verification status is not visible.
+- Nessebar: public Maps phone +359876777902; current GardenStore JSON-LD uses +359885834860. The page says 09:00–18:00 Mon–Sat; Maps says 08:00–17:00 Mon–Sat and 09:00–17:00 Sunday; JSON-LD says 09:00–17:00 Mon–Fri.
+- Ravda: public Maps and JSON-LD use +359877055605 and address Чешме тарла, 8238; current Contacts card only displays “Ravda, Bulgaria”, the global phone block omits this local number, and hours in Maps contain anomalous Friday/Saturday values.
+- iBusiness.bg still links to legacy drop.od.ua and has no phone; legacy DROP and another Florial-branded plant site expose older hours/service-area data. The relationship/status of those properties requires owner confirmation.
+- Prior geo-filtered GSC sample was only 3 impressions / 0 clicks; too small for local-demand conclusions. No authoritative backlink-index report was available.
 
-- [ ] Проверить фактические Google Business Profile для Несебра и Равды.
-- [ ] Сверить NAP, реальные часы, категории, URL, фотографии, service areas и соответствие GardenStore JSON-LD.
-- [ ] Проверить локальные citations и backlinks через доступный авторитетный индекс.
-- [ ] Оценить локальные запросы после накопления достаточных impressions.
-- [ ] Не создавать thin doorway pages и не обещать позиции по конкретным городам.
+**Owner confirmation gate before remediation:**
+- Confirm whether Ravda is a real customer-facing Florial location and whether visitors can access the exact Maps address.
+- Confirm actual hours for each location, correct local phone assignment, current on-site service areas (especially Burgas/Varna), and official related websites/social profiles.
+- After confirmation, prepare exact code/profile/listing changes for separate approval. Do not edit Google profiles or external listings without approval.
+- Do not create thin city doorway pages or claim on-site service where Florial only delivers.
+
+**Status:** audit closed; remediation remains pending owner confirmation.
 
 ## Phase 6 — P3: Core Web Vitals and performance
 
