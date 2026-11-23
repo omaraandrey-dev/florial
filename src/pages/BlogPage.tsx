@@ -208,7 +208,8 @@ export function BlogPage() {
                 {...getSanityImageProps(imagePost.cover.asset.url, '(min-width: 1024px) 25vw, 50vw', 640)}
                 alt=""
                 aria-hidden="true"
-                loading="lazy"
+                loading={categoryIndex === 0 ? "eager" : "lazy"}
+                fetchPriority={categoryIndex === 0 ? "high" : undefined}
                 decoding="async"
                 className="absolute inset-0 -z-20 h-full w-full object-cover transition duration-500 group-hover:scale-105"
               /> : <div className="absolute inset-0 -z-20 bg-[#647746]" aria-hidden="true"/>}
