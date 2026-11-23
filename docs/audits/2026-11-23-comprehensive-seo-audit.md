@@ -141,7 +141,7 @@ Google Search Console сообщает:
 
 ### 5.2. Длина и уникальность метаданных
 
-- Equipment product titles: 29–67 символов; duplicate titles в выборке не обнаружены.
+- Equipment product titles: 29–67 символов; найдена одна дублирующаяся пара BG/RU/EN Title: коляно Irritec Connecto 25 × ½″ с внутренней резьбой и коляно с наружной резьбой (SKU IQ21820F0N25B и IQ21920M0N25B). H1 и descriptions различаются, но metaTitle одинаковы.
 - Plant product titles: 34–66; duplicate titles не обнаружены.
 - Equipment category titles: 33–69; duplicate titles не обнаружены.
 - Plant category titles: 44–69; duplicate titles не обнаружены.
@@ -149,17 +149,18 @@ Google Search Console сообщает:
 - Plant products: 13 из 60 описаний длиннее 160 символов (максимум 192).
 - Plant categories: 2 из 17 длиннее 160 символов (максимум 175).
 
-Рекомендация: точечно сократить 15 длинных BG descriptions, сохранив утверждённое начало «Продажба…», естественное описание и географию. Не применять универсальный шаблон и не переписывать все карточки.
+Рекомендация: точечно сократить 15 длинных BG descriptions, сохранив утверждённое начало «Продажба…», естественное описание и географию. Отдельно различить metaTitle двух Irritec Connecto колен по внутренней/наружной резьбе. Не применять универсальный шаблон и не переписывать все карточки.
 
 ### 5.3. Полнота описаний и изображений
 
-- Equipment products: 12 из 275 не имеют отдельного полного RU/EN description; shortDescription при этом заполнен.
+- Equipment products: полные RU descriptions есть у 263/275 и EN descriptions у 263/275 (по 12 пробелов в каждой локали; пересечение двух наборов не проверялось); shortDescription присутствует.
 - Plant products: полные описания BG/RU/EN присутствуют у 60/60.
-- Services: полные описания во всех локалях подтверждены у 24 из 25.
+- Services: полные описания подтверждены у 24/25 в каждой локали.
 - Blog: основной текст присутствует во всех трёх языках у 16/16.
 - Main image ALT BG/RU/EN: equipment 273/275, plants 60/60.
 - Category image ALT BG/RU/EN: equipment 52/54, plants 17/17.
 - У двух equipment products и двух equipment categories явные ALT-поля отсутствуют во всех локалях; frontend fallback следует проверить отдельно. Это контентная полнота, не доказанная ошибка HTML accessibility.
+- Поиск в опубликованных SEO Title/Description BG/RU/EN не нашёл упоминаний Sozopol в проверенных типах product/category/service/blogPost.
 
 ### 5.4. Структура главной
 
@@ -169,7 +170,7 @@ Google Search Console сообщает:
 
 ### Подтверждено по коду
 - Server middleware выдаёт Organization, GardenStore, Product, Offer, BreadcrumbList, Service, BlogPosting и CollectionPage в соответствующих маршрутах.
-- Homepage содержит две GardenStore сущности: Несебър и Равда. Адреса/телефоны заданы; фактическую актуальность NAP и часов работы необходимо сверить с владельцем и GBP.
+- Homepage содержит две GardenStore сущности: Несебър и Равда. Адреса/телефоны заданы; у узла Несебър указаны часы Пн–Пт 09:00–17:00, у узла Равда openingHoursSpecification отсутствует. Фактическую актуальность NAP и часов работы необходимо сверить с владельцем и GBP.
 - Product Offer использует EUR, цену и URL; SKU/Brand добавляются только при наличии данных.
 - `availability` передаётся для `inStock` и `outOfStock`; для `onRequest` намеренно не выдумывается `PreOrder`.
 - Organization JSON-LD содержит ссылку на существующие условия возврата. Универсальные shipping conditions не добавлялись без подтверждённых тарифов/сроков.

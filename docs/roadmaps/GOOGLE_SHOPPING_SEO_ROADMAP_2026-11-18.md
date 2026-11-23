@@ -285,3 +285,13 @@
 - GA4 property has no data streams/key events; separate D1/PostHog tracking exists. GA4 setup is a separate owner-approved measurement decision.
 - No code, Sanity, Cloudflare settings/secrets, D1, Resend or Google settings changed in this audit. Merchant Center remains not registered per prior owner confirmation.
 
+
+
+### 2026-11-23 — Content and local structured-data refinements identified by comprehensive audit
+
+- Sanity title duplicate: two Irritec Connecto elbows (female thread SKU IQ21820F0N25B; male thread SKU IQ21920M0N25B) share the same BG/RU/EN metaTitle, although H1 and descriptions distinguish them. No Sanity change made.
+- Full equipment descriptions: RU 263/275 and EN 263/275; overlap of missing documents not checked. Plant descriptions BG/RU/EN 60/60. Services full descriptions 24/25 in each locale; blog localized bodies 16/16.
+- 13 plant product and 2 plant category BG meta descriptions exceed the 160-character target. Explicit localized main-image ALT missing on 2 equipment products and 2 equipment categories; frontend fallback not validated in this audit.
+- SEO metadata scan across published product/category/service/blogPost records found no Sozopol references in BG/RU/EN fields checked.
+- Local schema: Nessebar GardenStore has weekday hours 09:00–17:00; Ravda GardenStore currently has no openingHoursSpecification. Confirm owner-approved hours before adding markup.
+- No content, schema or Production settings changed.

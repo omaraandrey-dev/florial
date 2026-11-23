@@ -30,7 +30,7 @@ Google URL Inspection сообщает noindex для части активны�
 ## Phase 1 — P1: GA4 measurement decision
 
 - [ ] Подтвердить, что `florial-29eac` — целевое GA4 property.
-- [ ] Согласовать Web Data Stream, measurement ID, currency EUR, timezone Europe/Sofia и consent model.
+- [ ] Согласовать Web Data Stream, measurement ID, currency EUR, timezone Europe/Sofia (сейчас property стоит на fixed Etc/GMT-3) и consent model.
 - [ ] Согласовать события: `view_item`, `add_to_cart`, `begin_checkout`, `purchase`, `generate_lead`.
 - [ ] Сопоставить GA4 с существующими D1/PostHog событиями, не создавая двойной учёт.
 - [ ] Реализовать только после approval; затем проверить реальные события и key events.
@@ -53,8 +53,9 @@ Google URL Inspection сообщает noindex для части активны�
 После проверки индексации:
 
 - [ ] Пересмотреть 13 plant product meta descriptions >160 символов и 2 plant category descriptions >160.
-- [ ] Выборочно дополнить RU/EN full descriptions для 12 equipment products, где сейчас есть shortDescription, но отсутствует полное описание.
+- [ ] Выборочно дополнить RU и EN full descriptions (по 12 недостающих полей в каждой локали; точное пересечение document IDs ещё не установлено).
 - [ ] Заполнить explicit ALT BG/RU/EN для 2 equipment products и 2 equipment categories после проверки frontend fallback.
+- [ ] Развести дублирующиеся BG/RU/EN metaTitle у двух Irritec Connecto elbows (female thread SKU IQ21820F0N25B / male thread SKU IQ21920M0N25B), сохранив утверждённый формат и точные отличия товара.
 - [ ] Проверить заголовки/сниппеты homepage и category Rotor Sprinklers на основе большего набора запросов, не переписывать метаданные по единичным impressions.
 - [ ] Каждое Sanity изменение — отдельный список IDs/fields + backup + owner approval.
 

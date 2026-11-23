@@ -5,7 +5,8 @@
 - SEO Audit Agent Skill is installed and documented: [SEO_AUDIT_SKILL.md](SEO_AUDIT_SKILL.md).
 - Comprehensive read-only SEO audit: [audit report](../audits/2026-11-23-comprehensive-seo-audit.md); prioritized remediation: [roadmap](../roadmaps/SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md).
 - P1 unresolved: GSC noindex/canonical results for selected active product URLs contradict current published Sanity noIndex values and current middleware. Raw Production HTML/headers need Browser verification with owner permission.
-- P1 measurement: GA4 property has no Web Data Stream or key events; D1/PostHog tracking is separate.
+- P2 content: duplicate BG/RU/EN metaTitle found for two Irritec Connecto elbows with female/male thread variants; exact Sanity IDs and SKUs are in the audit report.
+- P1 measurement: GA4 property has no Web Data Stream or key events; currency is USD and timezone is fixed Etc/GMT-3; D1/PostHog tracking is separate.
 - No code, Sanity published documents, Cloudflare configuration/secrets, D1, Resend or Google settings were changed by this audit.
 - PR #409 remains open, unmodified and unmerged. It is not closed or merged as part of this task.
 
