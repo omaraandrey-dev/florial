@@ -1,3 +1,15 @@
+## Актуальный статус — 23.11.2026 (синхронизация)
+
+Сверять текущие статусы с [единым реестром дорожных карт](ROADMAP_STATUS_INDEX_2026-11-23.md). Исторические записи этапов ниже сохраняются как журнал, а не как актуальный статус.
+
+- Product Offer implementation и server/client builder parity выполнены; позднее исправлена brand parity (PR #410), изменения находятся в main/Production согласно CHANGELOG.
+- Production HTML/indexability выборка проверена; отдельный live audit: [2026-11-23-production-indexability-live-check.md](../audits/2026-11-23-production-indexability-live-check.md).
+- Google Rich Results / Merchant listings проверки по Shopping остаются частично открытыми: owner-reported PASS в URL Inspection для отдельных URL не равен отдельному подтверждённому Rich Results Test для всего репрезентативного набора.
+- Merchant Center Florial не зарегистрирован по подтверждению владельца от 18.11.2026. Аккаунт/доступ/коммерческие правила — следующий отдельный Shopping этап после базовой технической валидации.
+- Feed, Merchant Center integration и diagnostics ещё не начинались.
+
+---
+
 # Florial — дорожная карта Google Shopping и расширенной SEO-видимости
 
 Дата создания: 2026-11-18  
