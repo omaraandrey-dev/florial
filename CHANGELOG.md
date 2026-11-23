@@ -1,3 +1,12 @@
+## 2026-11-23 — Controller descriptions refresh (23 products)
+
+- Updated and published all 23 active controller products in BG/RU/EN: ESP-BAT-BT, ESP-TM2, ESP-9V, ESP-RC2, 1ZEHTMR and LNK2.
+- Added the fifth H2 delivery/service section and a second verified internal link in every locale. Econt delivery, optional engineer delivery in Nessebar/Burgas, and paid installation/setup/repair wording are present in all 23 cards.
+- Read-back confirmed 23/23 published, five H2 sections and two internal links per locale, no Cyrillic mixing in English descriptions, and zero remaining target drafts.
+- The prior audit count of 24 included RSD-BEx (SKU A61200), which is now in the separate sensor category `Сензори за автоматизация`; the controller root correctly contains 23 products.
+- Before-write snapshot: `docs/backups/sanity-controllers-current-2026-11-23.json`; detailed evidence: `docs/audits/2026-11-23-controller-descriptions-refresh.md`.
+- No technical specifications, short descriptions, prices, stock, images, category references, SEO metadata, schema, code or Production infrastructure were changed. No Production deployment was required.
+
 ## 2026-11-23 — Ready-made kit descriptions (11/12 published)
 
 - Updated and published 11 of 12 active irrigation kits in BG/RU/EN. Each locale now has five H2 sections, two verified internal links, and the required Econt / engineer delivery / paid installation-service wording.
