@@ -1,0 +1,1018 @@
+Found document "94b743bb-e6d5-467d-902d-80e3d9bee440": 
+<document>
+  <_createdAt>2026-10-23T13:05:11Z</_createdAt>
+  <_id>94b743bb-e6d5-467d-902d-80e3d9bee440</_id>
+  <_rev>Wxh00JcLN6cQgy9skwfVvx</_rev>
+  <_system>
+    <base>
+      <id>94b743bb-e6d5-467d-902d-80e3d9bee440</id>
+      <rev>Wxh00JcLN6cQgy9skuofiK</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-15T12:04:56Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>65742b44-11c2-43ae-9551-e91eb675dc93</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-valves-24v</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-valves-24v</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>b00</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>200-PGA</text>
+    </children>
+    <children>
+      <_key>b01</_key>
+      <_type>span</_type>
+      <text> — мембранен електромагнитен клапан 2″ за автоматична поливна система.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h10</_key>
+      <_type>span</_type>
+      <text>Предназначение и принцип на работа</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p10</_key>
+      <_type>span</_type>
+      <text>Контролерът подава електрически сигнал към соленоида, който задейства мембраната и отваря водния проход. След прекратяване на сигнала клапанът се затваря автоматично. Серията PGA е професионална линия с възможност за линейно или ъглово монтиране, филтриран пилотен поток, бавно затваряне и ръчно управление.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h20</_key>
+      <_type>span</_type>
+      <text>Конструкция и особености на модела</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p20</_key>
+      <_type>span</_type>
+      <text>Вграденият регулатор настройва дебита; вътрешното ръчно управление улеснява обслужването, а бавното затваряне помага за ограничаване на хидравличния удар. Модулът PRS-D за регулиране на налягането се предлага отделно и не е включен в комплекта.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h30</_key>
+      <_type>span</_type>
+      <text>Хидравлични и електрически параметри</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p30</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Размер 2″; работно налягане 1,04–10,4 bar; дебит 40–150 GPM (9,08–34,05 m³/h); соленоид 24 V AC. Реалният дебит зависи от загубите по тръбите, филтрите, арматурата и наличното налягане.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h40</_key>
+      <_type>span</_type>
+      <text>Монтаж, настройка и обслужване</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p40</_key>
+      <_type>span</_type>
+      <text>Присъединяване: вътрешна резба 2″ NPT. Преди монтаж проверете посоката на потока, работното налягане и резбовия стандарт. Монтирайте в достъпна клапанна кутия и промийте тръбопровода преди пускане. При обслужване проверявайте мембраната, пилотния филтър, соленоида и уплътненията. При дебит под 2,27 m³/h регулиращият винт се настройва на 2 пълни оборота; под 1,14 m³/h се препоръчва входна филтрация.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l00</_key>
+      <_type>span</_type>
+      <text>Проверете посоката на потока и не надвишавайте допустимото налягане.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l10</_key>
+      <_type>span</_type>
+      <text>Промийте тръбите преди свързване, за да не попаднат пясък и стружки в пилотния контур.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l20</_key>
+      <_type>span</_type>
+      <text>Осигурете достъп за бъдеща профилактика.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h50</_key>
+      <_type>span</_type>
+      <text>Избор на съвместим контролер</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p50</_key>
+      <_type>span</_type>
+      <text>Този вариант е със соленоид 24 V AC и изисква контролер със стандартни изходи за 24 VAC клапани.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>p6</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p60</_key>
+      <_type>span</_type>
+      <text>Полезни връзки: </text>
+    </children>
+    <children>
+      <_key>p61</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <marks>c</marks>
+      <text>контролери за автоматично напояване</text>
+    </children>
+    <children>
+      <_key>p62</_key>
+      <_type>span</_type>
+      <text> и </text>
+    </children>
+    <children>
+      <_key>p63</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <marks>s</marks>
+      <text>услуга за монтаж и ремонт на клапани</text>
+    </children>
+    <children>
+      <_key>p64</_key>
+      <_type>span</_type>
+      <text>.</text>
+    </children>
+    <markDefs>
+      <_key>c</_key>
+      <_type>link</_type>
+      <href>/category/controllers</href>
+    </markDefs>
+    <markDefs>
+      <_key>s</_key>
+      <_type>link</_type>
+      <href>/services/montazh-remont-elektromagnitni-klapani</href>
+    </markDefs>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>gallery200pga20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-58b87a384a699c48a289ba456f968bc6c96621cf-550x550-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>gallery200pga20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-a1e4193e6e0fa968f061b8f3e0874a2c9bbd86ca-1000x1000-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird 200-PGA — електромагнитен клапан 2″, 24 V</alt>
+    <altEn>Rain Bird 200-PGA — 2″ solenoid valve, 24 VAC</altEn>
+    <altRu>Rain Bird 200-PGA — электромагнитный клапан 2″, 24 В AC</altRu>
+    <asset>
+      <_ref>image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-01bf367da6db6b176382d5eab8ea7e02ff19a792-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird 200-PGA — електромагнитен клапан 2″, 24 V</name>
+  <priceEUR>204.23</priceEUR>
+  <relatedContent>
+    <_key>nOHEybZSCqHvK8PBPGcnza</_key>
+    <_ref>d6dd1e83-f504-45a2-83de-974e144669e8</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>crBDISSd19VdkNCnEc8SaE</_key>
+    <_ref>ca6f1767-67a3-4054-a9b5-9ea093d02737</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>crBDISSd19VdkNCnEc8Seq</_key>
+    <_ref>97df3a43-ed85-434e-a064-0119374dc140</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>crBDISSd19VdkNCnEc8SjS</_key>
+    <_ref>8625a364-c72b-4a1b-b957-b48b5e0f5ef1</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>crBDISSd19VdkNCnEc8So4</_key>
+    <_ref>1ca2120e-744f-4aff-9d7e-affa2122a4fb</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>crBDISSd19VdkNCnEc8Ssg</_key>
+    <_ref>ef0a57bc-d0ff-4ceb-98ce-55da7be19586</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird 200-PGA — електромагнитен клапан 2″, 24 V</h1>
+    <metaDescription>Продажба на професионален клапан Rain Bird 200-PGA 2″ за големи поливни зони, със соленоид 24 V AC. Флориал, Слънчев бряг.</metaDescription>
+    <metaTitle>Rain Bird 200-PGA 2″ 24 V AC | Слънчев бряг | Флориал</metaTitle>
+  </seo>
+  <shortDescription>Професионален клапан PGA 2″ за големи поливни зони, соленоид 24 VAC.</shortDescription>
+  <sku>B31610</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-200-pga-24v</current>
+  </slug>
+  <specifications>
+    <_key>audit1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>200-PGA</value>
+  </specifications>
+  <specifications>
+    <_key>audit2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>PGA</value>
+  </specifications>
+  <specifications>
+    <_key>audit3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Електромагнитен клапан с регулатор на дебита</value>
+  </specifications>
+  <specifications>
+    <_key>audit4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>200-pga, valve, flow control</value>
+  </specifications>
+  <specifications>
+    <_key>audit5</_key>
+    <_type>productSpec</_type>
+    <name>Размер на връзката</name>
+    <value>2″ вътрешна резба NPT</value>
+  </specifications>
+  <specifications>
+    <_key>audit6</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>1,04–10,4 bar</value>
+  </specifications>
+  <specifications>
+    <_key>audit7</_key>
+    <_type>productSpec</_type>
+    <name>Дебит без PRS-D</name>
+    <value>40–150 GPM (9,08–34,05 m³/h)</value>
+  </specifications>
+  <specifications>
+    <_key>audit8</_key>
+    <_type>productSpec</_type>
+    <name>Захранване на соленоида</name>
+    <value>24 V AC, 50/60 Hz</value>
+  </specifications>
+  <specifications>
+    <_key>audit9</_key>
+    <_type>productSpec</_type>
+    <name>Пусков ток</name>
+    <value>0,41 A (9,9 VA)</value>
+  </specifications>
+  <specifications>
+    <_key>audit10</_key>
+    <_type>productSpec</_type>
+    <name>Ток на задържане</name>
+    <value>0,14 A (3,43 VA)</value>
+  </specifications>
+  <specifications>
+    <_key>audit11</_key>
+    <_type>productSpec</_type>
+    <name>Съпротивление на бобината</name>
+    <value>30–39 Ω, номинално</value>
+  </specifications>
+  <specifications>
+    <_key>audit12</_key>
+    <_type>productSpec</_type>
+    <name>Размери (В × Д × Ш)</name>
+    <value>25,4 × 19,7 × 12,7 cm</value>
+  </specifications>
+  <specifications>
+    <_key>audit13</_key>
+    <_type>productSpec</_type>
+    <name>Температура на водата</name>
+    <value>До 43 °C</value>
+  </specifications>
+  <specifications>
+    <_key>audit14</_key>
+    <_type>productSpec</_type>
+    <name>Температура на околната среда</name>
+    <value>До 52 °C</value>
+  </specifications>
+  <specifications>
+    <_key>audit15</_key>
+    <_type>productSpec</_type>
+    <name>Опционален регулатор на налягането</name>
+    <value>PRS-D, регулиране до 6,9 bar; закупува се отделно</value>
+  </specifications>
+  <specifications>
+    <_key>pgaLowFlowGuide200</_key>
+    <_type>productSpec</_type>
+    <name>Настройка при нисък дебит</name>
+    <value>При дебит под 2,27 m³/h (10 GPM) Rain Bird препоръчва регулиращият винт да се завърти на 2 пълни оборота от напълно отворено положение. При дебит под 1,14 m³/h (5 GPM) се препоръчва входна филтрация.</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird 200-PGA is a professional 2″ solenoid valve for controlling high-flow irrigation zones. It is suitable for parks, large gardens and professional irrigation systems. The body supports inline or angle installation, and the solenoid operates at 24 VAC. PGA series operating pressure reaches approximately 10.4 bar; flow must be matched to pipe size and hydraulic design.</description>
+      <formattedDescription>
+        <_key>b0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b00</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>200-PGA</text>
+        </children>
+        <children>
+          <_key>b01</_key>
+          <_type>span</_type>
+          <text> — a 2″ diaphragm solenoid valve for automatic irrigation.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h10</_key>
+          <_type>span</_type>
+          <text>Purpose and operating principle</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p10</_key>
+          <_type>span</_type>
+          <text>The controller energises the solenoid, which operates the diaphragm and opens the water passage. When the signal stops, the valve closes automatically. The PGA series is a professional range with inline or angle installation, filtered pilot flow, slow closing and manual operation.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h20</_key>
+          <_type>span</_type>
+          <text>Construction and model-specific features</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p20</_key>
+          <_type>span</_type>
+          <text>The integrated flow-control handle adjusts delivery; internal manual operation simplifies service and slow closing helps reduce water-hammer risk. The PRS-D pressure-regulating module is optional, sold separately and not included.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h30</_key>
+          <_type>span</_type>
+          <text>Hydraulic and electrical specifications</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p30</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Size 2″; operating pressure 1,04–10,4 bar; flow 40–150 GPM (9,08–34,05 m³/h); solenoid 24 VAC. Actual flow depends on pipe, filter and fitting losses as well as available pressure.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h40</_key>
+          <_type>span</_type>
+          <text>Installation, adjustment and maintenance</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p40</_key>
+          <_type>span</_type>
+          <text>Connection: 2″ female NPT thread. Before installation, confirm flow direction, operating pressure and thread standard. Fit the valve in an accessible valve box and flush the pipework before commissioning. During service, inspect the diaphragm, pilot filter, solenoid and seals. For flows below 2.27 m³/h, set the flow-control stem two full turns from fully open; below 1.14 m³/h, upstream filtration is recommended.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l00</_key>
+          <_type>span</_type>
+          <text>Check flow direction and stay within the permitted operating pressure.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l10</_key>
+          <_type>span</_type>
+          <text>Flush pipework before connection to keep sand and swarf out of the pilot circuit.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l20</_key>
+          <_type>span</_type>
+          <text>Leave access for future maintenance.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h50</_key>
+          <_type>span</_type>
+          <text>Choosing a compatible controller</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p50</_key>
+          <_type>span</_type>
+          <text>This version uses a 24 VAC solenoid and requires a controller with standard 24 VAC valve outputs.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p60</_key>
+          <_type>span</_type>
+          <text>Useful links: </text>
+        </children>
+        <children>
+          <_key>p61</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>c</marks>
+          <text>automatic irrigation controllers</text>
+        </children>
+        <children>
+          <_key>p62</_key>
+          <_type>span</_type>
+          <text> and </text>
+        </children>
+        <children>
+          <_key>p63</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>s</marks>
+          <text>valve installation and repair service</text>
+        </children>
+        <children>
+          <_key>p64</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>c</_key>
+          <_type>link</_type>
+          <href>/category/controllers</href>
+        </markDefs>
+        <markDefs>
+          <_key>s</_key>
+          <_type>link</_type>
+          <href>/services/montazh-remont-elektromagnitni-klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird 200-PGA — 2″ solenoid valve, 24 VAC</name>
+      <seo>
+        <h1>Rain Bird 200-PGA — 2″ solenoid valve, 24 VAC</h1>
+        <metaDescription>For sale: Rain Bird 200-PGA 2″ professional solenoid valve for large irrigation zones, with a 24 VAC solenoid. Florial, Sunny Beach.</metaDescription>
+        <metaTitle>Rain Bird 200-PGA — 2″ solenoid valve, 24 VAC | Sunny Beach | Florial</metaTitle>
+      </seo>
+      <shortDescription>Professional 2″ PGA valve for large irrigation zones, with a 24 VAC solenoid.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>200-PGA</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>PGA</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Solenoid valve with flow control</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>200-pga, valve, flow control</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Connection size</name>
+        <value>2″</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>1.04–10.4 bar</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Flow rate</name>
+        <value>40–150 GPM (9.08–34.05 m³/h)</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Solenoid power supply</name>
+        <value>24 VAC, 50/60 Hz</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Inrush current</name>
+        <value>0.41 A (9.9 VA)</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Holding current</name>
+        <value>0.14 A (3.43 VA)</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Coil resistance</name>
+        <value>30–39 Ω, nominal</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Dimensions (H × L × W)</name>
+        <value>25.4 × 19.7 × 12.7 cm</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Water temperature</name>
+        <value>Up to 43 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Ambient temperature</name>
+        <value>Up to 52 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit15</_key>
+        <_type>productSpec</_type>
+        <name>Optional pressure regulator</name>
+        <value>PRS-D, regulation up to 6.9 bar; sold separately</value>
+      </specifications>
+      <specifications>
+        <_key>pgaLowFlowGuide200</_key>
+        <_type>productSpec</_type>
+        <name>Low-flow adjustment</name>
+        <value>For flow below 2.27 m³/h (10 GPM), Rain Bird recommends turning the adjustment screw 2 full turns from fully open. For flow below 1.14 m³/h (5 GPM), inlet filtration is recommended.</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird 200-PGA — профессиональный электромагнитный клапан 2″ для управления зонами с большим расходом. Подходит для парков, больших садов и профессиональных систем полива. Корпус допускает линейную и угловую установку, соленоид работает от 24 В AC. Рабочее давление серии PGA достигает примерно 10,4 бар; расход необходимо согласовать с диаметром труб и гидравлическим расчётом.</description>
+      <formattedDescription>
+        <_key>b0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b00</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>200-PGA</text>
+        </children>
+        <children>
+          <_key>b01</_key>
+          <_type>span</_type>
+          <text> — мембранный электромагнитный клапан 2″ для автоматического полива.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h10</_key>
+          <_type>span</_type>
+          <text>Назначение и принцип работы</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p10</_key>
+          <_type>span</_type>
+          <text>Контроллер подаёт электрический сигнал на соленоид, который приводит в действие мембрану и открывает проход воды. После прекращения сигнала клапан автоматически закрывается. Серия PGA — профессиональная линейка с линейной или угловой установкой, фильтрованным пилотным потоком, замедленным закрытием и ручным управлением.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h20</_key>
+          <_type>span</_type>
+          <text>Конструкция и особенности модели</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p20</_key>
+          <_type>span</_type>
+          <text>The integrated flow-control handle adjusts delivery; internal manual operation simplifies service and slow closing helps reduce water-hammer risk. Модуль регулирования давления PRS-D приобретается отдельно и не входит в комплект.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h30</_key>
+          <_type>span</_type>
+          <text>Гидравлические и электрические параметры</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p30</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Размер 2″; рабочее давление 1,04–10,4 bar; расход 40–150 GPM (9,08–34,05 m³/h); соленоид 24 В AC. Фактический расход зависит от потерь в трубах, фильтрах, арматуре и доступного давления.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h40</_key>
+          <_type>span</_type>
+          <text>Монтаж, настройка и обслуживание</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p40</_key>
+          <_type>span</_type>
+          <text>Подключение: внутренняя резьба 2″ NPT. Перед монтажом проверьте направление потока, рабочее давление и стандарт резьбы. Установите клапан в доступном боксе и промойте трубопровод перед запуском. При обслуживании проверяйте мембрану, пилотный фильтр, соленоид и уплотнения. При расходе ниже 2,27 м³/ч регулировочный шток устанавливают на два полных оборота; ниже 1,14 м³/ч рекомендуется входная фильтрация.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l00</_key>
+          <_type>span</_type>
+          <text>Проверьте направление потока и не превышайте допустимое давление.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l10</_key>
+          <_type>span</_type>
+          <text>Промойте трубы до подключения, чтобы песок и стружка не попали в пилотный контур.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l20</_key>
+          <_type>span</_type>
+          <text>Оставьте доступ для последующего обслуживания.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h50</_key>
+          <_type>span</_type>
+          <text>Выбор совместимого контроллера</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p50</_key>
+          <_type>span</_type>
+          <text>Эта версия оснащена соленоидом 24 В AC и требует контроллера со стандартными выходами для клапанов 24 VAC.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p60</_key>
+          <_type>span</_type>
+          <text>Полезные ссылки: </text>
+        </children>
+        <children>
+          <_key>p61</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>c</marks>
+          <text>контроллеры автоматического полива</text>
+        </children>
+        <children>
+          <_key>p62</_key>
+          <_type>span</_type>
+          <text> и </text>
+        </children>
+        <children>
+          <_key>p63</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>s</marks>
+          <text>услуга монтажа и ремонта клапанов</text>
+        </children>
+        <children>
+          <_key>p64</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>c</_key>
+          <_type>link</_type>
+          <href>/category/controllers</href>
+        </markDefs>
+        <markDefs>
+          <_key>s</_key>
+          <_type>link</_type>
+          <href>/services/montazh-remont-elektromagnitni-klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird 200-PGA — электромагнитный клапан 2″, 24 В AC</name>
+      <seo>
+        <h1>Rain Bird 200-PGA — электромагнитный клапан 2″, 24 В AC</h1>
+        <metaDescription>Продажа профессионального клапана Rain Bird 200-PGA 2″ для крупных зон полива, с соленоидом 24 В AC. Флориал, Солнечный берег.</metaDescription>
+        <metaTitle>Rain Bird 200-PGA — электромагнитный… | Солнечный берег | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Профессиональный клапан PGA 2″ для крупных зон полива, соленоид 24 В AC.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>200-PGA</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>PGA</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Электромагнитный клапан с регулятором расхода</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>200-pga, клапан, регулировка расхода</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Размер подключения</name>
+        <value>2″</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>1,04–10,4 бар</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Расход без PRS-D</name>
+        <value>40–150 GPM (9,08–34,05 м³/ч)</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Питание соленоида</name>
+        <value>24 В AC, 50/60 Гц</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Пусковой ток</name>
+        <value>0,41 A (9,9 VA)</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Ток удержания</name>
+        <value>0,14 A (3,43 VA)</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Сопротивление катушки</name>
+        <value>30–39 Ом, номинальное</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Размеры (В × Д × Ш)</name>
+        <value>25,4 × 19,7 × 12,7 см</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Температура воды</name>
+        <value>До 43 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Температура окружающей среды</name>
+        <value>До 52 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit15</_key>
+        <_type>productSpec</_type>
+        <name>Дополнительный регулятор давления</name>
+        <value>PRS-D, регулировка до 6,9 бар; приобретается отдельно</value>
+      </specifications>
+      <specifications>
+        <_key>pgaLowFlowGuide200</_key>
+        <_type>productSpec</_type>
+        <name>Настройка при низком расходе</name>
+        <value>При расходе ниже 2,27 м³/ч (10 GPM) Rain Bird рекомендует повернуть регулировочный винт на 2 полных оборота от полностью открытого положения. При расходе ниже 1,14 м³/ч (5 GPM) рекомендуется входная фильтрация.</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>1.984</weightKg>
+</document>
