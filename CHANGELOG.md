@@ -1,3 +1,12 @@
+## 2026-11-23 — ESP-BAT-BT1 / 100-HV-9V compatibility copy synchronized
+
+- Owner confirmed from personal installation experience that Rain Bird 100-HV-9V production versions manufactured on or after 01.01.2026 work with ESP-BAT-BT1 when fitted with a suitable 9 V DC latching solenoid. Earlier production versions are not claimed compatible.
+- Updated and published both Sanity product cards (H01040 and ESP-BAT-BT1) in BG/RU/EN: full descriptions and corresponding compatibility specification values now use the date-limited wording. No prices, SKUs, short descriptions, product references or technical values outside compatibility wording were changed.
+- The 10 × 5 m kit correction is recorded separately: ESP-BAT-BT1 is now named consistently; WPX1 was removed from the short and SEO descriptions; kit component references and quantities were not changed.
+- Sanity validation: both product drafts reported valid; custom validation callbacks were not run by the available validator. Published read-back confirmed the BG compatibility descriptions/specifications and no remaining drafts. RU/EN copy was checked in the draft read-back before publication.
+- Before-write snapshots: `docs/backups/sanity/2026-11-23-esp-bat-bt1-and-100-hv-9v-before-compatibility-copy.json` and the kit snapshot `docs/backups/sanity-kits-current-2026-11-23-complete.json`.
+- Detailed audit: `docs/audits/2026-11-23-esp-bat-bt1-100-hv-9v-compatibility-copy.md`. This owner-confirmed field compatibility is not represented as a new Rain Bird manufacturer bulletin.
+
 ## 2026-11-23 — Ready-made kit descriptions (11/12 published)
 
 - Updated and published 11 of 12 active irrigation kits in BG/RU/EN. Each locale now has five H2 sections, two verified internal links, and the required Econt / engineer delivery / paid installation-service wording.
