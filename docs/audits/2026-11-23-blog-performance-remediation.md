@@ -7,7 +7,7 @@ PageSpeed Insights mobile report for `https://florial-bg.com/blog`, captured 23.
 - Performance 79; FCP 0.9 s; LCP 2.7 s; TBT 10 ms; CLS 0.337; Speed Index 2.9 s.
 - CrUX/field data: unavailable in the supplied report.
 - The reported layout shift (0.337) is attributed to the footer element. This is consistent with the blog content being absent during both the lazy-page chunk load and the subsequent Sanity list request, allowing the footer to enter the initial viewport before the long page content appears.
-- Initial dependency chain includes the main JS bundle (156.46 KiB), six Sanity requests, and the page CSS (15.8 KiB; estimated render-blocking delay 330 ms).
+- Initial dependency chain includes the main JS bundle (156.46 KiB), eight Sanity requests, and the page CSS (15.8 KiB; estimated render-blocking delay 330 ms).
 - Two initial Sanity requests are unrelated full category indexes: equipment categories with nested product counts and plants categories with nested product counts. The blog route does not consume the full category state; Header uses separate compact projections.
 - The report identifies oversized responsive image candidates and estimates about 54 KiB potential image savings.
 
