@@ -314,14 +314,15 @@ export function BlogPage() {
         {filteredPosts.map((post, index) => {
           const content = blogTranslation(post, language)
           const featured = index === 0 && !hasActiveFilters
+          const visibleTags = (post.tags || []).filter((tag) => normalizedTag(tag) !== normalizedTag('Проект')).slice(0, 2)
           return <article key={post._id} className={`overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${featured ? 'sm:col-span-2 lg:col-span-3' : ''}`}>
             <a href={localizedHref('/blog/' + encodeURIComponent(blogSlug(post)), language)} className={`block h-full no-underline ${featured ? 'md:grid md:grid-cols-2 md:min-h-[20rem]' : ''}`}>
               {post.cover?.asset?.url ? <img {...getSanityImageProps(post.cover.asset.url, featured ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw', featured ? 1100 : undefined)} alt={content.coverAlt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" fetchPriority={index === 0 ? 'high' : undefined} className={`h-56 w-full object-cover ${featured ? 'md:h-full md:min-h-[20rem]' : ''}`}/>: <div className={`flex h-56 items-center justify-center bg-[#E9EDDB] text-4xl ${featured ? 'md:min-h-[20rem]' : ''}`} aria-hidden="true">🌿</div>}
               <div className={`p-5 ${featured ? 'md:flex md:flex-col md:justify-center md:p-8 lg:p-10' : ''}`}>
                 {featured ? <p className="mb-2 text-xs font-bold uppercase tracking-widest text-[#71824F]">{copy.latest}</p> : null}
                 <time dateTime={post.publishedAt || undefined} className="text-xs text-slate-500">{formatBlogDate(post.publishedAt, language)}</time>
-                {post.tags?.length ? <div className="mt-2 flex flex-wrap gap-2">
-                  {post.tags.slice(0, 2).map((tag) => <span key={tag} className="rounded-full bg-[#F0F3E8] px-2.5 py-1 text-xs font-medium text-[#53643A]">{localizedTag(tag, language)}</span>)}
+                {visibleTags.length ? <div className="mt-2 flex flex-wrap gap-2">
+                  {visibleTags.map((tag) => <span key={tag} className="rounded-full bg-[#F0F3E8] px-2.5 py-1 text-xs font-medium text-[#53643A]">{localizedTag(tag, language)}</span>)}
                 </div> : null}
                 <h3 className={`mt-2 font-bold leading-snug text-slate-900 ${featured ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-xl'}`}>{content.title}</h3>
                 {content.shortDescription ? <p className={`mt-3 text-sm leading-6 text-slate-600 ${featured ? 'md:text-base md:leading-7' : 'line-clamp-3'}`}>{content.shortDescription}</p> : null}
