@@ -4155,3 +4155,10 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Purchase event data is returned by the order API only after the order has been saved in Cloudflare D1; monetary values and item lines derive from server-validated catalogue prices. No customer contact fields are included in the GA4 payload. No D1 schema change is introduced.
 - Email redaction and URL query-parameter redaction are enabled; the exact approved key list and verification evidence are in `docs/audits/2026-11-23-ga4-rollout.md`.
 - Release verification boundary: CI passed on the exact PR head. Production deployment and GA4 Realtime/DebugView event receipt require post-merge verification. No live test order was created. Privacy/retention/provider-transfer review remains a governance follow-up.
+
+
+### GA4 release status — 2026-11-23
+
+- PR #488 merged as `5ca0276fe3098f45a6871cb866f1ea96df325fb2`; Cloudflare Pages Production deployment `db6bb828-698b-47ac-a5b7-6173a033475f` succeeded from the exact merge commit.
+- GA4 Realtime query after deployment returned no events in the observed last-30-minute window. Event receipt and consent interaction QA remain unconfirmed; no live test order was created.
+- Privacy governance review (legal basis, provider terms, retention and international transfer disclosures) remains open. Full evidence: `docs/audits/2026-11-23-ga4-rollout.md`.
