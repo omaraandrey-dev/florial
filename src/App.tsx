@@ -12,7 +12,7 @@ import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
 import { selectFeaturedEquipment } from './lib/homepageFeatured.mjs'
 import { toPlainText } from './lib/richTextUtils.mjs'
-import { getAnalyticsConsent, trackEvent, trackPostHogEvent } from './services/trackingService'
+import { getAnalyticsConsent, trackEvent, trackGA4Event, trackPostHogEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
 import { IrrigationAssistantLauncher } from './components/IrrigationAssistantLauncher'
 import type { IrrigationProjectSnapshot } from './services/orderService'
@@ -409,7 +409,41 @@ export default function App() {
     if (lastTrackedContent.current === eventKey) return
     lastTrackedContent.current = eventKey
     trackPostHogEvent(eventName, language, normalizedRoutePath)
-  }, [activeProductSlug, currentProduct, activeCategorySlug, currentCategoryDetails, isCartOpen, language, normalizedRoutePath, routeRevision])
+    if (eventName === 'florial_product_view' && currentProduct) {
+      const selectedVariant = currentProduct.saleVariants?.find((variant) => variant._key === initialSaleVariantKey)
+      const itemPrice = selectedVariant?.priceEUR ?? currentProduct.priceEUR
+      trackGA4Event('view_item', {
+        currency: 'EUR',
+        ...(typeof itemPrice === 'number' && Number.isFinite(itemPrice) && itemPrice > 0 ? { value: itemPrice } : {}),
+        items: [{
+          item_id: currentProduct.sku || currentProduct._id,
+          item_name: currentProduct.name,
+          item_category: currentProduct.productType === 'equipment' ? 'irrigation_equipment' : 'plants',
+          ...(selectedVariant?.name ? { item_variant: selectedVariant.name } : {}),
+          ...(typeof itemPrice === 'number' && Number.isFinite(itemPrice) && itemPrice > 0 ? { price: itemPrice } : {}),
+          quantity: 1,
+        }],
+      })
+    }
+    if (eventName === 'florial_cart_view') {
+      const items = cart.map((item) => {
+        const itemPrice = item.saleVariant?.priceEUR ?? item.product.priceEUR
+        return {
+          item_id: item.product.sku || item.product._id,
+          item_name: item.product.name,
+          item_category: item.product.productType === 'equipment' ? 'irrigation_equipment' : 'plants',
+          ...(item.saleVariant?.name ? { item_variant: item.saleVariant.name } : {}),
+          ...(typeof itemPrice === 'number' && Number.isFinite(itemPrice) && itemPrice > 0 ? { price: itemPrice } : {}),
+          quantity: item.quantity,
+        }
+      })
+      trackGA4Event('view_cart', {
+        currency: 'EUR',
+        value: cart.reduce((sum, item) => sum + (item.saleVariant?.priceEUR ?? item.product.priceEUR ?? 0) * item.quantity, 0),
+        items,
+      })
+    }
+  }, [activeProductSlug, currentProduct, initialSaleVariantKey, cart, activeCategorySlug, currentCategoryDetails, isCartOpen, language, normalizedRoutePath, routeRevision])
 
 
 
@@ -534,6 +568,19 @@ export default function App() {
   // Одна корзина для оборудования и растений; разные варианты растения — отдельные строки.
   const handleAddToCart = (product: Product, qty: number, saleVariant?: CartItem['saleVariant']) => {
     trackPostHogEvent('florial_add_to_cart', language, normalizedRoutePath, { product_type: product.productType || 'unknown', quantity: qty })
+    const itemPrice = saleVariant?.priceEUR ?? product.priceEUR
+    trackGA4Event('add_to_cart', {
+      currency: 'EUR',
+      ...(typeof itemPrice === 'number' && Number.isFinite(itemPrice) && itemPrice > 0 ? { value: itemPrice * qty } : {}),
+      items: [{
+        item_id: product.sku || product._id,
+        item_name: product.name,
+        item_category: product.productType === 'equipment' ? 'irrigation_equipment' : 'plants',
+        ...(saleVariant?.name ? { item_variant: saleVariant.name } : {}),
+        ...(typeof itemPrice === 'number' && Number.isFinite(itemPrice) && itemPrice > 0 ? { price: itemPrice } : {}),
+        quantity: qty,
+      }],
+    })
     const itemKey = getCartItemKey(product, saleVariant)
     setCart((prev) => {
       const existing = prev.find((item) => getCartItemKey(item.product, item.saleVariant) === itemKey)
