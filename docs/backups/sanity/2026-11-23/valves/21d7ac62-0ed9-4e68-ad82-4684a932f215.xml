@@ -1,0 +1,990 @@
+Found document "21d7ac62-0ed9-4e68-ad82-4684a932f215": 
+<document>
+  <_createdAt>2026-10-23T13:05:11Z</_createdAt>
+  <_id>21d7ac62-0ed9-4e68-ad82-4684a932f215</_id>
+  <_rev>rOW11EP0h6V5YhExSabBF6</_rev>
+  <_system>
+    <base>
+      <id>21d7ac62-0ed9-4e68-ad82-4684a932f215</id>
+      <rev>Wxh00JcLN6cQgy9skuo62d</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-15T12:04:50Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>65742b44-11c2-43ae-9551-e91eb675dc93</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-valves-9v</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-valves-9v</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>b00</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>150-PGA-9V</text>
+    </children>
+    <children>
+      <_key>b01</_key>
+      <_type>span</_type>
+      <text> — мембранен електромагнитен клапан 1″ за автоматична поливна система.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h10</_key>
+      <_type>span</_type>
+      <text>Предназначение и принцип на работа</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p10</_key>
+      <_type>span</_type>
+      <text>Контролерът подава електрически сигнал към соленоида, който задейства мембраната и отваря водния проход. След прекратяване на сигнала клапанът се затваря автоматично. Серията PGA е професионална линия с възможност за линейно или ъглово монтиране, филтриран пилотен поток, бавно затваряне и ръчно управление.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h20</_key>
+      <_type>span</_type>
+      <text>Конструкция и особености на модела</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p20</_key>
+      <_type>span</_type>
+      <text>Вграденият регулатор настройва дебита; вътрешното ръчно управление улеснява обслужването, а бавното затваряне помага за ограничаване на хидравличния удар. Фиксиращият соленоид 9 V DC изисква съвместим автономен контролер и не се свързва към изход 24 V AC.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h30</_key>
+      <_type>span</_type>
+      <text>Хидравлични и електрически параметри</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p30</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Размер 1½″; работно налягане 1,04–10,4 bar; дебит 30–100 GPM (6,81–22,70 m³/h); соленоид 9 V DC, фиксиращ. Реалният дебит зависи от загубите по тръбите, филтрите, арматурата и наличното налягане.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h40</_key>
+      <_type>span</_type>
+      <text>Монтаж, настройка и обслужване</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p40</_key>
+      <_type>span</_type>
+      <text>Присъединяване: вътрешна резба 1½″ BSP. Преди монтаж проверете посоката на потока, работното налягане и резбовия стандарт. Монтирайте в достъпна клапанна кутия и промийте тръбопровода преди пускане. При обслужване проверявайте мембраната, пилотния филтър, соленоида и уплътненията. При дебит под 2,27 m³/h регулиращият винт се настройва на 2 пълни оборота; под 1,14 m³/h се препоръчва входна филтрация.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l00</_key>
+      <_type>span</_type>
+      <text>Проверете посоката на потока и не надвишавайте допустимото налягане.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l10</_key>
+      <_type>span</_type>
+      <text>Промийте тръбите преди свързване, за да не попаднат пясък и стружки в пилотния контур.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l20</_key>
+      <_type>span</_type>
+      <text>Осигурете достъп за бъдеща профилактика.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h50</_key>
+      <_type>span</_type>
+      <text>Избор на съвместим контролер</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p50</_key>
+      <_type>span</_type>
+      <text>Този вариант е с фиксиращ соленоид 9 V DC и изисква контролер, който поддържа бистабилна бобина 9 V. Не го свързвайте към изход 24 V AC.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>p6</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p60</_key>
+      <_type>span</_type>
+      <text>Полезни връзки: </text>
+    </children>
+    <children>
+      <_key>p61</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <marks>c</marks>
+      <text>контролери за автоматично напояване</text>
+    </children>
+    <children>
+      <_key>p62</_key>
+      <_type>span</_type>
+      <text> и </text>
+    </children>
+    <children>
+      <_key>p63</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <marks>s</marks>
+      <text>услуга за монтаж и ремонт на клапани</text>
+    </children>
+    <children>
+      <_key>p64</_key>
+      <_type>span</_type>
+      <text>.</text>
+    </children>
+    <markDefs>
+      <_key>c</_key>
+      <_type>link</_type>
+      <href>/category/controllers</href>
+    </markDefs>
+    <markDefs>
+      <_key>s</_key>
+      <_type>link</_type>
+      <href>/services/montazh-remont-elektromagnitni-klapani</href>
+    </markDefs>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>gallery150pga9v20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-14670320d40211c8fe36334e25ccfb9d31ba35a5-1540x1600-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>gallery150pga9vdetail20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-a6d22f9c0de9830bf7230599eaf4a626ec9c90dd-800x800-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>gallery150pga9vcutaway20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-41ac697a3063f13cd46f3c5422d92b48b21d5f9e-900x900-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird 150-PGA-9V — електромагнитен клапан 1 1/2″, 9 V</alt>
+    <altEn>Rain Bird 150-PGA-9V — 1 1/2″ solenoid valve, 9 V DC</altEn>
+    <altRu>Rain Bird 150-PGA-9V — электромагнитный клапан 1 1/2″, 9 В DC</altRu>
+    <asset>
+      <_ref>image-68af1a6850010fde771f625588506eaae9a05d90-550x550-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-01bf367da6db6b176382d5eab8ea7e02ff19a792-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird 150-PGA-9V — електромагнитен клапан 1 1/2″, 9 V</name>
+  <priceEUR>193.06</priceEUR>
+  <relatedContent>
+    <_key>nOHEybZSCqHvK8PBPGccsC</_key>
+    <_ref>d6dd1e83-f504-45a2-83de-974e144669e8</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlf4Za</_key>
+    <_ref>ca6f1767-67a3-4054-a9b5-9ea093d02737</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlf4cp</_key>
+    <_ref>97df3a43-ed85-434e-a064-0119374dc140</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlf4g4</_key>
+    <_ref>8625a364-c72b-4a1b-b957-b48b5e0f5ef1</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlf4jJ</_key>
+    <_ref>1ca2120e-744f-4aff-9d7e-affa2122a4fb</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>JgFlPqWovGekOJl9Qlf4mY</_key>
+    <_ref>ef0a57bc-d0ff-4ceb-98ce-55da7be19586</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird 150-PGA-9V — електромагнитен клапан 1 1/2″, 9 V</h1>
+    <metaDescription>Продажба на електромагнитен клапан Rain Bird 150-PGA-9V, 1½″, с бистабилен соленоид 9 V DC за автономни контролери. Флориал, Равда.</metaDescription>
+    <metaTitle>Rain Bird 150-PGA-9V 1½″ 9 V | Равда | Флориал</metaTitle>
+  </seo>
+  <shortDescription>Клапан PGA 1 1/2″ с бистабилен соленоид 9 V DC за автономно управление.</shortDescription>
+  <sku>B31540</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-150-pga-9v</current>
+  </slug>
+  <specifications>
+    <_key>audit1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>I-150-PGA-9V</value>
+  </specifications>
+  <specifications>
+    <_key>audit2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>PGA</value>
+  </specifications>
+  <specifications>
+    <_key>audit3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Електромагнитен клапан с фиксиращ соленоид 9 V</value>
+  </specifications>
+  <specifications>
+    <_key>audit4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>150-pga-9v, valve, 9v latching solenoid</value>
+  </specifications>
+  <specifications>
+    <_key>audit5</_key>
+    <_type>productSpec</_type>
+    <name>Размер на връзката</name>
+    <value>1½″ BSP</value>
+  </specifications>
+  <specifications>
+    <_key>audit6</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>1,04–10,4 bar</value>
+  </specifications>
+  <specifications>
+    <_key>audit7</_key>
+    <_type>productSpec</_type>
+    <name>Дебит</name>
+    <value>30–100 GPM (6,81–22,70 m³/h)</value>
+  </specifications>
+  <specifications>
+    <_key>audit8</_key>
+    <_type>productSpec</_type>
+    <name>Захранване на соленоида</name>
+    <value>9 V DC, фиксиращ соленоид</value>
+  </specifications>
+  <specifications>
+    <_key>audit9</_key>
+    <_type>productSpec</_type>
+    <name>Размери (В × Д × Ш)</name>
+    <value>20,3 × 17,2 × 8,9 cm</value>
+  </specifications>
+  <specifications>
+    <_key>audit10</_key>
+    <_type>productSpec</_type>
+    <name>Температура на водата</name>
+    <value>До 43 °C</value>
+  </specifications>
+  <specifications>
+    <_key>audit11</_key>
+    <_type>productSpec</_type>
+    <name>Температура на околната среда</name>
+    <value>До 52 °C</value>
+  </specifications>
+  <specifications>
+    <_key>audit12</_key>
+    <_type>productSpec</_type>
+    <name>Регулиране на дебита</name>
+    <value>Вграден регулатор</value>
+  </specifications>
+  <specifications>
+    <_key>audit13</_key>
+    <_type>productSpec</_type>
+    <name>Съвместимост</name>
+    <value>Контролери за батерии с изход за 9 V фиксиращ соленоид</value>
+  </specifications>
+  <specifications>
+    <_key>pgaLowFlowGuide1509v</_key>
+    <_type>productSpec</_type>
+    <name>Настройка при нисък дебит</name>
+    <value>При дебит под 2,27 m³/h (10 GPM) Rain Bird препоръчва регулиращият винт да се завърти на 2 пълни оборота от напълно отворено положение. При дебит под 1,14 m³/h (5 GPM) се препоръчва входна филтрация.</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird 150-PGA-9V is a 1 1/2″ solenoid valve for higher-flow systems, equipped with a 9 V DC latching solenoid. It is designed for battery-powered controllers and allows irrigation zones to be controlled without 24 V wiring to the valve. Inline or angle installation is possible. PGA series operating pressure is up to about 10.4 bar.</description>
+      <formattedDescription>
+        <_key>b0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b00</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>150-PGA-9V</text>
+        </children>
+        <children>
+          <_key>b01</_key>
+          <_type>span</_type>
+          <text> — a 1″ diaphragm solenoid valve for automatic irrigation.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h10</_key>
+          <_type>span</_type>
+          <text>Purpose and operating principle</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p10</_key>
+          <_type>span</_type>
+          <text>The controller energises the solenoid, which operates the diaphragm and opens the water passage. When the signal stops, the valve closes automatically. The PGA series is a professional range with inline or angle installation, filtered pilot flow, slow closing and manual operation.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h20</_key>
+          <_type>span</_type>
+          <text>Construction and model-specific features</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p20</_key>
+          <_type>span</_type>
+          <text>The integrated flow-control handle adjusts delivery; internal manual operation simplifies service and slow closing helps reduce water-hammer risk. The 9 V DC latching solenoid requires a compatible battery controller and must not be connected to a 24 VAC output.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h30</_key>
+          <_type>span</_type>
+          <text>Hydraulic and electrical specifications</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p30</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Size 1½″; operating pressure 1,04–10,4 bar; flow 30–100 GPM (6,81–22,70 m³/h); solenoid 9 V DC latching. Actual flow depends on pipe, filter and fitting losses as well as available pressure.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h40</_key>
+          <_type>span</_type>
+          <text>Installation, adjustment and maintenance</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p40</_key>
+          <_type>span</_type>
+          <text>Connection: 1½″ female BSP thread. Before installation, confirm flow direction, operating pressure and thread standard. Fit the valve in an accessible valve box and flush the pipework before commissioning. During service, inspect the diaphragm, pilot filter, solenoid and seals. For flows below 2.27 m³/h, set the flow-control stem two full turns from fully open; below 1.14 m³/h, upstream filtration is recommended.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l00</_key>
+          <_type>span</_type>
+          <text>Check flow direction and stay within the permitted operating pressure.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l10</_key>
+          <_type>span</_type>
+          <text>Flush pipework before connection to keep sand and swarf out of the pilot circuit.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l20</_key>
+          <_type>span</_type>
+          <text>Leave access for future maintenance.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h50</_key>
+          <_type>span</_type>
+          <text>Choosing a compatible controller</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p50</_key>
+          <_type>span</_type>
+          <text>This version uses a 9 V DC latching solenoid and requires a controller that supports this coil type. Do not connect it to a 24 VAC output.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p60</_key>
+          <_type>span</_type>
+          <text>Useful links: </text>
+        </children>
+        <children>
+          <_key>p61</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>c</marks>
+          <text>automatic irrigation controllers</text>
+        </children>
+        <children>
+          <_key>p62</_key>
+          <_type>span</_type>
+          <text> and </text>
+        </children>
+        <children>
+          <_key>p63</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>s</marks>
+          <text>valve installation and repair service</text>
+        </children>
+        <children>
+          <_key>p64</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>c</_key>
+          <_type>link</_type>
+          <href>/category/controllers</href>
+        </markDefs>
+        <markDefs>
+          <_key>s</_key>
+          <_type>link</_type>
+          <href>/services/montazh-remont-elektromagnitni-klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird 150-PGA-9V — 1 1/2″ solenoid valve, 9 V DC</name>
+      <seo>
+        <h1>Rain Bird 150-PGA-9V — 1 1/2″ solenoid valve, 9 V DC</h1>
+        <metaDescription>For sale: Rain Bird 150-PGA-9V 1½″ solenoid valve with a 9 V DC latching solenoid for battery-powered controllers. Florial, Ravda.</metaDescription>
+        <metaTitle>Rain Bird 150-PGA-9V — 1 1/2″ solenoid valve, 9 V DC | Ravda | Florial</metaTitle>
+      </seo>
+      <shortDescription>1 1/2″ PGA valve with a 9 V DC latching solenoid for battery-powered control.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>I-150-PGA-9V</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>PGA</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Solenoid valve with 9 V latching solenoid</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>i-150-pga-9v, valve, 9 V latching solenoid</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Connection size</name>
+        <value>1½″ BSP</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>1.04–10.4 bar</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Flow rate</name>
+        <value>30–100 GPM (6.81–22.70 m³/h)</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Solenoid power supply</name>
+        <value>9 V DC latching solenoid</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Dimensions (H × L × W)</name>
+        <value>20.3 × 17.2 × 8.9 cm</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Water temperature</name>
+        <value>Up to 43 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Ambient temperature</name>
+        <value>Up to 52 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit12</_key>
+        <_type>productSpec</_type>
+        <name>Flow control</name>
+        <value>Integrated flow control</value>
+      </specifications>
+      <specifications>
+        <_key>audit13</_key>
+        <_type>productSpec</_type>
+        <name>Compatibility</name>
+        <value>Battery-powered controllers with a 9 V latching-solenoid output</value>
+      </specifications>
+      <specifications>
+        <_key>pgaLowFlowGuide1509v</_key>
+        <_type>productSpec</_type>
+        <name>Low-flow adjustment</name>
+        <value>For flow below 2.27 m³/h (10 GPM), Rain Bird recommends turning the adjustment screw 2 full turns from fully open. For flow below 1.14 m³/h (5 GPM), inlet filtration is recommended.</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird 150-PGA-9V — электромагнитный клапан 1 1/2″ для систем с повышенным расходом, оснащённый бистабильным соленоидом 9 В DC. Предназначен для автономных контроллеров на батарейках и позволяет управлять зонами без кабельного питания 24 В у клапана. Возможна линейная и угловая установка. Рабочее давление серии PGA — до примерно 10,4 бар.</description>
+      <formattedDescription>
+        <_key>b0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b00</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>150-PGA-9V</text>
+        </children>
+        <children>
+          <_key>b01</_key>
+          <_type>span</_type>
+          <text> — мембранный электромагнитный клапан 1″ для автоматического полива.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h10</_key>
+          <_type>span</_type>
+          <text>Назначение и принцип работы</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p10</_key>
+          <_type>span</_type>
+          <text>Контроллер подаёт электрический сигнал на соленоид, который приводит в действие мембрану и открывает проход воды. После прекращения сигнала клапан автоматически закрывается. Серия PGA — профессиональная линейка с линейной или угловой установкой, фильтрованным пилотным потоком, замедленным закрытием и ручным управлением.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h20</_key>
+          <_type>span</_type>
+          <text>Конструкция и особенности модели</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p20</_key>
+          <_type>span</_type>
+          <text>The integrated flow-control handle adjusts delivery; internal manual operation simplifies service and slow closing helps reduce water-hammer risk. Бистабильный соленоид 9 В DC требует совместимого автономного контроллера и не подключается к выходу 24 В AC.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h30</_key>
+          <_type>span</_type>
+          <text>Гидравлические и электрические параметры</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p30</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Размер 1½″; рабочее давление 1,04–10,4 bar; расход 30–100 GPM (6,81–22,70 m³/h); соленоид 9 В DC, бистабильный. Фактический расход зависит от потерь в трубах, фильтрах, арматуре и доступного давления.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h40</_key>
+          <_type>span</_type>
+          <text>Монтаж, настройка и обслуживание</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p40</_key>
+          <_type>span</_type>
+          <text>Подключение: внутренняя резьба 1½″ BSP. Перед монтажом проверьте направление потока, рабочее давление и стандарт резьбы. Установите клапан в доступном боксе и промойте трубопровод перед запуском. При обслуживании проверяйте мембрану, пилотный фильтр, соленоид и уплотнения. При расходе ниже 2,27 м³/ч регулировочный шток устанавливают на два полных оборота; ниже 1,14 м³/ч рекомендуется входная фильтрация.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l00</_key>
+          <_type>span</_type>
+          <text>Проверьте направление потока и не превышайте допустимое давление.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l10</_key>
+          <_type>span</_type>
+          <text>Промойте трубы до подключения, чтобы песок и стружка не попали в пилотный контур.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l20</_key>
+          <_type>span</_type>
+          <text>Оставьте доступ для последующего обслуживания.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h50</_key>
+          <_type>span</_type>
+          <text>Выбор совместимого контроллера</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p50</_key>
+          <_type>span</_type>
+          <text>Эта версия оснащена бистабильным соленоидом 9 В DC и требует контроллера, поддерживающего такую катушку. Не подключайте её к выходу 24 В AC.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p60</_key>
+          <_type>span</_type>
+          <text>Полезные ссылки: </text>
+        </children>
+        <children>
+          <_key>p61</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>c</marks>
+          <text>контроллеры автоматического полива</text>
+        </children>
+        <children>
+          <_key>p62</_key>
+          <_type>span</_type>
+          <text> и </text>
+        </children>
+        <children>
+          <_key>p63</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>s</marks>
+          <text>услуга монтажа и ремонта клапанов</text>
+        </children>
+        <children>
+          <_key>p64</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>c</_key>
+          <_type>link</_type>
+          <href>/category/controllers</href>
+        </markDefs>
+        <markDefs>
+          <_key>s</_key>
+          <_type>link</_type>
+          <href>/services/montazh-remont-elektromagnitni-klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird 150-PGA-9V — электромагнитный клапан 1 1/2″, 9 В DC</name>
+      <seo>
+        <h1>Rain Bird 150-PGA-9V — электромагнитный клапан 1 1/2″, 9 В DC</h1>
+        <metaDescription>Продажа электромагнитного клапана Rain Bird 150-PGA-9V, 1½″, с бистабильным соленоидом 9 В DC для автономных контроллеров. Флориал, Равда.</metaDescription>
+        <metaTitle>Rain Bird 150-PGA-9V 1½″ 9 В | Равда | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Клапан PGA 1 1/2″ с бистабильным соленоидом 9 В DC для автономного управления.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>I-150-PGA-9V</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>PGA</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Электромагнитный клапан с фиксирующим соленоидом 9 В</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>i-150-pga-9v, клапан, фиксирующий соленоид 9 В</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Размер подключения</name>
+        <value>1½″ BSP</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>1,04–10,4 бар</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Расход</name>
+        <value>30–100 GPM (6,81–22,70 м³/ч)</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Питание соленоида</name>
+        <value>9 В DC, фиксирующий соленоид</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Размеры (В × Д × Ш)</name>
+        <value>20,3 × 17,2 × 8,9 см</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Температура воды</name>
+        <value>До 43 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Температура окружающей среды</name>
+        <value>До 52 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit12</_key>
+        <_type>productSpec</_type>
+        <name>Регулировка расхода</name>
+        <value>Встроенный регулятор</value>
+      </specifications>
+      <specifications>
+        <_key>audit13</_key>
+        <_type>productSpec</_type>
+        <name>Совместимость</name>
+        <value>Контроллеры на батарейках с выходом для фиксирующего соленоида 9 В</value>
+      </specifications>
+      <specifications>
+        <_key>pgaLowFlowGuide1509v</_key>
+        <_type>productSpec</_type>
+        <name>Настройка при низком расходе</name>
+        <value>При расходе ниже 2,27 м³/ч (10 GPM) Rain Bird рекомендует повернуть регулировочный винт на 2 полных оборота от полностью открытого положения. При расходе ниже 1,14 м³/ч (5 GPM) рекомендуется входная фильтрация.</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>1.114</weightKg>
+</document>
