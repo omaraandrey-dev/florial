@@ -5,14 +5,14 @@
 - Step 1 — в работе: live Production sample показывает index/follow и self-canonical, но Google live URL Test и post-recrawl ещё не подтверждены; GSC saved state содержит исторические noindex/canonical anomalies. См. [live indexability audit](../audits/2026-11-23-production-indexability-live-check.md).
 - Step 2 — владелец подтвердил в предыдущем чате успешную Rich Results проверку без замечаний; отдельный артефакт результата пока не сохранён здесь.
 - Step 3 — GA4 ecommerce integration PR #488 merged и Production deployment подтверждён; фактическое поступление событий остаётся на наблюдении владельца.
-- Step 4 — следующий этап: read-only Sanity content/SEO audit и подготовка предложений. Любые публикации — только после точного approval и backup.
+- Step 4 — частично выполнен: 23.11 опубликованы и read-back проверены локализованные metaTitle двух Irritec Connecto elbows и Rotor Sprinklers category, а также ALT BG/RU/EN изображения Nipel-mufa category. Подробности: [partial remediation](../audits/2026-11-23-sanity-seo-partial-remediation.md). Остальные descriptions ждут отдельного prompt владельца; Buddha's hand citron исключён до разрешения indexability anomaly.
 - Steps 5–7 — выполнять по зависимостям, как указано в общем реестре.
 
 ---
 
 # Florial — SEO remediation roadmap (23.11.2026)
 
-Статус: read-only audit завершён по доступным источникам; remediation не начиналась. Основной отчёт: [Комплексный SEO-аудит 23.11.2026](../audits/2026-11-23-comprehensive-seo-audit.md).
+Статус: read-only audit завершён; ограниченная remediation metaTitle/ALT выполнена и опубликована 23.11.2026. Полные descriptions отложены до отдельного prompt владельца. Основной отчёт: [Комплексный SEO-аудит 23.11.2026](../audits/2026-11-23-comprehensive-seo-audit.md).
 
 ## Принципы
 
