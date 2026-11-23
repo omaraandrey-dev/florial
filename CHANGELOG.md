@@ -1,3 +1,11 @@
+## 2026-11-23 — Irrigation project owner decisions
+
+- Confirmed geometric layout/equipment selection only; hydraulic calculations are out of scope and will not be implemented.
+- Fixed pipe diameter at Ø25 mm for main and zone lines; prior Ø25/Ø32 discrepancy closed.
+- Approved appending the full three-page Bulgarian installation guide with diagrams after the site-specific scheme and equipment specification in the project PDF.
+- Documentation updated; PDF integration and generated-output verification remain pending.
+
+---
 ## 2026-11-22 — Irrigation automation selection (PR #481 merged; Production deployed)
 
 - Added a dedicated automation choice after the lawn irrigation kit review: manual, Rain Bird ESP-TM2 wired, ESP-RC2 Wi-Fi and ESP-BAT-BT battery/Bluetooth.
