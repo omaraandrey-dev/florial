@@ -1,3 +1,12 @@
+## 2026-11-23 — Roadmap synchronization and next-work handoff
+
+- Added `docs/roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md` as the cross-workstream status index for SEO, Google Shopping, Manager Web Push and Performance.
+- Updated the status snapshots at the top of the four detailed roadmaps and linked the index from `docs/AI/START_HERE.md`.
+- Preserved the unique read-only Production indexability evidence from PR #487 in `docs/audits/2026-11-23-production-indexability-live-check.md`; the Google live URL Test and post-recrawl remain unverified.
+- Next active task: Step 4 of the seven-step SEO plan — read-only Sanity content/SEO inventory and BG/RU/EN proposals. No Sanity write is authorized by this roadmap sync.
+- GA4 PR #488 integration is deployed; actual event receipt remains under owner observation. No test order is authorized.
+- No runtime code, Sanity data/schema, Cloudflare settings/secrets, D1, Resend or Google settings were changed.
+
 ## 2026-11-23 — GA4 consent-gated ecommerce integration (PR #488)
 
 - Added consent-gated Google Analytics 4 tracking for Florial web stream `16395579273` / Measurement ID `G-2H9DQTLVZY`. The Google tag loads only after analytics consent; withdrawal denies analytics storage and advertising consent signals remain denied.
