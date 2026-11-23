@@ -1,3 +1,11 @@
+## 2026-11-23 — SEO roadmap: desktop GSC checkpoint and next stage
+
+- **CLOSED AS PRELIMINARY CHECKPOINT — SEO Step 5 (GSC opportunities):** desktop-only Search Console aggregate for 2026-10-24–2026-11-20: 392 impressions, 10 clicks, CTR 2.55%, average position 22.9. Detailed query/page rows are incomplete; the short site history is insufficient for broad SEO conclusions or content changes. Repeat GSC analysis around 2026-12-23 using the latest 28 finalized days.
+- **NOT A BLOCKER — SEO Step 1 (indexability):** historical saved URL Inspection anomalies remain unresolved by a new Google live test, but the owner instructed that later roadmap stages should proceed. Schedule a separate read-only recheck around 2026-12-23; no code/Sanity changes without new evidence and approval.
+- **NEXT — SEO Step 6 (Local SEO):** read-only review of actual Google Business Profiles, NAP, service areas and citations. Do not create doorway pages or edit profiles/listings without approval.
+- Evidence: `docs/audits/2026-11-23-gsc-desktop-preliminary-analysis.md`.
+- No website, Sanity, Google settings or Production changes were made.
+
 ## 2026-11-23 — Product description refresh (separate owner-approved content stream)
 
 - CLOSED — spray/rotary nozzle category: 26/26 active products published in BG/RU/EN; published read-back confirmed all target IDs and zero remaining drafts. Detailed evidence: `../audits/2026-11-23-nozzle-product-descriptions-refresh.md`.
