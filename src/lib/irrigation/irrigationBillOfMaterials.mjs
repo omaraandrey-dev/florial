@@ -22,8 +22,9 @@ const PRODUCT_SKUS = Object.freeze({
  * Creates a catalog-SKU bill of materials from the deterministic sprinkler
  * layout and the sequential Florial zone assignment.
  *
- * Flex pipe is sold as a 30 m coil, so required 1 m laterals are rounded up
- * to complete coils. All other quantities are discrete pieces.
+ * Flex pipe is sold only as a 30 m coil. The planning baseline is 0.5 m
+ * per sprinkler (the expected installation range is 0.5–1.5 m per head),
+ * so one coil covers up to 60 sprinklers. All other quantities are discrete pieces.
  */
 export function buildIrrigationBillOfMaterials(layout, zones) {
   const sprinklers = Array.isArray(layout?.sprinklers) ? layout.sprinklers : []
@@ -70,7 +71,7 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
   const headCount = sprinklers.length
   add(PRODUCT_SKUS.body1804, headCount)
   add(PRODUCT_SKUS.sbe050, headCount * 2)
-  add(PRODUCT_SKUS.flex30m, Math.ceil(headCount / 30))
+  add(PRODUCT_SKUS.flex30m, Math.max(1, Math.ceil(headCount / 60)))
 
   for (const zone of zones) {
     const zoneHeadCount = zone.sprinklerIds?.length ?? 0
@@ -91,8 +92,8 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
     valid: true,
     headCount,
     zoneCount,
-    flexPipeRequiredM: headCount,
-    flexPipeCoils30m: Math.ceil(headCount / 30),
+    flexPipeRequiredM: headCount * 0.5,
+    flexPipeCoils30m: Math.max(1, Math.ceil(headCount / 60)),
     items: Object.freeze([...counts.entries()].map(([sku, quantity]) =>
       Object.freeze({ sku, quantity }))),
   })

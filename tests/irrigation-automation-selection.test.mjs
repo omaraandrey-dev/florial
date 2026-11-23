@@ -29,6 +29,12 @@ test('BAT allocations use 1, 2, 4 and 6 station controllers', () => {
   assert.deepEqual(allocateIrrigationControllers('bat', 19), [6, 6, 6, 1])
 })
 
+test('TM2 defaults to indoor catalogue models', () => {
+  assert.deepEqual(buildIrrigationAutomationPlan('tm2', 4).controllers.map((item) => item.sku), ['F54234'])
+  assert.deepEqual(buildIrrigationAutomationPlan('tm2', 6).controllers.map((item) => item.sku), ['F54236'])
+  assert.deepEqual(buildIrrigationAutomationPlan('tm2', 8).controllers.map((item) => item.sku), ['F54238'])
+})
+
 test('controller plans assign sequential zone numbers and require cable only for TM2/RC2', () => {
   const tm2 = buildIrrigationAutomationPlan('tm2', 9)
   assert.deepEqual(tm2.controllers.map((item) => item.zoneNumbers), [[1, 2, 3, 4, 5, 6], [7, 8, 9]])
@@ -48,17 +54,24 @@ test('controller plans assign sequential zone numbers and require cable only for
 test('manual BOM excludes solenoid valves; BAT replaces them with compatible 9V valves', () => {
   const base = {
     valid: true, headCount: 12, zoneCount: 2,
-    items: [{ sku: 'A44120', quantity: 12 }, { sku: 'H01000', quantity: 2 }, { sku: 'VBA02672', quantity: 2 }],
+    items: [{ sku: 'A44120', quantity: 12 }, { sku: 'H01000', quantity: 2 }, { sku: 'VBA02672', quantity: 2 }, { sku: 'IQ21120M0N25D', quantity: 4 }, { sku: 'IQ2142000N250', quantity: 1 }],
   }
   const manual = buildIrrigationAutomationBillOfMaterials(base, buildIrrigationAutomationPlan('manual', 2))
   assert.equal(manual.items.some((item) => item.sku === 'H01000'), false)
   assert.equal(manual.items.some((item) => item.sku === 'VBA02672'), false)
   assert.equal(manual.items.some((item) => item.sku === 'H01040'), false)
   assert.equal(manual.items.some((item) => item.sku === 'B31440'), false)
+  assert.equal(manual.items.some((item) => item.sku === 'IQ21120M0N25D'), false)
+  assert.equal(manual.items.some((item) => item.sku === 'IQ2142000N250'), false)
 
   const bat = buildIrrigationAutomationBillOfMaterials(base, buildIrrigationAutomationPlan('bat', 2))
   assert.equal(bat.items.some((item) => item.sku === 'H01000'), false)
   assert.equal(bat.items.some((item) => item.sku === 'B31440'), false)
   assert.equal(bat.items.find((item) => item.sku === 'H01040')?.quantity, 2)
   assert.equal(bat.items.find((item) => item.sku === 'ESP-BAT-BT2')?.quantity, 1)
+
+  const tm2 = buildIrrigationAutomationBillOfMaterials(base, buildIrrigationAutomationPlan('tm2', 2))
+  assert.equal(tm2.items.find((item) => item.sku === 'H01000')?.quantity, 2)
+  assert.equal(buildIrrigationAutomationPlan('tm2', 2).valve.quantity, 2)
+  assert.equal(buildIrrigationAutomationPlan('rc2', 2).valve.quantity, 2)
 })

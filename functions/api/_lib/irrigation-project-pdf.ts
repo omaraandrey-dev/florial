@@ -187,7 +187,7 @@ export const createIrrigationProjectPdf = async (
   }
 
   heading('5. Ведомост на материалите')
-  write('Необходима гъвкава връзка: ' + (project.billOfMaterials.flexPipeRequiredM ?? '—') + ' m · Закупуване: ' + (project.billOfMaterials.flexPipeCoils30m ?? '—') + ' бр. ролки по 30 m.')
+  write('Гъвкава връзка: ориентировъчно 0,5–1,5 m на разпръсквач. Количеството е планирано по 0,5 m/бр. (' + (project.billOfMaterials.flexPipeRequiredM ?? '—') + ' m); закупуване: ' + (project.billOfMaterials.flexPipeCoils30m ?? '—') + ' бр. ролки по 30 m.')
   for (const item of project.billOfMaterials.items) {
     const price = item.priceEUR == null ? '' : ' · ' + item.priceEUR.toFixed(2) + ' € / бр.'
     write(item.name + ' · ' + item.sku + ' — ' + item.quantity + ' бр.' + price, { size: 7 })

@@ -27,7 +27,7 @@ test('builds a complete catalog bill of materials per sprinkler and sequential z
   assert.equal(result.valid, true)
   assert.equal(result.headCount, 8)
   assert.equal(result.zoneCount, 2)
-  assert.equal(result.flexPipeRequiredM, 8)
+  assert.equal(result.flexPipeRequiredM, 4)
   assert.equal(result.flexPipeCoils30m, 1)
   assert.deepEqual(zones.map((zone) => zone.sprinklerIds.length), [4, 4])
   assert.equal(zones[1].zoneType, 'mixed')
@@ -46,6 +46,32 @@ test('builds a complete catalog bill of materials per sprinkler and sequential z
     VBA02672: 2,
     IQ2142000N250: 1,
   })
+})
+
+test('flex pipe is planned at 0.5 m per head and sold in 30 m coils up to 60 heads', () => {
+  const make = (count) => ({
+    model: 'R-VAN18',
+    sprinklers: Array.from({ length: count }, (_, index) => ({ id: 's' + index, arcDeg: 180, performanceModel: 'R-VAN18' })),
+  })
+  const zonesFor = (count) => {
+    const zoneCount = Math.ceil(count / 6)
+    const baseSize = Math.floor(count / zoneCount)
+    const extra = count % zoneCount
+    let nextHead = 0
+    return Array.from({ length: zoneCount }, (_, zoneIndex) => {
+      const size = baseSize + (zoneIndex < extra ? 1 : 0)
+      const sprinklerIds = Array.from({ length: size }, (_, index) => 's' + (nextHead + index))
+      nextHead += size
+      return { sprinklerIds }
+    })
+  }
+  for (const [heads, metres, coils] of [[40, 20, 1], [60, 30, 1], [61, 30.5, 2], [120, 60, 2]]) {
+    const result = buildIrrigationBillOfMaterials(make(heads), zonesFor(heads))
+    assert.equal(result.valid, true)
+    assert.equal(result.flexPipeRequiredM, metres)
+    assert.equal(result.flexPipeCoils30m, coils)
+    assert.equal(result.items.find((item) => item.sku === 'A82060')?.quantity, coils)
+  }
 })
 
 test('refuses to build a cart when a selected nozzle has no catalog mapping', () => {

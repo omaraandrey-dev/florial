@@ -1,3 +1,12 @@
+## 2026-11-23 — Irrigation assistant automation pricing and BOM corrections
+
+- TM2 now selects the indoor-mount catalogue models F54234/F54236/F54238. RC2 remains on its indoor-mount models.
+- TM2 and RC2 automation options now include one standard 100-HV valve per zone as an explicit priced line alongside controller products. The option total includes both controller and valves; the project snapshot records the valve SKU, quantity and server-resolved price.
+- Manual mode removes valve-only manifold parts: standard solenoid valves, valve boxes, 25 × 1-inch valve adapters (IQ21120M0N25D) and 25-25-25 manifold tees (IQ2142000N250). Sprinkler-side fittings remain.
+- TM2/RC2 notes no longer state that cable installation labour is charged separately. They state only the cable requirement; RC2 also states the Wi-Fi requirement.
+- Flex planning now uses 0.5 m per sprinkler as the coil-purchase baseline, while stating an expected installation range of 0.5–1.5 m per head. SPX-FLEX remains coil-only at 30 m: one coil for up to 60 sprinklers, then rounded additional coils.
+- Updated server snapshot validation, project PDF wording, tests and engineering documentation. No Sanity documents, D1 schema/data, Cloudflare settings/secrets or Production orders/emails are changed by this code task.
+
 ## 2026-11-23 — Irrigation project PDF: original installation guide and fixed PE Ø25 standard
 
 - The preliminary irrigation project PDF now appends all three pages of the owner's original Bulgarian installation guide after the generated project drawing, project details and BOM. Source pages are copied as PDF pages, preserving original text, diagrams, illustrations and layout; no translation, redraw or shortening is applied.

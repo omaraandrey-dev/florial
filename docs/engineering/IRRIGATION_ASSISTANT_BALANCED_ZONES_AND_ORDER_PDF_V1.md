@@ -143,3 +143,12 @@ The reference pressure from the Rain Bird table is not represented as measured s
 The generated preliminary project PDF now appends the original three-page Bulgarian installation guide after the individual project and BOM. The source PDF pages are copied directly with pdf-lib; the original diagrams, illustrations, text and page layout are retained. No translation, redraw, abridgement or overlay is applied. The guide is fetched from the owner's public Dropbox share link at generation time; PDF generation fails closed if the source cannot be fetched or its page count is not exactly three.
 
 The owner also confirmed that the irrigation assistant is geometric-only and that all schematic PE pipe lines (main and zone) are fixed at Ø25 mm. Hydraulic calculations are out of scope.
+
+
+## Owner-approved BOM and automation refinements (2026-11-23)
+
+- Wired ESP-TM2 defaults to indoor-mount catalogue SKUs F54234/F54236/F54238. ESP-RC2 remains indoor-mount.
+- TM2 and RC2 each include one standard Rain Bird 100-HV valve per zone. The customer sees controller and valve product lines, quantities, unit prices and line totals; the automation total includes both.
+- Manual operation removes H01000/H01040, valve boxes, 25 × 1-inch valve adapters (IQ21120M0N25D) and the 25-25-25 manifold tee (IQ2142000N250). Sprinkler-side fittings remain as required by the sprinkler layout.
+- TM2/RC2 customer notes state the control-cable requirement (and RC2 Wi-Fi requirement) without separately priced installation-labour language.
+- Flex lateral length is expected to fall in the 0.5–1.5 m range per sprinkler. For current coil-only sales, the planning baseline is 0.5 m per head; 30 m coils therefore yield one coil through 60 sprinklers, with additional coils rounded from that baseline. By-the-metre sales/cutting is not implemented.

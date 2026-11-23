@@ -97,12 +97,12 @@ export function validateIrrigationProjectSnapshot(input) {
     }
     const type = automationInput.type
     const skuCapacity = {
-      F54224: 4, F54226: 6, F54228: 8,
+      F54234: 4, F54236: 6, F54238: 8,
       F56154: 4, F56156: 6, F56158: 8,
       'ESP-BAT-BT1': 1, 'ESP-BAT-BT2': 2, 'ESP-BAT-BT4': 4, 'ESP-BAT-BT6': 6,
     }
     const allowedControllerSkus = type === 'tm2'
-      ? new Set(['F54224', 'F54226', 'F54228'])
+      ? new Set(['F54234', 'F54236', 'F54238'])
       : type === 'rc2'
         ? new Set(['F56154', 'F56156', 'F56158'])
         : type === 'bat'
@@ -133,7 +133,7 @@ export function validateIrrigationProjectSnapshot(input) {
       })
     }
     if (type === 'manual') {
-      if (controllers.length || automationInput.valve != null || ['H01000', 'H01040', 'B31440', 'VBA02672'].some((sku) => orderSkus.has(sku) || bom.items.some((item) => item.sku === sku)) || Object.keys(skuCapacity).some((sku) => orderSkus.has(sku) || bom.items.some((item) => item.sku === sku)) ||
+      if (controllers.length || automationInput.valve != null || ['H01000', 'H01040', 'B31440', 'VBA02672', 'IQ21120M0N25D', 'IQ2142000N250'].some((sku) => orderSkus.has(sku) || bom.items.some((item) => item.sku === sku)) || Object.keys(skuCapacity).some((sku) => orderSkus.has(sku) || bom.items.some((item) => item.sku === sku)) ||
           automationInput.requiresControlCable !== false || automationInput.wifiRequired !== false) {
         return { valid: false, reason: 'manual_automation_contains_valves_or_controllers' }
       }
@@ -179,15 +179,18 @@ export function validateIrrigationProjectSnapshot(input) {
         name: details?.name || cleanLabel(candidate.name, 160) || 'Rain Bird 100-HV-9V',
         priceEUR: details?.price ?? null,
       }
-    } else if (automationInput.valve != null) {
-      return { valid: false, reason: 'unexpected_automation_valve' }
-    }
-    if (type === 'tm2' || type === 'rc2') {
-      if (orderSkus.get('H01000') !== zones.length ||
+    } else if (type === 'tm2' || type === 'rc2') {
+      const candidate = automationInput.valve
+      if (!isRecord(candidate) || candidate.sku !== 'H01000' || candidate.quantity !== zones.length ||
+          orderSkus.get('H01000') !== zones.length ||
           bom.items.find((item) => item.sku === 'H01000')?.quantity !== zones.length ||
           orderSkus.has('B31440') || orderSkus.has('H01040') || bom.items.some((item) => ['B31440', 'H01040'].includes(item.sku))) {
         return { valid: false, reason: 'wired_controller_requires_standard_valves' }
       }
+      const details = orderDetails.get('H01000')
+      valve = { sku: 'H01000', quantity: zones.length, name: details?.name || cleanLabel(candidate.name, 160) || 'Rain Bird 100-HV', priceEUR: details?.price ?? null }
+    } else if (automationInput.valve != null) {
+      return { valid: false, reason: 'unexpected_automation_valve' }
     }
     const totalPriceEUR = controllers.reduce((sum, item) => sum + (item.priceEUR ?? 0) * item.quantity, 0) +
       (valve?.priceEUR ?? 0) * (valve?.quantity ?? 0)

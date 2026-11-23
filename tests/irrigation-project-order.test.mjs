@@ -96,12 +96,12 @@ test('persists manual automation without valves or valve boxes', () => {
   assert.equal(result.snapshot.automation.controllers.length, 0)
 })
 
-test('rejects manual automation when a valve box remains in order lines', () => {
+test('rejects manual automation when valve adapters or manifold tee remain in order lines', () => {
   const project = snapshot()
   project.automation = { type: 'manual', controllers: [], valve: null, requiresControlCable: false, wifiRequired: false }
   const result = validateIrrigationProjectSnapshot({
     ...project,
-    orderItems: [...orderItems, { sku: 'VBA02672', qty: 2 }],
+    orderItems: [...orderItems, { sku: 'IQ21120M0N25D', qty: 4 }],
   })
   assert.equal(result.valid, false)
   assert.equal(result.reason, 'manual_automation_contains_valves_or_controllers')
@@ -158,25 +158,27 @@ test('persists wired TM2 selection with explicit cable requirement and server pr
   const project = snapshot()
   project.billOfMaterials.items.push(
     { sku: 'H01000', quantity: 2, name: 'Rain Bird 100-HV' },
-    { sku: 'F54224', quantity: 1, name: 'Rain Bird ESP-TM2 4 zones' },
+    { sku: 'F54234', quantity: 1, name: 'Rain Bird ESP-TM2 4 zones indoor' },
   )
   project.automation = {
     type: 'tm2',
-    controllers: [{ sku: 'F54224', capacity: 4, quantity: 1, zoneNumbers: [1, 2], name: 'Rain Bird ESP-TM2 4 zones' }],
-    valve: null,
+    controllers: [{ sku: 'F54234', capacity: 4, quantity: 1, zoneNumbers: [1, 2], name: 'Rain Bird ESP-TM2 4 zones indoor' }],
+    valve: { sku: 'H01000', quantity: 2 },
     requiresControlCable: true,
     wifiRequired: false,
   }
   const items = [
     ...orderItems,
     { sku: 'H01000', qty: 2, name: 'Rain Bird 100-HV', price: 58.89 },
-    { sku: 'F54224', qty: 1, name: 'Rain Bird ESP-TM2 4 zones', price: 249.08 },
+    { sku: 'F54234', qty: 1, name: 'Rain Bird ESP-TM2 4 zones indoor', price: 249.08 },
   ]
   const result = validateIrrigationProjectSnapshot({ ...project, orderItems: items })
   assert.equal(result.valid, true)
   assert.equal(result.snapshot.automation.requiresControlCable, true)
   assert.equal(result.snapshot.automation.wifiRequired, false)
-  assert.equal(result.snapshot.automation.totalPriceEUR, 249.08)
+  assert.equal(result.snapshot.automation.valve.sku, 'H01000')
+  assert.equal(result.snapshot.automation.valve.quantity, 2)
+  assert.equal(result.snapshot.automation.totalPriceEUR, 366.86)
 })
 
 test('rejects unbalanced zone partitions and zones above six heads', () => {
