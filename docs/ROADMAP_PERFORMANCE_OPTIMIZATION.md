@@ -2,11 +2,14 @@
 
 Сверять место этого самостоятельного потока с [единым реестром дорожных карт](roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md).
 
-- Общая performance-оптимизация сайта остаётся **ПРИОСТАНОВЛЕННОЙ**, кроме отдельной задачи блога, явно возобновлённой владельцем 23.11.2026 и выпущенной через PR #510.
-- **Блог /blog — runtime-исправления объединены и опубликованы:** PR #510, merge f0913f3d379c718bc140d539e5b66beb7411a8f2; Preview и Production успешны. Устранены два лишних полных category-index запроса Sanity, добавлены viewport-reserving skeleton, blog-only preconnect к Sanity query/image CDN и более точные размеры изображений с quality 68.
-- **Измерения после релиза ещё не выполнены:** baseline владельца — Performance 79, FCP 0.9 s, LCP 2.7 s, TBT 10 ms, CLS 0.337, Speed Index 2.9 s. Не утверждать, что Core Web Vitals улучшились, пока нет повторного Lighthouse/PSI на том же профиле.
-- Следующий шаг: три мобильных прогона PageSpeed Insights на Production с тем же профилем Moto G Power / Lighthouse 13.6 / low-end 4G, сравнить медианы; затем desktop и визуальная/интерактивная QA. Полный аудит других типов страниц остаётся приостановленным.
-- Не заявлять улучшение LCP/INP/CLS без измерений до/после.
+- Общая performance-оптимизация остальных типов страниц остаётся **ПРИОСТАНОВЛЕННОЙ**. По отдельному разрешению владельца возобновлены только /blog и /blog/:slug.
+- **Блог /blog — runtime-исправления объединены и опубликованы:** PR #510, merge f0913f3d379c718bc140d539e5b66beb7411a8f2. Устранены два лишних полных category-index запроса Sanity, добавлены viewport-reserving skeleton, blog-only preconnect к Sanity query/image CDN и более точные размеры изображений с quality 68. Подробности: [audit index](audits/2026-11-23-blog-performance-remediation.md).
+- **Статьи блога /blog/:slug — runtime-исправления объединены и опубликованы:** PR #512, merge 2fe92f6b269fa29183cd02e7bc334d27ccb8006c. Добавлен отдельный skeleton с резервированием viewport в lazy/Sanity loading и начальном HTML; для статьи добавлены preconnect к Sanity CDN и responsive preload обложки; размеры изображений уточнены, quality 68, добавлен responsive candidate 720px. Production deployment e2b84205-e7a2-4164-ba20-d657dbad0a8e успешно завершён из точного merge SHA.
+- **Проверки статьи:** Blog/Studio CI run 45272014683 и D1 validation run 45272014645 завершились успешно на точном PR head fd0ef9c279bb5d484440ff77ba3903198baac98c. Production Browser Rendering: raw HTML (JavaScript disabled) — HTTP 200, два preconnect, один responsive image preload, min-height:100svh; после запуска JavaScript .blog-content отрендерен, skeleton исчез, адаптивное изображение с quality 68 и Footer присутствуют.
+- **Измерения после релиза статьи ещё не выполнены.** Baseline владельца: mobile Performance 66, FCP 0.9 s, LCP 3.6 s, TBT 10 ms, CLS 0.760, Speed Index 1.7 s; CLS 0.731 пришёлся на Footer. Не утверждать численное улучшение до повторного PageSpeed/Lighthouse на том же профиле Moto G Power / Lighthouse 13.6 / low-end 4G.
+- Следующий шаг: три сопоставимых мобильных PSI/Lighthouse прогона для статьи и сравнение медиан с baseline; затем desktop. Визуальная/интерактивная QA в обычном браузере остаётся отдельной проверкой. Полный аудит остальных типов страниц остаётся приостановленным.
+- Не заявлять улучшение LCP/CLS/Core Web Vitals без сопоставимых измерений до/после.
+
 
 ---
 
