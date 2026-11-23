@@ -228,6 +228,6 @@ Implementation: [balanced zones and order PDF](../engineering/IRRIGATION_ASSISTA
 
 ## 2026-11-23 — GA4 rollout follow-ups
 
-- **OPEN — Production analytics receipt:** after PR #488 is merged and the Pages deployment is confirmed, verify consent-gated GA4 tag loading and page/ecommerce events in Realtime/DebugView. Do not create a real order solely for testing without separate owner approval.
+- **OPEN — Production analytics receipt:** PR #488 is merged and Pages Production deployment succeeded from exact merge commit `5ca0276fe3098f45a6871cb866f1ea96df325fb2`. A Realtime report immediately after deployment returned no events in the observed 30-minute window. Verify consent-gated tag loading and page/ecommerce events in Realtime/DebugView during an actual visit/session. Do not create a real order solely for testing without separate owner approval.
 - **OPEN — privacy governance:** controller review of the analytics legal basis, Google provider terms, data retention and international transfer disclosures. Current BG/RU/EN copy is a technical disclosure update, not legal certification.
 - **CLOSED — GA4 property configuration:** live read-back confirms EUR / Europe/Sofia, stream `16395579273`, email/query redaction and the existing `purchase` key event.
