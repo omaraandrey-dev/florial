@@ -1,0 +1,864 @@
+Found document "de88e310-c33d-4111-9ad6-c638b49a2ed8": 
+<document>
+  <_createdAt>2026-10-18T08:20:04Z</_createdAt>
+  <_id>de88e310-c33d-4111-9ad6-c638b49a2ed8</_id>
+  <_rev>FtwFw4yqYwP9yFXZAJL2gE</_rev>
+  <_system>
+    <base>
+      <id>de88e310-c33d-4111-9ad6-c638b49a2ed8</id>
+      <rev>Wxh00JcLN6cQgy9skweYaW</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-20T09:33:34Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>ad3914b4-5ab0-49e3-868a-52621c4654a7</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>6534adc5-78f7-4276-bbdd-2843ef30420e</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6534adc5-78f7-4276-bbdd-2843ef30420e</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-h1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-h1s0</_key>
+      <_type>span</_type>
+      <text>Равномерно веерно поливане с висока ефективност</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p1s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Rain Bird HE-VAN-12</text>
+    </children>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p1s1</_key>
+      <_type>span</_type>
+      <text> е високоефективна регулируема веерна дюза за тревни площи и озеленени зони с различна форма. Специалният профил на струята осигурява по-равномерно разпределение и по-добро поливане близо до корпуса, където при обикновени дюзи могат да остават сухи участъци.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-h2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-h2s0</_key>
+      <_type>span</_type>
+      <text>Технически параметри на HE-VAN-12</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p2s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Технически данни: </text>
+    </children>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p2s1</_key>
+      <_type>span</_type>
+      <text>радиус клас 12 ft, до 3,7 m; сектор 0°–360°; работно налягане 1,0–2,1 bar и оптимално 2,1 bar. Серията постига средна долноквартилна равномерност DULQ около 70% и над 40% подобрение спрямо типичните регулируеми веерни дюзи.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-h3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-h3s0</_key>
+      <_type>span</_type>
+      <text>Настройка и контрол на струята</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p3s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Регулиране: </text>
+    </children>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p3s1</_key>
+      <_type>span</_type>
+      <text>секторът се променя чрез централната яка с осезаемо фиксиране на настройката. Винтът от неръждаема стомана позволява да се коригира дебитът и да се намали радиусът до 25%; включената филтърна мрежа предпазва дюзата от замърсяване.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-h4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-h4s0</_key>
+      <_type>span</_type>
+      <text>Съвместимост с други дюзи</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p4s0</_key>
+      <_type>span</_type>
+      <text>HE-VAN се монтира върху разпръсквачи Rain Bird 1800, UNI-Spray и адаптери за монтаж над храсти. Съгласуваната норма на валеж позволява правилно проектирано комбиниране с MPR и U-Series дюзи в обща поливна зона.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-h5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-h5s0</_key>
+      <_type>span</_type>
+      <text>Проектиране, монтаж и поддръжка</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p5s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>При проектирането: </text>
+    </children>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p5s1</_key>
+      <_type>span</_type>
+      <text>осигурете налягане 2,1 bar при работеща система и съобразете разстоянието между дюзите с конкретния радиус и формата на терена. При по-високо входно налягане може да се използва подходящ корпус с регулация PRS. Разгледайте </text>
+    </children>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p5s2</_key>
+      <_type>span</_type>
+      <marks>category</marks>
+      <text>веерните форсунки</text>
+    </children>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p5s3</_key>
+      <_type>span</_type>
+      <text> и статията за </text>
+    </children>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p5s4</_key>
+      <_type>span</_type>
+      <marks>sprinkler-help</marks>
+      <text>монтаж, настройка и ремонт на разпръсквачи</text>
+    </children>
+    <children>
+      <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-bg-p5s5</_key>
+      <_type>span</_type>
+      <text>.</text>
+    </children>
+    <markDefs>
+      <_key>category</_key>
+      <_type>link</_type>
+      <href>/category/spray-nozzles</href>
+    </markDefs>
+    <markDefs>
+      <_key>sprinkler-help</_key>
+      <_type>link</_type>
+      <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+    </markDefs>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>g2</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-ff73ea9736057e28fcc08db3e238b413fcc0af8f-600x600-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>g3</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-e110c493ae7313e7abfe263c65935dae3ba52584-893x873-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>hevan12-main-view</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-6eadd580c341192d400f052986a3765e6bc8094c-1086x1448-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <isFeatured>false</isFeatured>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird HE-VAN-12 — регулируема дюза</alt>
+    <altEn>Rain Bird HE-VAN-12 — adjustable spray nozzle</altEn>
+    <altRu>Rain Bird HE-VAN-12 — регулируемая веерная форсунка</altRu>
+    <asset>
+      <_ref>image-04295b2dca19171bdccdbaba0fd528e8962463ec-1086x1448-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-0eb8e6a3ce9a8a520ec1425b1ba663b3597ed9f5-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird HE-VAN-12 — регулируема веерна дюза</name>
+  <priceEUR>3.17</priceEUR>
+  <relatedContent>
+    <_key>sprinklerBlogRef</_key>
+    <_ref>8a4ec08b-e064-4d85-8d97-52837afe6d6f</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedContent>
+    <_key>serviceRvan20261120</_key>
+    <_ref>5b88a838-5f5e-4024-9bb8-f4fd8baaeda8</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>crBDISSd19VdkNCnEc8WbK</_key>
+    <_ref>97436060-98f6-430e-ba36-3fa11b085b24</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>crBDISSd19VdkNCnEc8Wfw</_key>
+    <_ref>a84929ff-e088-437c-bb33-f8ec9b2817f3</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>crBDISSd19VdkNCnEc8WkY</_key>
+    <_ref>dac0f67b-0638-48e8-884c-10ea19cffe4d</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>crBDISSd19VdkNCnEc8WpA</_key>
+    <_ref>556bb59c-ec52-4884-b811-5687d2310343</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>crBDISSd19VdkNCnEc8Wtm</_key>
+    <_ref>4854cd78-5a9c-4b44-bcd3-1399162d572c</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird HE-VAN-12 — регулируема веерна дюза</h1>
+    <metaDescription>Продажба на регулируема дюза Rain Bird HE-VAN-12 със сектор 0–360° и радиус 2,7–3,7 m. Флориал, Слънчев бряг.</metaDescription>
+    <metaTitle>HE-VAN-12 веерна дюза | Слънчев бряг | Флориал</metaTitle>
+  </seo>
+  <shortDescription>Високоефективна регулируема дюза Rain Bird HE-VAN-12 със сектор 0–360° и радиус 2,7–3,7 м.</shortDescription>
+  <sku>HE1201</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>he1201</current>
+  </slug>
+  <sortOrder>30</sortOrder>
+  <specifications>
+    <_key>s1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>HE-VAN-12</value>
+  </specifications>
+  <specifications>
+    <_key>s2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>HE-VAN</value>
+  </specifications>
+  <specifications>
+    <_key>s3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Високоефективна регулируема веерна дюза</value>
+  </specifications>
+  <specifications>
+    <_key>s4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>he-van-12, spray nozzle, adjustable arc</value>
+  </specifications>
+  <specifications>
+    <_key>s5</_key>
+    <_type>productSpec</_type>
+    <name>Радиус на поливане</name>
+    <value>3,0–3,7 m</value>
+  </specifications>
+  <specifications>
+    <_key>s6</_key>
+    <_type>productSpec</_type>
+    <name>Сектор на поливане</name>
+    <value>0°–360°</value>
+  </specifications>
+  <specifications>
+    <_key>s7</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>1,0–2,1 bar</value>
+  </specifications>
+  <specifications>
+    <_key>s8</_key>
+    <_type>productSpec</_type>
+    <name>Оптимално налягане</name>
+    <value>2,1 bar</value>
+  </specifications>
+  <specifications>
+    <_key>s9</_key>
+    <_type>productSpec</_type>
+    <name>Регулиране</name>
+    <value>Секторът се регулира ръчно от 0° до 360°; радиусът се коригира чрез винта за регулиране</value>
+  </specifications>
+  <specifications>
+    <_key>s10</_key>
+    <_type>productSpec</_type>
+    <name>Филтър</name>
+    <value>Филтърна мрежа против замърсяване, включена в комплекта</value>
+  </specifications>
+  <specifications>
+    <_key>s11</_key>
+    <_type>productSpec</_type>
+    <name>Съвместимост</name>
+    <value>Разпръсквачи Rain Bird 1800, UNI-Spray и адаптери за монтаж над храсти</value>
+  </specifications>
+  <specifications>
+    <_key>s12</_key>
+    <_type>productSpec</_type>
+    <name>Ефективност</name>
+    <value>Средна долноквартилна равномерност на разпределение (DULQ): около 70%</value>
+  </specifications>
+  <specifications>
+    <_key>pressureSpacing</_key>
+    <_type>productSpec</_type>
+    <name>Препоръчително разстояние между дюзите</name>
+    <value>1,8–4,6 m според модела и налягането</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird HE-VAN-12 is an adjustable spray nozzle for precise watering of lawns, borders and flower beds. The nozzle produces a fan-shaped spray and allows the installer to set the watering arc to suit the shape of the area. The stated radius is 2.7–3.7 m, the available arc is 0–360°, and the recommended operating pressure is 1.0–2.1 bar.
+
+The VAN range is suitable for smaller zones and close-range watering. HE-VAN models are designed for improved application efficiency when used at the correct pressure and with a suitable layout. The radius can be fine-tuned using the adjustment screw. Always select a nozzle that matches the sprinkler body, required coverage and flow available to the zone.
+
+Compatible with suitable Rain Bird 1800/RD1800 series spray bodies. Actual radius can vary with pressure, nozzle setting and site conditions.</description>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-h1s0</_key>
+          <_type>span</_type>
+          <text>High-efficiency, even fan-spray coverage</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p1s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Rain Bird HE-VAN-12</text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p1s1</_key>
+          <_type>span</_type>
+          <text> is a high-efficiency adjustable fan-spray nozzle for lawns and landscaped areas with varied shapes. Its spray profile provides more even distribution and improved close-in watering around the spray body, helping reduce dry areas near the head.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-h2s0</_key>
+          <_type>span</_type>
+          <text>Technical specifications of HE-VAN-12</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p2s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Technical data: </text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p2s1</_key>
+          <_type>span</_type>
+          <text>radius 12-ft class, up to 3.7 m; adjustable arc 0°–360°; operating pressure 1.0–2.1 bar, optimum 2.1 bar. Average lower-quarter distribution uniformity (DULQ) is about 70%, more than 40% higher than typical variable-arc spray nozzles.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-h3s0</_key>
+          <_type>span</_type>
+          <text>Spray pattern and radius adjustment</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p3s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Adjustment: </text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p3s1</_key>
+          <_type>span</_type>
+          <text>set the arc by turning the centre collar; a tactile click helps keep the setting in place. The stainless-steel screw adjusts flow and can reduce radius by up to 25%, while the supplied filter screen helps protect the nozzle from debris.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-h4s0</_key>
+          <_type>span</_type>
+          <text>Compatibility with other nozzle families</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p4s0</_key>
+          <_type>span</_type>
+          <text>HE-VAN fits Rain Bird 1800 spray heads, UNI-Spray heads and shrub adapters. Its matched precipitation rate allows properly designed zones to combine HE-VAN with Rain Bird MPR and U-Series nozzles.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-h5s0</_key>
+          <_type>span</_type>
+          <text>Design, installation and maintenance</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p5s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>For system design: </text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p5s1</_key>
+          <_type>span</_type>
+          <text>maintain 2.1 bar at the nozzle while the zone is operating and choose spacing according to the selected radius and site shape. A compatible pressure-regulated PRS body can be used where inlet pressure is higher. See </text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p5s2</_key>
+          <_type>span</_type>
+          <marks>category</marks>
+          <text>spray nozzles</text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p5s3</_key>
+          <_type>span</_type>
+          <text>; also read </text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p5s4</_key>
+          <_type>span</_type>
+          <marks>sprinkler-help</marks>
+          <text>sprinkler installation, adjustment and repair</text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-en-p5s5</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>category</_key>
+          <_type>link</_type>
+          <href>/category/spray-nozzles</href>
+        </markDefs>
+        <markDefs>
+          <_key>sprinkler-help</_key>
+          <_type>link</_type>
+          <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird HE-VAN-12 — adjustable spray nozzle</name>
+      <seo>
+        <h1>Rain Bird HE-VAN-12 — high-efficiency adjustable spray nozzle</h1>
+        <metaDescription>For sale: Rain Bird HE-VAN-12 adjustable spray nozzle with 0–360° arc and 2.7–3.7 m radius. Florial, Sunny Beach.</metaDescription>
+        <metaTitle>HE-VAN-12 nozzle | Sunny Beach | Florial</metaTitle>
+      </seo>
+      <shortDescription>High-efficiency adjustable Rain Bird HE-VAN-12 nozzle with a 0–360° arc and a 2.7–3.7 m radius.</shortDescription>
+      <specifications>
+        <_key>s1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>HE-VAN-12</value>
+      </specifications>
+      <specifications>
+        <_key>s2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>HE-VAN</value>
+      </specifications>
+      <specifications>
+        <_key>s3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>High-efficiency adjustable spray nozzle</value>
+      </specifications>
+      <specifications>
+        <_key>s4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>he-van-12, spray nozzle, adjustable arc</value>
+      </specifications>
+      <specifications>
+        <_key>s5</_key>
+        <_type>productSpec</_type>
+        <name>Irrigation radius</name>
+        <value>3.0–3.7 m</value>
+      </specifications>
+      <specifications>
+        <_key>s6</_key>
+        <_type>productSpec</_type>
+        <name>Irrigation arc</name>
+        <value>0°–360°</value>
+      </specifications>
+      <specifications>
+        <_key>s7</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>1.0–2.1 bar</value>
+      </specifications>
+      <specifications>
+        <_key>s8</_key>
+        <_type>productSpec</_type>
+        <name>Optimum pressure</name>
+        <value>2.1 bar</value>
+      </specifications>
+      <specifications>
+        <_key>s9</_key>
+        <_type>productSpec</_type>
+        <name>Adjustment</name>
+        <value>Arc adjusts manually from 0° to 360°; radius is adjusted with the adjustment screw</value>
+      </specifications>
+      <specifications>
+        <_key>s10</_key>
+        <_type>productSpec</_type>
+        <name>Filter</name>
+        <value>Debris filter screen included</value>
+      </specifications>
+      <specifications>
+        <_key>s11</_key>
+        <_type>productSpec</_type>
+        <name>Compatibility</name>
+        <value>Rain Bird 1800 and UNI-Spray sprinkler bodies; compatible shrub adapters</value>
+      </specifications>
+      <specifications>
+        <_key>s12</_key>
+        <_type>productSpec</_type>
+        <name>Efficiency</name>
+        <value>Average distribution uniformity (DULQ) is about 70%.</value>
+      </specifications>
+      <specifications>
+        <_key>pressureSpacing</_key>
+        <_type>productSpec</_type>
+        <name>Recommended nozzle spacing</name>
+        <value>1.8–4.6 m depending on model and pressure</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird HE-VAN-12 — регулируемая веерная форсунка для точного полива газонов, бордюров и цветников. Форсунка формирует веерную струю, а монтажник может настроить сектор в соответствии с формой участка. Указанный радиус составляет 2.7–3.7 m, доступный сектор — 0–360°, рекомендуемое рабочее давление — 1.0–2.1 bar.
+
+Форсунки серии VAN подходят для небольших зон и полива на короткие расстояния. Модели HE-VAN рассчитаны на более эффективное распределение воды при правильном давлении и корректной схеме размещения. Радиус можно точно отрегулировать винтом. Выбирайте форсунку с учётом корпуса дождевателя, требуемого покрытия и расхода воды в зоне.
+
+Совместима с подходящими корпусами Rain Bird серий 1800/RD1800. Фактический радиус зависит от давления, настройки форсунки и условий на участке.</description>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-h1s0</_key>
+          <_type>span</_type>
+          <text>Равномерный веерный полив с высокой эффективностью</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p1s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Rain Bird HE-VAN-12</text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p1s1</_key>
+          <_type>span</_type>
+          <text> — высокоэффективная регулируемая веерная форсунка для газонов и озеленённых участков сложной формы. Особый профиль струи обеспечивает более равномерное распределение воды и улучшает полив рядом с корпусом, где у обычных форсунок могут оставаться сухие зоны.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-h2s0</_key>
+          <_type>span</_type>
+          <text>Технические параметры HE-VAN-12</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p2s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Технические данные: </text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p2s1</_key>
+          <_type>span</_type>
+          <text>радиус клас 12 ft, до 3,7 m; сектор 0°–360°; рабочее давление 1,0–2,1 bar, оптимальное — 2,1 bar. Средняя равномерность нижнего квартиля DULQ составляет около 70%, что более чем на 40% выше показателя типичных регулируемых веерных форсунок.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-h3s0</_key>
+          <_type>span</_type>
+          <text>Настройка и контроль струи</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p3s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Регулировка: </text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p3s1</_key>
+          <_type>span</_type>
+          <text>сектор настраивается центральным кольцом с тактильной фиксацией положения. Винт из нержавеющей стали позволяет регулировать расход и уменьшать радиус до 25%; входящая в комплект фильтрующая сетка защищает форсунку от загрязнений.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-h4s0</_key>
+          <_type>span</_type>
+          <text>Совместимость с другими форсунками</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p4s0</_key>
+          <_type>span</_type>
+          <text>HE-VAN устанавливается на дождеватели Rain Bird 1800, UNI-Spray и адаптеры для монтажа над кустарниками. Согласованная интенсивность полива позволяет при грамотном расчёте объединять HE-VAN с форсунками MPR и U-Series в одной зоне.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-h5s0</_key>
+          <_type>span</_type>
+          <text>Проектирование, монтаж и обслуживание</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p5s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>При проектировании: </text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p5s1</_key>
+          <_type>span</_type>
+          <text>обеспечьте давление 2,1 bar при работающей системе и подбирайте расстояние между форсунками по их радиусу и форме участка. При повышенном входном давлении можно использовать совместимый корпус с регулировкой PRS. Смотрите </text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p5s2</_key>
+          <_type>span</_type>
+          <marks>category</marks>
+          <text>веерные форсунки</text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p5s3</_key>
+          <_type>span</_type>
+          <text> и также статья о </text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p5s4</_key>
+          <_type>span</_type>
+          <marks>sprinkler-help</marks>
+          <text>монтаж, настройка и ремонт дождевателей</text>
+        </children>
+        <children>
+          <_key>de88e310-c33d-4111-9ad6-c638b49a2ed8-ru-p5s5</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>category</_key>
+          <_type>link</_type>
+          <href>/category/spray-nozzles</href>
+        </markDefs>
+        <markDefs>
+          <_key>sprinkler-help</_key>
+          <_type>link</_type>
+          <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird HE-VAN-12 — регулируемая веерная форсунка</name>
+      <seo>
+        <h1>Rain Bird HE-VAN-12 — высокоэффективная регулируемая веерная форсунка</h1>
+        <metaDescription>Продажа регулируемой форсунки Rain Bird HE-VAN-12 с сектором 0–360° и радиусом 2,7–3,7 м. Флориал, Солнечный берег.</metaDescription>
+        <metaTitle>HE-VAN-12 форсунка | Солнечный берег | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Высокоэффективная регулируемая форсунка Rain Bird HE-VAN-12 с сектором 0–360° и радиусом 2,7–3,7 м.</shortDescription>
+      <specifications>
+        <_key>s1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>HE-VAN-12</value>
+      </specifications>
+      <specifications>
+        <_key>s2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>HE-VAN</value>
+      </specifications>
+      <specifications>
+        <_key>s3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Высокоэффективная регулируемая веерная форсунка</value>
+      </specifications>
+      <specifications>
+        <_key>s4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>he-van-12, веерная форсунка, регулируемый сектор</value>
+      </specifications>
+      <specifications>
+        <_key>s5</_key>
+        <_type>productSpec</_type>
+        <name>Радиус полива</name>
+        <value>3,0–3,7 м</value>
+      </specifications>
+      <specifications>
+        <_key>s6</_key>
+        <_type>productSpec</_type>
+        <name>Сектор полива</name>
+        <value>0°–360°</value>
+      </specifications>
+      <specifications>
+        <_key>s7</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>1,0–2,1 бар</value>
+      </specifications>
+      <specifications>
+        <_key>s8</_key>
+        <_type>productSpec</_type>
+        <name>Оптимальное давление</name>
+        <value>2,1 бар</value>
+      </specifications>
+      <specifications>
+        <_key>s9</_key>
+        <_type>productSpec</_type>
+        <name>Регулировка</name>
+        <value>Сектор регулируется вручную от 0° до 360°; радиус корректируется регулировочным винтом</value>
+      </specifications>
+      <specifications>
+        <_key>s10</_key>
+        <_type>productSpec</_type>
+        <name>Фильтр</name>
+        <value>Фильтрующая сетка от загрязнений входит в комплект</value>
+      </specifications>
+      <specifications>
+        <_key>s11</_key>
+        <_type>productSpec</_type>
+        <name>Совместимость</name>
+        <value>Дождеватели Rain Bird серий 1800 и UNI-Spray; совместимые адаптеры для установки над кустарниками</value>
+      </specifications>
+      <specifications>
+        <_key>s12</_key>
+        <_type>productSpec</_type>
+        <name>Эффективность</name>
+        <value>Средняя равномерность распределения DULQ около 70%.</value>
+      </specifications>
+      <specifications>
+        <_key>pressureSpacing</_key>
+        <_type>productSpec</_type>
+        <name>Рекомендуемое расстояние между форсунками</name>
+        <value>1,8–4,6 м в зависимости от модели и давления</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.0073</weightKg>
+</document>
