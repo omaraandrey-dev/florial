@@ -240,7 +240,7 @@ test('blog route preconnects to Sanity query and image CDNs in the initial respo
   const blogRouteEnd = middleware.indexOf("if (path === '/services')", blogRouteStart)
   assert.ok(blogRouteStart >= 0 && blogRouteEnd > blogRouteStart)
   const blogRoute = middleware.slice(blogRouteStart, blogRouteEnd)
-  assert.match(middleware, /options\.pageType === 'product' \|\| options\.pageType === 'blog'/)
+  assert.match(middleware, /options\.pageType === 'product' \|\| options\.pageType === 'blog' \|\| options\.pageType === 'article'/)
   assert.match(blogRoute, /pageType: 'blog'/)
   assert.match(middleware, /href="https:\/\/cdn\.sanity\.io" crossorigin/)
   assert.match(middleware, /href="https:\/\/bxvcy0qs\.apicdn\.sanity\.io" crossorigin/)
