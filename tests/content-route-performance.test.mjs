@@ -251,3 +251,27 @@ test('blog listing images use narrower responsive sizes and lower card quality',
   assert.match(page, /\(min-width: 1280px\) 308px[\s\S]*?45vw', 640, 68/)
   assert.match(page, /\(min-width: 1280px\) 397px[\s\S]*?92vw', featured \? 1100 : 640, 68/)
 })
+
+
+test('blog article reserves viewport space before Sanity content and prioritizes its cover', async () => {
+  const app = await read('../src/App.tsx')
+  const page = await read('../src/pages/BlogPostPage.tsx')
+  const loading = await read('../src/components/BlogArticleLoadingState.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  assert.match(app, /normalizedRoutePath\.startsWith\('\/blog\/'\)[\s\S]*BlogArticleLoadingState/)
+  assert.match(page, /BlogArticleLoadingState label=/)
+  assert.match(loading, /min-h-\[100svh\]/)
+  assert.match(page, /getSanityImageProps\(post\.cover\.asset\.url, .*960, 68\)/)
+  assert.match(page, /loading="eager" fetchPriority="high"/)
+  assert.match(middleware, /options\.pageType === 'article'/)
+  assert.match(middleware, /renderResponsiveSanityImagePreload\(options\.image\)/)
+  assert.match(middleware, /type === 'product' \|\| type === 'blogPost'[\s\S]*min-height:100svh/)
+  assert.match(middleware, /type === 'blogPost' \? \(doc\?\.coverUrl \|\| doc\?\.imageUrl\)/)
+})
+
+test('blog body images use the actual article content width and an intermediate responsive candidate', async () => {
+  const content = await read('../src/components/BlogContent.tsx')
+  const images = await read('../src/lib/sanityImage.ts')
+  assert.match(content, /864px, calc\(100vw - 2rem\)', 960, 68/)
+  assert.match(images, /640, 720, 800/)
+})
