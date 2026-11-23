@@ -93,7 +93,18 @@ export function CartPage({
     if (cart.length === 0 || isSubmitting) return
 
     trackPostHogEvent('florial_checkout_start', language, window.location.pathname)
-    trackGA4Event('begin_checkout', { currency: 'EUR' })
+    trackGA4Event('begin_checkout', {
+      currency: 'EUR',
+      value: totalPrice,
+      items: cart.map((item) => ({
+        item_id: item.product.sku || item.product._id,
+        item_name: item.product.name,
+        item_category: item.product.productType === 'equipment' ? 'irrigation_equipment' : 'plants',
+        ...(item.saleVariant?.name ? { item_variant: item.saleVariant.name } : {}),
+        price: getItemPrice(item),
+        quantity: item.quantity,
+      })),
+    })
     setIsSubmitting(true)
     setSubmitError('')
 
