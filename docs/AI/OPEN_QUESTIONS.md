@@ -224,3 +224,10 @@ Implementation: [balanced zones and order PDF](../engineering/IRRIGATION_ASSISTA
 - Remaining verification boundary: no real Production enquiry was submitted, so the form's end-to-end delivery path was not tested. Do not create a test lead without approval.
 - Detailed evidence and backups: `docs/audits/2026-11-20-delivery-plants-service-publication.md`.
 
+
+
+## 2026-11-23 — GA4 rollout follow-ups
+
+- **OPEN — Production analytics receipt:** after PR #488 is merged and the Pages deployment is confirmed, verify consent-gated GA4 tag loading and page/ecommerce events in Realtime/DebugView. Do not create a real order solely for testing without separate owner approval.
+- **OPEN — privacy governance:** controller review of the analytics legal basis, Google provider terms, data retention and international transfer disclosures. Current BG/RU/EN copy is a technical disclosure update, not legal certification.
+- **CLOSED — GA4 property configuration:** live read-back confirms EUR / Europe/Sofia, stream `16395579273`, email/query redaction and the existing `purchase` key event.
