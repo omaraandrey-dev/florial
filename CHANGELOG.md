@@ -1,12 +1,3 @@
-## 2026-11-23 — Sanity SEO partial remediation (meta titles and image ALT)
-
-- Owner authorized a limited Sanity content update and explicitly waived backup for this batch only; this does not change the standing backup requirement for future writes.
-- Published and read-back verified BG/RU/EN metaTitle updates for both Irritec Connecto elbows (female/male thread) and the Rotor Sprinklers category.
-- Published and read-back verified BG/RU/EN image ALT for the Nipel-mufa category image.
-- No ALT was added where the published product/category documents have no image. Existing Rotor category ALT values were left unchanged.
-- Long meta descriptions and full product/service descriptions were deliberately deferred pending the owner's separate prompt. For irrigation kit 10 × 5 m, the owner confirmed Rain Bird ESP-BAT-BT as the correct controller.
-- No schema, runtime code, Cloudflare, D1, Resend or Google settings were changed. See [Sanity SEO partial remediation](docs/audits/2026-11-23-sanity-seo-partial-remediation.md) for IDs, exact fields, read-back and validation notes.
-
 ## 2026-11-23 — Roadmap synchronization and next-work handoff
 
 - Added `docs/roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md` as the cross-workstream status index for SEO, Google Shopping, Manager Web Push and Performance.
