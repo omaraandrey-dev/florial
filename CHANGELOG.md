@@ -1,3 +1,15 @@
+## 2026-11-23 — Florial Irrigation Assistant service published (Sanity Production)
+
+- Published service document `c265afd2-f31d-41f0-b377-ed95664a6d20`, slug `inzhener-pomoshtnik-florial-online`, route `/services/inzhener-pomoshtnik-florial-online`.
+- Published Bulgarian Portable Text plus complete RU/EN versions, localized hero, SEO and image ALT. The original cover image was preserved and linked to `/irrigation-assistant`.
+- Added four published related category references: all irrigation equipment, sprinklers, controllers and valves. Existing service renderer supports linked image/category cards; no frontend or schema change was required.
+- The article describes the Irrigation Assistant as a preliminary geometric layout/equipment-selection tool and explicitly excludes full hydraulic calculation.
+- Published-perspective Sanity read-back confirmed all localized content, image link, SEO and references. Publication used the draft revision guard. No Sanity schema, code, category/product, Cloudflare, D1, Resend or deployment changes.
+- Backup: `docs/backups/sanity/2026-11-23-irrigation-assistant-service-before-edit.json`; preparation audit: `docs/audits/2026-11-23-irrigation-assistant-service-content.md`; publication close-out: `docs/audits/2026-11-23-irrigation-assistant-service-publication-closeout.md`.
+- **Post-publication issue found:** current service form is missing required `location` and uses `message` instead of the API's `details` field. No form submission was made. Exact Sanity correction awaits separate owner approval under the protected published-content rule.
+- Public visual/browser QA and live image/click-through verification remain unconfirmed because the connected browser service had insufficient credits and public fetch was unavailable.
+- PR #505 merged at `07373e913aed1f0f9929b0e108e273690ae43209`; shared-document close-out is tracked in the follow-up PR.
+
 ## 2026-11-23 — Russian and English versions published for the automatic irrigation article
 
 - Added and published complete RU and EN translations to the existing blogPost document 031de407-90ea-40c2-99d5-701be5d1ad02. The BG translation was left unchanged.
