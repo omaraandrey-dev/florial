@@ -36,6 +36,11 @@ export function setAnalyticsConsent(value: Exclude<AnalyticsConsent, 'unknown'>)
   if (typeof window === 'undefined') return
   try {
     window.localStorage.setItem(ANALYTICS_CONSENT_KEY, value)
+    if (value === 'accepted') initializeGA4()
+    else {
+      const target = window as Window & { gtag?: (...args: any[]) => void }
+      target.gtag?.('consent', 'update', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' })
+    }
   } catch {
     // If the preference cannot be saved, analytics remains disabled.
   }
@@ -89,6 +94,7 @@ export function trackPostHogEvent(
   if (details.product_type !== undefined && (typeof details.product_type !== 'string' || details.product_type.length > 40)) return
   if (details.quantity !== undefined && (!Number.isFinite(details.quantity) || details.quantity < 1 || details.quantity > 9999)) return
   capturePostHogEvent(eventName, lang, pagePath, details)
+  if (eventName === 'florial_page_view') trackGA4Event('page_view', { page_location: window.location.href, page_path: pagePath, page_title: document.title, language: lang })
 }
 
 export function trackEvent(
@@ -113,6 +119,8 @@ export function trackEvent(
   // capturePostHogEvent().
   capturePostHogEvent(postHogEvent, lang, page_path)
 
+  if (event_type === 'page_view') trackGA4Event('page_view', { page_location: window.location.href, page_path, page_title: document.title, language: lang })
+
   const payload = JSON.stringify({ event_type, lang, page_path })
   try {
     if (typeof navigator.sendBeacon === 'function') {
@@ -135,4 +143,60 @@ export function trackEvent(
   } catch {
     // Intentionally ignore analytics delivery failures.
   }
+}
+
+
+const GA4_MEASUREMENT_ID = 'G-2H9DQTLVZY'
+type GA4Item = { item_id: string; item_name: string; item_category?: string; item_variant?: string; price: number; quantity: number }
+type GA4Window = Window & { dataLayer?: IArguments[]; gtag?: (...args: any[]) => void }
+
+function initializeGA4(): void {
+  if (typeof window === 'undefined' || getAnalyticsConsent() !== 'accepted') return
+  const target = window as GA4Window
+  if (!target.gtag) {
+    target.dataLayer = target.dataLayer || []
+    target.gtag = function gtag(...args: any[]) { target.dataLayer!.push(args as unknown as IArguments) }
+    target.gtag('js', new Date())
+    target.gtag('consent', 'update', {
+      analytics_storage: 'granted',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    })
+    target.gtag('config', GA4_MEASUREMENT_ID, { send_page_view: false })
+    const script = document.createElement('script')
+    script.async = true
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID
+    script.referrerPolicy = 'strict-origin-when-cross-origin'
+    document.head.appendChild(script)
+  }
+}
+
+export function trackGA4Event(eventName: string, parameters: Record<string, unknown> = {}): void {
+  if (testMode || typeof window === 'undefined' || getAnalyticsConsent() !== 'accepted') return
+  if (!/^[a-z][a-z0-9_]{0,39}$/.test(eventName)) return
+  initializeGA4()
+  const target = window as GA4Window
+  try {
+    target.gtag?.('event', eventName, parameters)
+  } catch {
+    // Analytics delivery must never interfere with storefront actions.
+  }
+}
+
+export function trackGA4Purchase(purchase: {
+  transaction_id: string
+  value: number
+  shipping?: number
+  currency: 'EUR'
+  items: GA4Item[]
+}): void {
+  if (!purchase.transaction_id || !Number.isFinite(purchase.value) || purchase.value < 0 || purchase.items.length === 0) return
+  trackGA4Event('purchase', {
+    transaction_id: purchase.transaction_id,
+    value: purchase.value,
+    currency: purchase.currency,
+    ...(typeof purchase.shipping === 'number' && Number.isFinite(purchase.shipping) ? { shipping: purchase.shipping } : {}),
+    items: purchase.items,
+  })
 }
