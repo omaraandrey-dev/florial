@@ -3,15 +3,20 @@
 - CLOSED — spray/rotary nozzle category: 26/26 active products published in BG/RU/EN; published read-back confirmed all target IDs and zero remaining drafts. Detailed evidence: `../audits/2026-11-23-nozzle-product-descriptions-refresh.md`.
 - PARTIAL — ready-made kits: 11/12 products published in BG/RU/EN; complete 12-product snapshot saved at `../backups/sanity-kits-current-2026-11-23-complete.json`. The 10 × 5 m kit remains unchanged pending an owner decision: its component list pairs ESP-BAT-BT1 with 100-HV-9V, while both published product specs state they are incompatible; the short description still names WPX1. Details: `../audits/2026-11-23-irrigation-kit-descriptions-refresh.md`.
 - OPEN — controller inventory mismatch: live Sanity returns 23 products (including 23 active), while the 15.11.2026 controller audit records 24. Reconcile exact IDs/SKUs before editing.
-- OPEN — sprinklers: 20 active products remain to audit.
+- CLOSED — sprinklers: 20/20 published products now have the localized delivery/service closing section in BG/RU/EN; published read-back confirmed all 20 and zero remaining drafts. Existing descriptions and technical fields were preserved. Evidence: `../audits/2026-11-23-sprinkler-delivery-refresh.md`.
 - Humanizer connector was searched for but not available; no Humanizer use is claimed.
 - This content-refresh approval is separate from SEO Step 4. SEO metadata work remains read-only until its own exact field/ID review and approval.
+- CLOSED FOR NOW — plant description editorial pilot: 13 «Палми и юки» cards were published with BG/RU/EN descriptions, but the owner did not accept the editorial result and explicitly stopped further plant text changes. No rollback was requested or performed. The six «Маслини» documents were read back unchanged after the interrupted attempt. No backup export was made under the owner's explicit one-task instruction. Do not resume plant description rewriting without a new prompt. Evidence: `../audits/2026-11-23-plant-description-editing-stop.md`.
+
+## 2026-11-23 — Plant description editorial pilot stopped by owner
+
+- STOPPED — the 13 published «Палми и юки» descriptions in BG/RU/EN were not accepted by the owner; no further plant description editing is authorized. No rollback was requested or performed. The six «Маслини» documents were confirmed unchanged by published read-back. No backup export was made for the palm batch under the owner's explicit one-task instruction. See `../audits/2026-11-23-plant-description-editing-stop.md`.
 
 ## 2026-11-23 — Roadmap synchronization / next active work
 
 Единый актуальный статус всех основных дорожных карт: [ROADMAP_STATUS_INDEX_2026-11-23.md](../roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md).
 
-- **NEXT — SEO Step 4:** read-only inventory published Sanity product/category/service content and localized SEO fields; prepare BG/RU/EN proposals. No Sanity writes until exact IDs/fields, backup and separate owner approval.
+- **NEXT — SEO Step 4 (read-only):** re-audit published Sanity product/category/service content and localized SEO fields; verify the four already-published partial-remediation documents, inspect frontend ALT fallback, and prepare BG/RU/EN proposals for remaining gaps. No Sanity writes. Any future write requires a fresh exact ID/field plan and separate approval.
 - **OPEN — SEO indexability:** live Production sample passes index/follow and self-canonical, but Google live URL Test and post-recrawl are not verified; saved GSC state remains historical.
 - **OPEN — GA4:** PR #488 integration deployed; verify real consented-session events in Realtime/DebugView. No test order without approval.
 - **OPEN — Google Shopping:** dedicated Rich Results / URL Inspection evidence; Merchant Center account creation and later feed work remain separate stages.
