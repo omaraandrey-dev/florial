@@ -1,3 +1,13 @@
+## 2026-11-23 — Blog and portfolio landing page UX (PR #508 merged)
+
+- PR #508 squash-merged into `main` at `6828e44409c7bc7f805de703fc71d68544bff241`.
+- The `/blog` landing page now has one breadcrumb (Home / Blog and portfolio), a fuller localized BG/RU/EN introduction, four visual topic cards (landscape design, automatic irrigation, rolled turf, planting/greenery), and up to three secondary topic chips sourced from tags present in published content.
+- Added combined search, topic/category, publication type, year and sort filters, result count, reset and empty states. Posts without tags remain discoverable in the full listing.
+- Added regression tests and `docs/audits/2026-11-23-blog-portfolio-ux.md`.
+- Exact PR head `69f5786f05c0341b909b0af63c1a6297d00d923d`: Blog/Studio validation runs `45241168754` and `45241176927`, plus D1 validation run `45241168752` — all succeeded.
+- Only `src/pages/BlogPage.tsx`, `tests/blog-portfolio-page.test.mjs` and the unique audit file were part of PR #508. Sanity schema/documents/dataset/assets, D1, Cloudflare settings/secrets, Resend, Header, main menu, Footer and routes were not changed.
+- Live desktop/mobile visual QA was not confirmed before merge. Production Pages deployment and post-deployment smoke checks are recorded only after their actual verification.
+
 ## 2026-11-23 — Florial Irrigation Assistant service published (Sanity Production)
 
 - Published service document `c265afd2-f31d-41f0-b377-ed95664a6d20`, slug `inzhener-pomoshtnik-florial-online`, route `/services/inzhener-pomoshtnik-florial-online`.
