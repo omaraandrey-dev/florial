@@ -33,6 +33,7 @@ GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Supabase 
 Корневой AI_INSTRUCTIONS, START HERE, Technical Passport и Changelog — актуальные документы. Файлы `docs/ИНСТРУКЦИЯ(2)_FLORIAL_АКТУАЛЬНАЯ_*_rev*.md` — исторические снимки, не конкурирующие источники. Последний снимок перед новой системой: [rev74](../%D0%98%D0%9D%D0%A1%D0%A2%D0%A0%D0%A3%D0%9A%D0%A6%D0%98%D0%AF%282%29_FLORIAL_%D0%90%D0%9A%D0%A2%D0%A3%D0%90%D0%9B%D0%AC%D0%9D%D0%90%D0%AF_11-11-2026_rev74.md).
 
 ## Текущая готовность и ветки
+- **Единый реестр дорожных карт (23.11.2026):** [ROADMAP_STATUS_INDEX_2026-11-23.md](../roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md) — главный cross-workstream handoff; перед продолжением любой roadmap-задачи сверить актуальный статус и зависимости.
 - [CURRENT_STATE.md](CURRENT_STATE.md) — краткий актуальный handoff.
 - [Repository release readiness](../operations/REPOSITORY_RELEASE_READINESS_2026-11-18.md) — точный CI/Production baseline.
 - [Branch hygiene](../operations/BRANCH_HYGIENE.md) — правила использования main и старых веток.
