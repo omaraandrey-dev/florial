@@ -38,7 +38,7 @@ export function setAnalyticsConsent(value: Exclude<AnalyticsConsent, 'unknown'>)
     window.localStorage.setItem(ANALYTICS_CONSENT_KEY, value)
     if (value === 'accepted') initializeGA4()
     else {
-      const target = window as Window & { gtag?: (...args: any[]) => void }
+      const target = window as Window & { gtag?: (...args: unknown[]) => void }
       target.gtag?.('consent', 'update', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' })
     }
   } catch {
@@ -94,7 +94,7 @@ export function trackPostHogEvent(
   if (details.product_type !== undefined && (typeof details.product_type !== 'string' || details.product_type.length > 40)) return
   if (details.quantity !== undefined && (!Number.isFinite(details.quantity) || details.quantity < 1 || details.quantity > 9999)) return
   capturePostHogEvent(eventName, lang, pagePath, details)
-  if (eventName === 'florial_page_view') trackGA4Event('page_view', { page_location: window.location.href, page_path: pagePath, page_title: document.title, language: lang })
+  if (eventName === 'florial_page_view') trackGA4Event('page_view', { page_location: window.location.origin + page_path, page_path: pagePath, page_title: document.title, language: lang })
 }
 
 export function trackEvent(
@@ -148,14 +148,14 @@ export function trackEvent(
 
 const GA4_MEASUREMENT_ID = 'G-2H9DQTLVZY'
 type GA4Item = { item_id: string; item_name: string; item_category?: string; item_variant?: string; price: number; quantity: number }
-type GA4Window = Window & { dataLayer?: IArguments[]; gtag?: (...args: any[]) => void }
+type GA4Window = Window & { dataLayer?: unknown[][]; gtag?: (...args: unknown[]) => void }
 
 function initializeGA4(): void {
   if (typeof window === 'undefined' || getAnalyticsConsent() !== 'accepted') return
   const target = window as GA4Window
   if (!target.gtag) {
     target.dataLayer = target.dataLayer || []
-    target.gtag = function gtag(...args: any[]) { target.dataLayer!.push(args as unknown as IArguments) }
+    target.gtag = function gtag(...args: unknown[]) { target.dataLayer!.push(args) }
     target.gtag('js', new Date())
     target.gtag('consent', 'update', {
       analytics_storage: 'granted',
