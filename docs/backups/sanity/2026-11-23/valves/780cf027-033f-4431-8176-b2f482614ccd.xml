@@ -1,0 +1,1044 @@
+Found document "780cf027-033f-4431-8176-b2f482614ccd": 
+<document>
+  <_createdAt>2026-10-23T13:05:11Z</_createdAt>
+  <_id>780cf027-033f-4431-8176-b2f482614ccd</_id>
+  <_rev>Wxh00JcLN6cQgy9skwfVvx</_rev>
+  <_system>
+    <base>
+      <id>780cf027-033f-4431-8176-b2f482614ccd</id>
+      <rev>1qyPYQSEDVHtpwb6uBTesB</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-15T12:04:56Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>65742b44-11c2-43ae-9551-e91eb675dc93</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-valves-24v</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-valves-24v</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>b00</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>100-DVF</text>
+    </children>
+    <children>
+      <_key>b01</_key>
+      <_type>span</_type>
+      <text> — мембранен електромагнитен клапан 1″ за автоматична поливна система.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h10</_key>
+      <_type>span</_type>
+      <text>Предназначение и принцип на работа</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p10</_key>
+      <_type>span</_type>
+      <text>Контролерът подава електрически сигнал към соленоида, който задейства мембраната и отваря водния проход. След прекратяване на сигнала клапанът се затваря автоматично. Серията DV/DVF е предназначена за автоматични поливни системи в градини и професионални озеленени площи. Мембранният механизъм управлява потока чрез пилотен воден контур.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h20</_key>
+      <_type>span</_type>
+      <text>Конструкция и особености на модела</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p20</_key>
+      <_type>span</_type>
+      <text>Вграденият ръчен регулатор позволява ограничаване на дебита към зоната. Вграденият ръчен регулатор позволява да се ограничи дебитът към зоната; това не заменя хидравличното оразмеряване.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h30</_key>
+      <_type>span</_type>
+      <text>Хидравлични и електрически параметри</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p30</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Размер 1″; работно налягане 1,0–10,4 bar; дебит 0,05–9,1 m³/h; соленоид 24 V AC. Реалният дебит зависи от загубите по тръбите, филтрите, арматурата и наличното налягане.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h40</_key>
+      <_type>span</_type>
+      <text>Монтаж, настройка и обслужване</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p40</_key>
+      <_type>span</_type>
+      <text>Присъединяване: вътрешна резба 1″ на входа и изхода. Преди монтаж проверете посоката на потока, работното налягане и резбовия стандарт. Монтирайте в достъпна клапанна кутия и промийте тръбопровода преди пускане. При обслужване проверявайте мембраната, пилотния филтър, соленоида и уплътненията. При дебит под 0,68 m³/h или при капково напояване производителят препоръчва входен филтър 200 mesh (75 μm).</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l00</_key>
+      <_type>span</_type>
+      <text>Проверете посоката на потока и не надвишавайте допустимото налягане.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l10</_key>
+      <_type>span</_type>
+      <text>Промийте тръбите преди свързване, за да не попаднат пясък и стружки в пилотния контур.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l20</_key>
+      <_type>span</_type>
+      <text>Осигурете достъп за бъдеща профилактика.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h50</_key>
+      <_type>span</_type>
+      <text>Избор на съвместим контролер</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p50</_key>
+      <_type>span</_type>
+      <text>Този вариант е със соленоид 24 V AC и изисква контролер със стандартни изходи за 24 VAC клапани.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>p6</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p60</_key>
+      <_type>span</_type>
+      <text>Полезни връзки: </text>
+    </children>
+    <children>
+      <_key>p61</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <marks>c</marks>
+      <text>контролери за автоматично напояване</text>
+    </children>
+    <children>
+      <_key>p62</_key>
+      <_type>span</_type>
+      <text> и </text>
+    </children>
+    <children>
+      <_key>p63</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <marks>s</marks>
+      <text>услуга за монтаж и ремонт на клапани</text>
+    </children>
+    <children>
+      <_key>p64</_key>
+      <_type>span</_type>
+      <text>.</text>
+    </children>
+    <markDefs>
+      <_key>c</_key>
+      <_type>link</_type>
+      <href>/category/controllers</href>
+    </markDefs>
+    <markDefs>
+      <_key>s</_key>
+      <_type>link</_type>
+      <href>/services/montazh-remont-elektromagnitni-klapani</href>
+    </markDefs>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>gallery100dvf20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-4ff40087b0901dc28f9a488fdfcc1171a3d20c73-727x727-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>gallery100dvfside20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-792a1188cfdf2d25499791465afd491d97762c6a-800x800-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>gallery100dvfcutaway20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-f06e68cec0affe3d2102a2100703ca0f9baecb89-1216x1216-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird 100-DVF — електромагнитен клапан 1″, 24 V с регулатор на дебита</alt>
+    <altEn>Rain Bird 100-DVF — 1″ solenoid valve with flow control, 24 VAC</altEn>
+    <altRu>Rain Bird 100-DVF — электромагнитный клапан 1″ с регулировкой расхода, 24 В AC</altRu>
+    <asset>
+      <_ref>image-20943a47442439ff9f0a34f43882335ee1b8d5d8-922x1152-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-5b5f34aa1ee11fef2103ebc9d51a195b4d3fbfc1-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird 100-DVF — електромагнитен клапан 1″, 24 V с регулатор на дебита</name>
+  <priceEUR>62.94</priceEUR>
+  <relatedContent>
+    <_key>3bZOs0N0PGXlOTrFSitwGz</_key>
+    <_ref>d6dd1e83-f504-45a2-83de-974e144669e8</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>qhkuxrIhW7XbiJ2Hfd248W</_key>
+    <_ref>ca6f1767-67a3-4054-a9b5-9ea093d02737</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>qhkuxrIhW7XbiJ2Hfd24DX</_key>
+    <_ref>97df3a43-ed85-434e-a064-0119374dc140</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>qhkuxrIhW7XbiJ2Hfd24IY</_key>
+    <_ref>8625a364-c72b-4a1b-b957-b48b5e0f5ef1</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>qhkuxrIhW7XbiJ2Hfd24NZ</_key>
+    <_ref>1ca2120e-744f-4aff-9d7e-affa2122a4fb</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>qhkuxrIhW7XbiJ2Hfd24Sa</_key>
+    <_ref>ef0a57bc-d0ff-4ceb-98ce-55da7be19586</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird 100-DVF — електромагнитен клапан 1″, 24 V с регулатор на дебита</h1>
+    <metaDescription>Продажба на мембранен клапан Rain Bird 100-DVF 1″ с вграден регулатор на дебита и соленоид 24 V AC. Флориал, Несебър.</metaDescription>
+    <metaTitle>Rain Bird 100-DVF 1″ с контролем расхода | Florial</metaTitle>
+  </seo>
+  <shortDescription>Клапан 1″ с регулиране на дебита и соленоид 24 VAC.</shortDescription>
+  <sku>B70311</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-100-dvf-24v</current>
+  </slug>
+  <specifications>
+    <_key>audit1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>100-DVF</value>
+  </specifications>
+  <specifications>
+    <_key>audit2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>DV/DVF</value>
+  </specifications>
+  <specifications>
+    <_key>audit3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Електромагнитен клапан с регулатор на дебита</value>
+  </specifications>
+  <specifications>
+    <_key>audit4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>100-dvf, valve, flow-control, 24v</value>
+  </specifications>
+  <specifications>
+    <_key>audit5</_key>
+    <_type>productSpec</_type>
+    <name>Размер на присъединяване</name>
+    <value>1″ вътрешна резба, вход и изход</value>
+  </specifications>
+  <specifications>
+    <_key>audit6</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>1,0–10,4 bar</value>
+  </specifications>
+  <specifications>
+    <_key>audit7</_key>
+    <_type>productSpec</_type>
+    <name>Дебит</name>
+    <value>0,05–9,1 m³/h (0,2–40 GPM)</value>
+  </specifications>
+  <specifications>
+    <_key>audit8</_key>
+    <_type>productSpec</_type>
+    <name>Захранване на соленоида</name>
+    <value>24 V AC, 50/60 Hz</value>
+  </specifications>
+  <specifications>
+    <_key>audit9</_key>
+    <_type>productSpec</_type>
+    <name>Регулиране на дебита</name>
+    <value>Вграден ръчен регулатор</value>
+  </specifications>
+  <specifications>
+    <_key>audit10</_key>
+    <_type>productSpec</_type>
+    <name>Температура на водата</name>
+    <value>До 43 °C</value>
+  </specifications>
+  <specifications>
+    <_key>audit11</_key>
+    <_type>productSpec</_type>
+    <name>Температура на околната среда</name>
+    <value>До 52 °C</value>
+  </specifications>
+  <specifications>
+    <_key>audit12</_key>
+    <_type>productSpec</_type>
+    <name>Ръчно управление</name>
+    <value>Вътрешно и външно обезвъздушаване</value>
+  </specifications>
+  <specifications>
+    <_key>spec12</_key>
+    <_type>productSpec</_type>
+    <name>Размери (В × Д × Ш)</name>
+    <value>14,2 × 11,1 × 8,4 cm</value>
+  </specifications>
+  <specifications>
+    <_key>spec13</_key>
+    <_type>productSpec</_type>
+    <name>Филтриране на управляващия поток</name>
+    <value>Вграден самоочистващ се филтър на управляващия контур 90 mesh (200 μm). При дебит под 3 GPM (около 0,68 m³/h) или при капково напояване Rain Bird препоръчва допълнителен входен филтър 200 mesh (75 μm).</value>
+  </specifications>
+  <specifications>
+    <_key>dvfInrushCurrent</_key>
+    <_type>productSpec</_type>
+    <name>Пусков ток на соленоида</name>
+    <value>0,30 A (7,2 VA), 24 V AC</value>
+  </specifications>
+  <specifications>
+    <_key>dvfHoldingCurrent</_key>
+    <_type>productSpec</_type>
+    <name>Ток на задържане на соленоида</name>
+    <value>0,23 A (5,5 VA), 24 V AC</value>
+  </specifications>
+  <specifications>
+    <_key>dvfCoilResistance</_key>
+    <_type>productSpec</_type>
+    <name>Съпротивление на бобината</name>
+    <value>38 Ω</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird 100-DVF is a 1″ diaphragm solenoid valve with integrated flow control. It allows manual adjustment of flow to the zone while the controller operates the water supply. The design is intended for automatic irrigation in residential gardens and professional landscape installations. DVF series specifications: operating pressure approximately 1.0–10.4 bar; flow up to about 9.1 m³/h; 24 VAC, 50/60 Hz solenoid.</description>
+      <formattedDescription>
+        <_key>b0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b00</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>100-DVF</text>
+        </children>
+        <children>
+          <_key>b01</_key>
+          <_type>span</_type>
+          <text> — a 1″ diaphragm solenoid valve for automatic irrigation.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h10</_key>
+          <_type>span</_type>
+          <text>Purpose and operating principle</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p10</_key>
+          <_type>span</_type>
+          <text>The controller energises the solenoid, which operates the diaphragm and opens the water passage. When the signal stops, the valve closes automatically. The DV/DVF series is designed for automatic irrigation in gardens and professional landscaped areas. Its diaphragm mechanism controls flow through a pilot circuit.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h20</_key>
+          <_type>span</_type>
+          <text>Construction and model-specific features</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p20</_key>
+          <_type>span</_type>
+          <text>The model includes manual flow control. The integrated manual flow control lets the installer restrict zone flow; it does not replace hydraulic system sizing.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h30</_key>
+          <_type>span</_type>
+          <text>Hydraulic and electrical specifications</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p30</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Size 1″; operating pressure 1,0–10,4 bar; flow 0,05–9,1 m³/h; solenoid 24 VAC. Actual flow depends on pipe, filter and fitting losses as well as available pressure.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h40</_key>
+          <_type>span</_type>
+          <text>Installation, adjustment and maintenance</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p40</_key>
+          <_type>span</_type>
+          <text>Connection: 1″ female thread at inlet and outlet. Before installation, confirm flow direction, operating pressure and thread standard. Fit the valve in an accessible valve box and flush the pipework before commissioning. During service, inspect the diaphragm, pilot filter, solenoid and seals. For flows below 0.68 m³/h or drip irrigation, the manufacturer recommends a 200-mesh (75 μm) upstream filter.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l00</_key>
+          <_type>span</_type>
+          <text>Check flow direction and stay within the permitted operating pressure.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l10</_key>
+          <_type>span</_type>
+          <text>Flush pipework before connection to keep sand and swarf out of the pilot circuit.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l20</_key>
+          <_type>span</_type>
+          <text>Leave access for future maintenance.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h50</_key>
+          <_type>span</_type>
+          <text>Choosing a compatible controller</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p50</_key>
+          <_type>span</_type>
+          <text>This version uses a 24 VAC solenoid and requires a controller with standard 24 VAC valve outputs.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p60</_key>
+          <_type>span</_type>
+          <text>Useful links: </text>
+        </children>
+        <children>
+          <_key>p61</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>c</marks>
+          <text>automatic irrigation controllers</text>
+        </children>
+        <children>
+          <_key>p62</_key>
+          <_type>span</_type>
+          <text> and </text>
+        </children>
+        <children>
+          <_key>p63</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>s</marks>
+          <text>valve installation and repair service</text>
+        </children>
+        <children>
+          <_key>p64</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>c</_key>
+          <_type>link</_type>
+          <href>/category/controllers</href>
+        </markDefs>
+        <markDefs>
+          <_key>s</_key>
+          <_type>link</_type>
+          <href>/services/montazh-remont-elektromagnitni-klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird 100-DVF — 1″ solenoid valve with flow control, 24 VAC</name>
+      <seo>
+        <h1>Rain Bird 100-DVF — 1″ solenoid valve with flow control, 24 VAC</h1>
+        <metaDescription>For sale: Rain Bird 100-DVF 1″ diaphragm valve with integrated flow control and a 24 VAC solenoid. Florial, Nessebar.</metaDescription>
+        <metaTitle>Rain Bird 100-DVF 1″ flow-control valve | Nessebar | Florial</metaTitle>
+      </seo>
+      <shortDescription>1″ diaphragm valve with integrated flow control and a 24 VAC solenoid.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>100-DVF</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>DV/DVF</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Solenoid valve with flow control</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>100-dvf, valve, flow-control, 24v</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Connection size</name>
+        <value>1″ female thread, inlet and outlet</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>1.0–10.4 bar</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Flow rate</name>
+        <value>0.05–9.1 m³/h (0.2–40 GPM)</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Solenoid power supply</name>
+        <value>24 VAC, 50/60 Hz</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Flow adjustment</name>
+        <value>Integrated manual flow control</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Water temperature</name>
+        <value>Up to 43 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Ambient temperature</name>
+        <value>Up to 52 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit12</_key>
+        <_type>productSpec</_type>
+        <name>Manual operation</name>
+        <value>Internal and external bleed</value>
+      </specifications>
+      <specifications>
+        <_key>spec12</_key>
+        <_type>productSpec</_type>
+        <name>Dimensions (H × L × W)</name>
+        <value>14.2 × 11.1 × 8.4 cm</value>
+      </specifications>
+      <specifications>
+        <_key>spec13</_key>
+        <_type>productSpec</_type>
+        <name>Control-flow filtration</name>
+        <value>Built-in self-cleaning 90-mesh (200 μm) control circuit filter. For flow below 3 GPM (about 0.68 m³/h) or drip irrigation, Rain Bird recommends an additional 200-mesh (75 μm) inlet filter.</value>
+      </specifications>
+      <specifications>
+        <_key>dvfInrushCurrent</_key>
+        <_type>productSpec</_type>
+        <name>Solenoid inrush current</name>
+        <value>0.30 A (7.2 VA), 24 VAC</value>
+      </specifications>
+      <specifications>
+        <_key>dvfHoldingCurrent</_key>
+        <_type>productSpec</_type>
+        <name>Solenoid holding current</name>
+        <value>0.23 A (5.5 VA), 24 VAC</value>
+      </specifications>
+      <specifications>
+        <_key>dvfCoilResistance</_key>
+        <_type>productSpec</_type>
+        <name>Coil resistance</name>
+        <value>38 Ω</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird 100-DVF — мембранный электромагнитный клапан 1″ со встроенной регулировкой расхода. Позволяет вручную настраивать подачу воды в зону, а открытием и закрытием управляет контроллер. Предназначен для автоматического полива частных садов и профессиональных ландшафтных объектов. Характеристики серии DVF: рабочее давление около 1,0–10,4 бар; расход до примерно 9,1 м³/ч; соленоид 24 В AC, 50/60 Гц.</description>
+      <formattedDescription>
+        <_key>b0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b00</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>100-DVF</text>
+        </children>
+        <children>
+          <_key>b01</_key>
+          <_type>span</_type>
+          <text> — мембранный электромагнитный клапан 1″ для автоматического полива.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h10</_key>
+          <_type>span</_type>
+          <text>Назначение и принцип работы</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p10</_key>
+          <_type>span</_type>
+          <text>Контроллер подаёт электрический сигнал на соленоид, который приводит в действие мембрану и открывает проход воды. После прекращения сигнала клапан автоматически закрывается. Серия DV/DVF предназначена для автоматического полива садов и профессиональных озеленённых территорий. Мембранный механизм управляет потоком через пилотный контур.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h20</_key>
+          <_type>span</_type>
+          <text>Конструкция и особенности модели</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p20</_key>
+          <_type>span</_type>
+          <text>The model includes manual flow control. Встроенный ручной регулятор позволяет ограничить расход в зоне; он не заменяет гидравлический расчёт системы.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h30</_key>
+          <_type>span</_type>
+          <text>Гидравлические и электрические параметры</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p30</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Размер 1″; рабочее давление 1,0–10,4 bar; расход 0,05–9,1 m³/h; соленоид 24 В AC. Фактический расход зависит от потерь в трубах, фильтрах, арматуре и доступного давления.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h40</_key>
+          <_type>span</_type>
+          <text>Монтаж, настройка и обслуживание</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p40</_key>
+          <_type>span</_type>
+          <text>Подключение: внутренняя резьба 1″ на входе и выходе. Перед монтажом проверьте направление потока, рабочее давление и стандарт резьбы. Установите клапан в доступном боксе и промойте трубопровод перед запуском. При обслуживании проверяйте мембрану, пилотный фильтр, соленоид и уплотнения. При расходе ниже 0,68 м³/ч или при капельном поливе производитель рекомендует фильтр 200 mesh (75 мкм) перед клапаном.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l00</_key>
+          <_type>span</_type>
+          <text>Проверьте направление потока и не превышайте допустимое давление.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l10</_key>
+          <_type>span</_type>
+          <text>Промойте трубы до подключения, чтобы песок и стружка не попали в пилотный контур.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l20</_key>
+          <_type>span</_type>
+          <text>Оставьте доступ для последующего обслуживания.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h50</_key>
+          <_type>span</_type>
+          <text>Выбор совместимого контроллера</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p50</_key>
+          <_type>span</_type>
+          <text>Эта версия оснащена соленоидом 24 В AC и требует контроллера со стандартными выходами для клапанов 24 VAC.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p60</_key>
+          <_type>span</_type>
+          <text>Полезные ссылки: </text>
+        </children>
+        <children>
+          <_key>p61</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>c</marks>
+          <text>контроллеры автоматического полива</text>
+        </children>
+        <children>
+          <_key>p62</_key>
+          <_type>span</_type>
+          <text> и </text>
+        </children>
+        <children>
+          <_key>p63</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>s</marks>
+          <text>услуга монтажа и ремонта клапанов</text>
+        </children>
+        <children>
+          <_key>p64</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>c</_key>
+          <_type>link</_type>
+          <href>/category/controllers</href>
+        </markDefs>
+        <markDefs>
+          <_key>s</_key>
+          <_type>link</_type>
+          <href>/services/montazh-remont-elektromagnitni-klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird 100-DVF — электромагнитный клапан 1″ с регулировкой расхода, 24 В AC</name>
+      <seo>
+        <h1>Rain Bird 100-DVF — электромагнитный клапан 1″ с регулировкой расхода, 24 В AC</h1>
+        <metaDescription>Продажа мембранного клапана Rain Bird 100-DVF 1″ со встроенной регулировкой расхода и соленоидом 24 В AC. Флориал, Несебр.</metaDescription>
+        <metaTitle>Rain Bird 100-DVF 1″ с регулировкой расхода | Несебр | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Мембранный клапан 1″ со встроенной регулировкой расхода и соленоидом 24 В AC.</shortDescription>
+      <specifications>
+        <_key>audit1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>100-DVF</value>
+      </specifications>
+      <specifications>
+        <_key>audit2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>DV/DVF</value>
+      </specifications>
+      <specifications>
+        <_key>audit3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Электромагнитный клапан с регулировкой расхода</value>
+      </specifications>
+      <specifications>
+        <_key>audit4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>100-dvf, valve, flow-control, 24v</value>
+      </specifications>
+      <specifications>
+        <_key>audit5</_key>
+        <_type>productSpec</_type>
+        <name>Размер подключения</name>
+        <value>Внутренняя резьба 1″, вход и выход</value>
+      </specifications>
+      <specifications>
+        <_key>audit6</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>1,0–10,4 бар</value>
+      </specifications>
+      <specifications>
+        <_key>audit7</_key>
+        <_type>productSpec</_type>
+        <name>Расход</name>
+        <value>0,05–9,1 м³/ч (0,2–40 GPM)</value>
+      </specifications>
+      <specifications>
+        <_key>audit8</_key>
+        <_type>productSpec</_type>
+        <name>Питание соленоида</name>
+        <value>24 В AC, 50/60 Гц</value>
+      </specifications>
+      <specifications>
+        <_key>audit9</_key>
+        <_type>productSpec</_type>
+        <name>Регулировка расхода</name>
+        <value>Встроенный ручной регулятор</value>
+      </specifications>
+      <specifications>
+        <_key>audit10</_key>
+        <_type>productSpec</_type>
+        <name>Температура воды</name>
+        <value>До 43 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit11</_key>
+        <_type>productSpec</_type>
+        <name>Температура окружающей среды</name>
+        <value>До 52 °C</value>
+      </specifications>
+      <specifications>
+        <_key>audit12</_key>
+        <_type>productSpec</_type>
+        <name>Ручное управление</name>
+        <value>Внутренний и внешний сброс давления</value>
+      </specifications>
+      <specifications>
+        <_key>spec12</_key>
+        <_type>productSpec</_type>
+        <name>Размеры (В × Д × Ш)</name>
+        <value>14,2 × 11,1 × 8,4 см</value>
+      </specifications>
+      <specifications>
+        <_key>spec13</_key>
+        <_type>productSpec</_type>
+        <name>Фильтрация управляющего потока</name>
+        <value>Встроенный самоочищающийся фильтр управляющего контура 90 mesh (200 μm). При расходе ниже 3 GPM (около 0,68 м³/ч) или для капельного полива Rain Bird рекомендует дополнительный входной фильтр 200 mesh (75 μm).</value>
+      </specifications>
+      <specifications>
+        <_key>dvfInrushCurrent</_key>
+        <_type>productSpec</_type>
+        <name>Пусковой ток соленоида</name>
+        <value>0,30 A (7,2 VA), 24 В AC</value>
+      </specifications>
+      <specifications>
+        <_key>dvfHoldingCurrent</_key>
+        <_type>productSpec</_type>
+        <name>Ток удержания соленоида</name>
+        <value>0,23 A (5,5 VA), 24 В AC</value>
+      </specifications>
+      <specifications>
+        <_key>dvfCoilResistance</_key>
+        <_type>productSpec</_type>
+        <name>Сопротивление катушки</name>
+        <value>38 Ω</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.475</weightKg>
+</document>
