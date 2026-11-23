@@ -1,0 +1,1008 @@
+{
+  "backupType": "Sanity irrigation kit product documents before description audit",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "capturedAt": "2026-11-23",
+  "documents": [
+    {
+      "_createdAt": "2026-10-29T19:07:39Z",
+      "_id": "f2712947-be60-4bec-af9b-168f19425dc5",
+      "_rev": "Wxh00JcLN6cQgy9skuq0RM",
+      "_system": {
+        "base": {
+          "id": "f2712947-be60-4bec-af9b-168f19425dc5",
+          "rev": "rOW11EP0h6V5YhExSWWziQ"
+        }
+      },
+      "_type": "product",
+      "_updatedAt": "2026-11-14T06:30:41Z",
+      "brand": {
+        "_ref": "ea335511-5234-4b8e-a84d-f335c01b2cfb",
+        "_type": "reference"
+      },
+      "categories": [
+        {
+          "_key": "kit-category",
+          "_ref": "6709cd41-18c6-4c5f-bc27-90d55d685dec",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6709cd41-18c6-4c5f-bc27-90d55d685dec",
+        "_type": "reference"
+      },
+      "description": [
+        {
+          "_key": "0A9rzpL6huWtVPP5fARGHP",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARGJx",
+              "_type": "span",
+              "marks": [],
+              "text": "Стандартен комплект за поливане на типична градина"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARGMV",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARGP3",
+              "_type": "span",
+              "marks": [],
+              "text": "Готов комплект за автоматично поливане на три отделни тревни участъка с приблизителни размери 8 × 20 m, 8 × 5 m и 3 × 16 m. В комплекта влиза вътрешен контролер Rain Bird и три поливни зони, които се отварят последователно. Така различните участъци се напояват един след друг, а не едновременно."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARGRb",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARGU9",
+              "_type": "span",
+              "marks": [],
+              "text": "Предвидената конфигурация съчетава статични дъждовални тела Rain Bird 1804 с ротаторни дюзи R-VAN-18 и ротори Rain Bird 3504-PC. Така предната зона и тревната площ зад къщата се поливат възможно най-равномерно."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARGWh",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARGZF",
+              "_type": "span",
+              "marks": [],
+              "text": "За правилната работа на системата водоснабдяването трябва да осигурява дебит около 3 m³/ч при работно налягане 3,5 bar. Тръбата за подаване на вода трябва да бъде доведена до поливаната площ. Към комплекта се предоставят необходимите схеми за поливане."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARHg3",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARHib",
+              "_type": "span",
+              "marks": [],
+              "text": "Допълнителна информация"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARHl9",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARHnh",
+              "_type": "span",
+              "marks": [],
+              "text": "В комплекта не са включени PE тръба Ø25 mm и електрически кабел за свързване на контролера с електромагнитните клапани."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARHqF",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARHsn",
+              "_type": "span",
+              "marks": [],
+              "text": "Възможно е да са необходими допълнителни водопроводни фитинги и материали според особеностите на обекта."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARHvL",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARHxt",
+              "_type": "span",
+              "marks": [],
+              "text": "Към комплекта се предоставят схеми за поливане. Препоръчително е разположението и хидравличните параметри да бъдат проверени спрямо реалния план на градината."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARI0R",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARI2z",
+              "_type": "span",
+              "marks": [],
+              "text": "Изображенията са илюстративни и може да се различават от фактическото съдържание на комплекта."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "gallery": [
+        {
+          "_key": "0A9rzpL6huWtVPP5f9bzcR",
+          "_type": "image",
+          "alt": "Стандартен комплект за поливане на типична градина – изображение 2",
+          "altEn": "Стандартен комплект за поливане на типична градина – изображение 2",
+          "altRu": "Стандартен комплект за поливане на типична градина – изображение 2",
+          "asset": {
+            "_ref": "image-1e4cc42c8adf6519d2ae84361fe386fe859456bc-864x1236-jpg",
+            "_type": "reference"
+          }
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5f9bzez",
+          "_type": "image",
+          "alt": "Стандартен комплект за поливане на типична градина – изображение 3",
+          "altEn": "Стандартен комплект за поливане на типична градина – изображение 3",
+          "altRu": "Стандартен комплект за поливане на типична градина – изображение 3",
+          "asset": {
+            "_ref": "image-6fb4321f74ab88d6c8bb38fee8a7d4edb622c3ee-579x391-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "isFeatured": false,
+      "kitComponents": [
+        {
+          "_key": "k01",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "8ad09d10-59f2-4b38-a36d-8fe9484c6be1",
+            "_type": "reference"
+          },
+          "quantity": 1,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k02",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "a5c07339-5036-44b6-bc85-0b65cb08228a",
+            "_type": "reference"
+          },
+          "quantity": 3,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k03",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "a84929ff-e088-437c-bb33-f8ec9b2817f3",
+            "_type": "reference"
+          },
+          "quantity": 12,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k04",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "678c8039-dda2-4873-a7cb-98083c4ef971",
+            "_type": "reference"
+          },
+          "quantity": 12,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k05",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "de179416-ef68-48c5-aa70-56a4c528885f",
+            "_type": "reference"
+          },
+          "quantity": 6,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k06",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "352762fe-5d73-4c9e-b411-46823183d066",
+            "_type": "reference"
+          },
+          "quantity": 36,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k07",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "e45dc0a0-615d-4fe6-b6e7-085436aa7cb0",
+            "_type": "reference"
+          },
+          "quantity": 3,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k08",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "16a6def3-6cbe-4a76-aa73-46c0cc4ec81a",
+            "_type": "reference"
+          },
+          "quantity": 9,
+          "unit": "m"
+        },
+        {
+          "_key": "k09",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "ae8abd4f-b40e-41d0-a04b-0e24f7ac3d18",
+            "_type": "reference"
+          },
+          "quantity": 15,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k10",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "606bf020-26b7-41e8-b8c6-12c9ffcddfd1",
+            "_type": "reference"
+          },
+          "quantity": 3,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k11",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "81c668a2-784a-4765-bac6-b39cf2c537c4",
+            "_type": "reference"
+          },
+          "quantity": 6,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k12",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "c08c6b8f-063d-44af-8054-4c248227e8ef",
+            "_type": "reference"
+          },
+          "quantity": 2,
+          "unit": "pcs"
+        }
+      ],
+      "mainImage": {
+        "_type": "image",
+        "alt": "Стандартен комплект за поливане на типична градина – Florial",
+        "altEn": "Standard automatic irrigation kit for a typical garden",
+        "altRu": "Стандартный комплект полива типового сада",
+        "asset": {
+          "_ref": "image-748a0502fbf3a85b58b335748a8f75daf40cf016-843x1264-jpg",
+          "_type": "reference"
+        }
+      },
+      "name": "Стандартен комплект за поливане на типична градина",
+      "oldPriceEUR": 717.52,
+      "priceEUR": 631.42,
+      "seo": {
+        "h1": "Стандартен комплект за автоматично поливане на градина",
+        "keywords": [
+          "стандартен комплект за поливане",
+          "автоматично напояване на градина",
+          "комплект поливна система България"
+        ],
+        "metaDescription": "Продажба на комплект за 3 тревни зони с Rain Bird ESP-TM2-4i, три клапана, 12 тела 1804 с R-VAN-18 и шест ротора 3504-PC. Флориал, Поморие.",
+        "metaTitle": "Стандартен комплект поливане | Поморие | Флориал",
+        "noIndex": false
+      },
+      "shortDescription": "Стандартен комплект за автоматично поливане на три тревни участъка с контролер Rain Bird ESP-TM2-4i, три клапана, 12 корпуса 1804, 12 дюзи R-VAN-18 и шест ротора 3504-PC.",
+      "slug": {
+        "_type": "slug",
+        "current": "standarten-komplekt-polivane-gradina"
+      },
+      "stockStatus": "onRequest",
+      "translations": {
+        "en": {
+          "formattedDescription": [
+            {
+              "_key": "e01",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e01s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "A ready-to-install automatic irrigation kit for three separate lawn areas measuring approximately 8 × 20 m, 8 × 5 m and 3 × 16 m. It includes an indoor Rain Bird controller and three irrigation zones that operate sequentially. The areas are watered one after another rather than simultaneously."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "e02",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e02s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The configuration combines Rain Bird 1804 spray bodies with R-VAN-18 rotary nozzles and Rain Bird 3504-PC rotors. This arrangement is intended to provide the most even irrigation possible for the front area and the lawn behind the house."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "e03",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e03s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For correct operation, the water source should provide approximately 3 m³/h at a working pressure of 3.5 bar. The supply pipe must be brought to the area to be irrigated. Irrigation layout diagrams are supplied with the kit."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "e04",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e04s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Additional information"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "e05",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e05s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Ø25 mm PE pipe and the electrical cable connecting the controller to the solenoid valves are not included. Additional fittings and materials may be required depending on the site. Irrigation diagrams are supplied; equipment positions and hydraulic parameters should be checked against the actual garden plan. Images are for illustration and may differ from the actual kit contents."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "name": "Standard automatic irrigation kit for a typical garden",
+          "seo": {
+            "h1": "Standard automatic garden irrigation kit",
+            "keywords": [
+              "standard irrigation kit",
+              "garden irrigation kit",
+              "Rain Bird ESP-TM2-4i",
+              "automatic lawn irrigation"
+            ],
+            "metaDescription": "For sale: 3-zone kit with Rain Bird ESP-TM2-4i, three valves, twelve 1804 bodies with R-VAN-18 and six 3504-PC rotors. Florial, Pomorie.",
+            "metaTitle": "Standard garden irrigation kit | Pomorie | Florial",
+            "noIndex": false
+          },
+          "shortDescription": "Kit for three lawn areas with a Rain Bird ESP-TM2-4i, three 100-HV valves, twelve 1804 bodies with R-VAN-18 nozzles and six 3504-PC rotors."
+        },
+        "ru": {
+          "formattedDescription": [
+            {
+              "_key": "r01",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "r01s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Готовый комплект для автоматического полива трёх отдельных газонных участков ориентировочными размерами 8 × 20 м, 8 × 5 м и 3 × 16 м. В комплект входит внутренний контроллер Rain Bird и три зоны полива, которые включаются последовательно. Таким образом, разные участки поливаются один за другим, а не одновременно."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "r02",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "r02s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Конфигурация сочетает статические корпуса Rain Bird 1804 с ротаторными соплами R-VAN-18 и роторы Rain Bird 3504-PC. Это обеспечивает максимально равномерный полив передней зоны и газона за домом."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "r03",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "r03s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для корректной работы системы источник воды должен обеспечивать расход около 3 м³/ч при рабочем давлении 3,5 бар. Подающую трубу необходимо подвести к поливаемой площади. С комплектом поставляются необходимые схемы полива."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "r04",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "r04s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Дополнительная информация"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "r05",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "r05s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "PE-труба Ø25 мм и электрический кабель для соединения контроллера с электромагнитными клапанами не входят в комплект. В зависимости от особенностей объекта могут потребоваться дополнительные фитинги и материалы. Схемы полива предоставляются; расположение оборудования и гидравлические параметры рекомендуется проверить по фактическому плану сада. Изображения иллюстративные и могут отличаться от фактической комплектации."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "name": "Стандартный комплект полива типового сада",
+          "seo": {
+            "h1": "Стандартный комплект автоматического полива сада",
+            "keywords": [
+              "стандартный комплект полива",
+              "комплект автополива сада",
+              "Rain Bird ESP-TM2-4i",
+              "автоматический полив газона"
+            ],
+            "metaDescription": "Продажа комплекта на 3 газонные зоны с Rain Bird ESP-TM2-4i, тремя клапанами, 12 корпусами 1804 с R-VAN-18 и шестью роторами 3504-PC. Флориал, Поморие.",
+            "metaTitle": "Стандартный комплект автополива | Поморие | Флориал",
+            "noIndex": false
+          },
+          "shortDescription": "Комплект для трёх газонных участков с Rain Bird ESP-TM2-4i, тремя клапанами 100-HV, 12 корпусами 1804 с R-VAN-18 и шестью роторами 3504-PC."
+        }
+      },
+      "vatIncluded": true,
+      "weightKg": 10.253
+    },
+    {
+      "_createdAt": "2026-10-29T19:07:39Z",
+      "_id": "f8c82643-3bc3-45cb-941f-4c6e023c9e35",
+      "_rev": "rOW11EP0h6V5YhExSWWziQ",
+      "_system": {
+        "base": {
+          "id": "f8c82643-3bc3-45cb-941f-4c6e023c9e35",
+          "rev": "3ZWSWJ5PmrYEk5hKE3uP7W"
+        }
+      },
+      "_type": "product",
+      "_updatedAt": "2026-11-14T06:28:29Z",
+      "brand": {
+        "_ref": "ea335511-5234-4b8e-a84d-f335c01b2cfb",
+        "_type": "reference"
+      },
+      "categories": [
+        {
+          "_key": "kit-category",
+          "_ref": "6709cd41-18c6-4c5f-bc27-90d55d685dec",
+          "_type": "reference"
+        }
+      ],
+      "category": {
+        "_ref": "6709cd41-18c6-4c5f-bc27-90d55d685dec",
+        "_type": "reference"
+      },
+      "description": [
+        {
+          "_key": "0A9rzpL6huWtVPP5fAREdT",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fAREg1",
+              "_type": "span",
+              "marks": [],
+              "text": "Супер икономичен комплект за поливане на тревна площ"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fAREiZ",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fAREl7",
+              "_type": "span",
+              "marks": [],
+              "text": "Супер икономичен комплект за изграждане на поливна система за три тревни участъка с приблизителни размери 8 × 20 m, 8 × 5 m и 3 × 16 m. В тази конфигурация не е предвиден автоматичен контролер. Вместо автоматика са включени три сферични крана, които се отварят последователно ръчно."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fAREnf",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fAREqD",
+              "_type": "span",
+              "marks": [],
+              "text": "Комплектът съдържа ротори Rain Bird 3504-PC, статични дъждовални тела US-400 с дюзи VAN-12 и необходимите свързващи фитинги. Решението е подходящо за потребители, които предпочитат по-ниска първоначална цена и са готови да управляват поливането ръчно."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fAREsl",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fAREvJ",
+              "_type": "span",
+              "marks": [],
+              "text": "За правилната работа на системата водоснабдяването трябва да осигурява дебит около 3 m³/ч при работно налягане 3,5 bar. Тръбата за подаване на вода трябва да бъде доведена до поливаната площ. Към комплекта се предоставят схеми за разполагане на оборудването."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARFx1",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARFzZ",
+              "_type": "span",
+              "marks": [],
+              "text": "Допълнителна информация"
+            }
+          ],
+          "markDefs": [],
+          "style": "h2"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARG27",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARG4f",
+              "_type": "span",
+              "marks": [],
+              "text": "В този комплект няма автоматичен контролер и електромагнитни клапани. Поливните участъци се включват ръчно чрез трите сферични крана."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARG7D",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARG9l",
+              "_type": "span",
+              "marks": [],
+              "text": "В комплекта не е включена PE тръба Ø25 mm. Възможно е да са необходими допълнителни водопроводни фитинги и материали."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        },
+        {
+          "_key": "0A9rzpL6huWtVPP5fARGCJ",
+          "_type": "block",
+          "children": [
+            {
+              "_key": "0A9rzpL6huWtVPP5fARGEr",
+              "_type": "span",
+              "marks": [],
+              "text": "Изображенията са илюстративни и може да се различават от фактическото съдържание на комплекта."
+            }
+          ],
+          "markDefs": [],
+          "style": "normal"
+        }
+      ],
+      "gallery": [
+        {
+          "_key": "0A9rzpL6huWtVPP5f9bzXL",
+          "_type": "image",
+          "alt": "Супер икономичен комплект за поливане на тревна площ – изображение 2",
+          "altEn": "Супер икономичен комплект за поливане на тревна площ – изображение 2",
+          "altRu": "Супер икономичен комплект за поливане на тревна площ – изображение 2",
+          "asset": {
+            "_ref": "image-1e4cc42c8adf6519d2ae84361fe386fe859456bc-864x1236-jpg",
+            "_type": "reference"
+          }
+        }
+      ],
+      "isActive": true,
+      "isFeatured": false,
+      "kitComponents": [
+        {
+          "_key": "k01",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "28c7ab8a-cc39-444e-96b2-98c8430c044b",
+            "_type": "reference"
+          },
+          "quantity": 3,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k02",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "de179416-ef68-48c5-aa70-56a4c528885f",
+            "_type": "reference"
+          },
+          "quantity": 4,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k03",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "bd82a0c0-b259-42d6-9b27-d2a412925513",
+            "_type": "reference"
+          },
+          "quantity": 10,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k04",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "81dfc913-3bfe-451b-9c76-fa468366cdbb",
+            "_type": "reference"
+          },
+          "quantity": 10,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k05",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "352762fe-5d73-4c9e-b411-46823183d066",
+            "_type": "reference"
+          },
+          "quantity": 28,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k06",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "e45dc0a0-615d-4fe6-b6e7-085436aa7cb0",
+            "_type": "reference"
+          },
+          "quantity": 3,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k07",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "16a6def3-6cbe-4a76-aa73-46c0cc4ec81a",
+            "_type": "reference"
+          },
+          "quantity": 7,
+          "unit": "m"
+        },
+        {
+          "_key": "k08",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "ae8abd4f-b40e-41d0-a04b-0e24f7ac3d18",
+            "_type": "reference"
+          },
+          "quantity": 11,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k09",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "606bf020-26b7-41e8-b8c6-12c9ffcddfd1",
+            "_type": "reference"
+          },
+          "quantity": 3,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k10",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "81c668a2-784a-4765-bac6-b39cf2c537c4",
+            "_type": "reference"
+          },
+          "quantity": 6,
+          "unit": "pcs"
+        },
+        {
+          "_key": "k11",
+          "_type": "kitComponent",
+          "product": {
+            "_ref": "c08c6b8f-063d-44af-8054-4c248227e8ef",
+            "_type": "reference"
+          },
+          "quantity": 2,
+          "unit": "pcs"
+        }
+      ],
+      "mainImage": {
+        "_type": "image",
+        "alt": "Супер икономичен комплект за поливане на тревна площ – Florial",
+        "altEn": "Super economy lawn irrigation kit",
+        "altRu": "Суперэкономичный комплект полива газона",
+        "asset": {
+          "_ref": "image-192d0a6550d66a7a3c8a376377eb751285e34c0a-843x1264-jpg",
+          "_type": "reference"
+        }
+      },
+      "name": "Супер икономичен комплект за поливане на тревна площ",
+      "oldPriceEUR": 275.36,
+      "priceEUR": 242.32,
+      "relatedContent": [
+        {
+          "_key": "I3YKJCwIjHh6NxfePXXNGA",
+          "_ref": "7ead4133-8f63-4381-bafe-493499fff5b8",
+          "_type": "reference"
+        }
+      ],
+      "seo": {
+        "h1": "Супер икономичен комплект за поливане на тревна площ",
+        "keywords": [
+          "супер икономичен комплект за поливане",
+          "комплект за тревна площ",
+          "поливна система"
+        ],
+        "metaDescription": "Продажба на ръчен комплект за 3 тревни зони с три сферични крана, ротори 3504-PC, тела US-400 и дюзи VAN-12. Без автоматичен контролер. Флориал, Равда.",
+        "metaTitle": "Супер икономичен комплект поливане | Равда | Флориал",
+        "noIndex": false
+      },
+      "shortDescription": "Супер икономичен комплект за поливане на три тревни участъка с три ръчни крана вместо автоматичен контролер, ротори 3504-PC, тела US-400, дюзи VAN-12 и монтажни фитинги.",
+      "slug": {
+        "_type": "slug",
+        "current": "super-ikonomichen-komplekt-polivane"
+      },
+      "stockStatus": "onRequest",
+      "translations": {
+        "en": {
+          "formattedDescription": [
+            {
+              "_key": "e01",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e01s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "A super-economy kit for building an irrigation system for three lawn areas measuring approximately 8 × 20 m, 8 × 5 m and 3 × 16 m. This configuration does not include an automatic controller. Instead, it uses three ball valves that are opened manually in sequence."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "e02",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e02s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The kit includes Rain Bird 3504-PC rotors, US-400 spray bodies with VAN-12 nozzles and the required connection fittings. It is suitable for customers who want to reduce the initial cost and are comfortable operating irrigation manually."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "e03",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e03s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "For correct operation, the water source should provide approximately 3 m³/h at a working pressure of 3.5 bar. The supply pipe must be brought to the area to be irrigated. Equipment layout diagrams are supplied with the kit."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "e04",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e04s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Additional information"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "e05",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "e05s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The kit does not include an automatic controller or solenoid valves. Irrigation zones are operated manually using the three ball valves. Ø25 mm PE pipe is not included; additional fittings and materials may be required. Images are for illustration and may differ from the actual kit contents."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "name": "Super economy lawn irrigation kit",
+          "seo": {
+            "h1": "Super economy lawn irrigation kit",
+            "keywords": [
+              "economy lawn irrigation kit",
+              "manual garden irrigation",
+              "Rain Bird 3504-PC",
+              "Rain Bird VAN-12"
+            ],
+            "metaDescription": "For sale: manual kit for 3 lawn zones with three ball valves, 3504-PC rotors, US-400 bodies and VAN-12 nozzles. No automatic controller. Florial, Ravda.",
+            "metaTitle": "Economy lawn irrigation kit | Ravda | Florial",
+            "noIndex": false
+          },
+          "shortDescription": "Budget kit for three lawn areas with manual control via three ball valves, 3504-PC rotors, US-400 spray bodies, VAN-12 nozzles and fittings."
+        },
+        "ru": {
+          "formattedDescription": [
+            {
+              "_key": "r01",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "r01s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Суперэкономичный комплект для создания системы полива трёх газонных участков ориентировочными размерами 8 × 20 м, 8 × 5 м и 3 × 16 м. Автоматический контроллер в этой конфигурации не предусмотрен. Вместо автоматики используются три шаровых крана, которые открываются вручную последовательно."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "r02",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "r02s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В комплект входят роторы Rain Bird 3504-PC, статические корпуса дождевателей US-400 с соплами VAN-12 и необходимые соединительные фитинги. Решение подходит тем, кто хочет снизить первоначальные затраты и готов управлять поливом вручную."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "r03",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "r03s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Для корректной работы источник воды должен обеспечивать расход около 3 м³/ч при рабочем давлении 3,5 бар. Подающую трубу необходимо подвести к поливаемой площади. С комплектом предоставляются схемы размещения оборудования."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            },
+            {
+              "_key": "r04",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "r04s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Дополнительная информация"
+                }
+              ],
+              "markDefs": [],
+              "style": "h2"
+            },
+            {
+              "_key": "r05",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "r05s",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "В комплекте нет автоматического контроллера и электромагнитных клапанов. Зоны включаются вручную тремя шаровыми кранами. PE-труба Ø25 мм не входит в комплект; могут потребоваться дополнительные фитинги и материалы. Изображения иллюстративные и могут отличаться от фактической комплектации."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ],
+          "name": "Суперэкономичный комплект полива газона",
+          "seo": {
+            "h1": "Суперэкономичный комплект полива газона",
+            "keywords": [
+              "экономичный комплект полива газона",
+              "ручной полив сада",
+              "Rain Bird 3504-PC",
+              "Rain Bird VAN-12"
+            ],
+            "metaDescription": "Продажа ручного комплекта на 3 газонные зоны с тремя шаровыми кранами, роторами 3504-PC, корпусами US-400 и соплами VAN-12. Без автоматики. Флориал, Равда.",
+            "metaTitle": "Экономичный комплект полива газона | Равда | Флориал",
+            "noIndex": false
+          },
+          "shortDescription": "Бюджетный комплект для трёх газонных зон с ручным управлением тремя шаровыми кранами, роторами 3504-PC, корпусами US-400, соплами VAN-12 и фитингами."
+        }
+      },
+      "vatIncluded": true,
+      "weightKg": 6.633
+    }
+  ]
+}
