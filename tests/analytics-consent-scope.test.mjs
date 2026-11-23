@@ -9,7 +9,9 @@ const [tracking, consent, privacy] = await Promise.all([
 ])
 
 test('baseline Cloudflare D1 tracking is independent of the optional PostHog choice', () => {
-  const trackEvent = tracking.slice(tracking.indexOf('export function trackEvent('))
+  const trackEventStart = tracking.indexOf('export function trackEvent(')
+  const trackEventEnd = tracking.indexOf('\n\nconst GA4_MEASUREMENT_ID', trackEventStart)
+  const trackEvent = tracking.slice(trackEventStart, trackEventEnd)
   assert.doesNotMatch(trackEvent, /getAnalyticsConsent\(\)\s*!==\s*'accepted'/)
   assert.match(trackEvent, /navigator\.sendBeacon\('\/api\/track'/)
   assert.match(trackEvent, /fetch\('\/api\/track'/)
