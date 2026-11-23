@@ -22,7 +22,7 @@ The owner approved this separate editorial refresh workflow. This approval does 
 | 1 | Solenoid valves | 17 products | **COMPLETE — 17/17 published** |
 | 2 | Valve boxes, hydrants and keys | 7 products | **COMPLETE — 7/7 published** |
 | 3 | Spray and rotary nozzles | 26 products | **COMPLETE — 26/26 published** |
-| 4 | Ready-made irrigation kits | 12 products | NEXT — audit, backup and publish |
+| 4 | Ready-made irrigation kits | 12 products | **PARTIAL — 11/12 published; 10 × 5 m held for controller/valve compatibility decision** |
 | 5 | Controllers | 23 active products in current Sanity read-back | NOT STARTED — reconcile count before editing |
 | 6 | Sprinklers | 20 active products in current Sanity read-back | NOT STARTED |
 
@@ -37,14 +37,14 @@ All 26 are published in BG/RU/EN. Published read-back confirms 26 active product
 
 Detailed evidence and the manufacturer source register: [Nozzle description refresh audit](../audits/2026-11-23-nozzle-product-descriptions-refresh.md).
 
-## Next: ready-made irrigation kits
+## Ready-made irrigation kits — 11/12 published; one held
 
 - Live published category count: 12 products.
-- Existing backup branch: `backup/sanity-kits-current-2026-11-23`; the first 10 products were snapshotted.
-- Before any write, add the remaining two products to a fresh backup and re-read all 12 published records.
-- Audit kit composition, component quantities (including decimal quantities), pipe lengths, controller/automation options, water source assumptions and exact SKU/price references.
-- Recheck the owner's previously agreed 10 × 5 m kit/controller pairing: Rain Bird ESP-BAT-BT. Do not alter kit composition without source evidence or owner confirmation.
-- Prepare BG/RU/EN descriptions, publish and read back all 12.
+- Complete before-write snapshot: `docs/backups/sanity-kits-current-2026-11-23-complete.json`.
+- **11 products were edited and published** in BG/RU/EN. Published read-back confirmed five H2 sections, two internal links and Econt delivery wording in each locale. All 11 component arrays were compared with the snapshot and remain unchanged.
+- **10 × 5 m kit is held unchanged.** Its components include ESP-BAT-BT1 and 100-HV-9V, which the two published product specifications identify as incompatible. Its short description still says WPX1 while the component list says ESP-BAT-BT1. Owner decision is required before correcting or publishing this kit.
+- Detailed evidence: [kit description refresh audit](../audits/2026-11-23-irrigation-kit-descriptions-refresh.md).
+- Next action in this category: resolve the 10 × 5 m controller/valve pairing; do not change `kitComponents` without owner approval.
 
 ## Controllers — count reconciliation required
 
