@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import type { CartItem } from '../types'
 import { createOrder, type IrrigationProjectSnapshot } from '../services/orderService'
-import { trackPostHogEvent } from '../services/trackingService'
+import { trackGA4Event, trackGA4Purchase, trackPostHogEvent } from '../services/trackingService'
 
 interface CartPageProps {
   cart: CartItem[]
@@ -93,6 +93,18 @@ export function CartPage({
     if (cart.length === 0 || isSubmitting) return
 
     trackPostHogEvent('florial_checkout_start', language, window.location.pathname)
+    trackGA4Event('begin_checkout', {
+      currency: 'EUR',
+      value: totalPrice,
+      items: cart.map((item) => ({
+        item_id: item.product.sku || item.product._id,
+        item_name: item.product.name,
+        item_category: item.product.productType === 'equipment' ? 'irrigation_equipment' : 'plants',
+        ...(item.saleVariant?.name ? { item_variant: item.saleVariant.name } : {}),
+        price: getItemPrice(item),
+        quantity: item.quantity,
+      })),
+    })
     setIsSubmitting(true)
     setSubmitError('')
 
@@ -116,6 +128,9 @@ export function CartPage({
         })),
       })
 
+      if (result.analyticsPurchase) {
+        trackGA4Purchase({ transaction_id: result.orderNumber, ...result.analyticsPurchase })
+      }
       setOrderNumber(result.orderNumber)
       setOrderSubmitted(true)
       onClearCart()

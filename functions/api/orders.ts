@@ -466,7 +466,22 @@ const handleOrderPost = async ({
     await updateIrrigationProjectDelivery('email_not_configured')
   }
 
-  return json({ orderNumber }, 201)
+  return json({
+    orderNumber,
+    analyticsPurchase: {
+      value: subtotal,
+      ...(deliveryFee !== null ? { shipping: deliveryFee } : {}),
+      currency: 'EUR',
+      items: orderItems.map((item, index) => ({
+        item_id: requestedItems[index].productId,
+        item_name: item.name,
+        item_category: item.catalog === 'plants' ? 'plants' : 'irrigation_equipment',
+        ...(item.variantName ? { item_variant: item.variantName } : {}),
+        price: item.price,
+        quantity: item.qty,
+      })),
+    },
+  }, 201)
 }
 
 
