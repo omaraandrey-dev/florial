@@ -1,3 +1,12 @@
+## 2026-11-23 — Irrigation assistant automation/BOM owner corrections
+
+- CLOSED — default TM2 variants are indoor-mount SKUs F54234/F54236/F54238; RC2 remains indoor-mount.
+- CLOSED — TM2 and RC2 display one standard 100-HV valve per zone as a priced automation line, alongside controller(s); total automation cost includes valves. Snapshot validation accepts the indoor TM2 SKUs and validates valve quantity/pricing from server-resolved order lines.
+- CLOSED — manual mode excludes valve-only items: H01000/H01040, VBA02672, IQ21120M0N25D and IQ2142000N250. Sprinkler-side fittings remain.
+- CLOSED — cable notes for TM2/RC2 no longer claim separately priced installation labour; only required cable is stated. RC2 also requires stable Wi-Fi.
+- CLOSED — flex installation allowance range is 0.5–1.5 m/head. Coil estimate uses 0.5 m/head; 30 m coil-only sales means one coil through 60 heads, then additional coils by that baseline. Cutting/by-metre sales remain out of scope.
+- NOT VERIFIED — exact-head CI/build, Production deployment, live UI review of revised prices, and real order/PDF/email delivery. No real order or email test is authorized by this change.
+
 ## 2026-11-23 — Irrigation engineer scope and installation PDF decisions
 
 - CLOSED — geometric-only irrigation assistant. No hydraulic calculations: no flow/pressure sizing, friction/minor losses, velocities, residual pressure or hydraulic zone capacity calculations. Manufacturer nozzle performance tables may be used only as reference inputs for geometric sprinkler selection; this is not site hydraulic verification.
