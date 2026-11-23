@@ -147,7 +147,7 @@ export function trackEvent(
 
 const GA4_MEASUREMENT_ID = 'G-2H9DQTLVZY'
 type GA4Item = { item_id: string; item_name: string; item_category?: string; item_variant?: string; price: number; quantity: number }
-type GA4Window = Window & { dataLayer?: unknown[][]; gtag?: (...args: unknown[]) => void }
+type GA4Window = Window & { dataLayer?: unknown[][]; gtag?: (...args: unknown[]) => void; ga4Configured?: boolean }
 
 function initializeGA4(): void {
   if (typeof window === 'undefined' || getAnalyticsConsent() !== 'accepted') return
@@ -156,20 +156,23 @@ function initializeGA4(): void {
     target.dataLayer = target.dataLayer || []
     target.gtag = function gtag(...args: unknown[]) { target.dataLayer!.push(args) }
     target.gtag('js', new Date())
-    target.gtag('config', GA4_MEASUREMENT_ID, { send_page_view: false })
-    const script = document.createElement('script')
-    script.async = true
-    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID
-    script.referrerPolicy = 'strict-origin-when-cross-origin'
-    document.head.appendChild(script)
   }
-  // Reapply consent on every explicit acceptance, including after a previous withdrawal.
+  // Consent is queued before config and before the remote Google tag is loaded.
   target.gtag('consent', 'update', {
     analytics_storage: 'granted',
     ad_storage: 'denied',
     ad_user_data: 'denied',
     ad_personalization: 'denied',
   })
+  if (!target.ga4Configured) {
+    target.gtag('config', GA4_MEASUREMENT_ID, { send_page_view: false })
+    target.ga4Configured = true
+    const script = document.createElement('script')
+    script.async = true
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID
+    script.referrerPolicy = 'strict-origin-when-cross-origin'
+    document.head.appendChild(script)
+  }
 }
 
 export function trackGA4Event(eventName: string, parameters: Record<string, unknown> = {}): void {
