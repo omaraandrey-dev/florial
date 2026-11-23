@@ -5,7 +5,7 @@
 - Search and filters combine category, topic, publication type, year and sort order. Untagged published posts remain in the general list and are searchable.
 - Category counts and cover imagery derive from existing published blogPost tags and cover assets; no new Sanity fields, tags or documents are required.
 - Regression coverage: `tests/blog-portfolio-page.test.mjs`; implementation/audit evidence: `docs/audits/2026-11-23-blog-portfolio-ux.md`.
-- Sanity schema/content, D1, Cloudflare configuration/secrets, Resend, Header, navigation, Footer and routing were not changed. Exact PR-head Blog/Studio and D1 validation passed; public desktop/mobile visual QA and Production deployment must be verified independently.
+- Sanity schema/content, D1, Cloudflare configuration/secrets, Resend, Header, navigation, Footer and routing were not changed. Exact PR-head Blog/Studio and D1 validation passed. Cloudflare Pages Production deployment `e0a2dbef-d9fa-47e4-b114-d3172b6a8b0d` succeeded from final `main` SHA `f0c5fe6121e4733273877cad61e73e86fd1068e7`; both production host aliases are attached. Live BG HTML smoke confirmed title, single H1/breadcrumb, absence of the redundant Florial eyebrow, four category labels and search. Full desktop/mobile visual QA and interactive filter testing remain unconfirmed.
 
 
 
