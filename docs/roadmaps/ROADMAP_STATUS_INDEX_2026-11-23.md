@@ -23,13 +23,13 @@
 
 **Этап 4 — Sanity content/SEO fields, только read-only аудит и подготовка предложений.**
 
-Исходные пункты из аудита:
-- 13 plant product meta descriptions длиннее 160 символов и 2 plant category descriptions длиннее 160 символов (160 — редакционный ориентир, не лимит Google).
-- Полные RU/EN descriptions для 12 irrigation kit products.
-- Полные RU/EN descriptions услуги `dostavka-poliv`.
-- Explicit ALT BG/RU/EN для 2 equipment products и 2 equipment categories после проверки frontend fallback.
-- Развести дублирующиеся локализованные metaTitle двух Irritec Connecto elbows: female SKU `IQ21820F0N25B`, male SKU `IQ21920M0N25B`.
-- Отдельно оценить homepage и Rotor Sprinklers snippets на достаточной выборке GSC.
+Исходные пункты аудита с учётом уже выполненной работы:
+- Read-only пересмотреть 13 plant product meta descriptions длиннее 160 символов и 2 plant category descriptions длиннее 160 символов (160 — редакционный ориентир, не лимит Google). Растительные описания из отдельного редакторского пилота не переписывать.
+- 12 комплектов: полные BG/RU/EN descriptions обновлены в отдельном product-description stream; в SEO Step 4 только проверить текущую опубликованную полноту и соответствие интенту, без переписывания.
+- Проверить полные RU/EN descriptions услуги `dostavka-poliv` (остаётся открытым пунктом).
+- ALT: проверить frontend fallback и read-only состояние для 2 equipment products и 2 equipment categories. ALT Nipel-mufa category уже опубликован; повторно не менять.
+- Локализованные metaTitle двух Irritec Connecto elbows (female SKU `IQ21820F0N25B`, male SKU `IQ21920M0N25B`) уже разведены и опубликованы; выполнить только read-back, не редактировать повторно.
+- Homepage и Rotor Sprinklers snippets оценить по достаточной выборке GSC; Rotor category metaTitle уже обновлён, но оценка CTR/интента остаётся открытой.
 
 Точные Sanity IDs/slugs находятся в [SEO audit](../audits/2026-11-23-comprehensive-seo-audit.md). В новом чате сначала перечитать аудит и перепроверить опубликованные значения read-only; не полагаться на старый список без live read-back.
 
