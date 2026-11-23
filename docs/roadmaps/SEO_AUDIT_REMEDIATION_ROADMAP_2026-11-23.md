@@ -2,6 +2,31 @@
 
 Статус: read-only audit завершён по доступным источникам; remediation не начиналась. Основной отчёт: [Комплексный SEO-аудит 23.11.2026](../audits/2026-11-23-comprehensive-seo-audit.md).
 
+## Текущий статус выполнения — 23.11.2026
+
+**Документация аудита: ЗАВЕРШЕНА и находится в GitHub main. Этот реестр статуса и последовательности шагов подготовлен в отдельной документационной ветке и будет передан через PR. Исправление SEO-проблем: НЕ НАЧАТО.**
+
+- Agent Skill установлен и описан: `.agents/skills/seo-audit/`, `docs/AI/SEO_AUDIT_SKILL.md`.
+- Комплексный read-only аудит оформлен: [отчёт](../audits/2026-11-23-comprehensive-seo-audit.md).
+- Семь направлений исправления и проверки перечислены ниже.
+- Основной блокер: нет разрешения владельца на Browser-проверку raw Production HTML и response headers. Причину noindex/canonical расхождений нельзя считать установленной.
+- Код, Sanity, Cloudflare configuration/secrets, D1, Resend и Google settings в рамках аудита не менялись.
+- PR #409 остаётся open и не затрагивается этой задачей.
+
+### Статус семи последовательных шагов
+
+| № | Направление | Статус на 23.11.2026 |
+|---|---|---|
+| 1 | Проверка индексации, noindex, canonical и Production HTML | **ОЖИДАЕТ разрешения Browser-проверки** — блокирующий шаг |
+| 2 | Google Rich Results / Schema.org для товаров и магазина | **ОЖИДАЕТ шага 1** и актуальной Production проверки |
+| 3 | Решение и настройка GA4 ecommerce/lead measurement | **НЕ НАЧАТО** — требуется согласовать property, stream, EUR, Europe/Sofia и consent |
+| 4 | Точечные улучшения контента и SEO-полей Sanity | **ОЖИДАЕТ** завершения проверки индексации и отдельного согласования конкретных документов |
+| 5 | Оптимизация страниц по поисковым запросам и возможностям GSC | **ОЖИДАЕТ** шага 1; страницы с noindex/canonical anomaly пока не оптимизировать |
+| 6 | Local SEO: Google Business Profile, NAP, citations и ссылки | **НЕ НАЧАТО** — данные GSC пока недостаточны, нужен доступ к профилям/источникам |
+| 7 | Core Web Vitals и производительность | **НЕ НАЧАТО** — Lighthouse/PageSpeed/CrUX измерения ещё не получены |
+
+Переход к следующему шагу выполняется после фиксации результата текущего шага в этом документе и аудите. Если шаг выявляет необходимость изменений кода, Sanity или внешних настроек, сначала готовится конкретный план и запрашивается требуемое разрешение.
+
 ## Принципы
 
 - Сначала подтверждаем причину, затем предлагаем исправление.
@@ -11,7 +36,7 @@
 - Не использовать Browser connector без предварительного разрешения владельца.
 - Все результаты фиксировать в GitHub main; PR #409 остаётся открытым, его не закрывать и не изменять в рамках этого аудита.
 
-## Phase 0 — P1: разрешить noindex/canonical расхождение
+## Step 1 — P1: разрешить noindex/canonical расхождение
 
 <badge>BLOCKING</badge>
 
@@ -28,7 +53,19 @@
 
 **Критерий закрытия:** нет необъяснимого noindex; self-canonical корректен; Google canonical совпадает с выбранным URL после повторного crawl; sitemap и robots согласованы.
 
-## Phase 1 — P2: GA4 measurement decision
+## Step 2 — P2: Product rich results validation
+
+- [ ] После Step 1 выполнить Google Rich Results Test на Production equipment и plant pages.
+- [ ] Проверить Product, Offer, BreadcrumbList, Organization и GardenStore nodes.
+- [ ] Повторно проверить availability для реального stockStatus; `onRequest` не считать PreOrder.
+- [ ] ShippingDetails/return policy добавлять только по подтверждённым коммерческим условиям.
+- [ ] Не добавлять AggregateRating/Review без фактических отзывов; не придумывать GTIN/MPN/variant SKU.
+- [ ] Зафиксировать Google test result, crawl date и URL.
+
+**Критерий закрытия:** актуальные Production результаты сохранены; обязательные ошибки отсутствуют; warnings либо устранены законно, либо документированы как не применимые/неподтверждённые.
+
+
+## Step 3 — P2: GA4 measurement decision
 
 - [ ] Подтвердить, что `florial-29eac` — целевое GA4 property.
 - [ ] Согласовать Web Data Stream, measurement ID, currency EUR, timezone Europe/Sofia (сейчас property стоит на fixed Etc/GMT-3) и consent model.
@@ -38,18 +75,7 @@
 
 **Критерий закрытия:** GA4 receives events from Production after consent rules, currency EUR, event mapping and key events verified.
 
-## Phase 2 — P2: Product rich results validation
-
-- [ ] После Phase 0 выполнить Google Rich Results Test на Production equipment и plant pages.
-- [ ] Проверить Product, Offer, BreadcrumbList, Organization и GardenStore nodes.
-- [ ] Повторно проверить availability для реального stockStatus; `onRequest` не считать PreOrder.
-- [ ] ShippingDetails/return policy добавлять только по подтверждённым коммерческим условиям.
-- [ ] Не добавлять AggregateRating/Review без фактических отзывов; не придумывать GTIN/MPN/variant SKU.
-- [ ] Зафиксировать Google test result, crawl date и URL.
-
-**Критерий закрытия:** актуальные Production результаты сохранены; обязательные ошибки отсутствуют; warnings либо устранены законно, либо документированы как не применимые/неподтверждённые.
-
-## Phase 3 — P2: targeted content improvements
+## Step 4 — P2: targeted content improvements
 
 После проверки индексации:
 
@@ -63,7 +89,7 @@
 
 **Критерий закрытия:** только согласованные документы изменены; Published read-back подтверждён; нет дубликатов/потери переводов.
 
-## Phase 4 — P2: search opportunity pages
+## Step 5 — P2: search opportunity pages
 
 Приоритет после разрешения индексации:
 
@@ -74,11 +100,11 @@
 5. Brahea armata — только после разрешения noindex/canonical anomaly (11 impressions, position 10,2).
 6. Washingtonia — только после разрешения noindex/canonical anomaly (16 impressions, position 8,8).
 
-Не проводить контентные изменения на страницах с noindex/canonical anomalies до Phase 0.
+Не проводить контентные изменения на страницах с noindex/canonical anomalies до Step 1.
 
 Для каждой страницы проверить query intent, CTR, title/snippet, content depth, product availability, internal links и conversion path. Не считать одну позицию GSC гарантией стабильного рейтинга.
 
-## Phase 5 — P3: local SEO and authority
+## Step 6 — P3: local SEO and authority
 
 GSC geo-filtered Bulgarian queries дали только 3 impressions / 0 clicks за период; данных пока недостаточно для выводов о локальном спросе.
 
@@ -88,7 +114,7 @@ GSC geo-filtered Bulgarian queries дали только 3 impressions / 0 click
 - [ ] Оценить локальные запросы после накопления достаточных impressions.
 - [ ] Не создавать thin doorway pages и не обещать позиции по конкретным городам.
 
-## Phase 6 — P3: Core Web Vitals and performance
+## Step 7 — P3: Core Web Vitals and performance
 
 - [ ] Измерить Lighthouse/PageSpeed для homepage, category, product и service templates.
 - [ ] Получить CrUX field data, если достаточный объём данных существует.
