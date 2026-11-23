@@ -4144,3 +4144,14 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - /api/manager/orders includes aggregate counts for real orders in the four active workflow states. Manager navigation displays the current new-real-order count as a red badge. Existing order permissions, edit actions, payment flow, PDF/email actions, audit history and D1 records remain unchanged.
 - Regression test: tests/manager-orders-workspace.test.mjs. No D1 schema/data migration, Sanity, Cloudflare configuration/secrets, Resend, checkout or public storefront changes.
 - Verification status: source and static regression assertions added on branch feat/manager-orders-workspace-accordion; exact-head GitHub Actions and Production deployment remain pending. No live order was created, edited, deleted, emailed or otherwise modified.
+
+
+## 2026-11-23 — Google Analytics 4 ecommerce integration
+
+- GA4 property: `properties/557273710` (`florial-29eac`); web stream `16395579273`; Measurement ID `G-2H9DQTLVZY`; canonical site `https://florial-bg.com`.
+- Property reporting currency/time zone: EUR / `Europe/Sofia` (verified by live Google Analytics read-back on 2026-11-23).
+- The website loads the Google tag only after optional analytics consent. Analytics withdrawal sends denied consent; advertising consent signals remain denied. Enhanced Measurement page-change and form-interaction collection are disabled to avoid duplicate/implicit tracking.
+- Explicit event coverage: `page_view`, `view_item`, `view_cart`, `add_to_cart`, `remove_from_cart`, `begin_checkout`, `purchase`.
+- Purchase event data is returned by the order API only after the order has been saved in Cloudflare D1; monetary values and item lines derive from server-validated catalogue prices. No customer contact fields are included in the GA4 payload. No D1 schema change is introduced.
+- Email redaction and URL query-parameter redaction are enabled; the exact approved key list and verification evidence are in `docs/audits/2026-11-23-ga4-rollout.md`.
+- Release verification boundary: CI passed on the exact PR head. Production deployment and GA4 Realtime/DebugView event receipt require post-merge verification. No live test order was created. Privacy/retention/provider-transfer review remains a governance follow-up.
