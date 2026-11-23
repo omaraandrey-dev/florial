@@ -1,3 +1,10 @@
+## 2026-11-23 — Published Florial Irrigation Assistant service: remaining QA
+
+- **CLOSED — publication:** Sanity Production service `c265afd2-f31d-41f0-b377-ed95664a6d20`, slug `inzhener-pomoshtnik-florial-online`, BG/RU/EN content, localized SEO/ALT, linked cover image and four related irrigation categories. Published-perspective read-back succeeded. Evidence: `../audits/2026-11-23-irrigation-assistant-service-publication-closeout.md`.
+- **OPEN — service lead form configuration:** existing `/api/service-leads` requires `name`, `phone`, and `location`; it reads project details from `details` or `comment`. The newly published service currently has no `location` field and uses `message`. Owner approval is required before correcting the protected published service document. No test submission or D1 lead was created.
+- **OPEN — public visual QA:** confirm BG/RU/EN rendering, hero image load, image click-through to `/irrigation-assistant`, and the four category image links. Browser Use was unavailable due insufficient credits; web fetch could not access the public page.
+- No code/schema/API/Cloudflare/D1/Resend changes. No public form submission.
+
 ## 2026-11-23 — Local SEO public audit; owner confirmations updated
 
 - **CLOSED — read-only audit:** public Google Maps listings for Nessebar and Ravda, website NAP/hours, live GardenStore/Organization JSON-LD, service-area statements and indexed external mentions reviewed. Evidence: `../audits/2026-11-23-local-seo-readonly-audit.md`.
