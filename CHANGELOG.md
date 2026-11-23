@@ -1,3 +1,13 @@
+## 2026-11-23 — Sanity nozzle descriptions refresh (26 products)
+
+- Refreshed all 26 active nozzle products in Sanity Production across Bulgarian, Russian and English: 7 VAN, 4 HE-VAN, 6 MPR strip and 9 R-VAN.
+- Updated localized full descriptions and short descriptions; corrected verified radius/arc discrepancies in selected VAN, HE-VAN and R-VAN cards. MPR strip descriptions now distinguish side, centre, end and left/right corner patterns and state the manufacturer's 2.1 bar performance dimensions/flows.
+- Published read-back confirmed 26 active category products, five H2 sections and two verified internal links in each locale; target draft count is zero. Sanity validation reported 26 valid documents, but custom slug validation callbacks were not run by the available validation tool.
+- Sanity before-write snapshots are stored in the PR under `docs/backups/sanity-nozzles-*`; the detailed technical audit and source register is `docs/audits/2026-11-23-nozzle-product-descriptions-refresh.md`.
+- Added `docs/roadmaps/PRODUCT_DESCRIPTION_REFRESH_ROADMAP_2026-11-23.md` and synchronized the roadmap status index and open questions. Next category: 12 ready-made irrigation kits. Controller inventory must be reconciled (live 23 vs previous audit 24) before that category is edited.
+- No application code, schema, SEO metadata, prices, stock, images, category references, Cloudflare, D1 or Resend changes were made. No Production deployment was required for this content-only task.
+- The Humanizer connector was not available in the connected plugin directory; no Humanizer usage is claimed.
+
 ## 2026-11-23 — Roadmap synchronization and next-work handoff
 
 - Added `docs/roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md` as the cross-workstream status index for SEO, Google Shopping, Manager Web Push and Performance.
