@@ -1,3 +1,14 @@
+# Актуальный статус — 23.11.2026
+
+Сверять эту самостоятельную задачу с [единым реестром дорожных карт](ROADMAP_STATUS_INDEX_2026-11-23.md).
+
+- Web Push implementation, Production D1 migration 0017, VAPID configuration и release PR #450 завершены по подтверждённым записям ниже.
+- Диагностика и исправление сетевого TypeError завершены в PR #455/#457 и опубликованы.
+- **Открытая приёмка:** Owner self-test и реальная Android/Chrome проверка subscribe, D1 persistence, push receipt, notification click, unsubscribe/re-subscribe.
+- Не создавать Production orders/leads ради теста без согласованного безопасного сценария.
+
+---
+
 ## 2026-11-21 — Web Push network TypeError root cause fixed (PR #457 merged)
 
 - Cloudflare Workers documentation confirms that `redirect: 'error'` is unsupported and throws a `TypeError` while constructing the outbound request, before the request is sent. This explains the Owner self-test's generic network TypeError; it was not evidence of a DNS/TLS failure.
