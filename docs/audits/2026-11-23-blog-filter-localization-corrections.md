@@ -28,8 +28,9 @@
 - `tests/blog-portfolio-page.test.mjs`: regression coverage for localized copy, the curated article mapping, compact dropdown, removed publication type, localized topic tags and read-only Sanity behavior.
 
 ## Verification
-- Exact implementation head `417b5403e566ef0da345ac776cff3f7789c415ac`: Blog/Studio validation run `45244666135` succeeded, including website and Pages Functions type-check, lint, all website tests, website build, migration syntax/read-only dry-run, Studio type-check and Studio build. D1 validation run `45244666088` also succeeded.
-- Cloudflare Pages Preview deployment `52695a2a-dcad-4d48-93c8-818b90220961` succeeded from the exact implementation head.
+- Exact implementation code commit `417b5403e566ef0da345ac776cff3f7789c415ac` passed Blog/Studio run `45244666135` and D1 run `45244666088`. The final PR head `ef3fe61a3b683403d2cf7315debf1a01232c4021` passed Blog/Studio runs `45245064385` and `45245088129`, plus D1 run `45245064540`; all steps succeeded, including website/Pages Functions type-check, lint, tests, website build, migration syntax and read-only dry-run, Studio type-check and Studio build.
+- Cloudflare Pages Preview deployment `01588588.florial.pages.dev` succeeded from the final PR head `ef3fe61a3b683403d2cf7315debf1a01232c4021` (earlier code-only Preview: `52695a2a-dcad-4d48-93c8-818b90220961`).
 - Cloudflare Browser Rendering read-only checks on the final Preview confirmed the Russian mobile and English desktop pages have their localized intro, H1, all four category labels and the compact Filters button. Both locales omit the publication-type filter; article-card topic chips are translated and the generic Project/Проект chip is absent.
 - Browser Use could not run because its project had insufficient credits. Full screenshot-based desktop/mobile review and clicking through the dropdown/category filters therefore remain unconfirmed; HTML rendering alone does not verify click behavior or visual overflow.
-- Production deployment is confirmed as above. No Sanity writes or schema changes were made.
+- Production deployment `e006bf14-6b8c-4796-924e-761e40a150a6` succeeded from `main` SHA `c44e3bbd007c7ae4599dad84a540043ee0ecd2f8`; aliases `https://florial-bg.com` and `https://www.florial-bg.com` were attached. Live BG, RU and EN HTML checks confirmed localized intro/H1, all four localized categories and the compact Filters button; publication-type filter is absent.
+- No Sanity writes or schema changes were made.
