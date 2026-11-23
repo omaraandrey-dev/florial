@@ -617,6 +617,21 @@ export default function App() {
 
   const handleRemoveFromCart = (itemKey: string) => {
     const removedItem = cart.find((item) => getCartItemKey(item.product, item.saleVariant) === itemKey)
+    if (removedItem) {
+      const itemPrice = removedItem.saleVariant?.priceEUR ?? removedItem.product.priceEUR
+      trackGA4Event('remove_from_cart', {
+        currency: 'EUR',
+        ...(typeof itemPrice === 'number' && Number.isFinite(itemPrice) && itemPrice > 0 ? { value: itemPrice * removedItem.quantity } : {}),
+        items: [{
+          item_id: removedItem.product.sku || removedItem.product._id,
+          item_name: removedItem.product.name,
+          item_category: removedItem.product.productType === 'equipment' ? 'irrigation_equipment' : 'plants',
+          ...(removedItem.saleVariant?.name ? { item_variant: removedItem.saleVariant.name } : {}),
+          ...(typeof itemPrice === 'number' && Number.isFinite(itemPrice) && itemPrice > 0 ? { price: itemPrice } : {}),
+          quantity: removedItem.quantity,
+        }],
+      })
+    }
     if (isIrrigationProjectCartItem(removedItem)) setIrrigationProject(null)
     setCart((prev) => prev.filter((item) => getCartItemKey(item.product, item.saleVariant) !== itemKey))
   }
