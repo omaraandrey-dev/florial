@@ -53,9 +53,18 @@ test('flex pipe is planned at 0.5 m per head and sold in 30 m coils up to 60 hea
     model: 'R-VAN18',
     sprinklers: Array.from({ length: count }, (_, index) => ({ id: 's' + index, arcDeg: 180, performanceModel: 'R-VAN18' })),
   })
-  const zonesFor = (count) => Array.from({ length: Math.ceil(count / 6) }, (_, zoneIndex) => ({
-    sprinklerIds: Array.from({ length: Math.min(6, count - zoneIndex * 6) }, (_, index) => 's' + (zoneIndex * 6 + index)),
-  }))
+  const zonesFor = (count) => {
+    const zoneCount = Math.ceil(count / 6)
+    const baseSize = Math.floor(count / zoneCount)
+    const extra = count % zoneCount
+    let nextHead = 0
+    return Array.from({ length: zoneCount }, (_, zoneIndex) => {
+      const size = baseSize + (zoneIndex < extra ? 1 : 0)
+      const sprinklerIds = Array.from({ length: size }, (_, index) => 's' + (nextHead + index))
+      nextHead += size
+      return { sprinklerIds }
+    })
+  }
   for (const [heads, metres, coils] of [[40, 20, 1], [60, 30, 1], [61, 30.5, 2], [120, 60, 2]]) {
     const result = buildIrrigationBillOfMaterials(make(heads), zonesFor(heads))
     assert.equal(result.valid, true)
