@@ -94,7 +94,6 @@ export function trackPostHogEvent(
   if (details.product_type !== undefined && (typeof details.product_type !== 'string' || details.product_type.length > 40)) return
   if (details.quantity !== undefined && (!Number.isFinite(details.quantity) || details.quantity < 1 || details.quantity > 9999)) return
   capturePostHogEvent(eventName, lang, pagePath, details)
-  if (eventName === 'florial_page_view') trackGA4Event('page_view', { page_location: window.location.origin + pagePath, page_path: pagePath, page_title: document.title, language: lang })
 }
 
 export function trackEvent(
