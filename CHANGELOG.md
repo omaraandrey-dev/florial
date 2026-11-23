@@ -1,3 +1,14 @@
+## 2026-11-23 — Irrigation project PDF: original installation guide and fixed PE Ø25 standard
+
+- The preliminary irrigation project PDF now appends all three pages of the owner's original Bulgarian installation guide after the generated project drawing, project details and BOM. Source pages are copied as PDF pages, preserving original text, diagrams, illustrations and layout; no translation, redraw or shortening is applied.
+- The guide is fetched from the owner's existing public Dropbox file link at PDF-generation time. If the source cannot be fetched or no longer contains exactly three pages, generation fails rather than sending an incomplete PDF.
+- Owner decision: all schematic pipe routes are fixed to PE Ø25 mm (main and zone lines); Ø32 mm is not offered. The server normalizes submitted snapshot diameters to 25 mm.
+- Owner decision: the assistant performs geometric design only. It does not calculate hydraulic flow, pressure losses, velocities, residual pressure or hydraulic zone performance. Manufacturer performance-table values remain reference data for geometric sprinkler model/radius selection, not site hydraulic verification.
+- Regression coverage added for Ø25 normalization and original-guide PDF page-copy integration.
+- No Sanity writes, D1 migrations/data changes, Cloudflare settings/secrets changes, Production orders or test emails were performed. CI, Preview/Production deployment and live email receipt remain to be verified after PR review.
+
+---
+
 ## 2026-11-22 — Irrigation automation selection (PR #481 merged; Production deployed)
 
 - Added a dedicated automation choice after the lawn irrigation kit review: manual, Rain Bird ESP-TM2 wired, ESP-RC2 Wi-Fi and ESP-BAT-BT battery/Bluetooth.

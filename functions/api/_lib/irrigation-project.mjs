@@ -249,8 +249,10 @@ export function validateIrrigationProjectSnapshot(input) {
         sprinklerIds: zone.sprinklerIds,
       })),
       pipeNetwork: pipeNetwork ? {
-        mainDiameterMm: finite(pipeNetwork.mainDiameterMm, 1, 200) ? pipeNetwork.mainDiameterMm : null,
-        zoneDiameterMm: finite(pipeNetwork.zoneDiameterMm, 1, 200) ? pipeNetwork.zoneDiameterMm : null,
+        // Fixed Florial standard: all schematic PE pipe runs are Ø25 mm.
+        // Ignore client-supplied diameters; hydraulic sizing is out of scope.
+        mainDiameterMm: 25,
+        zoneDiameterMm: 25,
         mainRoute: safePoints(pipeNetwork.mainRoute).slice(0, 20),
         branches: Array.isArray(pipeNetwork.branches) ? pipeNetwork.branches.slice(0, 60).map((branch) => ({
           zoneId: cleanLabel(branch.zoneId, 40),

@@ -64,6 +64,8 @@ test('accepts a balanced mixed-arc project and sanitizes the persisted snapshot'
   assert.equal(result.snapshot.zones[1].zoneType, 'mixed')
   assert.equal(result.snapshot.layout.sprinklers[6].arcDeg, 360)
   assert.equal(result.snapshot.billOfMaterials.items.length, 2)
+  assert.equal(result.snapshot.pipeNetwork.mainDiameterMm, 25)
+  assert.equal(result.snapshot.pipeNetwork.zoneDiameterMm, 25)
 })
 
 test('rejects project snapshots when the BOM does not match submitted order quantities', () => {
@@ -73,6 +75,16 @@ test('rejects project snapshots when the BOM does not match submitted order quan
   })
   assert.equal(result.valid, false)
   assert.equal(result.reason, 'project_bom_does_not_match_order')
+})
+
+test('normalizes submitted pipe diameters to the fixed PE Ø25 mm standard', () => {
+  const project = snapshot()
+  project.pipeNetwork.mainDiameterMm = 32
+  project.pipeNetwork.zoneDiameterMm = 32
+  const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
+  assert.equal(result.valid, true)
+  assert.equal(result.snapshot.pipeNetwork.mainDiameterMm, 25)
+  assert.equal(result.snapshot.pipeNetwork.zoneDiameterMm, 25)
 })
 
 test('persists manual automation without valves or valve boxes', () => {
@@ -218,6 +230,10 @@ test('irrigation project PDF contains the drawing, zone assignment, BOM and expl
   assert.match(pdf, /Въведени от клиента/)
   assert.match(pdf, /drawRoute\(branch\.points/)
   assert.match(pdf, /item\.name \+ ' · ' \+ item\.sku/)
-  assert.match(pdf, /Не са изчислявани дебит, динамично налягане/)
-  assert.match(pdf, /Не е потвърдена хидравличната възможност/)
+  assert.match(pdf, /PE Ø25 mm/)
+  assert.match(pdf, /Хидравлични изчисления не се извършват/)
+  assert.match(pdf, /installationGuideUrl/)
+  assert.match(pdf, /PDFDocument\.load/)
+  assert.match(pdf, /getPageCount\(\) !== 3/)
+  assert.match(pdf, /pdf\.copyPages/)
 })

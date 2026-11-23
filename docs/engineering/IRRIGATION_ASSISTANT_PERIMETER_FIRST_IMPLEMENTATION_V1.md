@@ -92,9 +92,9 @@ zoneCapacity: {
 - в текущем коде и отрисованной pipeNetwork и магистраль, и зональные ветви имеют номинал Ø25 mm;
 - проектный предел — не более шести дождевателей в зоне.
 
-Это **фиксированные допущения Florial для предварительного эскиза**, не измерения заказчика и не гидравлически подтверждённые параметры. Лимит 6 головок — внутреннее правило группировки проекта, а не универсальная производительность клапана или доказанный гидравлический предел.
+Это **фиксированные геометрические стандарты Florial**, а не измерения объекта. Помощник не выполняет гидравлические расчёты и не оценивает гидравлическую производительность зон. Лимит 6 головок — только правило группировки проекта.
 
-**Важное расхождение документации:** ранний аудит от 22.11.2026 описывал main line Ø32 mm, но действующая константа и результат `buildPerimeterPipeNetwork` в merged code выставляют `mainDiameterMm: 25`. До расчёта потерь и финального sizing владелец/инженер должен подтвердить, какой номинал является стандартом: Ø25 или Ø32. Не исправлять это молча и не считать диаметр подтверждённым расчётом.
+**Решение владельца от 23.11.2026:** вся проектируемая трубная сеть — PE Ø25 mm, включая главную магистраль и зональные линии. Выбора Ø32 mm нет. Это фиксированный стандарт Florial для геометрической схемы, не результат гидравлического расчёта.
 
 ## 4. Производительность Rain Bird и выбор модели
 
@@ -122,7 +122,7 @@ zoneCapacity: {
 - R-VAN18 при 3.1 bar: радиус 5.2 m;
 - R-VAN24 при 3.1 bar: радиус 7.0 m.
 
-Это правило предварительного подбора модели по геометрии, а не доказательство того, что 3.1 bar реально будет на каждой форсунке. В output прямо установлено:
+Это правило предварительного подбора модели и радиуса по геометрии на основании таблицы производителя. Значение 3.1 bar — референтная точка таблицы, не измерение объекта. Помощник не рассчитывает давление на форсунках и не выполняет гидравлическую проверку. В output прямо установлено:
 - `actualNozzlePressureVerified: false`;
 - `customerSourceMeasurementsUsedAsNozzlePressure: false`;
 - `hydraulicFeasibility: not_evaluated`.
@@ -389,3 +389,12 @@ Current implementation details, validation rules, D1 persistence, email delivery
 The project snapshot is attached to the normal checkout request only after the complete generated kit is added. The order endpoint validates the submitted snapshot against the server-resolved cart SKU quantities and persists it in the existing `order_events.metadata` field with event type `irrigation_project_attached`; no D1 migration is introduced. A separate preliminary PDF is emailed to the owner after order persistence. Customer confirmation/proforma email is unchanged. If PDF generation or delivery fails, the saved order remains valid and the event records the delivery status where possible.
 
 The cart detaches the snapshot when any generated kit SKU quantity is changed or removed. The PDF includes overall/cut-out dimensions, the drawn schematic main/zone/lateral routes, and catalogue names plus BOM SKUs/quantities. It explicitly states that hydraulic sizing, dynamic source pressure/flow, nozzle residual pressure, six-head hydraulic suitability, DU/CU, wind, overspray, exclusions and complete mainline sizing are not verified.
+
+
+## Решение владельца от 23.11.2026 — границы гидравлики и диаметр труб
+
+- Проектировщик выполняет геометрическое проектирование: контур, размещение дождевателей, сектора и радиусы, группировку по зонам, схематические трассы, подбор каталожного оборудования и BOM.
+- Гидравлические расчёты не выполняются вообще. Не рассчитываются расход, динамическое давление, потери, скорости, остаточное давление и гидравлическая производительность зон.
+- Таблицы Rain Bird используются только как исходные данные для геометрического выбора модели/радиуса; табличное давление не является измерением на объекте.
+- Главная магистраль и все зональные трубопроводы — PE Ø25 mm. Вариант Ø32 mm отсутствует; серверная проверка проекта приводит любые переданные значения диаметра к 25 mm.
+- Итоговый PDF содержит сначала индивидуальный проект и ведомость материалов, затем три оригинальные страницы болгарской инструкции по монтажу без перерисовки или сокращений.

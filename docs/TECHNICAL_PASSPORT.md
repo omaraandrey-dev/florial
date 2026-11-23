@@ -1,3 +1,14 @@
+## 2026-11-23 — Irrigation engineer scope, PE Ø25 and installation guide appendix
+
+- Owner decision: the assistant is a geometric irrigation layout tool, not a hydraulic calculator. It performs geometry validation, sprinkler placement/sectors/radii, zone grouping, schematic pipe routing, catalogue selection and BOM. It does not calculate flow, network pressure, friction/minor losses, velocity, residual pressure or hydraulic zone performance.
+- Rain Bird manufacturer performance-table data remain reference inputs for geometric sprinkler model/radius selection only; table reference pressure is not a measured site value or hydraulic verification.
+- All schematic pipe routes are fixed to PE Ø25 mm for both main and zone lines. Ø32 mm is not selectable. The server sanitizes submitted project snapshot diameter to 25 mm.
+- The generated project PDF appends the owner's original three-page Bulgarian installation guide after the generated project pages. The three source pages are copied into the output PDF without redrawing, translation, shortening or overlays.
+- Source guide: owner's Dropbox PDF, “Инструкция за монтаж на система за автоматично напояване” (3 pages, 186,051 bytes at source review). Runtime fetch uses the owner's public shared link; if it cannot be fetched or page count differs from three, PDF generation fails instead of producing a partial attachment.
+- Verification boundary: no Sanity/D1/Cloudflare configuration writes, Production order or test email. Exact PR CI, build, Preview/Production deployment, PDF visual inspection and email receipt remain pending.
+
+---
+
 ## 2026-11-22 — Irrigation assistant automation selection (PR #481 merged; Production deployed)
 
 - PR #481 squash-merged into `main` at `1ce629772e8a1e3f7be6d0af6d20d60e76849202`.
