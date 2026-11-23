@@ -70,12 +70,16 @@ Google Search Console сообщает:
 | `/product/rakat-na-buda` | `/product/komplekt-avtomatizatsiya-6-zoni` | noindex, canonical mismatch; crawl 18.11 |
 | `/product/rain-bird-200-pga-24v` | self | BG noindex; EN variant reports indexed |
 
-Три Google-selected canonical URL (`krasula`, `irritec-ivvee2700n160`, `komplekt-avtomatizatsiya-6-zoni`) при отдельной проверке также вернули noindex с self-canonical. Для Washingtonia/Brahea/Rakat языковые URL RU/EN также имеют сохранённый noindex status. При этом EN URL Rain Bird 200-PGA в той же выборке возвращает `Submitted and indexed`.
+Три Google-selected canonical URL (`/product/krasula`, `/product/irritec-ivvee2700n160`, `/product/komplekt-avtomatizatsiya-6-zoni`) были отдельно проверены 23.11 и каждый сам вернул `Excluded by noindex` со своим self-canonical. Таким образом, Google выбрал в качестве canonical страницы, которые сами исключены из индекса.
+
+Повторная выборка 17 URL от 23.11 подтвердила 11/17 noindex: все три локали (BG/RU/EN) для Washingtonia, Brahea и Buddha's hand (9 URL), а также BG и RU для Rain Bird 200-PGA (2 URL). EN Rain Bird 200-PGA, главная, Yucca rostrata и основная категория Rotor Sprinklers индексируются; `www`-вариант категории классифицирован как alternate с корректным canonical на apex; `/manager/` Google пока неизвестен. Три BG canonical mismatch относятся к Washingtonia, Brahea и Buddha's hand.
+
+Даты последнего crawl важны: BG Washingtonia — 21.11 (после текущего Sanity `_updatedAt` 20.11); BG Brahea — 16.11 (до `_updatedAt` 20.11); BG Buddha's hand — 18.11 (Sanity `_updatedAt` 11.11); Rain Bird BG — 18.11. RU/EN crawl по трём растениям и RU Rain Bird преимущественно датированы 23–24.10. Эти даты не позволяют свести все случаи к одной причине или утверждать, что проблема уже устранена.
 
 **Проверка источника противоречия:**
 - В текущем опубликованном Sanity у Washingtonia, Brahea, Rakat и Rain Bird 200-PGA `isActive=true`, `seo.noIndex=null`.
-- Read-only aggregate query: среди 275 активных equipment products и 60 активных plant products нет документов с `seo.noIndex == true`.
-- Текущий middleware устанавливает noindex для product только при `seo.noIndex === true`; client ProductPage также использует явное сравнение `=== true`.
+- Read-only aggregate query: среди 275 активных equipment products и 60 активных plant products нет документов с `seo.noIndex == true`; у активных categories обоих datasets и active services значение `seo.noIndex == true` также не найдено.
+- Текущий middleware устанавливает noindex для product только при `seo.noIndex === true`; client ProductPage также использует явное сравнение `=== true`. Для Manager предусмотрен отдельный server-side `X-Robots-Tag: noindex, nofollow, noarchive`; для cart/search, irrigation assistant и отдельных юридических маршрутов есть целевые noindex-правила.
 - Текущий `public/_headers` не задаёт noindex; Page Rules пусты, response-header transform ruleset не найден.
 
 **Статус:** причина НЕ УСТАНОВЛЕНА. Сохранённый GSC crawl может отражать прежний ответ, но для Washingtonia дата последнего crawl 21.11 позднее опубликованного обновления Sanity 20.11. Поэтому нельзя списывать всё на старые данные. Требуется проверить фактический HTTP status, `X-Robots-Tag`, meta robots, canonical и HTML в Production с разрешения владельца. Не менять Sanity и код до этого сравнения.
@@ -98,7 +102,7 @@ Google Search Console сообщает:
 
 Показы выросли на 868, переходы на 56; средняя позиция улучшилась на 3,4. CTR снизился на фоне расширения охвата и появления новых запросов. Предыдущая выборка очень мала, поэтому это ранний сигнал, а не устойчивый прогноз роста.
 
-При агрегации byPage GSC возвращает 66 clicks, 1 250 impressions, CTR 5,28%, average position 17,5. Это другая схема агрегации; значения не складывать с byProperty.
+Запрос Search Analytics с группировкой byPage вернул первые 100 URL (лимит строки); сумма только этих возвращённых строк — 66 clicks и 652 impressions. Это неполная выборка URL, её нельзя выдавать за итог всего сайта или напрямую сравнивать с агрегатом byProperty.
 
 ### 4.2. Страна и устройства
 
@@ -122,7 +126,11 @@ Google Search Console сообщает:
 
 **Важно:** Washingtonia, Brahea и Rakat на Буда одновременно имеют noindex/canonical anomalies в сохранённом URL Inspection. Их контентную оптимизацию отложить до разрешения проблемы индексации.
 
-Локальные запросы за этот период в BG дали всего 3 impressions в отфильтрованной выборке: `свети влас` и `градински център бургас`. Данных недостаточно для выводов о локальном спросе или создания новых геостраниц.
+Локальные запросы за этот период в BG дали всего 3 impressions и 0 clicks в отфильтрованной выборке: `свети влас` (2) и `градински център бургас` (1). Данных недостаточно для выводов о локальном спросе или создания новых геостраниц.
+
+Дополнительный opportunity-анализ по BG обработал 67 страниц; страниц с падением кликов на 30% и более не найдено. Для запроса `роторни разпръсквачи` GSC разделяет 29 показов между apex URL (22) и `www`-вариантом (7); URL Inspection подтверждает для `www` статус alternate с canonical на apex. Это сигнал фрагментации отчётности/старых URL, но не доказательство неправильного текущего canonical. Запрос `rain bird` (8 показов) распределён между статьёй, категорией и товаром — проверить различие поискового намерения, не объединять страницы без дополнительных данных.
+
+В отчёте запросов также встречается фраза `да, сделай это.` — 9 показов по 9 URL, без кликов. Это аномальный низкообъёмный запрос; он не доказывает взлом или наличие такого текста на страницах. Зафиксировать и наблюдать, если повторяется в следующих периодах.
 
 ## 5. Sanity — SEO-поля и контент
 
@@ -149,17 +157,17 @@ Google Search Console сообщает:
 - Plant products: 13 из 60 описаний длиннее 160 символов (максимум 192).
 - Plant categories: 2 из 17 длиннее 160 символов (максимум 175).
 
-Рекомендация: точечно сократить 15 длинных BG descriptions, сохранив утверждённое начало «Продажба…», естественное описание и географию. Отдельно различить metaTitle двух Irritec Connecto колен по внутренней/наружной резьбе. Не применять универсальный шаблон и не переписывать все карточки.
+Рекомендация: точечно пересмотреть 15 длинных BG descriptions (13 товаров и 2 категории), сохранив утверждённое начало «Продажба…», естественное описание и географию. 160 символов — редакционный ориентир для снижения риска обрезки сниппета, не жёсткий лимит Google и не самостоятельная ranking penalty. Отдельно различить metaTitle двух Irritec Connecto колен по внутренней/наружной резьбе. Не применять универсальный шаблон и не переписывать все карточки.
 
 ### 5.3. Полнота описаний и изображений
 
-- Equipment products: полные RU descriptions есть у 263/275 и EN descriptions у 263/275 (по 12 пробелов в каждой локали; пересечение двух наборов не проверялось); shortDescription присутствует.
+- Equipment products: полные RU descriptions есть у 263/275 и EN descriptions у 263/275. Повторная выборка ID подтвердила, что это одни и те же 12 комплектов полива/автоматизации; у всех 12 присутствуют RU/EN shortDescription. Slugs: `komplekt-avtomatizatsiya-6-zoni`, `ikonomichen-komplekt-polivane-gradina`, `komplekt-polivane-5x5`, `komplekt-polivane-20x5`, `komplekt-avtomatizatsiya-12-zoni`, `komplekt-polivane-10x5`, `komplekt-polivane-15x5`, `lesen-komplekt-polivane-10x10`, `komplekt-avtomatizatsiya-8-zoni`, `lesen-komplekt-polivane-5x5`, `standarten-komplekt-polivane-gradina`, `super-ikonomichen-komplekt-polivane`.
 - Plant products: полные описания BG/RU/EN присутствуют у 60/60.
-- Services: полные описания подтверждены у 24/25 в каждой локали.
+- Services: полные RU/EN descriptions подтверждены у 24/25; у услуги `dostavka-poliv` (Sanity ID `9e4efe1b-e434-4cfe-a646-1cc9d9c93bce`) отсутствуют полные RU/EN descriptions, но короткие описания заполнены.
 - Blog: основной текст присутствует во всех трёх языках у 16/16.
 - Main image ALT BG/RU/EN: equipment 273/275, plants 60/60.
 - Category image ALT BG/RU/EN: equipment 52/54, plants 17/17.
-- У двух equipment products и двух equipment categories явные ALT-поля отсутствуют во всех локалях; frontend fallback следует проверить отдельно. Это контентная полнота, не доказанная ошибка HTML accessibility.
+- У двух equipment products и двух equipment categories явные ALT-поля отсутствуют во всех трёх локалях; frontend fallback следует проверить отдельно. Товары: `fitting-3112-1620` (Sanity ID `0fd0565a-e2d8-4aeb-bc68-92e3b26020a5`) и `fitting-3112-16202` (`582265a9-944e-4928-aee2-577cbe34e774`). Категории: `troynik-90-plastmasov-vatreshna-rezba` (`90ab6b0d-7b56-4cf2-946e-129c60ab204f`) и `nipel-mufa-plastmasova-vanshna-vatreshna-rezba` (`ed408215-944e-45df-a967-55f2c9f1d7bd`). Это контентная полнота, не доказанная ошибка HTML accessibility.
 - Поиск в опубликованных SEO Title/Description BG/RU/EN не нашёл упоминаний Sozopol в проверенных типах product/category/service/blogPost.
 
 ### 5.4. Структура главной
@@ -211,7 +219,7 @@ GA4 property `florial-29eac`:
 ## 9. Приоритеты
 
 1. **P1 — Разобраться с noindex/canonical расхождением** на затронутых товарах. Нужна проверка фактического Production HTML/headers в Browser с разрешения владельца. Это первый блокирующий этап.
-2. **P1 — Определить целевую GA4 архитектуру**: подключать ли GA4 property, создать Web Data Stream, установить EUR и key events с учётом consent.
+2. **P2 — Определить целевую GA4 архитектуру**: подключать ли GA4 property, создать Web Data Stream, установить EUR и key events с учётом consent; D1/PostHog остаются действующими отдельными каналами аналитики.
 3. **P2 — После подтверждения индексации** улучшить страницы с поисковым потенциалом: Yucca, Buddha's hand, Brahea, Washingtonia и категорию роторных дождевателей. Не начинать с noindex страниц до проверки.
 4. **P2 — Точечная редактура** 15 длинных meta descriptions, по 12 отсутствующих полных описаний RU и EN для equipment (пересечение document IDs не проверено) и 4 набора отсутствующих ALT-полей; перед Sanity write показать точные document IDs/поля и получить отдельное подтверждение.
 5. **P2 — Повторить Product Rich Results Test** после live проверки актуального Production HTML; не добавлять фиктивные отзывы, GTIN, availability или shipping.
