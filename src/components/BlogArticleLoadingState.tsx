@@ -1,5 +1,3 @@
-import React from 'react'
-
 export function BlogArticleLoadingState({label}: {label: string}) {
   return <main className="mx-auto min-h-[100svh] w-full max-w-4xl flex-grow px-4 py-8 md:py-12" aria-busy="true">
     <p className="sr-only" role="status" aria-live="polite">{label}</p>
