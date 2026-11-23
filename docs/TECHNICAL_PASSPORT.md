@@ -1,3 +1,14 @@
+
+
+## Irrigation assistant — automation and flex BOM refinements (2026-11-23)
+
+- TM2 controller selection uses indoor-mount SKUs F54234/F54236/F54238; RC2 uses indoor-mount SKUs F56154/F56156/F56158.
+- TM2/RC2 automation pricing includes one standard 100-HV valve per irrigation zone, displayed as a separate priced product line. BAT uses H01040 one per zone.
+- Manual mode omits valve-only components: H01000/H01040, VBA02672, IQ21120M0N25D and IQ2142000N250.
+- Cable requirement is informational only; no separate installation-labour charge is stated in the retail assistant.
+- Flex allowance range: 0.5–1.5 m per sprinkler. Coil estimate baseline: 0.5 m per sprinkler; 30 m coils, one coil through 60 sprinklers. Retail sale remains full-coil only.
+- Detailed behavior and tests: `docs/engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md` and `docs/audits/2026-11-22-irrigation-automation-selection.md`.
+
 ## 2026-11-23 — Irrigation engineer scope, PE Ø25 and installation guide appendix
 
 - Owner decision: the assistant is a geometric irrigation layout tool, not a hydraulic calculator. It performs geometry validation, sprinkler placement/sectors/radii, zone grouping, schematic pipe routing, catalogue selection and BOM. It does not calculate flow, network pressure, friction/minor losses, velocity, residual pressure or hydraulic zone performance.
