@@ -1,3 +1,10 @@
+## 2026-11-23 — Irrigation assistant owner decisions
+
+- Geometric layout and equipment selection only; hydraulic calculations are explicitly outside scope and will not be implemented.
+- Fixed pipe diameter Ø25 mm for main and zone lines; Ø32 mm is not an option.
+- Approved PDF order: site-specific project drawing and equipment specification, followed by the complete three-page Bulgarian installation guide with original illustrations. Runtime integration and visual verification remain pending.
+
+---
 ## 2026-11-22 — Irrigation assistant automation selection (PR #481 merged; Production deployed)
 
 - PR #481 squash-merged into `main` at `1ce629772e8a1e3f7be6d0af6d20d60e76849202`.
