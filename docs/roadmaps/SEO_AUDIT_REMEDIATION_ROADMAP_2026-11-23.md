@@ -15,19 +15,20 @@
 
 <badge>BLOCKING</badge>
 
-Google URL Inspection сообщает noindex для части активных товарных страниц; три BG URL имеют Google-selected canonical на другие товары. Текущие опубликованные Sanity данные и middleware не объясняют результат.
+Повторная выборка 17 URL (23.11.2026): 11 исключены по noindex, три BG product URL имеют Google-selected canonical на другие товары. Три страницы, выбранные Google как canonical, при отдельной проверке сами тоже noindex. Текущие опубликованные Sanity данные и middleware не объясняют результат.
 
 - [ ] Получить разрешение владельца на Browser-проверку.
 - [ ] Сравнить raw HTTP status и response headers для Washingtonia, Brahea, Rakat na Buda, Rain Bird 200-PGA, а также контрольных URL Yucca, Kumquat и Rain Bird 100-PGA.
 - [ ] Проверить meta robots, X-Robots-Tag, canonical, hreflang, Product JSON-LD и начальный H1.
 - [ ] Проверить, что фактический Production deployment соответствует текущему main и что cache не отдаёт устаревший HTML.
+- [ ] Сверить все 17 сохранённых URL Inspection результатов и повторить выборочную проверку после подтверждённого исправления; сейчас 11/17 noindex, 3 canonical mismatch.
 - [ ] Сопоставить live HTML с текущими опубликованными Sanity noIndex и кодом middleware.
 - [ ] Если проблема подтверждена — подготовить точный технический план и показать владельцу до изменения кода/данных.
 - [ ] После одобренного исправления проверить exact-SHA CI/Preview/Production и запросить повторный crawl через GSC.
 
 **Критерий закрытия:** нет необъяснимого noindex; self-canonical корректен; Google canonical совпадает с выбранным URL после повторного crawl; sitemap и robots согласованы.
 
-## Phase 1 — P1: GA4 measurement decision
+## Phase 1 — P2: GA4 measurement decision
 
 - [ ] Подтвердить, что `florial-29eac` — целевое GA4 property.
 - [ ] Согласовать Web Data Stream, measurement ID, currency EUR, timezone Europe/Sofia (сейчас property стоит на fixed Etc/GMT-3) и consent model.
@@ -52,9 +53,10 @@ Google URL Inspection сообщает noindex для части активны�
 
 После проверки индексации:
 
-- [ ] Пересмотреть 13 plant product meta descriptions >160 символов и 2 plant category descriptions >160.
-- [ ] Выборочно дополнить RU и EN full descriptions (по 12 недостающих полей в каждой локали; точное пересечение document IDs ещё не установлено).
-- [ ] Заполнить explicit ALT BG/RU/EN для 2 equipment products и 2 equipment categories после проверки frontend fallback.
+- [ ] Пересмотреть 13 plant product meta descriptions >160 символов и 2 plant category descriptions >160. 160 символов — редакционный ориентир, не жёсткий лимит Google.
+- [ ] Выборочно дополнить полные RU и EN descriptions у одних и тех же 12 irrigation kit products; у них уже есть короткие RU/EN descriptions. Точные Sanity IDs и slugs перечислены в аудите.
+- [ ] Проверить полные RU/EN descriptions услуги `dostavka-poliv` (Sanity ID `9e4efe1b-e434-4cfe-a646-1cc9d9c93bce`); короткие описания есть.
+- [ ] Заполнить explicit ALT BG/RU/EN для 2 equipment products и 2 equipment categories после проверки frontend fallback; exact IDs приведены в аудите.
 - [ ] Развести дублирующиеся BG/RU/EN metaTitle у двух Irritec Connecto elbows (female thread SKU IQ21820F0N25B / male thread SKU IQ21920M0N25B), сохранив утверждённый формат и точные отличия товара.
 - [ ] Проверить заголовки/сниппеты homepage и category Rotor Sprinklers на основе большего набора запросов, не переписывать метаданные по единичным impressions.
 - [ ] Каждое Sanity изменение — отдельный список IDs/fields + backup + owner approval.
@@ -65,16 +67,20 @@ Google URL Inspection сообщает noindex для части активны�
 
 Приоритет после разрешения индексации:
 
-1. Yucca rostrata.
-2. Buddha's hand citron.
-3. Brahea armata.
-4. Washingtonia.
-5. Rotor sprinklers category.
-6. Сильные service pages по автоматическому поливу.
+1. Yucca rostrata — индексируется; 33 impressions, 1 click, average position 12,5.
+2. Rotor sprinklers category — индексируется; 36 impressions, 0 clicks; mobile average position 36,7. Проверить интент и содержимое категории.
+3. Сильные service pages по автоматическому поливу — homepage/service visibility уже есть.
+4. Buddha's hand citron — только после разрешения noindex/canonical anomaly (28 impressions, position 9,6 в page report).
+5. Brahea armata — только после разрешения noindex/canonical anomaly (11 impressions, position 10,2).
+6. Washingtonia — только после разрешения noindex/canonical anomaly (16 impressions, position 8,8).
+
+Не проводить контентные изменения на страницах с noindex/canonical anomalies до Phase 0.
 
 Для каждой страницы проверить query intent, CTR, title/snippet, content depth, product availability, internal links и conversion path. Не считать одну позицию GSC гарантией стабильного рейтинга.
 
 ## Phase 5 — P3: local SEO and authority
+
+GSC geo-filtered Bulgarian queries дали только 3 impressions / 0 clicks за период; данных пока недостаточно для выводов о локальном спросе.
 
 - [ ] Проверить фактические Google Business Profile для Несебра и Равды.
 - [ ] Сверить NAP, реальные часы, категории, URL, фотографии, service areas и соответствие GardenStore JSON-LD.
@@ -102,3 +108,4 @@ Google URL Inspection сообщает noindex для части активны�
 ## Change log
 
 - 23.11.2026 — создана дорожная карта по результатам первого аудита SEO Audit Skill. Никаких runtime/Sanity/Cloudflare/Google changes не выполнялось.
+- 23.11.2026 — уточнены результаты повторной проверки 17 URL, canonical-target URLs, Sanity full-description/ALT gaps и приоритеты. PR #409 остаётся открытым.
