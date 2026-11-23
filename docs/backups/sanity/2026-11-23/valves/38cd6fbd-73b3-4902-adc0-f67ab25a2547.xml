@@ -1,0 +1,1018 @@
+Found document "38cd6fbd-73b3-4902-adc0-f67ab25a2547": 
+<document>
+  <_createdAt>2026-10-23T13:07:41Z</_createdAt>
+  <_id>38cd6fbd-73b3-4902-adc0-f67ab25a2547</_id>
+  <_rev>Wxh00JcLN6cQgy9skwfVLf</_rev>
+  <_system>
+    <base>
+      <id>38cd6fbd-73b3-4902-adc0-f67ab25a2547</id>
+      <rev>1qyPYQSEDVHtpwb6uBTVWD</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-15T12:04:53Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>65742b44-11c2-43ae-9551-e91eb675dc93</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>category-valves-24v</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>category-valves-24v</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>b0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>b00</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>100-PEB</text>
+    </children>
+    <children>
+      <_key>b01</_key>
+      <_type>span</_type>
+      <text> — мембранен електромагнитен клапан 1″ за автоматична поливна система.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h10</_key>
+      <_type>span</_type>
+      <text>Предназначение и принцип на работа</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p10</_key>
+      <_type>span</_type>
+      <text>Контролерът подава електрически сигнал към соленоида, който задейства мембраната и отваря водния проход. След прекратяване на сигнала клапанът се затваря автоматично. Серията PEB е предназначена за професионални и търговски системи. Усиленият със стъклени влакна найлонов корпус и подсилената мембрана са съобразени с високо натоварване.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h20</_key>
+      <_type>span</_type>
+      <text>Конструкция и особености на модела</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p20</_key>
+      <_type>span</_type>
+      <text>Усиленият корпус, регулаторът на дебита, вътрешното и външното ръчно управление са предназначени за професионална експлоатация. PEB е професионална серия с усилен корпус, ръчно управление и бавно затваряне.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h30</_key>
+      <_type>span</_type>
+      <text>Хидравлични и електрически параметри</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p30</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Размер 1″; работно налягане 1,4–13,8 bar; дебит 5–50 GPM (1,14–11,35 m³/h); соленоид 24 V AC. Реалният дебит зависи от загубите по тръбите, филтрите, арматурата и наличното налягане.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h40</_key>
+      <_type>span</_type>
+      <text>Монтаж, настройка и обслужване</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p40</_key>
+      <_type>span</_type>
+      <text>Присъединяване: вътрешна резба 1″ NPT; BSP се предлага при поръчка. Преди монтаж проверете посоката на потока, работното налягане и резбовия стандарт. Монтирайте в достъпна клапанна кутия и промийте тръбопровода преди пускане. При обслужване проверявайте мембраната, пилотния филтър, соленоида и уплътненията. При дебит под 1,14 m³/h се препоръчва входна филтрация; под 2,27 m³/h регулиращият винт се настройва на 2 пълни оборота от напълно отворено положение.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l0</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l00</_key>
+      <_type>span</_type>
+      <text>Проверете посоката на потока и не надвишавайте допустимото налягане.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l10</_key>
+      <_type>span</_type>
+      <text>Промийте тръбите преди свързване, за да не попаднат пясък и стружки в пилотния контур.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>l2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>l20</_key>
+      <_type>span</_type>
+      <text>Осигурете достъп за бъдеща профилактика.</text>
+    </children>
+    <level>1</level>
+    <listItem>bullet</listItem>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>h5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>h50</_key>
+      <_type>span</_type>
+      <text>Избор на съвместим контролер</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>p5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p50</_key>
+      <_type>span</_type>
+      <text>Този вариант е със соленоид 24 V AC и изисква контролер със стандартни изходи за 24 VAC клапани.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>p6</_key>
+    <_type>block</_type>
+    <children>
+      <_key>p60</_key>
+      <_type>span</_type>
+      <text>Полезни връзки: </text>
+    </children>
+    <children>
+      <_key>p61</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <marks>c</marks>
+      <text>контролери за автоматично напояване</text>
+    </children>
+    <children>
+      <_key>p62</_key>
+      <_type>span</_type>
+      <text> и </text>
+    </children>
+    <children>
+      <_key>p63</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <marks>s</marks>
+      <text>услуга за монтаж и ремонт на клапани</text>
+    </children>
+    <children>
+      <_key>p64</_key>
+      <_type>span</_type>
+      <text>.</text>
+    </children>
+    <markDefs>
+      <_key>c</_key>
+      <_type>link</_type>
+      <href>/category/controllers</href>
+    </markDefs>
+    <markDefs>
+      <_key>s</_key>
+      <_type>link</_type>
+      <href>/services/montazh-remont-elektromagnitni-klapani</href>
+    </markDefs>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>gallery100peb20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-b4168c2f2c6f1094ad4d179257deb320e3bc2aa4-700x700-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>gallery100pebcutaway20261026</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-35e014df5356615d73d4d44cd6df9b46a912242e-728x728-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird 100-PEB — електромагнитен клапан 1″, 24 V</alt>
+    <altEn>Rain Bird 100-PEB — 1″ solenoid valve, 24 VAC</altEn>
+    <altRu>Rain Bird 100-PEB — электромагнитный клапан 1″, 24 В AC</altRu>
+    <asset>
+      <_ref>image-cee46f3c0564efc2a555b15fb4f35c18d58c8e3a-550x550-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-0c64aa34fe25fa1e60399c51d7977573663a302a-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird 100-PEB — електромагнитен клапан 1″, 24 V</name>
+  <priceEUR>139.53</priceEUR>
+  <relatedContent>
+    <_key>3bZOs0N0PGXlOTrFSitoje</_key>
+    <_ref>d6dd1e83-f504-45a2-83de-974e144669e8</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>LI3QXmMjhELRGOr2zqYONX</_key>
+    <_ref>ca6f1767-67a3-4054-a9b5-9ea093d02737</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>LI3QXmMjhELRGOr2zqYOOL</_key>
+    <_ref>97df3a43-ed85-434e-a064-0119374dc140</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>LI3QXmMjhELRGOr2zqYOP9</_key>
+    <_ref>8625a364-c72b-4a1b-b957-b48b5e0f5ef1</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>LI3QXmMjhELRGOr2zqYOPx</_key>
+    <_ref>1ca2120e-744f-4aff-9d7e-affa2122a4fb</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>LI3QXmMjhELRGOr2zqYOQl</_key>
+    <_ref>ef0a57bc-d0ff-4ceb-98ce-55da7be19586</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird 100-PEB — електромагнитен клапан 1″, 24 V</h1>
+    <metaDescription>Rain Bird 100-PEB — електромагнитен клапан 1″, 24 V за автоматично поливане. Оборудване за поливни системи в района на Свети Влас.</metaDescription>
+    <metaTitle>Rain Bird 100-PEB — електромагнитен клапан 1″, 24 V | Свети Влас</metaTitle>
+  </seo>
+  <shortDescription>Професионален мембранен клапан 1″ с корпус от усилен найлон и соленоид 24 VAC.</shortDescription>
+  <sku>B34073</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-100-peb-24v</current>
+  </slug>
+  <specifications>
+    <_key>clean1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>100-PEB</value>
+  </specifications>
+  <specifications>
+    <_key>clean2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>PEB</value>
+  </specifications>
+  <specifications>
+    <_key>clean3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Индустриален електромагнитен клапан</value>
+  </specifications>
+  <specifications>
+    <_key>clean4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>100-peb, valve, commercial irrigation</value>
+  </specifications>
+  <specifications>
+    <_key>clean5</_key>
+    <_type>productSpec</_type>
+    <name>Размер на връзката</name>
+    <value>1″ вътрешна резба NPT; BSP се предлага при поръчка</value>
+  </specifications>
+  <specifications>
+    <_key>clean6</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>1,4–13,8 bar</value>
+  </specifications>
+  <specifications>
+    <_key>clean7</_key>
+    <_type>productSpec</_type>
+    <name>Дебит на модела 100-PEB</name>
+    <value>5–50 GPM (1,14–11,35 m³/h)</value>
+  </specifications>
+  <specifications>
+    <_key>clean8</_key>
+    <_type>productSpec</_type>
+    <name>Захранване на соленоида</name>
+    <value>24 V AC, 50/60 Hz</value>
+  </specifications>
+  <specifications>
+    <_key>clean9</_key>
+    <_type>productSpec</_type>
+    <name>Пусков ток</name>
+    <value>0,41 A (9,9 VA)</value>
+  </specifications>
+  <specifications>
+    <_key>clean10</_key>
+    <_type>productSpec</_type>
+    <name>Ток на задържане</name>
+    <value>0,14 A (3,43 VA)</value>
+  </specifications>
+  <specifications>
+    <_key>clean11</_key>
+    <_type>productSpec</_type>
+    <name>Съпротивление на бобината</name>
+    <value>30–39 Ω, номинално</value>
+  </specifications>
+  <specifications>
+    <_key>clean12</_key>
+    <_type>productSpec</_type>
+    <name>Размери (В × Д × Ш)</name>
+    <value>16,5 × 10,2 × 10,2 cm</value>
+  </specifications>
+  <specifications>
+    <_key>clean13</_key>
+    <_type>productSpec</_type>
+    <name>Материал на корпуса</name>
+    <value>Найлон, подсилен със стъклени влакна</value>
+  </specifications>
+  <specifications>
+    <_key>clean14</_key>
+    <_type>productSpec</_type>
+    <name>Температура</name>
+    <value>До 66 °C според техническите спецификации на серията</value>
+  </specifications>
+  <specifications>
+    <_key>clean15</_key>
+    <_type>productSpec</_type>
+    <name>Особености</name>
+    <value>Вътрешно и външно ръчно управление; бавно затваряне за ограничаване на хидравличния удар</value>
+  </specifications>
+  <specifications>
+    <_key>pebLowFlowGuidance100</_key>
+    <_type>productSpec</_type>
+    <name>Препоръки при нисък дебит</name>
+    <value>При дебит под 2,27 m³/h (10 GPM) регулиращият винт се настройва на 2 пълни оборота от напълно отворено положение. При дебит под 1,14 m³/h (5 GPM) Rain Bird препоръчва входна филтрация.</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird 100-PEB is a professional diaphragm solenoid valve for commercial automatic irrigation systems. Its body is made of glass-filled nylon. The valve is normally closed and includes flow control plus internal and external manual bleed for servicing. Specifications: 1″ size; operating pressure 1.4–13.8 bar; 24 VAC, 50/60 Hz solenoid. Allowable flow depends on valve size and hydraulic conditions; use the manufacturer's table for exact selection. Slow closing helps reduce water-hammer risk.</description>
+      <formattedDescription>
+        <_key>b0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b00</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>100-PEB</text>
+        </children>
+        <children>
+          <_key>b01</_key>
+          <_type>span</_type>
+          <text> — a 1″ diaphragm solenoid valve for automatic irrigation.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h10</_key>
+          <_type>span</_type>
+          <text>Purpose and operating principle</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p10</_key>
+          <_type>span</_type>
+          <text>The controller energises the solenoid, which operates the diaphragm and opens the water passage. When the signal stops, the valve closes automatically. The PEB series is intended for professional and commercial systems. Its glass-filled nylon body and reinforced diaphragm are designed for demanding service.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h20</_key>
+          <_type>span</_type>
+          <text>Construction and model-specific features</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p20</_key>
+          <_type>span</_type>
+          <text>The reinforced body, flow control, internal manual operation and external bleed are designed for professional service. PEB is a professional series with a reinforced body, manual operation and slow-closing action.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h30</_key>
+          <_type>span</_type>
+          <text>Hydraulic and electrical specifications</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p30</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Size 1″; operating pressure 1,4–13,8 bar; flow 5–50 GPM (1,14–11,35 m³/h); solenoid 24 VAC. Actual flow depends on pipe, filter and fitting losses as well as available pressure.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h40</_key>
+          <_type>span</_type>
+          <text>Installation, adjustment and maintenance</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p40</_key>
+          <_type>span</_type>
+          <text>Connection: 1″ female NPT thread; BSP available by order. Before installation, confirm flow direction, operating pressure and thread standard. Fit the valve in an accessible valve box and flush the pipework before commissioning. During service, inspect the diaphragm, pilot filter, solenoid and seals. For flows below 1.14 m³/h, upstream filtration is recommended; below 2.27 m³/h, set the flow-control stem two full turns from fully open.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l00</_key>
+          <_type>span</_type>
+          <text>Check flow direction and stay within the permitted operating pressure.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l10</_key>
+          <_type>span</_type>
+          <text>Flush pipework before connection to keep sand and swarf out of the pilot circuit.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l20</_key>
+          <_type>span</_type>
+          <text>Leave access for future maintenance.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h50</_key>
+          <_type>span</_type>
+          <text>Choosing a compatible controller</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p50</_key>
+          <_type>span</_type>
+          <text>This version uses a 24 VAC solenoid and requires a controller with standard 24 VAC valve outputs.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p60</_key>
+          <_type>span</_type>
+          <text>Useful links: </text>
+        </children>
+        <children>
+          <_key>p61</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>c</marks>
+          <text>automatic irrigation controllers</text>
+        </children>
+        <children>
+          <_key>p62</_key>
+          <_type>span</_type>
+          <text> and </text>
+        </children>
+        <children>
+          <_key>p63</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>s</marks>
+          <text>valve installation and repair service</text>
+        </children>
+        <children>
+          <_key>p64</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>c</_key>
+          <_type>link</_type>
+          <href>/category/controllers</href>
+        </markDefs>
+        <markDefs>
+          <_key>s</_key>
+          <_type>link</_type>
+          <href>/services/montazh-remont-elektromagnitni-klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird 100-PEB — 1″ solenoid valve, 24 VAC</name>
+      <seo>
+        <h1>Rain Bird 100-PEB — 1″ solenoid valve, 24 VAC</h1>
+        <metaDescription>For sale: Rain Bird 100-PEB 1″ diaphragm valve with a reinforced nylon body and 24 VAC solenoid. Florial, Sveti Vlas.</metaDescription>
+        <metaTitle>Rain Bird 100-PEB 1″ 24 VAC valve | Sveti Vlas | Florial</metaTitle>
+      </seo>
+      <shortDescription>Professional 1″ diaphragm valve with reinforced nylon body and 24 VAC solenoid.</shortDescription>
+      <specifications>
+        <_key>clean1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>100-PEB</value>
+      </specifications>
+      <specifications>
+        <_key>clean2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>PEB</value>
+      </specifications>
+      <specifications>
+        <_key>clean3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Commercial solenoid valve</value>
+      </specifications>
+      <specifications>
+        <_key>clean4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>100-peb, valve, commercial irrigation</value>
+      </specifications>
+      <specifications>
+        <_key>clean5</_key>
+        <_type>productSpec</_type>
+        <name>Connection size</name>
+        <value>1″ female NPT; BSP available to order</value>
+      </specifications>
+      <specifications>
+        <_key>clean6</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>1.4–13.8 bar</value>
+      </specifications>
+      <specifications>
+        <_key>clean7</_key>
+        <_type>productSpec</_type>
+        <name>Flow rate</name>
+        <value>5–50 GPM (1.14–11.35 m³/h)</value>
+      </specifications>
+      <specifications>
+        <_key>clean8</_key>
+        <_type>productSpec</_type>
+        <name>Solenoid power supply</name>
+        <value>24 VAC, 50/60 Hz</value>
+      </specifications>
+      <specifications>
+        <_key>clean9</_key>
+        <_type>productSpec</_type>
+        <name>Inrush current</name>
+        <value>0.41 A (9.9 VA)</value>
+      </specifications>
+      <specifications>
+        <_key>clean10</_key>
+        <_type>productSpec</_type>
+        <name>Holding current</name>
+        <value>0.14 A (3.43 VA)</value>
+      </specifications>
+      <specifications>
+        <_key>clean11</_key>
+        <_type>productSpec</_type>
+        <name>Coil resistance</name>
+        <value>30–39 Ω, nominal</value>
+      </specifications>
+      <specifications>
+        <_key>clean12</_key>
+        <_type>productSpec</_type>
+        <name>Dimensions (H × L × W)</name>
+        <value>16.5 × 10.2 × 10.2 cm</value>
+      </specifications>
+      <specifications>
+        <_key>clean13</_key>
+        <_type>productSpec</_type>
+        <name>Body material</name>
+        <value>Glass-fibre-reinforced nylon</value>
+      </specifications>
+      <specifications>
+        <_key>clean14</_key>
+        <_type>productSpec</_type>
+        <name>Temperature</name>
+        <value>Up to 66 °C according to the series technical specifications</value>
+      </specifications>
+      <specifications>
+        <_key>clean15</_key>
+        <_type>productSpec</_type>
+        <name>Features</name>
+        <value>Internal and external manual bleed; slow closing to reduce water hammer</value>
+      </specifications>
+      <specifications>
+        <_key>pebLowFlowGuidance100</_key>
+        <_type>productSpec</_type>
+        <name>Low-flow guidance</name>
+        <value>For flow below 2.27 m³/h (10 GPM), set the adjustment screw 2 full turns from fully open. For flow below 1.14 m³/h (5 GPM), Rain Bird recommends inlet filtration.</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird 100-PEB — профессиональный мембранный электромагнитный клапан для коммерческих систем автоматического полива. Корпус изготовлен из армированного стекловолокном нейлона. Клапан нормально закрытый, с регулировкой расхода и внутренним и внешним ручным управлением для обслуживания. Характеристики: размер 1″; рабочее давление 1,4–13,8 бар; соленоид 24 В AC, 50/60 Гц. Допустимый расход зависит от размера клапана и гидравлических условий; для точного выбора используйте таблицу производителя. Медленное закрытие помогает снизить риск гидроудара.</description>
+      <formattedDescription>
+        <_key>b0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>b00</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>100-PEB</text>
+        </children>
+        <children>
+          <_key>b01</_key>
+          <_type>span</_type>
+          <text> — мембранный электромагнитный клапан 1″ для автоматического полива.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h10</_key>
+          <_type>span</_type>
+          <text>Назначение и принцип работы</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p10</_key>
+          <_type>span</_type>
+          <text>Контроллер подаёт электрический сигнал на соленоид, который приводит в действие мембрану и открывает проход воды. После прекращения сигнала клапан автоматически закрывается. Серия PEB предназначена для профессиональных и коммерческих систем. Усиленный стекловолокном нейлоновый корпус и армированная мембрана рассчитаны на высокую нагрузку.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h20</_key>
+          <_type>span</_type>
+          <text>Конструкция и особенности модели</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p20</_key>
+          <_type>span</_type>
+          <text>The reinforced body, flow control, internal manual operation and external bleed are designed for professional service. PEB — профессиональная серия с усиленным корпусом, ручным управлением и замедленным закрытием.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h30</_key>
+          <_type>span</_type>
+          <text>Гидравлические и электрические параметры</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p30</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Размер 1″; рабочее давление 1,4–13,8 bar; расход 5–50 GPM (1,14–11,35 m³/h); соленоид 24 В AC. Фактический расход зависит от потерь в трубах, фильтрах, арматуре и доступного давления.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h40</_key>
+          <_type>span</_type>
+          <text>Монтаж, настройка и обслуживание</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p40</_key>
+          <_type>span</_type>
+          <text>Подключение: внутренняя резьба 1″ NPT; BSP доступна по запросу. Перед монтажом проверьте направление потока, рабочее давление и стандарт резьбы. Установите клапан в доступном боксе и промойте трубопровод перед запуском. При обслуживании проверяйте мембрану, пилотный фильтр, соленоид и уплотнения. При расходе ниже 1,14 м³/ч рекомендуется входная фильтрация; ниже 2,27 м³/ч регулировочный шток устанавливают на два полных оборота от полностью открытого положения.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l0</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l00</_key>
+          <_type>span</_type>
+          <text>Проверьте направление потока и не превышайте допустимое давление.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l10</_key>
+          <_type>span</_type>
+          <text>Промойте трубы до подключения, чтобы песок и стружка не попали в пилотный контур.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>l2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>l20</_key>
+          <_type>span</_type>
+          <text>Оставьте доступ для последующего обслуживания.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>h50</_key>
+          <_type>span</_type>
+          <text>Выбор совместимого контроллера</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p50</_key>
+          <_type>span</_type>
+          <text>Эта версия оснащена соленоидом 24 В AC и требует контроллера со стандартными выходами для клапанов 24 VAC.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>p6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>p60</_key>
+          <_type>span</_type>
+          <text>Полезные ссылки: </text>
+        </children>
+        <children>
+          <_key>p61</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>c</marks>
+          <text>контроллеры автоматического полива</text>
+        </children>
+        <children>
+          <_key>p62</_key>
+          <_type>span</_type>
+          <text> и </text>
+        </children>
+        <children>
+          <_key>p63</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <marks>s</marks>
+          <text>услуга монтажа и ремонта клапанов</text>
+        </children>
+        <children>
+          <_key>p64</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>c</_key>
+          <_type>link</_type>
+          <href>/category/controllers</href>
+        </markDefs>
+        <markDefs>
+          <_key>s</_key>
+          <_type>link</_type>
+          <href>/services/montazh-remont-elektromagnitni-klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird 100-PEB — электромагнитный клапан 1″, 24 В AC</name>
+      <seo>
+        <h1>Rain Bird 100-PEB — электромагнитный клапан 1″, 24 В AC</h1>
+        <metaDescription>Продажа мембранного клапана Rain Bird 100-PEB 1″ с усиленным нейлоновым корпусом и соленоидом 24 В AC. Флориал, Святой Влас.</metaDescription>
+        <metaTitle>Rain Bird 100-PEB 1″ 24 В AC | Святой Влас | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Профессиональный мембранный клапан 1″ с усиленным нейлоновым корпусом и соленоидом 24 В AC.</shortDescription>
+      <specifications>
+        <_key>clean1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>100-PEB</value>
+      </specifications>
+      <specifications>
+        <_key>clean2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>PEB</value>
+      </specifications>
+      <specifications>
+        <_key>clean3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Промышленный электромагнитный клапан</value>
+      </specifications>
+      <specifications>
+        <_key>clean4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>100-peb, клапан, коммерческий полив</value>
+      </specifications>
+      <specifications>
+        <_key>clean5</_key>
+        <_type>productSpec</_type>
+        <name>Размер подключения</name>
+        <value>1″ внутренняя резьба NPT; BSP доступна под заказ</value>
+      </specifications>
+      <specifications>
+        <_key>clean6</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>1,4–13,8 бар</value>
+      </specifications>
+      <specifications>
+        <_key>clean7</_key>
+        <_type>productSpec</_type>
+        <name>Расход модели 100-PEB</name>
+        <value>5–50 GPM (1,14–11,35 м³/ч)</value>
+      </specifications>
+      <specifications>
+        <_key>clean8</_key>
+        <_type>productSpec</_type>
+        <name>Питание соленоида</name>
+        <value>24 В AC, 50/60 Гц</value>
+      </specifications>
+      <specifications>
+        <_key>clean9</_key>
+        <_type>productSpec</_type>
+        <name>Пусковой ток</name>
+        <value>0,41 A (9,9 VA)</value>
+      </specifications>
+      <specifications>
+        <_key>clean10</_key>
+        <_type>productSpec</_type>
+        <name>Ток удержания</name>
+        <value>0,14 A (3,43 VA)</value>
+      </specifications>
+      <specifications>
+        <_key>clean11</_key>
+        <_type>productSpec</_type>
+        <name>Сопротивление катушки</name>
+        <value>30–39 Ом, номинальное</value>
+      </specifications>
+      <specifications>
+        <_key>clean12</_key>
+        <_type>productSpec</_type>
+        <name>Размеры (В × Д × Ш)</name>
+        <value>16,5 × 10,2 × 10,2 см</value>
+      </specifications>
+      <specifications>
+        <_key>clean13</_key>
+        <_type>productSpec</_type>
+        <name>Материал корпуса</name>
+        <value>Нейлон, армированный стекловолокном</value>
+      </specifications>
+      <specifications>
+        <_key>clean14</_key>
+        <_type>productSpec</_type>
+        <name>Температура</name>
+        <value>До 66 °C по технической спецификации серии</value>
+      </specifications>
+      <specifications>
+        <_key>clean15</_key>
+        <_type>productSpec</_type>
+        <name>Особенности</name>
+        <value>Внутреннее и внешнее ручное управление; медленное закрытие для ограничения гидроудара</value>
+      </specifications>
+      <specifications>
+        <_key>pebLowFlowGuidance100</_key>
+        <_type>productSpec</_type>
+        <name>Рекомендации при низком расходе</name>
+        <value>При расходе ниже 2,27 м³/ч (10 GPM) регулировочный винт настраивают на 2 полных оборота от полностью открытого положения. При расходе ниже 1,14 м³/ч (5 GPM) Rain Bird рекомендует входную фильтрацию.</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.576</weightKg>
+</document>
