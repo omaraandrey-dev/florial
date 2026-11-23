@@ -6,7 +6,7 @@
 - Added regression tests and `docs/audits/2026-11-23-blog-portfolio-ux.md`.
 - Exact PR head `69f5786f05c0341b909b0af63c1a6297d00d923d`: Blog/Studio validation runs `45241168754` and `45241176927`, plus D1 validation run `45241168752` — all succeeded.
 - Only `src/pages/BlogPage.tsx`, `tests/blog-portfolio-page.test.mjs` and the unique audit file were part of PR #508. Sanity schema/documents/dataset/assets, D1, Cloudflare settings/secrets, Resend, Header, main menu, Footer and routes were not changed.
-- Live desktop/mobile visual QA was not confirmed before merge. Production Pages deployment and post-deployment smoke checks are recorded only after their actual verification.
+- Live desktop/mobile visual QA was not confirmed before merge. Cloudflare Pages Production deployment `e0a2dbef-d9fa-47e4-b114-d3172b6a8b0d` succeeded from final documentation-integrated `main` commit `f0c5fe6121e4733273877cad61e73e86fd1068e7`; the `florial-bg.com` and `www` aliases are attached. The code merge commit itself also deployed successfully as `677d6970-91c8-4e24-8068-f52a07bfd253` (`6828e44409c7bc7f805de703fc71d68544bff241`). Cloudflare Browser Rendering returned the live BG page HTML: title and single H1 are correct, one current breadcrumb is present, redundant Florial eyebrow is absent, all four category labels and search are present. Full desktop/mobile visual QA and interactive filter testing remain unconfirmed because Browser Use lacked credits and Browser Rendering was rate-limited for additional runs.
 
 ## 2026-11-23 — Florial Irrigation Assistant service published (Sanity Production)
 
