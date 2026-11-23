@@ -28,6 +28,8 @@
 - `tests/blog-portfolio-page.test.mjs`: regression coverage for localized copy, the curated article mapping, compact dropdown, removed publication type, localized topic tags and read-only Sanity behavior.
 
 ## Verification
-- Pending exact-head CI and Production release.
-- Full desktop/mobile visual QA and interactive filter testing must be completed after Preview/Production availability.
-- This change intentionally does not write to Sanity or change its schema.
+- Exact implementation head `cb610258d91f62a80351a0e5a933e3cde0486881`: Blog/Studio validation run `45243933064` succeeded, including website and Pages Functions type-check, lint, all website tests, website build, migration syntax/read-only dry-run, Studio type-check and Studio build. D1 validation run `45243933022` also succeeded.
+- Cloudflare Pages Preview deployment `6288e33b-3f68-44a6-8577-24ac497fc3c2` succeeded from the exact implementation head.
+- Cloudflare Browser Rendering read-only checks on Preview confirmed the Russian mobile page has the Russian intro, translated heading and all four localized category labels; the English desktop page has the English intro, translated heading, all four English category labels, localized topic tags and the compact Filters button. The Bulgarian intro is not present in those localized responses. Both locales omit the publication-type filter.
+- Browser Use could not run because its project had insufficient credits. Full screenshot-based desktop/mobile review and clicking through the dropdown/category filters therefore remain unconfirmed; HTML rendering alone does not verify click behavior or visual overflow.
+- Production deployment awaits the owner's explicit release approval. No Sanity writes or schema changes were made.
