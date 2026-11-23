@@ -1,3 +1,11 @@
+## 2026-11-23 — Blog/portfolio correction release (PR #509)
+
+- **CLOSED — merge and exact-head CI:** PR #509 merged to `main` at `f899e0592bcab4221d606568ddb459ba39941e35`. Blog/Studio runs `45245064385` and `45245088129`, plus D1 run `45245064540`, succeeded. Preview `01588588.florial.pages.dev` deployed from the exact PR head.
+- **CLOSED — rendered HTML localization smoke:** RU mobile and EN desktop preview responses contain localized intro, H1, all four category labels and Filters button. Publication-type filter and Project/Article card chips are absent.
+- **OPEN — full visual and interaction QA:** screenshot inspection and actual dropdown/category clicks, combined-filter behavior, empty/reset states and full BG/RU/EN visual review remain unconfirmed. Browser Use could not run because project credits were unavailable; rendered HTML is not a substitute for interaction testing.
+- **OPEN — Production deployment verification:** confirm Cloudflare Pages deployment from the final documentation-integrated `main` SHA and live `florial-bg.com/blog` rendering.
+- Evidence: `../audits/2026-11-23-blog-filter-localization-corrections.md`.
+
 ## 2026-11-23 — Blog and portfolio UX release verification
 
 - **CLOSED — Pages Production deployment and BG HTML smoke:** final `main` SHA `f0c5fe6121e4733273877cad61e73e86fd1068e7` deployed successfully as `e0a2dbef-d9fa-47e4-b114-d3172b6a8b0d`; aliases `florial-bg.com` and `www.florial-bg.com` are attached. Live rendered HTML confirmed the correct title/H1, one current breadcrumb, no redundant Florial eyebrow, four category labels and search control.

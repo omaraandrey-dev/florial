@@ -1,3 +1,12 @@
+## 2026-11-23 — Blog/portfolio localization and filter correction (PR #509)
+
+- PR #509 squash-merged at `f899e0592bcab4221d606568ddb459ba39941e35`.
+- `/blog` now has BG/RU/EN introductory and category copy, localized topic chips, and one compact Filters dropdown containing search, year, sort and secondary topics. Publication type and Project/Article card badges are removed.
+- Four primary category results use an editorial mapping of all 19 published post slugs, with multi-topic assignment where appropriate; the terrace/gazebo mist-cooling post is intentionally excluded from plant irrigation. Untagged posts remain in the general listing.
+- No Sanity schema/content/tag/asset writes or D1/infrastructure changes. Regression tests: `tests/blog-portfolio-page.test.mjs`; audit: `docs/audits/2026-11-23-blog-filter-localization-corrections.md`.
+- Exact PR head CI: Blog/Studio runs `45245064385` and `45245088129`; D1 run `45245064540` — all succeeded. Preview deployment `01588588.florial.pages.dev` succeeded. Production deployment from post-merge documentation-integrated main SHA is tracked by Cloudflare Pages after this documentation commit.
+- HTML smoke confirmed RU mobile and EN desktop localized content and absence of publication-type/Project chips. Full screenshot-based visual QA and real interaction testing remain open.
+
 ## 2026-11-23 — Blog and portfolio listing UX
 
 - PR #508 is integrated into `main` at `6828e44409c7bc7f805de703fc71d68544bff241`.

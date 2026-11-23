@@ -1,3 +1,14 @@
+## 2026-11-23 — Blog and portfolio localization, compact filters and editorial category correction (PR #509 merged)
+
+- PR #509 squash-merged into `main` at `f899e0592bcab4221d606568ddb459ba39941e35`.
+- The /blog introduction, page controls, four category labels/descriptions and topic tags are localized for BG/RU/EN. Search, year, sort and secondary topics are grouped into one compact dropdown labelled by locale.
+- Removed publication-type filter and Project/Article chips from article cards.
+- Reviewed all 19 published blog posts read-only in Sanity Production. Frontend editorial slug mapping now includes relevant irrigation, landscape, rolled-turf and planting posts even when tags are absent or too broad. The terrace/gazebo mist-cooling post remains in the general list but is intentionally not classified as plant irrigation.
+- Sanity schema/documents/tags/assets were not changed. No D1, Cloudflare settings/secrets, Resend, Header, menu, Footer or route changes.
+- Exact PR head `ef3fe61a3b683403d2cf7315debf1a01232c4021`: Blog/Studio CI `45245064385` and `45245088129`, D1 CI `45245064540` — all succeeded. Cloudflare Pages Preview `01588588.florial.pages.dev` deployed successfully from that exact head.
+- RU mobile and EN desktop rendered-HTML checks confirmed localized intro, H1, four category labels and Filters button; no publication-type filter or Project/Article card chip. Full screenshot-based and interactive click QA remains unconfirmed because Browser Use credits were unavailable.
+- Detailed evidence and exact slug mapping: `docs/audits/2026-11-23-blog-filter-localization-corrections.md`.
+
 ## 2026-11-23 — Blog and portfolio landing page UX (PR #508 merged)
 
 - PR #508 squash-merged into `main` at `6828e44409c7bc7f805de703fc71d68544bff241`.
