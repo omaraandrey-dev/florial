@@ -101,7 +101,7 @@ zoneCapacity: {
 
 Это **фиксированные допущения Florial для предварительного эскиза**, не измерения заказчика и не гидравлически подтверждённые параметры. Лимит 6 головок — внутреннее правило группировки проекта, а не универсальная производительность клапана или доказанный гидравлический предел.
 
-**Важное расхождение документации:** ранний аудит от 22.11.2026 описывал main line Ø32 mm, но действующая константа и результат `buildPerimeterPipeNetwork` в merged code выставляют `mainDiameterMm: 25`. До расчёта потерь и финального sizing владелец/инженер должен подтвердить, какой номинал является стандартом: Ø25 или Ø32. Не исправлять это молча и не считать диаметр подтверждённым расчётом.
+**Решение владельца от 23.11.2026:** Ø25 mm является фиксированным стандартом Florial для основной магистрали и зональных линий. Ø32 mm не используется и не является открытым вопросом. Гидравлическое оразмеряване/расчёты не входят в продукт.
 
 ## 4. Производительность Rain Bird и выбор модели
 
@@ -357,18 +357,15 @@ Production deployment проверен по Cloudflare deployment metadata. От
 
 ## 13. Ограничения, открытые вопросы и правила дальнейшей работы
 
-До следующего инженерного этапа считать НЕ реализованными/НЕ подтверждёнными:
-1. Реальное динамическое давление и доступный расход воды на вводе.
-2. Достижение 3.1 bar на форсунках под рабочим расходом.
-3. Гидравлический расчёт по сегментам, потери трения/местные потери, внутренние диаметры PE, скорости, остаточное давление и проверка худшей точки.
-4. Согласование Ø25 vs Ø32 для основной магистрали (см. раздел 3).
-5. Проверка реальной совместимости корпуса 1804 и выбранной R-VAN конфигурации с требуемым регулированием 3.1 bar на объекте.
-6. Гидравлическая допустимость шести головок на клапан; текущие 6 — только project grouping cap.
-7. Precipitation matching/uniformity (DU/CU), ветровое влияние, overspray и запретные зоны.
-8. Геометрия исключений/препятствий, сложные L-shape и несколько регионов за пределами текущих тестов.
-9. Фактическая длина PE mainline и полный монтажный BOM.
-10. Проверка cart поведения для out-of-stock/on-request и политика доступности.
-11. Полевая проверка монтажа, радиусов, форсунок, клапанов и фактического расхода.
+Граница продукта и текущие ограничения:
+1. Гидравлические расчёты не выполняются и не входят в план развития: расход, динамическое давление, потери, скорости, остаточное давление и гидравлическая производительность зон не рассчитываются.
+2. Диаметр основной магистрали и зональных линий фиксирован владельцем: Ø25 mm.
+3. Максимум 6 головок в зоне — стандарт геометрической группировки Florial, не гидравлический вывод.
+4. Precipitation matching/uniformity (DU/CU), ветровое влияние, overspray и запретные зоны не являются расчётными функциями текущего продукта.
+5. Геометрия исключений/препятствий, сложные L-shape и несколько регионов ограничены поддерживаемыми сценариями и тестами.
+6. Фактическая длина траншей/труб на участке зависит от монтажа; схематическая трасса не является исполнительной съёмкой.
+7. Проверка cart поведения для out-of-stock/on-request остаётся отдельным продуктовым вопросом.
+8. Практическая проверка монтажа и соответствия реального участка схеме выполняется монтажником на объекте, а не автоматическим гидравлическим модулем.
 
 ### Жёсткие правила дальнейшего развития
 - Не превращать `layout_generated` в `design_ready` без самостоятельных инженерных gates.
@@ -395,4 +392,4 @@ Current implementation details, validation rules, D1 persistence, email delivery
 
 The project snapshot is attached to the normal checkout request only after the complete generated kit is added. The order endpoint validates the submitted snapshot against the server-resolved cart SKU quantities and persists it in the existing `order_events.metadata` field with event type `irrigation_project_attached`; no D1 migration is introduced. A separate preliminary PDF is emailed to the owner after order persistence. Customer confirmation/proforma email is unchanged. If PDF generation or delivery fails, the saved order remains valid and the event records the delivery status where possible.
 
-The cart detaches the snapshot when any generated kit SKU quantity is changed or removed. The PDF includes overall/cut-out dimensions, the drawn schematic main/zone/lateral routes, and catalogue names plus BOM SKUs/quantities. It explicitly states that hydraulic sizing, dynamic source pressure/flow, nozzle residual pressure, six-head hydraulic suitability, DU/CU, wind, overspray, exclusions and complete mainline sizing are not verified.
+The cart detaches the snapshot when any generated kit SKU quantity is changed or removed. The PDF includes overall/cut-out dimensions, the drawn schematic Ø25 mm main/zone/lateral routes, and catalogue names plus BOM SKUs/quantities. The document clearly states that hydraulic calculations are outside the Florial assistant's scope. The approved next PDF change is to append the complete three-page Bulgarian installation guide after the site-specific project section.
