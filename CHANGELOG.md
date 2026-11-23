@@ -1,3 +1,13 @@
+## 2026-11-23 — Sprinkler product descriptions: delivery/service close-out (20/20 published)
+
+- Read-only inventory confirmed 20 active published products in the sprinkler category. Full BG descriptions and RU/EN formatted descriptions already existed; their existing content and technical data were retained.
+- Appended the required localized final section to all 20 products: Econt delivery throughout Bulgaria; optional engineer delivery to site in Nessebar / Burgas area; installation, setup and repair for an additional fee.
+- Published Sanity read-back confirmed 20/20 products and the final delivery/service paragraph in BG/RU/EN. Target draft count: 0.
+- Sanity validation: 20 reported valid; custom validation callbacks, including custom slug uniqueness callbacks, were not executed by the available validator (complete=false).
+- No product specifications, compatibility values, short descriptions, SKUs, names, prices, stock, images, categories, SEO fields, schema, application code or Production infrastructure were changed. This was an append-only content update.
+- No Sanity snapshot was created for this assignment, per the owner's explicit instruction. No Production deployment was required.
+- Audit: docs/audits/2026-11-23-sprinkler-delivery-refresh.md.
+
 ## 2026-11-23 — Ready-made kit descriptions (11/12 published)
 
 - Updated and published 11 of 12 active irrigation kits in BG/RU/EN. Each locale now has five H2 sections, two verified internal links, and the required Econt / engineer delivery / paid installation-service wording.
