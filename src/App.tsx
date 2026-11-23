@@ -174,6 +174,39 @@ function ServiceDirectionLoadingState({ label }: { label: string }) {
   )
 }
 
+function BlogLoadingState({ label }: { label: string }) {
+  return (
+    <main className="mx-auto flex min-h-[100svh] w-full max-w-7xl flex-grow flex-col px-4 py-8 md:px-6 md:py-12" aria-busy="true">
+      <p className="sr-only" role="status" aria-live="polite">{label}</p>
+      <div aria-hidden="true" className="mb-6 h-4 w-40 animate-pulse rounded bg-slate-200" />
+      <div aria-hidden="true" className="mb-10 max-w-4xl space-y-4">
+        <div className="h-9 w-2/3 animate-pulse rounded bg-slate-200" />
+        <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+        <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
+      </div>
+      <div aria-hidden="true" className="mb-10 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
+        {Array.from({ length: 4 }, (_, index) => (
+          <div key={index} className="min-h-40 animate-pulse rounded-2xl bg-slate-200 md:min-h-52" />
+        ))}
+      </div>
+      <div aria-hidden="true" className="mb-7 h-11 w-32 animate-pulse rounded-xl bg-slate-100" />
+      <div aria-hidden="true" className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 5 }, (_, index) => (
+          <div key={index} className={`overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white ${index === 0 ? 'sm:col-span-2 lg:col-span-3' : ''}`}>
+            <div className="h-56 animate-pulse bg-slate-100" />
+            <div className="space-y-3 p-5">
+              <div className="h-4 w-1/4 animate-pulse rounded bg-slate-100" />
+              <div className="h-6 w-4/5 animate-pulse rounded bg-slate-200" />
+              <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+              <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
+  )
+}
+
 function ProductLoadingState({ label }: { label: string }) {
   return (
     <main
@@ -301,6 +334,7 @@ export default function App() {
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
   const [categories, setCategories] = useState<CategoryItem[]>([])
+  const categoriesLoaded = useRef(false)
   const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
   const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
   const [services, setServices] = useState<ServiceItem[]>([])
@@ -337,6 +371,7 @@ export default function App() {
   const [routeRevision, setRouteRevision] = useState(0)
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const isBlogRoute = normalizedRoutePath === '/blog' || normalizedRoutePath.startsWith('/blog/')
   const isIrrigationAssistantRoute = window.location.pathname.replace(/\/+$/, '') === '/irrigation-assistant'
   const isServicesListRoute = normalizedRoutePath === '/services' || normalizedRoutePath.startsWith('/services/category/')
   const serviceDirectionSlug = normalizedRoutePath.startsWith('/services/category/') ? decodeURIComponent(normalizedRoutePath.slice('/services/category/'.length)) : null
@@ -933,6 +968,13 @@ export default function App() {
   useEffect(() => {
     let cancelled = false
 
+    if (isBlogRoute || categoriesLoaded.current) {
+      if (isBlogRoute) setLoadingCategories(false)
+      return () => { cancelled = true }
+    }
+
+    setLoadingCategories(true)
+
     const fetchData = async () => {
       const categoryQuery = `
         *[_type == "category"] | order(sortOrder asc) {
@@ -984,7 +1026,12 @@ export default function App() {
         setCategories([...equipmentCategories, ...plantsCategoryData])
         if (categoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории оборудования:', categoryResult.reason)
         if (plantCategoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории растений:', plantCategoryResult.reason)
-      }).finally(() => { if (!cancelled) setLoadingCategories(false) })
+      }).finally(() => {
+        if (!cancelled) {
+          categoriesLoaded.current = true
+          setLoadingCategories(false)
+        }
+      })
 
       await categoryPromise
     }
@@ -994,7 +1041,7 @@ export default function App() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [isBlogRoute])
 
   // Homepage recommendations are curated explicitly in the plants dataset via isFeatured.
   // Load only a small published projection on the homepage; never infer popularity from sort order.
@@ -1699,6 +1746,8 @@ export default function App() {
             ? <CategoryLoadingState label={t('Зареждане на категорията...')} />
             : activeServiceSlug
               ? <ServiceLoadingState label={t('Зареждане на услугата...')} />
+            : normalizedRoutePath === '/blog'
+              ? <BlogLoadingState label={t('Зареждане на блога...')} />
             : activeProductSlug
               ? <ProductLoadingState label={t('Зареждане на продукта...')} />
               : (

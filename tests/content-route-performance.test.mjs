@@ -213,3 +213,41 @@ test('landscape service direction reserves the long page layout while its lazy m
   assert.ok(directionFallback >= 0 && directionFallback < genericServiceFallback)
   assert.match(fallback, /<ServiceDirectionLoadingState/)
 })
+
+
+test('blog route skips the unrelated full category indexes and keeps them available after navigation', async () => {
+  const app = await read('../src/App.tsx')
+  assert.match(app, /const isBlogRoute = normalizedRoutePath === '\/blog' \|\| normalizedRoutePath\.startsWith\('\/blog\/'\)/)
+  assert.match(app, /if \(isBlogRoute \|\| categoriesLoaded\.current\)/)
+  assert.match(app, /categoriesLoaded\.current = true/)
+  assert.match(app, /\}, \[isBlogRoute\]\)/)
+})
+
+test('blog lazy-load and data-load states reserve page space and show matching skeletons', async () => {
+  const app = await read('../src/App.tsx')
+  const page = await read('../src/pages/BlogPage.tsx')
+  assert.match(app, /function BlogLoadingState/)
+  assert.match(app, /normalizedRoutePath === '\/blog'[\s\S]*?<BlogLoadingState/)
+  assert.match(page, /min-h-\[100svh\]/)
+  assert.match(page, /!loaded \? <div aria-busy="true"/)
+  assert.match(page, /Array\.from\(\{ length: 4 \}/)
+  assert.match(page, /Array\.from\(\{ length: 5 \}/)
+})
+
+test('blog route preconnects to Sanity query and image CDNs in the initial response', async () => {
+  const middleware = await read('../functions/_middleware.ts')
+  const blogRouteStart = middleware.indexOf("if (path === '/blog')")
+  const blogRouteEnd = middleware.indexOf("if (path === '/services')", blogRouteStart)
+  assert.ok(blogRouteStart >= 0 && blogRouteEnd > blogRouteStart)
+  const blogRoute = middleware.slice(blogRouteStart, blogRouteEnd)
+  assert.match(middleware, /options\.pageType === 'product' \|\| options\.pageType === 'blog'/)
+  assert.match(blogRoute, /pageType: 'blog'/)
+  assert.match(middleware, /href="https:\/\/cdn\.sanity\.io" crossorigin/)
+  assert.match(middleware, /href="https:\/\/bxvcy0qs\.apicdn\.sanity\.io" crossorigin/)
+})
+
+test('blog listing images use narrower responsive sizes and lower card quality', async () => {
+  const page = await read('../src/pages/BlogPage.tsx')
+  assert.match(page, /\(min-width: 1280px\) 308px[\s\S]*?45vw', 640, 68/)
+  assert.match(page, /\(min-width: 1280px\) 397px[\s\S]*?92vw', featured \? 1100 : 640, 68/)
+})

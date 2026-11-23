@@ -452,7 +452,7 @@ function setPageHead(
   },
 ): string {
   let html = sourceHtml
-  if (options.pageType === 'product') {
+  if (options.pageType === 'product' || options.pageType === 'blog') {
     const resourceHints = [
       '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
       '<link rel="preconnect" href="https://bxvcy0qs.api.sanity.io" crossorigin />',
@@ -955,7 +955,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     return transformHtmlResponse(await context.next(), (html) => setPageHead(html, {
       language, title: meta.title, description: meta.description, canonical,
       alternates: {'bg': localizedRouteUrl('/blog', 'bg'), 'ru': localizedRouteUrl('/blog', 'ru'), 'en': localizedRouteUrl('/blog', 'en'), 'x-default': localizedRouteUrl('/blog', 'bg')},
-      pageType: 'website',
+      pageType: 'blog',
       structuredData: [{
         id: 'collection-page',
         data: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: meta.title, description: meta.description, url: canonical },
