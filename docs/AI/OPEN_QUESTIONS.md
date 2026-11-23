@@ -1,3 +1,18 @@
+## 2026-11-23 — Roadmap synchronization / next active work
+
+Единый актуальный статус всех основных дорожных карт: [ROADMAP_STATUS_INDEX_2026-11-23.md](../roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md).
+
+- **NEXT — SEO Step 4:** read-only inventory published Sanity product/category/service content and localized SEO fields; prepare BG/RU/EN proposals. No Sanity writes until exact IDs/fields, backup and separate owner approval.
+- **OPEN — SEO indexability:** live Production sample passes index/follow and self-canonical, but Google live URL Test and post-recrawl are not verified; saved GSC state remains historical.
+- **OPEN — GA4:** PR #488 integration deployed; verify real consented-session events in Realtime/DebugView. No test order without approval.
+- **OPEN — Google Shopping:** dedicated Rich Results / URL Inspection evidence; Merchant Center account creation and later feed work remain separate stages.
+- **OPEN — Manager Web Push:** authenticated Owner self-test and real Android/Chrome delivery/click/unsubscribe QA.
+- **PAUSED — Performance:** no measured current Core Web Vitals baseline; resume only with separate owner direction.
+
+Подробные границы и evidence — в едином реестре; старые датированные записи ниже сохраняются как история.
+ 
+---
+
 ## 2026-11-23 — Irrigation assistant automation/BOM owner corrections
 
 - CLOSED — default TM2 variants are indoor-mount SKUs F54234/F54236/F54238; RC2 remains indoor-mount.
