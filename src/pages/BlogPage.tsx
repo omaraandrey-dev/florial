@@ -78,8 +78,13 @@ function hasAnyTag(post: BlogPostCard, tags: string[]) {
   return tags.some((tag) => postTags.includes(normalizedTag(tag)))
 }
 
+const editorialCategorySlugs = new Set(blogCategories.flatMap((category) => category.slugs))
+
 function matchesBlogCategory(post: BlogPostCard, category: BlogCategory) {
-  return category.slugs.includes(blogSlug(post)) || hasAnyTag(post, category.tags)
+  const slug = blogSlug(post)
+  return editorialCategorySlugs.has(slug)
+    ? category.slugs.includes(slug)
+    : hasAnyTag(post, category.tags)
 }
 
 export function BlogPage() {
