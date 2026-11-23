@@ -467,8 +467,8 @@ function setPageHead(
   }
   if (options.pageType === 'article' && options.image) {
     const preload = renderResponsiveSanityImagePreload(options.image)
-    if (preload && !/<link\\b[^>]*rel=["']preload["'][^>]*as=["']image["']/i.test(html)) {
-      html = html.replace(/<\\/head>/i, preload + '\\n</head>')
+    if (preload && !/<link\b[^>]*rel=["']preload["'][^>]*as=["']image["']/i.test(html)) {
+      html = html.replace(/<\/head>/i, preload + '\n</head>')
     }
   }
   html = html.replace(/<html\b[^>]*>/i, (tag) => {
