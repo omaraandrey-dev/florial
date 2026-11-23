@@ -1,0 +1,558 @@
+{
+  "backupType": "published-sanity-document-before-form-fix",
+  "capturedAt": "2026-11-23",
+  "projectId": "bxvcy0qs",
+  "dataset": "production",
+  "documentId": "c265afd2-f31d-41f0-b377-ed95664a6d20",
+  "revision": "cwcbrYHwLb4OEgYEhdkEsW",
+  "slug": "inzhener-pomoshtnik-florial-online",
+  "document": {
+    "_createdAt": "2026-11-23T06:33:09Z",
+    "_id": "c265afd2-f31d-41f0-b377-ed95664a6d20",
+    "_rev": "cwcbrYHwLb4OEgYEhdkEsW",
+    "_type": "service",
+    "_updatedAt": "2026-11-23T18:14:44Z",
+    "callToAction": {
+      "buttonLabel": "Свържете се с Florial",
+      "text": "Изпратете запитване до Florial, ако искате да обсъдите резултата от онлайн подбора, особеностите на терена или възможностите за монтаж.",
+      "title": "Нужна ви е помощ за проекта?"
+    },
+    "description": [
+      {
+        "_key": "irrig001",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig002",
+            "_type": "span",
+            "marks": [],
+            "text": "Искате да разберете как може да изглежда автоматичната поливна система във вашата градина и какво оборудване ще е необходимо? Инженер-помощникът на Florial е онлайн инструмент за предварително планиране. Въвеждате формата и размерите на тревните площи, а системата подготвя схема с ориентировъчно разположение на разпръсквачите и списък с подходящи компоненти."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig003",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig004",
+            "_type": "span",
+            "marks": [],
+            "text": "Как работи Инженер-помощникът"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "irrig005",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig006",
+            "_type": "span",
+            "marks": [],
+            "text": "1. Въвеждате формата и размерите на терена."
+          }
+        ],
+        "level": 1,
+        "listItem": "number",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig007",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig008",
+            "_type": "span",
+            "marks": [],
+            "text": "Можете да добавите няколко отделни площи и да зададете правоъгълна или Г-образна форма с приблизителни размери. Така описвате различните тревни зони в общия план."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig009",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig010",
+            "_type": "span",
+            "marks": [],
+            "text": "2. Получавате предварителна схема на разпръсквачите."
+          }
+        ],
+        "level": 1,
+        "listItem": "number",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig011",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig012",
+            "_type": "span",
+            "marks": [],
+            "text": "Инструментът разполага разпръсквачите по контура и във вътрешността на площта, определя секторите им и оформя поливни зони. Резултатът се показва като чертеж, който помага да се види общата организация на системата."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig013",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig014",
+            "_type": "span",
+            "marks": [],
+            "text": "3. Преглеждате оборудването за проекта."
+          }
+        ],
+        "level": 1,
+        "listItem": "number",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig015",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig016",
+            "_type": "span",
+            "marks": [],
+            "text": "Според въведената геометрия помощникът подготвя ориентировъчен списък с компоненти от каталога на Florial: разпръсквачи, дюзи, тръби, фитинги, клапани и необходимите елементи за управление."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig017",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig018",
+            "_type": "span",
+            "marks": [],
+            "text": "Избор на начин за управление"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "irrig019",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig020",
+            "_type": "span",
+            "marks": [],
+            "text": "Когато проектът включва автоматизация, можете да сравните няколко начина за управление:"
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig021",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig022",
+            "_type": "span",
+            "marks": [],
+            "text": "Ръчно управление, когато предпочитате сами да включвате поливането."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig023",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig024",
+            "_type": "span",
+            "marks": [],
+            "text": "Традиционен стационарен контролер за система с електромагнитни клапани и отделни зони."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig025",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig026",
+            "_type": "span",
+            "marks": [],
+            "text": "Wi-Fi контролер за настройка и управление през смартфон при наличие на подходяща безжична мрежа."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig027",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig028",
+            "_type": "span",
+            "marks": [],
+            "text": "Автономен контролер на батерии за места без постоянно електрическо захранване. Съвместимостта на контролера, клапаните и соленоидите трябва да се провери за конкретната конфигурация."
+          }
+        ],
+        "level": 1,
+        "listItem": "bullet",
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig029",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig030",
+            "_type": "span",
+            "marks": [],
+            "text": "Какво получавате"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "irrig031",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig032",
+            "_type": "span",
+            "marks": [],
+            "text": "След въвеждане на данните виждате графична предварителна схема, разпределение по зони и подбор на оборудване с количества. Ако конфигурацията е подходяща за комплект, можете да продължите към количката и да прегледате избраните продукти преди поръчка."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig033",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig034",
+            "_type": "span",
+            "marks": [],
+            "text": "Граници на онлайн проекта"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "irrig035",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig036",
+            "_type": "span",
+            "marks": [],
+            "text": "Инженер-помощникът прави геометрична подредба и предварителен подбор. Той не извършва пълно хидравлично изчисление: не определя реалния дебит и налягане на водоизточника, загубите по тръбите, скоростта на водата или остатъчното налягане във всяка зона. Затова схемата е отправна точка за планиране, а не окончателно потвърден проект за монтаж."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig037",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig038",
+            "_type": "span",
+            "marks": [],
+            "text": "Преди изграждане трябва да се проверят реалните параметри на водоизточника, релефът, препятствията, настилките и засаждането на място. При голям или сложен терен е разумно схемата да бъде прегледана от специалист на Florial и при необходимост да се допълни с оглед и инженерна консултация."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      },
+      {
+        "_key": "irrig039",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig040",
+            "_type": "span",
+            "marks": [],
+            "text": "Отворете Инженер-помощника"
+          }
+        ],
+        "markDefs": [],
+        "style": "h2"
+      },
+      {
+        "_key": "irrig041",
+        "_type": "block",
+        "children": [
+          {
+            "_key": "irrig042",
+            "_type": "span",
+            "marks": [],
+            "text": "Можете да започнете директно от онлайн инструмента. След това разгледайте свързаните категории оборудване по-долу или се свържете с Florial, ако искате да обсъдите проекта и монтажа."
+          }
+        ],
+        "markDefs": [],
+        "style": "normal"
+      }
+    ],
+    "hero": {
+      "subtitle": "Въведете формата и размерите на тревните площи и получете предварителна схема на разпръсквачите и подбор на оборудване.",
+      "title": "Инженер-помощник Florial: онлайн схема за поливане"
+    },
+    "image": {
+      "_type": "image",
+      "alt": "Екран на онлайн Инженер-помощник Florial за предварително планиране на автоматично поливане",
+      "altEn": "Florial online Irrigation Assistant screen for preliminary automatic irrigation planning",
+      "altRu": "Экран онлайн-помощника Florial для предварительного планирования автоматического полива",
+      "asset": {
+        "_ref": "image-cbb73eb80e8cb9abb5d0e72eab6b5aa49ebfbea1-1200x896-jpg",
+        "_type": "reference"
+      },
+      "linkUrl": "/irrigation-assistant"
+    },
+    "leadForm": {
+      "fields": [
+        {
+          "_key": "cwcbrYHwLb4OEgYEhdjUqY",
+          "label": "Име",
+          "name": "name",
+          "placeholder": "Вашето име",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "_key": "cwcbrYHwLb4OEgYEhdjUrc",
+          "label": "Телефон",
+          "name": "phone",
+          "placeholder": "+359 ...",
+          "required": true,
+          "type": "tel"
+        },
+        {
+          "_key": "cwcbrYHwLb4OEgYEhdjUsg",
+          "label": "Имейл",
+          "name": "email",
+          "placeholder": "name@example.com",
+          "required": false,
+          "type": "email"
+        },
+        {
+          "_key": "cwcbrYHwLb4OEgYEhdjUtk",
+          "label": "Описание на проекта",
+          "name": "message",
+          "placeholder": "Размери на терена, населено място и въпроси",
+          "required": false,
+          "type": "textarea"
+        }
+      ],
+      "submitLabel": "Изпрати запитване",
+      "successMessage": "Благодарим! Получихме запитването ви. Екипът на Florial ще се свърже с вас.",
+      "title": "Запитване за проект на поливна система"
+    },
+    "name": "Инженер-помощник Florial: онлайн подбор на система за поливане",
+    "relatedContent": [
+      {
+        "_key": "cat-irrigation-root",
+        "_ref": "7f6eaa30-8085-4fae-be3c-1209a0c50fc6",
+        "_type": "reference"
+      },
+      {
+        "_key": "cat-sprinklers",
+        "_ref": "de7ecefe-0a25-41ed-8146-ce475efb2378",
+        "_type": "reference"
+      },
+      {
+        "_key": "cat-controllers",
+        "_ref": "587a2ee3-8152-4193-bff1-dfd3838f12c5",
+        "_type": "reference"
+      },
+      {
+        "_key": "cat-valves",
+        "_ref": "65742b44-11c2-43ae-9551-e91eb675dc93",
+        "_type": "reference"
+      }
+    ],
+    "seo": {
+      "_type": "seoFields",
+      "keywords": [
+        "инженер помощник за поливане",
+        "онлайн проект за поливане",
+        "схема за автоматично поливане",
+        "подбор на поливно оборудване"
+      ],
+      "metaDescription": "Онлайн създаване на предварителна схема за автоматично поливане и подбор на оборудване според формата и размерите на тревните площи.",
+      "metaTitle": "Инженер-помощник за поливане | Florial",
+      "noIndex": false
+    },
+    "serviceCategory": "irrigation",
+    "serviceLayout": "standard",
+    "shortDescription": "Онлайн инструмент за предварителна схема на автоматично поливане и подбор на разпръсквачи, тръби, клапани и автоматика според формата и размерите на тревните площи.",
+    "slug": {
+      "_type": "slug",
+      "current": "inzhener-pomoshtnik-florial-online"
+    },
+    "sortOrder": 44,
+    "translations": {
+      "en": {
+        "callToAction": {
+          "buttonLabel": "Contact Florial",
+          "text": "Send an enquiry to Florial if you would like to discuss the online selection, your site conditions or installation options.",
+          "title": "Need help with your irrigation project?"
+        },
+        "description": "Would you like to see how an automatic irrigation system could be arranged on your property and what equipment it may require? The Florial Irrigation Assistant is an online tool for preliminary planning. Enter the shape and dimensions of your lawn areas to receive a layout with indicative sprinkler positions and a suggested list of components.\n\n## How the Irrigation Assistant works\n\n1. **Enter the shape and dimensions of the area.** You can add several separate areas and define each one as a rectangle or an L-shape with approximate dimensions. This brings the different lawn sections together in one plan.\n2. **Review the preliminary sprinkler layout.** The tool places sprinklers around the perimeter and within the area, assigns watering sectors and groups the heads into irrigation zones. The result is shown as a drawing to help you understand the overall system layout.\n3. **Review the equipment selection.** Based on the geometry you enter, the assistant prepares an indicative list of components from the Florial catalogue, including sprinklers, nozzles, pipes, fittings, valves and control equipment.\n\n## Choosing the control system\n\nIf you want automatic operation, the assistant can help you compare several approaches:\n\n- Manual operation, when you prefer to start watering yourself.\n- A conventional fixed controller for a system with solenoid valves and separate zones.\n- A Wi-Fi controller that can be configured and managed from a smartphone when a suitable wireless network is available.\n- A battery-powered autonomous controller for locations without a permanent mains supply. The controller, valve and solenoid compatibility must be checked for the specific configuration.\n\n## What you receive\n\nAfter entering the details, you can review a preliminary drawing, the zone layout and an equipment list with indicative quantities. If the configuration is suitable for a ready-made kit, you can continue to the cart and check the selected products before ordering.\n\n## Important limitations\n\nThe Irrigation Assistant provides a geometric layout and a preliminary equipment selection. It does not perform a full hydraulic calculation: it does not determine the actual flow rate or pressure at the water source, pipe friction losses, water velocity or residual pressure in each zone. The drawing is therefore a planning aid, not a final installation design verified for the site.\n\nBefore installation, the actual water supply, site levels, obstacles, paved areas and planting must be checked. For a large or complex property, ask a Florial specialist to review the layout and, if needed, arrange a site assessment and engineering consultation.\n\n## Open the Irrigation Assistant\n\nYou can start directly in the online tool. The equipment categories below show the main components used in irrigation projects. Contact Florial if you would like to discuss the design or installation.",
+        "hero": {
+          "subtitle": "Enter the shape and dimensions of your lawn areas to receive a preliminary sprinkler layout and equipment selection.",
+          "title": "Florial Irrigation Assistant: online irrigation layout"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "cwcbrYHwLb4OEgYEhdjUmI",
+              "label": "Name",
+              "name": "name",
+              "placeholder": "Your name",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "cwcbrYHwLb4OEgYEhdjUnM",
+              "label": "Phone",
+              "name": "phone",
+              "placeholder": "+359 ...",
+              "required": true,
+              "type": "tel"
+            },
+            {
+              "_key": "cwcbrYHwLb4OEgYEhdjUoQ",
+              "label": "Email",
+              "name": "email",
+              "placeholder": "name@example.com",
+              "required": false,
+              "type": "email"
+            },
+            {
+              "_key": "cwcbrYHwLb4OEgYEhdjUpU",
+              "label": "Project details",
+              "name": "message",
+              "placeholder": "Site dimensions, town and your questions",
+              "required": false,
+              "type": "textarea"
+            }
+          ],
+          "submitLabel": "Send enquiry",
+          "successMessage": "Thank you. Your enquiry has been received and the Florial team will contact you.",
+          "title": "Irrigation project enquiry"
+        },
+        "name": "Florial Irrigation Assistant: online system selection",
+        "seo": {
+          "keywords": [
+            "online irrigation assistant",
+            "irrigation system layout",
+            "automatic irrigation design",
+            "irrigation equipment selection"
+          ],
+          "metaDescription": "Create a preliminary automatic irrigation layout and select equipment based on your lawn dimensions. Try the Florial online assistant.",
+          "metaTitle": "Online Irrigation Assistant | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "An online tool for a preliminary automatic irrigation layout and equipment selection based on the shape and dimensions of lawn areas."
+      },
+      "ru": {
+        "callToAction": {
+          "buttonLabel": "Связаться с Florial",
+          "text": "Отправьте запрос в Florial, если хотите обсудить результат онлайн-подбора, особенности участка или возможность монтажа.",
+          "title": "Нужна помощь с проектом?"
+        },
+        "description": "Хотите понять, как может быть устроена автоматическая система полива на вашем участке и какое оборудование для неё понадобится? Инженер-помощник Florial — онлайн-инструмент для предварительного планирования. Укажите форму и размеры газонных площадей, и сервис подготовит схему с ориентировочным расположением дождевателей и подбором компонентов.\n\n## Как работает Инженер-помощник\n\n1. **Задайте форму и размеры участка.** Можно добавить несколько отдельных площадей и указать для каждой прямоугольную или Г-образную форму и примерные размеры. Так в одном плане будут учтены разные зоны газона.\n2. **Получите предварительную схему дождевателей.** Инструмент размещает дождеватели по периметру и внутри площади, задаёт секторы полива и формирует зоны. Результат отображается на чертеже и помогает оценить общую организацию системы.\n3. **Посмотрите список оборудования.** По введённой геометрии помощник подбирает ориентировочный состав из каталога Florial: дождеватели, сопла, трубы, фитинги, клапаны и элементы управления.\n\n## Выбор автоматики\n\nЕсли проект предусматривает автоматическое управление, можно рассмотреть несколько вариантов:\n\n- Ручное управление, если вы хотите самостоятельно включать полив.\n- Традиционный стационарный контроллер для системы с электромагнитными клапанами и отдельными зонами.\n- Wi-Fi контроллер для настройки и управления со смартфона при наличии подходящей беспроводной сети.\n- Автономный контроллер на батарейках для мест, где нет постоянного электропитания. Совместимость контроллера, клапанов и соленоидов нужно проверять для конкретной конфигурации.\n\n## Что вы получите\n\nПосле ввода данных вы увидите предварительный чертёж, распределение по зонам и список оборудования с ориентировочными количествами. Если конфигурация подходит для готового комплекта, можно перейти к корзине и проверить выбранные товары перед заказом.\n\n## Что важно учитывать\n\nИнженер-помощник выполняет геометрическую раскладку и предварительный подбор. Он не делает полный гидравлический расчёт: не определяет фактический расход и давление источника воды, потери в трубах, скорость потока или остаточное давление в каждой зоне. Поэтому схема помогает на этапе планирования, но не является окончательно подтверждённым проектом для монтажа.\n\nПеред строительством системы необходимо проверить реальные параметры источника воды, рельеф, препятствия, покрытия и посадки на участке. Для большой или сложной территории схему стоит показать специалисту Florial и при необходимости дополнить выездной оценкой и инженерной консультацией.\n\n## Откройте Инженер-помощник\n\nНачать можно прямо в онлайн-инструменте. Ниже также собраны категории оборудования, которые используются при проектировании. Если вы хотите обсудить проект или монтаж, свяжитесь с Florial.",
+        "hero": {
+          "subtitle": "Укажите форму и размеры газонных площадей, чтобы получить предварительную схему дождевателей и подбор оборудования.",
+          "title": "Инженер-помощник Florial: онлайн схема полива"
+        },
+        "leadForm": {
+          "fields": [
+            {
+              "_key": "cwcbrYHwLb4OEgYEhdjUi2",
+              "label": "Имя",
+              "name": "name",
+              "placeholder": "Ваше имя",
+              "required": true,
+              "type": "text"
+            },
+            {
+              "_key": "cwcbrYHwLb4OEgYEhdjUj6",
+              "label": "Телефон",
+              "name": "phone",
+              "placeholder": "+359 ...",
+              "required": true,
+              "type": "tel"
+            },
+            {
+              "_key": "cwcbrYHwLb4OEgYEhdjUkA",
+              "label": "Электронная почта",
+              "name": "email",
+              "placeholder": "name@example.com",
+              "required": false,
+              "type": "email"
+            },
+            {
+              "_key": "cwcbrYHwLb4OEgYEhdjUlE",
+              "label": "Описание проекта",
+              "name": "message",
+              "placeholder": "Размеры участка, населённый пункт и вопросы",
+              "required": false,
+              "type": "textarea"
+            }
+          ],
+          "submitLabel": "Отправить запрос",
+          "successMessage": "Спасибо! Мы получили ваш запрос. Команда Florial свяжется с вами.",
+          "title": "Запрос по проекту системы полива"
+        },
+        "name": "Инженер-помощник Florial: онлайн подбор системы полива",
+        "seo": {
+          "keywords": [
+            "инженер-помощник полив",
+            "онлайн проект полива",
+            "схема автоматического полива",
+            "подбор оборудования для полива"
+          ],
+          "metaDescription": "Онлайн-подбор предварительной схемы автоматического полива и оборудования по форме и размерам газона. Попробуйте инструмент Florial.",
+          "metaTitle": "Инженер-помощник по поливу онлайн | Florial",
+          "noIndex": false
+        },
+        "shortDescription": "Онлайн-инструмент для предварительной схемы автоматического полива и подбора дождевателей, труб, клапанов и автоматики по форме и размерам газонных площадей."
+      }
+    }
+  }
+}
