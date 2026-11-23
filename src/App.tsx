@@ -138,7 +138,7 @@ function ServiceDirectionLoadingState({ label }: { label: string }) {
           {Array.from({ length: 2 }, (_, index) => (
             <div key={index} className="overflow-hidden rounded-2xl border border-[#DDE3D0] bg-white">
               <div className="h-48 animate-pulse bg-slate-100" />
-              <div className="space-y-3 p-5">
+              <div className={`space-y-3 p-5 ${index === 0 ? 'md:flex md:flex-col md:justify-center md:p-8' : ''}`}>
                 <div className="h-5 w-4/5 animate-pulse rounded bg-slate-200" />
                 <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
                 <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
@@ -192,8 +192,8 @@ function BlogLoadingState({ label }: { label: string }) {
       <div aria-hidden="true" className="mb-7 h-11 w-32 animate-pulse rounded-xl bg-slate-100" />
       <div aria-hidden="true" className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 5 }, (_, index) => (
-          <div key={index} className={`overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white ${index === 0 ? 'sm:col-span-2 lg:col-span-3' : ''}`}>
-            <div className="h-56 animate-pulse bg-slate-100" />
+          <div key={index} className={`overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white ${index === 0 ? 'sm:col-span-2 lg:col-span-3 md:grid md:grid-cols-2 md:min-h-[20rem]' : ''}`}>
+            <div className={`h-56 animate-pulse bg-slate-100 ${index === 0 ? 'md:h-full md:min-h-[20rem]' : ''}`} />
             <div className="space-y-3 p-5">
               <div className="h-4 w-1/4 animate-pulse rounded bg-slate-100" />
               <div className="h-6 w-4/5 animate-pulse rounded bg-slate-200" />
