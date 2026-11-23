@@ -40,6 +40,8 @@ test('GA4 tag and events are blocked unless optional analytics consent is accept
   assert.match(tracking, /analytics_storage: 'granted'/)
   assert.match(tracking, /analytics_storage: 'denied'/)
   assert.match(consent, /Google Analytics 4/)
+  assert.doesNotMatch(tracking, /page_location: window\.location\.href/)
+  assert.match(privacy, /Google Analytics 4/)
 })
 
 test('GA4 purchase payload is returned only from the server-validated D1 order flow', async () => {
@@ -54,5 +56,10 @@ test('GA4 purchase payload is returned only from the server-validated D1 order f
   assert.match(orderService, /analyticsPurchase/)
   assert.match(cartPage, /trackGA4Purchase\(/)
   assert.match(cartPage, /begin_checkout/)
+  const app = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8')
+  assert.match(app, /view_item/)
+  assert.match(app, /view_cart/)
+  assert.match(app, /add_to_cart/)
+  assert.match(app, /remove_from_cart/)
   assert.doesNotMatch(orderApi.slice(orderApi.indexOf('analyticsPurchase:'), orderApi.indexOf('analyticsPurchase:') + 1200), /customer_name|phone|email|address/)
 })
