@@ -23,7 +23,7 @@ The owner approved this separate editorial refresh workflow. This approval does 
 | 2 | Valve boxes, hydrants and keys | 7 products | **COMPLETE — 7/7 published** |
 | 3 | Spray and rotary nozzles | 26 products | **COMPLETE — 26/26 published** |
 | 4 | Ready-made irrigation kits | 12 products | **PARTIAL — 11/12 published; 10 × 5 m held for controller/valve compatibility decision** |
-| 5 | Controllers | 23 active products in current Sanity read-back | NOT STARTED — reconcile count before editing |
+| 5 | Controllers | 23 active products | **COMPLETE — 23/23 published**; RSD-BEx is a separate sensor product
 | 6 | Sprinklers | 20 active products in current Sanity read-back | NOT STARTED |
 
 ## Completed: nozzle category
@@ -46,12 +46,12 @@ Detailed evidence and the manufacturer source register: [Nozzle description refr
 - Detailed evidence: [kit description refresh audit](../audits/2026-11-23-irrigation-kit-descriptions-refresh.md).
 - Next action in this category: resolve the 10 × 5 m controller/valve pairing; do not change `kitComponents` without owner approval.
 
-## Controllers — count reconciliation required
+## Controllers — COMPLETE
 
-- Current Sanity read-back: 23 active published products linked to the controller root category.
-- Existing audit `docs/audits/2026-11-15-irrigation-controller-product-descriptions.md` states 24 products.
-- Current count without the `isActive` filter is also 23. The one-product difference is unresolved and must be reconciled by comparing the exact IDs/SKUs in the previous audit with the current category tree before editing.
-- After reconciliation, audit model variants, station count, power source, battery type, programs, Wi-Fi/Bluetooth, valve/solenoid compatibility and IP rating. Do not infer values from family-level marketing copy.
+- Current live root-category count: 23 active products; all 23 descriptions were updated and published in BG/RU/EN.
+- The 24th item in the 15.11.2026 audit was the Rain Bird RSD-BEx rain sensor (SKU A61200), now assigned to the separate `Сензори за автоматизация` category. It is not a controller and is not included in the current root count.
+- Published read-back confirmed five H2 sections, two internal links and Econt delivery wording in every locale for all 23 products; target draft count is zero.
+- Detailed evidence: [controller description refresh audit](../audits/2026-11-23-controller-descriptions-refresh.md).
 
 ## Sprinklers
 
