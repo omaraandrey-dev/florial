@@ -452,8 +452,8 @@ function setPageHead(
   },
 ): string {
   let html = sourceHtml
-  if (options.pageType === 'product' || options.pageType === 'blog') {
-    const resourceHints = options.pageType === 'blog'
+  if (options.pageType === 'product' || options.pageType === 'blog' || options.pageType === 'article') {
+    const resourceHints = options.pageType === 'blog' || options.pageType === 'article'
       ? [
           '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
           '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
@@ -464,6 +464,12 @@ function setPageHead(
           '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
         ]
     html = html.replace(/<\/head>/i, resourceHints.join('\n') + '\n</head>')
+  }
+  if (options.pageType === 'article' && options.image) {
+    const preload = renderResponsiveSanityImagePreload(options.image)
+    if (preload && !/<link\b[^>]*rel=["']preload["'][^>]*as=["']image["']/i.test(html)) {
+      html = html.replace(/<\/head>/i, preload + '\n</head>')
+    }
   }
   html = html.replace(/<html\b[^>]*>/i, (tag) => {
     if (/\blang=["'][^"']*["']/i.test(tag)) return tag.replace(/\blang=["'][^"']*["']/i, 'lang="' + options.language + '"')
@@ -644,6 +650,35 @@ function renderResponsiveProductImage(imageUrl: string, alt: string): string {
     ' style="max-width:100%;height:auto;max-height:360px;object-fit:contain" />'
 }
 
+function renderResponsiveSanityImagePreload(imageUrl: string): string {
+  try {
+    const source = new URL(imageUrl)
+    const dimensions = source.pathname.match(/-(\d+)x(\d+)\.[a-z0-9]+$/i)
+    if (source.protocol !== 'https:' || source.hostname !== 'cdn.sanity.io' ||
+      !/^\/images\/[^/]+\/[^/]+\//.test(source.pathname) || !dimensions) return ''
+
+    const sourceWidth = Number(dimensions[1])
+    const buildUrl = (width: number) => {
+      const image = new URL(source)
+      image.searchParams.set('w', String(Math.min(width, sourceWidth)))
+      image.searchParams.set('fit', 'max')
+      image.searchParams.set('auto', 'format')
+      image.searchParams.set('q', '68')
+      return image.toString()
+    }
+    const candidates = [160, 240, 320, 480, 640, 720, 800, 960, 1200, 1600]
+      .map((width) => Math.min(width, sourceWidth))
+      .filter((width, index, all) => width > 0 && all.indexOf(width) === index)
+      .sort((a, b) => a - b)
+    const srcSet = candidates.map((width) => buildUrl(width) + ' ' + width + 'w').join(', ')
+    return '<link rel="preload" as="image" href="' + escapeHtml(buildUrl(960)) +
+      '" imagesrcset="' + escapeHtml(srcSet) +
+      '" imagesizes="(min-width: 896px) 864px, calc(100vw - 2rem)" fetchpriority="high" />'
+  } catch {
+    return ''
+  }
+}
+
 function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[]): string {
   // Category and service hero imagery is rendered responsively by the client app.
   // Do not emit a second raw image into the initial HTML: it is replaced on hydration,
@@ -668,7 +703,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
         : (language === 'ru' ? 'По запросу' : language === 'en' ? 'On request' : 'По заявка')
     extra = price + sku + '<p>' + stockLabel + '</p>'
   }
-  const mainStyle = type === 'product'
+  const mainStyle = type === 'product' || type === 'blogPost'
     ? 'max-width:1100px;min-height:100svh;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif'
     : 'max-width:1100px;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif'
   return '<main style="' + mainStyle + '">' +
@@ -1264,7 +1299,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           title,
           description: metaDescription,
           canonical: canonicalUrl,
-          image: doc?.imageUrl,
+          image: type === 'blogPost' ? (doc?.coverUrl || doc?.imageUrl) : doc?.imageUrl,
           noIndex,
           alternates,
           structuredData,

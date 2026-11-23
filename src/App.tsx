@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/react'
 import { sanityClient, sanityLiveClient, plantsClient, publicPlantsClient } from './lib/sanity'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
+import { BlogArticleLoadingState } from './components/BlogArticleLoadingState'
 import { useI18n } from './lib/i18n'
 import { HomePage } from './pages/HomePage'
 import { handleInternalLinkClick, localizedHref } from './lib/navigation'
@@ -1746,6 +1747,8 @@ export default function App() {
             ? <CategoryLoadingState label={t('Зареждане на категорията...')} />
             : activeServiceSlug
               ? <ServiceLoadingState label={t('Зареждане на услугата...')} />
+            : normalizedRoutePath.startsWith('/blog/')
+              ? <BlogArticleLoadingState label={t('Зареждане на статията...')} />
             : normalizedRoutePath === '/blog'
               ? <BlogLoadingState label={t('Зареждане на блога...')} />
             : activeProductSlug
