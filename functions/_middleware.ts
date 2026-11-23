@@ -453,11 +453,16 @@ function setPageHead(
 ): string {
   let html = sourceHtml
   if (options.pageType === 'product' || options.pageType === 'blog') {
-    const resourceHints = [
-      '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
-      '<link rel="preconnect" href="https://bxvcy0qs.api.sanity.io" crossorigin />',
-      '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
-    ]
+    const resourceHints = options.pageType === 'blog'
+      ? [
+          '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
+          '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
+        ]
+      : [
+          '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
+          '<link rel="preconnect" href="https://bxvcy0qs.api.sanity.io" crossorigin />',
+          '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
+        ]
     html = html.replace(/<\/head>/i, resourceHints.join('\n') + '\n</head>')
   }
   html = html.replace(/<html\b[^>]*>/i, (tag) => {
