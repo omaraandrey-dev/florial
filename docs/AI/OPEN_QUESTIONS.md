@@ -310,3 +310,12 @@ Implementation: [balanced zones and order PDF](../engineering/IRRIGATION_ASSISTA
 - **OPEN — Production analytics receipt:** PR #488 is merged and Pages Production deployment succeeded from exact merge commit `5ca0276fe3098f45a6871cb866f1ea96df325fb2`. A Realtime report immediately after deployment returned no events in the observed 30-minute window. Verify consent-gated tag loading and page/ecommerce events in Realtime/DebugView during an actual visit/session. Do not create a real order solely for testing without separate owner approval.
 - **OPEN — privacy governance:** controller review of the analytics legal basis, Google provider terms, data retention and international transfer disclosures. Current BG/RU/EN copy is a technical disclosure update, not legal certification.
 - **CLOSED — GA4 property configuration:** live read-back confirms EUR / Europe/Sofia, stream `16395579273`, email/query redaction and the existing `purchase` key event.
+
+
+## 2026-11-23 — Blog performance release follow-up (PR #510)
+
+- **CLOSED — implementation/merge/CI/Preview/Production:** PR #510 merged at f0913f3d379c718bc140d539e5b66beb7411a8f2; Blog/Studio CI 45267333166 and D1 validation 45267333146 succeeded; Preview 905e4a1d-f586-439e-abb9-f48802b5f177 and Production b7fd5ab1-4628-46b4-90af-8d6dd1853674 succeeded.
+- **CLOSED — Production BG/RU/EN mobile HTML smoke:** localized title/intro, four category labels, localized Filters button, footer and blog preconnect hints were found in each rendered page; loading skeleton was absent after data loaded.
+- **OPEN — matched performance measurement:** rerun PSI/Lighthouse at least three times on the same Moto G Power / Lighthouse 13.6 / low-end 4G profile and compare medians with the owner baseline (79 / FCP 0.9 s / LCP 2.7 s / TBT 10 ms / CLS 0.337 / SI 2.9 s). No after-change metric is claimed yet.
+- **OPEN — visual/interaction QA:** screenshot review, actual filter dropdown open/close, category selection, combined filters, empty/reset state and desktop layout. Browser Use could not run due insufficient credits; rendered HTML smoke does not establish these behaviors.
+- Evidence: docs/audits/2026-11-23-blog-performance-remediation.md and docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md.
