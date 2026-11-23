@@ -1,4 +1,11 @@
 # Florial — START HERE
+## Owner decisions — irrigation assistant (23.11.2026)
+
+- The assistant performs geometric layout and equipment selection only. Hydraulic calculations are explicitly out of scope and will not be implemented: do not add flow, dynamic pressure, friction-loss, velocity or hydraulic zone-capacity calculations.
+- The fixed Florial pipe diameter is Ø25 mm for both main and zone lines. The earlier Ø25/Ø32 discrepancy is closed; Ø32 mm is not an alternative.
+- The generated project PDF must place the site-specific scheme and equipment specification first, followed by the complete three-page Bulgarian installation guide with its illustrations in the original page order. The guide is generic installation reference material, not a site-specific calculation.
+
+
 
 Единая точка входа для ChatGPT, Claude, Gemini и разработчиков. Актуальность определяется текущим GitHub `main` и соответствующими живыми сервисами.
 
