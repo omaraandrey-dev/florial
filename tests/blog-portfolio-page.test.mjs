@@ -63,6 +63,7 @@ test('filter controls are collapsed behind one dropdown and do not expose public
   assert.ok(!page.includes('Тип публикации'))
   assert.ok(!page.includes('Publication type'))
   assert.ok(!page.includes('isProject(post)'))
+  assert.ok(page.includes("normalizedTag(tag) !== normalizedTag('Проект')"))
 })
 
 test('all published topic tags are translated for Russian and English labels', async () => {
