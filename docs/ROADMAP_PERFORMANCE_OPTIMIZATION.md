@@ -1,3 +1,13 @@
+## Актуальный статус — 23.11.2026
+
+Сверять место этого самостоятельного потока с [единым реестром дорожных карт](roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md).
+
+- Performance optimization остаётся **ПРИОСТАНОВЛЕННОЙ**; исторические оптимизации и отдельные исправления CLS не являются измерением текущих Core Web Vitals.
+- Следующий шаг при отдельном возобновлении: Network waterfall по основным типам страниц и локалям, затем сопоставимый Lighthouse mobile/desktop и CrUX baseline.
+- Не заявлять улучшение LCP/INP/CLS без измерений до/после.
+
+---
+
 ## 2026-11-09 — Performance pause / rollback verification checkpoint
 - Runtime rollback PR #163 Production deployment succeeded: `6cab6c9b-7490-4b1e-8bb2-57fcc9c53070`.
 - Documentation-only PR #165 deployment succeeded: `9aeae7aa-e64e-42fe-b43d-8896f942d00a`, commit `4bfd00b436fbca81b239fe12edb98e6823973571`.
