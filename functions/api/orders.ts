@@ -203,7 +203,7 @@ const handleOrderPost = async ({
     return json({ error: 'Този начин на доставка е наличен само за поръчки с растения.' }, 400)
   }
 
-  const orderItems: Array<{ productId: string; sku: string; name: string; qty: number; price: number; imageUrl?: string; catalog: string; variantKey?: string; variantName?: string; saleHeightCm?: number; containerVolumeL?: number }> = []
+  const orderItems: Array<{ sku: string; name: string; qty: number; price: number; imageUrl?: string; catalog: string; variantKey?: string; variantName?: string; saleHeightCm?: number; containerVolumeL?: number }> = []
   let subtotal = 0
 
   for (const requested of requestedItems) {
@@ -233,7 +233,7 @@ const handleOrderPost = async ({
       return json({ error: 'Цената на продукт се е променила. Обновете страницата и проверете количката отново.' }, 409)
     }
     orderItems.push({
-      productId: requested.productId, sku, name: itemName, qty: requested.qty, price, catalog: requested.catalog,
+      sku, name: itemName, qty: requested.qty, price, catalog: requested.catalog,
       ...(variant ? { variantKey: requested.variantKey, variantName: cleanText(variant.name, 200), saleHeightCm: variant.saleHeightCm, containerVolumeL: variant.containerVolumeL } : {}),
       imageUrl: typeof product.imageUrl === 'string' && /^https:\/\//i.test(product.imageUrl) ? product.imageUrl : undefined,
     })
@@ -472,8 +472,8 @@ const handleOrderPost = async ({
       value: subtotal,
       ...(deliveryFee !== null ? { shipping: deliveryFee } : {}),
       currency: 'EUR',
-      items: orderItems.map((item) => ({
-        item_id: item.productId,
+      items: orderItems.map((item, index) => ({
+        item_id: requestedItems[index].productId,
         item_name: item.name,
         item_category: item.catalog === 'plants' ? 'plants' : 'irrigation_equipment',
         ...(item.variantName ? { item_variant: item.variantName } : {}),
