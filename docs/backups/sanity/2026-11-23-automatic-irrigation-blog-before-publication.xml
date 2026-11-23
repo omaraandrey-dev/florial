@@ -1,0 +1,693 @@
+Found document "drafts.031de407-90ea-40c2-99d5-701be5d1ad02": 
+<document>
+  <_createdAt>2026-11-23T06:59:30Z</_createdAt>
+  <_id>drafts.031de407-90ea-40c2-99d5-701be5d1ad02</_id>
+  <_rev>c1bb31a5-0c3a-4bd5-a864-891a05936e56</_rev>
+  <_type>blogPost</_type>
+  <_updatedAt>2026-11-23T07:02:58Z</_updatedAt>
+  <cover>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-cbbf28eaec7e3adb99da26b19765c4f9253761d7-1200x896-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </cover>
+  <isPublished>false</isPublished>
+  <title>Как устроен автоматический полив: дождеватели, капельный полив, трубы и клапаны простыми словами</title>
+  <translations>
+    <bg>
+      <body>
+        <_key>bfc54971d2db</_key>
+        <_type>block</_type>
+        <children>
+          <_key>512710ade8e1</_key>
+          <_type>span</_type>
+          <text>Когда человек впервые обращается за системой полива, легко запутаться в терминах: «спреи», «роторы», «капельная трубка», «электромагнитный клапан», «клапанная шахта», «зоны». На практике всё устроено логично: это инженерная система подачи воды к растениям, которая работает по заранее заданной программе.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b4c1fc890b83</_key>
+        <_type>block</_type>
+        <children>
+          <_key>a86995e557c0</_key>
+          <_type>span</_type>
+          <text>​Понимание устройства системы помогает и тем, кто хочет купить оборудование и собрать полив самостоятельно, и тем, кто заказывает монтаж «под ключ» и хочет спокойно разбираться в схеме и составе работ.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>f4649e467744</_key>
+        <_type>block</_type>
+        <children>
+          <_key>68f331619309</_key>
+          <_type>span</_type>
+          <text>​Прежде всего: это подземная система, а не «вертушка на траве»</text>
+        </children>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>7f9c0f0f59f1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>0a8da57ac832</_key>
+          <_type>span</_type>
+          <text>​Частое заблуждение новичков — когда клиент говорит «мне нужен капельный полив», а подразумевает полив газона, либо представляет, что дождеватель просто стоит на газоне и крутится сам по себе.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>6280a9c9a4f6</_key>
+        <_type>block</_type>
+        <children>
+          <_key>7fb904beb07a</_key>
+          <_type>span</_type>
+          <text>​В системах, с которыми мы работаем и под которые подбираем оборудование в </text>
+        </children>
+        <children>
+          <_key>b472ae51a278</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Florial</text>
+        </children>
+        <children>
+          <_key>81ea12e2a10e</_key>
+          <_type>span</_type>
+          <text>, основная часть сети скрыта:</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>042616e01bbc</_key>
+        <_type>block</_type>
+        <children>
+          <_key>0e6fdc64d205</_key>
+          <_type>span</_type>
+          <text>​трубы прокладываются </text>
+        </children>
+        <children>
+          <_key>c1fa2133981a</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>под землёй</text>
+        </children>
+        <children>
+          <_key>8f56b6ec192f</_key>
+          <_type>span</_type>
+          <text>;</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>5fa2ada1c8c5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>032cbb32924e</_key>
+          <_type>span</_type>
+          <text>​дождеватели устанавливаются </text>
+        </children>
+        <children>
+          <_key>038aff7f53b2</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>под землёй</text>
+        </children>
+        <children>
+          <_key>92d49bb95e6e</_key>
+          <_type>span</_type>
+          <text> вровень с грунтом и </text>
+        </children>
+        <children>
+          <_key>9ad2ba6e473c</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>выдвигаются только тогда, когда контроллер или компьютер подаёт команду на полив</text>
+        </children>
+        <children>
+          <_key>7d5c3a5a4e4c</_key>
+          <_type>span</_type>
+          <text>;</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>31cfba641385</_key>
+        <_type>block</_type>
+        <children>
+          <_key>3e2932031006</_key>
+          <_type>span</_type>
+          <text>​время, дни и длительность работы задаются заранее в программе управления — система сама запускает полив в нужный момент.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>215d063124b1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>266fbce1b215</_key>
+          <_type>span</_type>
+          <text>​В основном мы опираемся на оборудование </text>
+        </children>
+        <children>
+          <_key>21ccc0c95f05</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Rain Bird</text>
+        </children>
+        <children>
+          <_key>5d5f6d1e4ab8</_key>
+          <_type>span</_type>
+          <text> — на наш взгляд, одно из самых удобных, понятных в эксплуатации и надёжных решений на европейском рынке. При необходимости можем работать и с оборудованием </text>
+        </children>
+        <children>
+          <_key>691ddc2f167c</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Hunter</text>
+        </children>
+        <children>
+          <_key>17046e60d9fc</_key>
+          <_type>span</_type>
+          <text>, которое также хорошо зарекомендовало себя на практике.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b6f17bab7523</_key>
+        <_type>block</_type>
+        <children>
+          <_key>17f9bbab95f4</_key>
+          <_type>span</_type>
+          <text>​1. Выдвижные дождеватели: полив газона без помех для ухода</text>
+        </children>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>aee5e6855e25</_key>
+        <_type>block</_type>
+        <children>
+          <_key>68ef7aea1606</_key>
+          <_type>span</_type>
+          <text>​Для открытых участков с газоном применяют выдвижные дождеватели. Пока полив выключен, они находятся в грунте и не мешают ходить по участку или косить газон. Когда подаётся команда на запуск, шток поднимается, орошает заданный сектор и после завершения цикла убирается обратно.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>613aed5412ac</_key>
+        <_type>block</_type>
+        <children>
+          <_key>29fc4c0a88f9</_key>
+          <_type>span</_type>
+          <text>​</text>
+        </children>
+        <children>
+          <_key>0b02e9e09bd9</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Веерные (спрей) дождеватели и форсунки</text>
+        </children>
+        <children>
+          <_key>75fc32575e5c</_key>
+          <_type>span</_type>
+          <text> подходят для компактных и средних зон или участков сложной геометрии.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>309f0a87dbf8</_key>
+        <_type>block</_type>
+        <children>
+          <_key>9f6b1e4e20f7</_key>
+          <_type>span</_type>
+          <text>​</text>
+        </children>
+        <children>
+          <_key>972be4dfd125</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Роторные дождеватели</text>
+        </children>
+        <children>
+          <_key>85ea82b19a29</_key>
+          <_type>span</_type>
+          <text> удобны на более просторных газонах, где нужна большая дальность полива.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>240d77990b3b</_key>
+        <_type>block</_type>
+        <children>
+          <_key>6af4083ce50e</_key>
+          <_type>span</_type>
+          <text>​Задача при расстановке — подобрать модели и сектора так, чтобы газон увлажнялся равномерно, а струи не били впустую по дорожкам, стенам или заборам.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>d636d0c80952</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f49dacc20359</_key>
+          <_type>span</_type>
+          <text>​2. Капельный полив: вода точно к корням</text>
+        </children>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>9662e64a4b95</_key>
+        <_type>block</_type>
+        <children>
+          <_key>4feb441d8ef6</_key>
+          <_type>span</_type>
+          <text>​Для кустарников, живых изгородей, цветников и декоративных или плодовых посадок используют </text>
+        </children>
+        <children>
+          <_key>64f185775b77</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>капельный полив</text>
+        </children>
+        <children>
+          <_key>8a04c09557e8</_key>
+          <_type>span</_type>
+          <text>. Вода подаётся медленно и точечно — непосредственно в прикорневую зону растений.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>1f90c426b038</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f71ef0ec0d14</_key>
+          <_type>span</_type>
+          <text>​Это снижает лишнее испарение, экономит воду и не смачивает без необходимости листву и надземную часть растений.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>ae1c9a5b1920</_key>
+        <_type>block</_type>
+        <children>
+          <_key>40e9dc175508</_key>
+          <_type>span</_type>
+          <text>​3. Трубы, фитинги, клапаны и клапанные шахты</text>
+        </children>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>c68ef58b2bb1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>926e81a739d1</_key>
+          <_type>span</_type>
+          <text>​Чтобы вода дошла до нужных точек, собирается сеть подземных трубопроводов и узлов управления:</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>0600c6eb8b88</_key>
+        <_type>block</_type>
+        <children>
+          <_key>9bec3a178ad8</_key>
+          <_type>span</_type>
+          <text>​</text>
+        </children>
+        <children>
+          <_key>e84012f2c050</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Трубы и фитинги</text>
+        </children>
+        <children>
+          <_key>368c1a8027ba</_key>
+          <_type>span</_type>
+          <text> формируют магистрали и подводящие линии к дождевателям и капельным контурам.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>2555cfd1886a</_key>
+        <_type>block</_type>
+        <children>
+          <_key>984f9abd8d6c</_key>
+          <_type>span</_type>
+          <text>​</text>
+        </children>
+        <children>
+          <_key>29ac34915a4b</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Электромагнитные клапаны</text>
+        </children>
+        <children>
+          <_key>56ed9b1b8b0b</_key>
+          <_type>span</_type>
+          <text> открывают и закрывают подачу воды на отдельные линии (зоны) по сигналу контроллера.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>14e0f88e3226</_key>
+        <_type>block</_type>
+        <children>
+          <_key>8c6c1cd628cd</_key>
+          <_type>span</_type>
+          <text>​</text>
+        </children>
+        <children>
+          <_key>e6e3dfdce491</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Клапанные шахты</text>
+        </children>
+        <children>
+          <_key>9db39ecaff8a</_key>
+          <_type>span</_type>
+          <text> — обязательный элемент аккуратного монтажа: клапаны должны находиться в защитной шахте, а не быть замурованы «наглухо» в грунте. Шахта защищает узлы и даёт специалисту или владельцу нормальный доступ для проверки, настройки и ремонта.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>5720994cad62</_key>
+        <_type>block</_type>
+        <children>
+          <_key>1bafdbb793a9</_key>
+          <_type>span</_type>
+          <text>​</text>
+        </children>
+        <children>
+          <_key>14458395bff8</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Фильтрация</text>
+        </children>
+        <children>
+          <_key>24c9b4db1fc0</_key>
+          <_type>span</_type>
+          <text> защищает форсунки, клапаны и капельные линии от механических примесей (песка, окалины, частиц из воды).</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>74382fe1550c</_key>
+        <_type>block</_type>
+        <children>
+          <_key>63fce5b8cab5</_key>
+          <_type>span</_type>
+          <text>​4. Источник воды: городской водопровод или насос</text>
+        </children>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>bb7e269d87d7</_key>
+        <_type>block</_type>
+        <children>
+          <_key>1292a931a581</_key>
+          <_type>span</_type>
+          <text>​На практике полив чаще всего подключают к </text>
+        </children>
+        <children>
+          <_key>b8240de57c02</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>питающему городскому водопроводу</text>
+        </children>
+        <children>
+          <_key>af84bf10d9d3</_key>
+          <_type>span</_type>
+          <text> — во многих местах его давления достаточно, чтобы строить на его базе корректно работающие системы полива.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>54abc42c0f63</_key>
+        <_type>block</_type>
+        <children>
+          <_key>62146b4fb868</_key>
+          <_type>span</_type>
+          <text>​Если же участок большой или источник иной, могут применяться </text>
+        </children>
+        <children>
+          <_key>78610ecd5f04</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>насосное оборудование</text>
+        </children>
+        <children>
+          <_key>161a406f52cd</_key>
+          <_type>span</_type>
+          <text> с забором воды из </text>
+        </children>
+        <children>
+          <_key>5138d9d6175b</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>скважины</text>
+        </children>
+        <children>
+          <_key>a67797d3072b</_key>
+          <_type>span</_type>
+          <text> или заранее подготовленного </text>
+        </children>
+        <children>
+          <_key>369b725ab449</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>колодца</text>
+        </children>
+        <children>
+          <_key>2b987cc85f3b</_key>
+          <_type>span</_type>
+          <text> — подходящий насос под такие задачи тоже можно подобрать.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>18d794ffce45</_key>
+        <_type>block</_type>
+        <children>
+          <_key>50d63be24b6f</_key>
+          <_type>span</_type>
+          <text>​5. Автоматика: управление по расписанию</text>
+        </children>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>4a1e59c22d9a</_key>
+        <_type>block</_type>
+        <children>
+          <_key>588a7a56917f</_key>
+          <_type>span</_type>
+          <text>​Автоматика — это «мозг» системы, который включает нужные линии в заданное время (например, рано утром). В зависимости от задач участка и наличия электропитания это могут быть:</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>a3ce3f98d1af</_key>
+        <_type>block</_type>
+        <children>
+          <_key>25aac0217e3d</_key>
+          <_type>span</_type>
+          <text>​простые </text>
+        </children>
+        <children>
+          <_key>1802239ef446</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>компьютеры полива</text>
+        </children>
+        <children>
+          <_key>9c52e2374fc2</_key>
+          <_type>span</_type>
+          <text>;</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>ef02db5a147a</_key>
+        <_type>block</_type>
+        <children>
+          <_key>350af448da37</_key>
+          <_type>span</_type>
+          <text>​</text>
+        </children>
+        <children>
+          <_key>a50ce663c851</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>традиционные контроллеры полива</text>
+        </children>
+        <children>
+          <_key>9a2a410c2d80</_key>
+          <_type>span</_type>
+          <text> для работы с электромагнитными клапанами и несколькими зонами;</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>76b943fb7b3f</_key>
+        <_type>block</_type>
+        <children>
+          <_key>cdf0a304b4d8</_key>
+          <_type>span</_type>
+          <text>​</text>
+        </children>
+        <children>
+          <_key>70c5fa3d0afe</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Wi-Fi контроллеры полива</text>
+        </children>
+        <children>
+          <_key>e15ad409162b</_key>
+          <_type>span</_type>
+          <text> для удобного управления со смартфона;</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>b92df6fb0d16</_key>
+        <_type>block</_type>
+        <children>
+          <_key>ca40188d8705</_key>
+          <_type>span</_type>
+          <text>​</text>
+        </children>
+        <children>
+          <_key>277ee00b905e</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>автономные компьютеры-контроллеры полива</text>
+        </children>
+        <children>
+          <_key>059737d2c451</_key>
+          <_type>span</_type>
+          <text> — когда рядом нет сети 220 В.</text>
+        </children>
+        <level>1</level>
+        <listItem>bullet</listItem>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bb0118a52336</_key>
+        <_type>block</_type>
+        <children>
+          <_key>22c0edf2ff4d</_key>
+          <_type>span</_type>
+          <text>​Зачем делят на зоны и почему системе нужен уход</text>
+        </children>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>4fb95b4f6b8f</_key>
+        <_type>block</_type>
+        <children>
+          <_key>547e2db55a26</_key>
+          <_type>span</_type>
+          <text>​На участке редко бывают одинаковые условия и одинаковые растения: газону нужен один режим полива, посадкам — другой, а пропускная способность источника воды ограничена. Поэтому систему разбивают на </text>
+        </children>
+        <children>
+          <_key>2369c94f974e</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>несколько зон полива</text>
+        </children>
+        <children>
+          <_key>8187f1423985</_key>
+          <_type>span</_type>
+          <text>, которые работают последовательно одна за другой.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>335c957b55c4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>21c94ece9380</_key>
+          <_type>span</_type>
+          <text>​Важно помнить и другое: автоматический полив — это </text>
+        </children>
+        <children>
+          <_key>0974a214ac33</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>инженерная система</text>
+        </children>
+        <children>
+          <_key>13adec005c87</_key>
+          <_type>span</_type>
+          <text>, а не «поставил и забыл на десятилетия». Ей требуется регулярный уход и обслуживание: сезонный запуск и подготовка к холодам, проверка герметичности, ревизия клапанов в шахтах, промывка/проверка фильтров и корректировка программ при необходимости.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>c4f875df0e0e</_key>
+        <_type>block</_type>
+        <children>
+          <_key>4a573fd388de</_key>
+          <_type>span</_type>
+          <text>​Хотите прикинуть схему под ваш участок?</text>
+        </children>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>7d515cb25738</_key>
+        <_type>block</_type>
+        <children>
+          <_key>c8025d5e8425</_key>
+          <_type>span</_type>
+          <text>​Откройте </text>
+        </children>
+        <children>
+          <_key>df424f1e6466</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>«Инженер-помощник»</text>
+        </children>
+        <children>
+          <_key>8d6838316a68</_key>
+          <_type>span</_type>
+          <text> на сайте </text>
+        </children>
+        <children>
+          <_key>1c682688c143</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Florial</text>
+        </children>
+        <children>
+          <_key>3904243515ff</_key>
+          <_type>span</_type>
+          <text>, укажите размеры и форму вашего участка и получите предварительный расчёт и ориентир по оборудованию для старта. А если понадобится детальная проработка под конкретные условия или монтаж под ключ — наша команда всегда рядом.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <shortDescription>понятный гид для новичков о том, как устроены подземные системы автополива. В ней развенчивается миф о «вертушке на газоне», объясняется работа выдвижных дождевателей, капельного полива, труб, клапанов в защитных шахтах, фильтрации, источников воды (водопровод или насос для скважины/колодца) и разных типов автоматики, а также подчёркивается важность зонирования, регулярного обслуживания</shortDescription>
+    </bg>
+  </translations>
+</document>
