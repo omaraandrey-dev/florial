@@ -1,7 +1,7 @@
 ## 2026-11-23 — Product description refresh (separate owner-approved content stream)
 
 - CLOSED — spray/rotary nozzle category: 26/26 active products published in BG/RU/EN; published read-back confirmed all target IDs and zero remaining drafts. Detailed evidence: `../audits/2026-11-23-nozzle-product-descriptions-refresh.md`.
-- NEXT — ready-made kits: 12 products. The first 10 have a backup on `backup/sanity-kits-current-2026-11-23`; the remaining two must be included in a fresh backup before any writes.
+- PARTIAL — ready-made kits: 11/12 products published in BG/RU/EN; complete 12-product snapshot saved at `../backups/sanity-kits-current-2026-11-23-complete.json`. The 10 × 5 m kit remains unchanged pending an owner decision: its component list pairs ESP-BAT-BT1 with 100-HV-9V, while both published product specs state they are incompatible; the short description still names WPX1. Details: `../audits/2026-11-23-irrigation-kit-descriptions-refresh.md`.
 - OPEN — controller inventory mismatch: live Sanity returns 23 products (including 23 active), while the 15.11.2026 controller audit records 24. Reconcile exact IDs/SKUs before editing.
 - OPEN — sprinklers: 20 active products remain to audit.
 - Humanizer connector was searched for but not available; no Humanizer use is claimed.
