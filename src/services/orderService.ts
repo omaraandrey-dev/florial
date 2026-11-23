@@ -25,6 +25,19 @@ export interface OrderData {
 
 export interface CreatedOrder {
   orderNumber: string
+  analyticsPurchase?: {
+    value: number
+    shipping?: number
+    currency: 'EUR'
+    items: Array<{
+      item_id: string
+      item_name: string
+      item_category?: string
+      item_variant?: string
+      price: number
+      quantity: number
+    }>
+  }
 }
 
 export async function createOrder(data: OrderData): Promise<CreatedOrder> {
@@ -35,9 +48,9 @@ export async function createOrder(data: OrderData): Promise<CreatedOrder> {
   })
 
   const responseText = await response.text()
-  let result: { orderNumber?: unknown; error?: unknown; requestId?: unknown } | null = null
+  let result: { orderNumber?: unknown; error?: unknown; requestId?: unknown; analyticsPurchase?: unknown } | null = null
   try {
-    result = JSON.parse(responseText) as { orderNumber?: unknown; error?: unknown; requestId?: unknown }
+    result = JSON.parse(responseText) as { orderNumber?: unknown; error?: unknown; requestId?: unknown; analyticsPurchase?: unknown }
   } catch {
     result = null
   }
@@ -54,5 +67,24 @@ export async function createOrder(data: OrderData): Promise<CreatedOrder> {
     throw new Error('Поръчката не беше потвърдена от сървъра.')
   }
 
-  return { orderNumber: result.orderNumber as string }
+  const analytics = result.analyticsPurchase && typeof result.analyticsPurchase === 'object'
+    ? result.analyticsPurchase as Record<string, unknown>
+    : null
+  const analyticsItems = Array.isArray(analytics?.items) ? analytics.items.filter((item): item is Record<string, unknown> =>
+    Boolean(item && typeof item === 'object' && typeof (item as Record<string, unknown>).item_id === 'string' &&
+      typeof (item as Record<string, unknown>).item_name === 'string' &&
+      typeof (item as Record<string, unknown>).price === 'number' &&
+      typeof (item as Record<string, unknown>).quantity === 'number')
+  ) : []
+  const analyticsPurchase = analytics && analytics.currency === 'EUR' &&
+    typeof analytics.value === 'number' && Number.isFinite(analytics.value) && analyticsItems.length > 0
+    ? {
+        value: analytics.value,
+        ...(typeof analytics.shipping === 'number' && Number.isFinite(analytics.shipping) ? { shipping: analytics.shipping } : {}),
+        currency: 'EUR' as const,
+        items: analyticsItems as CreatedOrder['analyticsPurchase'] extends infer T ? T extends { items: infer I } ? I : never : never,
+      }
+    : undefined
+
+  return { orderNumber: result.orderNumber as string, ...(analyticsPurchase ? { analyticsPurchase } : {}) }
 }
