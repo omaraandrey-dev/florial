@@ -2,8 +2,8 @@
 
 - CLOSED — spray/rotary nozzle category: 26/26 active products published in BG/RU/EN; published read-back confirmed all target IDs and zero remaining drafts. Detailed evidence: `../audits/2026-11-23-nozzle-product-descriptions-refresh.md`.
 - PARTIAL — ready-made kits: 11/12 products published in BG/RU/EN; complete 12-product snapshot saved at `../backups/sanity-kits-current-2026-11-23-complete.json`. The 10 × 5 m kit remains unchanged pending an owner decision: its component list pairs ESP-BAT-BT1 with 100-HV-9V, while both published product specs state they are incompatible; the short description still names WPX1. Details: `../audits/2026-11-23-irrigation-kit-descriptions-refresh.md`.
-- OPEN — controller inventory mismatch: live Sanity returns 23 products (including 23 active), while the 15.11.2026 controller audit records 24. Reconcile exact IDs/SKUs before editing.
-- OPEN — sprinklers: 20 active products remain to audit.
+- COMPLETE FOR CURRENT CATALOG — controllers: 23 published products currently linked to the controller root have BG/RU/EN descriptions and the required Econt / engineer delivery / paid service closing block. The 15.11.2026 audit lists 24; current published lookup for SKU `RSD-BEx` returns no document. Cause of the 24-vs-23 discrepancy remains unknown; no controller content was edited in this pass.
+- CLOSED — sprinklers: 20/20 published products now have the required localized delivery/service closing section in BG/RU/EN; published read-back confirmed all 20 and zero remaining drafts. Existing descriptions and technical fields were preserved. Detailed evidence: `../audits/2026-11-23-sprinkler-delivery-refresh.md`.
 - Humanizer connector was searched for but not available; no Humanizer use is claimed.
 - This content-refresh approval is separate from SEO Step 4. SEO metadata work remains read-only until its own exact field/ID review and approval.
 
