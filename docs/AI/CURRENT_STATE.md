@@ -1,3 +1,9 @@
+# Latest owner decisions — irrigation project (23.11.2026)
+
+- Hydraulic calculations are explicitly out of scope and will not be implemented.
+- Fixed pipe diameter: Ø25 mm for main and zone lines; the Ø25/Ø32 discrepancy is closed.
+- Approved PDF composition: site-specific project drawing and equipment specification first, then the complete three-page Bulgarian installation guide with illustrations. Code integration and output verification are pending.
+- Runtime baseline: automation release PR #481 merge `1ce629772e8a1e3f7be6d0af6d20d60e76849202`; latest documentation commit before this task `abaf1e3facc99d06bad0c236080df592933b29ca`.
 # Latest main and Production — irrigation automation selection (PR #481 merged and deployed)
 
 - PR #481 squash-merged into `main`: `1ce629772e8a1e3f7be6d0af6d20d60e76849202`.
