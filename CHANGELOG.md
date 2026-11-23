@@ -1,3 +1,41 @@
+## 2026-11-23 — Plant description editorial pilot stopped by owner
+
+- The «Палми и юки» category had 13 published plant cards with updated full and short descriptions in BG/RU/EN (39 localized description/short-description versions). Published read-back confirmed all 13 target documents.
+- The owner did not accept the editorial result and explicitly stopped further plant text changes. The 13 published cards were not rolled back because no rollback was requested; the result is not treated as an approved editorial standard or completed content-refresh stream.
+- The interrupted «Маслини» batch was not published. Read-only Sanity verification after the stop confirmed all six target documents retained their previous revisions and update timestamps.
+- No backup export was made under the owner's explicit one-task instruction. No SEO fields, prices, SKUs, stock, variants, images, category references, plantCare or careGuide data were intentionally changed. No code/schema/infrastructure changes.
+- Audit: `docs/audits/2026-11-23-plant-description-editing-stop.md`.
+
+## 2026-11-23 — Sanity SEO partial remediation (4 documents)
+
+- Published and read-back verified localized metaTitle for two Irritec Connecto elbows and the Rotor Sprinklers category, plus BG/RU/EN image ALT for the Nipel-mufa category image.
+- Documents: elbows `606bf020-26b7-41e8-b8c6-12c9ffcddfd1` / `c674acc7-2997-4ea7-a9e3-0093e2c013d9`; Rotor category `0732d410-0843-4d43-8fe4-c79913845b5b`; Nipel-mufa category `ed408215-944e-45df-a967-55f2c9f1d7bd`.
+- Four documents were patched with revision guards and published; no long descriptions, image assets, schema or runtime code changed. A one-task no-backup exception was explicitly authorized by the owner.
+- Audit: `docs/audits/2026-11-23-sanity-seo-partial-remediation.md`.
+
+## 2026-11-23 — Sprinkler product descriptions: delivery/service close-out (20/20 published)
+
+- Appended the localized delivery/service section to all 20 active sprinkler products in BG/RU/EN while preserving existing descriptions, headings, links and technical details.
+- Published read-back confirmed 20/20 documents, all three locales and zero remaining target drafts. Sanity validation reported 20 valid; custom validation callbacks were not executed.
+- No specifications, compatibility values, short descriptions, product identity, prices, stock, images, categories, SEO metadata, schema, code or Production infrastructure changed. No Sanity snapshot was created for this task under the owner's explicit instruction.
+- Audit: `docs/audits/2026-11-23-sprinkler-delivery-refresh.md`.
+
+## 2026-11-23 — Ready-made irrigation kits final close-out (12/12 published)
+
+- The formerly held 10 × 5 m kit was corrected and published after the owner confirmed from personal installation experience that ESP-BAT-BT1 works with 100-HV-9V production versions manufactured from 01.01.2026 when fitted with a suitable 9 V DC latching solenoid. Earlier production versions are not claimed compatible.
+- The 10 × 5 m kit now identifies ESP-BAT-BT1 consistently in BG/RU/EN; its component references and quantities were preserved. H01040 and ESP-BAT-BT1 product cards were synchronized with the same bounded compatibility condition.
+- Published read-back confirmed all 12 kits and zero target drafts; component arrays remained unchanged. See kit and compatibility audits.
+- This is owner-confirmed field experience, not a new Rain Bird manufacturer bulletin.
+
+## 2026-11-23 — ESP-BAT-BT1 / 100-HV-9V compatibility copy synchronized
+
+- Owner confirmed from personal installation experience that Rain Bird 100-HV-9V production versions manufactured on or after 01.01.2026 work with ESP-BAT-BT1 when fitted with a suitable 9 V DC latching solenoid. Earlier production versions are not claimed compatible.
+- Updated and published both Sanity product cards (H01040 and ESP-BAT-BT1) in BG/RU/EN: full descriptions and corresponding compatibility specification values now use the date-limited wording. No prices, SKUs, short descriptions, product references or technical values outside compatibility wording were changed.
+- The 10 × 5 m kit correction is recorded separately: ESP-BAT-BT1 is now named consistently; WPX1 was removed from the short and SEO descriptions; kit component references and quantities were not changed.
+- Sanity validation: both product drafts reported valid; custom validation callbacks were not run by the available validator. Published read-back confirmed the BG compatibility descriptions/specifications and no remaining drafts. RU/EN copy was checked in the draft read-back before publication.
+- Before-write snapshots: `docs/backups/sanity/2026-11-23-esp-bat-bt1-and-100-hv-9v-before-compatibility-copy.json` and the kit snapshot `docs/backups/sanity-kits-current-2026-11-23-complete.json`.
+- Detailed audit: `docs/audits/2026-11-23-esp-bat-bt1-100-hv-9v-compatibility-copy.md`. This owner-confirmed field compatibility is not represented as a new Rain Bird manufacturer bulletin.
+
 ## 2026-11-23 — Ready-made kit descriptions (11/12 published)
 
 - Updated and published 11 of 12 active irrigation kits in BG/RU/EN. Each locale now has five H2 sections, two verified internal links, and the required Econt / engineer delivery / paid installation-service wording.
