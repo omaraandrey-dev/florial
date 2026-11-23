@@ -1,3 +1,11 @@
+## 2026-11-23 — Local SEO read-only audit completed
+
+- Completed public read-only review of the two Google Maps listings linked from the current Contacts page (Nessebar and Ravda), current website NAP/hours, live Production GardenStore/Organization JSON-LD, service-area statements and indexed external mentions.
+- Found material differences to resolve only after owner confirmation: Nessebar JSON-LD telephone vs primary Bulgarian/Google Maps phone; three different opening-hours representations; Ravda's local phone/address are not fully shown on the Contacts card and its public Maps hours contain anomalous values.
+- iBusiness.bg still links to legacy drop.od.ua and omits the phone; legacy DROP and a Florial-branded plant site show older hours/service-area statements. Their current relationship/status requires confirmation.
+- Added `docs/audits/2026-11-23-local-seo-readonly-audit.md`; updated the unified roadmap and SEO roadmap status.
+- **No changes** to Google Business Profiles, external listings, website code, Sanity, Cloudflare, D1, Resend or Production. Remediation is pending owner confirmation of Ravda location status, real hours, local phones, service areas and official related properties.
+
 ## 2026-11-23 — SEO roadmap synchronized after preliminary desktop-only GSC review
 
 - Removed SEO Step 1 indexability follow-up as a blocker for later stages. Historical GSC URL Inspection anomalies remain a separate read-only recheck item around 2026-12-23; no code/Sanity change is implied.

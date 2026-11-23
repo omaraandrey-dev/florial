@@ -1,3 +1,13 @@
+## 2026-11-23 — Local SEO public audit; owner confirmations required
+
+- **CLOSED — read-only audit:** public Google Maps listings for Nessebar and Ravda, website NAP/hours, live GardenStore/Organization JSON-LD, service-area statements and indexed external mentions reviewed. Evidence: `../audits/2026-11-23-local-seo-readonly-audit.md`.
+- **OPEN — Ravda status:** confirm whether the public Maps record at Чешме тарла is an active customer-facing Florial location, pickup point, or service-only location; confirm visitor access.
+- **OPEN — hours:** confirm actual opening hours separately for Nessebar and Ravda. Current website, JSON-LD and Google Maps values conflict; Ravda Maps Friday/Saturday values appear anomalous.
+- **OPEN — phone assignment:** confirm +359876777902 as Nessebar's primary Bulgarian number and +359877055605 as Ravda's local number; current Nessebar JSON-LD uses the additional ENG/UA/RU number +359885834860.
+- **OPEN — service areas:** confirm whether Burgas and Varna are current on-site service areas or delivery-only areas; current site footer and older Florial-branded web properties differ.
+- **OPEN — related web/social properties:** confirm whether drop.od.ua and palmandolivetrees.com are official/current Florial properties and identify canonical Facebook/Instagram profiles.
+- No Google Business Profile, directory, website, Sanity or Production edits were made. Do not change public listings until the owner confirms the facts and approves an exact plan.
+
 ## 2026-11-23 — SEO roadmap: desktop GSC checkpoint and next stage
 
 - **CLOSED AS PRELIMINARY CHECKPOINT — SEO Step 5 (GSC opportunities):** desktop-only Search Console aggregate for 2026-10-24–2026-11-20: 392 impressions, 10 clicks, CTR 2.55%, average position 22.9. Detailed query/page rows are incomplete; the short site history is insufficient for broad SEO conclusions or content changes. Repeat GSC analysis around 2026-12-23 using the latest 28 finalized days.
