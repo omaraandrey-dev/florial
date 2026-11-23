@@ -1,0 +1,813 @@
+Found document "031de407-90ea-40c2-99d5-701be5d1ad02": 
+<document>
+  <_createdAt>2026-11-23T06:59:30Z</_createdAt>
+  <_id>031de407-90ea-40c2-99d5-701be5d1ad02</_id>
+  <_rev>6G8NrXvA0zpyTtWqt58c2p</_rev>
+  <_system>
+    <base>
+      <id>031de407-90ea-40c2-99d5-701be5d1ad02</id>
+      <rev>cwcbrYHwLb4OEgYEhdgFn4</rev>
+    </base>
+  </_system>
+  <_type>blogPost</_type>
+  <_updatedAt>2026-11-23T17:30:50Z</_updatedAt>
+  <cover>
+    <_type>image</_type>
+    <alt>Автоматична поливна система за тревни площи и градини</alt>
+    <asset>
+      <_ref>image-cbbf28eaec7e3adb99da26b19765c4f9253761d7-1200x896-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </cover>
+  <isPublished>true</isPublished>
+  <publishedAt>2026-11-23T17:30:20.650Z</publishedAt>
+  <slug>
+    <_type>slug</_type>
+    <current>kak-raboti-avtomatichnata-polivna-sistema</current>
+  </slug>
+  <tags>Автоматично напояване</tags>
+  <tags>Поливни системи</tags>
+  <tags>Разпръсквачи</tags>
+  <tags>Капково напояване</tags>
+  <tags>Контролери</tags>
+  <title>Как работи автоматичната поливна система: разпръсквачи, капково напояване, тръби и клапани</title>
+  <translations>
+    <bg>
+      <body>
+        <_key>bl2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp1</_key>
+          <_type>span</_type>
+          <text>Автоматичната поливна система доставя вода до тревните площи и растенията по предварително проектирана мрежа от тръби, разпръсквачи, капкови линии и управляващи елементи. Тя работи по зададена програма, така че различните части на градината да получават необходимото количество вода в подходящото време.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp3</_key>
+          <_type>span</_type>
+          <text>Когато човек за първи път избира оборудване, термините „статичен разпръсквач“, „ротор“, „капкова тръба“, „електромагнитен клапан“ и „поливна зона“ могат да звучат сложно. Всъщност всеки компонент има конкретна задача. В тази статия ще разгледаме как са свързани помежду си и как работи цялата система.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl9</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp5</_key>
+          <_type>span</_type>
+          <text>В каталога на Florial можете да разгледате </text>
+        </children>
+        <children>
+          <_key>sp7</_key>
+          <_type>span</_type>
+          <marks>lnk6</marks>
+          <text>оборудването за автоматично напояване</text>
+        </children>
+        <children>
+          <_key>sp8</_key>
+          <_type>span</_type>
+          <text> и отделните му категории.</text>
+        </children>
+        <markDefs>
+          <_key>lnk6</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>/category/vsichko-za-polivane</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl11</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp10</_key>
+          <_type>span</_type>
+          <text>Какво представлява подземната система за автоматично поливане?</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl13</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp12</_key>
+          <_type>span</_type>
+          <text>При професионално изградена система основната част от тръбната мрежа е под земята. Разпръсквачите се монтират на нивото на терена и при изключено поливане почти не пречат на движението или косенето. Когато съответната зона се включи, работната част на разпръсквача се издига, подава вода и след края на цикъла се прибира.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl15</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp14</_key>
+          <_type>span</_type>
+          <text>Контролерът управлява последователността на поливане. Той подава електрически сигнал към съответния електромагнитен клапан, клапанът отваря водния поток към избраната зона, а водата достига до разпръсквачите или капковите линии.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl17</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp16</_key>
+          <_type>span</_type>
+          <text>Най-общо системата включва водоизточник, при необходимост помпа и филтриране, главни и разпределителни тръби, клапани, поливни елементи и контролер. Конкретната конфигурация се определя според площта, растенията, налягането и дебита на водоизточника.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl19</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp18</_key>
+          <_type>span</_type>
+          <text>Разпръсквачи за тревни площи</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl21</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp20</_key>
+          <_type>span</_type>
+          <text>За поливане на тревни площи най-често се използват изскачащи разпръсквачи. Те остават скрити в корпуса си, когато системата не работи. При подаване на вода работният механизъм се издига и разпределя водата в зададен сектор.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl23</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp22</_key>
+          <_type>span</_type>
+          <text>Статични разпръсквачи и дюзи</text>
+        </children>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>bl25</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp24</_key>
+          <_type>span</_type>
+          <text>Статичните разпръсквачи (spray) обикновено се използват за малки и средни площи, тесни ивици и зони със сложна форма. Дюзата определя формата и сектора на струята – например четвърт, половина или пълен кръг. Подходящата комбинация се избира според размерите на участъка и необходимото покритие.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>img-static-sprays</_key>
+        <_type>image</_type>
+        <alt>Статични разпръсквачи за автоматично поливане на тревни площи</alt>
+        <asset>
+          <_ref>image-a589cbb1db71a0c77cf6c7e3450921647e55c3dd-600x600-jpg</_ref>
+          <_type>reference</_type>
+        </asset>
+        <caption>Статични разпръсквачи и дюзи</caption>
+      </body>
+      <body>
+        <_key>bl30</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp26</_key>
+          <_type>span</_type>
+          <text>Разгледайте категорията </text>
+        </children>
+        <children>
+          <_key>sp28</_key>
+          <_type>span</_type>
+          <marks>lnk27</marks>
+          <text>Статични разпръсквачи</text>
+        </children>
+        <children>
+          <_key>sp29</_key>
+          <_type>span</_type>
+          <text> в каталога на Florial.</text>
+        </children>
+        <markDefs>
+          <_key>lnk27</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>/category/static-sprinklers</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl32</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp31</_key>
+          <_type>span</_type>
+          <text>Роторни разпръсквачи</text>
+        </children>
+        <style>h3</style>
+      </body>
+      <body>
+        <_key>bl34</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp33</_key>
+          <_type>span</_type>
+          <text>Роторните разпръсквачи са подходящи за по-големи открити тревни площи, където е необходим по-голям радиус на поливане. При работа те завъртат струята или водния сектор, като покриват определена площ. Изборът на модел, дюза и работен сектор трябва да бъде съобразен с реалния дебит и налягане.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>img-rotors</_key>
+        <_type>image</_type>
+        <alt>Роторни разпръсквачи за поливни системи</alt>
+        <asset>
+          <_ref>image-7b5c39649eb3a49b9c5b9d01ac5adb63df571c7f-1254x1254-png</_ref>
+          <_type>reference</_type>
+        </asset>
+        <caption>Роторни разпръсквачи</caption>
+      </body>
+      <body>
+        <_key>bl39</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp35</_key>
+          <_type>span</_type>
+          <text>Вижте наличните </text>
+        </children>
+        <children>
+          <_key>sp37</_key>
+          <_type>span</_type>
+          <marks>lnk36</marks>
+          <text>роторни разпръсквачи</text>
+        </children>
+        <children>
+          <_key>sp38</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>lnk36</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>/category/rotorni-razprskvachi</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl41</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp40</_key>
+          <_type>span</_type>
+          <text>При проектирането разпръсквачите се разполагат така, че водните струи да осигуряват равномерно покритие. Често се използва принципът „глава до глава“ – струята на един разпръсквач достига до съседния. Така се намаляват сухите участъци и прекомерното поливане на отделни места.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl43</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp42</_key>
+          <_type>span</_type>
+          <text>Капково напояване – вода близо до корените</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl45</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp44</_key>
+          <_type>span</_type>
+          <text>За живи плетове, храсти, цветни лехи, зеленчукови градини и много декоративни насаждения често е по-подходящо капковото напояване. То подава водата бавно и локално към кореновата зона, вместо да мокри цялата повърхност.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl47</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp46</_key>
+          <_type>span</_type>
+          <text>Капковата система може да бъде изградена с капкова тръба с вградени капкообразуватели или с тръба и отделни капкообразуватели. Разстоянието между тях, дебитът и схемата се подбират според вида и разположението на растенията, почвата и водоизточника.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>img-drip</_key>
+        <_type>image</_type>
+        <alt>Оборудване за капково напояване на градини</alt>
+        <asset>
+          <_ref>image-048aeb8ad4cb9c4afcc493e7c7742945b8de793c-1037x1024-png</_ref>
+          <_type>reference</_type>
+        </asset>
+        <caption>Капково напояване</caption>
+      </body>
+      <body>
+        <_key>bl52</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp48</_key>
+          <_type>span</_type>
+          <text>Разгледайте </text>
+        </children>
+        <children>
+          <_key>sp50</_key>
+          <_type>span</_type>
+          <marks>lnk49</marks>
+          <text>оборудването за капково напояване</text>
+        </children>
+        <children>
+          <_key>sp51</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>lnk49</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>/category/kapkovo-napoyavane</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl54</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp53</_key>
+          <_type>span</_type>
+          <text>Тръби, фитинги и разпределение на водата</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl56</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp55</_key>
+          <_type>span</_type>
+          <text>Тръбната мрежа свързва водоизточника с всички поливни елементи. Главните тръби отвеждат водата към разпределителните възли, а отклоненията я подават към отделните зони, разпръсквачи и капкови линии.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl58</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp57</_key>
+          <_type>span</_type>
+          <text>Фитингите, колената, тройниците, съединителите и преходите осигуряват връзките между отделните части. Диаметърът на тръбите не се избира произволно: той трябва да съответства на дебита, дължината на трасето и допустимите загуби на налягане.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>img-pipes</_key>
+        <_type>image</_type>
+        <alt>Тръби, фитинги и аксесоари за автоматични поливни системи</alt>
+        <asset>
+          <_ref>image-10ce9f2e83e79da7af97bfc975b74977637e565e-800x800-jpg</_ref>
+          <_type>reference</_type>
+        </asset>
+        <caption>Тръби, фитинги и аксесоари</caption>
+      </body>
+      <body>
+        <_key>bl63</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp59</_key>
+          <_type>span</_type>
+          <text>В категорията </text>
+        </children>
+        <children>
+          <_key>sp61</_key>
+          <_type>span</_type>
+          <marks>lnk60</marks>
+          <text>Тръби, фитинги и аксесоари</text>
+        </children>
+        <children>
+          <_key>sp62</_key>
+          <_type>span</_type>
+          <text> ще намерите основните компоненти за изграждане на тръбната мрежа.</text>
+        </children>
+        <markDefs>
+          <_key>lnk60</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>/category/trabi-fitingi-aksesoari</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl65</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp64</_key>
+          <_type>span</_type>
+          <text>Електромагнитни клапани и защитни шахти</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl67</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp66</_key>
+          <_type>span</_type>
+          <text>Електромагнитният клапан управлява подаването на вода към една поливна зона или група от елементи. Когато контролерът подаде сигнал, клапанът се отваря; когато програмата приключи или контролерът изключи зоната, клапанът затваря потока.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>img-valves</_key>
+        <_type>image</_type>
+        <alt>Електромагнитни клапани за автоматични поливни системи</alt>
+        <asset>
+          <_ref>image-94d984bf2baca042828ad68c56354bdf5a737fae-811x871-jpg</_ref>
+          <_type>reference</_type>
+        </asset>
+        <caption>Електромагнитни клапани</caption>
+      </body>
+      <body>
+        <_key>bl72</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp68</_key>
+          <_type>span</_type>
+          <text>Разгледайте категорията </text>
+        </children>
+        <children>
+          <_key>sp70</_key>
+          <_type>span</_type>
+          <marks>lnk69</marks>
+          <text>Клапани</text>
+        </children>
+        <children>
+          <_key>sp71</_key>
+          <_type>span</_type>
+          <text> за оборудване за управление на водния поток.</text>
+        </children>
+        <markDefs>
+          <_key>lnk69</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>/category/klapani</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl74</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp73</_key>
+          <_type>span</_type>
+          <text>Клапаните и съединенията обикновено се разполагат в специални подземни защитни шахти. Те осигуряват достъп за проверка, настройка и ремонт, без да се налага разкопаване на целия участък. Размерът и броят на шахтите се определят според броя и типа на монтираните клапани.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>img-valve-boxes</_key>
+        <_type>image</_type>
+        <alt>Защитни шахти за клапани на поливни системи</alt>
+        <asset>
+          <_ref>image-32cac4bc7aa3612e2fdb3c53c6a4e40526620673-1031x1024-png</_ref>
+          <_type>reference</_type>
+        </asset>
+        <caption>Шахти за поливни клапани</caption>
+      </body>
+      <body>
+        <_key>bl79</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp75</_key>
+          <_type>span</_type>
+          <text>Вижте и </text>
+        </children>
+        <children>
+          <_key>sp77</_key>
+          <_type>span</_type>
+          <marks>lnk76</marks>
+          <text>защитните шахти за поливни клапани</text>
+        </children>
+        <children>
+          <_key>sp78</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>lnk76</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>/category/shahti</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl81</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp80</_key>
+          <_type>span</_type>
+          <text>Филтри и регулатори на налягането</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl83</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp82</_key>
+          <_type>span</_type>
+          <text>Филтрирането е особено важно при капково напояване и при водоизточници, в които може да има пясък или други механични примеси. Филтърът задържа част от замърсяванията и помага да се предпазят капкообразувателите, дюзите и клапаните от запушване.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl85</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp84</_key>
+          <_type>span</_type>
+          <text>Регулаторът на налягане се използва там, където е необходимо налягането да бъде ограничено или стабилизирано за конкретен тип оборудване. Не всяка система изисква един и същ филтър или регулатор – изборът зависи от качеството на водата и работните параметри на елементите.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>img-filters</_key>
+        <_type>image</_type>
+        <alt>Филтри и регулатори на налягане за поливни системи</alt>
+        <asset>
+          <_ref>image-a7cf67cd8a36989c81658d208de17beba265a165-592x590-png</_ref>
+          <_type>reference</_type>
+        </asset>
+        <caption>Филтри и регулатори на налягане</caption>
+      </body>
+      <body>
+        <_key>bl90</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp86</_key>
+          <_type>span</_type>
+          <text>Разгледайте </text>
+        </children>
+        <children>
+          <_key>sp88</_key>
+          <_type>span</_type>
+          <marks>lnk87</marks>
+          <text>филтрите и регулаторите на налягане</text>
+        </children>
+        <children>
+          <_key>sp89</_key>
+          <_type>span</_type>
+          <text> в магазина.</text>
+        </children>
+        <markDefs>
+          <_key>lnk87</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>/category/filtri-regulatori-nalyagane</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl92</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp91</_key>
+          <_type>span</_type>
+          <text>Водоизточник и помпено оборудване</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl94</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp93</_key>
+          <_type>span</_type>
+          <text>Системата може да бъде свързана към водопровод, резервоар, сондаж или кладенец. Важни са не само наличието на вода, но и измерените дебит и налягане при реална работа. Те определят колко разпръсквачи могат да работят едновременно и как трябва да бъдат разделени зоните.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl96</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp95</_key>
+          <_type>span</_type>
+          <text>Когато налягането или дебитът на водоизточника не са достатъчни, може да е необходимо помпено оборудване. Помпата се подбира след оценка на водоизточника, необходимия дебит, работното налягане и загубите по тръбната мрежа. Не е правилно помпа да се избира само по мощност или по общо описание на градината.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl98</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp97</_key>
+          <_type>span</_type>
+          <text>Контролерът – компютърът на поливната система</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl100</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp99</_key>
+          <_type>span</_type>
+          <text>Контролерът (наричан още програматор или компютър за поливане) задава кога и колко дълго да работи всяка зона. Той управлява клапаните по предварително зададен график и позволява различните части на градината да получават вода по различен режим.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>img-controllers</_key>
+        <_type>image</_type>
+        <alt>Контролери за управление на автоматични поливни системи</alt>
+        <asset>
+          <_ref>image-96fb45bd932636c49078e5240b3d9326679f9e36-1254x1254-png</_ref>
+          <_type>reference</_type>
+        </asset>
+        <caption>Контролери за автоматично поливане</caption>
+      </body>
+      <body>
+        <_key>bl105</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp101</_key>
+          <_type>span</_type>
+          <text>Разгледайте категорията </text>
+        </children>
+        <children>
+          <_key>sp103</_key>
+          <_type>span</_type>
+          <marks>lnk102</marks>
+          <text>Контролери</text>
+        </children>
+        <children>
+          <_key>sp104</_key>
+          <_type>span</_type>
+          <text> – там са събрани устройства за програмиране и управление на поливането.</text>
+        </children>
+        <markDefs>
+          <_key>lnk102</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>/category/controllers</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl107</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp106</_key>
+          <_type>span</_type>
+          <text>В зависимост от обекта могат да се използват контролери с различен брой станции, модели с Wi-Fi управление през смартфон или автономни устройства, които работят с батерии и се използват там, където няма подходящо електрическо захранване. Съвместимостта с клапаните и наличното захранване трябва да се провери преди покупка.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl109</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp108</_key>
+          <_type>span</_type>
+          <text>Защо системата се разделя на зони?</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl111</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp110</_key>
+          <_type>span</_type>
+          <text>Тревната площ, живият плет, цветните лехи и дърветата имат различни нужди от вода. Освен това водоизточникът има ограничен дебит. Затова системата се разделя на отделни зони, които обикновено работят последователно. Така всяка зона може да бъде проектирана с подходящи поливни елементи и собствен график.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl113</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp112</_key>
+          <_type>span</_type>
+          <text>Правилното зониране се определя чрез хидравлично изчисление – съобразяват се дебитът и налягането, диаметърът и дължината на тръбите, характеристиките на разпръсквачите и разположението на растенията. Смесването на неподходящи типове поливни елементи в една зона може да доведе до неравномерно напояване.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl115</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp114</_key>
+          <_type>span</_type>
+          <text>Проектиране, монтаж и поддръжка</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl117</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp116</_key>
+          <_type>span</_type>
+          <text>Надеждната система започва с оглед и проект. Преди монтажа се уточняват водоизточникът, размерите и формата на площите, видовете растения, трасетата на тръбите, позициите на разпръсквачите и местата на клапанните шахти. След това се подбират компонентите и се изчисляват зоните.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl119</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp118</_key>
+          <_type>span</_type>
+          <text>След монтажа се проверяват връзките, работата на клапаните, покритието на разпръсквачите и програмите на контролера. При необходимост се настройват секторите и дюзите, за да не се поливат излишно настилки, фасади и огради.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl121</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp120</_key>
+          <_type>span</_type>
+          <text>Автоматичният полив не е система, която може да бъде оставена без внимание за години. Необходима е периодична проверка за течове и запушвания, почистване на филтрите, корекция на графиците според сезона и подготовка за зимата. След зимния период се прави сезонен пуск и проверка на всички зони.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl123</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp122</_key>
+          <_type>span</_type>
+          <text>Как да изберете подходящото оборудване?</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl125</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp124</_key>
+          <_type>span</_type>
+          <text>Не започвайте избора само от марката или външния вид на даден разпръсквач. Първо трябва да се разберат условията на обекта: откъде идва водата, какви са дебитът и налягането, какви площи ще се поливат и какви растения има в тях. След това се определят зоните и се подбират съвместимите компоненти.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl130</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp126</_key>
+          <_type>span</_type>
+          <text>Ако искате да разгледате всички основни групи продукти, започнете от </text>
+        </children>
+        <children>
+          <_key>sp128</_key>
+          <_type>span</_type>
+          <marks>lnk127</marks>
+          <text>категорията за автоматично напояване</text>
+        </children>
+        <children>
+          <_key>sp129</_key>
+          <_type>span</_type>
+          <text> в онлайн магазина на Florial.</text>
+        </children>
+        <markDefs>
+          <_key>lnk127</_key>
+          <_type>link</_type>
+          <blank>false</blank>
+          <href>/category/vsichko-za-polivane</href>
+        </markDefs>
+        <style>normal</style>
+      </body>
+      <body>
+        <_key>bl132</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp131</_key>
+          <_type>span</_type>
+          <text>Нуждаете се от помощ за вашия двор или градина?</text>
+        </children>
+        <style>h2</style>
+      </body>
+      <body>
+        <_key>bl134</_key>
+        <_type>block</_type>
+        <children>
+          <_key>sp133</_key>
+          <_type>span</_type>
+          <text>Екипът на Florial може да помогне с избора на оборудване, проектирането и изграждането на автоматична поливна система. За предварителна ориентация можете да използвате инженерния помощник на сайта, а за решение, съобразено с конкретния водоизточник и особеностите на терена, е необходима индивидуална оценка.</text>
+        </children>
+        <style>normal</style>
+      </body>
+      <coverAlt>Автоматична поливна система за тревни площи и градини</coverAlt>
+      <seoDescription>Научете как работи автоматичното напояване: разпръсквачи, капково напояване, тръби, клапани, филтри и контролери. Практични насоки за избор, проектиране и поддръжка на поливна система за градината.</seoDescription>
+      <seoTitle>Как работи автоматичната поливна система | Florial</seoTitle>
+      <shortDescription>Разберете как работи автоматичната поливна система – от разпръсквачите и капковото напояване до тръбите, електромагнитните клапани, филтрите и контролера. Практично ръководство за основните компоненти, поливните зони, избора на оборудване и поддръжката на градината.</shortDescription>
+      <title>Как работи автоматичната поливна система: разпръсквачи, капково напояване, тръби и клапани</title>
+    </bg>
+  </translations>
+</document>
