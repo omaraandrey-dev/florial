@@ -1,3 +1,14 @@
+## 2026-11-23 — Automatic irrigation explainer article published
+
+- Updated the owner's existing draft in Sanity Production (031de407-90ea-40c2-99d5-701be5d1ad02) and published it as a Bulgarian-language educational article: Как работи автоматичната поливна система: разпръсквачи, капково напояване, тръби и клапани.
+- Preserved the supplied cover image and original technical scope; replaced the Russian text mistakenly placed in the BG locale with a complete Bulgarian Portable Text article. Added localized cover ALT, short description, SEO title and SEO description; assigned the slug kak-raboti-avtomatichnata-polivna-sistema.
+- The 60-block article contains 8 inline category images and 10 existing Portable Text link annotations. Each category image is followed by a normal text link to the corresponding category; no schema, database fields, renderer, code or site architecture were changed.
+- Linked categories verified in published Sanity: static sprinklers, rotary sprinklers, drip irrigation, pipes/fittings, valves, valve boxes, filters/pressure regulators, controllers, plus the root irrigation equipment category. Category image assets were referenced directly from the published category documents.
+- Sanity read-back confirms isPublished=true, published slug, 60 body blocks, 8 images and 10 link annotations. Document validation reported valid, but incomplete because custom validation callbacks were not executed.
+- Before-write snapshot: docs/backups/sanity/2026-11-23-automatic-irrigation-blog-before-publication.xml. Detailed audit: docs/audits/2026-11-23-automatic-irrigation-blog-article.md.
+- No Sanity schema changes, product/category edits, code changes, Cloudflare configuration changes or deployment were needed. Public browser visual QA could not be completed: Browser Use reported insufficient project credits and the web fetcher could not access the article URL. Production publication is confirmed by Sanity; visual rendering and click-through remain not independently confirmed.
+- Humanizer connector/skill was not available in the connected plugin directory; no Humanizer usage is claimed.
+
 ## 2026-11-23 — Local SEO owner clarifications recorded
 
 - Owner confirmed Ravda is a new, active customer-facing Florial garden centre; customers may visit in person. Retain its separate Google Maps record and `GardenStore` entity.
