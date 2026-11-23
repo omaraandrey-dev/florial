@@ -205,7 +205,7 @@ export function BlogPage() {
     setSearchQuery('')
   }
 
-  return <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-8 md:px-6 md:py-12">
+  return <main className="mx-auto min-h-[100svh] w-full max-w-7xl flex-grow px-4 py-8 md:px-6 md:py-12">
     <nav className="mb-6 text-sm text-slate-500" aria-label={language === 'ru' ? 'Навигационная цепочка' : language === 'en' ? 'Breadcrumb' : 'Навигационна пътека'}>
       <a href={localizedHref('/', language)} className="text-[#647746] no-underline hover:underline">{t('Начало')}</a>
       <span className="mx-2" aria-hidden="true">/</span>
@@ -217,7 +217,22 @@ export function BlogPage() {
       <p className="mt-4 text-base leading-7 text-slate-600 md:text-lg md:leading-8">{copy.intro}</p>
     </header>
 
-    {loaded && posts.length > 0 ? <>
+    {!loaded ? <div aria-busy="true" className="space-y-8">
+      <p className="sr-only" role="status" aria-live="polite">{copy.loading}</p>
+      <section aria-hidden="true" className="mb-10">
+        <div className="mb-4 h-7 w-2/5 animate-pulse rounded bg-slate-200" />
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
+          {Array.from({ length: 4 }, (_, index) => <div key={index} className="min-h-40 animate-pulse rounded-2xl bg-slate-200 md:min-h-52" />)}
+        </div>
+      </section>
+      <div aria-hidden="true" className="mb-7 h-11 w-32 animate-pulse rounded-xl bg-slate-100" />
+      <div aria-hidden="true" className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 5 }, (_, index) => <div key={index} className={`overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white ${index === 0 ? 'sm:col-span-2 lg:col-span-3 md:grid md:grid-cols-2 md:min-h-[20rem]' : ''}`}>
+          <div className={`h-56 animate-pulse bg-slate-100 ${index === 0 ? 'md:h-full md:min-h-[20rem]' : ''}`} />
+          <div className={`space-y-3 p-5 ${index === 0 ? 'md:flex md:flex-col md:justify-center md:p-8' : ''}`}><div className="h-4 w-1/4 animate-pulse rounded bg-slate-100" /><div className="h-6 w-4/5 animate-pulse rounded bg-slate-200" /><div className="h-4 w-full animate-pulse rounded bg-slate-100" /><div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" /></div>
+        </div>)}
+      </div>
+    </div> : loaded && posts.length > 0 ? <>
       <section aria-labelledby="blog-directions-heading" className="mb-10">
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <h2 id="blog-directions-heading" className="text-xl font-bold text-slate-900 md:text-2xl">{copy.directions}</h2>
@@ -236,7 +251,7 @@ export function BlogPage() {
               className={`group relative isolate min-h-40 overflow-hidden rounded-2xl border bg-slate-900 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#647746] md:min-h-52 ${active ? 'border-[#647746] ring-2 ring-[#647746] ring-offset-2' : 'border-transparent'}`}
             >
               {imagePost?.cover?.asset?.url ? <img
-                {...getSanityImageProps(imagePost.cover.asset.url, '(min-width: 1024px) 25vw, 50vw', 640)}
+                {...getSanityImageProps(imagePost.cover.asset.url, '(min-width: 1280px) 308px, (min-width: 1024px) 23vw, (min-width: 640px) 46vw, 45vw', 640, 68)}
                 alt=""
                 aria-hidden="true"
                 loading={categoryIndex === 0 ? "eager" : "lazy"}
@@ -309,7 +324,8 @@ export function BlogPage() {
       </section>
     </> : null}
 
-    {!loaded ? <p className="py-12 text-slate-500" role="status">{copy.loading}</p> : posts.length === 0 ? <p className="py-12 text-slate-600">{copy.empty}</p> : <>
+    {loaded && posts.length === 0 ? <p className="py-12 text-slate-600">{copy.empty}</p> : null}
+    {loaded && posts.length > 0 ? <>
       {filteredPosts.length === 0 ? <div className="rounded-2xl border border-dashed border-[#D8DFCA] px-5 py-12 text-center text-sm leading-6 text-slate-600">{copy.noResults}</div> : <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {filteredPosts.map((post, index) => {
           const content = blogTranslation(post, language)
@@ -317,7 +333,7 @@ export function BlogPage() {
           const visibleTags = (post.tags || []).filter((tag) => normalizedTag(tag) !== normalizedTag('Проект')).slice(0, 2)
           return <article key={post._id} className={`overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${featured ? 'sm:col-span-2 lg:col-span-3' : ''}`}>
             <a href={localizedHref('/blog/' + encodeURIComponent(blogSlug(post)), language)} className={`block h-full no-underline ${featured ? 'md:grid md:grid-cols-2 md:min-h-[20rem]' : ''}`}>
-              {post.cover?.asset?.url ? <img {...getSanityImageProps(post.cover.asset.url, featured ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw', featured ? 1100 : undefined)} alt={content.coverAlt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" fetchPriority={index === 0 ? 'high' : undefined} className={`h-56 w-full object-cover ${featured ? 'md:h-full md:min-h-[20rem]' : ''}`}/>: <div className={`flex h-56 items-center justify-center bg-[#E9EDDB] text-4xl ${featured ? 'md:min-h-[20rem]' : ''}`} aria-hidden="true">🌿</div>}
+              {post.cover?.asset?.url ? <img {...getSanityImageProps(post.cover.asset.url, featured ? '(min-width: 1280px) 616px, (min-width: 768px) 50vw, 92vw' : '(min-width: 1280px) 397px, (min-width: 1024px) 31vw, (min-width: 640px) 45vw, 92vw', featured ? 1100 : 640, 68)} alt={content.coverAlt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" fetchPriority={index === 0 ? 'high' : undefined} className={`h-56 w-full object-cover ${featured ? 'md:h-full md:min-h-[20rem]' : ''}`}/>: <div className={`flex h-56 items-center justify-center bg-[#E9EDDB] text-4xl ${featured ? 'md:min-h-[20rem]' : ''}`} aria-hidden="true">🌿</div>}
               <div className={`p-5 ${featured ? 'md:flex md:flex-col md:justify-center md:p-8 lg:p-10' : ''}`}>
                 {featured ? <p className="mb-2 text-xs font-bold uppercase tracking-widest text-[#71824F]">{copy.latest}</p> : null}
                 <time dateTime={post.publishedAt || undefined} className="text-xs text-slate-500">{formatBlogDate(post.publishedAt, language)}</time>
@@ -332,6 +348,6 @@ export function BlogPage() {
           </article>
         })}
       </div>}
-    </>}
+    </> : null}
   </main>
 }

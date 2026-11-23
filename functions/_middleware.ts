@@ -452,12 +452,17 @@ function setPageHead(
   },
 ): string {
   let html = sourceHtml
-  if (options.pageType === 'product') {
-    const resourceHints = [
-      '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
-      '<link rel="preconnect" href="https://bxvcy0qs.api.sanity.io" crossorigin />',
-      '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
-    ]
+  if (options.pageType === 'product' || options.pageType === 'blog') {
+    const resourceHints = options.pageType === 'blog'
+      ? [
+          '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
+          '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
+        ]
+      : [
+          '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
+          '<link rel="preconnect" href="https://bxvcy0qs.api.sanity.io" crossorigin />',
+          '<link rel="preconnect" href="https://bxvcy0qs.apicdn.sanity.io" crossorigin />',
+        ]
     html = html.replace(/<\/head>/i, resourceHints.join('\n') + '\n</head>')
   }
   html = html.replace(/<html\b[^>]*>/i, (tag) => {
@@ -955,7 +960,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     return transformHtmlResponse(await context.next(), (html) => setPageHead(html, {
       language, title: meta.title, description: meta.description, canonical,
       alternates: {'bg': localizedRouteUrl('/blog', 'bg'), 'ru': localizedRouteUrl('/blog', 'ru'), 'en': localizedRouteUrl('/blog', 'en'), 'x-default': localizedRouteUrl('/blog', 'bg')},
-      pageType: 'website',
+      pageType: 'blog',
       structuredData: [{
         id: 'collection-page',
         data: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: meta.title, description: meta.description, url: canonical },
