@@ -1,3 +1,12 @@
+## 2026-11-23 — Blog and portfolio listing UX
+
+- PR #508 is integrated into `main` at `6828e44409c7bc7f805de703fc71d68544bff241`.
+- The existing `/blog` page serves as the combined blog and portfolio index with one breadcrumb, localized BG/RU/EN introduction, four curated visual categories (landscape design, automatic irrigation, rolled turf, planting/greenery), and secondary topic chips derived from existing published Sanity tags.
+- Search and filters combine category, topic, publication type, year and sort order. Untagged published posts remain in the general list and are searchable.
+- Category counts and cover imagery derive from existing published blogPost tags and cover assets; no new Sanity fields, tags or documents are required.
+- Regression coverage: `tests/blog-portfolio-page.test.mjs`; implementation/audit evidence: `docs/audits/2026-11-23-blog-portfolio-ux.md`.
+- Sanity schema/content, D1, Cloudflare configuration/secrets, Resend, Header, navigation, Footer and routing were not changed. Exact PR-head Blog/Studio and D1 validation passed; public desktop/mobile visual QA and Production deployment must be verified independently.
+
 
 
 ## Irrigation assistant — automation and flex BOM refinements (2026-11-23)
