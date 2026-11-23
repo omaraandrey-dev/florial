@@ -135,7 +135,7 @@ export const createIrrigationProjectPdf = async (
   write('Въведени от клиента: форма ' + project.geometry.shape + ' · дължина ' + (dimensions.length ?? '—') + ' m · ширина ' + (dimensions.width ?? '—') + ' m' + (dimensions.cutoutWidth && dimensions.cutoutDepth ? ' · изрез ' + dimensions.cutoutWidth + ' × ' + dimensions.cutoutDepth + ' m · ъгъл ' + dimensions.cutoutCorner : ''))
   write('Изчислено по контура: площ ' + project.geometry.areaM2.toFixed(2) + ' m² · периметър ' + project.geometry.perimeterM.toFixed(2) + ' m')
   write('Модел: ' + project.operatingScenario.manufacturer + ' ' + project.operatingScenario.family + ' ' + project.operatingScenario.model)
-  write('Референтно налягане по таблицата на производителя: ' + (project.operatingScenario.pressureBar == null ? 'не е зададено' : project.operatingScenario.pressureBar.toFixed(2) + ' bar') + ' · Реалното налягане при дюзите не е измерено.')
+  write('Референтна точка от таблицата на производителя за избраната дюза: ' + (project.operatingScenario.pressureBar == null ? 'не е зададена' : project.operatingScenario.pressureBar.toFixed(2) + ' bar') + '. Това не е измерване на обекта и не представлява хидравлично изчисление.')
   write('Размерите са приблизителни. Геометрията и разположението са предварителни.', { color: muted })
 
   heading('2. Разпръсквачи и зони')
@@ -152,7 +152,7 @@ export const createIrrigationProjectPdf = async (
   }
 
   heading('3. Схематични трасета на тръбите')
-  write('Главна линия: Ø' + (project.pipeNetwork?.mainDiameterMm ?? '—') + ' mm · Зонални линии: Ø' + (project.pipeNetwork?.zoneDiameterMm ?? '—') + ' mm. Диаметрите са проектни допускания, не резултат от хидравлично оразмеряване.')
+  write('Всички проектни тръбни линии — главна и зонални: PE Ø25 mm. Това е фиксиран стандарт на Florial, без избор на Ø32 mm и без хидравлично оразмеряване.')
   for (const branch of project.pipeNetwork?.branches ?? []) {
     const coords = branch.points.map((point) => '(' + point.x.toFixed(2) + ', ' + point.y.toFixed(2) + ')').join(' → ')
     write(branch.zoneId + ' / ' + branch.branchDirection + ': ' + coords, { size: 6.5 })
@@ -196,8 +196,7 @@ export const createIrrigationProjectPdf = async (
   heading('6. Допускания и ограничения')
   const limitations = [
     'Документът е предварителна геометрична схема, а не окончателен монтажен или хидравличен проект.',
-    'Не са изчислявани дебит, динамично налягане, загуби по дължина и местни съпротивления, скорости и остатъчно налягане.',
-    'Не е потвърдена хидравличната възможност шест разпръсквача да работят едновременно в една зона.',
+    'Хидравлични изчисления не се извършват: дебит, налягане в мрежата, загуби, скорости и хидравлична производителност на зоните не се определят.',
     'Не са оценявани вятър, разпръскване извън тревната площ, равномерност DU/CU, препятствия и реални трасета на изкопите.',
     'Количествата в BOM са за изброените артикули; основната PE магистрала и монтажните консумативи може да не са включени.',
   ]
@@ -212,5 +211,15 @@ export const createIrrigationProjectPdf = async (
     current.drawText('Florial · ' + orderNumber + ' · Предварителен проект — не е хидравлично оразмерен', { x: margin, y: 20, size: 6.2, font, color: muted })
     current.drawText((index + 1) + ' / ' + pages.length, { x: right - 28, y: 20, size: 6.2, font, color: muted })
   })
+  // Append the owner's original three-page Bulgarian installation guide without redrawing or overlaying its artwork.
+  const installationGuideUrl = 'https://www.dropbox.com/scl/fi/04llvkycqs5m1xb6qh0dm/.pdf?rlkey=j6x89e4pu2g3g5zsm2vr2xhf1&st=baud1le6&dl=1'
+  const guideResponse = await fetch(installationGuideUrl)
+  if (!guideResponse.ok) throw new Error('Unable to load the original Florial installation guide PDF')
+  const guideBytes = await guideResponse.arrayBuffer()
+  const installationGuide = await PDFDocument.load(guideBytes)
+  if (installationGuide.getPageCount() !== 3) throw new Error('The original Florial installation guide must contain exactly 3 pages')
+  const originalPages = await pdf.copyPages(installationGuide, installationGuide.getPageIndices())
+  for (const originalPage of originalPages) pdf.addPage(originalPage)
+
   return pdf.save()
 }

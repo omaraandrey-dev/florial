@@ -1,3 +1,13 @@
+## 2026-11-23 — Irrigation engineer scope and installation PDF decisions
+
+- CLOSED — geometric-only irrigation assistant. No hydraulic calculations: no flow/pressure sizing, friction/minor losses, velocities, residual pressure or hydraulic zone capacity calculations. Manufacturer nozzle performance tables may be used only as reference inputs for geometric sprinkler selection; this is not site hydraulic verification.
+- CLOSED — all schematic pipe routes use fixed PE Ø25 mm: main and zone lines. No Ø32 mm option is exposed. Server normalizes submitted project snapshot pipe diameters to 25 mm.
+- CLOSED — generated project PDF appends the owner's original three-page Bulgarian installation guide after the generated project pages, preserving original PDF pages and illustrations without redraw or abridgement.
+- NOT VERIFIED — exact PR-head CI/build, Preview/Production deployment, visual review and actual owner/customer email delivery. Browser visual QA is not performed unless the owner separately authorizes Browser use.
+- Remaining non-hydraulic engineering questions stay open where applicable: 1804/regulator compatibility, out-of-stock cart policy, full PE pipe/accessory installation BOM, exclusions/obstacles/overspray/wind/DU-CU and field validation.
+
+---
+
 ## 2026-11-22 — Irrigation automation selection (PR #481 merged; Production deployed)
 
 - CLOSED — customer chooses manual, TM2, RC2 or BAT-BT before the generated kit is added to the cart.
@@ -39,10 +49,10 @@ Implementation: [balanced zones and order PDF](../engineering/IRRIGATION_ASSISTA
 
 - PR #473 merged into `main` at `1926d632cc0861341a46ec932a2130ca94dfa103`; Production Pages deployment `0da20669-6b24-4697-8ac4-b281eebec9a2` succeeded from the exact SHA.
 - Owner manually accepted the Preview UI and will provide detailed product/engineering feedback later. Do not treat this as field validation.
-- OPEN: resolve mainline diameter discrepancy: current runtime standard and pipeNetwork output are Ø25 mm, but the 22.11 intermediate audit described mainline Ø32 mm. Confirm the intended nominal diameter before hydraulic calculations or purchase BOM.
-- OPEN: confirm actual dynamic inlet pressure/flow and prove the 3.1 bar R-VAN operating point at the nozzle under design flow; 4 bar is a Florial assumption, not a measured value.
-- OPEN: approve hydraulic zone capacity/flow/pressure limits; current six-head maximum is a deterministic grouping standard only.
-- OPEN: verify 1804 + R-VAN assembly/regulation compatibility for the chosen 3.1 bar operating scenario.
+- CLOSED by owner decision 23.11.2026: all schematic main and zone pipes are PE Ø25 mm; Ø32 mm is not an option.
+- CLOSED by scope decision 23.11.2026: no site pressure/flow measurements or hydraulic verification are performed by this geometric assistant. Manufacturer table values are geometric selection references only.
+- CLOSED by scope decision 23.11.2026: hydraulic zone capacity is not calculated; six-head maximum remains only a geometric grouping rule.
+- OPEN: verify 1804 + R-VAN assembly/regulation compatibility for the selected sprinkler model; this is a product compatibility question, not a hydraulic calculation.
 - OPEN: decide cart policy for active catalogue products with `stockStatus=outOfStock`; current irrigation module resolves `isActive != false` and passes stockStatus to cart but has no independent out-of-stock gate.
 - OPEN: determine exact PE mainline product/length and full installation BOM; current cart deliberately omits unverified mainline and hydraulic accessories.
 - OPEN: extend engineering validation to exclusions/obstacles/overspray, wind, precipitation uniformity (DU/CU), multiple regions and field testing.

@@ -136,3 +136,10 @@ The reference pressure from the Rain Bird table is not represented as measured s
 - `tests/irrigation-project-standards.test.mjs`
 - `tests/irrigation-bom.test.mjs`
 - `tests/irrigation-project-order.test.mjs`
+
+
+## Owner decision — original installation guide appendix (2026-11-23)
+
+The generated preliminary project PDF now appends the original three-page Bulgarian installation guide after the individual project and BOM. The source PDF pages are copied directly with pdf-lib; the original diagrams, illustrations, text and page layout are retained. No translation, redraw, abridgement or overlay is applied. The guide is fetched from the owner's public Dropbox share link at generation time; PDF generation fails closed if the source cannot be fetched or its page count is not exactly three.
+
+The owner also confirmed that the irrigation assistant is geometric-only and that all schematic PE pipe lines (main and zone) are fixed at Ø25 mm. Hydraulic calculations are out of scope.
