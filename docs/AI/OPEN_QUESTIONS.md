@@ -1,7 +1,7 @@
 ## 2026-11-23 — Blog and portfolio UX release verification
 
-- **OPEN — public visual QA:** PR #508 is merged to `main` at `6828e44409c7bc7f805de703fc71d68544bff241`; exact-head CI passed. Confirm the live `/blog` page on desktop and mobile, including category card imagery, combined filters, localized BG/RU/EN text and empty/reset states. Browser visual QA was not completed before merge because the connected browser/search service was unavailable due to credits. Do not mark this item closed without a real post-deployment check.
-- **PENDING AT DOCUMENTATION UPDATE — Pages Production:** verify the deployment is built from the merge commit and run safe read-only HTTP/HTML smoke checks. No deployment success is asserted here.
+- **CLOSED — Pages Production deployment and BG HTML smoke:** final `main` SHA `f0c5fe6121e4733273877cad61e73e86fd1068e7` deployed successfully as `e0a2dbef-d9fa-47e4-b114-d3172b6a8b0d`; aliases `florial-bg.com` and `www.florial-bg.com` are attached. Live rendered HTML confirmed the correct title/H1, one current breadcrumb, no redundant Florial eyebrow, four category labels and search control.
+- **OPEN — full desktop/mobile visual and interaction QA:** visually inspect category card images, responsive layout, BG/RU/EN versions, combined filters, empty/reset states and click behavior. Browser Use was blocked by insufficient credits; a follow-up Cloudflare Browser Rendering request was rate-limited. Static rendered-HTML smoke is not a substitute for visual or interaction QA.
 - Evidence: `../audits/2026-11-23-blog-portfolio-ux.md`.
 
 ## 2026-11-23 — Published Florial Irrigation Assistant service: remaining QA
