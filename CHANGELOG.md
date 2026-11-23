@@ -1,3 +1,10 @@
+## 2026-11-23 — Local SEO owner clarifications recorded
+
+- Owner confirmed Ravda is a new, active customer-facing Florial garden centre; customers may visit in person. Its separate Google Maps record and `GardenStore` entity are appropriate; no merge/delete action is indicated.
+- Owner confirmed that Bulgarian-language legacy DROP pages redirect to the current Bulgarian Florial website. This resolves the earlier uncertainty about whether the old Bulgarian DROP site remains a separate active destination. The exact redirect chain and page-to-page destination mapping were not independently tested.
+- Remaining Local SEO owner confirmations: actual opening hours per location, local phone assignment, on-site service areas versus delivery coverage, and canonical related web/social properties.
+- Updated the Local SEO audit, SEO roadmap, unified roadmap status index and open questions. Documentation only; no website, Google Business Profile, directory, Sanity, Cloudflare or Production changes.
+
 ## 2026-11-23 — Local SEO read-only audit completed
 
 - Completed public read-only review of the two Google Maps listings linked from the current Contacts page (Nessebar and Ravda), current website NAP/hours, live Production GardenStore/Organization JSON-LD, service-area statements and indexed external mentions.
