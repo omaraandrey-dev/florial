@@ -20,7 +20,8 @@
 - **Rolled turf:** `prodavane-traven-chim`, `kupete-travna-plosht`.
 - **Planting and greenery:** `rozi-sympathy`, `nov-vnos-palmi-2025`, `maslina-sredizemnomorie`, `kiparis-totem`, and `podroben-landshaften-proekt-gradina`.
 - The landscape project case study is intentionally multi-category (landscape, irrigation and planting); the olive article is intentionally multi-category (landscape and planting).
-- Known current slugs use this curated editorial mapping. New posts continue to use existing tags as a fallback, so future content remains classifiable without a schema change.
+- `sistema-magluvane-terasa-besedka` is an outdoor mist-cooling system, not an irrigation/plant-watering article, so it remains in the complete publication list but is intentionally outside the four main directions.
+- All 19 current slugs are explicitly marked as reviewed: known current articles use the curated editorial mapping, and the misting article is intentionally unassigned. This prevents a broad historical Sanity tag from overriding the editorial decision. New posts use existing tags as a fallback. New posts continue to use existing tags as a fallback, so future content remains classifiable without a schema change.
 
 ## Implementation
 - `src/pages/BlogPage.tsx`: localized introductory copy; category matching by curated slug with tag fallback for future posts; case-insensitive localized topic labels; one compact dropdown containing search, year, sort and secondary topics; no publication-type filter or badges.
