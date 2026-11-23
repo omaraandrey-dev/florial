@@ -1,4 +1,12 @@
-## 2026-11-22 — Irrigation automation selection (PR #481 merged; Production deployed)
+## 2026-11-22 — Irrigation automation selection
+## 2026-11-23 — Owner decisions: irrigation project scope and installation guide
+
+- CLOSED — hydraulic calculations are not part of the Florial irrigation assistant and will not be implemented.
+- CLOSED — pipe diameter is fixed at Ø25 mm for both main and zone lines; the earlier Ø25/Ø32 discrepancy is resolved.
+- APPROVED / IMPLEMENTATION PENDING — append the complete uploaded three-page Bulgarian installation guide, including its diagrams, after the individual project scheme and BOM. Preserve page order and illustrations.
+- OPEN — implement and test PDF append operation, then visually inspect generated multi-page PDF. Do not claim the guide is included until verified.
+
+ (PR #481 merged; Production deployed)
 
 - CLOSED — customer chooses manual, TM2, RC2 or BAT-BT before the generated kit is added to the cart.
 - CLOSED — manual mode omits the assistant BOM's electromagnetic valve SKU and VBA02672 valve boxes; TM2/RC2 add selected controller SKUs and preserve standard valves/boxes; BAT replaces the ordinary valve with Rain Bird 100-HV-9V (H01040) per zone and adds BAT-BT controllers. H01040 requires the updated HV bonnet (manufactured from 30.06.2025) and compatible TBOSPSOL 9 V DC latching solenoid.
