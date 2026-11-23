@@ -111,3 +111,6 @@
 
 
 - 23.11.2026 — этап 1 снят с блокирующей зависимости; исторические URL Inspection anomalies оставлены на отдельную повторную проверку примерно через месяц. Этап 5 выполнен как предварительный анализ только DESKTOP: 392 impressions, 10 clicks, CTR 2,55%, position 22,9 за 24.10–20.11.2026; из-за малого срока работы сайта и неполных query/page строк дальнейшие SEO-выводы отложены до повторного среза примерно 23.12.2026. Следующий активный этап — 6 Local SEO. Детали: [desktop GSC audit](../audits/2026-11-23-gsc-desktop-preliminary-analysis.md).
+
+
+- 23.11.2026 — по отдельному разрешению владельца выполнена scoped performance remediation страницы /blog: PR #510 merged в main (f0913f3d379c718bc140d539e5b66beb7411a8f2), CI/Preview/Production успешны; BG/RU/EN Production HTML smoke пройден. Общая performance-оптимизация остальных страниц остаётся приостановленной. Для блога открыты только сопоставимый повторный PSI/Lighthouse и screenshot/interaction QA; численное улучшение пока не подтверждено. Аудит: docs/audits/2026-11-23-blog-performance-remediation.md.
