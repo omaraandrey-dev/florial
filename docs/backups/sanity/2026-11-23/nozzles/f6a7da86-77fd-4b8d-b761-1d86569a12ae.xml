@@ -1,0 +1,802 @@
+Found document "f6a7da86-77fd-4b8d-b761-1d86569a12ae": 
+<document>
+  <_createdAt>2026-10-23T13:04:28Z</_createdAt>
+  <_id>f6a7da86-77fd-4b8d-b761-1d86569a12ae</_id>
+  <_rev>FtwFw4yqYwP9yFXZAJL2gE</_rev>
+  <_system>
+    <base>
+      <id>f6a7da86-77fd-4b8d-b761-1d86569a12ae</id>
+      <rev>Wxh00JcLN6cQgy9skweYaW</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-20T09:33:34Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>ad3914b4-5ab0-49e3-868a-52621c4654a7</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>6534adc5-78f7-4276-bbdd-2843ef30420e</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6534adc5-78f7-4276-bbdd-2843ef30420e</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-h1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-h1s0</_key>
+      <_type>span</_type>
+      <text>Форсунка за точно поливане на тесни правоъгълни площи</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p1s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Rain Bird 15-LCS</text>
+    </children>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p1s1</_key>
+      <_type>span</_type>
+      <text> е дюза с фиксиран модел на поливане за тесни ивици, крайни участъци и правоъгълни зони. Тя позволява да се подбере конкретна форма на покритие вместо да се използва кръгова струя, която би мокрила настилките около тревната площ.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-h2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-h2s0</_key>
+      <_type>span</_type>
+      <text>Размери и технически параметри</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p2s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Технически данни: </text>
+    </children>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p2s1</_key>
+      <_type>span</_type>
+      <text>тип покритие лява ъглова ивица; размер при 2,1 bar 1,2 × 4,6 m; дебит при 2,1 bar 1,9 l/min; работно налягане 1,0–2,1 bar. Серията 15 Strip има траектория на струята 30°. Включен е бял филтър за серия 1800.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-h3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-h3s0</_key>
+      <_type>span</_type>
+      <text>Фиксиран модел на струята и настройка</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p3s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Регулиране: </text>
+    </children>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p3s1</_key>
+      <_type>span</_type>
+      <text>формата на покритието е зададена от модела и не се настройва като сектор 0°–360°. Позиционирайте дюзата според посоката на ивицата; намаляване на радиуса с повече от 25% не се препоръчва, защото може да наруши равномерността.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-h4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-h4s0</_key>
+      <_type>span</_type>
+      <text>Съвместимост със спрей разпръсквачи</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p4s0</_key>
+      <_type>span</_type>
+      <text>15-CST е за централна ивица, 15-EST — за крайна ивица, 15-LCS и 15-RCS — за левия и десния ъгъл, а 15-SST и 9-SST — за странично покритие. MPR дюзите са предназначени за съгласувана норма на валеж при правилно подбрани модели.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-h5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-h5s0</_key>
+      <_type>span</_type>
+      <text>Проектиране и правилно позициониране</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p5s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>При проектирането: </text>
+    </children>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p5s1</_key>
+      <_type>span</_type>
+      <text>съобразете ширината и дължината на ивицата с размерите на терена. Посочените размери и дебит са при 2,1 bar и безветрени условия; осигурете правилно налягане при дюзата и проверете реалното покритие след монтаж. Вижте </text>
+    </children>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p5s2</_key>
+      <_type>span</_type>
+      <marks>category</marks>
+      <text>веерните форсунки</text>
+    </children>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p5s3</_key>
+      <_type>span</_type>
+      <text> и статията за </text>
+    </children>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p5s4</_key>
+      <_type>span</_type>
+      <marks>sprinkler-help</marks>
+      <text>монтаж, настройка и ремонт на разпръсквачи</text>
+    </children>
+    <children>
+      <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-bg-p5s5</_key>
+      <_type>span</_type>
+      <text>.</text>
+    </children>
+    <markDefs>
+      <_key>category</_key>
+      <_type>link</_type>
+      <href>/category/spray-nozzles</href>
+    </markDefs>
+    <markDefs>
+      <_key>sprinkler-help</_key>
+      <_type>link</_type>
+      <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+    </markDefs>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>gallerymprcompare15lcs</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-446e02026d24406f2635d2ed3dab3a2f5a69ad2b-386x386-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <isActive>true</isActive>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird 15-LCS — дюза за ляв ъгъл</alt>
+    <altEn>Rain Bird 15-LCS — left-corner nozzle</altEn>
+    <altRu>Rain Bird 15-LCS — форсунка для левого угла</altRu>
+    <asset>
+      <_ref>image-9125195be7e5b64a4a083600c37f6baad01bb862-515x515-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-dcaf317c844a9bcb20c0ef18395b0231503f6b2f-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird 15-LCS — дюза за ляв ъгъл</name>
+  <priceEUR>4</priceEUR>
+  <relatedContent>
+    <_key>sprinklerBlogRef</_key>
+    <_ref>8a4ec08b-e064-4d85-8d97-52837afe6d6f</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedContent>
+    <_key>serviceRvan20261120</_key>
+    <_ref>5b88a838-5f5e-4024-9bb8-f4fd8baaeda8</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>d7140XR4dajqis0f8eplAZ</_key>
+    <_ref>97436060-98f6-430e-ba36-3fa11b085b24</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>d7140XR4dajqis0f8eplBD</_key>
+    <_ref>a84929ff-e088-437c-bb33-f8ec9b2817f3</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>d7140XR4dajqis0f8eplBr</_key>
+    <_ref>dac0f67b-0638-48e8-884c-10ea19cffe4d</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>d7140XR4dajqis0f8eplCV</_key>
+    <_ref>556bb59c-ec52-4884-b811-5687d2310343</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>d7140XR4dajqis0f8eplD9</_key>
+    <_ref>4854cd78-5a9c-4b44-bcd3-1399162d572c</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird 15-LCS — дюза за ляв ъгъл</h1>
+    <metaDescription>Продажба на Rain Bird 15-LCS — дюза за ляв ъгъл. MPR дюза за ляв ъгъл с приблизително покритие 0,8 × 4,6 m. Флориал, Равда.</metaDescription>
+    <metaTitle>15-LCS дюза | Равда | Флориал</metaTitle>
+  </seo>
+  <shortDescription>MPR дюза за лява крайна зона с покритие около 0,8 × 4,6 m.</shortDescription>
+  <sku>A47033A</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>rain-bird-15-lcs</current>
+  </slug>
+  <specifications>
+    <_key>spec1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>15-LCS</value>
+  </specifications>
+  <specifications>
+    <_key>spec2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>15 Strip Series</value>
+  </specifications>
+  <specifications>
+    <_key>spec3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Дюза за ляв ъгъл</value>
+  </specifications>
+  <specifications>
+    <_key>spec4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>15-lcs, strip nozzle, left corner</value>
+  </specifications>
+  <specifications>
+    <_key>spec5</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>1.0–2.1 bar</value>
+  </specifications>
+  <specifications>
+    <_key>spec6</_key>
+    <_type>productSpec</_type>
+    <name>Размер на поливане при 2.1 bar</name>
+    <value>1.2 × 4.6 m</value>
+  </specifications>
+  <specifications>
+    <_key>spec7</_key>
+    <_type>productSpec</_type>
+    <name>Дебит при 2.1 bar</name>
+    <value>1.9 l/min</value>
+  </specifications>
+  <specifications>
+    <_key>spec8</_key>
+    <_type>productSpec</_type>
+    <name>Тип покритие</name>
+    <value>Лява ъглова ивица</value>
+  </specifications>
+  <specifications>
+    <_key>audit10p</_key>
+    <_type>productSpec</_type>
+    <name>Оптимално налягане</name>
+    <value>2,1 bar</value>
+  </specifications>
+  <specifications>
+    <_key>audit10f</_key>
+    <_type>productSpec</_type>
+    <name>Филтър</name>
+    <value>Бял филтър за серия 1800, включен</value>
+  </specifications>
+  <specifications>
+    <_key>spacingNoteLCS</_key>
+    <_type>productSpec</_type>
+    <name>Условия за таблицата на дебита</name>
+    <value>Посочените размери и дебит са при 2,1 bar и безветрени условия; намаляване на радиуса с над 25% не се препоръчва</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird 15-LCS is an MPR nozzle for watering the left corner of a rectangular area. It is suitable for lawn corners and narrow end sections where the spray must stay within the irrigated boundary. Approximate coverage is 0.8 × 4.6 m. Fits compatible Rain Bird 1800/RD1800 bodies and should be aligned so the left-side pattern matches the area edge.</description>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-h1s0</_key>
+          <_type>span</_type>
+          <text>Precise coverage for narrow rectangular areas</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p1s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Rain Bird 15-LCS</text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p1s1</_key>
+          <_type>span</_type>
+          <text> is a fixed-pattern nozzle for narrow strips, end sections and rectangular areas. It provides a defined coverage shape instead of a circular spray that could wet the paving around a lawn.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-h2s0</_key>
+          <_type>span</_type>
+          <text>Coverage dimensions and technical data</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p2s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Technical data: </text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p2s1</_key>
+          <_type>span</_type>
+          <text>pattern лява ъглова ивица; coverage at 2.1 bar 1.2 × 4.6 m; flow at 2.1 bar 1.9 L/min; operating pressure 1.0–2.1 bar. The 15 Strip Series uses a 30° spray trajectory. A white filter for the 1800 Series is included.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-h3s0</_key>
+          <_type>span</_type>
+          <text>Fixed spray pattern and positioning</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p3s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Adjustment: </text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p3s1</_key>
+          <_type>span</_type>
+          <text>the coverage shape is fixed by the model and is not adjusted like a 0°–360° variable-arc nozzle. Position the nozzle in line with the strip; reducing radius by more than 25% is not recommended because it can affect distribution uniformity.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-h4s0</_key>
+          <_type>span</_type>
+          <text>Compatibility with spray heads</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p4s0</_key>
+          <_type>span</_type>
+          <text>15-CST is designed for a centre strip, 15-EST for an end strip, 15-LCS and 15-RCS for left- and right-corner strips, and 15-SST and 9-SST for side strips. MPR nozzles are designed for matched precipitation when the correct models are selected.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-h5s0</_key>
+          <_type>span</_type>
+          <text>Design and correct installation</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p5s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>For system design: </text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p5s1</_key>
+          <_type>span</_type>
+          <text>match strip width and length to the site dimensions. Published coverage and flow figures are measured at 2.1 bar in zero-wind conditions; maintain the required pressure at the nozzle and check the pattern after installation. See </text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p5s2</_key>
+          <_type>span</_type>
+          <marks>category</marks>
+          <text>spray nozzles</text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p5s3</_key>
+          <_type>span</_type>
+          <text>; also read </text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p5s4</_key>
+          <_type>span</_type>
+          <marks>sprinkler-help</marks>
+          <text>sprinkler installation, adjustment and repair</text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-en-p5s5</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>category</_key>
+          <_type>link</_type>
+          <href>/category/spray-nozzles</href>
+        </markDefs>
+        <markDefs>
+          <_key>sprinkler-help</_key>
+          <_type>link</_type>
+          <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird 15-LCS — left-corner nozzle</name>
+      <seo>
+        <h1>Rain Bird 15-LCS — left-corner nozzle</h1>
+        <metaDescription>For sale: Rain Bird 15-LCS — left-corner nozzle. MPR nozzle for a left corner, with approximate coverage of 0.8 × 4.6 m. Florial, Ravda.</metaDescription>
+        <metaTitle>15-LCS nozzle | Ravda | Florial</metaTitle>
+      </seo>
+      <shortDescription>MPR nozzle for a left corner, with approximate coverage of 0.8 × 4.6 m.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>15-LCS</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>15 Strip Series</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Left corner-strip nozzle</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>15-LCS, strip nozzle, left corner</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>1.0–2.1 bar</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Coverage at 2.1 bar</name>
+        <value>1.2 × 4.6 m</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Flow rate at 2.1 bar</name>
+        <value>1.9 L/min</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Coverage pattern</name>
+        <value>Left corner strip</value>
+      </specifications>
+      <specifications>
+        <_key>audit10p</_key>
+        <_type>productSpec</_type>
+        <name>Optimum pressure</name>
+        <value>2.1 bar</value>
+      </specifications>
+      <specifications>
+        <_key>audit10f</_key>
+        <_type>productSpec</_type>
+        <name>Filter</name>
+        <value>White filter for the 1800 series included</value>
+      </specifications>
+      <specifications>
+        <_key>spacingNote</_key>
+        <_type>productSpec</_type>
+        <name>Flow table conditions</name>
+        <value>Coverage dimensions and flow are specified at 2.1 bar in windless conditions; radius reduction greater than 25% is not recommended</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird 15-LCS — форсунка MPR для полива левого угла прямоугольной зоны. Подходит для углов газона и узких крайних участков, где важно не выходить струёй за границы полива. Примерное покрытие — 0,8 × 4,6 м. Устанавливается на совместимые корпуса Rain Bird 1800/RD1800; форсунку ориентируют так, чтобы левая сторона рисунка совпадала с границей участка.</description>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-h1s0</_key>
+          <_type>span</_type>
+          <text>Форсунка для точного полива узких прямоугольных участков</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p1s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Rain Bird 15-LCS</text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p1s1</_key>
+          <_type>span</_type>
+          <text> — форсунка с фиксированной схемой полива для узких полос, краевых участков и прямоугольных зон. Она позволяет выбрать заданную форму покрытия вместо круговой струи, которая могла бы попадать на дорожки вокруг газона.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-h2s0</_key>
+          <_type>span</_type>
+          <text>Размеры и технические параметры</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p2s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Технические данные: </text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p2s1</_key>
+          <_type>span</_type>
+          <text>тип покрытия лява ъглова ивица; размер при 2,1 bar — 1,2 × 4,6 m; расход при 2,1 bar — 1,9 l/min; рабочее давление 1,0–2,1 bar. Форсунки серии 15 Strip имеют траекторию струи 30°. В комплект входит белый фильтр для серии 1800.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-h3s0</_key>
+          <_type>span</_type>
+          <text>Фиксированная форма струи и настройка</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p3s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Регулировка: </text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p3s1</_key>
+          <_type>span</_type>
+          <text>форма покрытия задана моделью и не настраивается как сектор 0°–360°. Расположите форсунку по направлению полосы; уменьшение радиуса более чем на 25% не рекомендуется, поскольку это может ухудшить равномерность полива.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-h4s0</_key>
+          <_type>span</_type>
+          <text>Совместимость со спрей-дождевателями</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p4s0</_key>
+          <_type>span</_type>
+          <text>15-CST предназначена для центральной полосы, 15-EST — для конечной, 15-LCS и 15-RCS — для левого и правого углов, а 15-SST и 9-SST — для боковой полосы. Форсунки MPR рассчитаны на согласованную интенсивность полива при правильном подборе моделей.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-h5s0</_key>
+          <_type>span</_type>
+          <text>Проектирование и правильное позиционирование</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p5s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>При проектировании: </text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p5s1</_key>
+          <_type>span</_type>
+          <text>сопоставьте ширину и длину полосы с размерами участка. Указанные размеры и расход получены при 2,1 bar и безветренных условиях; обеспечьте нужное давление на форсунке и проверьте покрытие после монтажа. Подробнее — </text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p5s2</_key>
+          <_type>span</_type>
+          <marks>category</marks>
+          <text>веерные форсунки</text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p5s3</_key>
+          <_type>span</_type>
+          <text> и также статья о </text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p5s4</_key>
+          <_type>span</_type>
+          <marks>sprinkler-help</marks>
+          <text>монтаж, настройка и ремонт дождевателей</text>
+        </children>
+        <children>
+          <_key>f6a7da86-77fd-4b8d-b761-1d86569a12ae-ru-p5s5</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>category</_key>
+          <_type>link</_type>
+          <href>/category/spray-nozzles</href>
+        </markDefs>
+        <markDefs>
+          <_key>sprinkler-help</_key>
+          <_type>link</_type>
+          <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird 15-LCS — форсунка для левого угла</name>
+      <seo>
+        <h1>Rain Bird 15-LCS — форсунка для левого угла</h1>
+        <metaDescription>Продажа: Rain Bird 15-LCS — форсунка для левого угла. Форсунка MPR для левого угла с примерной зоной полива 0,8 × 4,6 м. Флориал, Равда.</metaDescription>
+        <metaTitle>15-LCS форсунка | Равда | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Форсунка MPR для левого угла с примерным покрытием 0,8 × 4,6 м.</shortDescription>
+      <specifications>
+        <_key>spec1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>15-LCS</value>
+      </specifications>
+      <specifications>
+        <_key>spec2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>15 Strip</value>
+      </specifications>
+      <specifications>
+        <_key>spec3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Форсунка для левой угловой полосы</value>
+      </specifications>
+      <specifications>
+        <_key>spec4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>15-LCS, угловая форсунка, левая полоса</value>
+      </specifications>
+      <specifications>
+        <_key>spec5</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>1,0–2,1 бар</value>
+      </specifications>
+      <specifications>
+        <_key>spec6</_key>
+        <_type>productSpec</_type>
+        <name>Размер полива при 2,1 бар</name>
+        <value>1,2 × 4,6 м</value>
+      </specifications>
+      <specifications>
+        <_key>spec7</_key>
+        <_type>productSpec</_type>
+        <name>Расход при 2,1 бар</name>
+        <value>1,9 л/мин</value>
+      </specifications>
+      <specifications>
+        <_key>spec8</_key>
+        <_type>productSpec</_type>
+        <name>Тип покрытия</name>
+        <value>Левая угловая полоса</value>
+      </specifications>
+      <specifications>
+        <_key>audit10p</_key>
+        <_type>productSpec</_type>
+        <name>Оптимальное давление</name>
+        <value>2,1 бар</value>
+      </specifications>
+      <specifications>
+        <_key>audit10f</_key>
+        <_type>productSpec</_type>
+        <name>Фильтр</name>
+        <value>Белый фильтр для серии 1800 входит в комплект</value>
+      </specifications>
+      <specifications>
+        <_key>spacingNote</_key>
+        <_type>productSpec</_type>
+        <name>Условия таблицы расхода</name>
+        <value>Размеры и расход указаны при 2,1 бар и в безветренных условиях; уменьшать радиус более чем на 25% не рекомендуется</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.0073</weightKg>
+</document>
