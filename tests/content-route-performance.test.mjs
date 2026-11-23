@@ -129,7 +129,7 @@ test('service route reserves viewport space and avoids a duplicate raw hero imag
   assert.ok(app.includes('min-h-[100svh]'))
   assert.ok(app.includes("<ServiceLoadingState label={t('Зареждане на услугата...')} />"))
   assert.ok(middleware.includes("const image = type === 'product' && doc.imageUrl"))
-  assert.ok(middleware.includes('image: doc?.imageUrl'))
+  assert.ok(middleware.includes("image: type === 'blogPost' ? (doc?.coverUrl || doc?.imageUrl) : doc?.imageUrl"))
   assert.ok(!middleware.includes("const image = type !== 'category'"))
 })
 
