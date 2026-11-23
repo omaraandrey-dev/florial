@@ -124,10 +124,11 @@ No citation edits were performed. No authoritative backlink metrics were obtaine
 ### Owner confirmation required before changes
 
 1. **CLOSED — Ravda status:** the owner confirmed that Ravda is a new active garden centre where customers can visit. Keep it as a separate physical Florial location; no merge/delete action is indicated.
-2. **OPEN — hours:** confirm actual opening hours separately for Nessebar and Ravda, including Sunday and seasonal schedules.
-3. **OPEN — phone assignment:** confirm the correct primary telephone for each location. Public evidence supports +359876777902 as the Nessebar main Bulgarian number and +359877055605 for the Ravda Maps record; +359885834860 is the additional ENG/UA/RU line.
-4. **OPEN — service areas:** confirm current on-site service areas, especially Burgas and Varna, and distinguish them from delivery-only areas.
-5. **OPEN — related web/social properties:** confirm whether `palmandolivetrees.com` is an official/current Florial property and which Facebook/Instagram pages are canonical official profiles. The owner has confirmed that the Bulgarian legacy DROP pages redirect to the current Bulgarian Florial website; exact redirect destinations have not been independently checked.
+2. **CLOSED — Ravda hours:** owner confirms daily opening hours of **09:00–17:00**. Public Maps/site/schema values have not yet been updated or independently verified against this schedule.
+3. **OPEN — Nessebar hours:** confirm actual opening hours, including Sunday and seasonal schedules.
+4. **OPEN — phone assignment:** confirm the correct primary telephone for each location. Public evidence supports +359876777902 as the Nessebar main Bulgarian number and +359877055605 for the Ravda Maps record; +359885834860 is the additional ENG/UA/RU line.
+5. **OPEN — service areas:** confirm current on-site service areas, especially Burgas and Varna, and distinguish them from delivery-only areas.
+6. **OPEN — related web/social properties:** confirm whether `palmandolivetrees.com` is an official/current Florial property and which Facebook/Instagram pages are canonical official profiles. The owner has confirmed that the Bulgarian legacy DROP pages redirect to the current Bulgarian Florial website; exact redirect destinations have not been independently checked.
 
 ### Proposed remediation after confirmation and separate approval
 
@@ -143,6 +144,6 @@ No citation edits were performed. No authoritative backlink metrics were obtaine
 ## 7. Close-out
 
 - **Read-only Local SEO audit: COMPLETED.**
-- **Remediation: NOT STARTED** — Ravda's physical customer-facing status and the legacy DROP redirect status have now been clarified by the owner. Remaining owner confirmations concern location-specific hours, phone assignment, current service areas and canonical related web/social properties.
+- **Remediation: NOT STARTED** — Ravda's physical customer-facing status and daily 09:00–17:00 hours, and the legacy DROP redirect status, have been clarified by the owner. Remaining owner confirmations concern Nessebar hours, phone assignment, current service areas and canonical related web/social properties.
 - No Google Business Profile, external directory, website, Sanity, Cloudflare, D1, Resend or Production data was changed.
-- Next owner decision: confirm actual hours for Nessebar and Ravda; then prepare a precise, separate remediation proposal. No public profile or site edits are authorized by these factual clarifications alone.
+- Next owner decision: confirm actual hours for Nessebar and the remaining location/contact details; then prepare a precise, separate remediation proposal. No public profile or site edits are authorized by these factual clarifications alone.
