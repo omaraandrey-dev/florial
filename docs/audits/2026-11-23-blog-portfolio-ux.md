@@ -20,5 +20,6 @@
 - No Sanity documents, schema, datasets, assets, Cloudflare configuration, D1, Resend, routes, Header, menu or Footer changed.
 
 ## Verification
-- Pending exact-commit CI, build, lint, typecheck and Production deployment verification.
-- Live browser/mobile visual QA is pending; the connected Firecrawl service reported insufficient credits in this session. Sanity was queried read-only only.
+- Exact implementation commit `23aca83c6c6b06e7c1ef02b43922affbb82e111b`: Blog and Studio validation run `45240914119` succeeded; D1 migration validation run `45240914648` succeeded. Website type-check, Pages Functions type-check, lint, tests, website build, migration syntax/dry-run, Studio type-check and Studio build all passed.
+- Live browser/mobile visual QA is not confirmed. Firecrawl reported insufficient credits; no screenshot or visual browser inspection is claimed. Sanity was queried read-only only.
+- No Production deployment has been performed; the PR is awaiting integration approval.
