@@ -122,7 +122,7 @@ Google Search Console сообщает:
 - `/product/brahea-armata`: 11 impressions, position 10,2.
 - `/product/rakat-na-buda`: 28 impressions; GSC opportunity view показывает среднюю позицию около 11–12.
 - `/product/yucca-rostrata`: 33 impressions; query/page opportunities показывают потенциал около первой-второй страницы.
-- `/category/rotorni-razprskvachi`: 39 impressions в выборке, но слабая мобильная позиция.
+- `/category/rotorni-razprskvachi`: 36 impressions / 0 clicks; из них MOBILE 29 impressions, average position 36,7; DESKTOP 4 impressions, position 14,8; TABLET 3 impressions, position 36,7.
 
 **Важно:** Washingtonia, Brahea и Rakat на Буда одновременно имеют noindex/canonical anomalies в сохранённом URL Inspection. Их контентную оптимизацию отложить до разрешения проблемы индексации.
 
@@ -161,7 +161,7 @@ Google Search Console сообщает:
 
 ### 5.3. Полнота описаний и изображений
 
-- Equipment products: полные RU descriptions есть у 263/275 и EN descriptions у 263/275. Повторная выборка ID подтвердила, что это одни и те же 12 комплектов полива/автоматизации; у всех 12 присутствуют RU/EN shortDescription. Slugs: `komplekt-avtomatizatsiya-6-zoni`, `ikonomichen-komplekt-polivane-gradina`, `komplekt-polivane-5x5`, `komplekt-polivane-20x5`, `komplekt-avtomatizatsiya-12-zoni`, `komplekt-polivane-10x5`, `komplekt-polivane-15x5`, `lesen-komplekt-polivane-10x10`, `komplekt-avtomatizatsiya-8-zoni`, `lesen-komplekt-polivane-5x5`, `standarten-komplekt-polivane-gradina`, `super-ikonomichen-komplekt-polivane`.
+- Equipment products: полные RU descriptions есть у 263/275 и EN descriptions у 263/275. Повторная выборка ID подтвердила, что это одни и те же 12 комплектов полива/автоматизации; у всех 12 присутствуют RU/EN shortDescription. Slug → Sanity ID: `komplekt-avtomatizatsiya-6-zoni` → `080906b4-a5c0-4c6f-a44e-2240a46a08f6`; `ikonomichen-komplekt-polivane-gradina` → `1549b0aa-9641-4de3-9131-6cdef451fff6`; `komplekt-polivane-5x5` → `3070fd7b-16a6-4659-830c-5ee1618f832f`; `komplekt-polivane-20x5` → `401ffc53-c8eb-4fd5-8d9e-7f3dbd9831e1`; `komplekt-avtomatizatsiya-12-zoni` → `44888bec-6d01-4ad5-af78-b2aee1edfb60`; `komplekt-polivane-10x5` → `69d2ba37-c628-4378-b1dc-a98d856e30c6`; `komplekt-polivane-15x5` → `b25ef337-ca20-455d-831e-3b1387510772`; `lesen-komplekt-polivane-10x10` → `b7d242a3-6fff-401f-82a4-dfbdb8b26654`; `komplekt-avtomatizatsiya-8-zoni` → `cfaa15ad-5f19-4e0f-a0c1-d771f4603ae6`; `lesen-komplekt-polivane-5x5` → `e2adfff6-f0e5-4ba4-97e5-aebf56fc032e`; `standarten-komplekt-polivane-gradina` → `f2712947-be60-4bec-af9b-168f19425dc5`; `super-ikonomichen-komplekt-polivane` → `f8c82643-3bc3-45cb-941f-4c6e023c9e35`.
 - Plant products: полные описания BG/RU/EN присутствуют у 60/60.
 - Services: полные RU/EN descriptions подтверждены у 24/25; у услуги `dostavka-poliv` (Sanity ID `9e4efe1b-e434-4cfe-a646-1cc9d9c93bce`) отсутствуют полные RU/EN descriptions, но короткие описания заполнены.
 - Blog: основной текст присутствует во всех трёх языках у 16/16.
@@ -218,13 +218,14 @@ GA4 property `florial-29eac`:
 
 ## 9. Приоритеты
 
-1. **P1 — Разобраться с noindex/canonical расхождением** на затронутых товарах. Нужна проверка фактического Production HTML/headers в Browser с разрешения владельца. Это первый блокирующий этап.
+1. **P1 — Разобраться с noindex/canonical расхождением** на затронутых товарах. В повторной выборке 17 URL: 11 noindex, 3 BG canonical mismatch; три страницы, выбранные Google как canonical, сами тоже noindex. Нужна проверка фактического Production HTML/headers в Browser с разрешения владельца. Это первый блокирующий этап.
 2. **P2 — Определить целевую GA4 архитектуру**: подключать ли GA4 property, создать Web Data Stream, установить EUR и key events с учётом consent; D1/PostHog остаются действующими отдельными каналами аналитики.
 3. **P2 — После подтверждения индексации** улучшить страницы с поисковым потенциалом: Yucca, Buddha's hand, Brahea, Washingtonia и категорию роторных дождевателей. Не начинать с noindex страниц до проверки.
 4. **P2 — Точечная редактура** 15 длинных meta descriptions, по 12 отсутствующих полных описаний RU и EN для equipment (пересечение document IDs не проверено) и 4 набора отсутствующих ALT-полей; перед Sanity write показать точные document IDs/поля и получить отдельное подтверждение.
 5. **P2 — Повторить Product Rich Results Test** после live проверки актуального Production HTML; не добавлять фиктивные отзывы, GTIN, availability или shipping.
-6. **P3 — Local authority audit**: сверить реальные GBP profiles, NAP, категории, фото, citations и локальные запросы.
-7. **P3 — Performance audit**: измерить Lighthouse/CrUX на мобильных и desktop для homepage, category, product и service шаблонов.
+6. **P3 — Наблюдать query anomalies**: 9 показов по запросу `да, сделай это.` и распределение `rain bird` между статьёй, категорией и товаром; не менять контент на основе такой малой выборки.
+7. **P3 — Local authority audit**: сверить реальные GBP profiles, NAP, категории, фото, citations и локальные запросы.
+8. **P3 — Performance audit**: измерить Lighthouse/CrUX на мобильных и desktop для homepage, category, product и service шаблонов.
 
 ## 10. Что не сделано и почему
 
