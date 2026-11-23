@@ -1,3 +1,13 @@
+## 2026-11-23 — SEO audit status and seven-step remediation roadmap
+
+- Confirmed documentation state on `main`: installed Corey Haines `seo-audit` Agent Skill, comprehensive read-only audit and seven-step remediation roadmap are present and linked from `docs/AI/START_HERE.md`.
+- The audit documentation phase is complete; remediation has not started. Step 1 is blocked pending explicit owner permission for Browser inspection of Production HTML and response headers.
+- Recorded the seven sequential workstreams: (1) indexability/noindex/canonical, (2) Product rich results, (3) GA4 measurement, (4) targeted Sanity content/SEO improvements, (5) GSC search opportunities, (6) local SEO/authority, (7) Core Web Vitals/performance.
+- Recorded current status and dependencies in `docs/AI/CURRENT_STATE.md` and `docs/roadmaps/SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md`.
+- No runtime, Sanity, Cloudflare settings/secrets, D1, Resend or Google settings changed. PR #409 remains open and untouched.
+
+---
+
 ## 2026-11-23 — Irrigation assistant automation pricing and BOM corrections
 
 - TM2 now selects the indoor-mount catalogue models F54234/F54236/F54238. RC2 remains on its indoor-mount models.
