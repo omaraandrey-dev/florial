@@ -1,3 +1,13 @@
+## 2026-11-23 — SEO Audit Agent Skill и комплексный SEO-аудит
+
+- В `.agents/skills/seo-audit/` установлен Agent Skill Corey Haines с семью reference-файлами и Florial-specific guardrails; подробности и upstream provenance: `docs/AI/SEO_AUDIT_SKILL.md`.
+- Выполнен read-only аудит GitHub main, Sanity published datasets, Google Search Console, GA4 и Cloudflare Pages/Zone.
+- Sitemap в GSC: 1 372 URL, 0 errors, 0 warnings; GSC byProperty за 25.10–19.11: 64 clicks, 904 impressions, CTR 7,08%, avg position 15,3.
+- Найдено критичное для проверки расхождение: URL Inspection сообщает noindex для ряда активных product URLs и три Google-selected canonical mismatch; текущие published Sanity noIndex и middleware это не объясняют. Live raw HTML/headers ещё не проверены, Browser permission не получено.
+- GA4 property `florial-29eac` не имеет data streams/key events; currency USD; GA tag не найден в HTML. D1/PostHog tracking остаётся отдельной существующей системой.
+- Опубликованные product/category SEO поля BG/RU/EN имеют полное покрытие; выявлены точечные content/ALT задачи. Подробности: `docs/audits/2026-11-23-comprehensive-seo-audit.md`; этапы исправлений: `docs/roadmaps/SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md`.
+- Никаких runtime, Sanity, Cloudflare configuration/secrets, D1, Resend или Google settings изменений не выполнялось. PR #409 оставлен открытым и не изменялся.
+
 ## 2026-11-23 — Irrigation assistant automation pricing and BOM corrections
 
 - TM2 now selects the indoor-mount catalogue models F54234/F54236/F54238. RC2 remains on its indoor-mount models.

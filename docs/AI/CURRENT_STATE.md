@@ -1,3 +1,16 @@
+# Latest main and Production — SEO Audit handoff (23.11.2026)
+
+- GitHub main HEAD: `1489ab1911f5168bbca45d06e9576906eefceb94`.
+- Latest Cloudflare Pages Production deployment at audit time: `c108d5f0-9075-400d-92d5-d48a3be494e8`, success, exact source commit `1489ab1911f5168bbca45d06e9576906eefceb94`. This deployment contains the SEO skill/docs installation; no runtime website code changed.
+- SEO Audit Agent Skill is installed and documented: [SEO_AUDIT_SKILL.md](SEO_AUDIT_SKILL.md).
+- Comprehensive read-only SEO audit: [audit report](../audits/2026-11-23-comprehensive-seo-audit.md); prioritized remediation: [roadmap](../roadmaps/SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md).
+- P1 unresolved: GSC noindex/canonical results for selected active product URLs contradict current published Sanity noIndex values and current middleware. Raw Production HTML/headers need Browser verification with owner permission.
+- P1 measurement: GA4 property has no Web Data Stream or key events; D1/PostHog tracking is separate.
+- No code, Sanity published documents, Cloudflare configuration/secrets, D1, Resend or Google settings were changed by this audit.
+- PR #409 remains open, unmodified and unmerged. It is not closed or merged as part of this task.
+
+---
+
 # Latest main and Production — irrigation automation selection (PR #481 merged and deployed)
 
 - PR #481 squash-merged into `main`: `1ce629772e8a1e3f7be6d0af6d20d60e76849202`.

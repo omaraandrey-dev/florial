@@ -66,3 +66,16 @@ The skill provides instructions and audit methodology. It does not itself crawl 
 - `references/local-seo.md`
 - `references/rankings-push.md`
 - `references/title-tags.md`
+
+
+## Initial comprehensive Florial audit — 2026-11-23
+
+The skill was applied to a read-only audit of GitHub main, Sanity published datasets, Google Search Console, GA4 and Cloudflare Pages/Zone. The report is [2026-11-23-comprehensive-seo-audit.md](../audits/2026-11-23-comprehensive-seo-audit.md); remediation stages are in [SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md](../roadmaps/SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md).
+
+Top findings:
+- Sitemap: 1,372 URLs, zero reported errors/warnings.
+- Product/category SEO field coverage BG/RU/EN is complete in the audited published Sanity collections.
+- GSC URL Inspection reports a subset of active product URLs as noindex and three canonical mismatches; current code and published Sanity values do not explain the saved results. Live HTML/headers remain to be verified with owner-approved Browser access.
+- GA4 property has no data streams or key events; current D1/PostHog tracking is separate.
+- No runtime, Sanity, Cloudflare configuration, D1, Resend or Google settings were changed.
+

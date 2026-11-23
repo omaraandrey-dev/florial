@@ -1,3 +1,13 @@
+## 2026-11-23 — SEO Audit Skill и комплексный SEO baseline
+
+- Agent Skill Corey Haines `seo-audit` установлен в `.agents/skills/seo-audit/`; Florial guardrails и provenance: [SEO_AUDIT_SKILL.md](AI/SEO_AUDIT_SKILL.md).
+- Первый комплексный read-only аудит: [отчёт 23.11.2026](audits/2026-11-23-comprehensive-seo-audit.md); план: [SEO remediation roadmap](roadmaps/SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md).
+- GSC sitemap: 1 372 URL, 0 errors/warnings, last downloaded 22.11.2026. Search Analytics 25.10–19.11: 64 clicks, 904 impressions, CTR 7,08%, avg position 15,3 (byProperty).
+- Sanity published SEO metadata coverage: equipment products 275/275, plants 60/60, equipment categories 54/54, plant categories 17/17 for BG/RU/EN title, description and H1.
+- P1 unresolved: GSC URL Inspection reports noindex for 11 of 17 targeted URL samples and three canonical mismatches, while current Sanity product noIndex values are null and middleware uses explicit `noIndex === true`. Raw Production HTML/headers need Browser verification with owner permission.
+- GA4 property `florial-29eac`: no data streams/key events, currency USD; no GA tag in initial HTML. Existing D1/PostHog event tracking is separate.
+- No runtime, Sanity, Cloudflare configuration/secrets, D1, Resend or Google settings changed during the audit. PR #409 remains open and untouched.
+
 
 
 ## Irrigation assistant — automation and flex BOM refinements (2026-11-23)
