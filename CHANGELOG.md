@@ -1,3 +1,12 @@
+## 2026-11-23 — SEO roadmap synchronized after preliminary desktop-only GSC review
+
+- Removed SEO Step 1 indexability follow-up as a blocker for later stages. Historical GSC URL Inspection anomalies remain a separate read-only recheck item around 2026-12-23; no code/Sanity change is implied.
+- Completed the initial Step 5 Search Console checkpoint for DESKTOP only, 2026-10-24–2026-11-20: 392 impressions, 10 clicks, CTR 2.55%, average position 22.9.
+- Query/page row samples are partial and the site has a short history; no content or technical remediation was authorized from this small sample. Repeat GSC review around 2026-12-23 using the latest 28 finalized days.
+- Step 6 Local SEO is now the next active SEO stage (read-only Google Business Profile, NAP, service areas and citations).
+- Added `docs/audits/2026-11-23-gsc-desktop-preliminary-analysis.md`.
+- Documentation only. No site code, Sanity documents/schema, Cloudflare, D1, Resend, Google settings, DNS or Production changes.
+
 ## 2026-11-23 — Plant description editorial pilot stopped by owner
 
 - The «Палми и юки» category had 13 published plant cards with updated full and short descriptions in BG/RU/EN (39 localized description/short-description versions). Published read-back confirmed all 13 target documents.

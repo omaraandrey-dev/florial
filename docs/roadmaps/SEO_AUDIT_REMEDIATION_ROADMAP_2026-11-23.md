@@ -1,12 +1,14 @@
-## Актуальный статус — 23.11.2026 (синхронизация дорожных карт)
+## Актуальный статус — 23.11.2026 (после desktop-only GSC review)
 
-**Текущий статус семи шагов определяется единым [реестром дорожных карт](ROADMAP_STATUS_INDEX_2026-11-23.md).** Ниже сохранены первоначальные findings и историческая последовательность. Более ранние статусы в этом файле не являются актуальными после синхронизации.
+**Текущий статус семи этапов определяется единым [реестром дорожных карт](ROADMAP_STATUS_INDEX_2026-11-23.md).** Этот актуальный блок имеет приоритет над первоначальными статусами ниже.
 
-- Step 1 — в работе: live Production sample показывает index/follow и self-canonical, но Google live URL Test и post-recrawl ещё не подтверждены; GSC saved state содержит исторические noindex/canonical anomalies. См. [live indexability audit](../audits/2026-11-23-production-indexability-live-check.md).
-- Step 2 — владелец подтвердил в предыдущем чате успешную Rich Results проверку без замечаний; отдельный артефакт результата пока не сохранён здесь.
-- Step 3 — GA4 ecommerce integration PR #488 merged и Production deployment подтверждён; фактическое поступление событий остаётся на наблюдении владельца.
-- Step 4 — следующий этап: read-only Sanity content/SEO audit и подготовка предложений. Любые публикации — только после точного approval и backup.
-- Steps 5–7 — выполнять по зависимостям, как указано в общем реестре.
+- Step 1 — **не блокирует дальнейшую работу**. Production sample показывает `index, follow` и self-canonical; исторические GSC URL Inspection anomalies не подтверждены повторным live test и остаются на плановой read-only перепроверке примерно через месяц.
+- Step 2 — владелец подтвердил успешную Rich Results проверку без замечаний; отдельный отчёт/скриншот результата пока не сохранён здесь.
+- Step 3 — GA4 ecommerce integration PR #488 merged и Production deployment подтверждён; фактический приём событий остаётся на наблюдении владельца.
+- Step 4 — частично выполнен; дальнейшие массовые правки контента не назначены. Изменения Sanity требуют точного плана и отдельного approval.
+- Step 5 — **предварительный desktop-only GSC анализ выполнен** за 24.10–20.11.2026: 392 impressions, 10 clicks, CTR 2,55%, average position 22,9. Детальные query/page данные частичны, истории пока мало. Повторить анализ около 23.12.2026; до этого не назначать контентную remediation только на основании малой выборки. Подробности: [desktop GSC preliminary analysis](../audits/2026-11-23-gsc-desktop-preliminary-analysis.md).
+- Step 6 — **следующий активный этап: Local SEO**, read-only аудит Google Business Profile, NAP, service areas и citations.
+- Step 7 — Core Web Vitals остаётся отдельным этапом; не заявлять улучшения без измерений.
 
 ---
 
@@ -25,7 +27,7 @@
 
 ## Phase 0 — P1: разрешить noindex/canonical расхождение
 
-<badge>BLOCKING</badge>
+<badge color="warning">НЕ БЛОКИРУЕТ</badge>
 
 Повторная выборка 17 URL (23.11.2026): 11 исключены по noindex, три BG product URL имеют Google-selected canonical на другие товары. Три страницы, выбранные Google как canonical, при отдельной проверке сами тоже noindex. Текущие опубликованные Sanity данные и middleware не объясняют результат.
 
@@ -77,7 +79,9 @@
 
 ## Phase 4 — P2: search opportunity pages
 
-Приоритет после разрешения индексации:
+**Статус 23.11.2026:** первоначальный desktop-only GSC opportunity review завершён как предварительный. Данных мало; повторить через месяц. Этот пункт не блокирует переход к Local SEO (Step 6). Не назначать content remediation только на основе единичных показов. Подробности: [desktop GSC review](../audits/2026-11-23-gsc-desktop-preliminary-analysis.md).
+
+Приоритеты ниже — исторические кандидаты для повторной оценки, а не утверждённый список текущих изменений. Приоритет после накопления данных:
 
 1. Yucca rostrata — индексируется; 33 impressions, 1 click, average position 12,5.
 2. Rotor sprinklers category — индексируется; 36 impressions, 0 clicks; mobile average position 36,7. Проверить интент и содержимое категории.
@@ -91,6 +95,8 @@
 Для каждой страницы проверить query intent, CTR, title/snippet, content depth, product availability, internal links и conversion path. Не считать одну позицию GSC гарантией стабильного рейтинга.
 
 ## Phase 5 — P3: local SEO and authority
+
+**NEXT ACTIVE STEP (23.11.2026):** начать read-only проверку фактических Google Business Profile, NAP, service areas и citations. Исторический geo-filtered GSC sample был слишком мал; не создавать doorway pages и не менять внешние профили без согласования.
 
 GSC geo-filtered Bulgarian queries дали только 3 impressions / 0 clicks за период; данных пока недостаточно для выводов о локальном спросе.
 
@@ -121,3 +127,12 @@ GSC geo-filtered Bulgarian queries дали только 3 impressions / 0 click
 
 - 23.11.2026 — создана дорожная карта по результатам первого аудита SEO Audit Skill. Никаких runtime/Sanity/Cloudflare/Google changes не выполнялось.
 - 23.11.2026 — уточнены результаты повторной проверки 17 URL, canonical-target URLs, Sanity full-description/ALT gaps и приоритеты. PR #409 остаётся открытым.
+
+
+## 2026-11-23 — desktop-only GSC checkpoint and transition to Local SEO
+
+- Step 1 indexability follow-up is no longer a blocker. Keep the historical URL Inspection anomalies for a separate read-only recheck around 2026-12-23; do not wait for it before proceeding.
+- Step 5 preliminary DESKTOP-only GSC review for 2026-10-24–2026-11-20: 392 impressions, 10 clicks, CTR 2.55%, average position 22.9.
+- Query/page rows are partial and the site has a short history; do not use this sample to authorize broad content edits. Revisit GSC in approximately one month using the freshest 28 finalized days.
+- Step 6 Local SEO is the next active stage. Begin with read-only Google Business Profile, NAP, service-area and citation checks.
+- Evidence: [desktop GSC preliminary analysis](../audits/2026-11-23-gsc-desktop-preliminary-analysis.md).

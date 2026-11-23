@@ -2,7 +2,7 @@
 
 **Срез:** 23.11.2026  
 **main на начало редакторского цикла:** `7e657dea3093acd83a41ec9a53290bddd6b22a64`
-**Интеграционная база GitHub main:** `49074e24b665a6885f4f1b40f68da4e502112f5d`  
+**Интеграционная база GitHub main:** `6c34d4797dac2a15ce2b2e291af5711fb86e0b5f`  
 **Назначение:** единая точка сверки статусов между самостоятельными дорожными картами. Этот индекс не заменяет подробные планы; он устраняет противоречия в статусах и определяет ближайший рабочий поток. После каждого существенного этапа обновлять соответствующую дорожную карту и этот реестр.
 
 ## 1. Главный активный поток — SEO Florial (7 последовательных этапов)
@@ -11,27 +11,27 @@
 
 | № | Направление | Актуальный статус на 23.11.2026 |
 |---|---|---|
-| 1 | Индексация, noindex, canonical, Production HTML | **В РАБОТЕ.** В выборке Production initial HTML и hydrated DOM показывают `index, follow`, self-canonical, без `X-Robots-Tag`; robots/sitemap доступны, sitemap 1,372 URL, GSC сообщает 0 errors/warnings. Но сохранённые GSC URL Inspection всё ещё содержат исторические noindex для 11 URL и 3 canonical mismatch. Google live URL Test и post-recrawl пока не подтверждены. Причину менять в коде/Sanity без нового доказательства нельзя. |
+| 1 | Индексация, noindex, canonical, Production HTML | **НЕ БЛОКИРУЕТ дальнейшую работу.** Проверенная выборка Production initial HTML и hydrated DOM показывает `index, follow`, self-canonical, без `X-Robots-Tag`; robots/sitemap доступны, sitemap 1,372 URL, GSC сообщает 0 errors/warnings. Исторические URL Inspection anomalies (11 noindex и 3 canonical mismatch) остаются на отдельную read-only перепроверку примерно через месяц. Не ждать её для продолжения SEO-плана и не менять код/Sanity без нового доказательства. |
 | 2 | Google Rich Results / Schema.org | **ЗАВЕРШЁН ПО ПОДТВЕРЖДЕНИЮ ВЛАДЕЛЬЦА в предыдущем чате;** отдельный отчёт/скриншот результата ещё не сохранён в GitHub. Не смешивать это с незавершёнными специальными Google Shopping проверками ниже. |
 | 3 | GA4 ecommerce | **ИНТЕГРАЦИЯ ЗАВЕРШЕНА, ПРИЁМ СОБЫТИЙ НАБЛЮДАЕТСЯ.** PR #488 merged; Production deployment подтверждён. В Realtime сразу после релиза событий не было. Владелец проверит реальные события при посещении с согласием. Не создавать заказ ради проверки без отдельного согласования. |
 | 4 | Контент и SEO-поля Sanity | **ЧАСТИЧНО ВЫПОЛНЕНО; ЭТАП ОСТАЁТСЯ ОТКРЫТЫМ.** В отдельной согласованной партии опубликованы и read-back проверены BG/RU/EN metaTitle двух Irritec Connecto elbows и Rotor Sprinklers category, а также ALT изображения Nipel-mufa category. Остаток этапа — read-only аудит опубликованных значений, frontend fallback и подготовка предложений. Никаких новых Sanity writes без точного списка IDs/fields и отдельного approval. Страницы с нерешённой Google indexability anomaly не переписывать. Подробности: [partial remediation audit](../audits/2026-11-23-sanity-seo-partial-remediation.md). |
-| 5 | Возможности Google Search Console | ОЖИДАЕТ подтверждения этапа 1 и накопления сопоставимых данных. После этого — запросы/страницы, CTR, позиции, интент и приоритеты. |
-| 6 | Local SEO | НЕ НАЧАТО. Нужен read-only аудит реальных Google Business Profile, NAP, service areas и citations; не создавать doorway pages. |
+| 5 | Возможности Google Search Console | **ПРЕДВАРИТЕЛЬНЫЙ DESKTOP-АНАЛИЗ ВЫПОЛНЕН.** За 24.10–20.11.2026: 392 показа, 10 кликов, CTR 2,55%, средняя позиция 22,9. Query/page строки неполные, выборка пока мала; изменения сайта не назначаются. Повторить анализ примерно 23.12.2026 на свежих 28 финализированных днях. Отчёт: [desktop GSC review](../audits/2026-11-23-gsc-desktop-preliminary-analysis.md). |
+| 6 | Local SEO | **СЛЕДУЮЩИЙ АКТИВНЫЙ ЭТАП.** Read-only аудит фактических Google Business Profile, NAP, service areas и citations; не создавать doorway pages. |
 | 7 | Core Web Vitals | НЕ НАЧАТО в рамках SEO-плана. Измерить Lighthouse/CrUX только по отдельному плану производительности и сопоставимому baseline. |
 
 ### Ближайшая рабочая задача
 
-**Этап 4 — Sanity content/SEO fields, только read-only аудит и подготовка предложений.**
+**Этап 6 — Local SEO, read-only аудит.**
 
-Исходные пункты аудита с учётом уже выполненной работы:
-- Read-only пересмотреть 13 plant product meta descriptions длиннее 160 символов и 2 plant category descriptions длиннее 160 символов (160 — редакционный ориентир, не лимит Google). Растительные описания из отдельного редакторского пилота не переписывать.
-- 12 комплектов: полные BG/RU/EN descriptions обновлены в отдельном product-description stream; в SEO Step 4 только проверить текущую опубликованную полноту и соответствие интенту, без переписывания.
-- Проверить полные RU/EN descriptions услуги `dostavka-poliv` (остаётся открытым пунктом).
-- ALT: проверить frontend fallback и read-only состояние для 2 equipment products и 2 equipment categories. ALT Nipel-mufa category уже опубликован; повторно не менять.
-- Локализованные metaTitle двух Irritec Connecto elbows (female SKU `IQ21820F0N25B`, male SKU `IQ21920M0N25B`) уже разведены и опубликованы; выполнить только read-back, не редактировать повторно.
-- Homepage и Rotor Sprinklers snippets оценить по достаточной выборке GSC; Rotor category metaTitle уже обновлён, но оценка CTR/интента остаётся открытой.
+1. Проверить фактические Google Business Profile Florial и наличие/статус профилей для Несебра и Равды.
+2. Сверить NAP, реальные часы, основные категории, URL, фотографии и service areas.
+3. Проверить локальные citations и доступные подтверждения внешних упоминаний.
+4. Не создавать doorway pages и не обещать позиции по городам без данных.
+5. Не менять профили и внешние listings без отдельного согласования владельца.
 
-Точные Sanity IDs/slugs находятся в [SEO audit](../audits/2026-11-23-comprehensive-seo-audit.md). В новом чате сначала перечитать аудит и перепроверить опубликованные значения read-only; не полагаться на старый список без live read-back.
+**Повторный GSC-анализ:** ориентировочно 23.12.2026, последние 28 финализированных дней; текущая контрольная выборка ограничена DESKTOP. Отдельно повторить read-only URL Inspection по индексации примерно в тот же срок. Эти проверки не блокируют этап 6.
+
+Подробности: [GSC desktop preliminary analysis](../audits/2026-11-23-gsc-desktop-preliminary-analysis.md).
 
 ### Дополнительный контентный поток — обновление описаний товаров
 
@@ -92,12 +92,16 @@
 ## 7. Правила следующего чата
 
 1. Получить свежий HEAD `main`; прочитать `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, `WORK_PROTOCOL.md`, `MASTER_SPEC.md`, `TECHNICAL_PASSPORT.md`, верх `CHANGELOG.md`, `OPEN_QUESTIONS.md` и этот индекс.
-2. Продолжить SEO этап 4: read-only Sanity audit, сверить точные IDs/slug/локали/поля и frontend fallback.
-3. Подготовить конкретные BG/RU/EN варианты текста/ALT и перечень затрагиваемых документов, ничего не публиковать.
-4. Отдельно сохранить GA4 как наблюдение: проверить события при реальном визите после analytics consent; не создавать заказ.
-5. Не менять Production, Sanity, Merchant Center, D1, Cloudflare settings/secrets или Google настройки без требуемого отдельного разрешения.
+2. Продолжить SEO этап 6 — Local SEO, только read-only: проверить реальные Google Business Profile, NAP, service areas и citations.
+3. Не менять профили, внешние listings или сайт без отдельного согласования.
+4. Повторить desktop-only GSC анализ примерно 23.12.2026 на последних 28 финализированных днях; это не блокирует текущую работу.
+5. Повторно проверить сохранённые URL Inspection anomalies примерно через месяц; не менять код/Sanity без нового подтверждения.
+6. Не менять Production, Sanity, Merchant Center, D1, Cloudflare settings/secrets или Google настройки без требуемого отдельного разрешения.
 
 ## Журнал синхронизации
 
 - 23.11.2026 — объединены статусы SEO 7-step plan, Google Shopping, Manager Web Push и Performance в один реестр; добавлена live indexability audit запись из PR #487. Код, Sanity, Cloudflare, D1, Resend и Google settings не менялись.
 - 23.11.2026 — интеграционный проход по PR #493, #494, #490 и #468: обновлены статусы kit 12/12, sprinklers 20/20, частичной SEO remediation и Manager Plant Editor; добавлены связанные аудиты. Растительный редакторский пилот зафиксирован как остановленный по решению владельца. Исторические/устаревшие PR не объединялись вслепую.
+
+
+- 23.11.2026 — этап 1 снят с блокирующей зависимости; исторические URL Inspection anomalies оставлены на отдельную повторную проверку примерно через месяц. Этап 5 выполнен как предварительный анализ только DESKTOP: 392 impressions, 10 clicks, CTR 2,55%, position 22,9 за 24.10–20.11.2026; из-за малого срока работы сайта и неполных query/page строк дальнейшие SEO-выводы отложены до повторного среза примерно 23.12.2026. Следующий активный этап — 6 Local SEO. Детали: [desktop GSC audit](../audits/2026-11-23-gsc-desktop-preliminary-analysis.md).
