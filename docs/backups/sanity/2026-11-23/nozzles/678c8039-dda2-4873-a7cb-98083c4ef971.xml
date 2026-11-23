@@ -1,0 +1,806 @@
+Found document "678c8039-dda2-4873-a7cb-98083c4ef971": 
+<document>
+  <_createdAt>2026-10-18T08:20:04Z</_createdAt>
+  <_id>678c8039-dda2-4873-a7cb-98083c4ef971</_id>
+  <_rev>FtwFw4yqYwP9yFXZAJH7UE</_rev>
+  <_system>
+    <base>
+      <id>678c8039-dda2-4873-a7cb-98083c4ef971</id>
+      <rev>Wxh00JcLN6cQgy9skweYaW</rev>
+    </base>
+  </_system>
+  <_type>product</_type>
+  <_updatedAt>2026-11-20T09:14:36Z</_updatedAt>
+  <brand>
+    <_ref>fa64727c-01eb-418a-83ec-f345581a65ef</_ref>
+    <_type>reference</_type>
+  </brand>
+  <categories>
+    <_key>cat1</_key>
+    <_ref>7f6eaa30-8085-4fae-be3c-1209a0c50fc6</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat2</_key>
+    <_ref>ad3914b4-5ab0-49e3-868a-52621c4654a7</_ref>
+    <_type>reference</_type>
+  </categories>
+  <categories>
+    <_key>cat3</_key>
+    <_ref>6690848d-a4a5-4386-b9ae-5f63604914b1</_ref>
+    <_type>reference</_type>
+  </categories>
+  <category>
+    <_ref>6690848d-a4a5-4386-b9ae-5f63604914b1</_ref>
+    <_type>reference</_type>
+  </category>
+  <description>
+    <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-h1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-h1s0</_key>
+      <_type>span</_type>
+      <text>Многопоточна ротаторна дюза за равномерно покритие</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p1</_key>
+    <_type>block</_type>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p1s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Rain Bird R-VAN-18</text>
+    </children>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p1s1</_key>
+      <_type>span</_type>
+      <text> е ротаторна дюза с няколко насочени струи за равномерно поливане на тревни площи. По-едрите капки по-добре запазват траекторията си при лек вятър, а съгласуваната норма на валеж улеснява проектирането на зоните.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-h2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-h2s0</_key>
+      <_type>span</_type>
+      <text>Технически параметри на R-VAN-18</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p2</_key>
+    <_type>block</_type>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p2s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Технически данни: </text>
+    </children>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p2s1</_key>
+      <_type>span</_type>
+      <text>препоръчително разстояние между разпръсквачите 4,0–5,5 m m; регулируем сектор 45°–270°; работно налягане 2,1–3,8 bar и препоръчително 3,1 bar.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-h3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-h3s0</_key>
+      <_type>span</_type>
+      <text>Регулиране на сектора и радиуса</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p3</_key>
+    <_type>block</_type>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p3s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>Регулиране: </text>
+    </children>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p3s1</_key>
+      <_type>span</_type>
+      <text>секторът се настройва в диапазона 45°–270°; радиусът се коригира при работеща система. Настройката се извършва ръчно без специални инструменти; за промиване дюзата се издърпва нагоре според указанията на производителя.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-h4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-h4s0</_key>
+      <_type>span</_type>
+      <text>Съвместимост и особености на серията R-VAN</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p4</_key>
+    <_type>block</_type>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p4s0</_key>
+      <_type>span</_type>
+      <text>R-VAN осигурява висока равномерност и съгласувана норма на валеж в рамките на серията. За поддържане на оптимална работа при препоръчителното налягане се използва съвместим разпръсквач Rain Bird 1800 PRS-45.</text>
+    </children>
+    <style>normal</style>
+  </description>
+  <description>
+    <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-h5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-h5s0</_key>
+      <_type>span</_type>
+      <text>Проектиране, монтаж и поддръжка</text>
+    </children>
+    <style>h2</style>
+  </description>
+  <description>
+    <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p5</_key>
+    <_type>block</_type>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p5s0</_key>
+      <_type>span</_type>
+      <marks>strong</marks>
+      <text>При проектирането: </text>
+    </children>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p5s1</_key>
+      <_type>span</_type>
+      <text>спазвайте препоръчителното разстояние за конкретния модел и проверявайте налягането при работеща зона. Регулирайте сектора и радиуса, докато системата работи, за да видите реалната граница на поливане. Вижте </text>
+    </children>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p5s2</_key>
+      <_type>span</_type>
+      <marks>category</marks>
+      <text>ротаторните форсунки</text>
+    </children>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p5s3</_key>
+      <_type>span</_type>
+      <text> и статията за </text>
+    </children>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p5s4</_key>
+      <_type>span</_type>
+      <marks>sprinkler-help</marks>
+      <text>монтаж, настройка и ремонт на разпръсквачи</text>
+    </children>
+    <children>
+      <_key>678c8039-dda2-4873-a7cb-98083c4ef971-bg-p5s5</_key>
+      <_type>span</_type>
+      <text>.</text>
+    </children>
+    <markDefs>
+      <_key>category</_key>
+      <_type>link</_type>
+      <href>/category/rotator-nozzles</href>
+    </markDefs>
+    <markDefs>
+      <_key>sprinkler-help</_key>
+      <_type>link</_type>
+      <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+    </markDefs>
+    <style>normal</style>
+  </description>
+  <gallery>
+    <_key>g2</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-71ee21a535a1d1e6a11e79a46071bf8096f71b6c-600x600-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>rvan-overview-18-20261027</_key>
+    <_type>image</_type>
+    <asset>
+      <_ref>image-f4946209942b53ae656d9f65171fc00864a8bb16-1536x678-jpg</_ref>
+      <_type>reference</_type>
+    </asset>
+  </gallery>
+  <gallery>
+    <_key>252b9866543d</_key>
+    <_type>image</_type>
+  </gallery>
+  <isActive>true</isActive>
+  <isFeatured>false</isFeatured>
+  <mainImage>
+    <_type>image</_type>
+    <alt>Rain Bird R-VAN-18 — ротаторна дюза</alt>
+    <altEn>Rain Bird R-VAN-18 — rotary nozzle</altEn>
+    <altRu>Rain Bird R-VAN-18 — ротаторная форсунка</altRu>
+    <asset>
+      <_ref>image-7d43c58f456ed50c3aa001c93ad9a90adfa3ee07-1448x1086-png</_ref>
+      <_type>reference</_type>
+    </asset>
+  </mainImage>
+  <manualPDF>
+    <_type>file</_type>
+    <asset>
+      <_ref>file-4d6eb332c58481f28619c0b1345809ad184d558b-pdf</_ref>
+      <_type>reference</_type>
+    </asset>
+  </manualPDF>
+  <name>Rain Bird R-VAN-18 — ротаторна дюза</name>
+  <priceEUR>11.16</priceEUR>
+  <relatedContent>
+    <_key>sprinklerBlogRef</_key>
+    <_ref>8a4ec08b-e064-4d85-8d97-52837afe6d6f</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedContent>
+    <_key>rotatorComparisonBlogRef</_key>
+    <_ref>19fdf008-53df-4258-bf36-bfa86592ed8e</_ref>
+    <_type>reference</_type>
+  </relatedContent>
+  <relatedProducts>
+    <_key>qhkuxrIhW7XbiJ2Hfd24Xb</_key>
+    <_ref>97436060-98f6-430e-ba36-3fa11b085b24</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>qhkuxrIhW7XbiJ2Hfd24cc</_key>
+    <_ref>a84929ff-e088-437c-bb33-f8ec9b2817f3</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>qhkuxrIhW7XbiJ2Hfd24hd</_key>
+    <_ref>dac0f67b-0638-48e8-884c-10ea19cffe4d</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>qhkuxrIhW7XbiJ2Hfd24me</_key>
+    <_ref>556bb59c-ec52-4884-b811-5687d2310343</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <relatedProducts>
+    <_key>qhkuxrIhW7XbiJ2Hfd24rf</_key>
+    <_ref>4854cd78-5a9c-4b44-bcd3-1399162d572c</_ref>
+    <_type>reference</_type>
+  </relatedProducts>
+  <seo>
+    <h1>Rain Bird R-VAN-18 — ротаторна дюза</h1>
+    <metaDescription>Продажба на Rain Bird R-VAN-18 — ротаторна дюза. Ротаторна дюза с регулируем сектор 40–270° и радиус 4,2–5,5 m. Флориал, Равда.</metaDescription>
+    <metaTitle>R-VAN-18 ротаторна дюза | Равда | Флориал</metaTitle>
+  </seo>
+  <shortDescription>Ротаторна дюза Rain Bird R-VAN-18 с регулируем сектор 40–270° и радиус 4,2–5,5 м.</shortDescription>
+  <sku>A84660</sku>
+  <slug>
+    <_type>slug</_type>
+    <current>a84660</current>
+  </slug>
+  <sortOrder>6</sortOrder>
+  <specifications>
+    <_key>s1</_key>
+    <_type>productSpec</_type>
+    <name>Модел</name>
+    <value>R-VAN-18</value>
+  </specifications>
+  <specifications>
+    <_key>s2</_key>
+    <_type>productSpec</_type>
+    <name>Серия</name>
+    <value>R-VAN</value>
+  </specifications>
+  <specifications>
+    <_key>s3</_key>
+    <_type>productSpec</_type>
+    <name>Тип продукт</name>
+    <value>Ротаторна дюза</value>
+  </specifications>
+  <specifications>
+    <_key>s4</_key>
+    <_type>productSpec</_type>
+    <name>Тагове</name>
+    <value>r-van-18, rotator nozzle, irrigation</value>
+  </specifications>
+  <specifications>
+    <_key>s5</_key>
+    <_type>productSpec</_type>
+    <name>Препоръчително разстояние между разпръсквачите</name>
+    <value>4,0–5,5 m</value>
+  </specifications>
+  <specifications>
+    <_key>s6</_key>
+    <_type>productSpec</_type>
+    <name>Сектор/форма на поливане</name>
+    <value>45°–270° регулируем сектор</value>
+  </specifications>
+  <specifications>
+    <_key>s7</_key>
+    <_type>productSpec</_type>
+    <name>Работно налягане</name>
+    <value>2,1–3,8 bar</value>
+  </specifications>
+  <specifications>
+    <_key>s8</_key>
+    <_type>productSpec</_type>
+    <name>Препоръчително работно налягане</name>
+    <value>3,1 bar</value>
+  </specifications>
+  <specifications>
+    <_key>s9</_key>
+    <_type>productSpec</_type>
+    <name>Регулиране</name>
+    <value>Радиусът и секторът се регулират при работеща система</value>
+  </specifications>
+  <specifications>
+    <_key>s10</_key>
+    <_type>productSpec</_type>
+    <name>Особености</name>
+    <value>Едри водни капки, висока равномерност и съгласувана норма на валеж</value>
+  </specifications>
+  <stockStatus>onRequest</stockStatus>
+  <translations>
+    <en>
+      <description>Rain Bird R-VAN-18 is a rotary nozzle designed to deliver controlled, water-efficient irrigation for landscaped areas. Multiple rotating streams apply water more slowly than many conventional spray nozzles, helping the soil absorb it and reducing runoff when the system is correctly designed. The stated coverage is 4.0–5.5 m; the watering pattern is 45–270°; recommended operating pressure is 2.1–3.8 bar.
+
+R-VAN nozzles are useful for matching irrigation coverage to the shape of the planting area, including standard arcs and narrow strips. Select the pattern to suit the location and maintain compatible pressure and flow. Use with compatible Rain Bird 1800/RD1800 spray bodies or other approved bodies as specified by the manufacturer.
+
+Actual radius and uniformity depend on pressure, spacing, soil and wind conditions.</description>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-h1s0</_key>
+          <_type>span</_type>
+          <text>Multi-stream rotary nozzle for uniform coverage</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p1s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Rain Bird R-VAN-18</text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p1s1</_key>
+          <_type>span</_type>
+          <text> is a multi-stream rotary nozzle designed to provide uniform lawn coverage. Its larger water droplets hold their trajectory better in light wind, while matched precipitation helps simplify irrigation-zone design.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-h2s0</_key>
+          <_type>span</_type>
+          <text>Technical specifications of R-VAN-18</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p2s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Technical data: </text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p2s1</_key>
+          <_type>span</_type>
+          <text>recommended sprinkler spacing 4.0–5.5 m m; adjustable 45°–270° arc; operating pressure 2.1–3.8 bar, recommended 3.1 bar.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-h3s0</_key>
+          <_type>span</_type>
+          <text>Arc and radius adjustment</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p3s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Adjustment: </text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p3s1</_key>
+          <_type>span</_type>
+          <text>The arc adjusts from 45° to 270°; the radius is adjusted while the system is running. Settings are made by hand without special tools; pull the nozzle up for flushing as directed by the manufacturer.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-h4s0</_key>
+          <_type>span</_type>
+          <text>R-VAN compatibility and features</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p4s0</_key>
+          <_type>span</_type>
+          <text>The R-VAN family provides high uniformity and matched precipitation across its models. For optimum performance at the recommended pressure, use a compatible Rain Bird 1800 PRS-45 spray body.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-h5s0</_key>
+          <_type>span</_type>
+          <text>Design, installation and maintenance</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p5s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>For system design: </text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p5s1</_key>
+          <_type>span</_type>
+          <text>follow the recommended spacing for the selected model and check pressure with the zone operating. Adjust the arc and radius while water is flowing so the actual coverage edge can be observed. See </text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p5s2</_key>
+          <_type>span</_type>
+          <marks>category</marks>
+          <text>rotary nozzles</text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p5s3</_key>
+          <_type>span</_type>
+          <text>; also read </text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p5s4</_key>
+          <_type>span</_type>
+          <marks>sprinkler-help</marks>
+          <text>sprinkler installation, adjustment and repair</text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-en-p5s5</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>category</_key>
+          <_type>link</_type>
+          <href>/category/rotator-nozzles</href>
+        </markDefs>
+        <markDefs>
+          <_key>sprinkler-help</_key>
+          <_type>link</_type>
+          <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird R-VAN-18 — rotary nozzle</name>
+      <seo>
+        <h1>Rain Bird R-VAN-18 — rotary nozzle</h1>
+        <metaDescription>For sale: Rain Bird R-VAN-18 — rotary nozzle. Rotary nozzle with adjustable 40–270° arc and 4.2–5.5 m radius. Florial, Ravda.</metaDescription>
+        <metaTitle>R-VAN-18 rotary nozzle | Ravda | Florial</metaTitle>
+      </seo>
+      <shortDescription>Rain Bird R-VAN-18 rotary nozzle with an adjustable 40–270° arc and a 4.2–5.5 m radius.</shortDescription>
+      <specifications>
+        <_key>s1</_key>
+        <_type>productSpec</_type>
+        <name>Model</name>
+        <value>R-VAN-18</value>
+      </specifications>
+      <specifications>
+        <_key>s2</_key>
+        <_type>productSpec</_type>
+        <name>Series</name>
+        <value>R-VAN</value>
+      </specifications>
+      <specifications>
+        <_key>s3</_key>
+        <_type>productSpec</_type>
+        <name>Product type</name>
+        <value>Rotary nozzle</value>
+      </specifications>
+      <specifications>
+        <_key>s4</_key>
+        <_type>productSpec</_type>
+        <name>Tags</name>
+        <value>R-VAN-18, rotary nozzle, irrigation</value>
+      </specifications>
+      <specifications>
+        <_key>s5</_key>
+        <_type>productSpec</_type>
+        <name>Recommended sprinkler spacing</name>
+        <value>4.0–5.5 m</value>
+      </specifications>
+      <specifications>
+        <_key>s6</_key>
+        <_type>productSpec</_type>
+        <name>Spray arc/pattern</name>
+        <value>Adjustable 45°–270° arc</value>
+      </specifications>
+      <specifications>
+        <_key>s7</_key>
+        <_type>productSpec</_type>
+        <name>Operating pressure</name>
+        <value>2.1–3.8 bar</value>
+      </specifications>
+      <specifications>
+        <_key>s8</_key>
+        <_type>productSpec</_type>
+        <name>Recommended operating pressure</name>
+        <value>3.1 bar</value>
+      </specifications>
+      <specifications>
+        <_key>s9</_key>
+        <_type>productSpec</_type>
+        <name>Adjustment</name>
+        <value>Radius and arc can be adjusted while the system is running</value>
+      </specifications>
+      <specifications>
+        <_key>s10</_key>
+        <_type>productSpec</_type>
+        <name>Features</name>
+        <value>Large water droplets, high uniformity and matched precipitation rate</value>
+      </specifications>
+    </en>
+    <ru>
+      <description>Rain Bird R-VAN-18 — ротаторная форсунка для управляемого и экономичного полива ландшафтных зон. Несколько вращающихся струй подают воду медленнее, чем многие обычные веерные форсунки, что помогает почве впитывать влагу и снижает сток при правильно спроектированной системе. Указанный радиус — 4.0–5.5 m; форма полива — 45–270°; рекомендуемое рабочее давление — 2.1–3.8 bar.
+
+Форсунки R-VAN позволяют подобрать полив под конфигурацию посадок, включая стандартные сектора и узкие полосы. Выбирайте рисунок полива по расположению зоны и соблюдайте требования к давлению и расходу. Используются с совместимыми корпусами Rain Bird 1800/RD1800 или другими корпусами, разрешёнными производителем.
+
+Фактический радиус и равномерность зависят от давления, расстояния между дождевателями, типа почвы и ветра.</description>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-h1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-h1s0</_key>
+          <_type>span</_type>
+          <text>Многопоточная роторная форсунка для равномерного покрытия</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p1</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p1s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Rain Bird R-VAN-18</text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p1s1</_key>
+          <_type>span</_type>
+          <text> — роторная форсунка с несколькими направленными струями для равномерного полива газонов. Более крупные капли лучше сохраняют траекторию при лёгком ветре, а согласованная интенсивность полива упрощает проектирование зон.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-h2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-h2s0</_key>
+          <_type>span</_type>
+          <text>Технические параметры R-VAN-18</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p2</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p2s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Технические данные: </text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p2s1</_key>
+          <_type>span</_type>
+          <text>рекомендуемое расстояние между дождевателями 4,0–5,5 m m; регулируемый сектор 45°–270°; рабочее давление 2,1–3,8 bar, рекомендуемое — 3,1 bar.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-h3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-h3s0</_key>
+          <_type>span</_type>
+          <text>Настройка сектора и радиуса</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p3</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p3s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>Регулировка: </text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p3s1</_key>
+          <_type>span</_type>
+          <text>сектор настраивается в диапазоне 45°–270°; радиус регулируется при работающей системе. Настройка выполняется вручную без специальных инструментов; для промывки форсунку вытягивают вверх согласно инструкции производителя.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-h4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-h4s0</_key>
+          <_type>span</_type>
+          <text>Совместимость и особенности серии R-VAN</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p4</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p4s0</_key>
+          <_type>span</_type>
+          <text>Серия R-VAN обеспечивает высокую равномерность и согласованную интенсивность полива между моделями. Для поддержания оптимальной работы при рекомендуемом давлении используется совместимый дождеватель Rain Bird 1800 PRS-45.</text>
+        </children>
+        <style>normal</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-h5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-h5s0</_key>
+          <_type>span</_type>
+          <text>Проектирование, монтаж и обслуживание</text>
+        </children>
+        <style>h2</style>
+      </formattedDescription>
+      <formattedDescription>
+        <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p5</_key>
+        <_type>block</_type>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p5s0</_key>
+          <_type>span</_type>
+          <marks>strong</marks>
+          <text>При проектировании: </text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p5s1</_key>
+          <_type>span</_type>
+          <text>соблюдайте рекомендованное расстояние для конкретной модели и проверяйте давление при работающей зоне. Настраивайте сектор и радиус во время работы системы, чтобы видеть фактическую границу полива. Смотрите </text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p5s2</_key>
+          <_type>span</_type>
+          <marks>category</marks>
+          <text>роторные форсунки</text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p5s3</_key>
+          <_type>span</_type>
+          <text> и также статья о </text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p5s4</_key>
+          <_type>span</_type>
+          <marks>sprinkler-help</marks>
+          <text>монтаж, настройка и ремонт дождевателей</text>
+        </children>
+        <children>
+          <_key>678c8039-dda2-4873-a7cb-98083c4ef971-ru-p5s5</_key>
+          <_type>span</_type>
+          <text>.</text>
+        </children>
+        <markDefs>
+          <_key>category</_key>
+          <_type>link</_type>
+          <href>/category/rotator-nozzles</href>
+        </markDefs>
+        <markDefs>
+          <_key>sprinkler-help</_key>
+          <_type>link</_type>
+          <href>/blog/montazh-podmyana-remont-razpruskvachi-nesebar</href>
+        </markDefs>
+        <style>normal</style>
+      </formattedDescription>
+      <name>Rain Bird R-VAN-18 — ротаторная форсунка</name>
+      <seo>
+        <h1>Rain Bird R-VAN-18 — ротаторная форсунка</h1>
+        <metaDescription>Продажа: Rain Bird R-VAN-18 — ротаторная форсунка. Ротаторная форсунка с регулируемым сектором 40–270° и радиусом 4,2–5,5 м. Флориал, Равда.</metaDescription>
+        <metaTitle>R-VAN-18 ротаторная форсунка | Равда | Флориал</metaTitle>
+      </seo>
+      <shortDescription>Ротаторная форсунка Rain Bird R-VAN-18 с регулируемым сектором 40–270° и радиусом 4,2–5,5 м.</shortDescription>
+      <specifications>
+        <_key>s1</_key>
+        <_type>productSpec</_type>
+        <name>Модель</name>
+        <value>R-VAN-18</value>
+      </specifications>
+      <specifications>
+        <_key>s2</_key>
+        <_type>productSpec</_type>
+        <name>Серия</name>
+        <value>R-VAN</value>
+      </specifications>
+      <specifications>
+        <_key>s3</_key>
+        <_type>productSpec</_type>
+        <name>Тип изделия</name>
+        <value>Ротаторная форсунка</value>
+      </specifications>
+      <specifications>
+        <_key>s4</_key>
+        <_type>productSpec</_type>
+        <name>Теги</name>
+        <value>r-van-18, ротаторная форсунка, полив</value>
+      </specifications>
+      <specifications>
+        <_key>s5</_key>
+        <_type>productSpec</_type>
+        <name>Рекомендуемое расстояние между дождевателями</name>
+        <value>4,0–5,5 м</value>
+      </specifications>
+      <specifications>
+        <_key>s6</_key>
+        <_type>productSpec</_type>
+        <name>Сектор/форма полива</name>
+        <value>Регулируемый сектор 45°–270°</value>
+      </specifications>
+      <specifications>
+        <_key>s7</_key>
+        <_type>productSpec</_type>
+        <name>Рабочее давление</name>
+        <value>2,1–3,8 бар</value>
+      </specifications>
+      <specifications>
+        <_key>s8</_key>
+        <_type>productSpec</_type>
+        <name>Рекомендуемое рабочее давление</name>
+        <value>3,1 бар</value>
+      </specifications>
+      <specifications>
+        <_key>s9</_key>
+        <_type>productSpec</_type>
+        <name>Регулировка</name>
+        <value>Радиус и сектор регулируются при работающей системе</value>
+      </specifications>
+      <specifications>
+        <_key>s10</_key>
+        <_type>productSpec</_type>
+        <name>Особенности</name>
+        <value>Крупные капли, высокая равномерность и согласованная интенсивность полива</value>
+      </specifications>
+    </ru>
+  </translations>
+  <vatIncluded>true</vatIncluded>
+  <weightKg>0.0204</weightKg>
+</document>
