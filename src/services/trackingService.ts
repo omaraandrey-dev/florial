@@ -157,12 +157,6 @@ function initializeGA4(): void {
     target.dataLayer = target.dataLayer || []
     target.gtag = function gtag(...args: unknown[]) { target.dataLayer!.push(args) }
     target.gtag('js', new Date())
-    target.gtag('consent', 'update', {
-      analytics_storage: 'granted',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-    })
     target.gtag('config', GA4_MEASUREMENT_ID, { send_page_view: false })
     const script = document.createElement('script')
     script.async = true
@@ -170,6 +164,13 @@ function initializeGA4(): void {
     script.referrerPolicy = 'strict-origin-when-cross-origin'
     document.head.appendChild(script)
   }
+  // Reapply consent on every explicit acceptance, including after a previous withdrawal.
+  target.gtag('consent', 'update', {
+    analytics_storage: 'granted',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+  })
 }
 
 export function trackGA4Event(eventName: string, parameters: Record<string, unknown> = {}): void {
