@@ -17,6 +17,7 @@ The repository includes the open-source `seo-audit` Agent Skill by Corey Haines,
 - Upstream path: `skills/seo-audit/`
 - Imported on: 2026-11-23
 - Upstream `SKILL.md` blob: `1a4fd7536e099e24f841444f621497fc8fd1d768`
+- Imported Agent Skill metadata version: `2.2.9` (pinned copy; updates are manual and must be reviewed).
 - The seven accompanying reference files are copied with their upstream blob versions; see their Git history and file paths.
 - The imported skill text is preserved, with an appended Florial-specific guardrail section. Upstream updates are not automatic; review and pin a new upstream revision before updating.
 
@@ -66,3 +67,16 @@ The skill provides instructions and audit methodology. It does not itself crawl 
 - `references/local-seo.md`
 - `references/rankings-push.md`
 - `references/title-tags.md`
+
+
+## Initial comprehensive Florial audit — 2026-11-23
+
+The skill was applied to a read-only audit of GitHub main, Sanity published datasets, Google Search Console, GA4 and Cloudflare Pages/Zone. The report is [2026-11-23-comprehensive-seo-audit.md](../audits/2026-11-23-comprehensive-seo-audit.md); remediation stages are in [SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md](../roadmaps/SEO_AUDIT_REMEDIATION_ROADMAP_2026-11-23.md).
+
+Top findings:
+- Sitemap: 1,372 URLs, zero reported errors/warnings.
+- Product/category SEO field coverage BG/RU/EN is complete in the audited published Sanity collections.
+- Rechecked 17 representative URLs in GSC: 11 are excluded by `noindex`; three BG product URLs have Google-selected canonical pointing to unrelated products. Those three selected canonical targets also report noindex. Current code and published Sanity values do not explain the saved results; live HTML/headers remain to be verified with owner-approved Browser access.
+- GA4 property has no data streams or key events; current D1/PostHog tracking is separate.
+- No runtime, Sanity, Cloudflare configuration, D1, Resend or Google settings were changed.
+
