@@ -30,7 +30,6 @@ test('four visual categories use editorial slug mapping as well as existing Sani
     'polivane-na-treva-razprskvachi-dyuzhi',
     'sravnenie-rotatorni-dyuzi-rain-bird-r-van-hunter-mp-rotator',
     'cena-sistema-avtomatichno-napoyavane-burgas',
-    'sistema-magluvane-terasa-besedka',
     'podroben-landshaften-proekt-gradina',
     'maslina-sredizemnomorie',
     'etapi-montazh-avtomatichna-polivna-instalatsiya',
@@ -45,7 +44,8 @@ test('four visual categories use editorial slug mapping as well as existing Sani
     'landshaften-proekt-nesebar',
     'etapi-landshaften-proekt-nesebar',
   ]) assert.ok(page.includes("'" + slug + "'"), 'missing editorial category mapping: ' + slug)
-  assert.ok(page.includes('editorialCategorySlugs.has(slug)'))
+  assert.ok(page.includes('reviewedBlogSlugs.has(slug)'))
+  assert.ok(page.includes("'sistema-magluvane-terasa-besedka'"))
   assert.ok(page.includes('? category.slugs.includes(slug)'))
   assert.ok(page.includes(': hasAnyTag(post, category.tags)'))
   assert.ok(page.includes('posts.filter((post) => matchesBlogCategory(post, category))'))
