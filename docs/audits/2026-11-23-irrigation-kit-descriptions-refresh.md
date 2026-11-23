@@ -12,7 +12,7 @@ The live category contains 12 active products. A complete published snapshot of 
 
 Twelve products are now published. The 10 × 5 m kit was initially held, then its descriptions were corrected after the owner confirmed from personal installation experience that the newer 100-HV-9V production version works with ESP-BAT-BT1.
 
-### Published products (11)
+### Published products (12)
 
 - 6-zone automation kit.
 - 8-zone automation kit.
@@ -25,8 +25,9 @@ Twelve products are now published. The 10 × 5 m kit was initially held, then it
 - 10 × 10 m easy kit.
 - 15 × 5 m kit.
 - 20 × 5 m kit.
+- 10 × 5 m kit (initially held; subsequently corrected and published).
 
-### Resolved product (formerly held)
+### Compatibility resolution for the formerly held product (formerly held)
 
 **10 × 5 m irrigation kit** — published after the owner confirmed the controller/valve pairing from personal installation experience.
 
@@ -94,11 +95,11 @@ The super-economical kit is explicitly described as manual: three ball valves, n
 
 - Live active category count: **12**.
 - Edited and published: **12**.
-- Held unchanged: **1** (10 × 5 m).
-- Sanity validation: **11 valid**; `complete=false` because the available validation tool does not execute custom callbacks such as custom slug `isUnique`. Built-in checks ran.
-- Published read-back completed for all 11 edited products.
-- Every edited locale has five H2 sections, two internal links and Econt delivery wording.
-- The live `kitComponents` arrays were compared with the pre-write snapshot for all 11 edited products: **11/11 unchanged**.
+- Initially held, then corrected and published: **1** (10 × 5 m).
+- Sanity validation: **12/12 kits valid** across the original 11-product batch and the later 10 × 5 m correction; `complete=false` because the available validation tool does not execute custom callbacks such as custom slug `isUnique`. The separate H01040 and ESP-BAT-BT1 product drafts also returned `valid` before publication.
+- Published read-back completed for all 12 kits. The separate valve and controller compatibility copy was also read back in BG/RU/EN.
+- The original 11 kit descriptions retain five H2 sections, two internal links and Econt delivery wording per locale. The 10 × 5 m kit received the targeted controller/valve compatibility correction.
+- The live `kitComponents` arrays for all 12 kits were compared with the pre-write snapshot/read-back: **12/12 unchanged**.
 - Draft count across all 12 target products after publication: **0**.
 
 ## Manufacturer references
