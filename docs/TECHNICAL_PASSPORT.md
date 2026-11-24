@@ -2,7 +2,7 @@
 
 - The irrigation solver no longer applies one R-VAN model to every sprinkler in a lawn. It selects each candidate's nozzle/radius independently: corners by corner-to-area-centre reach, side heads by equal spacing on that edge, interior heads by interior-grid spacing.
 - Project radii remain R-VAN14 3 m, R-VAN18 4/5 m, R-VAN24 6 m, independent of arc. 8 × 8 m regression target: four R-VAN24 corners and four R-VAN18 side midpoints.
-- Customer diagram now differentiates nozzle models by color, shows a legend and includes per-zone nozzle counts. Fixed-radius explanatory copy and flex-pipe metres/coil wording are removed from the customer result.
+- Customer diagram now differentiates nozzle models by color, shows a legend and includes per-zone nozzle counts. The layout/project/PDF model label reports the actual selected model set. Fixed-radius explanatory copy and flex-pipe metres/coil wording are removed from the customer result.
 - Implementation branch `fix/irrigation-mixed-rvan-visual-layout`. Blog/Studio CI #2483 and D1 validation #2668 passed on code/test commit `b01e408e026f39dacc22ab59cee14154db7fc731`; Preview deployment `8d51ca33-4410-4633-a440-a6622f4c1e4c` succeeded for commit `e87896d9aada9ef9138a1c09308ac197d33b6773`. Manual visual QA remains unconfirmed due Browser Use credit limitation. Production has not been changed; merge/deployment awaits owner approval. Code/docs/tests only; no Sanity, D1, Cloudflare configuration, order or email writes.
 
 ## 2026-11-24 — Owner-approved irrigation layout algorithm update (implementation branch)
