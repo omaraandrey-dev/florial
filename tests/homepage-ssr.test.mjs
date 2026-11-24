@@ -231,6 +231,10 @@ test('plant availability fallback matches the client when stock status is unknow
       saleVariants: [],
     }],
   }, 'en')
-  assert.match(html, /Check availability/)
-  assert.doesNotMatch(html, /Available on request/)
+  const cardStart = html.indexOf('href="/product/magnolia')
+  assert.notEqual(cardStart, -1)
+  const cardEnd = html.indexOf('</li>', cardStart)
+  const plantCard = html.slice(cardStart, cardEnd)
+  assert.match(plantCard, /Check availability/)
+  assert.doesNotMatch(plantCard, /Available on request/)
 })
