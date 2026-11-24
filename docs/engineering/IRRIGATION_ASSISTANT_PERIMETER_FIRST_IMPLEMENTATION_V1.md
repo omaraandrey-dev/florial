@@ -129,7 +129,7 @@ zoneCapacity: {
 
 Для внутренних полнокруговых позиций используется отдельная модельная запись с суффиксом `-360` (например, R-VAN24-360); производительность ищется по соответствующей точной дуговой строке.
 
-## 5. Генерация позиций дождевателей
+## 4.1 Coordinate convention for lawn outlines\n\nThe intake geometry uses a local Cartesian Y-up axis: y=0 is the bottom edge and y=width is the top edge. The standard connection point at (maxX, maxY) is therefore the top-right corner. The L-shape builder maps all four selected cut-out corners into this convention; both the preliminary outline and calculated customer diagram apply the same SVG Y reflection. Do not add a second transform to only one of the diagrams.\n\n## 5. Генерация позиций дождевателей
 
 Реализация: `src/lib/irrigation/lawnSprinklerLayout.mjs`, алгоритм `perimeter-first-mixed-rvan-spacing-aware-set-cover-v5`.
 
@@ -430,7 +430,7 @@ For rectangular lawns with short-side width exactly 1 m or 2 m, use dedicated Ra
 - R-VAN-RCS — SKU A84668;
 - R-VAN-SST — SKU A84669.
 
-All heads are installed in one row along the lower long edge (horizontal rectangle: y = maxY). For a vertical rectangle the row rotates to the right long edge (x = maxX), starting at the lower end. The layout is directional metadata, not circular arc/radius placement.
+All heads are installed in one row along the lower long edge (horizontal rectangle: y = minY). For a vertical rectangle the row rotates to the right long edge (x = maxX), starting at the lower end. The layout is directional metadata, not circular arc/radius placement.
 
 **2 m width**
 - Length ≤ 4 m: one R-VAN-RCS at the right/lower end, directed toward the left/upper end; planning reach about 4 m.
@@ -447,11 +447,11 @@ The stripDirection and stripAxis fields preserve the orientation through the cus
 
 ### Mixed zones and precipitation compatibility
 
-R-VAN14, R-VAN18, R-VAN24 and R-VAN-RCS may coexist in one operating zone. The zone builder must not split a zone solely by nozzle model, radius or arc. The owner confirms these Rain Bird models/patterns are compatible by precipitation intensity; no additional per-zone precipitation-intensity compatibility check is required. The six-head maximum remains a grouping limit, not a hydraulic calculation.
+R-VAN14, R-VAN18, R-VAN24, R-VAN-LCS, R-VAN-RCS and R-VAN-SST may coexist in one operating zone. The zone builder must not split a zone solely by nozzle model, radius or arc. The owner confirms these Rain Bird models/patterns are compatible by precipitation intensity; no additional per-zone precipitation-intensity compatibility check is required. The six-head maximum remains a grouping limit, not a hydraulic calculation.
 
 ### Verification boundary
 
-The assistant remains a preliminary geometric layout and catalogue BOM tool. It does not calculate hydraulic feasibility, source flow/pressure, pipe losses or field distribution uniformity. RCS strip placement is explicitly identified as owner-rule placement; it is not represented as a sampled circular-coverage proof.
+The assistant remains a preliminary geometric layout and catalogue BOM tool. It does not calculate hydraulic feasibility, source flow/pressure, pipe losses or field distribution uniformity. LCS/RCS/SST strip placement is explicitly identified as owner-rule placement; it is not represented as a sampled circular-coverage proof.
 
 
 ## 2026-11-24 — Per-position R-VAN model selection and customer diagram
