@@ -146,18 +146,30 @@ test('rectangle decomposition is processed by ascending area and a shared strip 
     'the adjacent rectangle must receive a separate inward candidate at the shared strip seam')
 })
 
-test('3504-PC candidate generation registers a 7.5cm inward seam offset', () => {
-  const geometry = snapshotFor(12, 14).geometry.normalized
-  const seam = { x: 12, y: 0 }
-  const layout = generateRainBird3504Layout(geometry, {
+test('R-VAN fallback applies the approved 7.5cm inward offset only to the matching corner head', () => {
+  const geometry = snapshotFor(8, 8).geometry.normalized
+  const seam = { x: 8, y: 0 }
+  const layout = generateLawnSprinklerLayout({
+    geometry,
+    family: 'R-VAN',
+    model: 'R-VAN24',
+    pressureBar: RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar,
+    sampleStepM: 0.5,
+    radiusM: 6,
+    preventOverspray: true,
     candidatePositionOffsets: [{
       from: seam,
       dx: -0.0530330086,
       dy: 0.0530330086,
     }],
   })
-  assert.equal(layout.status, 'layout_generated')
-  assert.ok(layout.candidateStats?.offsetCandidatePositions > 0)
+  assert.equal(layout.status, 'coverage_complete_sampled')
+  assert.ok(layout.sprinklers.some((head) =>
+    Math.abs(head.position.x - (seam.x - 0.0530330086)) < 1e-6 &&
+    Math.abs(head.position.y - (seam.y + 0.0530330086)) < 1e-6))
+  assert.ok(layout.sprinklers.every((head) =>
+    head.position.x >= 0 && head.position.x <= 8 &&
+    head.position.y >= 0 && head.position.y <= 8))
 })
 
 test('3504-PC priority works on a supported L-shape with a rectangular recess', () => {
