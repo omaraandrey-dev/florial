@@ -143,7 +143,13 @@ test('rectangle decomposition is processed by ascending area and a shared strip 
   assert.ok(stripSeamHead, 'connected strip head should remain at the shared seam')
   const adjacentHead = result.layout.sprinklers.find((head) =>
     head.pattern !== 'strip' && Math.abs(Math.hypot(head.position.x - 12, head.position.y) - 0.075) < 0.005)
-  assert.ok(adjacentHead, 'the wide rectangle should allow its own head 5–10cm from the strip head')
+  assert.ok(adjacentHead, JSON.stringify({
+    calculationRegions: result.layout.calculationRegions,
+    heads: result.layout.sprinklers.map((head) => ({
+      id: head.id, family: head.performanceModel, position: head.position,
+      arcDeg: head.arcDeg, directionDeg: head.directionDeg, pattern: head.pattern,
+    })),
+  }))
 })
 
 test('3504-PC priority works on a supported L-shape with a rectangular recess', () => {
