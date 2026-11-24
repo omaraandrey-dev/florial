@@ -168,7 +168,7 @@ const COPY = {
     readMore: 'Read more',
     noArticles: 'No articles have been published yet.',
     deliveryTitle: 'Equipment delivery & engineer consultation',
-    deliveryAlt: 'Equipment delivery and irrigation engineer consultation',
+    deliveryAlt: 'Equipment delivery and engineer consultation',
     deliveryText: 'Equipment delivery and consultation with an irrigation engineer.',
   },
 }
@@ -362,7 +362,7 @@ function selectVisiblePlants(products) {
 }
 
 function plantDisplayName(product, language) {
-  const localizedName = localize(product, 'name', language)
+  const localizedName = String(localize(product, 'name', language) || '').trim()
   if (localizedName) return localizedName
   const localizedH1 = language === 'bg' ? '' : product?.translations?.[language]?.seo?.h1
   return String(localizedH1 || product?.name || product?.seo?.h1 || '').trim()
@@ -584,8 +584,7 @@ export function renderHomepageHtml(data, language = 'bg') {
   const plantCategories = selectVisiblePlantCategories(data.plantCategories)
   const equipmentCategories = selectVisibleEquipmentCategories(data.equipmentCategories)
   const plantRootCategory = plantCategories.find((category) => category._id === 'plants-root' || category.slug?.current === 'rastenia')
-  const readyKitsCategory = (Array.isArray(data.equipmentCategories) ? data.equipmentCategories : [])
-    .find((category) => category.slug?.current === 'gotovi-komplekti-za-polivane')
+  const readyKitsCategory = equipmentCategories.find((category) => category.slug?.current === 'gotovi-komplekti-za-polivane')
   const plants = selectVisiblePlants(data.featuredPlants)
   const equipment = selectVisibleEquipment(data.featuredEquipment)
   const serviceEntries = (data.serviceEntries || []).slice(0, 6)
