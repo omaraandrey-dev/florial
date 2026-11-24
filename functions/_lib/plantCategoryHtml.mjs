@@ -217,9 +217,9 @@ export function buildEquipmentCategoryEntries(products, language = 'bg', options
       const getNozzleSeriesRank = (product) => {
         const productText = [product.name, localizedProductName(product, language), product.sku]
           .filter(Boolean).join(' ').toLocaleUpperCase()
-        if (/\\bR[\\s-]?VAN\\b/.test(productText)) return 0
-        if (/\\bHE[\\s-]?VAN\\b/.test(productText)) return 1
-        if (/\\bVAN\\b/.test(productText)) return 2
+        if (/\bR[\s-]?VAN\b/.test(productText)) return 0
+        if (/\bHE[\s-]?VAN\b/.test(productText)) return 1
+        if (/\bVAN\b/.test(productText)) return 2
         return 3
       }
       nozzlesBucket.sort((a, b) => getNozzleSeriesRank(a) - getNozzleSeriesRank(b))
