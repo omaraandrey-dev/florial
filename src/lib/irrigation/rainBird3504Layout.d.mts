@@ -16,6 +16,7 @@ export interface RainBird3504LayoutResult {
     family: '3500'
     pattern: 'rotor'
     planningRadiusSource: 'owner-approved-florial-3504pc-rule'
+    seamOffsetM?: number
   }>>
   readonly cells?: ReadonlyArray<Readonly<{ id: string; cornerHeadIds: ReadonlyArray<string> }>>
   readonly grid?: Readonly<{ pitchM: number; columns: number; rows: number }>
