@@ -8,6 +8,7 @@
 - **OPEN — hydraulic/field validation:** pressure/flow, pipe losses, precipitation uniformity and actual field performance remain outside the geometric solver. The layout is sampled geometric planning, not a complete hydraulic design.
 - **NOT CONFIRMED — Production browser-interaction smoke:** not completed in this run; the Production deployment itself is confirmed successful.
 - **SCOPE CONFIRMATION:** no Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails were performed.
+- **OPEN — explanatory metadata consistency:** `src/lib/irrigation/irrigationLayoutBridge.mjs` still emits a `modelSelectionBasis` description that says the 3504-PC radius order is 10/9/8 m, while `rainBird3504Layout.mjs` implements stages 8/9/10/7/6/5 m with scoring that prefers the 8 m baseline. The solver code order is the operative behavior; reconcile the explanatory string and add a focused regression assertion in a separate code change. This is a text/metadata discrepancy, not evidence of incorrect rotor positions.
 
 ## 2026-11-24 — PR #525 Production release close-out
 
