@@ -75,7 +75,8 @@ The customer diagram draws direction arrows. The cart project snapshot, Cloudfla
 
 - Source-level implementation and regression tests added.
 - Published Sanity catalogue records read-only verified: all three products exist and `isActive: true`.
-- Automated test/build/CI results: pending PR checks.
+- Blog and Studio validation workflow #2510: passed. Application/Pages Functions type-check, website lint, 442/442 tests, website build, migration-script syntax, read-only migration dry-run, Studio type-check and Studio build all passed.
+- D1 migration validation workflow #2692: passed. Lint, website build, Pages Functions syntax and all configured additive migration validations passed.
 - Live customer UI verification and Production deployment: not performed.
 - No Sanity writes or Production changes performed.
 
