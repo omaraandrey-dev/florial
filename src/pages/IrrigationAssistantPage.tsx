@@ -24,7 +24,7 @@ function sprinklerNozzleColor(model: string | null | undefined) {
   if (normalized === 'R-VAN14') return '#3b82f6'
   if (normalized === 'R-VAN18') return '#c49a6c'
   if (normalized === 'R-VAN24') return '#800020'
-  if (normalized === 'R-VAN-RCS') return '#374151'
+  if (normalized === 'R-VAN-RCS') return '#6b7280'
   return '#64748b'
 }
 
