@@ -65,7 +65,7 @@ test('homepage SSR preserves curated category and product selection order', () =
     'plants-root', 'plants-palms', 'plants-olives', 'plants-trees-shrubs', 'plants-solitaires', 'plants-flowers',
   ])
   assert.deepEqual(selection.equipmentCategories, [
-    'vsichko-za-polivane', 'gotovi-komplekti-za-polivane', 'controllers', 'sprinklers', 'nozzles', 'klapani',
+    'vsichko-za-polivane', 'gotovi-komplekti-za-polivane', 'sprinklers', 'nozzles', 'klapani', 'shahti',
   ])
   assert.deepEqual(selection.plants, ['maslina', 'palma'])
   assert.deepEqual(selection.equipment, ['kit-one', 'kit-two', 'kit-three', 'komplekt-avtomatizatsiya-6-zoni'])
@@ -126,7 +126,7 @@ test('homepage middleware uses bounded published Sanity projections and keeps fa
   assert.match(middleware, /querySanityData<any\[]>\('plants', featuredPlantsQuery/)
   assert.match(middleware, /querySanityData<any\[]>\('production', featuredEquipmentQuery/)
   assert.match(middleware, /querySanityData<any\[]>\('production', pinnedQuery/)
-  assert.doesNotMatch(middleware, /"productCount": count/)
+  assert.match(middleware, /"productCount": count\\(\\*\\[_type == "product"/)
   assert.match(middleware, /getOrderedServiceEntries\(services as any\[\]\)/)
   assert.match(middleware, /renderHomepageHtml\(\{/)
   assert.match(middleware, /cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'/)
@@ -174,16 +174,20 @@ test('homepage SSR emits the same responsive Sanity image candidates used by Rea
 })
 
 
-test('homepage SSR mirrors equipment root-category selection without product-count filtering', () => {
+test('homepage SSR mirrors populated-category visibility and preserves ancestors', () => {
   const selection = homepageSelectionForTest({
     ...data,
     equipmentCategories: [
-      { _id: 'root', name: 'Всичко за поливане', slug: { current: 'vsichko-za-polivane' } },
-      { _id: 'kits', name: 'Комплекти', slug: { current: 'gotovi-komplekti-za-polivane' } },
+      { _id: 'root', name: 'Всичко за поливане', slug: { current: 'vsichko-za-polivane' }, productCount: 0 },
+      { _id: 'kits', name: 'Комплекти', slug: { current: 'gotovi-komplekti-za-polivane' }, productCount: 1 },
       { _id: 'controllers', name: 'Контролери', slug: { current: 'controllers' }, parentId: 'root', productCount: 0 },
-      { _id: 'sprinklers', name: 'Дъждовалци', slug: { current: 'sprinklers' }, parentId: 'root', productCount: 0 },
-      { _id: 'nozzles', name: 'Дюзи', slug: { current: 'nozzles' }, parentId: 'root', productCount: 0 },
-      { _id: 'legacy-valves', name: 'Електромагнитни клапани', slug: { current: 'electromagnetic-valves' }, parentId: 'root', productCount: 0 },
+      { _id: 'controllers-child', name: 'Вътрешни контролери', slug: { current: 'controllers-indoor' }, parentId: 'controllers', productCount: 2 },
+      { _id: 'sprinklers', name: 'Дъждовалци', slug: { current: 'sprinklers' }, parentId: 'root', productCount: 1 },
+      { _id: 'nozzles', name: 'Дюзи', slug: { current: 'nozzles' }, parentId: 'root', productCount: 1 },
+      { _id: 'valves', name: 'Клапани', slug: { current: 'klapani' }, parentId: 'root', productCount: 1 },
+      { _id: 'shahti', name: 'Шахти', slug: { current: 'shahti' }, parentId: 'root', productCount: 1 },
+      { _id: 'legacy-valves', name: 'Електромагнитни клапани', slug: { current: 'electromagnetic-valves' }, parentId: 'root', productCount: 1 },
+      { _id: 'empty', name: 'Празна категория', slug: { current: 'empty' }, parentId: 'root', productCount: 0 },
     ],
   })
   assert.deepEqual(selection.equipmentCategories, [
@@ -192,7 +196,7 @@ test('homepage SSR mirrors equipment root-category selection without product-cou
     'controllers',
     'sprinklers',
     'nozzles',
-    'electromagnetic-valves',
+    'klapani',
   ])
 })
 
