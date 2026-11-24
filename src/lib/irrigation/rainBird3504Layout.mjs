@@ -1,3 +1,5 @@
+import { validateLawnGeometry } from './lawnGeometry.mjs'
+
 const EPSILON = 1e-8
 const PLANNING_RADII_M = Object.freeze([10, 9, 8])
 const ARCS = Object.freeze([90, 180, 270, 360])
@@ -188,8 +190,10 @@ function selectRotors(candidates, targetCount) {
  * performance data. Hydraulic flow/pressure and precipitation are not inferred.
  */
 export function generateRainBird3504Layout(geometry, { sampleStepM = TARGET_STEP_M } = {}) {
+  const validation = validateLawnGeometry(geometry)
   const rawRegion = geometry?.regions?.[0]
   if (!rawRegion || geometry.regions.length !== 1 || geometry.status !== 'confirmed' ||
+      !validation.valid || !validation.supported || validation.regions.length !== 1 ||
       !Number.isFinite(sampleStepM) || sampleStepM <= 0) {
     return Object.freeze({ status: 'invalid_geometry', sprinklers: Object.freeze([]), warnings: Object.freeze([]) })
   }
