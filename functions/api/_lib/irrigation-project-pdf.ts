@@ -148,7 +148,7 @@ export const createIrrigationProjectPdf = async (
     write(zone.id + ' · ' + zone.sprinklerIds.length + ' бр. · ' + zone.zoneType + ': ' + members, { size: 7 })
   }
   for (const sprinkler of project.layout.sprinklers) {
-    write(sprinkler.id + ': X=' + sprinkler.position.x.toFixed(2) + ' m, Y=' + sprinkler.position.y.toFixed(2) + ' m · ' + (sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' strip ' + sprinkler.stripWidthM + ' m / ' + sprinkler.stripLengthM + ' m / ' + (sprinkler.stripDirection || 'direction not recorded') : sprinkler.arcDeg + '° · R=' + sprinkler.radiusM.toFixed(2) + ' m') + ' · ' + sprinkler.performanceModel, { size: 6.8, color: muted })
+    write(sprinkler.id + ': X=' + sprinkler.position.x.toFixed(2) + ' m, Y=' + sprinkler.position.y.toFixed(2) + ' m · ' + (sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' strip ' + sprinkler.stripWidthM + ' m / ' + sprinkler.stripLengthM + ' m / ' + ((sprinkler.stripDirection || 'direction not recorded') + (sprinkler.stripAxis ? ' / ' + sprinkler.stripAxis : '')) : sprinkler.arcDeg + '° · R=' + sprinkler.radiusM.toFixed(2) + ' m') + ' · ' + sprinkler.performanceModel, { size: 6.8, color: muted })
   }
 
   heading('3. Схематични трасета на тръбите')
