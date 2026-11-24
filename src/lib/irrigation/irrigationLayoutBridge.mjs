@@ -179,7 +179,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
   if (RCS_SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)) {
-    const layout = buildRcsStripLayout(geometry, shortSideM)
+    const layout = buildRvanStripLayout(geometry, shortSideM)
     if (layout) {
       const zones = buildIrrigationZones(layout.sprinklers, geometry)
       const pipeNetwork = buildPerimeterPipeNetwork(geometry, layout.sprinklers, zones)
@@ -192,7 +192,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
         operatingScenario: Object.freeze({
           manufacturer: 'Rain Bird',
           family: 'R-VAN',
-          model: RCS_MODEL,
+          model: layout.model,
           pressureBar: RECOMMENDED_NOZZLE_PRESSURE_BAR,
           pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
           modelSelectionBasis: 'owner_defined_RCS_strip_width_and_throw_rule',
