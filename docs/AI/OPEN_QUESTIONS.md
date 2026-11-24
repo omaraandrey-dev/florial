@@ -1,3 +1,12 @@
+## 2026-11-24 — PR #525 Production release close-out
+
+- **CLOSED — implementation and merge:** PR #525 merged into main at `a14e2e3294f96f76542623e7956f5cece78919d0`.
+- **CLOSED — automated validation:** Blog/Studio run `45369756924` passed; D1 validation `45369757211` passed.
+- **CLOSED — Production deployment:** Cloudflare Pages deployment `1e048889-5840-4aad-9411-f50d8dd1d4d6` is in environment `production`, stage `success`, with exact source SHA matching main. https://1e048889.florial.pages.dev; configured aliases include https://florial-bg.com and https://www.florial-bg.com.
+- **OPEN — owner functional acceptance:** verify the 4 m / 5 m R-VAN18 choices and the different orthogonal shapes/exclusions on the deployed irrigation assistant.
+- **OPEN — engineering validation outside the algorithm:** hydraulic pressure/flow and pipe losses, precipitation uniformity and field performance remain unverified. This is a preliminary sampled geometric layout, not a full hydraulic design.
+- **GEOMETRY BOUNDARY:** one region, simple orthogonal outer boundary and rectangular non-overlapping exclusions. Curved boundaries, non-rectangular exclusions and multiple separate lawn regions remain unsupported.
+
 ## 2026-11-24 — generalized orthogonal lawn solver (PR #525)
 
 - **CLOSED — R-VAN18 sizing for 4 m / 5 m widths:** both widths use R-VAN18. Corner reach is capped by the local short side (4 m or 5 m) to avoid overspray; 6 m corner reach remains the R-VAN24 class.

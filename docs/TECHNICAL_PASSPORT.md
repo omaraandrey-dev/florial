@@ -1,3 +1,13 @@
+## 2026-11-24 — Orthogonal lawn solver Production release close-out
+
+- PR #525 squash-merged into main at `a14e2e3294f96f76542623e7956f5cece78919d0`.
+- Post-merge Blog/Studio validation `45369756924` passed; D1 validation `45369757211` passed.
+- Cloudflare Pages deployment `1e048889-5840-4aad-9411-f50d8dd1d4d6` is confirmed in environment `production`, deployment stage `success`, and source SHA equals the main merge commit. URL: https://1e048889.florial.pages.dev; configured aliases include florial-bg.com and www.florial-bg.com.
+- No Sanity content/schema writes, D1 schema/data changes or Cloudflare settings/secrets changes were part of this release.
+- Owner acceptance of the updated 4 m / 5 m nozzle sizing and exclusion-layout scenarios remains pending. Hydraulic/field verification remains a separate stage.
+
+---
+
 ## 2026-11-24 — Orthogonal lawn decomposition and local R-VAN18 sizing (PR #525)
 
 - Implementation PR: https://github.com/omaraandrey-dev/florial/pull/525. Base main: `8444f4b63d074887a45b35c4aa92e650513d7cc7`. Exact validated head: `696ff3b71972797bf4a2f643da07784cbcd28cec`.

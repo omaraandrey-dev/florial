@@ -468,8 +468,10 @@ The assistant remains a preliminary geometric layout and catalogue BOM tool. It 
 ## 15. 2026-11-24 — Generalized orthogonal rectangular calculation regions (PR #525)
 
 **Implementation head:** `696ff3b71972797bf4a2f643da07784cbcd28cec`  
+**Merged into main:** `a14e2e3294f96f76542623e7956f5cece78919d0` (PR #525)  
 **Preview:** https://7f783b21.florial.pages.dev  
-**CI:** Blog/Studio validation `45368758939` passed; D1 validation `45368759097` passed.
+**CI:** post-merge Blog/Studio validation `45369756924` passed; D1 validation `45369757211` passed.
+**Production deployment:** `1e048889-5840-4aad-9411-f50d8dd1d4d6`, environment `production`, stage `success`, source SHA matches main. Owner functional acceptance is pending.
 
 ### Rectangle model selection
 
