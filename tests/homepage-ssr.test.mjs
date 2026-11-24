@@ -126,7 +126,7 @@ test('homepage middleware uses bounded published Sanity projections and keeps fa
   assert.match(middleware, /querySanityData<any\[]>\('plants', featuredPlantsQuery/)
   assert.match(middleware, /querySanityData<any\[]>\('production', featuredEquipmentQuery/)
   assert.match(middleware, /querySanityData<any\[]>\('production', pinnedQuery/)
-  assert.match(middleware, /"productCount": count\\(\\*\\[_type == "product"/)
+  assert.match(middleware, /"productCount": count\(\*\[_type == "product"/)
   assert.match(middleware, /getOrderedServiceEntries\(services as any\[\]\)/)
   assert.match(middleware, /renderHomepageHtml\(\{/)
   assert.match(middleware, /cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'/)
@@ -188,6 +188,7 @@ test('homepage SSR mirrors populated-category visibility and preserves ancestors
       { _id: 'shahti', name: 'Шахти', slug: { current: 'shahti' }, parentId: 'root', productCount: 1 },
       { _id: 'legacy-valves', name: 'Електромагнитни клапани', slug: { current: 'electromagnetic-valves' }, parentId: 'root', productCount: 1 },
       { _id: 'empty', name: 'Празна категория', slug: { current: 'empty' }, parentId: 'root', productCount: 0 },
+      { _id: 'plants-root', name: 'Растения', slug: { current: 'rastenia' }, productCount: 10 },
     ],
   })
   assert.deepEqual(selection.equipmentCategories, [
@@ -215,4 +216,21 @@ test('homepage SSR includes the localized value proposition and all primary sect
     assert.match(html, /href="\/services/)
     assert.match(html, /href="\/blog/)
   }
+})
+
+
+test('plant availability fallback matches the client when stock status is unknown', () => {
+  const html = renderHomepageHtml({
+    ...data,
+    featuredPlants: [{
+      _id: 'p-unknown-stock',
+      name: 'Magnolia',
+      slug: { current: 'magnolia' },
+      priceEUR: 20,
+      stockStatus: 'unknown',
+      saleVariants: [],
+    }],
+  }, 'en')
+  assert.match(html, /Check availability/)
+  assert.doesNotMatch(html, /Available on request/)
 })
