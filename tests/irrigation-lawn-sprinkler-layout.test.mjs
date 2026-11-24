@@ -225,9 +225,10 @@ test('mixed R-VAN candidates keep each model radius independent of arc', () => {
   assert.ok(result.sprinklers.length > 0)
   for (const head of result.sprinklers) {
     const baseModel = head.performanceModel.replace(/-360$/, '')
-    const expectedRadius = baseModel === 'R-VAN14' ? 3 : baseModel === 'R-VAN18' ? head.radiusM : 6
-    assert.equal(head.radiusM, expectedRadius)
-    assert.ok(['R-VAN14', 'R-VAN18', 'R-VAN24'].includes(baseModel))
+    if (baseModel === 'R-VAN14') assert.equal(head.radiusM, 3)
+    else if (baseModel === 'R-VAN18') assert.ok([4, 5].includes(head.radiusM))
+    else if (baseModel === 'R-VAN24') assert.equal(head.radiusM, 6)
+    else assert.fail('unexpected nozzle model: ' + baseModel)
   }
   assert.ok(result.sprinklers.some((head) => head.arcDeg === 90))
   assert.ok(result.sprinklers.some((head) => head.arcDeg === 180))
