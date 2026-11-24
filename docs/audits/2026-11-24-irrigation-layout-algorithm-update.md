@@ -26,7 +26,7 @@ Implement the owner's latest layout rules in the existing geometric lawn assista
 
 ## Deliberate boundaries
 
-- RCS is represented as pattern: strip; its legacy numeric arcDeg: 180 is retained only to preserve the current snapshot schema discriminator. The strip pattern is authoritative and the UI/PDF display RCS strip dimensions instead of 180°.
+- RCS is represented as pattern: strip with arcDeg: null. The UI/PDF display RCS strip dimensions; it is never represented as a circular sector.
 - RCS strip placement is not claimed as sampled circular coverage. The page shows coverage as not applicable for this pattern.
 - R-VAN manufacturer flow/precipitation rows remain exact lookup data; the Florial planning radius is the owner's fixed geometric rule.
 - Hydraulic feasibility, source flow/pressure, pressure losses, actual nozzle pressure, overspray, field distribution uniformity and body assembly compatibility are not added to this work.
