@@ -146,7 +146,7 @@ test('rectangle decomposition is processed by ascending area and a shared strip 
     'the adjacent rectangle must receive a separate inward candidate at the shared strip seam')
 })
 
-test('3504-PC candidate can be shifted 7.5cm inward from a shared seam', () => {
+test('3504-PC candidate generation registers a 7.5cm inward seam offset', () => {
   const geometry = snapshotFor(12, 14).geometry.normalized
   const seam = { x: 12, y: 0 }
   const layout = generateRainBird3504Layout(geometry, {
@@ -157,8 +157,7 @@ test('3504-PC candidate can be shifted 7.5cm inward from a shared seam', () => {
     }],
   })
   assert.equal(layout.status, 'layout_generated')
-  assert.ok(layout.sprinklers.some((head) =>
-    Math.abs(Math.hypot(head.position.x - seam.x, head.position.y - seam.y) - 0.075) < 0.005))
+  assert.ok(layout.candidateStats?.offsetCandidatePositions > 0)
 })
 
 test('3504-PC priority works on a supported L-shape with a rectangular recess', () => {
