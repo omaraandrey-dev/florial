@@ -10,11 +10,21 @@ import { buildIrrigationBillOfMaterials } from '../src/lib/irrigation/irrigation
 function snapshotFor(length, width, options = {}) {
   const shape = options.shape ?? 'rectangle'
   const vertices = buildLawnBoundary({ shape, length, width, cutoutWidth: options.cutoutWidth, cutoutDepth: options.cutoutDepth, cutoutCorner: options.cutoutCorner })
+  const exclusions = (options.exclusions ?? []).map((entry) => ({
+    id: entry.id,
+    kind: 'other',
+    polygon: { vertices: [
+      { x: entry.x, y: entry.y },
+      { x: entry.x + entry.width, y: entry.y },
+      { x: entry.x + entry.width, y: entry.y + entry.height },
+      { x: entry.x, y: entry.y + entry.height },
+    ] },
+  }))
   const geometryValidation = validateLawnGeometry({
     schemaVersion: 1,
     coordinateSystem: 'local_cartesian_m',
     status: 'confirmed',
-    regions: [{ id: 'lawn-1', boundary: { vertices }, exclusions: [] }],
+    regions: [{ id: 'lawn-1', boundary: { vertices }, exclusions }],
   })
   return buildIrrigationIntakeSnapshot({
     language: 'bg',
@@ -48,6 +58,21 @@ test('Florial selects each R-VAN head from local reach and reports the actual mo
     assert.equal(result.pipeNetwork?.connectionPoint?.x, length)
     assert.equal(result.pipeNetwork?.connectionPoint?.y, width)
     assert.ok(result.zones?.length > 0)
+  }
+})
+
+test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach allowance', () => {
+  for (const [length, width, expectedRadius] of [[10, 4, 4.5], [18, 4, 4.5], [10, 5, 5.5], [18, 5, 5.5]]) {
+    const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
+    assert.equal(result.status, 'layout_generated', length + 'x' + width)
+    const heads = result.layout?.sprinklers ?? []
+    assert.ok(heads.length > 0)
+    assert.ok(heads.every((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN18'),
+      length + 'x' + width + ' must not select R-VAN24')
+    assert.ok(heads.every((head) => head.radiusM <= expectedRadius + 1e-8))
+    assert.ok(heads.some((head) => head.radiusM === expectedRadius))
+    assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+    assert.equal(result.layout?.headToHead?.passed, true)
   }
 })
 
@@ -348,6 +373,35 @@ test('strip direction arrows use sub-metre SVG markers and cannot masquerade as 
   assert.doesNotMatch(assistant, /markerWidth="4" markerHeight="4"/)
 })
 
+
+test('L-shaped 4 m arm is calculated before the wider rectangle and uses R-VAN18 locally', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+    shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 10, cutoutCorner: 'top-right',
+  }))
+  assert.equal(result.status, 'layout_generated')
+  assert.deepEqual(result.layout?.calculationRegions?.map((part) => part.shortSideM), [4, 12])
+  const armHeads = result.layout?.sprinklers?.filter((head) => head.calculationRegionId === 'arm') ?? []
+  assert.ok(armHeads.length > 0)
+  assert.ok(armHeads.every((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN18'))
+  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+})
+
+test('rectangular lawn with a non-irrigated rectangular exclusion is decomposed and checked against the hole', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(20, 12, {
+    exclusions: [{ id: 'pool', x: 8, y: 4, width: 4, height: 4 }],
+  }))
+  assert.equal(result.status, 'layout_generated')
+  assert.ok(result.layout?.calculationRegions?.length >= 2)
+  assert.deepEqual(
+    result.layout?.calculationRegions?.map((part) => part.shortSideM),
+    [...(result.layout?.calculationRegions?.map((part) => part.shortSideM) ?? [])].sort((a, b) => a - b),
+  )
+  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+  assert.ok(result.layout?.warnings?.some((warning) =>
+    warning.code === 'spray_footprints_checked_against_original_lawn_and_exclusions_with_spatial_sampling'))
+})
 
 test('unsupported narrow widths do not fall back to circular sprinklers', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(10, 1.5))
