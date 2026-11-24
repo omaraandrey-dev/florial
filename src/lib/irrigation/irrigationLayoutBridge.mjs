@@ -386,14 +386,17 @@ function sampleRectangleInsidePolygon(bounds, vertices, stepM = 0.2) {
 
 function evaluateCompositeOverspray(sprinklers, parts, originalVertices) {
   const stripPartByHeadId = new Map()
-  for (const part of parts) {
+  for (let index = 0; index < parts.length; index += 1) {
+    const part = parts[index]
     if (!part.isStrip) continue
-    for (const head of part.layout.sprinklers) stripPartByHeadId.set(head.id, part)
+    for (const head of part.layout.sprinklers) {
+      stripPartByHeadId.set('z' + (index + 1) + '-' + head.id, part)
+    }
   }
 
   for (const head of sprinklers) {
     if (head.pattern === 'strip') {
-      const part = stripPartByHeadId.get(head.id.replace(/^z\d+-/, ''))
+      const part = stripPartByHeadId.get(head.id)
       if (!part) return false
       const bounds = part
       const horizontal = head.stripAxis === 'horizontal'

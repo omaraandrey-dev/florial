@@ -295,6 +295,20 @@ test('a 2m vertical connected L-shape arm uses a rotated strip row and keeps its
 
 
 
+
+test('two narrow connected arms keep separate strip geometry and unique sprinkler references', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+    shape: 'l-shape', cutoutWidth: 26, cutoutDepth: 12, cutoutCorner: 'top-right',
+  }))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
+  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+  assert.ok(result.layout?.sprinklers?.every((head) => head.pattern === 'strip'))
+  assert.equal(new Set(result.layout?.sprinklers?.map((head) => head.id)).size, result.layout?.sprinklers?.length)
+  assert.ok(result.layout?.calculationRegions?.every((region) => region.pattern === 'strip'))
+})
+
+
 test('strip direction arrows use sub-metre SVG markers and cannot masquerade as spray coverage', async () => {
   const assistant = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
   assert.match(assistant, /markerWidth="0\.32" markerHeight="0\.32"/)
