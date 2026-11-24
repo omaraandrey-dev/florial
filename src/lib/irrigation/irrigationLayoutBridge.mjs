@@ -192,8 +192,16 @@ function decomposeOrthogonalLShape(vertices) {
   const maxX = Math.max(...points.map((point) => point.x))
   const minY = Math.min(...points.map((point) => point.y))
   const maxY = Math.max(...points.map((point) => point.y))
-  const notchRight = reflex.x < (minX + maxX) / 2
-  const notchTop = reflex.y < (minY + maxY) / 2
+  const reflexIndex = points.indexOf(reflex)
+  const adjacent = [
+    points[(reflexIndex - 1 + points.length) % points.length],
+    points[(reflexIndex + 1) % points.length],
+  ]
+  const horizontalNeighbor = adjacent.find((point) => Math.abs(point.y - reflex.y) <= 1e-8)
+  const verticalNeighbor = adjacent.find((point) => Math.abs(point.x - reflex.x) <= 1e-8)
+  if (!horizontalNeighbor || !verticalNeighbor) return null
+  const notchRight = horizontalNeighbor.x > reflex.x
+  const notchTop = verticalNeighbor.y > reflex.y
 
   const main = {
     id: 'main',

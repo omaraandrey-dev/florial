@@ -348,9 +348,20 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     }
 
     const interiorSpacingM = preventOverspray
-    ? Math.min(lengthX / 2, lengthY / 2)
-    : Math.min(lengthX / xDivisions, lengthY / yDivisions)
+      ? Math.min(lengthX / 2, lengthY / 2)
+      : Math.min(lengthX / xDivisions, lengthY / yDivisions)
     const interiorNozzle = family === 'R-VAN' ? nozzleForRadius(interiorSpacingM) : { model, radiusM }
+    if (preventOverspray && family === 'R-VAN' && interiorNozzle.radiusM > 0) {
+      const safeRadiusM = interiorNozzle.radiusM
+      if (lengthX >= safeRadiusM * 2 - EPSILON) {
+        xPositions.add(minX + safeRadiusM)
+        xPositions.add(maxX - safeRadiusM)
+      }
+      if (lengthY >= safeRadiusM * 2 - EPSILON) {
+        yPositions.add(minY + safeRadiusM)
+        yPositions.add(maxY - safeRadiusM)
+      }
+    }
     if (xPositions.size > 0 && yPositions.size > 0) {
       for (const y of [...yPositions].sort((a, b) => a - b)) {
         for (const x of [...xPositions].sort((a, b) => a - b)) {
