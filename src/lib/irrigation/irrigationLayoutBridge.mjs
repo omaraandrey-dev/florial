@@ -559,7 +559,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   for (let index = 0; index < prepared.length; index += 1) {
     const part = prepared[index]
     for (const head of part.layout.sprinklers) {
-      const prefixed = Object.freeze({ ...head, id: 'z' + (index + 1) + '-' + head.id })
+      const prefixed = Object.freeze({ ...head, id: 'z' + (index + 1) + '-' + head.id, calculationRegionId: part.id })
       allHeads.push(prefixed)
       modelSet.add(prefixed.performanceModel)
       if (prefixed.pattern !== 'strip') circularHeads.push(prefixed)

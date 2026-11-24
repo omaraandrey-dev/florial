@@ -109,7 +109,7 @@ function pointInsideSprayBoundary(point, geometry) {
   if (!region?.boundary?.vertices) return false
   if (pointInRing(point, region.boundary.vertices) < 0) return false
   return !(region.exclusions ?? []).some((exclusion) =>
-    pointInRing(point, exclusion.polygon.vertices) >= 0)
+    pointInRing(point, exclusion.polygon.vertices) > 0)
 }
 
 function candidateSectorFitsGeometry(candidate, geometry) {
