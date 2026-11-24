@@ -38,18 +38,21 @@ A candidate sector is retained only when the sampled footprint stays inside the 
 
 The selector is a deterministic greedy set-cover heuristic, not a global optimizer. Each rotor added after the first must mutually reach at least one already selected rotor. The returned sampled coverage is not a mathematical proof of continuous coverage.
 
-## 3. Integration order and safe fallback
+## 3. Integration order and safe fallback — per-rectangle strategy
 
-The bridge in `src/lib/irrigation/irrigationLayoutBridge.mjs` follows this order:
+The bridge in `src/lib/irrigation/irrigationLayoutBridge.mjs` now follows an area-ascending, per-rectangle decision:
 
-1. Generate 3504-PC candidates first when the geometry is in the rotor planning envelope.
-2. Pass accepted rotor heads as initially covered heads to the existing R-VAN layout engine.
-3. Use the unchanged R-VAN engine to fill remaining uncovered samples.
-4. Check combined circular-head Head-to-Head relationships.
-5. Run a composite overspray check against the original geometry at 1° angular and 0.2 m radial sampling.
-6. If the mixed candidate set fails Head-to-Head or composite overspray validation, reject the rotor prepass and return to the legacy R-VAN-only layout.
+1. Decompose the supported orthogonal lawn and rectangular exclusions into non-overlapping calculation rectangles.
+2. Sort rectangles by area from smallest to largest; ties use the short side, then long side and stable coordinates.
+3. Process each rectangle independently. The 1 m / 2 m narrow strips retain their existing directional R-VAN-LCS/RCS/SST pattern because the 3504-PC planning envelope cannot fit those strips.
+4. For every other rectangle with sufficient local width, try 3504-PC at 10 m, then 9 m, then 8 m. Accept the rotor set only if that rectangle has complete sampled coverage and passes its rotor Head-to-Head gate.
+5. If no rotor radius fully serves the rectangle, discard that rectangle's partial rotor candidates and calculate that entire rectangle with the unchanged local R-VAN solver. Do not mix partial 3504-PC and R-VAN heads inside the same rectangle.
+6. Keep heads from previously processed rectangles as coverage context for later R-VAN rectangles. This avoids unnecessary duplicate coverage while preserving the small-to-large processing order.
+7. Validate the combined accepted footprints against the original lawn and exclusions at 1° angular and 0.2 m radial sampling.
 
-The approved R-VAN placement implementation in `src/lib/irrigation/lawnSprinklerLayout.mjs` was not modified. Existing narrow-strip R-VAN rules remain in place.
+For a narrow strip that requires a head at its connection seam, the adjacent wider rectangle may place its own corner head 0.075 m (7.5 cm) inward from the same seam. This is an explicit physical separation allowance, not a general permission to place arbitrary duplicate heads. The offset candidate is rechecked against the rectangle bounds and original spray boundary.
+
+The established R-VAN candidate selection, perimeter-first coverage, nozzle/radius sizing and Head-to-Head repair logic remain unchanged. The only R-VAN engine extension is an optional, narrowly scoped candidate-position offset for the shared strip seam.
 
 ## 4. Dimension annotations and project PDF
 
@@ -100,9 +103,11 @@ The result remains a preliminary geometric layout, not a hydraulically validated
 
 The current suite covers:
 
-- 3504-PC priority on 8×8, 20×10, 20×15 and 30×30 m rectangles;
+- full 3504-PC-only coverage on 8×8, 20×10, 20×15, 30×30 and 38×16 m rectangles, without redundant R-VAN heads in a rotor-served rectangle;
+- area-ascending processing of decomposed L-shaped and exclusion-based rectangles;
 - a 28×14 m L-shaped lawn with a 16×12 m top-right recess;
-- a 20×16 m lawn with a 4×4 m non-irrigated rectangle, where the safe R-VAN-only fallback is retained when no 3504 candidate is selected;
+- a 20×16 m lawn with a 4×4 m non-irrigated rectangle, where rectangles that cannot be fully served by rotors use the unchanged R-VAN fallback;
+- a connected 2 m strip whose seam head can coexist with a separate adjacent-rectangle head at a 7.5 cm inward offset;
 - legacy R-VAN model selection and interior rows through the unchanged R-VAN engine;
 - 3504 geometry validation, rotor BOM mapping and exclusion persistence;
 - dimension annotations and PDF source-level regression checks.
