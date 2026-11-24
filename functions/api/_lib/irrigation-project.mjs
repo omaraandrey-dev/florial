@@ -44,7 +44,9 @@ export function validateIrrigationProjectSnapshot(input) {
             ![1, 2].includes(sprinkler.stripWidthM) ||
             ![2, 3, 4].includes(sprinkler.stripLengthM) ||
             (sprinkler.stripDirection !== undefined && sprinkler.stripDirection !== null &&
-              !['left', 'right', 'up', 'down', 'both'].includes(sprinkler.stripDirection))))) {
+              !['left', 'right', 'up', 'down', 'both'].includes(sprinkler.stripDirection)) ||
+            (sprinkler.stripAxis !== undefined && sprinkler.stripAxis !== null &&
+              !['horizontal', 'vertical'].includes(sprinkler.stripAxis))))) {
       return { valid: false, reason: 'invalid_project_sprinkler' }
     }
     sprinklerIds.add(sprinkler.id)
@@ -257,6 +259,7 @@ export function validateIrrigationProjectSnapshot(input) {
           stripWidthM: item.pattern === 'strip' && finite(item.stripWidthM, 1, 2) ? item.stripWidthM : null,
           stripLengthM: item.pattern === 'strip' && [2, 3, 4].includes(item.stripLengthM) ? item.stripLengthM : null,
           stripDirection: item.pattern === 'strip' && ['left', 'right', 'up', 'down', 'both'].includes(item.stripDirection) ? item.stripDirection : null,
+          stripAxis: item.pattern === 'strip' && ['horizontal', 'vertical'].includes(item.stripAxis) ? item.stripAxis : null,
           source: item.source === 'interior' ? 'interior' : 'perimeter',
         })),
       },
