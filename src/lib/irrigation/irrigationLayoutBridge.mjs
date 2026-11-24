@@ -469,7 +469,7 @@ function mergeSharedRotorHeads(sprinklers, geometry) {
     merged[existingIndex] = Object.freeze({
       ...existing,
       ...(sector ?? {}),
-      radiusM: Math.min(existing.radiusM, sprinkler.radiusM),
+      radiusM: Math.max(existing.radiusM, sprinkler.radiusM),
       calculationRegionId: [existing.calculationRegionId, sprinkler.calculationRegionId].filter(Boolean).join('+'),
     })
   }
@@ -722,7 +722,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const selectedModels = [...modelSet].sort()
   const layout = Object.freeze({
     engineVersion: '0.7.0',
-    algorithm: 'area-ascending-per-rectangle-3504pc-first-rvan-fallback-v1',
+    algorithm: 'area-ascending-corner-first-3504pc-cell-grid-rvan-fallback-v2',
     status: !oversprayPassed || !circularCoverageComplete || headToHeadPassed === false
       ? 'coverage_incomplete'
       : (circularHeads.length ? 'coverage_complete_sampled' : 'strip_pattern_placement_ready'),
@@ -1005,7 +1005,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
       pressureBar: layout.family === '3500' ? null : pressureBar,
       pressureBasis: layout.family === '3500' ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
       modelSelectionBasis: layout.family === '3500'
-        ? 'the complete rectangle is served by 3504-PC at the largest usable 10/9/8 m planning radius; R-VAN is not added to the same rectangle'
+        ? 'the complete rectangle is served by the corner-first 3504-PC cell grid, starting at 8 m and using 9/10 m only if needed; shared cell corners are deduplicated and R-VAN is not mixed into the same rectangle'
         : 'R-VAN fallback uses the unchanged local model/radius selection; radius independent of arc',
       layoutRadiusM: null,
       sourceUrl: layout.family === '3500' ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
