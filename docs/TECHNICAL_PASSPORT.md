@@ -3,9 +3,16 @@
 - PR #530 integrates the dimensioned lawn diagrams, orthogonal calculation-region/PDF work from PR #527 with the 3504-PC rotor persistence/BOM contract from PR #528, using the owner-approved corner-first shared-cell solver.
 - The 3504-PC solver tries the four true rectangle corners first, then complete shared-cell grids with deduplicated nodes and mutual Head-to-Head checks. Rotor seam offsets were removed from this solver; true geometric corners remain unshifted.
 - With the owner's approval, the bridge may apply a 7.5 cm inward offset to the exact matching R-VAN corner candidate at a shared narrow-strip/rectangle seam, only when the rectangle uses the R-VAN fallback. Default R-VAN selection, model/radius sizing and placement remain unchanged.
-- Exact integration head: `e1480631e4dedd2bb119fc644f7369b0cb9228ca`. Blog/Studio validation run `45448308122` passed: 475/475 tests, application/Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check and build. D1 validation run `45448308116` passed.
-- Cloudflare Pages Preview deployment `03615d85-7a08-42a9-8d41-cbd0d3ec2de9` succeeded from that exact head: https://03615d85.florial.pages.dev.
-- Manual browser interaction/visual acceptance remains pending because the connected Browser Use project reported insufficient credits. Do not treat the Preview deployment as visual acceptance.
+- Exact final integration head: `61c41f489f8050d778f5122c40130d5e8ca36700`. Blog/Studio validation run `45449765697` passed: 475/475 tests, application/Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check and build. D1 validation run `45449765622` passed.
+- Cloudflare Pages Preview deployment `c5161fba-12a2-42b4-a4a9-695f0cbc188b` succeeded from that exact final head: https://c5161fba.florial.pages.dev.
+- Browser-rendered functional smoke checks on the Preview passed:
+  - 8×8 m: 4 × 3504-PC, 100% sampled coverage, 0 uncovered points, Head-to-Head passed, 1 zone.
+  - 10×10 m: 4 × 3504-PC, 100% sampled coverage, 0 uncovered points, Head-to-Head passed, 1 zone.
+  - 38×16 m: 18 × 3504-PC, 100% sampled coverage, 0 uncovered points, Head-to-Head passed, 3 zones of 6.
+  - 28×14 m L-shape with 16×12 m top-right cut-out: 16 heads, 100% sampled circular coverage, 0 uncovered points, Head-to-Head passed, 3 zones; mixed R-VAN strip heads and 3504-PC rectangles.
+  - 28×4 m L-shape with 16×2 m top-right cut-out: 12 heads, 100% sampled circular coverage, 0 uncovered points, Head-to-Head passed; R-VAN18 rectangle heads and R-VAN strip heads.
+- These were functional browser-rendered UI calculations on the exact Preview. A manual screenshot/visual design review is not claimed.
+- Manual screenshot/visual design review remains pending. The functional browser-rendered smoke checks above do not replace owner visual acceptance.
 - PR #530 remains open; no merge to main or Production deployment has occurred. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails were performed.
 - Hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance remain outside this sampled geometric solver.
 

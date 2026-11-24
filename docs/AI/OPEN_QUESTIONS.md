@@ -2,9 +2,10 @@
 
 - **CLOSED — code integration candidate:** PR #530 combines the relevant #527 dimensioned diagram/PDF/orthogonal-zone work and #528 rotor persistence/BOM contract with the owner-approved corner-first shared-cell solver.
 - **CLOSED — bounded R-VAN seam offset:** owner approved a 7.5 cm inward offset only for the exact matching R-VAN corner candidate at a shared narrow-strip/rectangle seam when the rectangle uses R-VAN fallback. Other R-VAN selection and placement rules remain unchanged.
-- **CLOSED — automated validation:** exact head `e1480631e4dedd2bb119fc644f7369b0cb9228ca`; Blog/Studio run `45448308122` passed 475/475 tests and all checks; D1 validation `45448308116` passed.
-- **CLOSED — Preview deployment:** deployment `03615d85-7a08-42a9-8d41-cbd0d3ec2de9` succeeded from the exact head: https://03615d85.florial.pages.dev.
-- **OPEN — owner visual/interaction acceptance:** Browser Use was unavailable because the connected project reported insufficient credits. Inspect 8×8, 10×10, 38×16, dimension annotations, exclusions, markers, zones and PDF on the Preview before merge.
+- **CLOSED — automated validation:** exact final head `61c41f489f8050d778f5122c40130d5e8ca36700`; Blog/Studio run `45449765697` passed 475/475 tests and all checks; D1 validation `45449765622` passed.
+- **CLOSED — Preview deployment:** deployment `c5161fba-12a2-42b4-a4a9-695f0cbc188b` succeeded from the exact final head: https://c5161fba.florial.pages.dev.
+- **CLOSED — functional browser smoke checks:** 8×8, 10×10, 38×16, 28×14 L-shape with 16×12 cut-out, and 28×4 L-shape with 16×2 cut-out rendered and calculated successfully; 3504-PC cases showed full sampled coverage and passing Head-to-Head.
+- **OPEN — manual visual design review and owner acceptance:** inspect diagram appearance, dimension annotations, exclusions, markers, zones and PDF on the Preview before merge.
 - **OPEN — merge and Production release:** PR #530 remains open; no main merge or Production deployment has occurred.
 - **OPEN — engineering validation:** hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance remain outside the geometric solver.
 

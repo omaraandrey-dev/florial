@@ -1,6 +1,6 @@
 # Rain Bird 3504-PC geometric layout — corner-first shared-cell algorithm
 
-**Status:** implementation in integration PR #530; not merged to `main`. Automated CI and Preview deployment passed on exact head `e1480631e4dedd2bb119fc644f7369b0cb9228ca`; owner visual acceptance remains pending.  
+**Status:** implementation in integration PR #530; not merged to `main`. Automated CI and Preview deployment passed on final exact head `61c41f489f8050d778f5122c40130d5e8ca36700`; functional browser-rendered smoke checks passed for 8×8, 10×10, 38×16 and two L-shaped cases; manual screenshot/visual design review remains pending.  
 **Owner-approved scope:** revise the Rain Bird 3504-PC rotor placement algorithm and add the separately approved 7.5 cm R-VAN corner offset only for a shared strip/rectangle seam fallback. All other established R-VAN selection and placement rules remain unchanged. This remains preliminary geometric planning, not a hydraulic design.
 
 ## 1. Owner-approved layout rules
@@ -93,10 +93,17 @@ The integration test suite must verify:
 
 ## 6. Verification record
 
-- Blog/Studio validation run `45448308122` passed on exact head `e1480631e4dedd2bb119fc644f7369b0cb9228ca`: 475/475 tests, app/Pages Functions type-check, lint, website build, read-only D1 dry-run, Studio type-check and build.
-- D1 validation run `45448308116` passed; no migration was applied.
-- Cloudflare Pages Preview deployment `03615d85-7a08-42a9-8d41-cbd0d3ec2de9` succeeded: https://03615d85.florial.pages.dev.
-- Browser interaction/visual QA is not confirmed; owner review remains pending.
+- Blog/Studio validation run `45449765697` passed on exact final head `61c41f489f8050d778f5122c40130d5e8ca36700`: 475/475 tests, app/Pages Functions type-check, lint, website build, read-only D1 dry-run, Studio type-check and build.
+- D1 validation run `45449765622` passed; no migration was applied.
+- Cloudflare Pages Preview deployment `c5161fba-12a2-42b4-a4a9-695f0cbc188b` succeeded: https://c5161fba.florial.pages.dev.
+- Browser-rendered functional smoke checks on the Preview passed:
+  - 8×8 m: 4 × 3504-PC, 100% sampled coverage, 0 uncovered points, Head-to-Head passed, 1 zone.
+  - 10×10 m: 4 × 3504-PC, 100% sampled coverage, 0 uncovered points, Head-to-Head passed, 1 zone.
+  - 38×16 m: 18 × 3504-PC, 100% sampled coverage, 0 uncovered points, Head-to-Head passed, 3 zones of 6.
+  - 28×14 m L-shape with 16×12 m top-right cut-out: 16 heads, 100% sampled circular coverage, 0 uncovered points, Head-to-Head passed, 3 zones; mixed R-VAN strip heads and 3504-PC rectangles.
+  - 28×4 m L-shape with 16×2 m top-right cut-out: 12 heads, 100% sampled circular coverage, 0 uncovered points, Head-to-Head passed; R-VAN18 rectangle heads and R-VAN strip heads.
+- These were functional browser-rendered UI calculations on the exact Preview. A manual screenshot/visual design review is not claimed.
+- Manual screenshot/visual design review remains pending.
 
 ## 7. Release boundary
 

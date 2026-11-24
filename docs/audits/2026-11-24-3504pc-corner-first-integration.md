@@ -4,7 +4,7 @@
 **Source branch A:** `feature/irrigation-dimensions-3504pc` (PR #527)  
 **Source branch B:** `feature/irrigation-3504pc-global-layout-v2` (PR #528)  
 **Base main SHA at integration start:** `d9a24afc4ba04f36b4bf027646eba986e38156f5`  
-**Status:** implementation in progress; automated validation and visual acceptance pending.
+**Status:** implementation, automated validation and Preview deployment passed on final head `61c41f489f8050d778f5122c40130d5e8ca36700`; functional browser-rendered smoke checks passed; manual screenshot/visual design review remains pending.
 
 ## Owner-approved change
 
@@ -47,10 +47,18 @@ Replace the Rain Bird 3504-PC placement logic with a corner-first, shared-cell a
 
 ## Verification result on exact integration head
 
-- Blog/Studio validation run `45448308122` passed: 475/475 tests, app/Pages Functions type-check, lint, website build, read-only D1 description migration dry-run, Studio type-check and Studio build.
-- D1 validation run `45448308116` passed; no migration was applied.
-- Cloudflare Pages Preview deployment `03615d85-7a08-42a9-8d41-cbd0d3ec2de9` succeeded from exact head `e1480631e4dedd2bb119fc644f7369b0cb9228ca`: https://03615d85.florial.pages.dev.
-- Manual browser interaction/visual acceptance is **not confirmed**. Browser Use was unavailable because the connected browser project reported insufficient credits. Owner visual review remains pending.
+- Final exact integration head: `61c41f489f8050d778f5122c40130d5e8ca36700`.
+- Blog/Studio validation run `45449765697` passed: 475/475 tests, app/Pages Functions type-check, lint, website build, read-only D1 description migration dry-run, Studio type-check and Studio build.
+- D1 validation run `45449765622` passed; no migration was applied.
+- Cloudflare Pages Preview deployment `c5161fba-12a2-42b4-a4a9-695f0cbc188b` succeeded from the exact final head: https://c5161fba.florial.pages.dev.
+- Browser-rendered functional smoke checks on the Preview passed:
+  - 8×8 m: 4 × 3504-PC, 100% sampled coverage, 0 uncovered points, Head-to-Head passed, 1 zone.
+  - 10×10 m: 4 × 3504-PC, 100% sampled coverage, 0 uncovered points, Head-to-Head passed, 1 zone.
+  - 38×16 m: 18 × 3504-PC, 100% sampled coverage, 0 uncovered points, Head-to-Head passed, 3 zones of 6.
+  - 28×14 m L-shape with 16×12 m top-right cut-out: 16 heads, 100% sampled circular coverage, 0 uncovered points, Head-to-Head passed, 3 zones; mixed R-VAN strip heads and 3504-PC rectangles.
+  - 28×4 m L-shape with 16×2 m top-right cut-out: 12 heads, 100% sampled circular coverage, 0 uncovered points, Head-to-Head passed; R-VAN18 rectangle heads and R-VAN strip heads.
+- These were functional browser-rendered UI calculations on the exact Preview. A manual screenshot/visual design review is not claimed.
+- Manual screenshot/visual design review and owner acceptance remain pending.
 
 ## Remaining verification before merge
 
