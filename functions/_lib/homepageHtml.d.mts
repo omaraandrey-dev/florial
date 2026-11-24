@@ -13,7 +13,7 @@ export interface HomepageRenderData {
   latestPosts?: Array<Record<string, unknown>>
 }
 
-export function renderHomepageHtml(data: HomepageRenderData, language?: 'bg' | 'ru' | 'en'): string
+export function renderHomepageHtml(data: HomepageRenderData, language?: string): string
 export function homepageSelectionForTest(data: HomepageRenderData): {
   plantCategories: string[]
   equipmentCategories: Array<string | undefined>
