@@ -1,3 +1,14 @@
+## 2026-11-24 — Irrigation layout owner decisions
+
+- **CLOSED — fixed Florial R-VAN planning radii:** R-VAN14 = 3 m; R-VAN18 = 4/5 m; R-VAN24 = 6 m. Radius does not change with arc.
+- **CLOSED — control mesh:** 0.5 m default.
+- **CLOSED — L-shape interior candidates:** rectangular axis-aligned grid clipped to the original L polygon; no triangular/staggered lattice.
+- **CLOSED — RCS strip layout:** rectangular 1 m / 2 m widths use R-VAN-RCS SKU A84668; planning throw 2 m / 4 m; first head lower-right; further heads evenly distributed along the same long side. For 2 m width, lengths 4/6/8 m require 1/2/3 heads.
+- **CLOSED — mixed zones:** R-VAN14, R-VAN18, R-VAN24 and R-VAN-RCS may coexist in one zone; model, radius, arc and strip/circular pattern are not zone boundaries.
+- **CLOSED — precipitation-intensity compatibility:** owner confirms the manufacturer compatibility of these R-VAN models/patterns. Do not add a separate per-zone precipitation-intensity matching gate.
+- **OPEN — 1804 body / selected R-VAN nozzle assembly and pressure-regulation compatibility:** this remains a distinct product-assembly question and is not the precipitation-intensity matching rule above.
+- Implementation branch: feat/irrigation-rvan-r1-rcs-layout-rules. CI, PR review, Preview and Production release evidence are pending.
+
 ## 2026-11-24 — Blog article performance release: measurement follow-up
 
 - **CLOSED — runtime implementation and merge:** PR #512 merged at `2fe92f6b269fa29183cd02e7bc334d27ccb8006c`; exact Production Pages deployment `e2b84205-e7a2-4164-ba20-d657dbad0a8e` succeeded. Article loading skeleton, initial HTML viewport reservation, Sanity CDN hints, responsive high-priority cover preload and image sizing/quality changes are live.
