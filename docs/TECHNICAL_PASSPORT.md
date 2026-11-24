@@ -1,3 +1,14 @@
+## 2026-11-24 — L-shape corner orientation and directional narrow-strip nozzle layout (PR #518)
+
+- PR #518 squash-merged to `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.
+- Geometry intake maps all four L-shape cut-out corners into the layout engine's Y-up coordinate convention. Both preliminary and calculated SVG diagrams use the same Y reflection; inner zone labels are counter-reflected and remain upright. The fixed connection point remains top-right.
+- Rectangular strips of 1 m and 2 m width use Rain Bird R-VAN-LCS (A84667), RCS (A84668) and SST (A84669). Published Sanity production records were read-only checked and all three products were active.
+- 2 m strip: RCS up to 4 m; add opposing LCS beyond 4 m; add central bidirectional SST heads beyond 7 m at approximately 4 m spacing.
+- 1 m strip: RCS up to 3 m; add opposing LCS beyond 3 m; add central bidirectional SST heads beyond 5 m at approximately 3 m spacing.
+- Vertical strip layouts rotate the nozzle row to the right long edge and start from the lower end. Layout, BOM, cart snapshot, server validation and owner PDF retain pattern, model, planning reach, direction and axis.
+- Exact PR head `6dc34ead66d808cfd7d7fbec524de0513a5e0ba6` passed Blog/Studio validation (#2512; 442/442 tests) and D1 migration validation (#2693). Production deployment from merge SHA was initiated; build succeeded and deploy stage was active at the time of this entry. Live browser interaction QA is not yet confirmed.
+- This is geometric planning only. Strip patterns do not claim circular sampled coverage or prove hydraulic feasibility, actual nozzle pressure or field distribution uniformity. No Sanity writes or D1 schema/data changes were made.
+
 ## 2026-11-24 — Mixed R-VAN selection and customer-facing layout (PR pending)
 
 - The irrigation solver no longer applies one R-VAN model to every sprinkler in a lawn. It selects each candidate's nozzle/radius independently: corners by corner-to-area-centre reach, side heads by equal spacing on that edge, interior heads by interior-grid spacing.
