@@ -82,7 +82,11 @@ test('homepage SSR returns localized semantic content and crawlable product/cate
   assert.match(html, /href="\/blog\/latest-story\?lang=ru"/)
   assert.match(html, /Олива/)
   assert.match(html, /Ландшафтный проект/)
+  assert.match(html, /Преимущества Florial/)
   assert.match(html, /Перейти в каталог растений/)
+  assert.ok(html.indexOf('data-florial-ssr-homepage') < html.indexOf('Преимущества Florial'))
+  assert.ok(html.indexOf('Преимущества Florial') < html.indexOf('Выполняем работы'))
+  assert.ok(html.indexOf('Выполняем работы') < html.indexOf('Растения для вашего сада'))
   assert.match(html, /aspect-\[4\/5\]/)
   assert.doesNotMatch(html, /Празна категория/)
 })
@@ -122,6 +126,7 @@ test('homepage middleware uses bounded published Sanity projections and keeps fa
   assert.match(middleware, /querySanityData<any\[]>\('plants', featuredPlantsQuery/)
   assert.match(middleware, /querySanityData<any\[]>\('production', featuredEquipmentQuery/)
   assert.match(middleware, /querySanityData<any\[]>\('production', pinnedQuery/)
+  assert.doesNotMatch(middleware, /"productCount": count/)
   assert.match(middleware, /getOrderedServiceEntries\(services as any\[\]\)/)
   assert.match(middleware, /renderHomepageHtml\(\{/)
   assert.match(middleware, /cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'/)
@@ -166,4 +171,44 @@ test('homepage SSR emits the same responsive Sanity image candidates used by Rea
   assert.match(html, /fetchpriority="high"/)
   assert.match(html, /aspect-\[4\/5\]/)
   assert.match(html, /width="800" height="600"/)
+})
+
+
+test('homepage SSR mirrors equipment root-category selection without product-count filtering', () => {
+  const selection = homepageSelectionForTest({
+    ...data,
+    equipmentCategories: [
+      { _id: 'root', name: 'Всичко за поливане', slug: { current: 'vsichko-za-polivane' } },
+      { _id: 'kits', name: 'Комплекти', slug: { current: 'gotovi-komplekti-za-polivane' } },
+      { _id: 'controllers', name: 'Контролери', slug: { current: 'controllers' }, parentId: 'root', productCount: 0 },
+      { _id: 'sprinklers', name: 'Дъждовалци', slug: { current: 'sprinklers' }, parentId: 'root', productCount: 0 },
+      { _id: 'nozzles', name: 'Дюзи', slug: { current: 'nozzles' }, parentId: 'root', productCount: 0 },
+      { _id: 'legacy-valves', name: 'Електромагнитни клапани', slug: { current: 'electromagnetic-valves' }, parentId: 'root', productCount: 0 },
+    ],
+  })
+  assert.deepEqual(selection.equipmentCategories, [
+    'vsichko-za-polivane',
+    'gotovi-komplekti-za-polivane',
+    'controllers',
+    'sprinklers',
+    'nozzles',
+    'electromagnetic-valves',
+  ])
+})
+
+test('homepage SSR includes the localized value proposition and all primary section links', () => {
+  const expectations = [
+    { language: 'bg', why: 'Предимствата на Florial', title: '25+ години опит' },
+    { language: 'ru', why: 'Преимущества Florial', title: 'Более 25 лет опыта' },
+    { language: 'en', why: 'Why choose Florial', title: '25+ years of experience' },
+  ]
+  for (const item of expectations) {
+    const html = renderHomepageHtml(data, item.language)
+    assert.ok(html.includes(item.why))
+    assert.ok(html.includes(item.title))
+    assert.match(html, /href="\/category\/rastenia/)
+    assert.match(html, /href="\/category\/vsichko-za-polivane/)
+    assert.match(html, /href="\/services/)
+    assert.match(html, /href="\/blog/)
+  }
 })
