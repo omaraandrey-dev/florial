@@ -55,6 +55,7 @@ export interface LawnSprinklerLayoutResult {
   readonly sprinklers: ReadonlyArray<LawnSprinklerCandidate>
   readonly headToHead?: Readonly<{
     passed: boolean
+    applicable?: boolean
     checks: ReadonlyArray<Readonly<{
       sprinklerId: string
       nearestSprinklerId: string | null
