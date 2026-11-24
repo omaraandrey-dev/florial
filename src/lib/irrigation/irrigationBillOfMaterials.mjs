@@ -60,8 +60,24 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
   for (const sprinkler of sprinklers) {
     const baseModel = String(sprinkler.performanceModel ?? layout.model ?? '').replace(/-360$/, '')
     if (baseModel === '3504-PC') {
+      if (sprinkler.pattern !== 'rotor' ||
+          !Number.isFinite(sprinkler.radiusM) ||
+          sprinkler.radiusM < 5 || sprinkler.radiusM > 10) {
+        return Object.freeze({
+          valid: false,
+          reason: 'invalid_3504_pc_head_definition',
+          items: Object.freeze([]),
+        })
+      }
       rotorCount += 1
       continue
+    }
+    if (sprinkler.pattern === 'rotor') {
+      return Object.freeze({
+        valid: false,
+        reason: 'invalid_3504_pc_head_definition',
+        items: Object.freeze([]),
+      })
     }
     const nozzleKey = sprinkler.arcDeg === 360 ? baseModel + '-360' : baseModel
     const sku = PRODUCT_SKUS.nozzles[nozzleKey]
