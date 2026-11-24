@@ -100,7 +100,7 @@ function buildRcsStripLayout(geometry, shortSideM) {
       areaM2: lengthM * widthM,
     }),
     sprinklers: Object.freeze(sprinklers),
-    headToHead: Object.freeze({ passed: true, checks: Object.freeze([]), applicable: false }),
+    headToHead: Object.freeze({ passed: null, checks: Object.freeze([]), applicable: false }),
     hydraulicFeasibility: 'not_evaluated',
     precipitationUniformity: 'not_evaluated',
     bodyCompatibility: 'not_evaluated',
