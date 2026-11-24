@@ -61,6 +61,23 @@ test('Florial selects each R-VAN head from local reach and reports the actual mo
   }
 })
 
+test('38x16 rectangle is solved as a complete 3504-PC rotor grid before any R-VAN fallback', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(38, 16))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.family, '3500')
+  assert.equal(result.model, '3504-PC')
+  assert.equal(result.layout.family, '3500')
+  assert.equal(result.layout.coverage.uncoveredPoints, 0)
+  assert.equal(result.layout.headToHead.passed, true)
+  assert.ok(result.layout.sprinklers.length <= 18)
+  assert.ok(result.layout.sprinklers.length >= 12)
+  assert.ok(result.layout.sprinklers.every((head) =>
+    head.performanceModel === '3504-PC' && head.radiusM === 8 && head.pattern === 'rotor'))
+  assert.ok(result.layout.sprinklers.every((head) =>
+    head.position.x >= 0 && head.position.x <= 38 &&
+    head.position.y >= 0 && head.position.y <= 16))
+})
+
 test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach allowance', () => {
   for (const [length, width, expectedRadius] of [[10, 4, 4], [18, 4, 4], [10, 5, 5], [18, 5, 5]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
