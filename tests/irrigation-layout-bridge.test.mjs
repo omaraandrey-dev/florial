@@ -103,6 +103,7 @@ test('3504-PC priority completes wider rectangles before the unchanged R-VAN gap
     assert.equal(result.layout.coverage.uncoveredPoints, 0)
     assert.equal(result.layout.headToHead.passed, true)
     assert.equal(result.layout.overspray, 'sampled_inside_boundary')
+    assert.equal(result.overspray, 'sampled_inside_boundary')
     assert.ok(result.zones.every((zone) => zone.sprinklerCount <= 6))
     const bom = buildIrrigationBillOfMaterials(result.layout, result.zones)
     assert.equal(bom.valid, true)
