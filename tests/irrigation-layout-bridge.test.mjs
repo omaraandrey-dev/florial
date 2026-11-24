@@ -7,6 +7,7 @@ import { buildIrrigationIntakeSnapshot } from '../src/lib/irrigation/irrigationI
 import { buildPreliminaryLawnLayout } from '../src/lib/irrigation/irrigationLayoutBridge.mjs'
 import { buildIrrigationBillOfMaterials } from '../src/lib/irrigation/irrigationBillOfMaterials.mjs'
 import { generateLawnSprinklerLayout } from '../src/lib/irrigation/lawnSprinklerLayout.mjs'
+import { generateRainBird3504Layout } from '../src/lib/irrigation/rainBird3504Layout.mjs'
 import { RAIN_BIRD_RVAN_DATASET } from '../src/lib/irrigation/rainBirdRvanPerformanceData.mjs'
 import { buildIrrigationZones } from '../src/lib/irrigation/irrigationProjectStandards.mjs'
 
@@ -113,7 +114,11 @@ test('each rectangle uses a complete 3504-PC layout or falls back wholly to the 
 })
 
 test('38x16 rectangle is covered by 3504-PC rotors without redundant R-VAN heads', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(38, 16))
+  const snapshot = snapshotFor(38, 16)
+  const rotorAttempt = generateRainBird3504Layout(snapshot.geometry.normalized)
+  assert.equal(rotorAttempt.coverage?.uncoveredPoints, 0,
+    JSON.stringify({ status: rotorAttempt.status, coverage: rotorAttempt.coverage, stats: rotorAttempt.candidateStats }))
+  const result = buildPreliminaryLawnLayout(snapshot)
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.family, '3500')
   assert.equal(result.operatingScenario?.model, '3504-PC')
@@ -129,7 +134,8 @@ test('rectangle decomposition is processed by ascending area and a shared strip 
   const result = buildPreliminaryLawnLayout(snapshotFor(14, 14, {
     shape: 'l-shape', cutoutWidth: 6, cutoutDepth: 12, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.status, 'layout_generated',
+    JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, h2h: result.layout?.headToHead, overspray: result.layout?.overspray, heads: result.layout?.sprinklers }))
   const areas = result.layout.calculationRegions.map((part) => part.areaM2)
   assert.deepEqual(areas, areas.slice().sort((a, b) => a - b))
   const stripSeamHead = result.layout.sprinklers.find((head) =>
@@ -148,7 +154,14 @@ test('3504-PC priority works on a supported L-shape with a rectangular recess', 
     cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated')
-  assert.ok(result.layout.sprinklers.some((head) => head.performanceModel === '3504-PC'))
+  const byRegion = new Map()
+  for (const head of result.layout.sprinklers) {
+    const list = byRegion.get(head.calculationRegionId) ?? new Set()
+    list.add(head.performanceModel === '3504-PC' ? '3504-PC' : 'R-VAN')
+    byRegion.set(head.calculationRegionId, list)
+  }
+  assert.ok([...byRegion.values()].every((families) => families.size === 1),
+    'a calculation rectangle must not mix partial rotors and R-VAN heads')
   assert.equal(result.layout.coverage.uncoveredPoints, 0)
   assert.equal(result.layout.overspray, 'sampled_inside_boundary')
   assert.equal(result.overspray, 'sampled_inside_boundary')
