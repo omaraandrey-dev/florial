@@ -481,7 +481,7 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
   return true
 }
 
-function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM) {
+function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM, prefer3504PcRotors = true) {
   const orderedParts = parts.slice().sort((a, b) =>
     a.shortSideM - b.shortSideM || a.lengthM - b.lengthM ||
     a.minY - b.minY || a.minX - b.minX)
@@ -529,10 +529,10 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       previouslyPlacedHeads.push(...part.layout.sprinklers)
       continue
     }
-    const rotorLayout = generateRainBird3504Layout(part.rectGeometry, {
+    const rotorLayout = prefer3504PcRotors ? generateRainBird3504Layout(part.rectGeometry, {
       sampleStepM,
       initialSprinklers: previouslyPlacedHeads,
-    })
+    }) : { status: 'rotor_priority_disabled' }
     if (rotorLayout.status === 'coverage_complete_sampled') {
       part.layout = rotorLayout
       part.family = '3500'
@@ -746,7 +746,7 @@ function stripOptions(shortSideM) {
  * R-VAN solver and attaches Florial's fixed pipe/zone project standards.
  * No customer water-source, pressure or flow inputs are requested or used.
  */
-export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {}) {
+export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5, prefer3504PcRotors = true } = {}) {
   if (!snapshot || snapshot.schemaVersion !== 2 ||
       snapshot.projectType !== 'automatic_lawn_irrigation') {
     return result('invalid_intake_snapshot')
@@ -787,7 +787,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     }))
     return buildDecomposedLShapeLayout(
       geometry, validation, partsWithStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
-      sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)),
+      sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)), prefer3504PcRotors,
     )
   }
 
@@ -807,7 +807,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     }))
     return buildDecomposedLShapeLayout(
       geometry, validation, withStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
-      sampleStepM, Math.min(...parts.map((part) => part.shortSideM)),
+      sampleStepM, Math.min(...parts.map((part) => part.shortSideM)), prefer3504PcRotors,
     )
   }
 
@@ -867,7 +867,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     })
   }
 
-  const rotorLayout = generateRainBird3504Layout(geometry, { sampleStepM })
+  const rotorLayout = prefer3504PcRotors ? generateRainBird3504Layout(geometry, { sampleStepM }) : { status: 'rotor_priority_disabled' }
   if (rotorLayout.status === 'coverage_complete_sampled') {
     const zones = buildIrrigationZones(rotorLayout.sprinklers, geometry)
     const pipeNetwork = buildPerimeterPipeNetwork(geometry, rotorLayout.sprinklers, zones)
