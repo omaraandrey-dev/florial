@@ -156,6 +156,6 @@ The owner also confirmed that the irrigation assistant is geometric-only and tha
 
 ## Owner-approved nozzle compatibility extension — 2026-11-24
 
-- R-VAN14, R-VAN18, R-VAN24 and R-VAN-RCS may be grouped together in one zone. Nozzle model, planning radius, arc or circular/strip pattern is not a zone boundary.
+- R-VAN14, R-VAN18, R-VAN24, R-VAN-LCS, R-VAN-RCS and R-VAN-SST may be grouped together in one zone. Nozzle model, planning radius, arc or circular/strip pattern is not a zone boundary.
 - The owner confirms manufacturer precipitation-intensity compatibility across these models/patterns. No additional per-zone precipitation-intensity matching gate is required.
-- R-VAN-RCS is represented as a strip pattern with Florial strip width/throw metadata, not as a circular sector. The order snapshot and owner PDF preserve that pattern label and dimensions.
+- R-VAN-LCS, R-VAN-RCS and R-VAN-SST are represented as directional strip patterns with Florial width, planning reach, axis and direction metadata, not as circular sectors. The order snapshot and owner PDF preserve these fields.

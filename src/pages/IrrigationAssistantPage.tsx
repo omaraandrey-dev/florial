@@ -24,7 +24,7 @@ function sprinklerNozzleColor(model: string | null | undefined) {
   if (normalized === 'R-VAN14') return '#3b82f6'
   if (normalized === 'R-VAN18') return '#c49a6c'
   if (normalized === 'R-VAN24') return '#800020'
-  if (normalized === 'R-VAN-RCS') return '#6b7280'
+  if (['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'].includes(normalized)) return '#6b7280'
   return '#64748b'
 }
 
@@ -302,6 +302,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
           pattern: sprinkler.pattern ?? 'circular',
           stripWidthM: sprinkler.stripWidthM ?? null,
           stripLengthM: sprinkler.stripLengthM ?? null,
+          stripDirection: sprinkler.stripDirection ?? null,
+          stripAxis: sprinkler.stripAxis ?? null,
           source: sprinkler.source === 'interior' ? 'interior' : 'perimeter',
         })),
       },
@@ -363,7 +365,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
     incomplete: 'Движок построил вариант, но контрольная сетка содержит непокрытые точки. Нужна инженерная проверка.',
     unsupported: 'Геометрия выходит за текущий проверенный диапазон автоматической раскладки R-VAN. Не подставляем HE-VAN или другую неподтверждённую модель. Для этого участка требуется отдельная инженерная проверка.',
-    narrow: 'Для узкой полосы рассматриваются только специальные полосовые форсунки Rain Bird R-VAN LCS, RCS и SST. Круглые форсунки вместо них не подставляются. Схема размещения требует точной проверки направления и перекрытия полос.',
+    narrow: 'Для узкой полосы используются специальные полосовые форсунки Rain Bird LCS, RCS и SST. Круглые форсунки не подставляются.',
     notReady: 'Для предварительной раскладки нужны корректные размеры участка.', engineError: 'Текущий инженерный движок не поддерживает эту геометрию или конфигурацию.',
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания', notApplicable: 'Не применяется к полосовой форсунке',
   } : language === 'en' ? {
@@ -375,7 +377,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
     incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
     unsupported: 'The geometry is outside the current verified R-VAN layout range. No HE-VAN or other unverified model is substituted. This site requires a separate engineering review.',
-    narrow: 'Narrow strips require dedicated Rain Bird R-VAN LCS, RCS or SST strip nozzles. Circular nozzles are not substituted. Placement still requires exact pattern orientation and overlap validation.',
+    narrow: 'Narrow strips use dedicated Rain Bird LCS, RCS and SST strip nozzles. Circular nozzles are not substituted.',
     notReady: 'Valid lawn dimensions are required before generating a preliminary layout.', engineError: 'The current engineering engine does not support this geometry or configuration.',
     headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings', notApplicable: 'Not applicable to strip nozzles',
   } : {
@@ -391,6 +393,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     headToHead: 'Проверка на разстоянието head-to-head', passed: 'Успешна', failed: 'Има забележки', notApplicable: 'Не се прилага за лентови дюзи',
   }
   const svgPoints = boundaryVertices?.map((point) => String(Math.round(point.x * 1000) / 1000) + ',' + String(Math.round(point.y * 1000) / 1000)).join(' ')
+  const svgTransform = 'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'
   const progress = 100
 
   function updateGeometry(setter: (value: string) => void, value: string) {
@@ -489,7 +492,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                     <h3 className="mb-3 text-sm font-bold text-emerald-950">{copy.geometryPreview}</h3>
                     <div className="rounded-xl border border-emerald-100 bg-white p-3">
                       <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={copy.geometryPreview} className="max-h-56 w-full" preserveAspectRatio="xMidYMid meet">
-                        <polygon points={svgPoints} fill="#bbf7d0" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
+                        <g transform={svgTransform}><polygon points={svgPoints} fill="#bbf7d0" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" /></g>
                       </svg>
                     </div>
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -536,17 +539,18 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                   {layoutResult.status === 'layout_generated' || layoutResult.status === 'layout_incomplete' ? (
                     <>
                       <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.family} · {layoutModelLabel} · {numberFormat(layoutResult.operatingScenario?.pressureBar ?? 0)} bar</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-700">{layoutResult.status === 'layout_generated' ? (layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовые R-VAN-RCS размещены по согласованному правилу Florial. Выборочное круговое покрытие для этой схемы не рассчитывается.' : language === 'en' ? 'R-VAN-RCS strip nozzles are placed using the approved Florial rule. Circular sampled coverage is not calculated for this pattern.' : 'Лентовите R-VAN-RCS дюзи са разположени по одобреното правило на Florial. Кръгово семплирано покритие не се изчислява за този модел.') : layoutLabels.generated) : layoutLabels.incomplete}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">{layoutResult.status === 'layout_generated' ? (layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовые форсунки LCS, RCS и SST размещены по согласованному правилу Florial. Выборочное круговое покрытие для этой схемы не рассчитывается.' : language === 'en' ? 'LCS, RCS and SST strip nozzles are placed using the approved Florial rule. Circular sampled coverage is not calculated for this pattern.' : 'Лентовите дюзи LCS, RCS и SST са разположени по одобреното правило на Florial. Кръгово семплирано покритие не се изчислява за този модел.') : layoutLabels.generated) : layoutLabels.incomplete}</p>
                       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.heads}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.sprinklers?.length ?? 0}</dd></div>
                         
-                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовая схема RCS' : language === 'en' ? 'RCS strip placement' : 'Разположение с RCS лентови дюзи') : layoutLabels.coverage}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? '—' : numberFormat(layoutResult.layout?.coverage?.coveragePercent ?? 0) + '%'}</dd></div>
+                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовая схема LCS/RCS/SST' : language === 'en' ? 'LCS/RCS/SST strip layout' : 'Разположение с лентови дюзи LCS/RCS/SST') : layoutLabels.coverage}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? '—' : numberFormat(layoutResult.layout?.coverage?.coveragePercent ?? 0) + '%'}</dd></div>
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.uncovered}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? '—' : layoutResult.layout?.coverage?.uncoveredPoints ?? 0}</dd></div>
                       </dl>
                       {boundaryVertices && (layoutResult.layout?.sprinklers?.length ?? 0) > 0 && (
                         <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3">
                           <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={layoutLabels.title} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
-                            <g transform={'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'}>
+                            <defs><marker id="strip-direction-arrow" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L4 2 L0 4 z" fill="#475569" /></marker></defs>
+                            <g transform={svgTransform}>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
                               {layoutResult.pipeNetwork?.mainRoute && <polyline points={layoutResult.pipeNetwork.mainRoute.map((point: { x: number; y: number }) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#ea580c" strokeWidth="0.12" strokeLinejoin="round" />}
                               {layoutResult.pipeNetwork?.branches?.map((branch) => (
@@ -557,11 +561,18 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                                   ))}
                                 </g>
                               ))}
-                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number | null; performanceModel?: string }) => {
+                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number | null; performanceModel?: string; pattern?: string; stripDirection?: string; stripAxis?: string; stripLengthM?: number }) => {
                                 const zoneNumber = layoutResult.zones?.find((zone: { zoneNumber: number; sprinklerIds: ReadonlyArray<string> }) => zone.sprinklerIds.includes(sprinkler.id))?.zoneNumber
                                 const nozzleColor = sprinklerNozzleColor(sprinkler.performanceModel)
                                 return (
                                 <g key={sprinkler.id}>
+                                  {sprinkler.pattern === 'strip' && sprinkler.stripDirection && sprinkler.stripLengthM && <g stroke="#475569" strokeWidth="0.09" markerEnd="url(#strip-direction-arrow)">
+                                    {sprinkler.stripDirection === 'left' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x - sprinkler.stripLengthM} y2={sprinkler.position.y} />}
+                                    {sprinkler.stripDirection === 'right' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x + sprinkler.stripLengthM} y2={sprinkler.position.y} />}
+                                    {sprinkler.stripDirection === 'up' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y + sprinkler.stripLengthM} />}
+                                    {sprinkler.stripDirection === 'down' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y - sprinkler.stripLengthM} />}
+                                    {sprinkler.stripDirection === 'both' && (sprinkler.stripAxis === 'vertical' ? <><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y - sprinkler.stripLengthM} /><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y + sprinkler.stripLengthM} /></> : <><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x - sprinkler.stripLengthM} y2={sprinkler.position.y} /><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x + sprinkler.stripLengthM} y2={sprinkler.position.y} /></>)}
+                                  </g>}
                                   {sprinkler.radiusM !== null && <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke={nozzleColor} strokeWidth="0.055" strokeDasharray="0.22 0.14" opacity="0.78" />}
                                   <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill={nozzleColor} stroke="#ffffff" strokeWidth="0.08" />
                                   {zoneNumber !== undefined && <g transform={'translate(' + (sprinkler.position.x + 0.22) + ' ' + sprinkler.position.y + ') scale(1 -1)'}><text x="0" y="-0.22" fontSize="0.72" fontWeight="700" fill="#0f172a" stroke="#ffffff" strokeWidth="0.12" paintOrder="stroke">{zoneNumber}</text></g>}
@@ -597,8 +608,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       <details className="mt-3 rounded-xl bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
-                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; performanceModel?: string; pattern?: string; stripWidthM?: number; stripLengthM?: number }) => (
-                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? 'R-VAN-RCS · ' + sprinkler.stripWidthM + ' × ' + sprinkler.stripLengthM + ' m' : (sprinkler.performanceModel ?? 'R-VAN') + ' · ' + sprinkler.arcDeg + '°'}</li>
+                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; performanceModel?: string; pattern?: string; stripWidthM?: number; stripLengthM?: number; stripDirection?: string; stripAxis?: string }) => (
+                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' · ' + sprinkler.stripWidthM + ' m · ' + sprinkler.stripLengthM + ' m · ' + ((sprinkler.stripDirection ?? '—') + ' / ' + (sprinkler.stripAxis ?? '—')) : (sprinkler.performanceModel ?? 'R-VAN') + ' · ' + sprinkler.arcDeg + '°'}</li>
                           ))}
                         </ol>
                       </details>

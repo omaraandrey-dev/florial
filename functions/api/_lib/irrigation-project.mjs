@@ -40,9 +40,13 @@ export function validateIrrigationProjectSnapshot(input) {
         !cleanLabel(sprinkler.performanceModel, 60) ||
         (sprinkler.pattern !== undefined && !['circular', 'strip'].includes(sprinkler.pattern)) ||
         (sprinkler.pattern === 'strip' &&
-          (sprinkler.performanceModel !== 'R-VAN-RCS' ||
+          (!['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'].includes(sprinkler.performanceModel) ||
             ![1, 2].includes(sprinkler.stripWidthM) ||
-            ![2, 4].includes(sprinkler.stripLengthM)))) {
+            ![2, 3, 4].includes(sprinkler.stripLengthM) ||
+            (sprinkler.stripDirection !== undefined && sprinkler.stripDirection !== null &&
+              !['left', 'right', 'up', 'down', 'both'].includes(sprinkler.stripDirection)) ||
+            (sprinkler.stripAxis !== undefined && sprinkler.stripAxis !== null &&
+              !['horizontal', 'vertical'].includes(sprinkler.stripAxis))))) {
       return { valid: false, reason: 'invalid_project_sprinkler' }
     }
     sprinklerIds.add(sprinkler.id)
@@ -253,7 +257,9 @@ export function validateIrrigationProjectSnapshot(input) {
           performanceModel: cleanLabel(item.performanceModel, 60),
           pattern: item.pattern === 'strip' ? 'strip' : 'circular',
           stripWidthM: item.pattern === 'strip' && finite(item.stripWidthM, 1, 2) ? item.stripWidthM : null,
-          stripLengthM: item.pattern === 'strip' && finite(item.stripLengthM, 2, 4) ? item.stripLengthM : null,
+          stripLengthM: item.pattern === 'strip' && [2, 3, 4].includes(item.stripLengthM) ? item.stripLengthM : null,
+          stripDirection: item.pattern === 'strip' && ['left', 'right', 'up', 'down', 'both'].includes(item.stripDirection) ? item.stripDirection : null,
+          stripAxis: item.pattern === 'strip' && ['horizontal', 'vertical'].includes(item.stripAxis) ? item.stripAxis : null,
           source: item.source === 'interior' ? 'interior' : 'perimeter',
         })),
       },

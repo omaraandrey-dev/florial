@@ -5,7 +5,7 @@ type ProjectPoint = { x: number; y: number }
 type IrrigationProject = {
   geometry: { shape: string; dimensionsM: { length: number | null; width: number | null; cutoutWidth: number | null; cutoutDepth: number | null; cutoutCorner: string }; areaM2: number; perimeterM: number; normalized: { regions: Array<{ boundary: { vertices: ProjectPoint[] } }> } }
   operatingScenario: { manufacturer: string; family: string; model: string; pressureBar: number | null; actualNozzlePressureVerified: false }
-  layout: { model: string; engineVersion: string; algorithm: string; sprinklers: Array<{ id: string; position: ProjectPoint; radiusM: number | null; arcDeg: number | null; performanceModel: string; pattern?: string; stripWidthM?: number | null; stripLengthM?: number | null; source: string }> }
+  layout: { model: string; engineVersion: string; algorithm: string; sprinklers: Array<{ id: string; position: ProjectPoint; radiusM: number | null; arcDeg: number | null; performanceModel: string; pattern?: string; stripWidthM?: number | null; stripLengthM?: number | null; stripDirection?: string | null; stripAxis?: string | null; source: string }> }
   zones: Array<{ id: string; zoneNumber: number; zoneType: string; sprinklerIds: string[] }>
   pipeNetwork: { mainDiameterMm: number | null; zoneDiameterMm: number | null; mainRoute: ProjectPoint[]; branches: Array<{ zoneId: string; branchDirection: string; sprinklerIds: string[]; points: ProjectPoint[]; lateralConnections: Array<{ sprinklerId: string; points: ProjectPoint[] }> }> } | null
   automation?: { type: 'manual' | 'tm2' | 'rc2' | 'bat'; controllers: Array<{ sku: string; name: string; capacity: number; quantity: number; zoneNumbers: number[]; priceEUR: number | null }>; valve: { sku: string; name: string; quantity: number; priceEUR: number | null } | null; requiresControlCable: boolean; wifiRequired: boolean; totalPriceEUR: number }
@@ -143,12 +143,12 @@ export const createIrrigationProjectPdf = async (
   for (const zone of project.zones) {
     const members = zone.sprinklerIds.map((id) => {
       const sprinkler = project.layout.sprinklers.find((item) => item.id === id)
-      return sprinkler ? id + ' (' + (sprinkler.pattern === 'strip' ? 'RCS strip ' + sprinkler.stripWidthM + ' × ' + sprinkler.stripLengthM + ' m' : sprinkler.arcDeg + '°') + ', ' + sprinkler.performanceModel + ')' : id
+      return sprinkler ? id + ' (' + (sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' strip ' + sprinkler.stripWidthM + ' m / ' + sprinkler.stripLengthM + ' m / ' + ((sprinkler.stripDirection || 'direction not recorded') + (sprinkler.stripAxis ? ' / ' + sprinkler.stripAxis : '')) : sprinkler.arcDeg + '°') + ', ' + sprinkler.performanceModel + ')' : id
     }).join(', ')
     write(zone.id + ' · ' + zone.sprinklerIds.length + ' бр. · ' + zone.zoneType + ': ' + members, { size: 7 })
   }
   for (const sprinkler of project.layout.sprinklers) {
-    write(sprinkler.id + ': X=' + sprinkler.position.x.toFixed(2) + ' m, Y=' + sprinkler.position.y.toFixed(2) + ' m · ' + (sprinkler.pattern === 'strip' ? 'RCS strip ' + sprinkler.stripWidthM + ' × ' + sprinkler.stripLengthM + ' m' : sprinkler.arcDeg + '° · R=' + sprinkler.radiusM.toFixed(2) + ' m') + ' · ' + sprinkler.performanceModel, { size: 6.8, color: muted })
+    write(sprinkler.id + ': X=' + sprinkler.position.x.toFixed(2) + ' m, Y=' + sprinkler.position.y.toFixed(2) + ' m · ' + (sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' strip ' + sprinkler.stripWidthM + ' m / ' + sprinkler.stripLengthM + ' m / ' + ((sprinkler.stripDirection || 'direction not recorded') + (sprinkler.stripAxis ? ' / ' + sprinkler.stripAxis : '')) : sprinkler.arcDeg + '° · R=' + sprinkler.radiusM.toFixed(2) + ' m') + ' · ' + sprinkler.performanceModel, { size: 6.8, color: muted })
   }
 
   heading('3. Схематични трасета на тръбите')

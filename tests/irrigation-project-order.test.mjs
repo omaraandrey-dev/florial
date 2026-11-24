@@ -274,3 +274,36 @@ test('accepts an R-VAN-RCS strip-only project without a circular head-to-head cl
   assert.equal(result.snapshot.layout.sprinklers[0].stripWidthM, 2)
   assert.equal(result.snapshot.layout.sprinklers[0].stripLengthM, 4)
 })
+
+test('persists all directional LCS, RCS and SST strip nozzle metadata', () => {
+  const project = snapshot()
+  project.layout.headToHeadPassed = null
+  project.layout.headToHeadApplicable = false
+  project.layout.sprinklers = [
+    { id: 'rcs', position: { x: 10, y: 2 }, radiusM: null, arcDeg: null, performanceModel: 'R-VAN-RCS', pattern: 'strip', stripWidthM: 2, stripLengthM: 4, stripDirection: 'left', stripAxis: 'horizontal', source: 'perimeter' },
+    { id: 'sst', position: { x: 6, y: 2 }, radiusM: null, arcDeg: null, performanceModel: 'R-VAN-SST', pattern: 'strip', stripWidthM: 2, stripLengthM: 4, stripDirection: 'both', stripAxis: 'horizontal', source: 'perimeter' },
+    { id: 'lcs', position: { x: 0, y: 2 }, radiusM: null, arcDeg: null, performanceModel: 'R-VAN-LCS', pattern: 'strip', stripWidthM: 2, stripLengthM: 4, stripDirection: 'right', stripAxis: 'horizontal', source: 'perimeter' },
+  ]
+  project.zones = [{ id: 'zone-01', zoneNumber: 1, zoneType: 'perimeter', sprinklerIds: ['rcs', 'sst', 'lcs'] }]
+  project.billOfMaterials.headCount = 3
+  project.billOfMaterials.zoneCount = 1
+  project.billOfMaterials.items = [
+    { sku: 'A84668', quantity: 1, name: 'R-VAN-RCS' },
+    { sku: 'A84669', quantity: 1, name: 'R-VAN-SST' },
+    { sku: 'A84667', quantity: 1, name: 'R-VAN-LCS' },
+  ]
+  const orderItems = [
+    { sku: 'A84668', qty: 1 },
+    { sku: 'A84669', qty: 1 },
+    { sku: 'A84667', qty: 1 },
+  ]
+  const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
+  assert.equal(result.valid, true)
+  assert.deepEqual(result.snapshot.layout.sprinklers.map((head) => [
+    head.performanceModel, head.stripDirection, head.stripAxis,
+  ]), [
+    ['R-VAN-RCS', 'left', 'horizontal'],
+    ['R-VAN-SST', 'both', 'horizontal'],
+    ['R-VAN-LCS', 'right', 'horizontal'],
+  ])
+})
