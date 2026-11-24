@@ -103,7 +103,7 @@ function buildTargets(bounds, stepM) {
   return targets
 }
 
-function buildCornerFirstGrid(bounds, planningRadiusM) {
+function buildCornerFirstGrid(bounds, planningRadiusM, candidatePositionOffsets = []) {
   const width = bounds.maxX - bounds.minX
   const height = bounds.maxY - bounds.minY
   const pitch = Math.min(planningRadiusM, width, height)
@@ -117,12 +117,18 @@ function buildCornerFirstGrid(bounds, planningRadiusM) {
       const x = bounds.minX + xs[column]
       const y = bounds.minY + ys[row]
       const position = classifyPosition(x, y, bounds)
+      const offset = candidatePositionOffsets.find((entry) => entry?.from &&
+        Number.isFinite(entry.from.x) && Number.isFinite(entry.from.y) &&
+        distance(entry.from, { x, y }) <= 0.001 &&
+        Number.isFinite(entry.dx) && Number.isFinite(entry.dy))
+      const placedX = x + (offset?.dx ?? 0)
+      const placedY = y + (offset?.dy ?? 0)
       const safeRadius = maximumSafeRadius(x, y, bounds, position)
       if (safeRadius < 5 - EPSILON) return null
       const radiusM = Math.min(planningRadiusM, safeRadius)
       const head = Object.freeze({
         id: 'r3504-r' + row + '-c' + column,
-        position: Object.freeze({ x, y }),
+        position: Object.freeze({ x: placedX, y: placedY }),
         arcDeg: position.arcDeg,
         directionDeg: position.directionDeg,
         source: position.source,
@@ -229,7 +235,7 @@ function rectangleBounds(geometry) {
  * The first accepted stage is 8 m; 9/10 m are expansion options, followed
  * by 7/6/5 m denser grids. Values are Florial geometric planning assumptions.
  */
-export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5 } = {}) {
+export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5, candidatePositionOffsets = [] } = {}) {
   const bounds = rectangleBounds(geometry)
   if (!bounds || !Number.isFinite(sampleStepM) || sampleStepM <= 0) {
     return Object.freeze({
@@ -264,7 +270,7 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5 } = {})
 
   let lastAttempt = null
   for (const planningRadiusM of ROTOR_RADII_M) {
-    const grid = buildCornerFirstGrid(bounds, planningRadiusM)
+    const grid = buildCornerFirstGrid(bounds, planningRadiusM, candidatePositionOffsets)
     if (!grid || grid.heads.length > MAX_SELECTED_ROTORS) continue
     const coverage = evaluateCoverage(grid.heads, targets)
     const headToHeadPassed = grid.headToHeadChecks.length > 0 &&
@@ -310,6 +316,9 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5 } = {})
         }),
         candidateStats: Object.freeze({
           requiredCornerPositions: grid.heads.length,
+          offsetCandidatePositions: grid.heads.filter((head) => candidatePositionOffsets.some((entry) =>
+            entry?.from && Number.isFinite(entry.dx) && Number.isFinite(entry.dy) &&
+            distance(head.position, { x: entry.from.x + entry.dx, y: entry.from.y + entry.dy }) <= 0.001)).length,
           cellCount: grid.cells.length,
           sharedCellCornersDeduplicated: grid.cells.length * 4 - grid.heads.length,
           selectedRotors: sprinklers.length,
