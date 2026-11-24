@@ -363,12 +363,16 @@ function pointInPolygon(point, vertices) {
 }
 
 function sampleRectangleInsidePolygon(bounds, vertices, stepM = 0.2) {
-  for (let y = bounds.minY; y <= bounds.maxY + 1e-8; y += stepM) {
-    for (let x = bounds.minX; x <= bounds.maxX + 1e-8; x += stepM) {
-      if (!pointInPolygon({ x: Math.min(x, bounds.maxX), y: Math.min(y, bounds.maxY) }, vertices)) return false
+  const xSteps = Math.max(1, Math.ceil((bounds.maxX - bounds.minX) / stepM))
+  const ySteps = Math.max(1, Math.ceil((bounds.maxY - bounds.minY) / stepM))
+  for (let yIndex = 0; yIndex <= ySteps; yIndex += 1) {
+    const y = bounds.minY + (bounds.maxY - bounds.minY) * yIndex / ySteps
+    for (let xIndex = 0; xIndex <= xSteps; xIndex += 1) {
+      const x = bounds.minX + (bounds.maxX - bounds.minX) * xIndex / xSteps
+      if (!pointInPolygon({ x, y }, vertices)) return false
     }
   }
-  return pointInPolygon({ x: bounds.maxX, y: bounds.maxY }, vertices)
+  return true
 }
 
 function evaluateCompositeOverspray(sprinklers, parts, originalVertices) {

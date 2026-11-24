@@ -28,6 +28,21 @@ function sprinklerNozzleColor(model: string | null | undefined) {
   return '#64748b'
 }
 
+function sprinklerSectorPath(position: { x: number; y: number }, radiusM: number, arcDeg: number, directionDeg: number | null) {
+  if (!Number.isFinite(radiusM) || radiusM <= 0 || !Number.isFinite(arcDeg) || arcDeg <= 0 || arcDeg >= 360 || !Number.isFinite(directionDeg)) return ''
+  const start = (directionDeg as number) - arcDeg / 2
+  const steps = Math.max(12, Math.ceil(arcDeg / 3))
+  const points = Array.from({ length: steps + 1 }, (_, index) => {
+    const angle = (start + arcDeg * index / steps) * Math.PI / 180
+    return {
+      x: position.x + Math.cos(angle) * radiusM,
+      y: position.y + Math.sin(angle) * radiusM,
+    }
+  })
+  return 'M ' + position.x + ' ' + position.y + ' L ' +
+    points.map((point) => point.x + ' ' + point.y).join(' L ') + ' Z'
+}
+
 export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddToCart, onSetIrrigationProject }: IrrigationAssistantPageProps) {
   const { language } = useI18n()
   const [shape, setShape] = useState<LawnInputShape>('rectangle')
@@ -359,7 +374,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   const layoutLabels = language === 'ru' ? {
     title: 'Предварительная геометрическая раскладка', candidate: 'Форсунки',
     heads: 'Количество дождевателей',
-    coverage: 'Выборочное геометрическое покрытие', uncovered: 'Непокрытых контрольных точек',
+    coverage: 'Выборочное геометрическое покрытие', uncovered: 'Непокрытых контрольных точек', compositeCoverage: 'Проверка круглой зоны', compositeUncovered: 'Непокрытых точек круглой зоны',
     positions: 'Координаты дождевателей, м',
     hevanScenarioNote: 'Для HE-VAN использована точка таблицы 2,07 бар, ближайшая к указанному Rain Bird оптимуму 2,1 бар. Это сценарий производителя, а не измеренное давление на сопле.',
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
@@ -371,7 +386,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   } : language === 'en' ? {
     title: 'Preliminary geometric sprinkler layout', candidate: 'Nozzles',
     heads: 'Sprinkler count',
-    coverage: 'Sampled geometric coverage', uncovered: 'Uncovered sample points',
+    coverage: 'Sampled geometric coverage', uncovered: 'Uncovered sample points', compositeCoverage: 'Circular-zone sample check', compositeUncovered: 'Uncovered points in circular zone',
     positions: 'Sprinkler coordinates, m',
     hevanScenarioNote: 'The HE-VAN table point 2.07 bar is used as the closest exact point to Rain Bird’s 2.1 bar optimum. This is a manufacturer scenario, not measured nozzle pressure.',
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
@@ -383,7 +398,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   } : {
     title: 'Предварителна геометрична схема на разпръсквачите', candidate: 'Дюзи',
     heads: 'Брой разпръсквачи',
-    coverage: 'Геометрично покритие по контролна мрежа', uncovered: 'Непокрити контролни точки',
+    coverage: 'Геометрично покритие по контролна мрежа', uncovered: 'Непокрити контролни точки', compositeCoverage: 'Проверка на кръговата зона', compositeUncovered: 'Непокрити точки в кръговата зона',
     positions: 'Координати на разпръсквачите, м',
     hevanScenarioNote: 'За HE-VAN е използвана точка 2,07 bar — най-близката точна таблична стойност до оптимума 2,1 bar на Rain Bird. Това е сценарий, а не измерено налягане при дюзата.',
     generated: 'Двигателят създаде предварителна схема с покритие на всички контролни точки.',
@@ -543,8 +558,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.heads}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.sprinklers?.length ?? 0}</dd></div>
                         
-                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutResult.layout?.coverageScope === 'decomposed_rectangular_zones' ? (language === 'ru' ? 'Проверка широкой зоны' : language === 'en' ? 'Wide-zone sample check' : 'Проверка на широката зона') : layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовая схема LCS/RCS/SST' : language === 'en' ? 'LCS/RCS/SST strip layout' : 'Разположение с лентови дюзи LCS/RCS/SST') : layoutLabels.coverage}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? '—' : numberFormat(layoutResult.layout?.coverage?.coveragePercent ?? 0) + '%'}</dd></div>
-                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.uncovered}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? '—' : layoutResult.layout?.coverage?.uncoveredPoints ?? 0}</dd></div>
+                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutResult.layout?.coverageScope === 'decomposed_rectangular_zones' ? layoutLabels.compositeCoverage : layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовая схема LCS/RCS/SST' : language === 'en' ? 'LCS/RCS/SST strip layout' : 'Разположение с лентови дюзи LCS/RCS/SST') : layoutLabels.coverage}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? '—' : numberFormat(layoutResult.layout?.coverage?.coveragePercent ?? 0) + '%'}</dd></div>
+                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutResult.layout?.coverageScope === 'decomposed_rectangular_zones' ? layoutLabels.compositeUncovered : layoutLabels.uncovered}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? '—' : layoutResult.layout?.coverage?.uncoveredPoints ?? 0}</dd></div>
                       </dl>
                       {boundaryVertices && (layoutResult.layout?.sprinklers?.length ?? 0) > 0 && (
                         <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3">
@@ -573,7 +588,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                                     {sprinkler.stripDirection === 'down' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y - sprinkler.stripLengthM} />}
                                     {sprinkler.stripDirection === 'both' && (sprinkler.stripAxis === 'vertical' ? <><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y - sprinkler.stripLengthM} /><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y + sprinkler.stripLengthM} /></> : <><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x - sprinkler.stripLengthM} y2={sprinkler.position.y} /><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x + sprinkler.stripLengthM} y2={sprinkler.position.y} /></>)}
                                   </g>}
-                                  {sprinkler.radiusM !== null && <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke={nozzleColor} strokeWidth="0.055" strokeDasharray="0.22 0.14" opacity="0.78" />}
+                                  {sprinkler.radiusM !== null && sprinkler.arcDeg === 360 && <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke={nozzleColor} strokeWidth="0.055" strokeDasharray="0.22 0.14" opacity="0.78" />}
+                                   {sprinkler.radiusM !== null && sprinkler.arcDeg !== null && sprinkler.arcDeg !== 360 && <path d={sprinklerSectorPath(sprinkler.position, sprinkler.radiusM, sprinkler.arcDeg, sprinkler.directionDeg)} fill={nozzleColor} fillOpacity="0.08" stroke={nozzleColor} strokeWidth="0.055" strokeDasharray="0.22 0.14" opacity="0.9" />}
                                   <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill={nozzleColor} stroke="#ffffff" strokeWidth="0.08" />
                                   {zoneNumber !== undefined && <g transform={'translate(' + (sprinkler.position.x + 0.22) + ' ' + sprinkler.position.y + ') scale(1 -1)'}><text x="0" y="-0.22" fontSize="0.72" fontWeight="700" fill="#0f172a" stroke="#ffffff" strokeWidth="0.12" paintOrder="stroke">{zoneNumber}</text></g>}
                                 </g>

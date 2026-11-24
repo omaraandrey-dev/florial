@@ -272,9 +272,9 @@ test('decomposed L-shape keeps the 1m/2m strip connected to the wide zone in all
     assert.ok(stripHeads.every((head) => head.stripAxis === 'horizontal'), cutoutCorner)
     assert.ok(result.layout?.sprinklers?.every((head) => {
       const { x, y } = head.position
-      return cutoutCorner === 'top-left' ? !(x < 16 && y < 12)
+      return cutoutCorner === 'top-left' ? !(x < 16 && y > 2)
         : cutoutCorner === 'top-right' ? !(x > 12 && y > 2)
-          : cutoutCorner === 'bottom-left' ? !(x < 16 && y > 2)
+          : cutoutCorner === 'bottom-left' ? !(x < 16 && y < 12)
             : !(x > 12 && y < 12)
     }), cutoutCorner)
   }

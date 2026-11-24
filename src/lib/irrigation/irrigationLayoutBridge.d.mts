@@ -18,7 +18,7 @@ export interface PreliminaryLawnLayoutResult {
   readonly hydraulicFeasibility: 'not_evaluated'
   readonly precipitationUniformity: 'not_evaluated'
   readonly bodyCompatibility: 'not_evaluated'
-  readonly overspray: 'not_evaluated' | 'sampled_inside_boundary' | 'sampled_outside_boundary'
+  readonly overspray: 'not_evaluated'
   readonly reason?: string
   readonly shortSideM?: number
   readonly plannedNextFamily?: 'Rain Bird 3500'
