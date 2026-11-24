@@ -7,8 +7,10 @@ export interface LawnSprinklerLayoutInput {
   readonly model: string
   /** Exact manufacturer pressure point in bar. */
   readonly pressureBar: number
-  /** Sampling interval in metres; defaults to 0.25m. */
+  /** Sampling interval in metres; defaults to 0.5m. */
   readonly sampleStepM?: number
+  /** Florial planning radius override for R-VAN; independent of the selected arc. */
+  readonly radiusM?: number
 }
 
 export interface LawnSprinklerCandidate {
@@ -25,6 +27,9 @@ export interface LawnSprinklerCandidate {
   readonly precipitationSquareMmH: number
   readonly precipitationTriangularMmH: number
   readonly performanceModel: string
+  readonly pattern?: 'circular' | 'strip'
+  readonly stripWidthM?: number
+  readonly stripLengthM?: number
 }
 
 export interface LawnSprinklerLayoutResult {
