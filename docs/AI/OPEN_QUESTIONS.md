@@ -1,3 +1,12 @@
+## 2026-11-24 — SSR Catalog v1: equipment category initial HTML
+
+- **IN PROGRESS:** equipment category server listing is implemented on branch `feat/seo-equipment-category-ssr-v1`; PR creation and exact-SHA CI are pending.
+- **OPEN — CI:** run focused unit tests, full tests, type-check, lint and website/Pages Functions build; inspect failures and final diff.
+- **OPEN — Preview:** inspect raw initial HTML for BG/RU/EN, parent/child categories, empty category and representative large category; confirm product links, images/ALT, price, stock and SKU.
+- **OPEN — client parity:** verify the existing React `createRoot` mount replaces the server fallback and retains its filtering/pagination behavior without duplicate cards.
+- **OPEN — Production:** verify deployment only after an approved merge/release and check exact deployment source SHA. No Production deployment is claimed.
+- No Sanity content/schema, D1, Cloudflare configuration/secrets, orders or email writes are included.
+
 ## 2026-11-24 — irrigation assistant paused by owner
 
 - **Owner decision:** pause all further development of the irrigation-design assistant until the owner returns with observed errors or a new task. This is an intentional project pause, not a request to continue polishing, optimize, refactor, or proactively fix anything.
