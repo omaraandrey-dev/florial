@@ -309,6 +309,23 @@ test('two narrow connected arms keep separate strip geometry and unique sprinkle
 })
 
 
+
+test('square 2m connected arm keeps its vertical strip axis from the shared edge', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(18, 2, {
+    shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 1, cutoutCorner: 'top-right',
+  }))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
+  const verticalHeads = result.layout?.sprinklers?.filter((head) => head.stripWidthM === 2) ?? []
+  assert.ok(verticalHeads.length > 0)
+  assert.ok(verticalHeads.every((head) => head.stripAxis === 'vertical' && head.position.x === 2))
+  const horizontalHeads = result.layout?.sprinklers?.filter((head) => head.stripWidthM === 1) ?? []
+  assert.ok(horizontalHeads.length > 0)
+  assert.ok(horizontalHeads.every((head) => head.stripAxis === 'horizontal' && head.position.y === 0))
+  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+})
+
+
 test('strip direction arrows use sub-metre SVG markers and cannot masquerade as spray coverage', async () => {
   const assistant = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
   assert.match(assistant, /markerWidth="0\.32" markerHeight="0\.32"/)
