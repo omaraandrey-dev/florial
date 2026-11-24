@@ -395,7 +395,7 @@ function evaluateCompositeOverspray(sprinklers, parts, originalVertices) {
     if (head.pattern === 'strip') {
       const part = stripPartByHeadId.get(head.id.replace(/^z\d+-/, ''))
       if (!part) return false
-      const bounds = part.bounds
+      const bounds = part
       const horizontal = head.stripAxis === 'horizontal'
       const reach = head.stripLengthM
       let footprint
