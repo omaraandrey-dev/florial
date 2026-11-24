@@ -350,7 +350,7 @@ function renderEquipmentCard(product, language, copy) {
     '<div class="p-4"><h4 class="font-bold text-slate-900">' + escapeHtml(name) + '</h4>' +
     priceMarkup(product.priceEUR) +
     (product.vatIncluded === true ? '<p class="mt-1 text-xs text-slate-500">' + escapeHtml(copy.vat) + '</p>' : '') +
-    '<p class="mt-2 text-xs font-semibold">' + escapeHtml(availabilityLabel(product.stockStatus, copy)) + '</p>' +
+    '<p class="mt-2 text-xs font-semibold">' + escapeHtml(availabilityLabel(product.stockStatus === 'inStock' ? 'inStock' : product.stockStatus === 'outOfStock' ? 'outOfStock' : 'onRequest', copy)) + '</p>' +
     '<span class="mt-3 inline-flex text-sm font-bold text-[#647746]">' + escapeHtml(copy.viewKit) + ' →</span></div></a></article></li>'
 }
 
@@ -388,7 +388,7 @@ function renderBlogCard(post, language, copy) {
   const imageUrl = safeImageUrl(post.cover?.asset?.url)
   const alt = translations.coverAlt || post.cover?.alt || title
   return '<li><article class="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white shadow-sm"><a class="block no-underline" href="' + escapeHtml(href('/blog/' + encodeURIComponent(slug), language)) + '">' +
-    (imageUrl ? '<img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(alt) + '" loading="lazy" decoding="async" class="h-52 w-full object-cover" />' : '') +
+    (imageUrl ? '<img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(alt) + '" loading="lazy" decoding="async" class="h-52 w-full object-cover" />' : '<div class="flex h-52 items-center justify-center bg-[#E9EDDB] text-4xl" aria-hidden="true">🌿</div>') +
     '<div class="p-5">' + (post.publishedAt ? '<time datetime="' + escapeHtml(post.publishedAt) + '" class="text-xs text-slate-500">' + escapeHtml(formatDate(post.publishedAt, language)) + '</time>' : '') +
     '<h4 class="mt-2 text-lg font-bold text-slate-900">' + escapeHtml(title) + '</h4>' +
     (description ? '<p class="mt-2 text-sm leading-6 text-slate-600">' + escapeHtml(description) + '</p>' : '') +
@@ -421,6 +421,7 @@ export function renderHomepageHtml(data, language = 'bg') {
   return '<main data-florial-ssr-homepage="v1">' +
     '<section class="relative isolate overflow-hidden bg-[#F7F8F1] px-4 py-12 text-slate-800 md:py-16">' +
       '<img src="' + escapeHtml(heroImage) + '" alt="" aria-hidden="true" fetchpriority="high" decoding="async" class="absolute inset-0 h-full w-full object-cover" />' +
+      '<div aria-hidden="true" class="absolute inset-0" style="background-color:rgba(247,248,241,0.68)"></div>' +
       '<div class="relative z-10 mx-auto max-w-5xl text-center">' +
         '<h1 class="mb-3 text-4xl font-extrabold tracking-tight text-[#263323] md:text-6xl">' + escapeHtml(copy.heroTitle) + '</h1>' +
         '<h2 class="mb-5 text-xl font-bold tracking-tight text-[#263323] md:text-3xl">' + escapeHtml(copy.heroSubtitle) + '</h2>' +
