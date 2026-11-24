@@ -1,3 +1,14 @@
+## 2026-11-24 — Blog article route performance optimization (PR #512; documentation PR #513)
+
+- Article route `/blog/:slug` runtime fix merged at `2fe92f6b269fa29183cd02e7bc334d27ccb8006c`; Production Pages deployment `e2b84205-e7a2-4164-ba20-d657dbad0a8e` succeeded on the exact commit.
+- The route now reserves at least one viewport during lazy-route and Sanity document loading via `BlogArticleLoadingState`; middleware's initial HTML fallback also reserves `100svh`.
+- Article pages preconnect to the Sanity query/image origins and preload the exact responsive cover image with high priority. Hydrated cover and Portable Text images use responsive sizing and quality 68; 720px was added to the responsive candidate set.
+- Exact PR head `fd0ef9c279bb5d484440ff77ba3903198baac98c`: Blog/Studio CI `45272014683` and D1 validation `45272014645` succeeded. Production browser rendering verified initial HTML and hydrated article markers.
+- Owner-provided PSI baseline (23.11.2026 23:28 GMT+2, Moto G Power/Lighthouse 13.6/low-end 4G): score 66, FCP 0.9 s, LCP 3.6 s, TBT 10 ms, CLS 0.760, Speed Index 1.7 s. The report predates the 23:41 runtime merge; it must not be interpreted as a post-fix score.
+- Documentation close-out PR #513 merged at `739ce9a12b9b1ef8f816a388cddce65949a6f01e`; Production deployment `2d9b3529-336f-4f01-90c4-ed093d8d45f8` succeeded from this exact SHA.
+- No Sanity, D1, Cloudflare configuration, Resend, Header/Footer, global CSS or route architecture changes.
+- Remaining evidence gate: three matched mobile PSI/Lighthouse runs and median comparison; no numeric post-release improvement is asserted. Audit: `docs/audits/2026-11-23-blog-article-performance-remediation.md`.
+
 ## 2026-11-23 — Blog/portfolio localization and filter correction (PR #509)
 
 - PR #509 squash-merged at `f899e0592bcab4221d606568ddb459ba39941e35`.
