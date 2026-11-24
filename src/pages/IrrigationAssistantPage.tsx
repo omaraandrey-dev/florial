@@ -379,11 +379,10 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     notReady: 'Valid lawn dimensions are required before generating a preliminary layout.', engineError: 'The current engineering engine does not support this geometry or configuration.',
     headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings', notApplicable: 'Not applicable to strip nozzles',
   } : {
-    title: 'Предварителна геометрична схема на разпръсквачите', candidate: 'Кандидат според таблицата на производителя',
+    title: 'Предварителна геометрична схема на разпръсквачите', candidate: 'Дюзи',
     heads: 'Брой разпръсквачи',
     coverage: 'Геометрично покритие по контролна мрежа', uncovered: 'Непокрити контролни точки',
     positions: 'Координати на разпръсквачите, м',
-    rvanScenarioNote: 'Схемата използва фиксирани проектни радиуси на Florial: R-VAN14 — 3 m, R-VAN18 — 4/5 m, R-VAN24 — 6 m. Ъгълът променя сектора, но не и радиуса. 3,1 bar е препоръчителната работна точка на Rain Bird, а не измерено налягане при дюзата.',
     hevanScenarioNote: 'За HE-VAN е използвана точка 2,07 bar — най-близката точна таблична стойност до оптимума 2,1 bar на Rain Bird. Това е сценарий, а не измерено налягане при дюзата.',
     generated: 'Двигателят създаде предварителна схема с покритие на всички контролни точки.',
     incomplete: 'Двигателят създаде вариант, но има непокрити контролни точки. Необходима е инженерна проверка.',
@@ -571,6 +570,9 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                               })}
                             </g>
                           </svg>
+                          {layoutNozzleLegend.length > 0 && <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs text-slate-700">
+                            {layoutNozzleLegend.map((item) => <span key={item.model} className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-full border border-white shadow-sm" style={{ backgroundColor: item.color }} />{item.model}</span>)}
+                          </div>}
                         </div>
                       )}
                       <div className="mt-3 rounded-xl bg-white p-3 text-sm">
@@ -595,8 +597,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       <details className="mt-3 rounded-xl bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
-                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; pattern?: string; stripWidthM?: number; stripLengthM?: number }) => (
-                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? 'R-VAN-RCS · ' + sprinkler.stripWidthM + ' × ' + sprinkler.stripLengthM + ' m' : sprinkler.arcDeg + '°'}</li>
+                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; performanceModel?: string; pattern?: string; stripWidthM?: number; stripLengthM?: number }) => (
+                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? 'R-VAN-RCS · ' + sprinkler.stripWidthM + ' × ' + sprinkler.stripLengthM + ' m' : (sprinkler.performanceModel ?? 'R-VAN') + ' · ' + sprinkler.arcDeg + '°'}</li>
                           ))}
                         </ol>
                       </details>
