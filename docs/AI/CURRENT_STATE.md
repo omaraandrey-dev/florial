@@ -1,3 +1,16 @@
+# Current implementation handoff — orthogonal lawn decomposition (2026-11-24)
+
+- Implementation PR: [#525](https://github.com/omaraandrey-dev/florial/pull/525), based on main `8444f4b63d074887a45b35c4aa92e650513d7cc7`; exact validated head `696ff3b71972797bf4a2f643da07784cbcd28cec`.
+- R-VAN model selection: 4 m and 5 m rectangle widths use R-VAN18. Corner reach is bounded by the local rectangle short side to keep the spray envelope inside the lawn. The 6 m reach class retains R-VAN24 for corners; edge heads continue to use their own local spacing.
+- Geometry solver: simple orthogonal polygons and one or more rectangular exclusions are decomposed into exact, non-overlapping rectangular calculation regions. Regions are sorted by ascending short-side width, then length. Each next region reuses coverage from previously placed actual sprinkler heads.
+- Final validation: 0.5 m target sampling against the complete irrigated geometry; spray footprints sampled against the original boundary and exclusions; head-to-head checks are kept within each rectangular region and for cross-region pairs that mutually reach. Irrigation zones are grouped after the full sprinkler set is assembled.
+- Customer UI: multiple non-irrigated rectangular areas can be entered in BG/RU/EN; X/Y are measured from the lower-left lawn corner.
+- Exact head checks: Blog/Studio validation 45368758939 and D1 validation 45368759097 succeeded. Cloudflare Pages Preview `7f783b21-1404-42c8-aba1-f3927d1bd02a` succeeded: https://7f783b21.florial.pages.dev.
+- **Owner Preview review pending.** No Production deployment was made. Hydraulic feasibility, precipitation uniformity and field validation remain outside this sampled geometric solver.
+- Remaining geometry boundaries: one lawn region; simple orthogonal outer boundary; rectangular, non-overlapping exclusions. Curved boundaries, non-rectangular exclusions and multiple separate lawn regions are not covered by this implementation.
+
+---
+
 # Current implementation handoff — irrigation solver integration (2026-11-24)
 
 - Irrigation code baseline: PR #522 merged at 9ecdb05506e6f1bc28b5debc046cdd37972856d3; the subsequent documentation consolidation PR #523 merged into main at ad6f8ebdbccf68477b69b6be3ff87e2d7c72e1c6.

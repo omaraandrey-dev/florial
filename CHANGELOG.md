@@ -1,3 +1,12 @@
+## 2026-11-24 — generalized orthogonal lawn solver and local R-VAN18 sizing (PR #525)
+
+- Added R-VAN18 selection for 4 m and 5 m short-side rectangles; local corner reach is capped by the actual rectangle short side to prevent overspray (4 m → up to 4 m; 5 m → up to 5 m). The 6 m planning class retains R-VAN24 for the corner reach requirement; side heads continue to be selected from their own local spacing.
+- Generalized the layout bridge to decompose simple orthogonal lawn polygons and lawns with one or more rectangular non-irrigated exclusions into exact, non-overlapping rectangles. Rectangles are processed by ascending short-side width, then length.
+- Subsequent rectangles reuse the actual spray coverage of already placed circular/strip heads. The combined layout is checked against the original lawn and exclusion polygons; zones are grouped after the complete sprinkler set is assembled.
+- Added Bulgarian/Russian/English customer inputs for multiple non-irrigated rectangular areas with coordinates measured from the lower-left lawn corner.
+- Exact PR head `696ff3b71972797bf4a2f643da07784cbcd28cec`: Blog/Studio validation run 45368758939 and D1 validation run 45368759097 succeeded; Cloudflare Pages Preview deployment `7f783b21-1404-42c8-aba1-f3927d1bd02a` succeeded at https://7f783b21.florial.pages.dev.
+- This is sampled geometric layout only, not hydraulic feasibility or field-uniformity verification. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, or Production deployment were made.
+
 ## 2026-11-24 — documentation consolidation PR #523 merged
 
 - PR #523 was squash-merged into main at ad6f8ebdbccf68477b69b6be3ff87e2d7c72e1c6. It preserves the missing SEO Step 4 and spray-nozzle audit artifacts and the pre-write ESP-BAT-BT1 / 100-HV-9V Sanity snapshot.

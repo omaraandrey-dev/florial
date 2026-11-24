@@ -19,6 +19,14 @@ interface IrrigationAssistantPageProps {
   onSetIrrigationProject: (project: IrrigationProjectSnapshot) => void
 }
 
+type NonIrrigatedAreaInput = {
+  id: number
+  x: string
+  y: string
+  width: string
+  height: string
+}
+
 function sprinklerNozzleColor(model: string | null | undefined) {
   const normalized = String(model ?? '').replace(/-360$/, '')
   if (normalized === 'R-VAN14') return '#3b82f6'
@@ -51,6 +59,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   const [cutoutWidth, setCutoutWidth] = useState('')
   const [cutoutDepth, setCutoutDepth] = useState('')
   const [cutoutCorner, setCutoutCorner] = useState<LawnCutoutCorner>('top-right')
+  const [nonIrrigatedAreas, setNonIrrigatedAreas] = useState<NonIrrigatedAreaInput[]>([])
   const [showSummary, setShowSummary] = useState(false)
   const [catalogProducts, setCatalogProducts] = useState<Record<string, Product>>({})
   const [catalogLoading, setCatalogLoading] = useState(false)
@@ -72,6 +81,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       length: 'Общая длина, м', width: 'Общая ширина, м', cutoutWidth: 'Ширина выреза, м', cutoutDepth: 'Глубина выреза, м',
       cutoutCorner: 'В каком углу находится вырез?', cornerTopLeft: 'Сверху слева', cornerTopRight: 'Сверху справа', cornerBottomLeft: 'Снизу слева', cornerBottomRight: 'Снизу справа',
       geometryHint: 'Укажите примерные размеры. Для Г-образной формы задайте общие габариты и размеры отсутствующей прямоугольной части.',
+      nonIrrigatedTitle: 'Дополнительные неполиваемые участки', nonIrrigatedHint: 'Добавьте прямоугольные зоны внутри газона, которые не нужно поливать. X и Y отсчитываются от левого нижнего угла участка.', excludedX: 'X, м', excludedY: 'Y, м', excludedWidth: 'Ширина, м', excludedHeight: 'Длина, м', addExcluded: 'Добавить неполиваемый участок', removeExcluded: 'Удалить',
       geometryPreview: 'Предварительная схема по приблизительным размерам', calculatedArea: 'Площадь по контуру', perimeter: 'Периметр контура',
       geometryInvalid: 'Проверьте размеры. Все значения должны быть больше нуля, а вырез — меньше общей длины и ширины.',
       geometryNotConfirmed: 'Подтвердите контур, чтобы продолжить.', geometryAccepted: 'Контур подтверждён вами. Это подтверждение исходных размеров, не инженерная проверка.',
@@ -110,6 +120,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       length: 'Overall length, m', width: 'Overall width, m', cutoutWidth: 'Cut-out width, m', cutoutDepth: 'Cut-out depth, m',
       cutoutCorner: 'Which corner contains the cut-out?', cornerTopLeft: 'Top left', cornerTopRight: 'Top right', cornerBottomLeft: 'Bottom left', cornerBottomRight: 'Bottom right',
       geometryHint: 'Enter approximate dimensions. For an L-shape, enter the overall dimensions and the dimensions of the missing rectangular corner.',
+      nonIrrigatedTitle: 'Additional non-irrigated areas', nonIrrigatedHint: 'Add rectangular areas inside the lawn that must not be watered. X and Y are measured from the lower-left corner of the lawn.', excludedX: 'X, m', excludedY: 'Y, m', excludedWidth: 'Width, m', excludedHeight: 'Length, m', addExcluded: 'Add non-irrigated area', removeExcluded: 'Remove',
       geometryPreview: 'Preliminary outline from approximate dimensions', calculatedArea: 'Area from outline', perimeter: 'Outline perimeter',
       confirmGeometry: 'I confirm these dimensions were measured on site and the outline matches the actual lawn.',
       geometryInvalid: 'Check the dimensions. All values must be greater than zero and the cut-out must be smaller than the overall length and width.',
@@ -149,6 +160,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       length: 'Обща дължина, м', width: 'Обща ширина, м', cutoutWidth: 'Ширина на изреза, м', cutoutDepth: 'Дълбочина на изреза, м',
       cutoutCorner: 'В кой ъгъл е изрезът?', cornerTopLeft: 'Горе вляво', cornerTopRight: 'Горе вдясно', cornerBottomLeft: 'Долу вляво', cornerBottomRight: 'Долу вдясно',
       geometryHint: 'Въведете приблизителните размери. За Г-образна форма задайте общите габарити и размерите на липсващата правоъгълна част.',
+      nonIrrigatedTitle: 'Допълнителни неполивани зони', nonIrrigatedHint: 'Добавете правоъгълни зони в тревната площ, които не трябва да се напояват. X и Y се измерват от долния ляв ъгъл на терена.', excludedX: 'X, м', excludedY: 'Y, м', excludedWidth: 'Ширина, м', excludedHeight: 'Дължина, м', addExcluded: 'Добави неполивана зона', removeExcluded: 'Премахни',
       geometryPreview: 'Предварителен контур според приблизителните размери', calculatedArea: 'Площ по контура', perimeter: 'Периметър на контура',
       confirmGeometry: 'Потвърждавам, че размерите са измерени на място и контурът съответства на реалната тревна площ.',
       geometryInvalid: 'Проверете размерите. Всички стойности трябва да са положителни, а изрезът — по-малък от общата дължина и ширина.',
@@ -191,13 +203,32 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
 
   const geometryValidation = useMemo(() => {
     if (!boundaryVertices) return null
+    const parseDimension = (value: string) => value.trim() === '' ? Number.NaN : Number(value.replace(',', '.'))
+    const exclusions = nonIrrigatedAreas
+      .filter((area) => [area.x, area.y, area.width, area.height].some((value) => value.trim() !== ''))
+      .map((area) => {
+        const x = parseDimension(area.x)
+        const y = parseDimension(area.y)
+        const areaWidth = parseDimension(area.width)
+        const areaHeight = parseDimension(area.height)
+        return {
+          id: 'non-irrigated-' + area.id,
+          kind: 'non-irrigated',
+          polygon: { vertices: [
+            { x, y },
+            { x: x + areaWidth, y },
+            { x: x + areaWidth, y: y + areaHeight },
+            { x, y: y + areaHeight },
+          ] },
+        }
+      })
     return validateLawnGeometry({
       schemaVersion: 1,
       coordinateSystem: 'local_cartesian_m',
       status: 'confirmed',
-      regions: [{ id: 'lawn-1', boundary: { vertices: boundaryVertices }, exclusions: [] }],
+      regions: [{ id: 'lawn-1', boundary: { vertices: boundaryVertices }, exclusions }],
     })
-  }, [boundaryVertices])
+  }, [boundaryVertices, nonIrrigatedAreas])
 
   const intakeInput = {
     language,
@@ -211,10 +242,10 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     notes: '',
   }
   const readiness = useMemo(() => evaluateIrrigationIntake(intakeInput), [
-    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, geometryValidation
+    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, nonIrrigatedAreas, geometryValidation
   ])
   const snapshot = useMemo(() => buildIrrigationIntakeSnapshot(intakeInput), [
-    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, geometryValidation
+    language, shape, length, width, cutoutWidth, cutoutDepth, cutoutCorner, nonIrrigatedAreas, geometryValidation
   ])
 
   const layoutResult = useMemo(() => showSummary ? buildPreliminaryLawnLayout(snapshot) : null, [snapshot, showSummary])
@@ -408,11 +439,24 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     headToHead: 'Проверка на разстоянието head-to-head', passed: 'Успешна', failed: 'Има забележки', notApplicable: 'Не се прилага за лентови дюзи',
   }
   const svgPoints = boundaryVertices?.map((point) => String(Math.round(point.x * 1000) / 1000) + ',' + String(Math.round(point.y * 1000) / 1000)).join(' ')
+  const exclusionPolygons = geometryValidation?.normalizedGeometry?.regions?.[0]?.exclusions ?? []
   const svgTransform = 'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'
   const progress = 100
 
   function updateGeometry(setter: (value: string) => void, value: string) {
     setter(value)
+  }
+
+  function updateNonIrrigatedArea(id: number, field: keyof Omit<NonIrrigatedAreaInput, 'id'>, value: string) {
+    setNonIrrigatedAreas((current) => current.map((area) =>
+      area.id === id ? { ...area, [field]: value } : area))
+  }
+
+  function addNonIrrigatedArea() {
+    setNonIrrigatedAreas((current) => [
+      ...current,
+      { id: current.reduce((max, area) => Math.max(max, area.id), 0) + 1, x: '', y: '', width: '', height: '' },
+    ])
   }
 
   function answerSummary() {
@@ -503,11 +547,33 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       <option value="top-left">{copy.cornerTopLeft}</option><option value="top-right">{copy.cornerTopRight}</option><option value="bottom-left">{copy.cornerBottomLeft}</option><option value="bottom-right">{copy.cornerBottomRight}</option>
                     </select></label>
                   </div>}
+                  <div className="mt-5 rounded-xl border border-slate-200 p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h3 className="text-sm font-bold text-slate-800">{copy.nonIrrigatedTitle}</h3>
+                      <button type="button" onClick={addNonIrrigatedArea} className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">{copy.addExcluded}</button>
+                    </div>
+                    <p className="mt-2 text-xs leading-5 text-slate-600">{copy.nonIrrigatedHint}</p>
+                    {nonIrrigatedAreas.map((area, index) => <div key={area.id} className="mt-3 rounded-lg bg-slate-50 p-3">
+                      <div className="mb-2 flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-700">#{index + 1}</span>
+                        <button type="button" onClick={() => setNonIrrigatedAreas((current) => current.filter((entry) => entry.id !== area.id))} className="text-xs font-semibold text-rose-700 hover:underline">{copy.removeExcluded}</button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                        <label className="block text-xs font-semibold text-slate-700">{copy.excludedX}<input type="text" inputMode="decimal" value={area.x} onChange={(event) => updateNonIrrigatedArea(area.id, 'x', event.target.value)} className={inputClass} /></label>
+                        <label className="block text-xs font-semibold text-slate-700">{copy.excludedY}<input type="text" inputMode="decimal" value={area.y} onChange={(event) => updateNonIrrigatedArea(area.id, 'y', event.target.value)} className={inputClass} /></label>
+                        <label className="block text-xs font-semibold text-slate-700">{copy.excludedWidth}<input type="text" inputMode="decimal" value={area.width} onChange={(event) => updateNonIrrigatedArea(area.id, 'width', event.target.value)} className={inputClass} /></label>
+                        <label className="block text-xs font-semibold text-slate-700">{copy.excludedHeight}<input type="text" inputMode="decimal" value={area.height} onChange={(event) => updateNonIrrigatedArea(area.id, 'height', event.target.value)} className={inputClass} /></label>
+                      </div>
+                    </div>)}
+                  </div>
                   {boundaryVertices && geometryValidation?.valid && <div className="mt-5 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-4">
                     <h3 className="mb-3 text-sm font-bold text-emerald-950">{copy.geometryPreview}</h3>
                     <div className="rounded-xl border border-emerald-100 bg-white p-3">
                       <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={copy.geometryPreview} className="max-h-56 w-full" preserveAspectRatio="xMidYMid meet">
-                        <g transform={svgTransform}><polygon points={svgPoints} fill="#bbf7d0" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" /></g>
+                        <g transform={svgTransform}>
+                          <polygon points={svgPoints} fill="#bbf7d0" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
+                          {exclusionPolygons.map((exclusion: { id: string; polygon: { vertices: Array<{ x: number; y: number }> } }) => <polygon key={exclusion.id} points={exclusion.polygon.vertices.map((point) => point.x + ',' + point.y).join(' ')} fill="#cbd5e1" stroke="#64748b" strokeWidth="0.12" strokeDasharray="0.25 0.15" />)}
+                        </g>
                       </svg>
                     </div>
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">

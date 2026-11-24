@@ -77,6 +77,59 @@ function sectorContains(point, center, directionDeg, arcDeg, radiusM) {
   return difference <= arcDeg / 2 + EPSILON
 }
 
+function sprinklerCoversPoint(sprinkler, point) {
+  if (sprinkler.pattern === 'strip' && sprinkler.stripBounds) {
+    const bounds = sprinkler.stripBounds
+    if (point.x < bounds.minX - EPSILON || point.x > bounds.maxX + EPSILON ||
+        point.y < bounds.minY - EPSILON || point.y > bounds.maxY + EPSILON) return false
+    if (sprinkler.stripAxis === 'horizontal') {
+      if (sprinkler.stripDirection === 'left') return point.x <= sprinkler.position.x + EPSILON &&
+        point.x >= sprinkler.position.x - sprinkler.stripLengthM - EPSILON
+      if (sprinkler.stripDirection === 'right') return point.x >= sprinkler.position.x - EPSILON &&
+        point.x <= sprinkler.position.x + sprinkler.stripLengthM + EPSILON
+      return point.x >= bounds.minX - EPSILON && point.x <= bounds.maxX + EPSILON
+    }
+    if (sprinkler.stripDirection === 'up') return point.y >= sprinkler.position.y - EPSILON &&
+      point.y <= sprinkler.position.y + sprinkler.stripLengthM + EPSILON
+    if (sprinkler.stripDirection === 'down') return point.y <= sprinkler.position.y + EPSILON &&
+      point.y >= sprinkler.position.y - sprinkler.stripLengthM - EPSILON
+    return point.y >= bounds.minY - EPSILON && point.y <= bounds.maxY + EPSILON
+  }
+  return Number.isFinite(sprinkler.radiusM) && sectorContains(
+    point,
+    sprinkler.position,
+    sprinkler.directionDeg ?? 0,
+    sprinkler.arcDeg ?? 360,
+    sprinkler.radiusM,
+  )
+}
+
+function pointInsideSprayBoundary(point, geometry) {
+  const region = geometry?.regions?.[0]
+  if (!region?.boundary?.vertices) return false
+  if (pointInRing(point, region.boundary.vertices) < 0) return false
+  return !(region.exclusions ?? []).some((exclusion) =>
+    pointInRing(point, exclusion.polygon.vertices) > 0)
+}
+
+function candidateSectorFitsGeometry(candidate, geometry) {
+  const arc = candidate.arcDeg ?? 360
+  const start = arc === 360 ? 0 : (candidate.directionDeg ?? 0) - arc / 2
+  for (let offset = 0; offset <= arc + EPSILON; offset += 1) {
+    const angle = (start + Math.min(offset, arc)) * Math.PI / 180
+    const dx = Math.cos(angle)
+    const dy = Math.sin(angle)
+    for (let distanceM = 0; distanceM <= candidate.radiusM + EPSILON; distanceM += 0.2) {
+      const point = {
+        x: candidate.position.x + dx * Math.min(distanceM, candidate.radiusM),
+        y: candidate.position.y + dy * Math.min(distanceM, candidate.radiusM),
+      }
+      if (!pointInsideSprayBoundary(point, geometry)) return false
+    }
+  }
+  return true
+}
+
 function addTarget(targets, seen, point) {
   const key = point.x.toFixed(6) + ':' + point.y.toFixed(6)
   if (seen.has(key)) return
@@ -161,15 +214,18 @@ function polygonCentroid(vertices) {
 
 function selectRvanModelForRequiredRadius(requiredRadiusM) {
   if (requiredRadiusM <= 3 + EPSILON) return { model: 'R-VAN14', radiusM: 3 }
-  if (requiredRadiusM <= 4 + EPSILON) return { model: 'R-VAN18', radiusM: 4 }
-  if (requiredRadiusM <= 5 + EPSILON) return { model: 'R-VAN18', radiusM: 5 }
+  if (requiredRadiusM <= 5.5 + EPSILON) {
+    const radiusM = Math.min(5.5, Math.max(4, Math.ceil((requiredRadiusM - EPSILON) * 2) / 2))
+    return { model: 'R-VAN18', radiusM }
+  }
   return { model: 'R-VAN24', radiusM: 6 }
 }
 
-
 function selectRvanModelForMaximumRadius(maximumRadiusM) {
   if (maximumRadiusM >= 6 - EPSILON) return { model: 'R-VAN24', radiusM: 6 }
+  if (maximumRadiusM >= 5.5 - EPSILON) return { model: 'R-VAN18', radiusM: 5.5 }
   if (maximumRadiusM >= 5 - EPSILON) return { model: 'R-VAN18', radiusM: 5 }
+  if (maximumRadiusM >= 4.5 - EPSILON) return { model: 'R-VAN18', radiusM: 4.5 }
   if (maximumRadiusM >= 4 - EPSILON) return { model: 'R-VAN18', radiusM: 4 }
   if (maximumRadiusM >= 3 - EPSILON) return { model: 'R-VAN14', radiusM: 3 }
   return null
@@ -257,8 +313,11 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
       Math.max(...vertices.map((point) => point.x)) - Math.min(...vertices.map((point) => point.x)),
       Math.max(...vertices.map((point) => point.y)) - Math.min(...vertices.map((point) => point.y)),
     )
-    const cornerRequiredRadiusM = vertices.length === 4 && boundsShortSideM <= 3 + EPSILON
-      ? Math.min(distance(current, center), 3)
+    const rectangleCornerReachLimitM = vertices.length === 4 && boundsShortSideM <= 5 + EPSILON
+      ? boundsShortSideM
+      : null
+    const cornerRequiredRadiusM = rectangleCornerReachLimitM
+      ? Math.min(distance(current, center), rectangleCornerReachLimitM)
       : distance(current, center)
     const nozzle = family === 'R-VAN'
       ? nozzleForRadius(cornerRequiredRadiusM)
@@ -289,9 +348,11 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
 
     if (preventOverspray && family === 'R-VAN') {
       const safeMaximumRadiusM = Math.min(spacingRadiusM, length / 2)
-      const edgeNozzle = selectRvanModelForMaximumRadius(safeMaximumRadiusM)
-      if (!edgeNozzle) continue
-      const divisions = Math.max(1, Math.ceil(length / edgeNozzle.radiusM))
+      if (safeMaximumRadiusM < 3 - EPSILON) continue
+      const divisions = Math.max(1, Math.ceil(length / safeMaximumRadiusM))
+      const edgeSpacingM = length / divisions
+      const edgeNozzle = nozzleForRadius(edgeSpacingM)
+      if (!edgeNozzle || edgeNozzle.radiusM > safeMaximumRadiusM + EPSILON) continue
       const headCount = divisions - 1
       for (let part = 0; part < headCount; part += 1) {
         const offsetM = headCount === 1
@@ -450,6 +511,10 @@ function sectorsMutuallyReach(a, b) {
     a.arcDeg,
     a.radiusM,
   )
+}
+
+export function sprinklersMutuallyReach(a, b) {
+  return sectorsMutuallyReach(a, b)
 }
 
 export function evaluateHeadToHeadSpacing(selected) {
@@ -650,6 +715,8 @@ export function generateLawnSprinklerLayout({
   radiusM = null,
   excludedCandidatePositions = [],
   preventOverspray = false,
+  initialSprinklers = [],
+  sprayBoundaryGeometry = null,
 }) {
   const validation = validateLawnGeometry(geometry)
   if (!validation.valid || !['accepted', 'unsupported'].includes(validation.status)) {
@@ -738,6 +805,7 @@ export function generateLawnSprinklerLayout({
   const candidateBounds = { minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys) }
   const candidates = buildCandidates(vertices, family, model, pressureBar, effectiveRadiusM, { preventOverspray })
     .filter((candidate) => !preventOverspray || candidateSectorFitsBounds(candidate, candidateBounds))
+    .filter((candidate) => !sprayBoundaryGeometry || candidateSectorFitsGeometry(candidate, sprayBoundaryGeometry))
     .filter((candidate) => !excluded.some((point) => point &&
       Number.isFinite(point.x) && Number.isFinite(point.y) &&
       distance(candidate.position, point) <= EPSILON))
@@ -753,7 +821,12 @@ export function generateLawnSprinklerLayout({
   const evaluated = evaluateCandidates(candidates, targets)
   const perimeterCandidates = evaluated.filter((candidate) => candidate.source !== 'interior')
   const interiorCandidates = evaluated.filter((candidate) => candidate.source === 'interior')
-  const perimeterPass = selectGreedy(perimeterCandidates, targets.length)
+  const priorHeads = Array.isArray(initialSprinklers) ? initialSprinklers : []
+  const initiallyUncovered = new Set()
+  for (let index = 0; index < targets.length; index += 1) {
+    if (!priorHeads.some((head) => sprinklerCoversPoint(head, targets[index]))) initiallyUncovered.add(index)
+  }
+  const perimeterPass = selectGreedy(perimeterCandidates, targets.length, initiallyUncovered)
   let coverageSelection = perimeterPass.selected
   let uncovered = perimeterPass.uncovered
 

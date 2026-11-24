@@ -1,3 +1,14 @@
+## 2026-11-24 — generalized orthogonal lawn solver (PR #525)
+
+- **CLOSED — R-VAN18 sizing for 4 m / 5 m widths:** both widths use R-VAN18. Corner reach is capped by the local short side (4 m or 5 m) to avoid overspray; 6 m corner reach remains the R-VAN24 class.
+- **CLOSED — orthogonal decomposition:** simple orthogonal polygons and one or more rectangular exclusions are partitioned into non-overlapping rectangles with exact net-area reconciliation. Regions are processed by ascending short-side width, then length.
+- **CLOSED — sequential coverage reuse and combined validation:** each region sees the actual previously placed heads; final 0.5 m sampled coverage and sampled spray-footprint checks run against the original lawn and all exclusions; zones are grouped after the complete layout is assembled.
+- **CLOSED — customer exclusion input:** multiple rectangular non-irrigated areas can be entered in BG/RU/EN using lower-left-origin X/Y coordinates.
+- **VERIFIED — exact PR head `696ff3b71972797bf4a2f643da07784cbcd28cec`:** Blog/Studio validation 45368758939, D1 validation 45368759097 and Cloudflare Pages Preview `7f783b21-1404-42c8-aba1-f3927d1bd02a` succeeded.
+- **OPEN — owner visual Preview acceptance:** https://7f783b21.florial.pages.dev. No Production deployment has been made.
+- **OPEN — engineering validation outside the algorithm:** hydraulic pressure/flow and pipe losses, precipitation uniformity and field performance remain unverified. The solver remains a preliminary sampled geometric layout, not a full hydraulic design.
+- **GEOMETRY BOUNDARY:** one region, simple orthogonal outer boundary and rectangular non-overlapping exclusions. Curved boundaries, non-rectangular exclusions and multiple separate lawn regions remain unsupported.
+
 ## 2026-11-24 — irrigation solver integration close-out (PR #522 merged)
 
 - **CLOSED — 3 m rectangle nozzle sizing integration:** PR #522 merged into main at 9ecdb05506e6f1bc28b5debc046cdd37972856d3. Exact head 9e4973ad5b4c4fbd45fbc57059715e0e91421c83 passed Blog/Studio run 45358607939, D1 run 45358607880, and Cloudflare Pages Preview deployment 80bc2842-cdd2-415b-8630-6e8276958127.

@@ -33,7 +33,9 @@
 - Метрические координаты локальной декартовой системы.
 - Геометрия должна быть валидирована и подтверждена пользователем.
 - Размеры в текущем customer intake считаются приблизительными.
-- Исключения/вырезы, препятствия, деревья, бассейны, дорожки и ограничения распыления пока не участвуют в placement solver. Геометрия с exclusions блокируется как неподдерживаемая.
+- Простые ортогональные контуры (включая L-образные и более сложные прямоугольные ступенчатые формы) поддерживаются через декомпозицию на неперекрывающиеся прямоугольники.
+- Поддерживаются один или несколько прямоугольных неполиваемых участков внутри газона; они валидируются как exclusions и вычитаются из целевой площади. Прямоугольники должны быть внутри внешнего контура и не перекрываться.
+- Криволинейные границы, непрямоугольные exclusions и несколько отдельных областей газона не поддерживаются.
 - Несколько отдельных областей, криволинейные формы и узкие полосы не считаются обычным R-VAN layout.
 
 Узкие полосы шириной ровно 1 м и 2 м рассчитываются отдельным owner-defined LCS/RCS/SST strip engine. Для других коротких сторон менее 2.4 м круглые R-VAN не подставляются: при наличии точных manufacturer strip options возвращается статус, требующий отдельного pattern engine.
@@ -358,7 +360,7 @@ Production deployment проверен по Cloudflare deployment metadata. От
 5. Проверка реальной совместимости корпуса 1804 и выбранной R-VAN конфигурации с требуемым регулированием 3.1 bar на объекте.
 6. Гидравлическая допустимость шести головок на клапан; текущие 6 — только project grouping cap.
 7. Precipitation matching/uniformity (DU/CU), ветровое влияние, overspray и запретные зоны.
-8. Геометрия исключений/препятствий, сложные L-shape и несколько регионов за пределами текущих тестов.
+8. Криволинейные границы, непрямоугольные exclusions и несколько отдельных регионов газона; текущая реализация поддерживает один простой ортогональный контур и прямоугольные неперекрывающиеся exclusions.
 9. Фактическая длина PE mainline и полный монтажный BOM.
 10. Проверка cart поведения для out-of-stock/on-request и политика доступности.
 11. Полевая проверка монтажа, радиусов, форсунок, клапанов и фактического расхода.
@@ -411,7 +413,7 @@ This addendum supersedes earlier radius, sampling and L-shape candidate-grid des
 Florial's layout radius is a fixed project planning value by nozzle model and does not change with the selected sector angle:
 
 - R-VAN14: 3 m.
-- R-VAN18: 4 m or 5 m, selected independently for each candidate from its local required reach/spacing.
+- R-VAN18: 4 m, 4.5 m, 5 m or 5.5 m planning reach may be selected per candidate from local required reach/spacing. For a rectangular calculation region, corner reach is additionally capped by its short side to keep the 90° sector inside the lawn (therefore 4 m and 5 m short-side rectangles use R-VAN18 without exceeding 4 m / 5 m at the corners).
 - R-VAN24: 6 m.
 
 A 90°, 180°, 270° or 360° sector changes the shape of the spray sector, not its planning radius. Manufacturer arc-specific flow/precipitation records remain source data; they do not override this Florial geometric-radius rule. Model/arc combinations continue to resolve through the exact model records. R-VAN model differences do not create zone boundaries.
@@ -461,3 +463,31 @@ The assistant remains a preliminary geometric layout and catalogue BOM tool. It 
 - Customer diagram markers and radius rings use model-specific colors; the legend lists only models present in the generated layout. Zone labels include model counts.
 - Removed the customer-facing fixed-planning-radius explanatory note and the flex-pipe metres/coil wording from the equipment summary. The equipment summary now reports only sprinkler and zone counts.
 - No precipitation-intensity compatibility gate is added; the owner's manufacturer-compatibility decision remains authoritative.
+
+
+## 15. 2026-11-24 — Generalized orthogonal rectangular calculation regions (PR #525)
+
+**Implementation head:** `696ff3b71972797bf4a2f643da07784cbcd28cec`  
+**Preview:** https://7f783b21.florial.pages.dev  
+**CI:** Blog/Studio validation `45368758939` passed; D1 validation `45368759097` passed.
+
+### Rectangle model selection
+
+- Rectangular short sides of 4 m and 5 m use R-VAN18, not R-VAN24.
+- Corner reach is capped by the local short side, so a 4 m-wide calculation rectangle does not project a 4.5 m quarter-sector across its 4 m boundary; the same rule caps a 5 m rectangle at 5 m.
+- R-VAN24 remains the corner reach class for a 6 m local requirement. Edge heads continue to use the actual local spacing, so a 6 m rectangle may legitimately report mixed R-VAN models by position.
+
+### Orthogonal decomposition
+
+- `orthogonalRectangleDecomposition.mjs` partitions one simple orthogonal boundary minus one or more rectangular exclusions using horizontal bands and merged identical X-runs.
+- The partition is accepted only if rectangle areas reconcile exactly to the validated net area and no two rectangles overlap.
+- Regions are sorted by ascending short-side width, then length and stable coordinates.
+- Each rectangle is calculated sequentially. Previously placed actual circular/strip heads are passed to the next region and their real sector/strip geometry is used to mark already covered sample points.
+- Composite coverage uses the 0.5 m target mesh. Spray footprints are checked against the original lawn boundary and exclusion polygons using spatial sampling. Zones are created only after the full sprinkler list is assembled.
+
+### Customer input and verification boundary
+
+- The customer can add multiple non-irrigated rectangles in Bulgarian, Russian or English. X/Y are measured from the lower-left lawn corner.
+- Regression cases cover 4 m / 5 m local R-VAN18 selection, 6 m R-VAN24 corner reach, the 28 × 14 m L-shape with a 16 × 12 m cut-out, all four L cut-out corners, a 4 m L-arm, a rotated 2 m strip and an internal rectangular exclusion.
+- This remains preliminary sampled geometry, not hydraulic design. Pressure/flow, pipe losses, precipitation uniformity and field performance remain unverified.
+- Geometry outside one simple orthogonal region with rectangular non-overlapping exclusions (curved boundaries, non-rectangular exclusions, multiple separate lawn regions) requires separate engineering review.

@@ -244,6 +244,9 @@ function classifySupportedShape(ring) {
 
   if (points.length === 4 && reflexCount === 0) return 'rectangle'
   if (points.length === 6 && reflexCount === 1) return 'l-shape'
+  // Any simple axis-aligned orthogonal polygon can be decomposed into
+  // non-overlapping rectangles by the layout bridge.
+  if (points.length >= 6 && points.length % 2 === 0) return 'orthogonal-polygon'
   return 'unsupported'
 }
 
@@ -367,6 +370,17 @@ export function validateLawnGeometry(input) {
       }
 
       const exclusions = validateExclusions({ ...region, boundary }, path, ids, errors)
+      const unsupportedExclusion = exclusions.some((exclusion) => {
+        const points = exclusion.polygon.openVertices
+        return points.length !== 4 || !points.every((point, pointIndex) => {
+          const next = points[(pointIndex + 1) % points.length]
+          return Math.abs(point.x - next.x) <= EPSILON || Math.abs(point.y - next.y) <= EPSILON
+        })
+      })
+      if (unsupportedExclusion) {
+        supported = false
+        warnings.push(issue('unsupported_exclusion_shape', path + '.exclusions'))
+      }
       const excludedAreaM2 = exclusions.reduce((sum, exclusion) => sum + exclusion.polygon.areaM2, 0)
           const summary = Object.freeze({
         id: region.id,

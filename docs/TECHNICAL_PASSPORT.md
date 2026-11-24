@@ -1,3 +1,17 @@
+## 2026-11-24 — Orthogonal lawn decomposition and local R-VAN18 sizing (PR #525)
+
+- Implementation PR: https://github.com/omaraandrey-dev/florial/pull/525. Base main: `8444f4b63d074887a45b35c4aa92e650513d7cc7`. Exact validated head: `696ff3b71972797bf4a2f643da07784cbcd28cec`.
+- `src/lib/irrigation/lawnSprinklerLayout.mjs`: R-VAN18 now covers 4 m and 5 m rectangular short sides; corner reach is bounded by the local short side to keep the 90-degree corner sector within the calculation rectangle. R-VAN24 remains the 6 m corner-reach class. Edge/interior candidates still select their model from local spacing.
+- `src/lib/irrigation/orthogonalRectangleDecomposition.mjs`: scanline decomposition of a simple orthogonal polygon minus rectangular exclusions into non-overlapping rectangles; verifies exact net area and rejects overlaps.
+- `src/lib/irrigation/irrigationLayoutBridge.mjs`: ascending short-side/length processing; passes actual previously placed heads to the next rectangle; checks the composite sprinkler/strip footprints against the original lawn and exclusions; groups zones only after assembling the complete sprinkler set.
+- `src/pages/IrrigationAssistantPage.tsx`: customer can add multiple non-irrigated rectangles in BG/RU/EN; X/Y use the lower-left lawn corner as origin; exclusions are included in geometry validation and preview.
+- Regression suite covers 3 m / 4 m / 5 m / 6 m nozzle classes, L-shaped 4 m arms, the 28 × 14 m L-shape with a 16 × 12 m cut-out, all four cut-out corners, vertical 2 m arms and a rectangular internal exclusion.
+- Exact PR head checks: Blog/Studio run 45368758939 passed (including website type-check, lint, tests, build, Studio type-check/build and read-only validation); D1 run 45368759097 passed; Cloudflare Pages Preview `7f783b21-1404-42c8-aba1-f3927d1bd02a` succeeded at https://7f783b21.florial.pages.dev.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes or Production deployment. Owner visual Preview acceptance remains pending.
+- This remains sampled geometric planning. It does not establish hydraulic feasibility, pressure-loss, flow, precipitation uniformity or field performance. Current geometry boundary is one simple orthogonal region with rectangular non-overlapping exclusions; curved outlines, non-rectangular exclusions and multiple separate lawn regions remain unsupported.
+
+---
+
 ## 2026-11-24 — Irrigation solver integration: PR #522 merged
 
 - Current main commit: 9ecdb05506e6f1bc28b5debc046cdd37972856d3.
