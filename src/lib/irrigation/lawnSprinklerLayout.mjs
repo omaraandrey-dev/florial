@@ -8,7 +8,7 @@ import {
   RAIN_BIRD_HEVAN_DATASET,
 } from './rainBirdHevanPerformanceData.mjs'
 
-const ENGINE_VERSION = '0.2.0'
+const ENGINE_VERSION = '0.3.0'
 const EPSILON = 1e-8
 const DEFAULT_SAMPLE_STEP_M = 0.5
 const MAX_SAMPLE_POINTS = 30000
