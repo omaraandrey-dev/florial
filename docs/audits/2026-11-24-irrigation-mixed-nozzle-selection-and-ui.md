@@ -27,7 +27,7 @@ Work branch: `fix/irrigation-mixed-rvan-visual-layout`
 - Added a regression target for 8 × 8 m: four R-VAN24 / 6 m corners and four R-VAN18 / 4 m side midpoints, complete sampled coverage and passed head-to-head.
 - The customer SVG uses model-specific colors for sprinkler markers and radius rings and shows a legend of the models present. Zone labels list model-specific quantities.
 - Removed the R-VAN fixed-radius note, removed flex-pipe metres/coil wording from the kit summary, and preserved exact `-360` model names in zone summaries.
-- Rain Bird color references: R-VAN14 blue, R-VAN18 tan/beige, R-VAN24 burgundy. R-VAN strip nozzles are gray in the official technical sheet; RCS is shown in dark charcoal to remain distinct on the diagram.
+- Rain Bird color references: R-VAN14 blue, R-VAN18 tan/beige, R-VAN24 burgundy. R-VAN strip nozzles are gray in the official technical sheet; RCS is shown in medium gray to remain distinct on the diagram.
 
 ## Files changed
 
