@@ -1,3 +1,9 @@
+## Owner-imposed pause — irrigation-design assistant (24.11.2026)
+
+The irrigation-design assistant is **paused by the owner** after PR #530 integration and Production release. Do not proactively continue development, fix known documentation/metadata discrepancies, polish PDF output, run new optimization work, change geometry, or modify solver code until the owner explicitly returns with a reported error or a new task. Treat the accepted PR #530 implementation as a frozen baseline. In particular, do not change the 3504-PC corner-first/shared-cell algorithm, rectangle processing order, radius-stage selection, R-VAN behavior, approved 7.5 cm seam-corner adjustment, coverage/Head-to-Head gates, or zone grouping without a fresh explicit owner request and prior explanation/approval. Known pending checks are recorded in the current handoff and are not authorization to proceed. On resumption, reread current main and address only the requested scope.
+
+---
+
 # FLORIAL — обязательные инструкции для ИИ и разработчиков
 
 Repo: `omaraandrey-dev/florial` · source branch: `main` · Production: https://florial-bg.com

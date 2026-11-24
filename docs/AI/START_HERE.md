@@ -1,3 +1,5 @@
+> **Owner pause notice (2026-11-24):** Irrigation-design assistant development is paused. Do not make changes or continue open follow-ups unless the owner explicitly resumes work. Read the current handoff in [CURRENT_STATE.md](CURRENT_STATE.md) and the top entry in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md). The accepted PR #530 algorithm is frozen; see the latest [CHANGELOG](../../CHANGELOG.md).
+
 # Florial — START HERE
 
 Единая точка входа для ChatGPT, Claude, Gemini и разработчиков. Актуальность определяется текущим GitHub `main` и соответствующими живыми сервисами.
