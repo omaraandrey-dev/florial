@@ -27,6 +27,7 @@ No React category behavior, Sanity documents or schemas, D1, Cloudflare settings
 ## Verification
 
 - Source-level review: performed against the branch files.
+- Isolated runtime assertions against the actual renderer source passed for BG/RU/EN output, localized URLs, root equipment price/stock semantics, image ALT/title, SKU, empty state and the 20-item cap. A plant-variant renderer regression assertion also passed. This is not the repository test suite or CI.
 - Unit tests: pending CI.
 - Type-check/lint/build: pending exact-commit CI.
 - Preview raw HTML for BG/RU/EN and nested categories: pending.
