@@ -34,6 +34,39 @@ test('equipment category entries use localized names and stable alphabetical ord
   assert.deepEqual(buildEquipmentCategoryEntries(products, 'ru').map((item) => item._id), ['valve-a', 'valve-b'])
 })
 
+test('all-irrigation root SSR preserves the React category round-robin order through nested category ancestry', () => {
+  const categories = [
+    { _id: 'controllers', slugValue: 'controllers', parentId: 'root' },
+    { _id: 'controller-child', slugValue: 'controller-child', parentId: 'controllers' },
+    { _id: 'sprinklers', slugValue: 'sprinklers', parentId: 'root' },
+    { _id: 'sprinkler-child', slugValue: 'sprinkler-child', parentId: 'sprinklers' },
+  ]
+  const products = [
+    { _id: 'c1', slugValue: 'controller-a', name: 'A controller', categoryId: 'controller-child' },
+    { _id: 'c2', slugValue: 'controller-b', name: 'B controller', categoryIds: ['controller-child'] },
+    { _id: 's1', slugValue: 'sprinkler-y', name: 'Y sprinkler', categoryId: 'sprinkler-child' },
+    { _id: 's2', slugValue: 'sprinkler-z', name: 'Z sprinkler', categoryId: 'sprinkler-child' },
+  ]
+  assert.deepEqual(
+    buildEquipmentCategoryEntries(products, 'en', { rootCatalog: true, categories }).map((item) => item._id),
+    ['c1', 's1', 'c2', 's2'],
+  )
+})
+
+test('all-irrigation root SSR keeps R-VAN before HE-VAN, VAN and other nozzles', () => {
+  const categories = [{ _id: 'nozzles', slugValue: 'nozzles', parentId: 'root' }]
+  const products = [
+    { _id: 'he', slugValue: 'he-van', name: 'A HE-VAN nozzle', categoryId: 'nozzles' },
+    { _id: 'van', slugValue: 'van', name: 'B VAN nozzle', categoryId: 'nozzles' },
+    { _id: 'other', slugValue: 'other', name: 'C nozzle', categoryId: 'nozzles' },
+    { _id: 'r', slugValue: 'r-van', name: 'Z R-VAN nozzle', categoryId: 'nozzles' },
+  ]
+  assert.deepEqual(
+    buildEquipmentCategoryEntries(products, 'en', { rootCatalog: true, categories }).map((item) => item._id),
+    ['r', 'he', 'van', 'other'],
+  )
+})
+
 test('equipment category HTML contains localized product links, image ALT/title, price, stock and SKU', () => {
   const html = renderEquipmentCategoryListing(products, 'bg')
   assert.match(html, /data-florial-server-catalogue="equipment"/)
