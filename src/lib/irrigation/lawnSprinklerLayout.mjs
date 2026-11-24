@@ -228,7 +228,9 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     // A corner nozzle must reach the polygon's centre of area. This selects
     // the smallest Florial nozzle range that can reach the central coverage
     // area; it is independent of the sector angle.
-    const nozzle = nozzleForRadius(distance(current, center))
+    const nozzle = family === 'R-VAN'
+      ? nozzleForRadius(distance(current, center))
+      : { model, radiusM: performanceFor(family, model, pressureBar, arcDeg)?.radiusM ?? radiusM }
     return { arcDeg, direction: bisector ?? incoming, nozzle }
   })
 
@@ -251,7 +253,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       : Math.min(radiusM, vertexSpecs[index].nozzle.radiusM, vertexSpecs[nextIndex].nozzle.radiusM)
     const divisions = Math.max(1, Math.ceil(length / spacingRadiusM))
     const edgeSpacingM = length / divisions
-    const edgeNozzle = nozzleForRadius(edgeSpacingM)
+    const edgeNozzle = family === 'R-VAN' ? nozzleForRadius(edgeSpacingM) : { model, radiusM }
     const normal = inwardNormal(a, b, orientation)
     if (!normal) continue
     for (let part = 1; part < divisions; part += 1) {
@@ -303,7 +305,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     }
 
     const interiorSpacingM = Math.min(lengthX / xDivisions, lengthY / yDivisions)
-    const interiorNozzle = nozzleForRadius(interiorSpacingM)
+    const interiorNozzle = family === 'R-VAN' ? nozzleForRadius(interiorSpacingM) : { model, radiusM }
     if (xPositions.size > 0 && yPositions.size > 0) {
       for (const y of [...yPositions].sort((a, b) => a - b)) {
         for (const x of [...xPositions].sort((a, b) => a - b)) {
