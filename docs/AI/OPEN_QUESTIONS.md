@@ -1,6 +1,6 @@
 ## 2026-11-24 — SSR Catalog v1: equipment category initial HTML
 
-- **IN PROGRESS:** equipment category server listing is implemented on branch `feat/seo-equipment-category-ssr-v1`; PR creation and exact-SHA CI are pending.
+- **IN PROGRESS:** equipment category server listing is implemented on branch `feat/seo-equipment-category-ssr-v1`; PR #531 is open and exact-SHA CI is pending.
 - **OPEN — CI:** run focused unit tests, full tests, type-check, lint and website/Pages Functions build; inspect failures and final diff.
 - **OPEN — Preview:** inspect raw initial HTML for BG/RU/EN, parent/child categories, empty category and representative large category; confirm product links, images/ALT, price, stock and SKU.
 - **OPEN — client parity:** verify the existing React `createRoot` mount replaces the server fallback and retains its filtering/pagination behavior without duplicate cards.
