@@ -824,8 +824,6 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
   // Rotor selection is performed independently inside each calculation rectangle.
-  // The whole-site path below uses the same single-rectangle decision rule.
-  const initialRotorHeads = []
 
   const lShapeParts = validation.regions[0].shape === 'l-shape' && !(region.exclusions?.length)
     ? decomposeOrthogonalLShape(vertices)
