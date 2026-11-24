@@ -307,3 +307,42 @@ test('persists all directional LCS, RCS and SST strip nozzle metadata', () => {
     ['R-VAN-LCS', 'right', 'horizontal'],
   ])
 })
+
+test('accepts a single 3504-PC rotor without inventing a head-to-head neighbour', () => {
+  const project = snapshot()
+  project.operatingScenario = { manufacturer: 'Rain Bird', family: '3500', model: '3504-PC', pressureBar: null }
+  project.layout = {
+    model: '3504-PC',
+    engineVersion: '3504-test',
+    algorithm: 'owner-approved-3504pc-radius-first',
+    headToHeadPassed: null,
+    headToHeadApplicable: false,
+    sprinklers: [{
+      id: 'rotor-3504-1',
+      position: { x: 12.5, y: 2.5 },
+      radiusM: 8,
+      arcDeg: 360,
+      performanceModel: '3504-PC',
+      source: 'interior',
+    }],
+  }
+  project.zones = [{ id: 'zone-01', zoneNumber: 1, zoneType: 'interior', sprinklerIds: ['rotor-3504-1'] }]
+  project.billOfMaterials = {
+    headCount: 1,
+    zoneCount: 1,
+    flexPipeRequiredM: 0.5,
+    flexPipeCoils30m: 1,
+    items: [
+      { sku: 'Y34001', quantity: 1, name: 'Rain Bird 3504-PC' },
+      { sku: 'A46010', quantity: 2, name: 'SBE-050' },
+    ],
+  }
+  const result = validateIrrigationProjectSnapshot({
+    ...project,
+    orderItems: [{ sku: 'Y34001', qty: 1 }, { sku: 'A46010', qty: 2 }],
+  })
+  assert.equal(result.valid, true)
+  assert.equal(result.snapshot.layout.sprinklers[0].performanceModel, '3504-PC')
+  assert.equal(result.snapshot.layout.headToHeadApplicable, false)
+})
+
