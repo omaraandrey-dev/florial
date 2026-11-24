@@ -142,8 +142,9 @@ Read-only инвентаризация перед кодом:
 
 ## 5. Текущий статус
 
-- Этап 1 (главная): **IN PROGRESS — read-only technical discovery; code implementation not yet started.**
+- Этап 1 (главная): **IN PROGRESS — initial read-only technical discovery completed; implementation not yet started.** Findings: [Phase 1 homepage discovery audit](../audits/2026-11-24-ssr-content-v1-phase-1-homepage-discovery.md). Confirmed current middleware returns only a localized H1 and short paragraph for `/`; the full hero, category, product, service and blog teaser sections are loaded by client-side React queries. Exact client projections and selection rules are recorded in the audit.
+- Следующий шаг этапа 1: finish read-only inspection of the full homepage component and middleware data-access/caching patterns, then implement a bounded server data projection + dedicated renderer + raw HTTP smoke tests. Keep the client UI/hydration selection identical.
 - Этапы 2–9: **NOT STARTED**.
 - Sanity writes: **не выполнялись и не входят в общий scope**.
 - Production/Cloudflare settings, secrets, D1: **не изменялись**.
-- Baseline main: `f4e04913a2876bf863deef9fa1b7774b5c416a47`.
+- Baseline main at roadmap creation: `f4e04913a2876bf863deef9fa1b7774b5c416a47`. Documentation branch: `docs/ssr-content-v1-roadmap`.
