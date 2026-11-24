@@ -1,3 +1,10 @@
+## 2026-11-24 — 3 m-wide rectangle nozzle selection integrated after L-shape solver
+
+- Reapplied the reviewed PR #521 correction on top of the newly merged L-shape solver: corner heads on rectangular lawns with a short side ≤3 m are sized to the local 3 m R-VAN14 envelope instead of the distant global centroid.
+- Added rotated 18 × 3 m and 3 × 18 m regressions requiring R-VAN14 heads, no interior row, full sampled coverage and passing head-to-head.
+- This integration does not yet generalize the rectangle decomposition/order to arbitrary multi-cutout polygons. That remains the next implementation stage and must be validated against the original lawn polygon.
+- No Production deployment or live service/data/configuration writes are included.
+
 ## 2026-11-24 — Connected strip axis fix and final CI/Preview verification (PR #520 pending)
 
 - Fixed the connected-strip solver contract: `connectedEnd` is now passed explicitly into `buildRvanStripLayout`; ordinary non-connected rectangular strips retain dimension-based orientation. The connected solver also uses the shared-edge direction rather than aspect ratio, including square calculation regions.

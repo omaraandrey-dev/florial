@@ -1,3 +1,9 @@
+## 2026-11-24 — irrigation solver integration follow-up
+
+- **CLOSED — supported narrow-arm L-shape solver:** PR #520 merged at `3387e8ff140756e69339b11215b82f5c6acbc9ed`.
+- **IN PROGRESS — 3 m rectangle nozzle sizing:** correction reapplied on a fresh branch after PR #520; automated validation pending.
+- **OPEN — generalized rectangle decomposition:** arbitrary orthogonal polygons/multiple cut-outs, ascending short-side processing, reuse of prior actual sector coverage, original-polygon coverage/overspray validation and final perimeter-first zone grouping remain to be implemented.
+
 ## 2026-11-24 — PR #520 connected strip correction — verification update
 
 - **CLOSED — runtime ReferenceError:** latest PR head `dbf49336b58cb093dac7f125c6b97ac6f6a4c063` passes `connectedEnd` explicitly into the base strip solver; connected square regions use the shared-edge orientation.
