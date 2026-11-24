@@ -1,6 +1,8 @@
 export type PlantCategoryProduct = {
   _id: string
   name?: string
+  sku?: string
+  imageUrl?: string
   slugValue?: string
   priceEUR?: number
   stockStatus?: string
