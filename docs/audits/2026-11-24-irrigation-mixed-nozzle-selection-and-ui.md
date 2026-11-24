@@ -43,9 +43,10 @@ Work branch: `fix/irrigation-mixed-rvan-visual-layout`
 
 ## Verification
 
-- Blog and Studio validation run #2483 (`45322356687`) passed on code/test commit `b01e408e026f39dacc22ab59cee14154db7fc731`: application and Pages Functions type-check, lint, full website utility tests/build, Studio type-check/build.
-- D1 migration validation run #2668 (`45322356656`) passed on the same code/test commit. No D1 migration or data change was part of this task.
-- Cloudflare Pages Preview deployment `8d51ca33-4410-4633-a440-a6622f4c1e4c` succeeded for documentation-integrated commit `e87896d9aada9ef9138a1c09308ac197d33b6773`: https://8d51ca33.florial.pages.dev.
+- Exact code/test commit `53e73149644a5e567f6c272eb0479242e35959a8` passed Blog and Studio validation run #2498 (`45322938039`): application and Pages Functions type-check, lint, full website utility tests/build, Studio type-check/build.
+- D1 migration validation run #2683 (`45322938340`) passed on the same commit. No D1 migration or data change was part of this task.
+- Cloudflare Pages Preview deployment `0f21ec49-6e44-4e8a-b3dc-41a2ac1faa09` succeeded for the same code/test commit: https://0f21ec49.florial.pages.dev.
+- The subsequent verification-record commit changes documentation only; no source or test code changes were made after the verified code/test commit.
 - A manual browser visual check could not be completed: Browser Use returned insufficient credits and the public-page fetch did not expose the preview. Visual/interactive QA is therefore **not confirmed**.
 - Production has not been changed; merge and Production deployment await owner approval.
 
