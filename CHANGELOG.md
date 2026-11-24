@@ -7,7 +7,7 @@
 - Owner confirms precipitation-intensity compatibility among these R-VAN models/patterns; no additional per-zone precipitation-intensity matching gate is required.
 - Added regression coverage for fixed arc-independent radii, 0.5 m default sampling, RCS counts/positions, mixed nozzle BOM/zone grouping and RCS project snapshot validation.
 - Scope: code/docs/tests only. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders/emails or Production deployment.
-- **Verification passed on code commit 689a619:** PR-head CI (TypeScript app/Pages Functions, lint, website tests/build, Studio type-check/build and D1 migration validation) succeeded. Cloudflare Pages Preview deployment ba29688a-1117-4c5b-bbfc-1c84260cef0b deployed successfully at https://ba29688a.florial.pages.dev. Production merge/deployment remains pending.
+- **Verification passed on code commit 689a619:** PR-head CI (TypeScript app/Pages Functions, lint, website tests/build, Studio type-check/build and D1 migration validation) succeeded. Cloudflare Pages Preview deployment ba29688a-1117-4c5b-bbfc-1c84260cef0b deployed successfully at https://ba29688a.florial.pages.dev. PR #515 merged into main as commit 6057a28159282e1449fde961613dee301480d93c. Cloudflare Pages Production deployment 5be817f9-e59e-4744-92bb-3f88cfceffa8 completed successfully on 2026-11-24; canonical aliases florial-bg.com and www.florial-bg.com are attached.
 
 ## 2026-11-24 — Blog article performance release and documentation close-out (PR #512 / #513)
 
