@@ -359,6 +359,7 @@ test('accepts a single 3504-PC rotor without inventing a head-to-head neighbour'
       radiusM: 8,
       arcDeg: 360,
       performanceModel: '3504-PC',
+      pattern: 'rotor',
       source: 'interior',
     }],
   }
