@@ -54,7 +54,7 @@ function buildRvanStripLayout(geometry, shortSideM) {
   const maxX = Math.max(...xs)
   const minY = Math.min(...ys)
   const maxY = Math.max(...ys)
-  const horizontal = maxX - minX >= maxY - minY
+  const horizontal = connectedEnd === 'left' || connectedEnd === 'right'
   const lengthM = horizontal ? maxX - minX : maxY - minY
   const rule = STRIP_MODELS[widthM]
   const rightOrBottom = horizontal ? maxX : minY
@@ -469,7 +469,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   if (circularPart && seamHeadParts.length) {
     const stripPart = seamHeadParts[0]
     const seam = connectedStripSeamPoint(stripPart, stripPart.connectedEnd,
-      stripPart.widthM >= stripPart.heightM)
+      stripPart.connectedEnd === 'left' || stripPart.connectedEnd === 'right')
     circularPart.excludedCandidatePositions = [seam]
   }
 
