@@ -68,6 +68,32 @@ test('accepts a balanced mixed-arc project and sanitizes the persisted snapshot'
   assert.equal(result.snapshot.pipeNetwork.zoneDiameterMm, 25)
 })
 
+test('preserves validated rectangular non-irrigated areas in the persisted project geometry', () => {
+  const project = snapshot()
+  project.geometry.normalized.regions[0].exclusions = [{
+    id: 'pool',
+    polygon: { vertices: [
+      { x: 8, y: 1 }, { x: 12, y: 1 }, { x: 12, y: 4 }, { x: 8, y: 4 },
+    ] },
+  }]
+  const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
+  assert.equal(result.valid, true)
+  assert.deepEqual(result.snapshot.geometry.normalized.regions[0].exclusions, project.geometry.normalized.regions[0].exclusions)
+})
+
+test('rejects malformed or out-of-bound non-irrigated rectangles', () => {
+  const project = snapshot()
+  project.geometry.normalized.regions[0].exclusions = [{
+    id: 'outside',
+    polygon: { vertices: [
+      { x: 22, y: 1 }, { x: 27, y: 1 }, { x: 27, y: 4 }, { x: 22, y: 4 },
+    ] },
+  }]
+  const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
+  assert.equal(result.valid, false)
+  assert.equal(result.reason, 'invalid_project_geometry')
+})
+
 test('rejects project snapshots when the BOM does not match submitted order quantities', () => {
   const result = validateIrrigationProjectSnapshot({
     ...snapshot(),
