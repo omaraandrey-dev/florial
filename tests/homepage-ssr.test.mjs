@@ -15,7 +15,7 @@ const plantCategories = [
 const equipmentCategories = [
   { _id: 'c-root', name: 'Всичко за поливане', slug: { current: 'vsichko-za-polivane' }, productCount: 10 },
   { _id: 'c-kits', name: 'Комплекти', slug: { current: 'gotovi-komplekti-za-polivane' }, productCount: 5 },
-  { _id: 'c-controllers', name: 'Контролери', slug: { current: 'controllers' }, productCount: 4, parentId: 'c-root' },
+  { _id: 'c-controllers', name: 'Контролери', slug: { current: 'controllers' }, productCount: 0, parentId: 'c-root' },
   { _id: 'c-sprinklers', name: 'Дъждовалци', slug: { current: 'sprinklers' }, productCount: 4, parentId: 'c-root' },
   { _id: 'c-nozzles', name: 'Дюзи', slug: { current: 'nozzles' }, productCount: 3, parentId: 'c-root' },
   { _id: 'c-valves', name: 'Клапани', slug: { current: 'klapani' }, productCount: 2, parentId: 'c-root' },
@@ -82,6 +82,8 @@ test('homepage SSR returns localized semantic content and crawlable product/cate
   assert.match(html, /href="\/blog\/latest-story\?lang=ru"/)
   assert.match(html, /Олива/)
   assert.match(html, /Ландшафтный проект/)
+  assert.match(html, /Перейти в каталог растений/)
+  assert.match(html, /aspect-\\[4\\/5\\]/)
   assert.doesNotMatch(html, /Празна категория/)
 })
 
@@ -138,4 +140,26 @@ test('homepage SSR renderer keeps cart route out of index while homepage remains
   )
   assert.doesNotMatch(homepageBranch, /noIndex:\s*true/)
   assert.match(cartBranch, /noIndex:\s*true/)
+})
+
+test('homepage SSR emits the same responsive Sanity image candidates used by React', () => {
+  const responsiveData = {
+    ...data,
+    heroImageUrl: 'https://cdn.sanity.io/images/bxvcy0qs/production/hero-1600x900.jpg',
+    plantCategories: [{
+      _id: 'plants-root', name: 'Растения', slug: { current: 'rastenia' },
+      imageUrl: 'https://cdn.sanity.io/images/bxvcy0qs/plants/category-800x600.jpg',
+    }],
+    featuredPlants: [{
+      _id: 'p-responsive', name: 'Маслина', slug: { current: 'maslina' },
+      priceEUR: 50, stockStatus: 'inStock',
+      imageUrl: 'https://cdn.sanity.io/images/bxvcy0qs/plants/plant-800x1000.jpg',
+    }],
+  }
+  const html = renderHomepageHtml(responsiveData, 'bg')
+  assert.match(html, /srcset="[^"]+ 160w/)
+  assert.match(html, /sizes="100vw"/)
+  assert.match(html, /fetchpriority="high"/)
+  assert.match(html, /aspect-\\[4\\/5\\]/)
+  assert.match(html, /width="800" height="600"/)
 })
