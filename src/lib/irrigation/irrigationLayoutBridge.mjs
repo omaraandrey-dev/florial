@@ -490,7 +490,9 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     const isStrip = stripParts.includes(part)
     const rectGeometry = rectangleGeometry('lawn-' + part.id, part)
     const layout = isStrip
-      ? buildConnectedRvanStripLayout(rectGeometry, part.shortSideM, part.connectedEnd)
+      ? (part.connectedEnd
+        ? buildConnectedRvanStripLayout(rectGeometry, part.shortSideM, part.connectedEnd)
+        : buildRvanStripLayout(rectGeometry, part.shortSideM))
       : null
     return { ...part, isStrip, rectGeometry, layout }
   })
@@ -535,7 +537,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       sampleStepM,
       radiusM: selected.radiusM,
       excludedCandidatePositions: part.excludedCandidatePositions ?? [],
-      preventOverspray: false,
+      preventOverspray: true,
       initialSprinklers: previouslyPlacedHeads,
       sprayBoundaryGeometry: geometry,
     })
@@ -785,14 +787,6 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
         ? inferConnectedStripEnd(part, parts)
         : null,
     }))
-    if (withStripEnds.some((part) =>
-      SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8) &&
-      !part.connectedEnd)) {
-      return result('layout_incomplete', {
-        reason: 'decomposed_narrow_strip_is_not_connected_at_a_supported_end',
-        warnings: Object.freeze([{ code: 'manual_engineering_review_required_for_decomposed_narrow_strip', path: 'geometry' }]),
-      })
-    }
     return buildDecomposedLShapeLayout(
       geometry, validation, withStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
       sampleStepM, Math.min(...parts.map((part) => part.shortSideM)),

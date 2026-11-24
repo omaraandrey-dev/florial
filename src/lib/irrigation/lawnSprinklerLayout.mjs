@@ -115,11 +115,11 @@ function pointInsideSprayBoundary(point, geometry) {
 function candidateSectorFitsGeometry(candidate, geometry) {
   const arc = candidate.arcDeg ?? 360
   const start = arc === 360 ? 0 : (candidate.directionDeg ?? 0) - arc / 2
-  for (let offset = 0; offset <= arc + EPSILON; offset += 5) {
+  for (let offset = 0; offset <= arc + EPSILON; offset += 1) {
     const angle = (start + Math.min(offset, arc)) * Math.PI / 180
     const dx = Math.cos(angle)
     const dy = Math.sin(angle)
-    for (let distanceM = 0; distanceM <= candidate.radiusM + EPSILON; distanceM += 0.5) {
+    for (let distanceM = 0; distanceM <= candidate.radiusM + EPSILON; distanceM += 0.2) {
       const point = {
         x: candidate.position.x + dx * Math.min(distanceM, candidate.radiusM),
         y: candidate.position.y + dy * Math.min(distanceM, candidate.radiusM),
@@ -350,9 +350,11 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
 
     if (preventOverspray && family === 'R-VAN') {
       const safeMaximumRadiusM = Math.min(spacingRadiusM, length / 2)
-      const edgeNozzle = selectRvanModelForMaximumRadius(safeMaximumRadiusM)
-      if (!edgeNozzle) continue
-      const divisions = Math.max(1, Math.ceil(length / edgeNozzle.radiusM))
+      if (safeMaximumRadiusM < 3 - EPSILON) continue
+      const divisions = Math.max(1, Math.ceil(length / safeMaximumRadiusM))
+      const edgeSpacingM = length / divisions
+      const edgeNozzle = nozzleForRadius(edgeSpacingM)
+      if (!edgeNozzle || edgeNozzle.radiusM > safeMaximumRadiusM + EPSILON) continue
       const headCount = divisions - 1
       for (let part = 0; part < headCount; part += 1) {
         const offsetM = headCount === 1
