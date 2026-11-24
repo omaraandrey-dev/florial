@@ -104,10 +104,10 @@ test('32x6 uses the fixed 6m R-VAN24 planning radius and remains perimeter-only'
   assert.equal(result.layout?.headToHead?.passed, true)
 })
 
-test('20x10 uses R-VAN24 and keeps complete sampled perimeter coverage', () => {
+test('20x10 reports mixed models and keeps complete sampled perimeter coverage', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(20, 10))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.model, 'R-VAN18 / R-VAN24')
+  assert.equal(result.operatingScenario?.model, 'R-VAN18 / R-VAN18-360 / R-VAN24')
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
 })
@@ -127,7 +127,7 @@ test('20x15 uses mixed R-VAN models and an interior circular row when perimeter 
 test('30x30 uses multiple interior rows and permits mixed balanced zones', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(30, 30))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  assert.equal(result.operatingScenario?.model, 'R-VAN18 / R-VAN18-360 / R-VAN24')
   const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
   assert.ok(interior.length >= 3)
   assert.ok(new Set(interior.map((entry) => Number(entry.position.y.toFixed(2)))).size >= 3)
