@@ -710,6 +710,11 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                           {layoutNozzleLegend.length > 0 && <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs text-slate-700">
                             {layoutNozzleLegend.map((item) => <span key={item.model} className="inline-flex items-center gap-2">{item.shape === 'triangle' ? <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden="true"><polygon points="8,1 15,14 1,14" fill={item.color} /></svg> : <span className="h-3 w-3 rounded-full border border-white shadow-sm" style={{ backgroundColor: item.color }} />}{item.model}</span>)}
                           </div>}
+                          {layoutResult.layout?.sprinklers?.some((head: { performanceModel?: string }) => head.performanceModel === '3504-PC') && <p className="mt-2 text-xs leading-5 text-slate-600">{language === 'ru'
+                            ? 'Показанные сектора и радиусы 3504-PC — геометрические планировочные значения Florial, а не подтверждённые рабочие характеристики производителя. Фактическая дальность и расход зависят от выбранной форсунки и давления.'
+                            : language === 'en'
+                              ? 'The 3504-PC sectors and radii shown are Florial geometric planning values, not manufacturer-validated performance. Actual throw and flow depend on the selected nozzle and pressure.'
+                              : 'Показаните сектори и радиуси на 3504-PC са геометрични проектни стойности на Florial, а не потвърдени работни характеристики на производителя. Реалният радиус и дебит зависят от избраната дюза и налягането.'}</p>}
                         </div>
                       )}
                       <div className="mt-3 rounded-xl bg-white p-3 text-sm">
