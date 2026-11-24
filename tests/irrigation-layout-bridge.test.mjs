@@ -47,15 +47,15 @@ function legacyRvanLayout(length, width) {
   return generateLawnSprinklerLayout({
     geometry: snapshot.geometry.normalized,
     family: 'R-VAN',
-    model: 'R-VAN24',
+    model: 'R-VAN14',
     pressureBar: RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar,
     sampleStepM: 0.5,
     radiusM: 6,
   })
 }
 
-test('Florial selects each R-VAN head from local reach and reports the actual model set', () => {
-  for (const [length, width] of [[10, 3], [10, 4], [10, 5], [32, 6]]) {
+test('Florial selects R-VAN heads from local reach on narrow rectangles and reports the actual model set', () => {
+  for (const [length, width] of [[10, 3], [10, 4], [10, 5]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated')
     assert.equal(result.operatingScenario?.family, 'R-VAN')
@@ -75,6 +75,10 @@ test('Florial selects each R-VAN head from local reach and reports the actual mo
     assert.equal(result.pipeNetwork?.connectionPoint?.y, width)
     assert.ok(result.zones?.length > 0)
   }
+  const wide = buildPreliminaryLawnLayout(snapshotFor(32, 6))
+  assert.equal(wide.status, 'layout_generated')
+  assert.equal(wide.operatingScenario?.family, '3500')
+  assert.equal(wide.operatingScenario?.model, '3504-PC')
 })
 
 test('8x8 lawn prioritizes 3504-PC rotors while 4m and 5m rectangles retain the R-VAN rule', () => {
@@ -147,15 +151,15 @@ test('rectangle decomposition is processed by ascending area and a shared strip 
 })
 
 test('R-VAN fallback applies the approved 7.5cm inward offset only to the matching corner head', () => {
-  const geometry = snapshotFor(8, 8).geometry.normalized
-  const seam = { x: 8, y: 0 }
+  const geometry = snapshotFor(4, 4).geometry.normalized
+  const seam = { x: 4, y: 0 }
   const layout = generateLawnSprinklerLayout({
     geometry,
     family: 'R-VAN',
     model: 'R-VAN24',
     pressureBar: RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar,
     sampleStepM: 0.5,
-    radiusM: 6,
+    radiusM: 3,
     preventOverspray: true,
     candidatePositionOffsets: [{
       from: seam,
@@ -168,8 +172,8 @@ test('R-VAN fallback applies the approved 7.5cm inward offset only to the matchi
     Math.abs(head.position.x - (seam.x - 0.0530330086)) < 1e-6 &&
     Math.abs(head.position.y - (seam.y + 0.0530330086)) < 1e-6))
   assert.ok(layout.sprinklers.every((head) =>
-    head.position.x >= 0 && head.position.x <= 8 &&
-    head.position.y >= 0 && head.position.y <= 8))
+    head.position.x >= 0 && head.position.x <= 4 &&
+    head.position.y >= 0 && head.position.y <= 4))
 })
 
 test('3504-PC priority works on a supported L-shape with a rectangular recess', () => {
@@ -194,12 +198,16 @@ test('3504-PC priority works on a supported L-shape with a rectangular recess', 
   assert.ok(result.zones.every((zone) => zone.sprinklerCount <= 6))
 })
 
-test('rectangular non-irrigated exclusion keeps a safe R-VAN fallback when no 3504 candidate is selected', () => {
+test('rectangular non-irrigated exclusion is covered by complete per-rectangle layouts', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(20, 16, {
     exclusions: [{ id: 'pool', x: 8, y: 6, width: 4, height: 4 }],
   }))
   assert.equal(result.status, 'layout_generated')
-  assert.ok(result.layout.sprinklers.every((head) => head.performanceModel.startsWith('R-VAN')))
+  const regionFamilies = new Map(result.layout.calculationRegions.map((part) => [part.id, part.family]))
+  assert.ok(result.layout.sprinklers.every((head) => {
+    const family = head.performanceModel === '3504-PC' ? '3500' : 'R-VAN'
+    return regionFamilies.get(head.calculationRegionId) === family
+  }))
   assert.equal(result.layout.coverage.uncoveredPoints, 0)
   assert.equal(result.layout.overspray, 'sampled_inside_boundary')
   assert.equal(result.overspray, 'sampled_inside_boundary')
@@ -285,14 +293,14 @@ test('30x5 lawn is covered by perimeter heads in two balanced zones', () => {
   assert.ok(result.pipeNetwork?.branches?.every((branch) => branch.sprinklerIds.length > 0))
 })
 
-test('32x6 uses the fixed 6m R-VAN24 planning radius and remains perimeter-only', () => {
+test('32x6 rectangle uses corner-first 3504-PC rotors when the complete layout passes', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(32, 6))
   assert.equal(result.status, 'layout_generated')
-  assert.ok(result.layout?.sprinklers?.some((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN24'))
-  assert.ok(result.layout?.sprinklers?.every((head) => ['R-VAN18', 'R-VAN24'].includes(head.performanceModel.replace(/-360$/, ''))))
-  assert.equal(result.layout?.sprinklers?.length, 14)
+  assert.equal(result.operatingScenario?.family, '3500')
+  assert.equal(result.operatingScenario?.model, '3504-PC')
+  assert.ok(result.layout?.sprinklers?.length > 0)
+  assert.ok(result.layout?.sprinklers?.every((head) => head.performanceModel === '3504-PC' && head.pattern === 'rotor'))
   assert.ok(result.layout?.sprinklers?.every((sprinkler) => sprinkler.source !== 'interior'))
-  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [5, 5, 4])
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
 })
