@@ -1,9 +1,10 @@
-import { PDFDocument, rgb, type PDFPage,  } from 'pdf-lib'
+import { PDFDocument, degrees, rgb, type PDFPage,  } from 'pdf-lib'
+import { buildLawnDimensionAnnotations } from '../../../src/lib/irrigation/lawnDimensionAnnotations.mjs'
 import fontkit from '@pdf-lib/fontkit'
 
 type ProjectPoint = { x: number; y: number }
 type IrrigationProject = {
-  geometry: { shape: string; dimensionsM: { length: number | null; width: number | null; cutoutWidth: number | null; cutoutDepth: number | null; cutoutCorner: string }; areaM2: number; perimeterM: number; normalized: { regions: Array<{ boundary: { vertices: ProjectPoint[] } }> } }
+  geometry: { shape: string; dimensionsM: { length: number | null; width: number | null; cutoutWidth: number | null; cutoutDepth: number | null; cutoutCorner: string }; areaM2: number; perimeterM: number; normalized: { regions: Array<{ boundary: { vertices: ProjectPoint[] }; exclusions?: Array<{ id: string; polygon: { vertices: ProjectPoint[] } }> }> } }
   operatingScenario: { manufacturer: string; family: string; model: string; pressureBar: number | null; actualNozzlePressureVerified: false }
   layout: { model: string; engineVersion: string; algorithm: string; sprinklers: Array<{ id: string; position: ProjectPoint; radiusM: number | null; arcDeg: number | null; performanceModel: string; pattern?: string; stripWidthM?: number | null; stripLengthM?: number | null; stripDirection?: string | null; stripAxis?: string | null; source: string }> }
   zones: Array<{ id: string; zoneNumber: number; zoneType: string; sprinklerIds: string[] }>
@@ -90,7 +91,9 @@ export const createIrrigationProjectPdf = async (
   write('Florial · Автоматично напояване на тревна площ', { size: 8, color: muted })
   rule()
 
-  const vertices = project.geometry.normalized.regions[0].boundary.vertices
+  const region = project.geometry.normalized.regions[0]
+  const vertices = region.boundary.vertices
+  const exclusions = region.exclusions ?? []
   const minX = Math.min(...vertices.map((point) => point.x))
   const maxX = Math.max(...vertices.map((point) => point.x))
   const minY = Math.min(...vertices.map((point) => point.y))
@@ -107,6 +110,51 @@ export const createIrrigationProjectPdf = async (
     const a = mapped[index]
     const b = mapped[(index + 1) % mapped.length]
     page.drawLine({ start: a, end: b, color: green, thickness: 1.4 })
+  }
+  for (const exclusion of exclusions) {
+    const points = exclusion.polygon.vertices.map(mapPoint)
+    for (let index = 0; index < points.length; index += 1) {
+      page.drawLine({
+        start: points[index],
+        end: points[(index + 1) % points.length],
+        color: rgb(0.42, 0.48, 0.56),
+        thickness: 1,
+      })
+    }
+  }
+  const dimensionAnnotations = buildLawnDimensionAnnotations(vertices, exclusions)
+  for (const annotation of dimensionAnnotations) {
+    const start = mapPoint(annotation.lineStart)
+    const end = mapPoint(annotation.lineEnd)
+    const labelPoint = mapPoint(annotation.labelPosition)
+    const dx = end.x - start.x
+    const dy = end.y - start.y
+    const lineLength = Math.hypot(dx, dy)
+    if (lineLength <= 0.1) continue
+    page.drawLine({ start, end, color: rgb(0.48, 0.53, 0.60), thickness: 0.45 })
+    const nx = -dy / lineLength * 1.6
+    const ny = dx / lineLength * 1.6
+    page.drawLine({ start: { x: start.x - nx, y: start.y - ny }, end: { x: start.x + nx, y: start.y + ny }, color: rgb(0.48, 0.53, 0.60), thickness: 0.45 })
+    page.drawLine({ start: { x: end.x - nx, y: end.y - ny }, end: { x: end.x + nx, y: end.y + ny }, color: rgb(0.48, 0.53, 0.60), thickness: 0.45 })
+    const label = annotation.lengthM.toFixed(1) + ' m'
+    const maxLabelWidth = Math.max(4, lineLength - 1)
+    const initialSize = 5.5
+    const initialWidth = font.widthOfTextAtSize(label, initialSize)
+    const fontSize = initialWidth > maxLabelWidth
+      ? Math.max(3.5, initialSize * maxLabelWidth / initialWidth)
+      : initialSize
+    const labelWidth = font.widthOfTextAtSize(label, fontSize)
+    let angle = Math.atan2(dy, dx) * 180 / Math.PI
+    while (angle > 90) angle -= 180
+    while (angle < -90) angle += 180
+    page.drawText(label, {
+      x: labelPoint.x - labelWidth / 2,
+      y: labelPoint.y - fontSize / 2,
+      size: fontSize,
+      font,
+      color: rgb(0.36, 0.41, 0.48),
+      rotate: degrees(angle),
+    })
   }
   const drawRoute = (points: ProjectPoint[], color: typeof blue, thickness: number) => {
     const route = points.map(mapPoint)
@@ -137,6 +185,17 @@ export const createIrrigationProjectPdf = async (
   heading('1. Геометрия и работен сценарий')
   const dimensions = project.geometry.dimensionsM
   write('Въведени от клиента: форма ' + project.geometry.shape + ' · дължина ' + (dimensions.length ?? '—') + ' m · ширина ' + (dimensions.width ?? '—') + ' m' + (dimensions.cutoutWidth && dimensions.cutoutDepth ? ' · изрез ' + dimensions.cutoutWidth + ' × ' + dimensions.cutoutDepth + ' m · ъгъл ' + dimensions.cutoutCorner : ''))
+  if (exclusions.length) {
+    const exclusionLabels = exclusions.map((exclusion) => {
+      const points = exclusion.polygon.vertices
+      const xs = points.map((point) => point.x)
+      const ys = points.map((point) => point.y)
+      return (exclusion.id || 'exclusion') + ': ' +
+        (Math.max(...xs) - Math.min(...xs)).toFixed(1) + ' × ' +
+        (Math.max(...ys) - Math.min(...ys)).toFixed(1) + ' m'
+    })
+    write('Неполиваеми правоъгълници: ' + exclusionLabels.join('; '), { size: 7 })
+  }
   write('Изчислено по контура: площ ' + project.geometry.areaM2.toFixed(2) + ' m² · периметър ' + project.geometry.perimeterM.toFixed(2) + ' m')
   write('Модел: ' + project.operatingScenario.manufacturer + ' ' + project.operatingScenario.family + ' ' + project.operatingScenario.model)
   write('Референтна точка от таблицата на производителя за избраната дюза: ' + (project.operatingScenario.pressureBar == null ? 'не е зададена' : project.operatingScenario.pressureBar.toFixed(2) + ' bar') + '. Това не е измерване на обекта и не представлява хидравлично изчисление.')
