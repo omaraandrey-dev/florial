@@ -68,6 +68,32 @@ test('accepts a balanced mixed-arc project and sanitizes the persisted snapshot'
   assert.equal(result.snapshot.pipeNetwork.zoneDiameterMm, 25)
 })
 
+test('preserves validated rectangular non-irrigated areas in the persisted project geometry', () => {
+  const project = snapshot()
+  project.geometry.normalized.regions[0].exclusions = [{
+    id: 'pool',
+    polygon: { vertices: [
+      { x: 8, y: 1 }, { x: 12, y: 1 }, { x: 12, y: 4 }, { x: 8, y: 4 }, { x: 8, y: 1 },
+    ] },
+  }]
+  const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
+  assert.equal(result.valid, true)
+  assert.deepEqual(result.snapshot.geometry.normalized.regions[0].exclusions[0].polygon.vertices, project.geometry.normalized.regions[0].exclusions[0].polygon.vertices.slice(0, 4))
+})
+
+test('rejects malformed or out-of-bound non-irrigated rectangles', () => {
+  const project = snapshot()
+  project.geometry.normalized.regions[0].exclusions = [{
+    id: 'outside',
+    polygon: { vertices: [
+      { x: 22, y: 1 }, { x: 27, y: 1 }, { x: 27, y: 4 }, { x: 22, y: 4 }, { x: 22, y: 1 },
+    ] },
+  }]
+  const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
+  assert.equal(result.valid, false)
+  assert.equal(result.reason, 'invalid_project_geometry')
+})
+
 test('rejects project snapshots when the BOM does not match submitted order quantities', () => {
   const result = validateIrrigationProjectSnapshot({
     ...snapshot(),
@@ -230,6 +256,16 @@ test('irrigation project PDF contains the drawing, zone assignment, BOM and expl
   assert.match(pdf, /Автоматика и управление/)
   assert.match(pdf, /Ведомост на материалите/)
   assert.match(pdf, /Въведени от клиента/)
+  assert.match(pdf, /buildLawnDimensionAnnotations\(vertices, exclusions\)/)
+  assert.match(pdf, /Неполиваеми правоъгълници/)
+  assert.match(pdf, /annotation\.lengthM\.toFixed\(1\)/)
+  assert.match(pdf, /exclusionVertices\.map\(mapPoint\)/)
+  assert.match(pdf, /color: rgb\(0\.86, 0\.89, 0\.93\)/)
+  assert.match(pdf, /планировъчен R=/)
+  assert.match(pdf, /геометрична планировъчна стойност на Florial/)
+  const assistantPage = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
+  assert.match(assistantPage, /геометрични проектни стойности на Florial/)
+  assert.match(assistantPage, /manufacturer-validated performance/)
   assert.match(pdf, /drawRoute\(branch\.points/)
   assert.match(pdf, /item\.name \+ ' · ' \+ item\.sku/)
   assert.match(pdf, /PE Ø25 mm/)
@@ -307,3 +343,92 @@ test('persists all directional LCS, RCS and SST strip nozzle metadata', () => {
     ['R-VAN-LCS', 'right', 'horizontal'],
   ])
 })
+
+test('accepts a single 3504-PC rotor without inventing a head-to-head neighbour', () => {
+  const project = snapshot()
+  project.operatingScenario = { manufacturer: 'Rain Bird', family: '3500', model: '3504-PC', pressureBar: null }
+  project.layout = {
+    model: '3504-PC',
+    engineVersion: '3504-test',
+    algorithm: 'owner-approved-3504pc-radius-first',
+    headToHeadPassed: null,
+    headToHeadApplicable: false,
+    sprinklers: [{
+      id: 'rotor-3504-1',
+      position: { x: 12.5, y: 2.5 },
+      radiusM: 8,
+      arcDeg: 360,
+      performanceModel: '3504-PC',
+      source: 'interior',
+    }],
+  }
+  project.zones = [{ id: 'zone-01', zoneNumber: 1, zoneType: 'interior', sprinklerIds: ['rotor-3504-1'] }]
+  project.billOfMaterials = {
+    headCount: 1,
+    zoneCount: 1,
+    flexPipeRequiredM: 0.5,
+    flexPipeCoils30m: 1,
+    items: [
+      { sku: 'Y34001', quantity: 1, name: 'Rain Bird 3504-PC' },
+      { sku: 'A46010', quantity: 2, name: 'SBE-050' },
+    ],
+  }
+  const result = validateIrrigationProjectSnapshot({
+    ...project,
+    orderItems: [{ sku: 'Y34001', qty: 1 }, { sku: 'A46010', qty: 2 }],
+  })
+  assert.equal(result.valid, true)
+  assert.equal(result.snapshot.layout.sprinklers[0].performanceModel, '3504-PC')
+  assert.equal(result.snapshot.layout.headToHeadApplicable, false)
+})
+
+test('persists the explicit rotor pattern and corner-first layout identity for 3504-PC', () => {
+  const project = snapshot()
+  const positions = [
+    { x: 0, y: 0 }, { x: 8, y: 0 }, { x: 8, y: 8 }, { x: 0, y: 8 },
+  ]
+  project.operatingScenario = {
+    manufacturer: 'Rain Bird', family: '3500', model: '3504-PC', pressureBar: null,
+  }
+  project.layout = {
+    model: '3504-PC',
+    engineVersion: '2.0.0',
+    algorithm: 'corner-first-shared-cell-grid',
+    headToHeadPassed: true,
+    headToHeadApplicable: true,
+    sprinklers: positions.map((position, index) => ({
+      id: 'rotor-' + index,
+      position,
+      radiusM: 8,
+      arcDeg: 90,
+      directionDeg: [45, 135, 225, 315][index],
+      performanceModel: '3504-PC',
+      pattern: 'rotor',
+      source: 'vertex',
+    })),
+  }
+  project.zones = [{
+    id: 'zone-01',
+    zoneNumber: 1,
+    zoneType: 'perimeter',
+    sprinklerIds: ['rotor-0', 'rotor-1', 'rotor-2', 'rotor-3'],
+  }]
+  project.billOfMaterials = {
+    headCount: 4,
+    zoneCount: 1,
+    flexPipeRequiredM: 2,
+    flexPipeCoils30m: 1,
+    items: [
+      { sku: 'Y34001', quantity: 4, name: 'Rain Bird 3504-PC' },
+      { sku: 'A46010', quantity: 8, name: 'SBE-050' },
+    ],
+  }
+  const result = validateIrrigationProjectSnapshot({
+    ...project,
+    orderItems: [{ sku: 'Y34001', qty: 4 }, { sku: 'A46010', qty: 8 }],
+  })
+  assert.equal(result.valid, true)
+  assert.ok(result.snapshot.layout.sprinklers.every((head) => head.pattern === 'rotor'))
+  assert.equal(result.snapshot.layout.algorithm, 'corner-first-shared-cell-grid')
+})
+

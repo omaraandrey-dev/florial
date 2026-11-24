@@ -13,6 +13,8 @@ export interface LawnSprinklerLayoutInput {
   readonly radiusM?: number
   /** Candidate coordinates reserved for a connected strip-pattern zone. */
   readonly excludedCandidatePositions?: ReadonlyArray<Readonly<{ x: number; y: number }>>
+  /** Inward offsets applied only to matching R-VAN corner candidates at a shared strip seam. */
+  readonly candidatePositionOffsets?: ReadonlyArray<Readonly<{ from: Readonly<{ x: number; y: number }>; dx: number; dy: number }>>
   /** Restrict circular spray sectors to the rectangular solver bounds. */
   readonly preventOverspray?: boolean
 }

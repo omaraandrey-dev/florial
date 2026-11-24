@@ -1,6 +1,7 @@
 import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout, sprinklersMutuallyReach } from './lawnSprinklerLayout.mjs'
 import { decomposeOrthogonalRegion } from './orthogonalRectangleDecomposition.mjs'
 import { validateLawnGeometry } from './lawnGeometry.mjs'
+import { generateRainBird3504Layout } from './rainBird3504Layout.mjs'
 import {
   findRainBirdRvanPerformancePoint,
   RAIN_BIRD_RVAN_DATASET,
@@ -480,8 +481,55 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
   return true
 }
 
-function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM) {
+function rectangleRotorLayout(rectGeometry, part, sampleStepM) {
+  if (part.shortSideM < 6 - 1e-8) return null
+  const candidate = generateRainBird3504Layout(rectGeometry, { sampleStepM })
+  if (candidate.status !== 'layout_generated' || candidate.coverage?.uncoveredPoints !== 0 ||
+      !candidate.sprinklers.length) return null
+  const checks = candidate.sprinklers.length > 1
+    ? evaluateHeadToHeadSpacing(candidate.sprinklers)
+    : []
+  if (checks.some((entry) => !entry.passed)) return null
+  return Object.freeze({
+    ...candidate,
+    engineVersion: '0.7.0',
+    algorithm: 'area-ascending-per-rectangle-3504pc-first-rvan-fallback-v1',
+    status: 'coverage_complete_sampled',
+    coverageScope: 'sampled_geometry_only',
+    family: '3500',
+    model: '3504-PC',
+    pressureBar: null,
+    sampleStepM,
+    geometry: Object.freeze({
+      regionId: rectGeometry.regions[0].id,
+      shape: 'rectangle',
+      areaM2: part.shortSideM * part.lengthM,
+    }),
+    headToHead: Object.freeze({
+      passed: checks.length ? checks.every((entry) => entry.passed) : null,
+      applicable: checks.length > 0,
+      checks: Object.freeze(checks),
+    }),
+    overspray: 'sampled_inside_boundary',
+    warnings: Object.freeze([
+      ...candidate.warnings,
+      Object.freeze({ code: 'rectangle_fully_served_by_3504pc_before_rvan_fallback', path: 'layout.sprinklers' }),
+    ]),
+  })
+}
+
+function inwardSeamOffset(bounds, seam, offsetM = 0.075) {
+  const center = { x: (bounds.minX + bounds.maxX) / 2, y: (bounds.minY + bounds.maxY) / 2 }
+  const dx = center.x - seam.x
+  const dy = center.y - seam.y
+  const length = Math.hypot(dx, dy)
+  if (length <= 1e-8) return null
+  return Object.freeze({ from: seam, dx: dx / length * offsetM, dy: dy / length * offsetM })
+}
+
+function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM, initialHeads = []) {
   const orderedParts = parts.slice().sort((a, b) =>
+    (a.shortSideM * a.lengthM) - (b.shortSideM * b.lengthM) ||
     a.shortSideM - b.shortSideM || a.lengthM - b.lengthM ||
     a.minY - b.minY || a.minX - b.minX)
   const stripParts = orderedParts.filter((part) => SUPPORTED_STRIP_WIDTHS_M.some((width) =>
@@ -494,7 +542,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         ? buildConnectedRvanStripLayout(rectGeometry, part.shortSideM, part.connectedEnd)
         : buildRvanStripLayout(rectGeometry, part.shortSideM))
       : null
-    return { ...part, isStrip, rectGeometry, layout }
+    return { ...part, isStrip, rectGeometry, layout, candidatePositionOffsets: [] }
   })
 
   const seamHeadParts = prepared.filter((part) => part.isStrip &&
@@ -507,15 +555,21 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     })
   }
 
-  const circularPart = prepared.find((part) => !part.isStrip)
-  if (circularPart && seamHeadParts.length) {
-    const stripPart = seamHeadParts[0]
+  for (const stripPart of seamHeadParts) {
     const seam = connectedStripSeamPoint(stripPart, stripPart.connectedEnd,
       stripPart.connectedEnd === 'left' || stripPart.connectedEnd === 'right')
-    circularPart.excludedCandidatePositions = [seam]
+    const adjacentRectangle = prepared.find((part) => !part.isStrip &&
+      seam.x >= part.minX - 1e-8 && seam.x <= part.maxX + 1e-8 &&
+      seam.y >= part.minY - 1e-8 && seam.y <= part.maxY + 1e-8 &&
+      (Math.abs(seam.x - part.minX) <= 1e-8 || Math.abs(seam.x - part.maxX) <= 1e-8 ||
+       Math.abs(seam.y - part.minY) <= 1e-8 || Math.abs(seam.y - part.maxY) <= 1e-8))
+    if (adjacentRectangle) {
+      const offset = inwardSeamOffset(adjacentRectangle, seam, 0.075)
+      if (offset) adjacentRectangle.candidatePositionOffsets.push(offset)
+    }
   }
 
-  const previouslyPlacedHeads = []
+  const previouslyPlacedHeads = initialHeads.slice()
   for (const part of prepared) {
     if (part.isStrip) {
       if (!part.layout) {
@@ -528,19 +582,25 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       previouslyPlacedHeads.push(...part.layout.sprinklers)
       continue
     }
-    const selected = selectRvanModel(part.shortSideM)
-    part.layout = generateLawnSprinklerLayout({
-      geometry: part.rectGeometry,
-      family: 'R-VAN',
-      model: selected.model,
-      pressureBar,
-      sampleStepM,
-      radiusM: selected.radiusM,
-      excludedCandidatePositions: part.excludedCandidatePositions ?? [],
-      preventOverspray: true,
-      initialSprinklers: previouslyPlacedHeads,
-      sprayBoundaryGeometry: geometry,
-    })
+
+    const rotorLayout = rectangleRotorLayout(part.rectGeometry, part, sampleStepM)
+    if (rotorLayout) {
+      part.layout = rotorLayout
+    } else {
+      const selected = selectRvanModel(part.shortSideM)
+      part.layout = generateLawnSprinklerLayout({
+        geometry: part.rectGeometry,
+        family: 'R-VAN',
+        model: selected.model,
+        pressureBar,
+        sampleStepM,
+        radiusM: selected.radiusM,
+        preventOverspray: true,
+        candidatePositionOffsets: part.candidatePositionOffsets,
+        initialSprinklers: previouslyPlacedHeads.filter((head) => head.pattern !== 'strip'),
+        sprayBoundaryGeometry: geometry,
+      })
+    }
     if (!['coverage_complete_sampled', 'coverage_incomplete'].includes(part.layout.status)) {
       return result('layout_incomplete', {
         shortSideM,
@@ -552,10 +612,10 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     previouslyPlacedHeads.push(...part.layout.sprinklers)
   }
 
-  const allHeads = []
-  const circularHeads = []
+  const allHeads = initialHeads.slice()
+  const circularHeads = initialHeads.filter((head) => head.pattern !== 'strip')
   const sampledCoverage = { sampledPoints: 0, coveredPoints: 0, uncoveredPoints: 0 }
-  const modelSet = new Set()
+  const modelSet = new Set(initialHeads.map((head) => head.performanceModel))
   const layoutWarnings = []
   let circularCoverageComplete = true
   for (let index = 0; index < prepared.length; index += 1) {
@@ -572,12 +632,12 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       sampledCoverage.uncoveredPoints += part.layout.coverage?.uncoveredPoints ?? 0
       if (part.layout.status !== 'coverage_complete_sampled') circularCoverageComplete = false
     }
-    layoutWarnings.push(...part.layout.warnings.filter((warning) =>
+    layoutWarnings.push(...(part.layout.warnings ?? []).filter((warning) =>
       warning.code !== 'overspray_not_evaluated'))
   }
 
   const oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, geometry)
-  const localHeadToHeadChecks = prepared.filter((part) => !part.isStrip)
+  const localHeadToHeadChecks = prepared.filter((part) => !part.isStrip && part.layout.sprinklers.length > 1)
     .flatMap((part) => evaluateHeadToHeadSpacing(part.layout.sprinklers))
   const crossRegionChecks = []
   for (let first = 0; first < prepared.length; first += 1) {
@@ -588,7 +648,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         head.pattern !== 'strip' && Number.isFinite(head.radiusM))
       for (const a of firstHeads) for (const b of secondHeads) {
         const separation = Math.hypot(a.position.x - b.position.x, a.position.y - b.position.y)
-        if (separation <= Math.min(a.radiusM, b.radiusM) + 1e-8 &&
+        if (separation > 0.05 && separation <= Math.min(a.radiusM, b.radiusM) + 1e-8 &&
             sprinklersMutuallyReach(a, b)) {
           crossRegionChecks.push(Object.freeze({
             sprinklerId: a.id,
@@ -601,9 +661,10 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     }
   }
   const headToHeadChecks = [...localHeadToHeadChecks, ...crossRegionChecks]
-  const headToHeadPassed = circularHeads.length
+  const headToHeadPassed = headToHeadChecks.length
     ? headToHeadChecks.every((entry) => entry.passed)
     : null
+
   const coveragePercent = sampledCoverage.sampledPoints
     ? (sampledCoverage.coveredPoints / sampledCoverage.sampledPoints) * 100
     : null
@@ -614,6 +675,9 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const warnings = [
     ...layoutWarnings,
     { code: 'orthogonal_lawn_split_into_non_overlapping_rectangular_calculation_zones', path: 'geometry' },
+    { code: 'rectangles_processed_in_ascending_area_order', path: 'geometry.calculationRegions' },
+    { code: 'each_rectangle_tries_3504pc_before_rvan_fallback', path: 'layout.sprinklers' },
+    { code: 'adjacent_strip_and_rectangle_heads_may_be_offset_by_0_075m', path: 'layout.sprinklers' },
     { code: 'spray_footprints_checked_against_original_lawn_and_exclusions_with_spatial_sampling', path: 'layout.overspray' },
   ]
   if (!oversprayPassed) warnings.push({ code: 'sampled_spray_footprint_exceeds_lawn_boundary', path: 'layout.overspray' })
@@ -622,15 +686,15 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
 
   const selectedModels = [...modelSet].sort()
   const layout = Object.freeze({
-    engineVersion: '0.6.0',
-    algorithm: 'decomposed-orthogonal-rectangular-zones-v2',
+    engineVersion: '0.7.0',
+    algorithm: 'area-ascending-per-rectangle-3504pc-first-rvan-fallback-v1',
     status: !oversprayPassed || !circularCoverageComplete || headToHeadPassed === false
       ? 'coverage_incomplete'
       : (circularHeads.length ? 'coverage_complete_sampled' : 'strip_pattern_placement_ready'),
     coverageScope,
-    family: 'R-VAN',
+    family: selectedModels.includes('3504-PC') ? (selectedModels.some((model) => model.startsWith('R-VAN')) ? 'mixed' : '3500') : 'R-VAN',
     model: selectedModels.join(' / '),
-    pressureBar,
+    pressureBar: selectedModels.includes('3504-PC') && !selectedModels.some((model) => model.startsWith('R-VAN')) ? null : pressureBar,
     sampleStepM: circularHeads.length ? sampleStepM : null,
     geometry: Object.freeze({
       regionId: geometry.regions[0].id,
@@ -648,7 +712,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     sprinklers: Object.freeze(allHeads),
     headToHead: Object.freeze({
       passed: headToHeadPassed,
-      applicable: circularHeads.length > 0,
+      applicable: headToHeadChecks.length > 0,
       checks: Object.freeze(headToHeadChecks),
     }),
     warnings: Object.freeze(warnings.map((warning) => Object.freeze(warning))),
@@ -658,11 +722,14 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     overspray: oversprayPassed ? 'sampled_inside_boundary' : 'sampled_outside_boundary',
     calculationRegions: Object.freeze(prepared.map((part) => Object.freeze({
       id: part.id,
+      areaM2: part.shortSideM * part.lengthM,
       shortSideM: part.shortSideM,
       lengthM: part.lengthM,
       bounds: Object.freeze({ minX: part.minX, minY: part.minY, maxX: part.maxX, maxY: part.maxY }),
       shape: 'rectangle',
       pattern: part.isStrip ? 'strip' : 'circular',
+      family: part.isStrip ? 'R-VAN' : part.layout.family,
+      seamOffsets: Object.freeze(part.candidatePositionOffsets),
     }))),
   })
 
@@ -673,17 +740,17 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   return result(resultStatus, {
     shortSideM,
     manufacturer: 'Rain Bird',
-    family: 'R-VAN',
+    family: layout.family,
     model: layout.model,
     operatingScenario: Object.freeze({
       manufacturer: 'Rain Bird',
-      family: 'R-VAN',
+      family: layout.family,
       model: layout.model,
-      pressureBar,
-      pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: 'per-rectangle local dimensions; connected narrow arms use the owner-defined directional LCS/RCS/SST pattern',
+      pressureBar: selectedModels.includes('3504-PC') && !selectedModels.some((model) => model.startsWith('R-VAN')) ? null : pressureBar,
+      pressureBasis: selectedModels.includes('3504-PC') ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
+      modelSelectionBasis: 'process rectangles from smallest area to largest; try 3504-PC at 10/9/8 m first for each rectangle; if the rectangle is not fully served, use the unchanged local R-VAN fallback; 1 m/2 m strips retain their directional R-VAN pattern',
       layoutRadiusM: null,
-      sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
+      sourceUrl: selectedModels.includes('3504-PC') ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
     }),
@@ -757,6 +824,8 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
+  // Rotor selection is performed independently inside each calculation rectangle.
+
   const lShapeParts = validation.regions[0].shape === 'l-shape' && !(region.exclusions?.length)
     ? decomposeOrthogonalLShape(vertices)
     : null
@@ -769,7 +838,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     }))
     return buildDecomposedLShapeLayout(
       geometry, validation, partsWithStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
-      sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)),
+      sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)), [],
     )
   }
 
@@ -789,7 +858,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     }))
     return buildDecomposedLShapeLayout(
       geometry, validation, withStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
-      sampleStepM, Math.min(...parts.map((part) => part.shortSideM)),
+      sampleStepM, Math.min(...parts.map((part) => part.shortSideM)), [],
     )
   }
 
@@ -859,7 +928,13 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   }
 
   const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
-  const layout = generateLawnSprinklerLayout({
+  const bounds = {
+    minX: Math.min(...xs), maxX: Math.max(...xs),
+    minY: Math.min(...ys), maxY: Math.max(...ys),
+  }
+  const rectangleDimensions = rectangleSize(bounds)
+  const rotorLayout = rectangleRotorLayout(geometry, rectangleDimensions, sampleStepM)
+  const createRvanLayout = () => generateLawnSprinklerLayout({
     geometry,
     family: 'R-VAN',
     model,
@@ -867,13 +942,14 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     sampleStepM,
     radiusM,
   })
-
+  const rvanLayout = rotorLayout ? null : createRvanLayout()
+  const layout = rotorLayout ?? rvanLayout
   if (layout.status !== 'coverage_complete_sampled' && layout.status !== 'coverage_incomplete') {
     return result('layout_incomplete', {
       shortSideM,
       manufacturer: 'Rain Bird',
-      family: 'R-VAN',
-      model,
+      family: layout.family ?? 'R-VAN',
+      model: layout.model ?? model,
       layout,
       projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
     })
@@ -890,13 +966,15 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     }),
     operatingScenario: Object.freeze({
       manufacturer: 'Rain Bird',
-      family: 'R-VAN',
+      family: layout.family ?? 'R-VAN',
       model: layout.model ?? model,
-      pressureBar,
-      pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: 'Florial per-position nozzle selection from corner-to-centre reach and adjacent perimeter spacing; radius independent of arc',
+      pressureBar: layout.family === '3500' ? null : pressureBar,
+      pressureBasis: layout.family === '3500' ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
+      modelSelectionBasis: layout.family === '3500'
+        ? 'the complete rectangle is served by 3504-PC at the largest usable 10/9/8 m planning radius; R-VAN is not added to the same rectangle'
+        : 'R-VAN fallback uses the unchanged local model/radius selection; radius independent of arc',
       layoutRadiusM: null,
-      sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
+      sourceUrl: layout.family === '3500' ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
     }),
@@ -910,13 +988,16 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     zones,
     pipeNetwork,
     layout,
+    overspray: layout.overspray ?? 'not_evaluated',
     warnings: Object.freeze([
       ...layout.warnings,
       Object.freeze({ code: 'approximate_customer_dimensions', path: 'geometry' }),
-      Object.freeze({ code: 'manufacturer_nozzle_pressure_is_reference_not_measured_site_pressure', path: 'operatingScenario.pressureBar' }),
+      ...(layout.family === '3500' ? [] : [
+        Object.freeze({ code: 'manufacturer_nozzle_pressure_is_reference_not_measured_site_pressure', path: 'operatingScenario.pressureBar' }),
+        Object.freeze({ code: 'overspray_not_evaluated', path: 'layout.overspray' }),
+      ]),
       Object.freeze({ code: 'hydraulic_calculation_not_performed', path: 'hydraulics' }),
       Object.freeze({ code: 'sampled_coverage_is_not_continuous_proof', path: 'layout.coverage' }),
-      Object.freeze({ code: 'overspray_not_evaluated', path: 'layout.overspray' }),
     ]),
   })
 }

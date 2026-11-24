@@ -1,3 +1,14 @@
+## 2026-11-24 — PR #530 corner-first 3504-PC integration
+
+- **CLOSED — code integration candidate:** PR #530 combines the relevant #527 dimensioned diagram/PDF/orthogonal-zone work and #528 rotor persistence/BOM contract with the owner-approved corner-first shared-cell solver.
+- **CLOSED — bounded R-VAN seam offset:** owner approved a 7.5 cm inward offset only for the exact matching R-VAN corner candidate at a shared narrow-strip/rectangle seam when the rectangle uses R-VAN fallback. Other R-VAN selection and placement rules remain unchanged.
+- **CLOSED — automated validation:** exact final head `61c41f489f8050d778f5122c40130d5e8ca36700`; Blog/Studio run `45449765697` passed 475/475 tests and all checks; D1 validation `45449765622` passed.
+- **CLOSED — Preview deployment:** deployment `c5161fba-12a2-42b4-a4a9-695f0cbc188b` succeeded from the exact final head: https://c5161fba.florial.pages.dev.
+- **CLOSED — functional browser smoke checks:** 8×8, 10×10, 38×16, 28×14 L-shape with 16×12 cut-out, and 28×4 L-shape with 16×2 cut-out rendered and calculated successfully; 3504-PC cases showed full sampled coverage and passing Head-to-Head.
+- **OPEN — manual visual design review and owner acceptance:** inspect diagram appearance, dimension annotations, exclusions, markers, zones and PDF on the Preview before merge.
+- **OPEN — merge and Production release:** PR #530 remains open; no main merge or Production deployment has occurred.
+- **OPEN — engineering validation:** hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance remain outside the geometric solver.
+
 ## 2026-11-24 — PR #525 Production release close-out
 
 - **CLOSED — implementation and merge:** PR #525 merged into main at `a14e2e3294f96f76542623e7956f5cece78919d0`.

@@ -6,6 +6,7 @@ import { sanityLiveClient } from '../lib/sanity'
 import type { Product } from '../types'
 import type { IrrigationProjectSnapshot } from '../services/orderService'
 import { buildLawnBoundary, type LawnCutoutCorner, type LawnInputShape } from '../lib/irrigation/lawnGeometryInput.mjs'
+import { buildLawnDimensionAnnotations } from '../lib/irrigation/lawnDimensionAnnotations.mjs'
 import { validateLawnGeometry } from '../lib/irrigation/lawnGeometry.mjs'
 import { buildIrrigationIntakeSnapshot, evaluateIrrigationIntake } from '../lib/irrigation/irrigationIntake.mjs'
 import { buildPreliminaryLawnLayout } from '../lib/irrigation/irrigationLayoutBridge.mjs'
@@ -29,6 +30,7 @@ type NonIrrigatedAreaInput = {
 
 function sprinklerNozzleColor(model: string | null | undefined) {
   const normalized = String(model ?? '').replace(/-360$/, '')
+  if (normalized === '3504-PC') return '#173b79'
   if (normalized === 'R-VAN14') return '#3b82f6'
   if (normalized === 'R-VAN18') return '#c49a6c'
   if (normalized === 'R-VAN24') return '#800020'
@@ -49,6 +51,39 @@ function sprinklerSectorPath(position: { x: number; y: number }, radiusM: number
   })
   return 'M ' + position.x + ' ' + position.y + ' L ' +
     points.map((point) => point.x + ' ' + point.y).join(' L ') + ' Z'
+}
+
+function DimensionAnnotations({ annotations, heightM, format }: {
+  annotations: ReadonlyArray<{
+    id: string
+    lengthM: number
+    lineStart: { x: number; y: number }
+    lineEnd: { x: number; y: number }
+    labelPosition: { x: number; y: number }
+    angleDeg: number
+  }>
+  heightM: number
+  format: (value: number) => string
+}) {
+  return (
+    <g aria-hidden="true">
+      {annotations.map((entry) => (
+        <g key={entry.id}>
+          <line
+            x1={entry.lineStart.x} y1={heightM - entry.lineStart.y}
+            x2={entry.lineEnd.x} y2={heightM - entry.lineEnd.y}
+            stroke="#475569" strokeWidth="0.045" strokeLinecap="round"
+          />
+          <g transform={'translate(' + entry.labelPosition.x + ' ' + (heightM - entry.labelPosition.y) + ') rotate(' + entry.angleDeg + ')'}>
+            <rect x="-0.78" y="-0.27" width="1.56" height="0.54" rx="0.12" fill="#ffffff" stroke="#94a3b8" strokeWidth="0.035" />
+            <text x="0" y="0.12" textAnchor="middle" fontSize="0.31" fontWeight="700" fill="#0f172a">
+              {format(entry.lengthM)} m
+            </text>
+          </g>
+        </g>
+      ))}
+    </g>
+  )
 }
 
 export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddToCart, onSetIrrigationProject }: IrrigationAssistantPageProps) {
@@ -401,7 +436,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   const numberFormat = (value: number) => value.toLocaleString(locale, { maximumFractionDigits: 2 })
   const layoutModelNames: string[] = Array.from(new Set<string>((layoutResult?.layout?.sprinklers ?? []).map((sprinkler: any): string => String(sprinkler.performanceModel ?? ''))))
   const layoutModelLabel: string = layoutModelNames.join(', ') || layoutResult?.operatingScenario?.model || '—'
-  const layoutNozzleLegend: Array<{ model: string; color: string }> = layoutModelNames.map((model) => ({ model, color: sprinklerNozzleColor(model) }))
+  const layoutNozzleLegend: Array<{ model: string; color: string; shape: 'circle' | 'triangle' }> = layoutModelNames.map((model) => ({ model, color: sprinklerNozzleColor(model), shape: model.replace(/-360$/, '') === '3504-PC' ? 'triangle' : 'circle' }))
   const layoutLabels = language === 'ru' ? {
     title: 'Предварительная геометрическая раскладка', candidate: 'Форсунки',
     heads: 'Количество дождевателей',
@@ -440,6 +475,11 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   }
   const svgPoints = boundaryVertices?.map((point) => String(Math.round(point.x * 1000) / 1000) + ',' + String(Math.round(point.y * 1000) / 1000)).join(' ')
   const exclusionPolygons = geometryValidation?.normalizedGeometry?.regions?.[0]?.exclusions ?? []
+  const dimensionAnnotations = geometryValidation?.valid
+    ? buildLawnDimensionAnnotations(boundaryVertices ?? [], exclusionPolygons)
+    : []
+  const diagramHeightM = Number(width.replace(',', '.'))
+  const diagramViewBox = '-1.5 -1.5 ' + (Number(length.replace(',', '.')) + 3) + ' ' + (diagramHeightM + 3)
   const svgTransform = 'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'
   const progress = 100
 
@@ -569,11 +609,12 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                   {boundaryVertices && geometryValidation?.valid && <div className="mt-5 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-4">
                     <h3 className="mb-3 text-sm font-bold text-emerald-950">{copy.geometryPreview}</h3>
                     <div className="rounded-xl border border-emerald-100 bg-white p-3">
-                      <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={copy.geometryPreview} className="max-h-56 w-full" preserveAspectRatio="xMidYMid meet">
+                      <svg viewBox={diagramViewBox} role="img" aria-label={copy.geometryPreview} className="max-h-56 w-full" preserveAspectRatio="xMidYMid meet">
                         <g transform={svgTransform}>
                           <polygon points={svgPoints} fill="#bbf7d0" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
                           {exclusionPolygons.map((exclusion: { id: string; polygon: { vertices: Array<{ x: number; y: number }> } }) => <polygon key={exclusion.id} points={exclusion.polygon.vertices.map((point) => point.x + ',' + point.y).join(' ')} fill="#cbd5e1" stroke="#64748b" strokeWidth="0.12" strokeDasharray="0.25 0.15" />)}
                         </g>
+                        <DimensionAnnotations annotations={dimensionAnnotations} heightM={diagramHeightM} format={numberFormat} />
                       </svg>
                     </div>
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -619,7 +660,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                   </div>
                   {layoutResult.status === 'layout_generated' || layoutResult.status === 'layout_incomplete' ? (
                     <>
-                      <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.family} · {layoutModelLabel} · {numberFormat(layoutResult.operatingScenario?.pressureBar ?? 0)} bar</p>
+                      <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.family} · {layoutModelLabel}{layoutResult.operatingScenario?.pressureBar != null ? ' · ' + numberFormat(layoutResult.operatingScenario.pressureBar) + ' bar' : language === 'ru' ? ' · давление не рассчитывается' : language === 'en' ? ' · pressure not calculated' : ' · налягането не се изчислява'}</p>
                       <p className="mt-2 text-sm leading-6 text-slate-700">{layoutResult.status === 'layout_generated' ? (layoutResult.layout?.coverageScope === 'decomposed_rectangular_zones' ? (language === 'ru' ? 'Г-образный участок разделён на прямоугольные расчётные зоны. Широкая зона проверена по контрольным точкам, узкая полоса размещена по правилу LCS/RCS/SST. Это предварительная геометрическая проверка, а не непрерывное математическое доказательство покрытия.' : language === 'en' ? 'The L-shaped lawn is split into rectangular calculation zones. The wider zone is checked at sampled points and the narrow strip uses the LCS/RCS/SST rule. This is a preliminary geometric check, not a continuous mathematical proof of coverage.' : 'Г-образният терен е разделен на правоъгълни изчислителни зони. Широката зона е проверена по контролни точки, а тясната лента е разположена по правилото LCS/RCS/SST. Това е предварителна геометрична проверка, а не непрекъснато математическо доказателство за покритие.') : layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовые форсунки LCS, RCS и SST размещены по согласованному правилу Florial. Выборочное круговое покрытие для этой схемы не рассчитывается.' : language === 'en' ? 'LCS, RCS and SST strip nozzles are placed using the approved Florial rule. Circular sampled coverage is not calculated for this pattern.' : 'Лентовите дюзи LCS, RCS и SST са разположени по одобреното правило на Florial. Кръгово семплирано покритие не се изчислява за този модел.') : layoutLabels.generated) : layoutLabels.incomplete}</p>
                       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.heads}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.sprinklers?.length ?? 0}</dd></div>
@@ -629,7 +670,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       </dl>
                       {boundaryVertices && (layoutResult.layout?.sprinklers?.length ?? 0) > 0 && (
                         <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3">
-                          <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={layoutLabels.title} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
+                          <svg viewBox={diagramViewBox} role="img" aria-label={layoutLabels.title} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
                             <defs><marker id="strip-direction-arrow" markerWidth="0.32" markerHeight="0.32" refX="0.26" refY="0.16" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L0.32 0.16 L0 0.32 z" fill="#475569" /></marker></defs>
                             <g transform={svgTransform}>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
@@ -656,16 +697,24 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                                   </g>}
                                   {sprinkler.radiusM !== null && sprinkler.arcDeg === 360 && <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke={nozzleColor} strokeWidth="0.055" strokeDasharray="0.22 0.14" opacity="0.78" />}
                                    {sprinkler.radiusM !== null && sprinkler.arcDeg !== null && sprinkler.arcDeg !== 360 && <path d={sprinklerSectorPath(sprinkler.position, sprinkler.radiusM, sprinkler.arcDeg, sprinkler.directionDeg)} fill={nozzleColor} fillOpacity="0.08" stroke={nozzleColor} strokeWidth="0.055" strokeDasharray="0.22 0.14" opacity="0.9" />}
-                                  <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill={nozzleColor} stroke="#ffffff" strokeWidth="0.08" />
+                                  {sprinkler.performanceModel?.replace(/-360$/, '') === '3504-PC'
+                                    ? <polygon points={(sprinkler.position.x) + ',' + (sprinkler.position.y + 0.24) + ' ' + (sprinkler.position.x - 0.23) + ',' + (sprinkler.position.y - 0.19) + ' ' + (sprinkler.position.x + 0.23) + ',' + (sprinkler.position.y - 0.19)} fill={nozzleColor} stroke="#ffffff" strokeWidth="0.08" strokeLinejoin="round" />
+                                    : <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill={nozzleColor} stroke="#ffffff" strokeWidth="0.08" />}
                                   {zoneNumber !== undefined && <g transform={'translate(' + (sprinkler.position.x + 0.22) + ' ' + sprinkler.position.y + ') scale(1 -1)'}><text x="0" y="-0.22" fontSize="0.72" fontWeight="700" fill="#0f172a" stroke="#ffffff" strokeWidth="0.12" paintOrder="stroke">{zoneNumber}</text></g>}
                                 </g>
                                 )
                               })}
                             </g>
+                            <DimensionAnnotations annotations={dimensionAnnotations} heightM={diagramHeightM} format={numberFormat} />
                           </svg>
                           {layoutNozzleLegend.length > 0 && <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs text-slate-700">
-                            {layoutNozzleLegend.map((item) => <span key={item.model} className="inline-flex items-center gap-2"><span className="h-3 w-3 rounded-full border border-white shadow-sm" style={{ backgroundColor: item.color }} />{item.model}</span>)}
+                            {layoutNozzleLegend.map((item) => <span key={item.model} className="inline-flex items-center gap-2">{item.shape === 'triangle' ? <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden="true"><polygon points="8,1 15,14 1,14" fill={item.color} /></svg> : <span className="h-3 w-3 rounded-full border border-white shadow-sm" style={{ backgroundColor: item.color }} />}{item.model}</span>)}
                           </div>}
+                          {layoutResult.layout?.sprinklers?.some((head: { performanceModel?: string }) => head.performanceModel === '3504-PC') && <p className="mt-2 text-xs leading-5 text-slate-600">{language === 'ru'
+                            ? 'Показанные сектора и радиусы 3504-PC — геометрические планировочные значения Florial, а не подтверждённые рабочие характеристики производителя. Фактическая дальность и расход зависят от выбранной форсунки и давления.'
+                            : language === 'en'
+                              ? 'The 3504-PC sectors and radii shown are Florial geometric planning values, not manufacturer-validated performance. Actual throw and flow depend on the selected nozzle and pressure.'
+                              : 'Показаните сектори и радиуси на 3504-PC са геометрични проектни стойности на Florial, а не потвърдени работни характеристики на производителя. Реалният радиус и дебит зависят от избраната дюза и налягането.'}</p>}
                         </div>
                       )}
                       <div className="mt-3 rounded-xl bg-white p-3 text-sm">
@@ -690,8 +739,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       <details className="mt-3 rounded-xl bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
-                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; performanceModel?: string; pattern?: string; stripWidthM?: number; stripLengthM?: number; stripDirection?: string; stripAxis?: string }) => (
-                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' · ' + sprinkler.stripWidthM + ' m · ' + sprinkler.stripLengthM + ' m · ' + ((sprinkler.stripDirection ?? '—') + ' / ' + (sprinkler.stripAxis ?? '—')) : (sprinkler.performanceModel ?? 'R-VAN') + ' · ' + sprinkler.arcDeg + '°'}</li>
+                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; radiusM?: number | null; performanceModel?: string; pattern?: string; stripWidthM?: number; stripLengthM?: number; stripDirection?: string; stripAxis?: string }) => (
+                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' · ' + sprinkler.stripWidthM + ' m · ' + sprinkler.stripLengthM + ' m · ' + ((sprinkler.stripDirection ?? '—') + ' / ' + (sprinkler.stripAxis ?? '—')) : (sprinkler.performanceModel ?? 'R-VAN') + ' · ' + sprinkler.arcDeg + '°' + (sprinkler.pattern === 'rotor' ? ' · R ' + numberFormat(sprinkler.radiusM ?? 0) + ' m' : '')}</li>
                           ))}
                         </ol>
                       </details>
@@ -715,7 +764,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                     {billOfMaterials.headCount} {language === 'ru' ? 'дождевателей' : language === 'en' ? 'sprinklers' : 'разпръсквача'} · {billOfMaterials.zoneCount} {language === 'ru' ? 'зоны' : language === 'en' ? 'zones' : 'зони'}
                   </p>
                   <p className="mt-1 text-xs text-emerald-800">
-                    {language === 'ru' ? 'В комплект входят подобранные форсунки, корпуса 1804, гибкие соединения и фитинги. Тип клапанов и автоматики выберете на следующем шаге.' : language === 'en' ? 'Includes selected nozzles, 1804 bodies, flexible connections and fittings. Choose the valve and controller arrangement in the next step.' : 'Включва избрани дюзи, тела 1804, гъвкави връзки и фитинги. Изберете вида клапани и управление на следващата стъпка.'}
+                    {language === 'ru' ? 'В комплект входят подобранные дождеватели и форсунки, гибкие соединения и фитинги. Тип клапанов и автоматики выберете на следующем шаге.' : language === 'en' ? 'Includes selected sprinklers and nozzles, flexible connections and fittings. Choose the valve and controller arrangement in the next step.' : 'Включва избрани разпръсквачи и дюзи, гъвкави връзки и фитинги. Изберете вида клапани и управление на следващата стъпка.'}
                   </p>
                   <button
                     type="button"

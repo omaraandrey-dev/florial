@@ -1,4 +1,5 @@
 const PRODUCT_SKUS = Object.freeze({
+  rotor3504: 'Y34001',
   body1804: 'A44120',
   flex30m: 'A82060',
   sbe050: 'A46010',
@@ -54,8 +55,30 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
   }
 
   const nozzleCounts = new Map()
+  let rotorCount = 0
+  let sprayBodyCount = 0
   for (const sprinkler of sprinklers) {
     const baseModel = String(sprinkler.performanceModel ?? layout.model ?? '').replace(/-360$/, '')
+    if (baseModel === '3504-PC') {
+      if (sprinkler.pattern !== 'rotor' ||
+          !Number.isFinite(sprinkler.radiusM) ||
+          sprinkler.radiusM < 5 || sprinkler.radiusM > 10) {
+        return Object.freeze({
+          valid: false,
+          reason: 'invalid_3504_pc_head_definition',
+          items: Object.freeze([]),
+        })
+      }
+      rotorCount += 1
+      continue
+    }
+    if (sprinkler.pattern === 'rotor') {
+      return Object.freeze({
+        valid: false,
+        reason: 'invalid_3504_pc_head_definition',
+        items: Object.freeze([]),
+      })
+    }
     const nozzleKey = sprinkler.arcDeg === 360 ? baseModel + '-360' : baseModel
     const sku = PRODUCT_SKUS.nozzles[nozzleKey]
     if (!sku) {
@@ -67,12 +90,15 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
       })
     }
     nozzleCounts.set(sku, (nozzleCounts.get(sku) ?? 0) + 1)
+    sprayBodyCount += 1
   }
+
+  add(PRODUCT_SKUS.rotor3504, rotorCount)
 
   for (const [sku, quantity] of nozzleCounts) add(sku, quantity)
 
   const headCount = sprinklers.length
-  add(PRODUCT_SKUS.body1804, headCount)
+  add(PRODUCT_SKUS.body1804, sprayBodyCount)
   add(PRODUCT_SKUS.sbe050, headCount * 2)
   add(PRODUCT_SKUS.flex30m, Math.max(1, Math.ceil(headCount / 60)))
 
@@ -104,6 +130,7 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
 
 export const IRRIGATION_BOM_PRODUCT_SKUS = Object.freeze([
   ...new Set([
+    PRODUCT_SKUS.rotor3504,
     PRODUCT_SKUS.body1804,
     PRODUCT_SKUS.flex30m,
     PRODUCT_SKUS.sbe050,
