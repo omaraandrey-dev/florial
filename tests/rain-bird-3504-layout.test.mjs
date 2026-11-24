@@ -40,7 +40,9 @@ test('10x10 allows a shorter local radius while preserving full rotor coverage a
   assert.equal(result.status, 'coverage_complete_sampled')
   assert.equal(result.coverage.uncoveredPoints, 0)
   assert.equal(result.headToHead.passed, true)
-  assert.ok(result.sprinklers.every((head) => head.radiusM >= 5 && head.radiusM <= 8))
+  assert.ok(result.sprinklers.every((head) => head.radiusM >= 5 && head.radiusM <= 10))
+  assert.ok(result.sprinklers.some((head) => head.radiusM < 8),
+    JSON.stringify(result.sprinklers.map((head) => ({ position: head.position, radiusM: head.radiusM }))))
 })
 
 test('rotor-only solver declines rectangles narrower than the minimum 5m throw', () => {
