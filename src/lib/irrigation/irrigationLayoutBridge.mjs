@@ -19,15 +19,16 @@ function result(status, extra = {}) {
   })
 }
 
-const RCS_MODEL = 'R-VAN-RCS'
+const STRIP_MODELS = Object.freeze({
+  1: Object.freeze({ endReachM: 3, centerReachM: 3, centerSpacingM: 3, endPairAfterM: 3, centersAfterM: 5 }),
+  2: Object.freeze({ endReachM: 4, centerReachM: 4, centerSpacingM: 4, endPairAfterM: 4, centersAfterM: 7 }),
+})
 const RCS_SUPPORTED_STRIP_WIDTHS_M = Object.freeze([1, 2])
 
 function selectRvanModel(shortSideM) {
   if (shortSideM <= 3 + 1e-8) return Object.freeze({ model: 'R-VAN14', radiusM: 3 })
   if (shortSideM <= 4 + 1e-8) return Object.freeze({ model: 'R-VAN18', radiusM: 4 })
   if (shortSideM <= 5 + 1e-8) return Object.freeze({ model: 'R-VAN18', radiusM: 5 })
-  // R-VAN24 is the largest supported circular-spray candidate. Wider lawns
-  // are handled with additional interior rows instead of changing its radius.
   return Object.freeze({ model: 'R-VAN24', radiusM: 6 })
 }
 
@@ -40,7 +41,7 @@ function isRectangle(vertices) {
   })
 }
 
-function buildRcsStripLayout(geometry, shortSideM) {
+function buildRvanStripLayout(geometry, shortSideM) {
   const vertices = geometry.regions[0].boundary.vertices
   if (!isRectangle(vertices)) return null
   const widthM = RCS_SUPPORTED_STRIP_WIDTHS_M.find((width) => Math.abs(width - shortSideM) <= 1e-8)
@@ -52,46 +53,60 @@ function buildRcsStripLayout(geometry, shortSideM) {
   const maxX = Math.max(...xs)
   const minY = Math.min(...ys)
   const maxY = Math.max(...ys)
-  const lengthM = Math.max(maxX - minX, maxY - minY)
   const horizontal = maxX - minX >= maxY - minY
-  const reachM = widthM === 1 ? 2 : 4
-  // Owner-approved examples: width 2m -> length 4m: 1 head, 6m: 2,
-  // 8m: 3. Half-throw spacing preserves those exact counts.
-  const count = Math.max(1, Math.ceil(lengthM / (reachM / 2)) - 1)
-  const point = findRainBirdRvanPerformancePoint(RCS_MODEL, RECOMMENDED_NOZZLE_PRESSURE_BAR, null)
-  if (!point) return null
+  const lengthM = horizontal ? maxX - minX : maxY - minY
+  const rule = STRIP_MODELS[widthM]
+  const rightOrBottom = horizontal ? maxX : maxY
+  const leftOrTop = horizontal ? minX : minY
+  const fixedSide = horizontal ? maxY : maxX
+  const makePosition = (offsetFromStart) => horizontal
+    ? { x: rightOrBottom - offsetFromStart, y: fixedSide }
+    : { x: fixedSide, y: rightOrBottom - offsetFromStart }
 
-  const sprinklers = Array.from({ length: count }, (_, index) => {
-    const ratio = count === 1 ? 0 : index / (count - 1)
-    const position = horizontal
-      ? { x: maxX - lengthM * ratio, y: minY }
-      : { x: maxX, y: minY + lengthM * ratio }
-    return Object.freeze({
-      id: 's' + String(index + 1).padStart(5, '0'),
-      position: Object.freeze(position),
-      // Strip nozzles have no circular arc; null is intentional.
+  const heads = []
+  const addHead = (model, offsetFromStart, direction, reachM) => {
+    const point = findRainBirdRvanPerformancePoint(model, RECOMMENDED_NOZZLE_PRESSURE_BAR, null)
+    if (!point) return false
+    heads.push(Object.freeze({
+      id: 's' + String(heads.length + 1).padStart(5, '0'),
+      position: Object.freeze(makePosition(offsetFromStart)),
       arcDeg: null,
       directionDeg: null,
+      stripDirection: direction,
       source: 'edge',
       radiusM: null,
       pressureBar: point.pressureBar,
       flowLpm: point.flowLpm,
       precipitationSquareMmH: point.precipitationSquareMmH,
       precipitationTriangularMmH: point.precipitationTriangularMmH,
-      performanceModel: RCS_MODEL,
+      performanceModel: model,
       pattern: 'strip',
       stripWidthM: widthM,
       stripLengthM: reachM,
-    })
-  })
+    }))
+    return true
+  }
 
+  if (lengthM <= rule.endPairAfterM + 1e-8) {
+    if (!addHead('R-VAN-RCS', 0, horizontal ? 'left' : 'up', rule.endReachM)) return null
+  } else {
+    if (!addHead('R-VAN-RCS', 0, horizontal ? 'left' : 'up', rule.endReachM)) return null
+    if (lengthM > rule.centersAfterM + 1e-8) {
+      for (let offset = rule.centerSpacingM; offset < lengthM - 1e-8; offset += rule.centerSpacingM) {
+        if (!addHead('R-VAN-SST', offset, 'both', rule.centerReachM)) return null
+      }
+    }
+    if (!addHead('R-VAN-LCS', lengthM, horizontal ? 'right' : 'down', rule.endReachM)) return null
+  }
+
+  const modelSet = [...new Set(heads.map((head) => head.performanceModel))]
   return Object.freeze({
-    engineVersion: '0.4.0',
-    algorithm: 'owner-defined-rvan-rcs-strip-placement-v1',
+    engineVersion: '0.5.0',
+    algorithm: 'owner-defined-rvan-lcs-rcs-sst-strip-placement-v2',
     status: 'strip_pattern_placement_ready',
     coverageScope: 'owner_defined_strip_pattern',
     family: 'R-VAN',
-    model: RCS_MODEL,
+    model: modelSet.join(' / '),
     pressureBar: RECOMMENDED_NOZZLE_PRESSURE_BAR,
     sampleStepM: null,
     geometry: Object.freeze({
@@ -99,14 +114,14 @@ function buildRcsStripLayout(geometry, shortSideM) {
       shape: 'rectangle',
       areaM2: lengthM * widthM,
     }),
-    sprinklers: Object.freeze(sprinklers),
+    sprinklers: Object.freeze(heads),
     headToHead: Object.freeze({ passed: null, checks: Object.freeze([]), applicable: false }),
     hydraulicFeasibility: 'not_evaluated',
     precipitationUniformity: 'not_evaluated',
     bodyCompatibility: 'not_evaluated',
     overspray: 'not_evaluated',
     warnings: Object.freeze([
-      Object.freeze({ code: 'owner_defined_rcs_strip_pattern_not_sampled_as_circular_coverage', path: 'layout.coverage' }),
+      Object.freeze({ code: 'owner_defined_rvan_strip_pattern_not_sampled_as_circular_coverage', path: 'layout.coverage' }),
       Object.freeze({ code: 'strip_head_to_head_circular_sector_check_not_applicable', path: 'layout.headToHead' }),
       Object.freeze({ code: 'hydraulic_calculation_not_performed', path: 'hydraulics' }),
     ]),
