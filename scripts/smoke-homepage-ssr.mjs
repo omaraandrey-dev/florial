@@ -45,6 +45,9 @@ for (const route of routes) {
   assert.match(html, /href="\/blog(?:\?lang=(?:ru|en))?"/)
   assert.match(html, /href="\/product\//)
   assert.match(html, /data-florial-jsonld="organization"/)
+  assert.match(html, /data-florial-jsonld="website"/)
+  assert.match(html, /data-florial-jsonld="local-business-nessebar"/)
+  assert.match(html, /data-florial-jsonld="local-business-ravda"/)
   assert.ok(Buffer.byteLength(html, 'utf8') < 350_000, route.language + ': homepage initial HTML exceeded 350 KB')
   if (route.language !== 'bg') {
     assert.match(html, new RegExp('href="[^"]+\\?lang=' + route.language + '"'))
