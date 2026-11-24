@@ -64,7 +64,7 @@ const COPY = {
     allArticles: 'Всички статии',
     readMore: 'Прочетете още',
     noArticles: 'Няма публикувани статии.',
-    deliveryTitle: 'Доставка на оборудване',
+    deliveryTitle: 'Доставка на оборудване и консултация с инженер',
     deliveryAlt: 'Доставка на оборудване и консултация с инженер',
     deliveryText: 'Доставка на оборудване и консултация с инженер.',
   },
@@ -102,7 +102,7 @@ const COPY = {
     allArticles: 'Все статьи',
     readMore: 'Читать далее',
     noArticles: 'Пока нет опубликованных статей.',
-    deliveryTitle: 'Доставка оборудования',
+    deliveryTitle: 'Доставка оборудования и консультация инженера',
     deliveryAlt: 'Доставка оборудования и консультация инженера',
     deliveryText: 'Доставка оборудования и консультация инженера.',
   },
@@ -140,7 +140,7 @@ const COPY = {
     allArticles: 'All articles',
     readMore: 'Read more',
     noArticles: 'No articles have been published yet.',
-    deliveryTitle: 'Equipment delivery',
+    deliveryTitle: 'Equipment delivery & engineer consultation',
     deliveryAlt: 'Equipment delivery and irrigation engineer consultation',
     deliveryText: 'Equipment delivery and consultation with an irrigation engineer.',
   },
@@ -167,6 +167,73 @@ function safeImageUrl(value) {
   } catch {
     return ''
   }
+}
+
+function responsiveImage(value, options = {}) {
+  const imageUrl = safeImageUrl(value)
+  if (!imageUrl) return ''
+  const {
+    alt = '',
+    title = '',
+    sizes = '',
+    preferredWidth = 640,
+    quality = 75,
+    width,
+    height,
+    className = '',
+    loading = 'lazy',
+    fetchPriority = '',
+    ariaHidden = false,
+  } = options
+  let src = imageUrl
+  let srcSet = ''
+  let intrinsicWidth
+  let intrinsicHeight
+
+  try {
+    const source = new URL(imageUrl)
+    const dimensions = source.pathname.match(/-(\\d+)x(\\d+)\\.[a-z0-9]+$/i)
+    if (
+      source.protocol === 'https:' &&
+      source.hostname === 'cdn.sanity.io' &&
+      /^\\/images\\/[^/]+\\/[^/]+\\//.test(source.pathname) &&
+      dimensions
+    ) {
+      intrinsicWidth = Number(dimensions[1])
+      intrinsicHeight = Number(dimensions[2])
+      const buildUrl = (candidateWidth) => {
+        const image = new URL(source)
+        image.searchParams.set('w', String(Math.min(candidateWidth, intrinsicWidth)))
+        image.searchParams.set('fit', 'max')
+        image.searchParams.set('auto', 'format')
+        image.searchParams.set('q', String(Math.min(100, Math.max(1, Math.round(quality)))))
+        return image.toString()
+      }
+      const candidates = [160, 240, 320, 480, 640, 720, 800, 960, 1200, 1600]
+        .map((candidateWidth) => Math.min(candidateWidth, intrinsicWidth))
+        .filter((candidateWidth, index, all) => candidateWidth > 0 && all.indexOf(candidateWidth) === index)
+        .sort((a, b) => a - b)
+      src = buildUrl(preferredWidth)
+      srcSet = candidates.map((candidateWidth) => buildUrl(candidateWidth) + ' ' + candidateWidth + 'w').join(', ')
+    }
+  } catch {
+    // Keep the original safe HTTPS URL for non-Sanity images.
+  }
+
+  const attributes = [
+    'src="' + escapeHtml(src) + '"',
+    srcSet ? 'srcset="' + escapeHtml(srcSet) + '" sizes="' + escapeHtml(sizes) + '"' : '',
+    'alt="' + escapeHtml(alt) + '"',
+    title ? 'title="' + escapeHtml(title) + '"' : '',
+    width || intrinsicWidth ? 'width="' + escapeHtml(width || intrinsicWidth) + '"' : '',
+    height || intrinsicHeight ? 'height="' + escapeHtml(height || intrinsicHeight) + '"' : '',
+    'loading="' + escapeHtml(loading) + '"',
+    fetchPriority ? 'fetchpriority="' + escapeHtml(fetchPriority) + '"' : '',
+    'decoding="async"',
+    className ? 'class="' + escapeHtml(className) + '"' : '',
+    ariaHidden ? 'aria-hidden="true"' : '',
+  ].filter(Boolean).join(' ')
+  return '<img ' + attributes + ' />'
 }
 
 function localize(item, field, language) {
@@ -222,23 +289,9 @@ function priceMarkup(price) {
 }
 
 function selectVisibleEquipmentCategories(categories) {
-  const byId = new Map((categories || []).map((item) => [item._id, item]))
-  const visibleIds = new Set()
-  ;(categories || []).forEach((category) => {
-    if ((category.productCount || 0) <= 0) return
-    let current = category
-    const visited = new Set()
-    while (current && !visited.has(current._id)) {
-      visited.add(current._id)
-      visibleIds.add(current._id)
-      current = current.parentId ? byId.get(current.parentId) : undefined
-    }
-  })
-  const visible = (categories || []).filter((category) =>
-    category.slug?.current !== 'electromagnetic-valves' && visibleIds.has(category._id)
-  )
-  const rootId = visible.find((category) => category.slug?.current === 'vsichko-za-polivane')?._id
-  const roots = visible.filter((category) => !category.parentId || category.parentId === rootId)
+  const items = Array.isArray(categories) ? categories : []
+  const rootId = items.find((category) => category.slug?.current === 'vsichko-za-polivane')?._id
+  const roots = items.filter((category) => !category.parentId || category.parentId === rootId)
   return roots.slice().sort((a, b) => {
     const aIndex = EQUIPMENT_CATEGORY_ORDER.indexOf(a.slug?.current || '')
     const bIndex = EQUIPMENT_CATEGORY_ORDER.indexOf(b.slug?.current || '')
@@ -262,6 +315,13 @@ function selectVisiblePlants(products) {
     .filter((product) => plantStatus(product) !== 'outOfStock')
     .filter((product) => getPlantPrice(product) !== null)
     .slice(0, 4)
+}
+
+function plantDisplayName(product, language) {
+  const localizedName = localize(product, 'name', language)
+  if (localizedName) return localizedName
+  const localizedH1 = language === 'bg' ? '' : product?.translations?.[language]?.seo?.h1
+  return String(localizedH1 || product?.name || product?.seo?.h1 || '').trim()
 }
 
 function selectVisibleEquipment(products) {
@@ -309,34 +369,75 @@ function serviceSummary(service, language) {
   return summaries[service.serviceCategory || '']?.[language] || ''
 }
 
-function renderCategoryCard(category, language, equipment = false) {
+function renderCategoryCard(category, language, equipment = false, index = 0) {
   const name = localize(category, 'name', language) || category.name || ''
   const slug = category.slug?.current || category._id
   const imageUrl = safeImageUrl(category.imageUrl)
   const alt = categoryImageText(category, language, 'alt')
   const title = categoryImageText(category, language, 'title')
-  return '<li><a class="group block overflow-hidden rounded-xl border border-[#E2E6D8] bg-white no-underline" href="' + escapeHtml(href('/category/' + encodeURIComponent(slug), language)) + '">' +
-    (imageUrl
-      ? '<img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(alt) + '"' + (title ? ' title="' + escapeHtml(title) + '"' : '') + ' width="800" height="600" loading="lazy" decoding="async" class="h-36 w-full object-' + (equipment ? 'contain' : 'cover') + '" />'
-      : '') +
-    '<h4 class="p-3 text-sm font-bold text-slate-800">' + escapeHtml(name) + '</h4></a></li>'
+  const sizes = equipment
+    ? '(min-width: 1024px) 20vw, (min-width: 768px) 25vw, 33vw'
+    : '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw'
+  const image = imageUrl
+    ? responsiveImage(imageUrl, {
+        alt,
+        title,
+        sizes,
+        width: 800,
+        height: 600,
+        className: equipment
+          ? 'h-full w-full object-contain'
+          : 'h-full w-full object-cover transition duration-300 group-hover:scale-105',
+      })
+    : ''
+  if (equipment) {
+    const isMainCategory = slug === 'vsichko-za-polivane' || index === 0
+    const cardClass = 'overflow-hidden rounded-xl border transition cursor-pointer flex flex-col items-center text-center group no-underline ' +
+      (isMainCategory
+        ? 'bg-emerald-50/80 border-emerald-300 shadow-sm hover:shadow-md'
+        : 'bg-white border-slate-200 shadow-sm hover:shadow-md')
+    return '<li><a class="' + cardClass + '" href="' + escapeHtml(href('/category/' + encodeURIComponent(slug), language)) + '">' +
+      '<div class="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-white flex items-center justify-center">' +
+      (image || '<span class="text-xs text-slate-400">' + escapeHtml(copyNoImage(language)) + '</span>') +
+      '</div><div class="w-full p-3 text-center md:p-4"><h4 class="font-bold text-xs sm:text-sm md:text-base group-hover:text-emerald-700 transition line-clamp-2 ' +
+      (isMainCategory ? 'text-emerald-900 font-extrabold' : 'text-slate-800') + '">' + escapeHtml(name) + '</h4></div></a></li>'
+  }
+  const fallbackEmojis = ['🌴', '🫒', '🍋', '🌲', '🌹', '🌵', '🌳']
+  return '<li><a class="group overflow-hidden rounded-xl border border-[#E2E6D8] bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9C79C] hover:shadow-md no-underline" href="' +
+    escapeHtml(href('/category/' + encodeURIComponent(slug), language)) + '">' +
+    '<div class="relative h-28 sm:h-36 md:h-44 overflow-hidden bg-gradient-to-br from-[#EEF1E4] via-[#F7F7F1] to-[#E7EBD9] flex items-center justify-center">' +
+    (image || '<span aria-hidden="true" class="text-5xl">' + fallbackEmojis[index % fallbackEmojis.length] + '</span>') +
+    '</div><div class="p-3 md:p-4"><h4 class="font-bold text-sm md:text-base text-slate-900 group-hover:text-[#647746]">' +
+    escapeHtml(name) + '</h4><span class="mt-2 inline-block text-xs font-semibold text-[#71814F]">' +
+    escapeHtml(language === 'ru' ? 'Посмотреть' : language === 'en' ? 'Explore' : 'Разгледайте') + ' →</span></div></a></li>'
+}
+
+function copyNoImage(language) {
+  return language === 'ru' ? 'Нет изображения' : language === 'en' ? 'No image' : 'Няма снимка'
 }
 
 function renderPlantCard(product, language, copy) {
-  const name = localize(product, 'name', language) || product.name || ''
+  const name = plantDisplayName(product, language)
   const slug = product.slug?.current || product._id
   const plantPrice = getPlantPrice(product)
   if (!plantPrice) return ''
   const status = plantStatus(product)
   const imageUrl = safeImageUrl(product.imageUrl)
-  return '<li><article class="overflow-hidden rounded-xl border border-[#E2E6D8] bg-white shadow-sm">' +
+  const image = imageUrl
+    ? responsiveImage(imageUrl, {
+        alt: imageText(name, language, 'alt'),
+        sizes: '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 50vw',
+        className: 'h-full w-full object-contain p-2 transition duration-300 hover:scale-[1.02] sm:p-4',
+      })
+    : '<span class="text-sm text-slate-400">' + escapeHtml(copy.noImage) + '</span>'
+  return '<li><article class="overflow-hidden rounded-xl border border-[#E2E6D8] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">' +
     '<a class="block text-left no-underline" href="' + escapeHtml(href('/product/' + encodeURIComponent(slug), language)) + '">' +
-    (imageUrl ? '<img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(imageText(name, language, 'alt')) + '" loading="lazy" decoding="async" class="h-48 w-full object-contain p-3" />' : '') +
-    '<div class="p-4"><h4 class="font-bold text-slate-900">' + escapeHtml(name) + '</h4>' +
-    (product.scientificName ? '<p class="mt-1 text-xs italic text-slate-500">' + escapeHtml(product.scientificName) + '</p>' : '') +
-    '<p class="mt-3 text-base font-extrabold text-[#34452D]">' + (plantPrice.from ? escapeHtml(copy.from) + ' ' : '') + plantPrice.price.toFixed(2) + ' €</p>' +
+    '<div class="flex aspect-[4/5] items-center justify-center overflow-hidden bg-[#F7F8F1]">' + image + '</div>' +
+    '<div class="p-3 sm:p-4"><h4 class="line-clamp-2 min-h-10 text-sm font-bold leading-snug text-slate-900 sm:text-base">' + escapeHtml(name) + '</h4>' +
+    (product.scientificName ? '<p class="mt-1 line-clamp-1 text-xs italic text-slate-500">' + escapeHtml(product.scientificName) + '</p>' : '') +
+    '<p class="mt-3 text-base font-extrabold text-[#34452D] sm:text-lg">' + (plantPrice.from ? escapeHtml(copy.from) + ' ' : '') + plantPrice.price.toFixed(2) + ' €</p>' +
     (product.vatIncluded === true ? '<p class="mt-1 text-xs text-slate-500">' + escapeHtml(copy.vat) + '</p>' : '') +
-    '<p class="mt-2 text-xs font-semibold">' + escapeHtml(availabilityLabel(status, copy)) + '</p>' +
+    '<p class="mt-2 text-xs font-semibold ' + (status === 'inStock' ? 'text-emerald-700' : 'text-amber-700') + '">' + escapeHtml(availabilityLabel(status, copy)) + '</p>' +
     '<span class="mt-3 inline-flex text-sm font-bold text-[#647746]">' + escapeHtml(copy.viewPlant) + ' →</span></div></a></article></li>'
 }
 
@@ -344,29 +445,59 @@ function renderEquipmentCard(product, language, copy) {
   const name = localize(product, 'name', language) || product.name || ''
   const slug = product.slug?.current || product._id
   const imageUrl = safeImageUrl(product.imageUrl)
-  return '<li><article class="overflow-hidden rounded-xl border border-[#E2E6D8] bg-white shadow-sm">' +
+  const image = imageUrl
+    ? responsiveImage(imageUrl, {
+        alt: imageText(name, language, 'alt'),
+        sizes: '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 50vw',
+        className: 'h-full w-full object-contain p-2 transition duration-300 hover:scale-[1.02] sm:p-4',
+      })
+    : '<span class="text-sm text-slate-400">' + escapeHtml(copy.noImage) + '</span>'
+  return '<li><article class="overflow-hidden rounded-xl border border-[#E2E6D8] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">' +
     '<a class="block text-left no-underline" href="' + escapeHtml(href('/product/' + encodeURIComponent(slug), language)) + '">' +
-    (imageUrl ? '<img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(imageText(name, language, 'alt')) + '" loading="lazy" decoding="async" class="h-48 w-full object-contain p-3" />' : '') +
-    '<div class="p-4"><h4 class="font-bold text-slate-900">' + escapeHtml(name) + '</h4>' +
-    priceMarkup(product.priceEUR) +
+    '<div class="flex aspect-[4/5] items-center justify-center overflow-hidden bg-[#F7F8F1]">' + image + '</div>' +
+    '<div class="p-3 sm:p-4"><h4 class="line-clamp-2 min-h-10 text-sm font-bold leading-snug text-slate-900 sm:text-base">' + escapeHtml(name) + '</h4>' +
+    '<p class="mt-3 text-base font-extrabold text-[#34452D] sm:text-lg">' + Number(product.priceEUR).toFixed(2) + ' €</p>' +
     (product.vatIncluded === true ? '<p class="mt-1 text-xs text-slate-500">' + escapeHtml(copy.vat) + '</p>' : '') +
-    '<p class="mt-2 text-xs font-semibold">' + escapeHtml(availabilityLabel(product.stockStatus === 'inStock' ? 'inStock' : product.stockStatus === 'outOfStock' ? 'outOfStock' : 'onRequest', copy)) + '</p>' +
+    '<p class="mt-2 text-xs font-semibold ' + (product.stockStatus === 'inStock' ? 'text-emerald-700' : 'text-amber-700') + '">' +
+    escapeHtml(availabilityLabel(product.stockStatus === 'inStock' ? 'inStock' : product.stockStatus === 'outOfStock' ? 'outOfStock' : 'onRequest', copy)) + '</p>' +
     '<span class="mt-3 inline-flex text-sm font-bold text-[#647746]">' + escapeHtml(copy.viewKit) + ' →</span></div></a></article></li>'
 }
 
 function renderServiceCard(entry, language, copy) {
+  const imageSizes = '(min-width: 768px) 33vw, 50vw'
   if (entry.kind === 'delivery') {
-    return '<li><a class="block overflow-hidden rounded-xl border border-[#DDE3D0] bg-white/85 text-slate-800 no-underline" href="' + escapeHtml(href('/services/dostavka-poliv', language)) + '">' +
-      '<img src="' + DELIVERY_IMAGE + '" alt="' + escapeHtml(copy.deliveryAlt) + '" loading="lazy" decoding="async" class="h-36 w-full object-cover" />' +
-      '<div class="p-4"><h4 class="font-bold">' + escapeHtml(copy.deliveryTitle) + '</h4><p class="mt-2 text-sm">' + escapeHtml(copy.deliveryText) + '</p><span class="mt-3 inline-flex text-xs font-bold">' + escapeHtml(copy.learnMore) + ' →</span></div></a></li>'
+    const image = responsiveImage(DELIVERY_IMAGE, {
+      alt: copy.deliveryAlt,
+      sizes: imageSizes,
+      width: 800,
+      height: 600,
+      className: 'h-full w-full object-cover',
+    })
+    return '<li><a class="overflow-hidden rounded-xl border border-[#DDE3D0] bg-white/85 shadow-sm backdrop-blur-md flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline" href="' +
+      escapeHtml(href('/services/dostavka-poliv', language)) + '"><div><div class="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-[#E9EDDB]">' + image +
+      '</div><div class="p-3 md:p-4"><h4 class="text-sm md:text-xl font-bold mb-1 leading-snug">' + escapeHtml(copy.deliveryTitle) +
+      '</h4><p class="text-xs leading-relaxed text-slate-600 md:text-sm">' + escapeHtml(copy.deliveryText) +
+      '</p><span class="mt-3 inline-flex text-xs font-bold text-[#647746]">' + escapeHtml(copy.learnMore) + ' →</span></div></div></a></li>'
   }
   const service = entry.service || {}
   const name = localize(service, 'name', language) || service.name || ''
   const slug = service.slug?.current || service._id
   const imageUrl = safeImageUrl(service.imageUrl)
-  return '<li><a class="block overflow-hidden rounded-xl border border-[#DDE3D0] bg-white/85 text-slate-800 no-underline" href="' + escapeHtml(href('/services/' + encodeURIComponent(slug), language)) + '">' +
-    (imageUrl ? '<img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(name) + '" loading="lazy" decoding="async" class="h-36 w-full object-cover" />' : '') +
-    '<div class="p-4"><h4 class="font-bold">' + escapeHtml(name) + '</h4><p class="mt-2 text-sm">' + escapeHtml(serviceSummary(service, language)) + '</p><span class="mt-3 inline-flex text-xs font-bold">' + escapeHtml(copy.learnMore) + ' →</span></div></a></li>'
+  const image = imageUrl
+    ? responsiveImage(imageUrl, {
+        alt: name,
+        sizes: imageSizes,
+        width: 800,
+        height: 600,
+        className: 'h-full w-full object-cover',
+      })
+    : '<div class="flex h-full items-center justify-center p-2 text-center"><span class="font-bold text-slate-800 text-xs md:text-base block">' + escapeHtml(name) + '</span></div>'
+  const summary = serviceSummary(service, language)
+  return '<li><a class="overflow-hidden rounded-xl border border-[#DDE3D0] bg-white/85 shadow-sm backdrop-blur-md flex flex-col justify-between hover:bg-white hover:border-[#B9C79C] hover:shadow-md transition cursor-pointer text-slate-800 no-underline" href="' +
+    escapeHtml(href('/services/' + encodeURIComponent(slug), language)) + '"><div><div class="h-28 sm:h-36 md:h-44 w-full overflow-hidden bg-[#E9EDDB]">' + image +
+    '</div><div class="p-3 md:p-4"><h4 class="text-sm md:text-xl font-bold mb-1 leading-snug">' + escapeHtml(name) +
+    '</h4>' + (summary ? '<p class="mt-2 line-clamp-2 text-xs leading-relaxed text-slate-600 md:text-sm">' + escapeHtml(summary) + '</p>' : '') +
+    '<span class="mt-3 inline-flex text-xs font-bold text-[#647746]">' + escapeHtml(copy.learnMore) + ' →</span></div></div></a></li>'
 }
 
 function formatDate(value, language) {
@@ -387,11 +518,18 @@ function renderBlogCard(post, language, copy) {
   const slug = typeof post.slug === 'string' ? post.slug : post.slug?.current || post._id
   const imageUrl = safeImageUrl(post.cover?.asset?.url)
   const alt = translations.coverAlt || post.cover?.alt || title
-  return '<li><article class="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white shadow-sm"><a class="block no-underline" href="' + escapeHtml(href('/blog/' + encodeURIComponent(slug), language)) + '">' +
-    (imageUrl ? '<img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(alt) + '" loading="lazy" decoding="async" class="h-52 w-full object-cover" />' : '<div class="flex h-52 items-center justify-center bg-[#E9EDDB] text-4xl" aria-hidden="true">🌿</div>') +
-    '<div class="p-5">' + (post.publishedAt ? '<time datetime="' + escapeHtml(post.publishedAt) + '" class="text-xs text-slate-500">' + escapeHtml(formatDate(post.publishedAt, language)) + '</time>' : '') +
-    '<h4 class="mt-2 text-lg font-bold text-slate-900">' + escapeHtml(title) + '</h4>' +
-    (description ? '<p class="mt-2 text-sm leading-6 text-slate-600">' + escapeHtml(description) + '</p>' : '') +
+  const image = imageUrl
+    ? responsiveImage(imageUrl, {
+        alt,
+        sizes: '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw',
+        className: 'h-52 w-full object-cover',
+      })
+    : '<div class="flex h-52 items-center justify-center bg-[#E9EDDB] text-4xl" aria-hidden="true">🌿</div>'
+  return '<li><article class="overflow-hidden rounded-2xl border border-[#E1E6D7] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"><a class="block no-underline" href="' +
+    escapeHtml(href('/blog/' + encodeURIComponent(slug), language)) + '">' + image +
+    '<div class="p-5">' + (post.publishedAt ? '<time datetime="' + escapeHtml(post.publishedAt) + '" class="text-xs font-medium text-slate-500">' + escapeHtml(formatDate(post.publishedAt, language)) + '</time>' : '') +
+    '<h4 class="mt-2 text-lg font-bold leading-snug text-slate-900">' + escapeHtml(title) + '</h4>' +
+    (description ? '<p class="mt-2 line-clamp-3 text-sm leading-6 text-slate-600">' + escapeHtml(description) + '</p>' : '') +
     '<span class="mt-4 inline-flex text-sm font-bold text-[#647746]">' + escapeHtml(copy.readMore) + ' →</span></div></a></article></li>'
 }
 
@@ -420,24 +558,25 @@ export function renderHomepageHtml(data, language = 'bg') {
 
   return '<main data-florial-ssr-homepage="v1">' +
     '<section class="relative isolate overflow-hidden bg-[#F7F8F1] px-4 py-12 text-slate-800 md:py-16">' +
-      '<img src="' + escapeHtml(heroImage) + '" alt="" aria-hidden="true" fetchpriority="high" decoding="async" class="absolute inset-0 h-full w-full object-cover" />' +
+      responsiveImage(heroImage, { alt: '', sizes: '100vw', preferredWidth: 1600, loading: 'eager', fetchPriority: 'high', ariaHidden: true, className: 'absolute inset-0 h-full w-full object-cover object-center' }) +
       '<div aria-hidden="true" class="absolute inset-0" style="background-color:rgba(247,248,241,0.68)"></div>' +
       '<div class="relative z-10 mx-auto max-w-5xl text-center">' +
         '<h1 class="mb-3 text-4xl font-extrabold tracking-tight text-[#263323] md:text-6xl">' + escapeHtml(copy.heroTitle) + '</h1>' +
         '<h2 class="mb-5 text-xl font-bold tracking-tight text-[#263323] md:text-3xl">' + escapeHtml(copy.heroSubtitle) + '</h2>' +
         '<p class="mx-auto max-w-4xl text-sm font-semibold leading-relaxed text-[#11150F] md:text-lg">' + escapeHtml(copy.heroText) + '</p>' +
-        '<div class="mt-7 flex flex-wrap items-center justify-center gap-3">' +
+        '<div class="mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">' +
           '<a href="' + escapeHtml(href('/category/rastenia', lang)) + '">' + escapeHtml(copy.plantsCta) + '</a>' +
           '<a href="' + escapeHtml(href('/category/vsichko-za-polivane', lang)) + '">' + escapeHtml(copy.equipmentCta) + '</a>' +
           '<a href="' + escapeHtml(href('/about', lang)) + '">' + escapeHtml(copy.aboutCta) + '</a>' +
         '</div></div></section>' +
-    '<section class="mx-auto w-full max-w-7xl px-4 py-10">' +
-      '<div class="mb-6 flex items-center justify-between gap-3"><p>' + escapeHtml(copy.serviceEyebrow) + '</p><h3>' + escapeHtml(copy.services) + '</h3><a href="' + escapeHtml(href('/services', lang)) + '">' + escapeHtml(copy.allServices) + ' →</a></div>' +
+    '<section class="bg-[#F7F8F1] border-y border-[#E7EBDD]"><div class="max-w-7xl mx-auto px-4 py-10">' +
+      '<div class="flex items-center justify-between gap-3 mb-6"><div><p>' + escapeHtml(copy.serviceEyebrow) + '</p><h3>' + escapeHtml(copy.services) + '</h3></div><a href="' + escapeHtml(href('/services', lang)) + '">' + escapeHtml(copy.allServices) + ' →</a></div>' +
       (serviceCards ? '<ul class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-6">' + serviceCards + '</ul>' : '') +
-    '</section>' +
+    '</div></section>' +
     '<section class="border-y border-[#E7EBDD] bg-[#F7F8F1]"><div class="mx-auto max-w-7xl px-4 py-10">' +
       '<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><h3>' + escapeHtml(copy.plants) + '</h3><p>' + escapeHtml(copy.plantsIntro) + '</p></div>' +
-      (plantCategoryCards ? '<ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 md:gap-5">' + plantCategoryCards + '</ul>' : '') +
+      (plantCategoryCards ? '<ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">' + plantCategoryCards + '</ul>' : '') +
+      '<div class="mt-6 text-center"><a href="' + escapeHtml(href('/category/rastenia', lang)) + '" class="inline-flex items-center justify-center rounded-lg bg-[#647746] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#53643A] no-underline">' + escapeHtml(lang === 'ru' ? 'Перейти в каталог растений' : lang === 'en' ? 'View all plants' : 'Към каталога с растения') + ' →</a></div>' +
       '</div></section>' +
       (plants.length ? '<section class="border-b border-[#E7EBDD] bg-white px-4 py-10"><div class="mx-auto max-w-7xl">' +
         '<div class="mb-6 flex items-end justify-between gap-3"><div><h3>' + escapeHtml(copy.featuredPlants) + '</h3><p>' + escapeHtml(copy.featuredPlantsIntro) + '</p></div><a href="' + escapeHtml(href('/category/rastenia', lang)) + '">' + escapeHtml(copy.allPlants) + ' →</a></div>' +
@@ -445,7 +584,7 @@ export function renderHomepageHtml(data, language = 'bg') {
     '<section class="mx-auto w-full max-w-7xl bg-[#EEF1E4] px-4 pb-5 pt-10">' +
       '<h3 class="mb-6 text-center">' + escapeHtml(copy.irrigation) + '</h3>' +
       (equipmentCategoryCards ? '<ul class="mb-6 grid grid-cols-3 gap-3 md:grid-cols-4 lg:grid-cols-5 md:gap-6">' + equipmentCategoryCards + '</ul>' : '') +
-      '<p class="my-6 text-center"><a href="' + escapeHtml(href('/category/vsichko-za-polivane', lang)) + '">' + escapeHtml(copy.allEquipment) + ' →</a></p>' +
+      '<div class="mt-6 text-center"><a href="' + escapeHtml(href('/category/vsichko-za-polivane', lang)) + '" class="inline-flex items-center justify-center rounded-lg bg-[#647746] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#53643A] no-underline">' + escapeHtml(copy.allEquipment) + ' →</a></div>' +
       (equipment.length ? '<section class="mt-10 border-t border-[#DDE3D0] pt-8 pb-3"><div class="mb-5 flex items-end justify-between gap-3"><div><h3>' + escapeHtml(copy.featuredEquipment) + '</h3><p>' + escapeHtml(copy.equipmentIntro) + '</p></div><a href="' + escapeHtml(href('/category/gotovi-komplekti-za-polivane', lang)) + '">' + escapeHtml(copy.allKits) + ' →</a></div>' +
         '<ul class="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-5">' + equipmentCards + '</ul></section>' : '') +
     '</section>' +
