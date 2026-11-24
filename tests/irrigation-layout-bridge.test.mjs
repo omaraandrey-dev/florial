@@ -112,6 +112,29 @@ test('3504-PC priority completes wider rectangles before the unchanged R-VAN gap
   }
 })
 
+test('3504-PC integration respects an L-shape recess and rectangular non-irrigated exclusions', () => {
+  const cases = [
+    snapshotFor(28, 14, {
+      shape: 'l-shape',
+      cutoutWidth: 16,
+      cutoutDepth: 12,
+      cutoutCorner: 'top-right',
+    }),
+    snapshotFor(20, 16, {
+      exclusions: [{ id: 'pool', x: 8, y: 6, width: 4, height: 4 }],
+    }),
+  ]
+  for (const snapshot of cases) {
+    const result = buildPreliminaryLawnLayout(snapshot)
+    assert.equal(result.status, 'layout_generated')
+    assert.ok(result.layout.sprinklers.some((head) => head.performanceModel === '3504-PC'))
+    assert.equal(result.layout.coverage.uncoveredPoints, 0)
+    assert.equal(result.layout.overspray, 'sampled_inside_boundary')
+    assert.equal(result.overspray, 'sampled_inside_boundary')
+    assert.ok(result.zones.every((zone) => zone.sprinklerCount <= 6))
+  }
+})
+
 test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach allowance', () => {
   for (const [length, width, expectedRadius] of [[10, 4, 4], [18, 4, 4], [10, 5, 5], [18, 5, 5]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
