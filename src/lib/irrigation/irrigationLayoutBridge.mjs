@@ -931,7 +931,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
       pressureBasis: rotorAccepted ? '3504-PC planning radius is owner-defined; pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
       modelSelectionBasis: rotorAccepted ? '3504-PC is prioritized at 10/9/8 m planning reach; unchanged R-VAN selection fills uncovered samples' : 'Florial per-position nozzle selection from corner-to-centre reach and adjacent perimeter spacing; radius independent of arc',
       layoutRadiusM: null,
-      sourceUrl: initialRotorHeads.length ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
+      sourceUrl: rotorAccepted ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
     }),
