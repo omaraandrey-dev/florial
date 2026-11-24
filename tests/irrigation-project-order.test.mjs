@@ -242,6 +242,8 @@ test('irrigation project PDF contains the drawing, zone assignment, BOM and expl
 
 test('accepts and preserves an R-VAN-RCS strip head in a mixed project snapshot', () => {
   const project = snapshot()
+  project.layout.headToHeadPassed = null
+  project.layout.headToHeadApplicable = false
   project.layout.sprinklers[0] = {
     ...project.layout.sprinklers[0],
     arcDeg: null,
@@ -256,6 +258,8 @@ test('accepts and preserves an R-VAN-RCS strip head in a mixed project snapshot'
     orderItems: [...orderItems, { sku: 'A84668', qty: 1 }],
   })
   assert.equal(result.valid, true)
+  assert.equal(result.snapshot.layout.headToHeadPassed, null)
+  assert.equal(result.snapshot.layout.headToHeadApplicable, false)
   assert.equal(result.snapshot.layout.sprinklers[0].pattern, 'strip')
   assert.equal(result.snapshot.layout.sprinklers[0].stripWidthM, 2)
   assert.equal(result.snapshot.layout.sprinklers[0].stripLengthM, 4)
