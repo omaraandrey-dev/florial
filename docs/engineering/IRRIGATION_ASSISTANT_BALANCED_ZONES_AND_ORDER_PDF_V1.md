@@ -152,3 +152,10 @@ The owner also confirmed that the irrigation assistant is geometric-only and tha
 - Manual operation removes H01000/H01040, valve boxes, 25 × 1-inch valve adapters (IQ21120M0N25D) and the 25-25-25 manifold tee (IQ2142000N250). Sprinkler-side fittings remain as required by the sprinkler layout.
 - TM2/RC2 customer notes state the control-cable requirement (and RC2 Wi-Fi requirement) without separately priced installation-labour language.
 - Flex lateral length is expected to fall in the 0.5–1.5 m range per sprinkler. For current coil-only sales, the planning baseline is 0.5 m per head; 30 m coils therefore yield one coil through 60 sprinklers, with additional coils rounded from that baseline. By-the-metre sales/cutting is not implemented.
+
+
+## Owner-approved nozzle compatibility extension — 2026-11-24
+
+- R-VAN14, R-VAN18, R-VAN24 and R-VAN-RCS may be grouped together in one zone. Nozzle model, planning radius, arc or circular/strip pattern is not a zone boundary.
+- The owner confirms manufacturer precipitation-intensity compatibility across these models/patterns. No additional per-zone precipitation-intensity matching gate is required.
+- R-VAN-RCS is represented as a strip pattern with Florial strip width/throw metadata, not as a circular sector. The order snapshot and owner PDF preserve that pattern label and dimensions.
