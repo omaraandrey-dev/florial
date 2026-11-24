@@ -92,7 +92,7 @@ test('8x8 lawn prioritizes 3504-PC rotors while 4m and 5m rectangles retain the 
   assert.equal(bom.items.find((item) => item.sku === 'A44120'), undefined)
 })
 
-test('3504-PC priority completes wider rectangles before the unchanged R-VAN gap-fill path', () => {
+test('each rectangle uses a complete 3504-PC layout or falls back wholly to the unchanged R-VAN solver', () => {
   for (const [length, width] of [[20, 10], [20, 15], [30, 30]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated', length + 'x' + width)
@@ -110,6 +110,34 @@ test('3504-PC priority completes wider rectangles before the unchanged R-VAN gap
     assert.equal(bom.items.find((item) => item.sku === 'Y34001')?.quantity, result.layout.sprinklers.length)
     assert.equal(bom.items.find((item) => item.sku === 'A44120'), undefined)
   }
+})
+
+test('38x16 rectangle is covered by 3504-PC rotors without redundant R-VAN heads', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(38, 16))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.operatingScenario?.family, '3500')
+  assert.equal(result.operatingScenario?.model, '3504-PC')
+  assert.ok(result.layout.sprinklers.length > 0)
+  assert.ok(result.layout.sprinklers.every((head) => head.performanceModel === '3504-PC'))
+  assert.equal(result.layout.coverage.uncoveredPoints, 0)
+  assert.notEqual(result.layout.headToHead.passed, false)
+  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
+  assert.ok(result.zones.every((zone) => zone.sprinklerCount <= 6))
+})
+
+test('rectangle decomposition is processed by ascending area and a shared strip seam gets a 7.5cm inward offset', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(14, 14, {
+    shape: 'l-shape', cutoutWidth: 6, cutoutDepth: 12, cutoutCorner: 'top-right',
+  }))
+  assert.equal(result.status, 'layout_generated')
+  const areas = result.layout.calculationRegions.map((part) => part.areaM2)
+  assert.deepEqual(areas, areas.slice().sort((a, b) => a - b))
+  const stripSeamHead = result.layout.sprinklers.find((head) =>
+    head.pattern === 'strip' && Math.abs(head.position.x - 8) < 1e-6 && Math.abs(head.position.y) < 1e-6)
+  assert.ok(stripSeamHead, 'connected strip head should remain at the shared seam')
+  const adjacentHead = result.layout.sprinklers.find((head) =>
+    head.pattern !== 'strip' && Math.abs(Math.hypot(head.position.x - 8, head.position.y) - 0.075) < 0.005)
+  assert.ok(adjacentHead, 'the wide rectangle should allow its own head 5–10cm from the strip head')
 })
 
 test('3504-PC priority works on a supported L-shape with a rectangular recess', () => {
