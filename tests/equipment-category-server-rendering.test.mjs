@@ -25,6 +25,7 @@ const products = [
     sku: '100-HV-A',
     priceEUR: 39,
     stockStatus: 'onRequest',
+    saleVariants: [{ priceEUR: 1, stockStatus: 'outOfStock' }],
   },
 ]
 
@@ -52,6 +53,9 @@ test('equipment category URLs and labels are localized for Russian and English',
   assert.match(ru, /Оборудование в категории/)
   assert.match(ru, /href="https:\/\/florial-bg\.com\/product\/rain-bird-valve-a\?lang=ru"/)
   assert.match(ru, /По запросу/)
+  assert.doesNotMatch(ru, /Нет в наличии/)
+  assert.match(ru, /39\\.00 €/)
+  assert.doesNotMatch(ru, /1\\.00 €/)
   assert.match(en, /Equipment in this category/)
   assert.match(en, /href="https:\/\/florial-bg\.com\/product\/rain-bird-valve-a\?lang=en"/)
   assert.match(en, /In stock/)
