@@ -595,7 +595,6 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         pressureBar,
         sampleStepM,
         radiusM: selected.radiusM,
-        candidatePositionOffsets: part.candidatePositionOffsets,
         preventOverspray: true,
         initialSprinklers: previouslyPlacedHeads.filter((head) => head.pattern !== 'strip'),
         sprayBoundaryGeometry: geometry,
