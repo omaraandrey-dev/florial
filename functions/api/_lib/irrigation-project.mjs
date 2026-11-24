@@ -2,6 +2,74 @@ const isRecord = (value) => value !== null && typeof value === 'object' && !Arra
 const finite = (value, min, max) => typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max
 const cleanLabel = (value, max = 120) => typeof value === 'string' ? value.trim().slice(0, max) : ''
 
+function pointInRing(point, ring) {
+  let inside = false
+  for (let index = 0, previous = ring.length - 1; index < ring.length; previous = index, index += 1) {
+    const a = ring[previous]
+    const b = ring[index]
+    const cross = (b.x - a.x) * (point.y - a.y) - (b.y - a.y) * (point.x - a.x)
+    if (Math.abs(cross) <= 1e-8 &&
+      point.x >= Math.min(a.x, b.x) - 1e-8 && point.x <= Math.max(a.x, b.x) + 1e-8 &&
+      point.y >= Math.min(a.y, b.y) - 1e-8 && point.y <= Math.max(a.y, b.y) + 1e-8) return true
+    if ((a.y > point.y) !== (b.y > point.y)) {
+      const intersectionX = a.x + ((point.y - a.y) * (b.x - a.x)) / (b.y - a.y)
+      if (point.x < intersectionX) inside = !inside
+    }
+  }
+  return inside
+}
+
+function sanitizeRectangularExclusions(rawExclusions, boundary) {
+  const entries = rawExclusions ?? []
+  if (!Array.isArray(entries) || entries.length > 12) return null
+  const result = []
+  for (let index = 0; index < entries.length; index += 1) {
+    const entry = entries[index]
+    const rawPoints = entry?.polygon?.vertices
+    if (!Array.isArray(rawPoints) || rawPoints.length !== 4 ||
+      rawPoints.some((point) => !isRecord(point) ||
+        !finite(point.x, -500, 500) || !finite(point.y, -500, 500))) return null
+    const points = rawPoints.map((point) => ({ x: point.x, y: point.y }))
+    const xs = [...new Set(points.map((point) => point.x))]
+    const ys = [...new Set(points.map((point) => point.y))]
+    if (xs.length !== 2 || ys.length !== 2) return null
+    const expected = new Set([
+      xs[0] + ':' + ys[0], xs[0] + ':' + ys[1],
+      xs[1] + ':' + ys[0], xs[1] + ':' + ys[1],
+    ])
+    const actual = new Set(points.map((point) => point.x + ':' + point.y))
+    if (actual.size !== 4 || [...expected].some((key) => !actual.has(key))) return null
+    for (let edge = 0; edge < points.length; edge += 1) {
+      const a = points[edge]
+      const b = points[(edge + 1) % points.length]
+      if (Math.abs(a.x - b.x) > 1e-8 && Math.abs(a.y - b.y) > 1e-8) return null
+      const midpoint = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
+      if (!pointInRing(a, boundary) || !pointInRing(midpoint, boundary)) return null
+    }
+    const center = {
+      x: (Math.min(...xs) + Math.max(...xs)) / 2,
+      y: (Math.min(...ys) + Math.max(...ys)) / 2,
+    }
+    if (!pointInRing(center, boundary)) return null
+    result.push({
+      id: cleanLabel(entry.id, 80) || 'exclusion-' + (index + 1),
+      polygon: { vertices: points },
+    })
+  }
+  for (let index = 0; index < result.length; index += 1) {
+    const a = result[index].polygon.vertices
+    const aXs = a.map((point) => point.x), aYs = a.map((point) => point.y)
+    for (let other = index + 1; other < result.length; other += 1) {
+      const b = result[other].polygon.vertices
+      const bXs = b.map((point) => point.x), bYs = b.map((point) => point.y)
+      const overlapX = Math.min(Math.max(...aXs), Math.max(...bXs)) - Math.max(Math.min(...aXs), Math.min(...bXs))
+      const overlapY = Math.min(Math.max(...aYs), Math.max(...bYs)) - Math.max(Math.min(...aYs), Math.min(...bYs))
+      if (overlapX > 1e-8 && overlapY > 1e-8) return null
+    }
+  }
+  return result
+}
+
 export function validateIrrigationProjectSnapshot(input) {
   if (!isRecord(input) || input.schemaVersion !== 1 || input.projectType !== 'automatic_lawn_irrigation') {
     return { valid: false, reason: 'unsupported_project_snapshot' }
@@ -18,6 +86,12 @@ export function validateIrrigationProjectSnapshot(input) {
       vertices.some((point) => !isRecord(point) || !finite(point.x, -500, 500) || !finite(point.y, -500, 500))) {
     return { valid: false, reason: 'invalid_project_geometry' }
   }
+  const safeBoundaryVertices = vertices.map((point) => ({ x: point.x, y: point.y }))
+  const safeExclusions = sanitizeRectangularExclusions(
+    geometry.normalized.regions[0].exclusions,
+    safeBoundaryVertices,
+  )
+  if (!safeExclusions) return { valid: false, reason: 'invalid_project_geometry' }
 
   const layout = input.layout
   const sprinklers = layout?.sprinklers
@@ -236,7 +310,7 @@ export function validateIrrigationProjectSnapshot(input) {
           cutoutDepth: finite(geometry.dimensionsM?.cutoutDepth, 0, 500) ? geometry.dimensionsM.cutoutDepth : null,
           cutoutCorner: cleanLabel(geometry.dimensionsM?.cutoutCorner, 40),
         },
-        normalized: { regions: [{ boundary: { vertices } }] },
+        normalized: { regions: [{ boundary: { vertices: safeBoundaryVertices }, exclusions: safeExclusions }] },
         areaM2: geometry.areaM2,
         perimeterM: geometry.perimeterM,
         dimensionsAreApproximate: true,
