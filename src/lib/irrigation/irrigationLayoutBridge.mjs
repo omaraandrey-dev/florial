@@ -457,7 +457,9 @@ function mergeSharedRotorHeads(sprinklers, geometry) {
     }
     const key = sprinkler.position.x.toFixed(6) + ':' + sprinkler.position.y.toFixed(6)
     const existingIndex = rotorByPosition.get(key)
-    const globalSector = globalRotorSectorAtPosition(sprinkler.position, geometry)
+    const globalSector = sprinkler.seamOffsetM > 0
+      ? null
+      : globalRotorSectorAtPosition(sprinkler.position, geometry)
     const normalized = globalSector ? Object.freeze({ ...sprinkler, ...globalSector }) : sprinkler
     if (existingIndex === undefined) {
       rotorByPosition.set(key, merged.length)
