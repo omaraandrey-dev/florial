@@ -1,3 +1,12 @@
+## 2026-11-24 — Blog article performance release: measurement follow-up
+
+- **CLOSED — runtime implementation and merge:** PR #512 merged at `2fe92f6b269fa29183cd02e7bc334d27ccb8006c`; exact Production Pages deployment `e2b84205-e7a2-4164-ba20-d657dbad0a8e` succeeded. Article loading skeleton, initial HTML viewport reservation, Sanity CDN hints, responsive high-priority cover preload and image sizing/quality changes are live.
+- **CLOSED — exact-head CI and browser smoke:** Blog/Studio run `45272014683` and D1 validation run `45272014645` succeeded on PR head `fd0ef9c279bb5d484440ff77ba3903198baac98c`. Production Browser Rendering confirmed raw HTML hints/reserved height and hydrated article content with skeleton removal.
+- **CLOSED — documentation and main publication:** PR #513 merged at `739ce9a12b9b1ef8f816a388cddce65949a6f01e`; documentation-integrated Production Pages deployment `2d9b3529-336f-4f01-90c4-ed093d8d45f8` succeeded from exact `main` SHA.
+- **OPEN — matched post-release performance measurement:** the supplied PageSpeed report was captured 23.11.2026 at 23:28 GMT+2, before the runtime merge at 23:41. It is the baseline (Performance 66, FCP 0.9 s, LCP 3.6 s, TBT 10 ms, CLS 0.760, Speed Index 1.7 s), not a post-release measurement. Run PSI three times on Production with the same Moto G Power / Lighthouse 13.6 / low-end 4G profile and compare medians. Until then, do not claim a numeric improvement in Performance, LCP or CLS.
+- **OPEN — regular-browser visual/interaction QA:** independently inspect article rendering on mobile/desktop after the matched measurement; prior Production Browser Rendering is evidence of HTML markers, not a substitute for full visual and interaction testing.
+- Evidence: `../audits/2026-11-23-blog-article-performance-remediation.md`.
+
 ## 2026-11-23 — Blog/portfolio correction release (PR #509)
 
 - **CLOSED — Production deployment and localized HTML smoke:** Cloudflare Pages Production deployment `e006bf14-6b8c-4796-924e-761e40a150a6` succeeded from `main` SHA `c44e3bbd007c7ae4599dad84a540043ee0ecd2f8`; aliases `https://florial-bg.com` and `https://www.florial-bg.com` are attached. Live rendered HTML checks on Production confirmed the BG page (mobile), RU page (mobile) and EN page (mobile) each have their localized intro/H1, all four localized category labels and the compact filter button; publication-type filter is absent.
