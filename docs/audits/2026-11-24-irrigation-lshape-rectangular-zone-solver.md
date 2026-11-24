@@ -1,3 +1,14 @@
+## Verification update — 2026-11-24
+
+- Follow-up fix: `buildRvanStripLayout(geometry, shortSideM, connectedEnd = null)` now receives the connected edge from `buildConnectedRvanStripLayout`; connected orientation is derived from `connectedEnd`, including square bounds. The non-connected rectangular path uses its bounds as a fallback.
+- Exact PR head: `dbf49336b58cb093dac7f125c6b97ac6f6a4c063`.
+- Blog/Studio CI run `45347161890`: 448 passed / 0 failed; app/Pages Functions type-check, lint, website build, D1 script syntax/read-only dry-run, Studio type-check and Studio build passed.
+- D1 validation run `45347161809`: success.
+- Cloudflare Pages Preview deployment `980c2271-6a36-4456-86b9-59613259aa3e`: all deployment stages succeeded from the exact PR head; https://980c2271.florial.pages.dev.
+- The earlier two Browser Rendering interaction cases were run on commit `16b537442d949751cb22650389681806b6a7f9f4`; they do not replace visual acceptance on this latest fix. Visual QA for all four cut-out orientations remains open.
+
+---
+
 # Audit — Florial L-shape rectangular-zone sprinkler layout (2026-11-24)
 
 ## Scope

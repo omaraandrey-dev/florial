@@ -1,3 +1,12 @@
+## Latest correction — connected-edge axis (2026-11-24)
+
+- Current PR head: `dbf49336b58cb093dac7f125c6b97ac6f6a4c063`.
+- `buildRvanStripLayout` accepts an optional `connectedEnd`; connected L-shape calls pass it explicitly. `buildConnectedRvanStripLayout` chooses horizontal/vertical from the shared edge, so a square connected region is not misclassified by a width/height tie. Standalone rectangular strip calculations still infer orientation from their bounds.
+- Verification: Blog/Studio CI `45347161890` passed 448/448 tests plus application/Pages Functions type-check, lint, website build, read-only D1 validation, Studio type-check/build. D1 workflow `45347161809` succeeded. Exact-head Preview deployment `980c2271-6a36-4456-86b9-59613259aa3e` succeeded: https://980c2271.florial.pages.dev.
+- Earlier manual interaction checks were on commit `16b537442d949751cb22650389681806b6a7f9f4`; visually checking all four orientations on the latest preview remains required before merge.
+
+---
+
 # Florial — L-shaped lawn rectangular-zone layout v1
 
 **Status:** implementation in PR #520; not yet merged to `main` or deployed to Production.  

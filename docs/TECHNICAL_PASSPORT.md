@@ -1,3 +1,10 @@
+## 2026-11-24 — Connected L-shape strip axis correction and verification (PR #520 pending)
+
+- Fixed a runtime error in `buildRvanStripLayout`: the connected edge is now an explicit optional input, and `buildConnectedRvanStripLayout` passes its `connectedEnd` value. Non-connected rectangles retain a geometry-based fallback; square connected regions use the shared-edge axis.
+- Exact PR head `dbf49336b58cb093dac7f125c6b97ac6f6a4c063`: Blog/Studio CI `45347161890` passed 448/448 tests, application/Pages Functions type-check, lint, website build, D1 script syntax/read-only dry-run, Studio type-check and Studio build. D1 workflow `45347161809` succeeded.
+- Cloudflare Pages Preview deployment `980c2271-6a36-4456-86b9-59613259aa3e` succeeded from the exact head: https://980c2271.florial.pages.dev.
+- Prior manual Browser Rendering interaction checks are historical evidence from an earlier PR commit; visual acceptance of all four cut-out orientations on this latest preview remains open. No Production release or live data/configuration writes were made.
+
 ## 2026-11-24 — L-shape rectangular-zone calculation and spray-sector boundary correction (PR #520 pending)
 
 - The previous bridge selected the narrow-strip algorithm only when the whole lawn was a rectangle. Supported orthogonal L-shapes are now decomposed into two non-overlapping rectangles when one arm is 1 m / 2 m wide; each rectangle is calculated from its own local dimensions.

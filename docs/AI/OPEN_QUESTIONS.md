@@ -1,3 +1,12 @@
+## 2026-11-24 — PR #520 connected strip correction — verification update
+
+- **CLOSED — runtime ReferenceError:** latest PR head `dbf49336b58cb093dac7f125c6b97ac6f6a4c063` passes `connectedEnd` explicitly into the base strip solver; connected square regions use the shared-edge orientation.
+- **CLOSED — automated verification:** Blog/Studio run `45347161890` passed 448/448 tests, type-checks, lint, website build, read-only D1 validation and Sanity Studio type-check/build. D1 workflow `45347161809` succeeded.
+- **CLOSED — exact-head Preview deployment:** Cloudflare Pages deployment `980c2271-6a36-4456-86b9-59613259aa3e` deployed successfully from `dbf49336b58cb093dac7f125c6b97ac6f6a4c063`.
+- **OPEN — visual Preview QA:** inspect all four cut-out orientations on the latest preview; previous manual checks were on an earlier commit and only covered top-right horizontal and transposed vertical reference cases.
+- **OPEN — merge/Production release:** PR #520 awaits explicit owner approval; no Production deployment has been made.
+- **OPEN — hydraulic/field validation:** pressure/flow, losses, nozzle pressure, precipitation uniformity and field distribution remain outside the geometric solver.
+
 ## 2026-11-24 — L-shape rectangular-zone solver and spray-sector boundary check (PR #520 pending)
 
 - **CLOSED — algorithm implementation:** supported orthogonal L-shapes with a 1 m / 2 m arm are split into two exact rectangular calculation regions; each uses its own local solver.

@@ -1,3 +1,13 @@
+## 2026-11-24 — Connected strip axis fix and final CI/Preview verification (PR #520 pending)
+
+- Fixed the connected-strip solver contract: `connectedEnd` is now passed explicitly into `buildRvanStripLayout`; ordinary non-connected rectangular strips retain dimension-based orientation. The connected solver also uses the shared-edge direction rather than aspect ratio, including square calculation regions.
+- Exact verified PR head: `dbf49336b58cb093dac7f125c6b97ac6f6a4c063`.
+- Blog/Studio validation run `45347161890`: 448/448 tests passed; application/Pages Functions type-check, lint, website build, D1 script syntax/read-only dry-run, Studio type-check and Studio build all succeeded.
+- D1 validation run `45347161809`: succeeded.
+- Cloudflare Pages Preview deployment `980c2271-6a36-4456-86b9-59613259aa3e` succeeded from the exact PR head: https://980c2271.florial.pages.dev.
+- Browser Rendering interaction evidence for the two top-right reference shapes was collected on an earlier PR commit; the latest square-axis correction has automated regression coverage but still requires visual interaction acceptance for all four cut-out orientations.
+- No Production merge/deployment, Sanity writes, D1 schema/data changes or Cloudflare settings/secrets changes. PR #520 remains pending owner approval.
+
 ## 2026-11-24 — L-shape rectangular-zone solver and spray-sector correction (PR #520 pending)
 
 - The L-shape bridge now decomposes a supported orthogonal six-vertex lawn into two exact, non-overlapping rectangular calculation zones when either arm is a supported 1 m / 2 m strip. Example 28 × 14 m with a 16 × 12 m top-right cut-out becomes a 12 × 14 m circular zone plus a connected 16 × 2 m strip (200 m² total).
