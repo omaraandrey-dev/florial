@@ -19,6 +19,8 @@ type SeoPlantProduct = {
   name?: string
   sku?: string
   imageUrl?: string
+  categoryId?: string
+  categoryIds?: string[]
   slugValue?: string
   priceEUR?: number
   stockStatus?: string
@@ -34,6 +36,8 @@ type SeoPlantProduct = {
     containerVolumeL?: number
   }>
 }
+
+type SeoCategoryNode = { _id: string; parentId?: string; slugValue?: string }
 
 type SeoDocument = {
   _id: string
@@ -302,9 +306,9 @@ async function querySanityData<T>(
   return body.result as T
 }
 
-async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string): Promise<SeoPlantProduct[]> {
-  const categoryQuery = '*[_type == "category"]{_id,"parentId":parent._ref}'
-  const categories = await querySanityData<Array<{ _id: string; parentId?: string }>>(
+async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string, onCategoryTree?: (categories: SeoCategoryNode[]) => void): Promise<SeoPlantProduct[]> {
+  const categoryQuery = '*[_type == "category"]{_id,"parentId":parent._ref,"slugValue":coalesce(slug.current,slug)}'
+  const categories = await querySanityData<SeoCategoryNode[]>(
     dataset,
     categoryQuery,
     {},
@@ -312,6 +316,7 @@ async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryI
     300,
   )
   if (!Array.isArray(categories)) throw new Error('Sanity ' + dataset + ' category tree is not an array')
+  onCategoryTree?.(categories)
 
   const categoryIds = collectDescendantCategoryIds(categoryId, categories)
   const plantFilter = dataset === 'plants'
@@ -330,6 +335,8 @@ async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryI
       translations { bg { name }, ru { name, seo { h1 } }, en { name, seo { h1 } } },
       seo { h1 },
       "slugValue": slug.current,
+      "categoryId": category->_id,
+      "categoryIds": categories[]._ref,
       sku,
       "imageUrl": coalesce(mainImage.asset->url, image.asset->url, imageUrl, externalImageUrl),
       priceEUR,
@@ -683,7 +690,7 @@ function renderResponsiveSanityImagePreload(imageUrl: string): string {
   }
 }
 
-function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[], equipmentProducts?: SeoPlantProduct[]): string {
+function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[], equipmentProducts?: SeoPlantProduct[], equipmentCategoryTree?: SeoCategoryNode[]): string {
   // Category and service hero imagery is rendered responsively by the client app.
   // Do not emit a second raw image into the initial HTML: it is replaced on hydration,
   // can trigger a duplicate/oversized download, and has no reserved responsive sizing.
@@ -713,7 +720,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
   return '<main style="' + mainStyle + '">' +
     '<h1>' + escapeHtml(h1) + '</h1>' + image +
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
-    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + (type === 'category' && doc._dataset === 'production' && Array.isArray(equipmentProducts) ? renderEquipmentCategoryListing(equipmentProducts, language, SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
+    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + (type === 'category' && doc._dataset === 'production' && Array.isArray(equipmentProducts) ? renderEquipmentCategoryListing(equipmentProducts, language, SITE_URL, { rootCatalog: doc.slugValue === 'vsichko-za-polivane', categories: equipmentCategoryTree || [] }) : '') + '<p><a href="/">Florial</a></p></main>'
 }
 
 function makeBreadcrumb(path: string, name: string, language: string): Record<string, unknown> {
@@ -1232,6 +1239,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       // Category pages receive server-side product data for collection structured data.
       // Plant category listings are also rendered into the initial HTML; React remains interactive.
       let categoryProducts: SeoPlantProduct[] | null = null
+      let equipmentCategoryTree: SeoCategoryNode[] | undefined
       if (type === 'category') {
         if (doc._dataset === 'plants') {
           // Preserve the existing fail-closed behavior for plant category SSR.
@@ -1240,7 +1248,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           // Irrigation listings remain client-rendered; structured data is an enhancement.
           // A temporary catalogue-query failure must not turn a valid category page into 503.
           try {
-            categoryProducts = await fetchCategoryProducts('production', doc._id)
+            categoryProducts = await fetchCategoryProducts('production', doc._id, (categories) => { equipmentCategoryTree = categories })
           } catch {
             categoryProducts = null
           }
@@ -1295,7 +1303,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         structuredData.push({ id: 'blog-posting', data: makeBlogPostingJsonLd(doc, name, metaDescription, canonicalUrl, language) })
       }
       const pageH1 = type === 'product' ? String(seo?.h1 || name) : categorySeo?.h1 || name
-      const body = documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined)
+      const body = documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {
