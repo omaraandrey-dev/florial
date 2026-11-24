@@ -117,7 +117,7 @@ export function renderPlantCategoryListing(products, language = 'bg', siteUrl = 
   const cards = entries.map((product) => {
     const name = localizedProductName(product, language) || product.slugValue
     const url = productUrl(product, language, siteUrl)
-    const price = typeof product.priceEUR === 'number' && Number.isFinite(product.priceEUR) && product.priceEUR > 0 ? product.priceEUR : null
+    const price = getStartingPrice(product)
     const priceLabel = price === null
       ? ''
       : (language === 'ru' ? 'Цена от ' : language === 'en' ? 'From ' : 'Цена от ') +
@@ -199,7 +199,7 @@ export function renderEquipmentCategoryListing(products, language = 'bg', siteUr
   const cards = entries.map((product, index) => {
     const name = localizedProductName(product, language) || product.slugValue
     const url = productUrl(product, language, siteUrl)
-    const price = getStartingPrice(product)
+    const price = typeof product.priceEUR === 'number' && Number.isFinite(product.priceEUR) && product.priceEUR > 0 ? product.priceEUR : null
     const priceLabel = price === null
       ? ''
       : (language === 'ru' ? 'Цена: ' : language === 'en' ? 'Price: ' : 'Цена: ') +
