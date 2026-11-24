@@ -7,7 +7,7 @@
 - **CLOSED — mixed zones:** R-VAN14, R-VAN18, R-VAN24 and R-VAN-RCS may coexist in one zone; model, radius, arc and strip/circular pattern are not zone boundaries.
 - **CLOSED — precipitation-intensity compatibility:** owner confirms the manufacturer compatibility of these R-VAN models/patterns. Do not add a separate per-zone precipitation-intensity matching gate.
 - **OPEN — 1804 body / selected R-VAN nozzle assembly and pressure-regulation compatibility:** this remains a distinct product-assembly question and is not the precipitation-intensity matching rule above.
-- Implementation branch: feat/irrigation-rvan-r1-rcs-layout-rules. CI, PR review, Preview and Production release evidence are pending.
+- Implementation PR #515: CI passed; Cloudflare Pages Preview deployment succeeded (ba29688a-1117-4c5b-bbfc-1c84260cef0b). Production merge/deployment evidence remains pending.
 
 ## 2026-11-24 — Blog article performance release: measurement follow-up
 
