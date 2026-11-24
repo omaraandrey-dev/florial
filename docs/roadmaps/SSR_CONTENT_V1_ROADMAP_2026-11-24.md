@@ -1,7 +1,8 @@
 # SSR Content v1 — дорожная карта серверной выдачи основных страниц Florial
 
 **Создано:** 24.11.2026  
-**Базовый main:** `f4e04913a2876bf863deef9fa1b7774b5c416a47`  
+**Базовый main при создании плана:** `f4e04913a2876bf863deef9fa1b7774b5c416a47`  
+**Базовый main для реализации Phase 1:** `07b99481571ca079a06eb5f6e44e9d903f9dc304`  
 **Рабочая ветка документации:** `docs/ssr-content-v1-roadmap`  
 **Статус:** план утверждён владельцем; этап 1 — главная страница — первый в очереди.  
 **Цель:** обеспечить, чтобы поисковые роботы и другие клиенты, не исполняющие JavaScript, получали в первом HTTP HTML-ответе основное содержимое публичных страниц Florial, а не только SEO head и краткий резервный H1/абзац.
@@ -31,6 +32,7 @@
 - Title, meta description, robots, canonical, hreflang и JSON-LD согласованы с содержимым и локалью.
 - JSON-LD отражает фактический контент и URL, не содержит выдуманных рейтингов, отзывов, цен, дат, адресов или услуг.
 - Ссылки ведут на существующие локализованные маршруты и сохраняют текущие правила навигации.
+- Корзина магазина обнаруживается через обычную crawlable-ссылку; сама `/cart` остаётся `noindex` и не должна индексировать персональное содержимое.
 - После hydration нет дублированных карточек/текста, скачков layout или повторной загрузки крупных изображений.
 - Проверены BG/RU/EN, desktop/mobile на уровне исходного HTML и доступных функциональных тестов.
 - Есть регрессионные тесты, защищающие SSR, locale parity, контентный порядок и отсутствие нежелательных изменений.
@@ -57,6 +59,7 @@ Read-only инвентаризация перед кодом:
 - Блок блога/портфолио с теми же закреплёнными публикациями и текущим правилом последней статьи.
 - Другие содержательные секции, которые фактически присутствуют на текущей главной странице и нужны для понимания тематики сайта.
 - Корректные image alt/title и JSON-LD для главной только там, где это соответствует фактическим сущностям и не дублирует/не противоречит существующей разметке.
+- Отдельно проверить обнаруживаемость корзины: `/cart` сохраняет `noindex`; скрытые ссылки не добавлять. Преобразование текущего cart button в обычную ссылку допускается только после отдельного согласования изменения Header.
 
 Ограничения:
 - Не менять текст/структуру/порядок секций без отдельного согласования владельца.
@@ -142,8 +145,10 @@ Read-only инвентаризация перед кодом:
 
 ## 5. Текущий статус
 
-- Этап 1 (главная): **IN PROGRESS — initial read-only technical discovery completed; implementation not yet started.** Findings: [Phase 1 homepage discovery audit](../audits/2026-11-24-ssr-content-v1-phase-1-homepage-discovery.md). Confirmed current middleware returns only a localized H1 and short paragraph for `/`; the full hero, category, product, service and blog teaser sections are loaded by client-side React queries. Exact client projections and selection rules are recorded in the audit.
-- Следующий шаг этапа 1: finish read-only inspection of the full homepage component and middleware data-access/caching patterns, then implement a bounded server data projection + dedicated renderer + raw HTTP smoke tests. Keep the client UI/hydration selection identical.
+- Этап 1 (главная): **IN PROGRESS — discovery complete; initial implementation is in draft PR #533** ([PR](https://github.com/omaraandrey-dev/florial/pull/533), branch `feat/ssr-homepage-content-v1`). Dedicated renderer, bounded Sanity projections, localized content and raw HTTP smoke script/workflow are added but are not yet CI/Preview verified or merged.
+- Реализация повторяет текущие projections/selection: шесть фиксированных plant categories; populated equipment roots/ancestors and existing category order; up to four curated plants; existing featured equipment kit selection; up to six `getOrderedServiceEntries`; two pinned blog slugs plus one latest non-pinned article. Sanity requests run in parallel through existing `querySanityData` cache. On Sanity failure, existing minimal static homepage fallback is retained with `Cache-Control: no-store`.
+- **Cart discovery finding:** the current Header cart control is a `<button>`, not an anchor with `href`; `/cart` is already correctly marked `noindex`. No Header change is included in PR #533. A semantic anchor conversion with the same appearance and SPA behavior is awaiting separate owner approval; no hidden link and no removal of cart `noindex`.
+- Следующий шаг этапа 1: exact-head CI, inspect test/build results, verify the exact Preview deployment and run native-fetch raw HTML smoke for BG/RU/EN. Compare initial SSR selection with current React rules, check fallback/cache/HTML size, then request approval for any Header cart-link change before including it.
 - Этапы 2–9: **NOT STARTED**.
 - Sanity writes: **не выполнялись и не входят в общий scope**.
 - Production/Cloudflare settings, secrets, D1: **не изменялись**.
