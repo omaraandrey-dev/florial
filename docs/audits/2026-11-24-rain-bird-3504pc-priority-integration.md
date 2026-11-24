@@ -7,7 +7,8 @@
 - Existing 1 m / 2 m directional strip patterns remain R-VAN-specific.
 - At a shared strip seam, the adjacent rectangular solver may offset its own corner candidate 0.075 m inward. The offset is revalidated against the local rectangle and original lawn boundary.
 - The R-VAN solver's selection, nozzle sizing, perimeter-first coverage and repair algorithms are unchanged; only the optional seam-offset candidate input was added.
-- New regressions cover 38×16 m rotor-only coverage, ascending rectangle area order and 7.5 cm seam separation.
+- The rotor selector can start a separate spatial group only as a mutually Head-to-Head-reachable pair; this closes the far-edge gap found in the 38×16 m regression without admitting an isolated rotor.
+- New regressions cover 38×16 m rotor-only coverage, ascending rectangle area order and 7.5 cm seam candidate offsets.
 - This is sampled geometric planning only. No hydraulic, nozzle-flow, precipitation-uniformity or field-performance claim is added.
 
 # 2026-11-24 — Rain Bird 3504-PC integration audit
