@@ -192,11 +192,11 @@ function responsiveImage(value, options = {}) {
 
   try {
     const source = new URL(imageUrl)
-    const dimensions = source.pathname.match(/-(\\d+)x(\\d+)\\.[a-z0-9]+$/i)
+    const dimensions = source.pathname.match(/-(\d+)x(\d+)\.[a-z0-9]+$/i)
     if (
       source.protocol === 'https:' &&
       source.hostname === 'cdn.sanity.io' &&
-      /^\\/images\\/[^/]+\\/[^/]+\\//.test(source.pathname) &&
+      /^\/images\/[^/]+\/[^/]+\//.test(source.pathname) &&
       dimensions
     ) {
       intrinsicWidth = Number(dimensions[1])
