@@ -81,6 +81,6 @@ test('middleware injects equipment listings only after a successful production c
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
   assert.match(middleware, /renderEquipmentCategoryListing\(equipmentProducts, language, SITE_URL\)/)
   assert.match(middleware, /doc\._dataset === 'production' && categoryProducts !== null \? categoryProducts : undefined/)
-  assert.match(middleware, /categoryProducts === null\s*\? 'no-store'/)
+  assert.match(middleware, /type === 'category' && categoryProducts === null\s*\? 'no-store'/)
   assert.match(middleware, /fetchCategoryProducts\('production', doc\._id\)/)
 })
