@@ -93,3 +93,27 @@ Heading outline currently includes one H1, a hero H2, and H3/H4 for services, pl
 - Preview deployment and raw first-response smoke for BG/RU/EN have not yet been confirmed.
 - Production raw HTTP response has not been fetched during this implementation pass.
 - No Sanity writes, D1 changes, Cloudflare settings/secrets or Production settings were made.
+
+
+## 2026-11-25 — implementation parity hardening
+
+**Code-bearing head:** `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`  
+**PR:** #533 — `feat/ssr-homepage-content-v1`  
+**Status:** implementation in progress; exact-head CI and latest Preview/raw HTTP smoke pending.
+
+### Corrections made
+
+- Added the missing four-item value-proposition section between the hero and services, and the category-image thumbnails in the hero's plant/equipment CTAs.
+- Matched the current React category flow end to end: compute populated categories and ancestors, exclude plant-category IDs from the irrigation list, exclude `electromagnetic-valves`, identify the irrigation root, then sort and take six. This matches `App.tsx` `visibleCategories` plus `HomePage.tsx` root sorting; the category query retains the same product-count projection.
+- Matched the shared responsive Sanity image builder for hero, hero CTA thumbnails, category, service, product and blog images, including source width/height behavior when Sanity filenames do or do not contain dimensions.
+- Matched the client plant display-name fallback and the distinct unknown-stock label (“Check availability” rather than “Available on request”).
+- Added homepage `OnlineStore` and `WebSite` JSON-LD while retaining existing local `GardenStore` nodes. Cart route remains `noindex, nofollow`; no hidden link or Header change.
+- Added tests for the full localized section sequence, category ancestors/exclusions, responsive image output, unknown plant stock and homepage store/site structured data.
+
+### Verification evidence and limitations
+
+- The preceding code head `fc21108f98de7c30b57ebe5190111002258281c6` completed type-check and lint successfully; 492/493 tests passed. The single failure was a test false positive because the page also contains an equipment card with “Available on request”; the assertion now inspects only the Magnolia plant card in head `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`.
+- Cloudflare Pages Preview deployment `76d903af-80f2-414f-82d4-d6dd6717655f` succeeded from the preceding head `fc21108f98de7c30b57ebe5190111002258281c6`; latest deployment for `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6` was queued when this audit was updated.
+- Exact-head CI, latest Preview and native-fetch raw HTTP smoke for BG/RU/EN remain pending. No Production raw-response verification is claimed.
+- **Client startup caveat:** `src/main.tsx` uses `createRoot`, not `hydrateRoot`; React clears/replaces initial HTML inside `#root` on startup. This branch improves first-response HTML for crawlers, but no claim is made that the SSR DOM is hydrated or that the browser transition has zero CLS. A separate approved app-bootstrap/data-readiness change is needed to preserve the initial markup until client data is ready.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets or Production settings changed.
