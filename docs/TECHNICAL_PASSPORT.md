@@ -1,15 +1,11 @@
 ## 2026-11-24 — equipment category server-rendered catalogue (SSR Catalog v1, PR #531)
 
-- Implementation and scope: `docs/roadmaps/SEO_EQUIPMENT_CATEGORY_SSR_V1.md`; evidence: `docs/audits/2026-11-24-equipment-category-ssr-v1.md`.
-- Middleware now connects the existing published Sanity `production` category product result to an equipment-specific initial HTML listing. Existing plant SSR and interactive React CategoryPage behavior are preserved.
-- Exact PR-head CI passed: 481/481 tests, app/Pages Functions type-check, lint, Vite build, Studio type-check/build; D1 validation passed without a migration write.
-- Cloudflare Pages Preview build/deployment succeeded from the exact PR head. Raw HTTP initial-HTML verification remains open; browser DOM snapshots used so far run after React hydration and are not valid evidence of the initial response.
-- PR #531 remains open; no Production deployment, Sanity writes, D1 changes, or Cloudflare settings/secrets changes were made.
-
-- Implementation candidate is tracked in `docs/roadmaps/SEO_EQUIPMENT_CATEGORY_SSR_V1.md` and `docs/audits/2026-11-24-equipment-category-ssr-v1.md`.
-- Existing middleware already fetched equipment products from Sanity `production` for CollectionPage JSON-LD, but `documentBody()` previously rendered the initial product list only for `plants`.
-- The new additive equipment renderer is intended to place up to 20 localized product cards in initial category HTML. React remains the interactive catalogue and replaces the fallback at the existing `createRoot` mount. Existing plant SSR remains unchanged.
-- Exact-commit CI, Preview/Production raw HTML, and deployment verification are pending. No Sanity, D1, Cloudflare settings/secrets or Production data writes are part of this implementation.
+- Implementation: `functions/_middleware.ts` and `functions/_lib/plantCategoryHtml.mjs`; plan: `docs/roadmaps/SEO_EQUIPMENT_CATEGORY_SSR_V1.md`; evidence: `docs/audits/2026-11-24-equipment-category-ssr-v1.md`.
+- The existing published Sanity `production` category query now feeds an equipment-specific initial HTML listing. It includes up to 20 localized product cards with links, image ALT/title, EUR price, stock status and SKU.
+- The all-irrigation root reproduces React's six-category round-robin and nozzle-series order; CollectionPage ItemList shares the same ordering. Plant SSR and React interactivity remain unchanged.
+- Exact code-head CI `331ffee5b548864c36497fafb788293569c4180a` passed: 483/483 tests, app/Pages Functions type-check, lint, Vite build, Studio type-check/build and D1 validation. No D1 migration was applied.
+- Cloudflare Pages Preview deployment `ba6a681a-2865-4c40-815e-27216bc510e5` succeeded from that exact SHA. Post-hydration category route smoke checks passed.
+- Raw initial-HTTP HTML verification remains open because available Firecrawl snapshots run after React hydration. PR #531 remains open; no Production deployment, Sanity writes, D1 data changes, or Cloudflare settings/secrets changes were made.
 
 ## 2026-11-24 — irrigation assistant paused by owner
 
