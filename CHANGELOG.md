@@ -1,3 +1,10 @@
+## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR in progress)
+
+- Added a server-rendered equipment-category listing using the existing published Sanity `production` catalogue query; the previous implementation injected initial category product cards only for the `plants` dataset.
+- The additive renderer emits up to 20 localized product links with image ALT/title, EUR price when present, known stock status and SKU when present. Existing React filtering/pagination and plant SSR are preserved.
+- Equipment query failures do not emit a false empty state and the resulting HTML is marked `no-store`.
+- Added focused tests and a dedicated roadmap/audit. CI, Preview raw-HTML checks and Production deployment are pending; no live data/configuration writes were performed.
+
 ## 2026-11-24 — irrigation assistant paused by owner
 
 - **Owner decision:** pause all further development of the irrigation-design assistant until the owner returns with observed errors or a new task. This is an intentional project pause, not a request to continue polishing, optimize, refactor, or proactively fix anything.
