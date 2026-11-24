@@ -41,6 +41,14 @@ Work branch: `fix/irrigation-mixed-rvan-visual-layout`
 
 - The first PR-head TypeScript check caught inferred `unknown` types in the new legend list. The list and legend are now explicitly typed; final validation must run against the updated PR head.
 
+## Verification
+
+- Blog and Studio validation run #2483 (`45322356687`) passed on code/test commit `b01e408e026f39dacc22ab59cee14154db7fc731`: application and Pages Functions type-check, lint, full website utility tests/build, Studio type-check/build.
+- D1 migration validation run #2668 (`45322356656`) passed on the same code/test commit. No D1 migration or data change was part of this task.
+- Cloudflare Pages Preview deployment `8d51ca33-4410-4633-a440-a6622f4c1e4c` succeeded for documentation-integrated commit `e87896d9aada9ef9138a1c09308ac197d33b6773`: https://8d51ca33.florial.pages.dev.
+- A manual browser visual check could not be completed: Browser Use returned insufficient credits and the public-page fetch did not expose the preview. Visual/interactive QA is therefore **not confirmed**.
+- Production has not been changed; merge and Production deployment await owner approval.
+
 ## Safety boundary
 
 No Sanity writes, D1 schema/data changes, Cloudflare configuration/secrets, Production orders, emails or service/content edits are part of this task. The implementation is code, tests and documentation only.
