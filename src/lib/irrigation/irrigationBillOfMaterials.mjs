@@ -1,5 +1,6 @@
 const PRODUCT_SKUS = Object.freeze({
   body1804: 'A44120',
+  rotor3504Pc: 'Y34001',
   flex30m: 'A82060',
   sbe050: 'A46010',
   valve100HV: 'H01000',
@@ -54,7 +55,21 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
   }
 
   const nozzleCounts = new Map()
+  let rotor3504Count = 0
+  let rvanHeadCount = 0
   for (const sprinkler of sprinklers) {
+    if (sprinkler.performanceModel === '3504-PC' || sprinkler.pattern === 'rotor') {
+      if (sprinkler.performanceModel !== '3504-PC' || sprinkler.pattern !== 'rotor') {
+        return Object.freeze({
+          valid: false,
+          reason: 'invalid_3504_pc_head_definition',
+          items: Object.freeze([]),
+        })
+      }
+      rotor3504Count += 1
+      continue
+    }
+    rvanHeadCount += 1
     const baseModel = String(sprinkler.performanceModel ?? layout.model ?? '').replace(/-360$/, '')
     const nozzleKey = sprinkler.arcDeg === 360 ? baseModel + '-360' : baseModel
     const sku = PRODUCT_SKUS.nozzles[nozzleKey]
@@ -70,9 +85,10 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
   }
 
   for (const [sku, quantity] of nozzleCounts) add(sku, quantity)
+  add(PRODUCT_SKUS.rotor3504Pc, rotor3504Count)
 
   const headCount = sprinklers.length
-  add(PRODUCT_SKUS.body1804, headCount)
+  add(PRODUCT_SKUS.body1804, rvanHeadCount)
   add(PRODUCT_SKUS.sbe050, headCount * 2)
   add(PRODUCT_SKUS.flex30m, Math.max(1, Math.ceil(headCount / 60)))
 
@@ -105,6 +121,7 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
 export const IRRIGATION_BOM_PRODUCT_SKUS = Object.freeze([
   ...new Set([
     PRODUCT_SKUS.body1804,
+    PRODUCT_SKUS.rotor3504Pc,
     PRODUCT_SKUS.flex30m,
     PRODUCT_SKUS.sbe050,
     PRODUCT_SKUS.valve100HV,
