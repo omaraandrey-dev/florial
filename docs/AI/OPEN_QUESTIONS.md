@@ -1,3 +1,12 @@
+## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531)
+
+- **CLOSED — implementation and exact-head CI:** code head `331ffee5b548864c36497fafb788293569c4180a` passed Blog/Studio run `45464093721` and D1 validation run `45464093741`; all steps succeeded. `npm test`: 483/483 passed; type-check, lint, website build, Studio type-check/build passed.
+- **CLOSED — Preview deployment:** Cloudflare Pages deployment `ba6a681a-2865-4c40-815e-27216bc510e5` succeeded from the exact code head.
+- **CLOSED — post-hydration route smoke:** BG/RU/EN controllers returned HTTP 200 with 20 product links and one React grid each; irrigation root 20, nested autonomous controllers 10, nested 9V valves 6. These checks inspect the hydrated DOM only.
+- **OPEN — raw initial HTML:** verify the first HTTP response before React hydration. Firecrawl snapshots are post-hydration; Browser Use was unavailable due insufficient credits. Do not treat the hydrated DOM as SSR evidence.
+- **OPEN — Production:** PR #531 remains open; no merge or Production deployment is claimed.
+- No Sanity content/schema, D1 data/migrations, Cloudflare configuration/secrets, orders or email writes are included.
+
 ## 2026-11-24 — irrigation assistant paused by owner
 
 - **Owner decision:** pause all further development of the irrigation-design assistant until the owner returns with observed errors or a new task. This is an intentional project pause, not a request to continue polishing, optimize, refactor, or proactively fix anything.
@@ -436,3 +445,11 @@ Implementation: [balanced zones and order PDF](../engineering/IRRIGATION_ASSISTA
 - **OPEN — matched performance measurement:** rerun PSI/Lighthouse at least three times on the same Moto G Power / Lighthouse 13.6 / low-end 4G profile and compare medians with the owner baseline (79 / FCP 0.9 s / LCP 2.7 s / TBT 10 ms / CLS 0.337 / SI 2.9 s). No after-change metric is claimed yet.
 - **OPEN — visual/interaction QA:** screenshot review, actual filter dropdown open/close, category selection, combined filters, empty/reset state and desktop layout. Browser Use could not run due insufficient credits; rendered HTML smoke does not establish these behaviors.
 - Evidence: docs/audits/2026-11-23-blog-performance-remediation.md and docs/ROADMAP_PERFORMANCE_OPTIMIZATION.md.
+
+
+## 2026-11-24 — Equipment category SSR Catalog v1 verification
+
+- **CLOSED — first HTTP response SSR proof:** exact-head GitHub Actions raw HTTP smoke passed for BG/RU/EN. The check uses Node native `fetch()` in the GitHub runner (no browser and no JavaScript execution), confirms 20 equipment product links in the server-rendered section, and compares their order with the CollectionPage ItemList.
+- **CLOSED — code/CI/Preview:** latest verified PR head `17aefbb2781d24b401310d759dbe9cb678b4e945`; Blog/Studio run `45466168536` and D1 validation run `45466168430` passed; Preview deployment `34fe3142-5306-4391-afb5-d195691361a4` succeeded from the same SHA.
+- **PENDING — integration/Production:** PR #531 awaits merge. After merge, verify the exact Pages Production deployment and run a read-only first-response smoke against the canonical BG/RU/EN category URLs. This does not close the separate 2026-11-23 Search Console indexability/canonical questions for other URLs.
+- No Sanity documents/schemas, D1 data/migrations, Cloudflare configuration/secrets or Production settings were changed during implementation.

@@ -1,6 +1,10 @@
 export type PlantCategoryProduct = {
   _id: string
   name?: string
+  sku?: string
+  imageUrl?: string
+  categoryId?: string
+  categoryIds?: string[]
   slugValue?: string
   priceEUR?: number
   stockStatus?: string
@@ -38,3 +42,22 @@ export function buildPlantCategoryItemList(
   language?: 'bg' | 'ru' | 'en',
   siteUrl?: string,
 ): Record<string, unknown>
+
+
+export type EquipmentCategoryOptions = {
+  rootCatalog?: boolean
+  categories?: Array<{ _id: string; parentId?: string; slugValue?: string }>
+}
+
+export function buildEquipmentCategoryEntries(
+  products: PlantCategoryProduct[],
+  language?: 'bg' | 'ru' | 'en',
+  options?: EquipmentCategoryOptions,
+): PlantCategoryProduct[]
+
+export function renderEquipmentCategoryListing(
+  products: PlantCategoryProduct[],
+  language?: 'bg' | 'ru' | 'en',
+  siteUrl?: string,
+  options?: EquipmentCategoryOptions,
+): string

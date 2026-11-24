@@ -1,6 +1,6 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
-import { collectDescendantCategoryIds, renderPlantCategoryListing } from './_lib/plantCategoryHtml.mjs'
+import { collectDescendantCategoryIds, buildEquipmentCategoryEntries, renderPlantCategoryListing, renderEquipmentCategoryListing } from './_lib/plantCategoryHtml.mjs'
 import { buildProductOffer, getServerProductPrice } from './_lib/productJsonLd.mjs'
 
 const SITE_NAME = 'Florial'
@@ -17,6 +17,10 @@ type PagesContext = {
 type SeoPlantProduct = {
   _id: string
   name?: string
+  sku?: string
+  imageUrl?: string
+  categoryId?: string
+  categoryIds?: string[]
   slugValue?: string
   priceEUR?: number
   stockStatus?: string
@@ -32,6 +36,8 @@ type SeoPlantProduct = {
     containerVolumeL?: number
   }>
 }
+
+type SeoCategoryNode = { _id: string; parentId?: string; slugValue?: string }
 
 type SeoDocument = {
   _id: string
@@ -300,16 +306,17 @@ async function querySanityData<T>(
   return body.result as T
 }
 
-async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string): Promise<SeoPlantProduct[]> {
-  const categoryQuery = '*[_type == "category"]{_id,"parentId":parent._ref}'
-  const categories = await querySanityData<Array<{ _id: string; parentId?: string }>>(
+async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string, onCategoryTree?: (categories: SeoCategoryNode[]) => void): Promise<SeoPlantProduct[]> {
+  const categoryQuery = '*[_type == "category"]{_id,"parentId":parent._ref,"slugValue":coalesce(slug.current,slug)}'
+  const categories = await querySanityData<SeoCategoryNode[]>(
     dataset,
     categoryQuery,
     {},
-    'sanity/' + dataset + '/category-tree',
+    'sanity/' + dataset + '/category-tree-v2',
     300,
   )
   if (!Array.isArray(categories)) throw new Error('Sanity ' + dataset + ' category tree is not an array')
+  onCategoryTree?.(categories)
 
   const categoryIds = collectDescendantCategoryIds(categoryId, categories)
   const plantFilter = dataset === 'plants'
@@ -328,6 +335,10 @@ async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryI
       translations { bg { name }, ru { name, seo { h1 } }, en { name, seo { h1 } } },
       seo { h1 },
       "slugValue": slug.current,
+      "categoryId": category->_id,
+      "categoryIds": categories[]._ref,
+      sku,
+      "imageUrl": coalesce(mainImage.asset->url, image.asset->url, imageUrl, externalImageUrl),
       priceEUR,
       stockStatus,
       saleVariants[] { name, nameEn, nameRu, priceEUR, stockStatus, saleHeightCm, containerVolumeL }
@@ -337,7 +348,7 @@ async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryI
     dataset,
     productQuery,
     { categoryIds },
-    'sanity/' + dataset + '/category-products/' + encodeURIComponent(categoryId),
+    'sanity/' + dataset + '/category-products-v2/' + encodeURIComponent(categoryId),
     30,
   )
   if (!Array.isArray(products)) throw new Error('Sanity ' + dataset + ' category products is not an array')
@@ -679,7 +690,7 @@ function renderResponsiveSanityImagePreload(imageUrl: string): string {
   }
 }
 
-function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[]): string {
+function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[], equipmentProducts?: SeoPlantProduct[], equipmentCategoryTree?: SeoCategoryNode[]): string {
   // Category and service hero imagery is rendered responsively by the client app.
   // Do not emit a second raw image into the initial HTML: it is replaced on hydration,
   // can trigger a duplicate/oversized download, and has no reserved responsive sizing.
@@ -709,7 +720,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
   return '<main style="' + mainStyle + '">' +
     '<h1>' + escapeHtml(h1) + '</h1>' + image +
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
-    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
+    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + (type === 'category' && doc._dataset === 'production' && Array.isArray(equipmentProducts) ? renderEquipmentCategoryListing(equipmentProducts, language, SITE_URL, { rootCatalog: doc.slugValue === 'vsichko-za-polivane', categories: equipmentCategoryTree || [] }) : '') + '<p><a href="/">Florial</a></p></main>'
 }
 
 function makeBreadcrumb(path: string, name: string, language: string): Record<string, unknown> {
@@ -1228,15 +1239,16 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       // Category pages receive server-side product data for collection structured data.
       // Plant category listings are also rendered into the initial HTML; React remains interactive.
       let categoryProducts: SeoPlantProduct[] | null = null
+      let equipmentCategoryTree: SeoCategoryNode[] | undefined
       if (type === 'category') {
         if (doc._dataset === 'plants') {
           // Preserve the existing fail-closed behavior for plant category SSR.
           categoryProducts = await fetchPlantCategoryProducts(doc._id)
         } else {
-          // Irrigation listings remain client-rendered; structured data is an enhancement.
-          // A temporary catalogue-query failure must not turn a valid category page into 503.
+          // Equipment categories use the same fetched catalogue for CollectionPage data and initial HTML.
+          // React remains responsible for the interactive catalogue; a temporary query failure must not turn a valid category page into 503.
           try {
-            categoryProducts = await fetchCategoryProducts('production', doc._id)
+            categoryProducts = await fetchCategoryProducts('production', doc._id, (categories) => { equipmentCategoryTree = categories })
           } catch {
             categoryProducts = null
           }
@@ -1272,13 +1284,21 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       if (hasTranslation(doc, type, 'en')) alternates.en = localizedRouteUrl(pagePath, 'en')
       alternates['x-default'] = localizedRouteUrl(pagePath, 'bg')
 
+      const equipmentCategoryOptions = {
+        rootCatalog: doc.slugValue === 'vsichko-za-polivane',
+        categories: equipmentCategoryTree || [],
+      }
+      const categoryStructuredProducts = doc._dataset === 'production' && categoryProducts !== null
+        ? buildEquipmentCategoryEntries(categoryProducts || [], language, equipmentCategoryOptions)
+        : categoryProducts || []
+
       const structuredData: Array<{ id: string; data: Record<string, unknown> }> = [
         { id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, language) },
       ]
       if (type === 'category') {
         structuredData.push({
           id: 'collection-page',
-          data: makeCategoryCollectionJsonLd(name, metaDescription, canonicalUrl, categoryProducts || [], language),
+          data: makeCategoryCollectionJsonLd(name, metaDescription, canonicalUrl, categoryStructuredProducts, language),
         })
       }
       if (type === 'product') {
@@ -1291,7 +1311,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         structuredData.push({ id: 'blog-posting', data: makeBlogPostingJsonLd(doc, name, metaDescription, canonicalUrl, language) })
       }
       const pageH1 = type === 'product' ? String(seo?.h1 || name) : categorySeo?.h1 || name
-      const body = documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined)
+      const body = documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {
@@ -1305,9 +1325,11 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           structuredData,
           pageType: type === 'product' ? 'product' : type === 'blogPost' ? 'article' : 'website',
         })
-      }, categoryProducts !== null
-        ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
-        : undefined)
+      }, type === 'category' && categoryProducts === null
+        ? 'no-store'
+        : categoryProducts !== null
+          ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
+          : undefined)
     } catch {
       // Do not turn an upstream Sanity outage into a false 200 or false 404.
       return unavailableResponse(language)

@@ -18,6 +18,12 @@ function localizedProductName(product, language) {
   return String(product.name || product.seo?.h1 || '').trim()
 }
 
+function localizedEquipmentProductName(product, language) {
+  const translated = product.translations?.[language]?.name
+  if (typeof translated === 'string' && translated.trim()) return translated.trim()
+  return String(product.name || '').trim()
+}
+
 function getAvailability(product) {
   const statuses = (product.saleVariants || [])
     .map((variant) => variant?.stockStatus)
@@ -148,4 +154,146 @@ export function buildPlantCategoryItemList(products, language = 'bg', siteUrl = 
       url: productUrl(product, language, siteUrl),
     })),
   }
+}
+
+
+function equipmentImageText(productName, language, imageIndex, kind) {
+  const locations = [
+    { bg: 'Несебър', ru: 'Несебре', en: 'Nessebar' },
+    { bg: 'Равда', ru: 'Равде', en: 'Ravda' },
+    { bg: 'Слънчев бряг', ru: 'Солнечном Берегу', en: 'Sunny Beach' },
+    { bg: 'Свети Влас', ru: 'Свети-Власе', en: 'Sveti Vlas' },
+    { bg: 'Поморие', ru: 'Поморие', en: 'Pomorie' },
+  ]
+  const locale = language === 'ru' || language === 'en' ? language : 'bg'
+  const location = locations[Math.max(0, imageIndex) % locations.length][locale]
+  if (locale === 'ru') return kind === 'title' ? `Продажа ${productName} в ${location}` : `Купить ${productName} в ${location}`
+  if (locale === 'en') return kind === 'title' ? `${productName} for sale in ${location}` : `Buy ${productName} in ${location}`
+  return kind === 'title' ? `Продажба на ${productName} в ${location}` : `Купете ${productName} в ${location}`
+}
+
+export function buildEquipmentCategoryEntries(products, language = 'bg', options = {}) {
+  const sorted = (Array.isArray(products) ? products : [])
+    .filter((product) => product && product._id && (product.slugValue || product.slug?.current))
+    .slice()
+    .sort((a, b) => localizedEquipmentProductName(a, language).localeCompare(localizedEquipmentProductName(b, language), language))
+
+  if (options.rootCatalog && Array.isArray(options.categories)) {
+    const prioritySlugs = [
+      'controllers',
+      'gotovi-komplekti-za-polivane',
+      'sprinklers',
+      'nozzles',
+      'klapani',
+      'shahti',
+    ]
+    const priorityIds = prioritySlugs
+      .map((slug) => options.categories.find((item) => item.slugValue === slug)?._id)
+      .filter(Boolean)
+    const priorityIdSet = new Set(priorityIds)
+    const parentById = new Map(options.categories.map((item) => [item._id, item.parentId]))
+    const getRootCategoryId = (categoryId) => {
+      let currentId = categoryId
+      const visited = new Set()
+      while (currentId && !visited.has(currentId)) {
+        if (priorityIdSet.has(currentId)) return currentId
+        visited.add(currentId)
+        currentId = parentById.get(currentId)
+      }
+      return undefined
+    }
+
+    const buckets = new Map(priorityIds.map((id) => [id, []]))
+    const otherProducts = []
+    sorted.forEach((product) => {
+      const categoryCandidates = [
+        product.categoryId,
+        ...(Array.isArray(product.categoryIds) ? product.categoryIds : []),
+      ].filter(Boolean)
+      const matchingPriorityId = categoryCandidates
+        .map((id) => getRootCategoryId(id))
+        .find(Boolean)
+      if (matchingPriorityId) buckets.get(matchingPriorityId)?.push(product)
+      else otherProducts.push(product)
+    })
+
+    const nozzlesCategoryId = options.categories.find((item) => item.slugValue === 'nozzles')?._id
+    const nozzlesBucket = nozzlesCategoryId ? buckets.get(nozzlesCategoryId) : undefined
+    if (nozzlesBucket) {
+      const getNozzleSeriesRank = (product) => {
+        const productText = [product.name, localizedEquipmentProductName(product, language), product.sku]
+          .filter(Boolean).join(' ').toLocaleUpperCase()
+        if (/\bR[\s-]?VAN\b/.test(productText)) return 0
+        if (/\bHE[\s-]?VAN\b/.test(productText)) return 1
+        if (/\bVAN\b/.test(productText)) return 2
+        return 3
+      }
+      nozzlesBucket.sort((a, b) => getNozzleSeriesRank(a) - getNozzleSeriesRank(b))
+    }
+
+    const priorityProducts = []
+    let hasMorePriorityProducts = true
+    while (hasMorePriorityProducts) {
+      hasMorePriorityProducts = false
+      priorityIds.forEach((id) => {
+        const nextProduct = buckets.get(id)?.shift()
+        if (nextProduct) {
+          priorityProducts.push(nextProduct)
+          hasMorePriorityProducts = true
+        }
+      })
+    }
+    return [...priorityProducts, ...otherProducts].slice(0, PAGE_SIZE)
+  }
+
+  return sorted.slice(0, PAGE_SIZE)
+}
+
+function equipmentAvailabilityLabel(product, language) {
+  const status = ['inStock', 'onRequest', 'outOfStock'].includes(product.stockStatus) ? product.stockStatus : null
+  if (!status) return ''
+  if (language === 'ru') return status === 'inStock' ? 'В наличии' : status === 'outOfStock' ? 'Нет в наличии' : 'По запросу'
+  if (language === 'en') return status === 'inStock' ? 'In stock' : status === 'outOfStock' ? 'Out of stock' : 'On request'
+  return status === 'inStock' ? 'В наличност' : status === 'outOfStock' ? 'Изчерпан' : 'По заявка'
+}
+
+export function renderEquipmentCategoryListing(products, language = 'bg', siteUrl = 'https://florial-bg.com', options = {}) {
+  const entries = buildEquipmentCategoryEntries(products, language, options)
+  const heading = language === 'ru' ? 'Оборудование в категории' : language === 'en' ? 'Equipment in this category' : 'Оборудване в категорията'
+  const empty = language === 'ru'
+    ? 'В этой категории пока нет товаров.'
+    : language === 'en'
+      ? 'There are currently no products in this category.'
+      : 'В тази категория все още няма продукти.'
+
+  if (!entries.length) {
+    return '<section aria-labelledby="florial-equipment-category-products" data-florial-server-catalogue="equipment">' +
+      '<h2 id="florial-equipment-category-products">' + heading + '</h2><p>' + empty + '</p></section>'
+  }
+
+  const cards = entries.map((product, index) => {
+    const name = localizedEquipmentProductName(product, language) || product.slugValue
+    const url = productUrl(product, language, siteUrl)
+    const price = typeof product.priceEUR === 'number' && Number.isFinite(product.priceEUR) && product.priceEUR > 0 ? product.priceEUR : null
+    const priceLabel = price === null
+      ? ''
+      : (language === 'ru' ? 'Цена: ' : language === 'en' ? 'Price: ' : 'Цена: ') +
+        price.toFixed(2) + ' €'
+    const status = equipmentAvailabilityLabel(product, language)
+    const imageUrl = typeof product.imageUrl === 'string' ? product.imageUrl : ''
+    const image = imageUrl
+      ? '<div style="height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f8fafc;border-radius:8px;margin-bottom:12px"><img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(equipmentImageText(name, language, index, 'alt')) + '" title="' + escapeHtml(equipmentImageText(name, language, index, 'title')) + '" loading="lazy" decoding="async" style="max-width:100%;max-height:100%;object-fit:contain" /></div>'
+      : ''
+    return '<li><article style="height:100%;border:1px solid #e5e7eb;border-radius:12px;padding:16px">' + image +
+      '<h3><a href="' + escapeHtml(url) + '">' + escapeHtml(name) + '</a></h3>' +
+      (priceLabel ? '<p><strong>' + escapeHtml(priceLabel) + '</strong></p>' : '') +
+      (status ? '<p>' + escapeHtml(status) + '</p>' : '') +
+      (product.sku ? '<p>SKU: ' + escapeHtml(product.sku) + '</p>' : '') +
+      '</article></li>'
+  }).join('')
+
+  return '<section aria-labelledby="florial-equipment-category-products" data-florial-server-catalogue="equipment" style="margin:24px 0">' +
+    '<h2 id="florial-equipment-category-products">' + heading + '</h2>' +
+    '<p>' + (language === 'ru' ? 'Показано товаров: ' : language === 'en' ? 'Showing products: ' : 'Показани продукти: ') + entries.length + '</p>' +
+    '<ul style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;list-style:none;padding:0">' + cards + '</ul></section>'
 }

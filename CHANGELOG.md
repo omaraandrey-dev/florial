@@ -1,3 +1,13 @@
+## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531)
+
+- Added an equipment-specific initial HTML renderer using the existing published Sanity `production` category query.
+- Added up to 20 localized equipment product links with image ALT/title, EUR price, known stock status and SKU.
+- Mirrored the React all-irrigation root's six-category round-robin and R-VAN → HE-VAN → VAN nozzle ordering; the CollectionPage ItemList uses the same ordered equipment entries.
+- Preserved the plant SSR renderer, React filtering/pagination, and product/service/blog cache behavior. Failed equipment category queries do not render a false empty state and are not edge-cached.
+- Exact code-head CI `331ffee5b548864c36497fafb788293569c4180a` passed: 483/483 tests, app/Pages Functions type-check, lint, website build, Studio type-check/build and D1 validation.
+- Cloudflare Pages Preview deployment `ba6a681a-2865-4c40-815e-27216bc510e5` succeeded from that exact head. Post-hydration BG/RU/EN and nested-category smoke checks passed.
+- Raw initial-HTTP HTML verification remains open; no merge or Production deployment has occurred.
+
 ## 2026-11-24 — irrigation assistant paused by owner
 
 - **Owner decision:** pause all further development of the irrigation-design assistant until the owner returns with observed errors or a new task. This is an intentional project pause, not a request to continue polishing, optimize, refactor, or proactively fix anything.
@@ -4422,3 +4432,13 @@ Backups:
 - Exact-head Blog/Studio and D1 CI passed; Preview and Production deployments succeeded. No Sanity, D1, Cloudflare settings/secrets, Resend, Footer, Header/menu or global CSS changes.
 - **Measurement boundary:** no matched post-change PSI/Lighthouse result is available yet. Do not claim the baseline score 79 or CLS 0.337 improved until the same mobile profile is rerun. Screenshot/interaction QA also remains open because Browser Use credits were unavailable.
 - Detailed evidence: docs/audits/2026-11-23-blog-performance-remediation.md.
+
+
+## 2026-11-24 — Equipment category SSR Catalog v1 (PR #531)
+
+- Added a server-rendered equipment catalogue to the initial HTML response for published irrigation-equipment categories in Sanity dataset `production`. The existing interactive React catalogue, filtering and pagination remain in place; plant SSR remains unchanged.
+- Root category `vsichko-za-polivane` uses the React-compatible six-category round-robin and R-VAN → HE-VAN → VAN nozzle priority. The CollectionPage ItemList follows the same ordered entries.
+- **Raw first-response verification passed:** GitHub Actions workflow `Equipment SSR Preview smoke`, run `45466157907` (push) and run `45466168466` (pull request), exact source revision `17aefbb2781d24b401310d759dbe9cb678b4e945`. The Node.js test uses native `fetch()` and does not execute page JavaScript. BG, RU and EN responses each contained 20 server-rendered product cards; all product URLs matched the CollectionPage ItemList order and locale suffixes were preserved.
+- **Exact-head CI passed:** Blog and Studio validation run `45466168536`; D1 migration validation run `45466168430`. The website test step reported 483 passed / 0 failed; app and Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check/build and D1 validation passed. No migration was applied.
+- Cloudflare Pages Preview deployment `34fe3142-5306-4391-afb5-d195691361a4` succeeded from exact revision `17aefbb2781d24b401310d759dbe9cb678b4e945`.
+- PR #531 is ready for merge. Production deployment is not yet claimed; it must be checked after merge. No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets, orders, email, or Production configuration changes were made.

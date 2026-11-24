@@ -1,0 +1,88 @@
+name: Equipment SSR Preview smoke
+
+on:
+  push:
+    branches:
+      - feat/seo-equipment-category-ssr-v1
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'functions/_middleware.ts'
+      - 'functions/_lib/plantCategoryHtml.mjs'
+      - 'functions/_lib/plantCategoryHtml.d.mts'
+      - 'tests/equipment-category-server-rendering.test.mjs'
+      - '.github/workflows/equipment-ssr-preview-smoke.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  raw-http-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Verify initial HTTP HTML without executing JavaScript
+        env:
+          PREVIEW_URL: https://feat-seo-equipment-category.florial.pages.dev
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+
+          const base = process.env.PREVIEW_URL;
+          const routes = [
+            { lang: 'bg', url: '/category/vsichko-za-polivane' },
+            { lang: 'ru', url: '/category/vsichko-za-polivane?lang=ru' },
+            { lang: 'en', url: '/category/vsichko-za-polivane?lang=en' },
+          ];
+
+          async function fetchHtml(route) {
+            let lastError;
+            for (let attempt = 1; attempt <= 24; attempt += 1) {
+              try {
+                const response = await fetch(new URL(route.url, base), {
+                  headers: { accept: 'text/html' },
+                  signal: AbortSignal.timeout(20000),
+                  redirect: 'follow',
+                });
+                const html = await response.text();
+                if (response.status === 200 && html.includes('data-florial-server-catalogue="equipment"')) {
+                  return { response, html };
+                }
+                lastError = new Error(`attempt ${attempt}: HTTP ${response.status}; server catalogue marker missing`);
+              } catch (error) {
+                lastError = error;
+              }
+              await new Promise((resolve) => setTimeout(resolve, 10000));
+            }
+            throw lastError || new Error('Preview did not return initial equipment HTML');
+          }
+
+          for (const route of routes) {
+            const { response, html } = await fetchHtml(route);
+            assert.match(response.headers.get('content-type') || '', /text\/html/i);
+            assert.match(html, /name="robots"[^>]*content="index, follow"/i);
+
+            const sectionMatch = html.match(/<section\b[^>]*data-florial-server-catalogue="equipment"[^>]*>([\s\S]*?)<\/section>/i);
+            assert.ok(sectionMatch, `${route.lang}: equipment SSR section must be in the first HTTP response`);
+            const section = sectionMatch[1];
+            const productLinks = [...section.matchAll(/<a\b[^>]*href="([^"]*\/product\/[^"]+)"[^>]*>/gi)].map((match) => match[1]);
+            assert.equal(productLinks.length, 20, `${route.lang}: expected 20 server-rendered product links`);
+
+            const collectionScript = html.match(/<script\b[^>]*data-florial-jsonld="collection-page"[^>]*>([\s\S]*?)<\/script>/i);
+            assert.ok(collectionScript, `${route.lang}: CollectionPage JSON-LD missing`);
+            const collection = JSON.parse(collectionScript[1]);
+            const jsonLdLinks = (collection.mainEntity?.itemListElement || []).map((item) => item.url);
+            assert.deepEqual(
+              productLinks.map((link) => new URL(link, base).pathname + new URL(link, base).search),
+              jsonLdLinks.map((link) => new URL(link, base).pathname + new URL(link, base).search),
+              `${route.lang}: HTML card order must match CollectionPage ItemList`,
+            );
+
+            if (route.lang !== 'bg') {
+              assert.ok(productLinks.every((link) => new URL(link, base).searchParams.get('lang') === route.lang),
+                `${route.lang}: every product link must retain the locale`);
+            }
+            console.log(`PASS ${route.lang}: first HTTP response contains ${productLinks.length} equipment cards; JSON-LD order matches`);
+          }
+          NODE
