@@ -1,3 +1,10 @@
+## 2026-11-24 — Irrigation mixed R-VAN selection and result UX (implementation pending)
+
+- **CLOSED — per-position nozzle selection:** do not choose one R-VAN model for the entire lawn. Select corner, edge and interior candidates from local geometric reach/spacing, with each sprinkler retaining its own radius and exact model/arc performance lookup.
+- **CLOSED — 8 × 8 m reference:** four corner R-VAN24 heads at 6 m and four side-midpoint R-VAN18 heads at 4 m; test sampled coverage and head-to-head with mixed radii.
+- **CLOSED — customer result:** use Rain Bird nozzle identification colors, show a model legend and per-zone model quantities; remove fixed planning-radius explanation and flex-pipe metres/coil wording from the kit summary.
+- Implementation is on `fix/irrigation-mixed-rvan-visual-layout`; exact-head CI and release verification remain pending.
+
 ## 2026-11-24 — Irrigation layout owner decisions
 
 - **CLOSED — fixed Florial R-VAN planning radii:** R-VAN14 = 3 m; R-VAN18 = 4/5 m; R-VAN24 = 6 m. Radius does not change with arc.
