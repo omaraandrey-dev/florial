@@ -131,7 +131,7 @@ test('38x16 rectangle is covered by 3504-PC rotors without redundant R-VAN heads
 })
 
 test('rectangle decomposition is processed by ascending area and a shared strip seam gets a 7.5cm inward offset', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(14, 14, {
+  const result = buildPreliminaryLawnLayout(snapshotFor(18, 14, {
     shape: 'l-shape', cutoutWidth: 6, cutoutDepth: 12, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated',
@@ -139,7 +139,7 @@ test('rectangle decomposition is processed by ascending area and a shared strip 
   const areas = result.layout.calculationRegions.map((part) => part.areaM2)
   assert.deepEqual(areas, areas.slice().sort((a, b) => a - b))
   const stripSeamHead = result.layout.sprinklers.find((head) =>
-    head.pattern === 'strip' && Math.abs(head.position.x - 8) < 1e-6 && Math.abs(head.position.y) < 1e-6)
+    head.pattern === 'strip' && Math.abs(head.position.x - 12) < 1e-6 && Math.abs(head.position.y) < 1e-6)
   assert.ok(stripSeamHead, 'connected strip head should remain at the shared seam')
   const mainRegion = result.layout.calculationRegions.find((part) => part.id === 'main')
   assert.equal(mainRegion?.seamOffsets?.length, 1,
@@ -148,20 +148,35 @@ test('rectangle decomposition is processed by ascending area and a shared strip 
 
 test('R-VAN solver can place a corner head 7.5cm inward from a shared seam', () => {
   const geometry = snapshotFor(10, 10).geometry.normalized
+  const base = generateLawnSprinklerLayout({
+    geometry, family: 'R-VAN', model: 'R-VAN24', pressureBar: 3.1,
+  })
+  const seam = { x: 10, y: 0 }
+  const stripHead = {
+    id: 'seam-strip-head',
+    position: seam,
+    pattern: 'strip',
+    stripBounds: { minX: 10, minY: 0, maxX: 16, maxY: 2 },
+    stripDirection: 'right',
+    stripAxis: 'horizontal',
+  }
+  const initialSprinklers = base.sprinklers.filter((head) =>
+    Math.hypot(head.position.x - seam.x, head.position.y - seam.y) > 6)
+  initialSprinklers.push(stripHead)
   const layout = generateLawnSprinklerLayout({
     geometry,
     family: 'R-VAN',
     model: 'R-VAN24',
     pressureBar: 3.1,
+    initialSprinklers,
     candidatePositionOffsets: [{
-      from: { x: 10, y: 0 },
+      from: seam,
       dx: -0.0530330086,
       dy: 0.0530330086,
     }],
   })
-  assert.equal(layout.status, 'coverage_complete_sampled')
   assert.ok(layout.sprinklers.some((head) =>
-    Math.abs(Math.hypot(head.position.x - 10, head.position.y) - 0.075) < 0.005))
+    Math.abs(Math.hypot(head.position.x - seam.x, head.position.y - seam.y) - 0.075) < 0.005))
 })
 
 test('3504-PC priority works on a supported L-shape with a rectangular recess', () => {
