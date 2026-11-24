@@ -217,17 +217,22 @@ test('sampled coverage remains complete at a finer spatial resolution', () => {
 
 
 
-test('R-VAN planning radius is fixed by model and does not change with arc', () => {
-  for (const [model, radiusM] of [['R-VAN14', 3], ['R-VAN18', 5], ['R-VAN24', 6]]) {
-    const result = generateLawnSprinklerLayout({
-      geometry: confirmedGeometry([{ x: 0, y: 0 }, { x: 30, y: 0 }, { x: 30, y: 30 }, { x: 0, y: 30 }]), family: 'R-VAN', model, pressureBar: 3.1, sampleStepM: 0.5,
-    })
-    assert.ok(result.sprinklers.length > 0)
-    assert.ok(result.sprinklers.every((head) => head.radiusM === radiusM))
-    assert.ok(result.sprinklers.some((head) => head.arcDeg === 90))
-    assert.ok(result.sprinklers.some((head) => head.arcDeg === 180))
-    assert.ok(result.sprinklers.some((head) => head.arcDeg === 360))
+test('mixed R-VAN candidates keep each model radius independent of arc', () => {
+  const result = generateLawnSprinklerLayout({
+    geometry: confirmedGeometry([{ x: 0, y: 0 }, { x: 30, y: 0 }, { x: 30, y: 30 }, { x: 0, y: 30 }]),
+    family: 'R-VAN', model: 'R-VAN18', pressureBar: 3.1, sampleStepM: 0.5,
+  })
+  assert.ok(result.sprinklers.length > 0)
+  for (const head of result.sprinklers) {
+    const baseModel = head.performanceModel.replace(/-360$/, '')
+    if (baseModel === 'R-VAN14') assert.equal(head.radiusM, 3)
+    else if (baseModel === 'R-VAN18') assert.ok([4, 5].includes(head.radiusM))
+    else if (baseModel === 'R-VAN24') assert.equal(head.radiusM, 6)
+    else assert.fail('unexpected nozzle model: ' + baseModel)
   }
+  assert.ok(result.sprinklers.some((head) => head.arcDeg === 90))
+  assert.ok(result.sprinklers.some((head) => head.arcDeg === 180))
+  assert.ok(result.sprinklers.some((head) => head.arcDeg === 360))
 })
 
 test('default control mesh interval is 0.5 metres', () => {

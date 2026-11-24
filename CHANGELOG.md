@@ -1,3 +1,12 @@
+## 2026-11-24 — Irrigation assistant mixed R-VAN selection and customer diagram (PR pending)
+
+- Corrected the per-position nozzle selection defect: the prior bridge selected one model from the overall short side and the solver reused it for every sprinkler. The solver now sizes corner, side and interior candidates independently from local geometric reach/spacing.
+- Regression target for an 8 × 8 m rectangle: R-VAN24 / 6 m at four corners and R-VAN18 / 4 m at four side midpoints; coverage and head-to-head are checked with each head's actual radius.
+- Customer diagram markers and radius rings now use Rain Bird identification colors (R-VAN14 blue, R-VAN18 tan, R-VAN24 burgundy; RCS gray). Added a model legend and per-zone nozzle-model counts. Layout and project/PDF scenario labels now report the actual selected model set instead of a single base model.
+- Removed the fixed planning-radius explanatory note and flex-pipe length/coil text from the customer result. The kit summary shows sprinkler and zone counts only.
+- Updated the perimeter-first engineering guide and added an audit. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets, Production orders or emails.
+- Exact code/test commit `53e73149644a5e567f6c272eb0479242e35959a8` passed Blog/Studio CI #2498 and D1 validation #2683. Cloudflare Pages Preview deployment `0f21ec49-6e44-4e8a-b3dc-41a2ac1faa09` succeeded for the same commit. Manual browser visual QA was unavailable (Browser Use credits); Production merge/deployment awaits owner approval.
+
 ## 2026-11-24 — Irrigation assistant algorithm update (implementation branch; CI pending)
 
 - Implemented the owner-approved Florial R-VAN planning radii: R-VAN14 = 3 m, R-VAN18 = 4/5 m, R-VAN24 = 6 m. Radius is fixed by selected model and independent of 90°/180°/270°/360° arc.

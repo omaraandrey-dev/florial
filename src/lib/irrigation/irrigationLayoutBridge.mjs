@@ -86,7 +86,7 @@ function buildRcsStripLayout(geometry, shortSideM) {
   })
 
   return Object.freeze({
-    engineVersion: '0.3.0',
+    engineVersion: '0.4.0',
     algorithm: 'owner-defined-rvan-rcs-strip-placement-v1',
     status: 'strip_pattern_placement_ready',
     coverageScope: 'owner_defined_strip_pattern',
@@ -261,11 +261,11 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     operatingScenario: Object.freeze({
       manufacturer: 'Rain Bird',
       family: 'R-VAN',
-      model,
+      model: layout.model ?? model,
       pressureBar,
       pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: 'Florial fixed planning radius by R-VAN model; radius independent of arc',
-      layoutRadiusM: radiusM,
+      modelSelectionBasis: 'Florial per-position nozzle selection from corner-to-centre reach and adjacent perimeter spacing; radius independent of arc',
+      layoutRadiusM: null,
       sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,

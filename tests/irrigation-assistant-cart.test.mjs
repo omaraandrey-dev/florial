@@ -32,3 +32,18 @@ test('assistant cart action is gated on a complete supported generated layout an
   assert.match(page, /catalogLoading \|\| Boolean\(catalogError\)/)
   assert.match(page, /resolved\.some/)
 })
+
+
+test('customer layout distinguishes nozzle models and keeps the result summary concise', async () => {
+  const page = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
+  assert.match(page, /normalized === 'R-VAN14'\) return '#3b82f6'/)
+  assert.match(page, /normalized === 'R-VAN18'\) return '#c49a6c'/)
+  assert.match(page, /normalized === 'R-VAN24'\) return '#800020'/)
+  assert.match(page, /normalized === 'R-VAN-RCS'\) return '#6b7280'/)
+  assert.match(page, /stroke=\{nozzleColor\}/)
+  assert.match(page, /fill=\{nozzleColor\}/)
+  assert.match(page, /layoutNozzleLegend\.map/)
+  assert.match(page, /modelCounts\.entries/)
+  assert.doesNotMatch(page, /rvanScenarioNote|фиксированный планировочный радиус|fixed planning radii/)
+  assert.doesNotMatch(page, /flexPipeRequiredM\}.*продаётся бухтами по 30 м|flexPipeRequiredM\}.*sold in 30 m coils/)
+})

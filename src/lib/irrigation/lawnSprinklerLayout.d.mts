@@ -9,7 +9,7 @@ export interface LawnSprinklerLayoutInput {
   readonly pressureBar: number
   /** Sampling interval in metres; defaults to 0.5m. */
   readonly sampleStepM?: number
-  /** Florial planning radius override for R-VAN; independent of the selected arc. */
+  /** Base interior-grid spacing hint. R-VAN radii are selected per candidate from local reach/spacing and remain independent of arc. */
   readonly radiusM?: number
 }
 

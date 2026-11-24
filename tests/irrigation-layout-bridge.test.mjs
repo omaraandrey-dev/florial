@@ -22,19 +22,21 @@ function snapshotFor(length, width) {
   })
 }
 
-test('Florial selects the fixed R-VAN planning radius from the short side', () => {
-  for (const [length, width, expectedModel, expectedRadius] of [
-    [10, 3, 'R-VAN14', 3],
-    [10, 4, 'R-VAN18', 4],
-    [10, 5, 'R-VAN18', 5],
-    [32, 6, 'R-VAN24', 6],
-  ]) {
+test('Florial selects each R-VAN head from local reach and reports the actual model set', () => {
+  for (const [length, width] of [[10, 3], [10, 4], [10, 5], [32, 6]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated')
     assert.equal(result.operatingScenario?.family, 'R-VAN')
-    assert.equal(result.operatingScenario?.model, expectedModel)
-    assert.equal(result.operatingScenario?.layoutRadiusM, expectedRadius)
-    assert.ok(result.layout?.sprinklers?.every((head) => head.radiusM === expectedRadius))
+    const selectedModels = [...new Set(result.layout?.sprinklers?.map((head) => head.performanceModel) ?? [])].sort()
+    assert.equal(result.operatingScenario?.model, selectedModels.join(' / '))
+    assert.equal(result.layout?.model, selectedModels.join(' / '))
+    assert.equal(result.operatingScenario?.layoutRadiusM, null)
+    assert.ok(result.layout?.sprinklers?.every((head) => {
+      const baseModel = head.performanceModel.replace(/-360$/, '')
+      return (baseModel === 'R-VAN14' && head.radiusM === 3) ||
+        (baseModel === 'R-VAN18' && [4, 5].includes(head.radiusM)) ||
+        (baseModel === 'R-VAN24' && head.radiusM === 6)
+    }))
     assert.equal(result.layout?.coverageScope, 'sampled_geometry_only')
     assert.equal(result.layout?.hydraulicFeasibility, 'not_evaluated')
     assert.equal(result.pipeNetwork?.connectionPoint?.x, length)
@@ -43,11 +45,27 @@ test('Florial selects the fixed R-VAN planning radius from the short side', () =
   }
 })
 
+test('8x8 rectangle uses R-VAN24 in the four corners and R-VAN18 at the four side midpoints', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(8, 8))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.equal(result.layout?.headToHead?.passed, true)
+  const heads = result.layout?.sprinklers ?? []
+  const corners = heads.filter((head) => head.source === 'vertex')
+  const sideMidpoints = heads.filter((head) => head.source === 'edge')
+  assert.equal(corners.length, 4)
+  assert.equal(sideMidpoints.length, 4)
+  assert.ok(corners.every((head) => head.performanceModel === 'R-VAN24' && head.radiusM === 6))
+  assert.ok(sideMidpoints.every((head) => head.performanceModel === 'R-VAN18' && head.radiusM === 4))
+  assert.deepEqual(result.zones?.reduce((sum, zone) => sum + zone.sprinklerCount, 0), 8)
+})
+
 test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 routes', () => {
-  for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 14, [5, 5, 4]]]) {
+  for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 12, [6, 6]]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, 5))
     assert.equal(result.status, 'layout_generated')
-    assert.equal(result.operatingScenario?.model, 'R-VAN18')
+    const selectedModels = [...new Set(result.layout?.sprinklers?.map((head) => head.performanceModel) ?? [])].sort()
+    assert.equal(result.operatingScenario?.model, selectedModels.join(' / '))
     assert.equal(result.layout?.sprinklers?.length, expectedCount)
     assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), expectedZones)
     assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
@@ -63,14 +81,15 @@ test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 r
   }
 })
 
-test('30x5 lawn balances all perimeter and interior heads across three zones', () => {
+test('30x5 lawn is covered by perimeter heads in two balanced zones', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(30, 5))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.model, 'R-VAN18')
-  assert.equal(result.layout?.sprinklers?.length, 14)
-  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [5, 5, 4])
+  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  assert.equal(result.layout?.sprinklers?.length, 12)
+  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [6, 6])
   assert.equal(result.layout?.headToHead?.passed, true)
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.ok(result.layout?.sprinklers?.every((head) => head.source !== 'interior'))
   assert.ok(result.pipeNetwork?.branches?.every((branch) => branch.sprinklerIds.length > 0))
 })
 
@@ -85,18 +104,18 @@ test('32x6 uses the fixed 6m R-VAN24 planning radius and remains perimeter-only'
   assert.equal(result.layout?.headToHead?.passed, true)
 })
 
-test('20x10 uses R-VAN24 and keeps complete sampled perimeter coverage', () => {
+test('20x10 reports mixed models and keeps complete sampled perimeter coverage', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(20, 10))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  assert.equal(result.operatingScenario?.model, 'R-VAN18 / R-VAN18-360 / R-VAN24')
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
 })
 
-test('20x15 uses an interior circular row when perimeter coverage alone is insufficient', () => {
+test('20x15 uses mixed R-VAN models and an interior circular row when perimeter coverage alone is insufficient', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(20, 15))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  assert.equal(result.operatingScenario?.model, 'R-VAN18 / R-VAN18-360 / R-VAN24')
   const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
   assert.ok(interior.length > 0)
   assert.ok(interior.every((entry) => [5, 7.5, 10].some((row) => Math.abs(entry.position.y - row) < 1e-6)))
@@ -108,7 +127,7 @@ test('20x15 uses an interior circular row when perimeter coverage alone is insuf
 test('30x30 uses multiple interior rows and permits mixed balanced zones', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(30, 30))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.model, 'R-VAN24')
+  assert.equal(result.operatingScenario?.model, 'R-VAN24 / R-VAN24-360')
   const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
   assert.ok(interior.length >= 3)
   assert.ok(new Set(interior.map((entry) => Number(entry.position.y.toFixed(2)))).size >= 3)

@@ -8,7 +8,7 @@ import {
   RAIN_BIRD_HEVAN_DATASET,
 } from './rainBirdHevanPerformanceData.mjs'
 
-const ENGINE_VERSION = '0.3.0'
+const ENGINE_VERSION = '0.4.0'
 const EPSILON = 1e-8
 const DEFAULT_SAMPLE_STEP_M = 0.5
 const MAX_SAMPLE_POINTS = 30000
@@ -138,9 +138,38 @@ function supportedModel(family, model) {
   return false
 }
 
+function polygonCentroid(vertices) {
+  let crossSum = 0
+  let xSum = 0
+  let ySum = 0
+  for (let index = 0; index < vertices.length; index += 1) {
+    const current = vertices[index]
+    const next = vertices[(index + 1) % vertices.length]
+    const factor = current.x * next.y - next.x * current.y
+    crossSum += factor
+    xSum += (current.x + next.x) * factor
+    ySum += (current.y + next.y) * factor
+  }
+  if (Math.abs(crossSum) <= EPSILON) {
+    return {
+      x: vertices.reduce((sum, point) => sum + point.x, 0) / vertices.length,
+      y: vertices.reduce((sum, point) => sum + point.y, 0) / vertices.length,
+    }
+  }
+  return { x: xSum / (3 * crossSum), y: ySum / (3 * crossSum) }
+}
+
+function selectRvanModelForRequiredRadius(requiredRadiusM) {
+  if (requiredRadiusM <= 3 + EPSILON) return { model: 'R-VAN14', radiusM: 3 }
+  if (requiredRadiusM <= 4 + EPSILON) return { model: 'R-VAN18', radiusM: 4 }
+  if (requiredRadiusM <= 5 + EPSILON) return { model: 'R-VAN18', radiusM: 5 }
+  return { model: 'R-VAN24', radiusM: 6 }
+}
+
 function buildCandidates(vertices, family, model, pressureBar, radiusM) {
   const candidates = []
   const orientation = Math.sign(signedArea(vertices)) || 1
+  const center = polygonCentroid(vertices)
   const segmentLengths = vertices.map((point, index) =>
     distance(point, vertices[(index + 1) % vertices.length]))
   const perimeterOffsets = []
@@ -150,20 +179,32 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     perimeterLengthM += length
   }
 
-  const add = (position, arcDeg, direction, source, perimeterOffsetM = null) => {
-    const point = performanceFor(family, model, pressureBar, arcDeg)
-    if (!point || !Number.isFinite(point.radiusM) || point.radiusM <= 0) return
+  const nozzleForRadius = (requiredRadiusM) => family === 'R-VAN'
+    ? selectRvanModelForRequiredRadius(requiredRadiusM)
+    : { model, radiusM }
+
+  const add = (
+    position,
+    arcDeg,
+    direction,
+    source,
+    perimeterOffsetM = null,
+    nozzle = { model, radiusM },
+  ) => {
+    const candidateModel = nozzle.model
+    const point = performanceFor(family, candidateModel, pressureBar, arcDeg)
+    if (!point || (family !== 'R-VAN' && (!Number.isFinite(point.radiusM) || point.radiusM <= 0))) return
     const candidate = {
       id: 's' + String(candidates.length + 1).padStart(5, '0'),
       position: Object.freeze({ x: position.x, y: position.y }),
       arcDeg,
       directionDeg: arcDeg === 360 ? null : normalizeDegrees(Math.atan2(direction.y, direction.x) * 180 / Math.PI),
       source,
-      radiusM: family === 'R-VAN' ? radiusM : point.radiusM,
+      radiusM: family === 'R-VAN' ? nozzle.radiusM : point.radiusM,
       pressureBar: point.pressureBar,
       precipitationSquareMmH: point.precipitationSquareMmH,
       precipitationTriangularMmH: point.precipitationTriangularMmH,
-      performanceModel: arcDeg === 360 && family === 'R-VAN' ? model + '-360' : model,
+      performanceModel: arcDeg === 360 && family === 'R-VAN' ? candidateModel + '-360' : candidateModel,
     }
     if (Number.isFinite(perimeterOffsetM)) {
       candidate.perimeterOffsetM = perimeterOffsetM
@@ -177,33 +218,42 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     const next = vertices[(index + 1) % vertices.length]
     const incoming = inwardNormal(previous, current, orientation)
     const outgoing = inwardNormal(current, next, orientation)
-    if (!incoming || !outgoing) return { arcDeg: 90, direction: { x: 1, y: 0 }, radiusM }
+    if (!incoming || !outgoing) {
+      const nozzle = nozzleForRadius(radiusM)
+      return { arcDeg: 90, direction: { x: 1, y: 0 }, nozzle }
+    }
     const bisector = unit({ x: incoming.x + outgoing.x, y: incoming.y + outgoing.y })
     const convex = cross(previous, current, next) * orientation > 0
     const arcDeg = convex ? 90 : 270
-    const point = performanceFor(family, model, pressureBar, arcDeg)
-    return {
-      arcDeg,
-      direction: bisector ?? incoming,
-      radiusM: family === 'R-VAN' ? radiusM : Number.isFinite(point?.radiusM) && point.radiusM > 0 ? point.radiusM : radiusM,
-    }
+    // A corner nozzle must reach the polygon's centre of area. This selects
+    // the smallest Florial nozzle range that can reach the central coverage
+    // area; it is independent of the sector angle.
+    const nozzle = family === 'R-VAN'
+      ? nozzleForRadius(distance(current, center))
+      : { model, radiusM: performanceFor(family, model, pressureBar, arcDeg)?.radiusM ?? radiusM }
+    return { arcDeg, direction: bisector ?? incoming, nozzle }
   })
 
-  // Every boundary vertex is a candidate, with its exact 90° or 270° table radius.
+  // Corner positions are sized independently from the lawn's centre of area.
   for (let index = 0; index < vertices.length; index += 1) {
     const spec = vertexSpecs[index]
-    add(vertices[index], spec.arcDeg, spec.direction, 'vertex', perimeterOffsets[index])
+    add(vertices[index], spec.arcDeg, spec.direction, 'vertex', perimeterOffsets[index], spec.nozzle)
   }
 
-  // Divide every boundary edge using the smaller radius of its two corner
-  // heads and the straight-edge head. This prevents a corner-to-edge gap.
+  // Edge spacing is first determined by the adjacent corner reach. Each
+  // intermediate nozzle is then selected for the actual equal spacing on
+  // that edge, instead of inheriting one model for the whole lawn.
   for (let index = 0; index < vertices.length; index += 1) {
     const a = vertices[index]
     const b = vertices[(index + 1) % vertices.length]
     const length = segmentLengths[index]
     const nextIndex = (index + 1) % vertices.length
-    const spacingRadiusM = Math.min(radiusM, vertexSpecs[index].radiusM, vertexSpecs[nextIndex].radiusM)
+    const spacingRadiusM = family === 'R-VAN'
+      ? Math.min(6, vertexSpecs[index].nozzle.radiusM, vertexSpecs[nextIndex].nozzle.radiusM)
+      : Math.min(radiusM, vertexSpecs[index].nozzle.radiusM, vertexSpecs[nextIndex].nozzle.radiusM)
     const divisions = Math.max(1, Math.ceil(length / spacingRadiusM))
+    const edgeSpacingM = length / divisions
+    const edgeNozzle = family === 'R-VAN' ? nozzleForRadius(edgeSpacingM) : { model, radiusM }
     const normal = inwardNormal(a, b, orientation)
     if (!normal) continue
     for (let part = 1; part < divisions; part += 1) {
@@ -211,14 +261,13 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       add({
         x: a.x + (b.x - a.x) * ratio,
         y: a.y + (b.y - a.y) * ratio,
-      }, 180, normal, 'edge', perimeterOffsets[index] + length * ratio)
+      }, 180, normal, 'edge', perimeterOffsets[index] + length * ratio, edgeNozzle)
     }
   }
 
-  // Rectangles use a perimeter-first, multi-row interior candidate lattice.
-  // The centreline is always included when there is room for an interior row;
-  // additional rows are added only as the dimensions require them. The
-  // sampled set-cover pass decides whether any of these candidates are needed.
+  // Rectangles and orthogonal L-shapes use the same axis-aligned interior
+  // lattice, clipped to the actual polygon. Interior nozzle size follows the
+  // spacing of that lattice, not the model chosen for the overall short side.
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const minX = Math.min(...xs)
@@ -245,8 +294,6 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       }
     }
     if (yDivisions > 1) {
-      // For a medium-width rectangle, a single true centre row is sufficient.
-      // Wider rectangles get additional evenly spaced rows as well.
       if (lengthY <= radiusM * 2 + 1) {
         yPositions.add((minY + maxY) / 2)
       } else {
@@ -257,20 +304,18 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       }
     }
 
+    const interiorSpacingM = Math.min(lengthX / xDivisions, lengthY / yDivisions)
+    const interiorNozzle = family === 'R-VAN' ? nozzleForRadius(interiorSpacingM) : { model, radiusM }
     if (xPositions.size > 0 && yPositions.size > 0) {
       for (const y of [...yPositions].sort((a, b) => a - b)) {
         for (const x of [...xPositions].sort((a, b) => a - b)) {
           const position = { x, y }
           if (pointInRing(position, vertices) === 1) {
-            add(position, 360, { x: 1, y: 0 }, 'interior')
+            add(position, 360, { x: 1, y: 0 }, 'interior', null, interiorNozzle)
           }
         }
       }
     }
-  } else {
-    // All supported orthogonal shapes use the same axis-aligned rectangular
-    // candidate lattice. For an L-shape, pointInRing clips every candidate
-    // to the actual polygon; no triangular/staggered rows are generated.
   }
   return candidates
 }
@@ -648,6 +693,8 @@ export function generateLawnSprinklerLayout({
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = evaluateHeadToHeadSpacing(sprinklers)
   const allHeadToHead = checks.every((entry) => entry.passed)
+  const selectedModels = [...new Set(sprinklers.map((head) => head.performanceModel))].sort()
+  const resultModel = family === 'R-VAN' ? selectedModels.join(' / ') : model
   const warnings = [
     { code: 'sampled_coverage_is_not_a_continuous_mathematical_proof', path: 'coverage' },
     { code: 'hydraulic_feasibility_not_evaluated', path: 'hydraulics' },
@@ -661,14 +708,14 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'perimeter-first-rectangular-grid-greedy-set-cover-v4',
+    algorithm: 'perimeter-first-mixed-rvan-spacing-aware-set-cover-v5',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
-    model,
+    model: resultModel,
     pressureBar,
     sampleStepM,
-    radiusM: effectiveRadiusM,
+    radiusM: family === 'R-VAN' ? null : effectiveRadiusM,
     geometry: Object.freeze({
       regionId: geometry.regions[0].id,
       shape: validation.regions[0].shape,
