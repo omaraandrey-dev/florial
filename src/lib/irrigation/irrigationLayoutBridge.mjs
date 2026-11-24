@@ -261,7 +261,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     operatingScenario: Object.freeze({
       manufacturer: 'Rain Bird',
       family: 'R-VAN',
-      model,
+      model: layout.model ?? model,
       pressureBar,
       pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
       modelSelectionBasis: 'Florial per-position nozzle selection from corner-to-centre reach and adjacent perimeter spacing; radius independent of arc',
