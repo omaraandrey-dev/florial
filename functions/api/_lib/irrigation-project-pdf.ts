@@ -124,7 +124,7 @@ export const createIrrigationProjectPdf = async (
   for (const sprinkler of project.layout.sprinklers) {
     const point = mapPoint(sprinkler.position)
     if (sprinkler.performanceModel === '3504-PC') {
-      page.drawSvgPath('M 0 0 L 6.2 0 L 3.1 5.4 Z', { x: point.x - 3.1, y: point.y - 2.7, color: blue, borderColor: rgb(1, 1, 1), borderWidth: 0.6 })
+      page.drawSvgPath('M 0 0 L 6.2 0 L 3.1 5.4 Z', { x: point.x - 3.1, y: point.y - 2.7, color: rgb(0.09, 0.23, 0.47), borderColor: rgb(1, 1, 1), borderWidth: 0.6 })
     } else {
       page.drawCircle({ x: point.x, y: point.y, size: 3.1, color: blue, borderColor: rgb(1, 1, 1), borderWidth: 0.6 })
     }
