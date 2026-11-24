@@ -453,3 +453,13 @@ Implementation: [balanced zones and order PDF](../engineering/IRRIGATION_ASSISTA
 - **CLOSED — code/CI/Preview:** latest verified PR head `17aefbb2781d24b401310d759dbe9cb678b4e945`; Blog/Studio run `45466168536` and D1 validation run `45466168430` passed; Preview deployment `34fe3142-5306-4391-afb5-d195691361a4` succeeded from the same SHA.
 - **PENDING — integration/Production:** PR #531 awaits merge. After merge, verify the exact Pages Production deployment and run a read-only first-response smoke against the canonical BG/RU/EN category URLs. This does not close the separate 2026-11-23 Search Console indexability/canonical questions for other URLs.
 - No Sanity documents/schemas, D1 data/migrations, Cloudflare configuration/secrets or Production settings were changed during implementation.
+
+
+## 2026-11-24 — Equipment category SSR Catalog v1 — CLOSED
+
+- PR #531 merged into `main` as `39e756fe63993557ee7702dee4eaefc6c8111b14`.
+- Cloudflare Pages Production deployment `d558f601-ebc0-495c-ac2a-a900214a60ca` succeeded from the exact merge commit.
+- Production raw initial-HTTP smoke run `45466953350` passed against `https://florial-bg.com` for BG/RU/EN. It uses native Node `fetch()` without browser execution or JavaScript hydration. Each response contained 20 server-rendered equipment product links; product-link order matched CollectionPage ItemList; RU/EN locale suffixes were retained.
+- Preview raw smoke also passed, and exact code-bearing PR revision `17aefbb2781d24b401310d759dbe9cb678b4e945` passed 483/483 tests plus app/Pages Functions type-check, lint, website build, Studio type-check/build and D1 validation.
+- No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets or Production configuration changes were made.
+- This closes the SSR catalogue implementation and release checks only. The separate 2026-11-23 Search Console noindex/canonical discrepancies for other URLs remain open in the comprehensive SEO audit.

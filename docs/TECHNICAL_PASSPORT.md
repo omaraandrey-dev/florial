@@ -4373,3 +4373,13 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Verified on PR head `17aefbb2781d24b401310d759dbe9cb678b4e945`: 483/483 website tests, app/Pages Functions type-check, lint, website build, Studio type-check/build and D1 validation passed. Raw initial HTTP smoke passed for BG/RU/EN: 20 product links each, matching CollectionPage ItemList order.
 - Preview deployment `34fe3142-5306-4391-afb5-d195691361a4` succeeded from that exact SHA. Production rollout remains pending PR merge and exact deployment verification.
 - No Sanity schema/documents, D1 data/schema, Cloudflare settings/secrets or irrigation-assistant code were changed.
+
+
+## 2026-11-24 — Equipment category SSR Catalog v1 — Production release
+
+- PR #531 merged into `main` as `39e756fe63993557ee7702dee4eaefc6c8111b14`.
+- Cloudflare Pages Production deployment `d558f601-ebc0-495c-ac2a-a900214a60ca` succeeded from that exact merge SHA; canonical aliases are `https://florial-bg.com` and `https://www.florial-bg.com`.
+- GitHub Actions raw initial-HTTP smoke run `45466953350` passed against canonical Production URL `https://florial-bg.com` in BG/RU/EN. It uses native Node `fetch()` without JavaScript execution. Each first response contains 20 server-rendered equipment product links and a CollectionPage ItemList with identical order; RU/EN links retain their locale suffix.
+- Exact code-bearing PR revision passed 483/483 tests, app/Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check/build and D1 validation.
+- The main-branch workflow `.github/workflows/equipment-ssr-preview-smoke.yml` now performs the same raw first-response check against Production on main pushes and Preview on feature-branch pushes.
+- React remains responsible for interactive filters/pagination; existing plant SSR remains unchanged. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets or irrigation-assistant changes.

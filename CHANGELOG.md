@@ -4442,3 +4442,13 @@ Backups:
 - **Exact-head CI passed:** Blog and Studio validation run `45466168536`; D1 migration validation run `45466168430`. The website test step reported 483 passed / 0 failed; app and Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check/build and D1 validation passed. No migration was applied.
 - Cloudflare Pages Preview deployment `34fe3142-5306-4391-afb5-d195691361a4` succeeded from exact revision `17aefbb2781d24b401310d759dbe9cb678b4e945`.
 - PR #531 is ready for merge. Production deployment is not yet claimed; it must be checked after merge. No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets, orders, email, or Production configuration changes were made.
+
+
+## 2026-11-24 — SSR Catalog v1 merged and verified in Production (PR #531)
+
+- PR #531 squash-merged into `main` as `39e756fe63993557ee7702dee4eaefc6c8111b14`. Main was verified to point to the merge commit.
+- The exact merge commit was published successfully by Cloudflare Pages Production deployment `d558f601-ebc0-495c-ac2a-a900214a60ca`; canonical aliases `https://florial-bg.com` and `https://www.florial-bg.com` were attached.
+- **Production raw first-response smoke passed:** GitHub Actions run `45466953350` on main commit `e976f107a3fad4fe6fc1b0804c90ce444d61a3cc`, using Node native `fetch()` against `https://florial-bg.com` without executing page JavaScript. BG/RU/EN each returned 20 server-rendered equipment cards; product-link order matched CollectionPage ItemList and locale suffixes were preserved.
+- Preview deployment `3346af33-2918-46e6-aae9-6a175f84c6e2` succeeded from PR head `03a48c23a654160577ad130bf424650c34bac820`. Exact code-bearing PR revision `17aefbb2781d24b401310d759dbe9cb678b4e945` passed 483/483 tests, app/Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check/build and D1 validation.
+- A main-branch smoke workflow now verifies first-response SSR on Production as well as Preview. No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets, orders, email or other Production configuration changes were made.
+- **SSR Catalog v1 is closed.** The separate Search Console noindex/canonical discrepancies affecting other URLs remain a distinct SEO follow-up.

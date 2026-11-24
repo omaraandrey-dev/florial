@@ -1,6 +1,6 @@
 # Equipment category server-rendered catalogue — SSR Catalog v1
 
-**Status:** implementation, exact-head CI, Preview and raw initial-HTML verification passed in PR #531; merge and Production verification remain.  
+**Status:** CLOSED — PR #531 merged; exact-head CI, Preview and Production raw initial-HTML verification passed.  
 **Scope:** equipment categories in Sanity dataset `production`. Plant category SSR is a frozen compatibility baseline and is not redesigned.
 
 ## Objective
@@ -35,5 +35,7 @@ Include a useful, crawlable product listing in the initial HTML response for irr
 - Exact PR head `17aefbb2781d24b401310d759dbe9cb678b4e945`: Blog/Studio CI run `45466168536` and D1 validation run `45466168430` passed. Website tests: 483 passed / 0 failed; app/Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check and Studio build passed. No migration was applied.
 - Raw first-response smoke passed for BG/RU/EN using Node native `fetch()` from GitHub Actions (push run `45466157907`, PR run `45466168466`). Each initial HTML response contains 20 equipment product links; the ordered links match CollectionPage ItemList; RU/EN links retain the locale query. No JavaScript or browser hydration is involved in this proof.
 - Cloudflare Pages Preview deployment `34fe3142-5306-4391-afb5-d195691361a4` succeeded from the same exact SHA.
-- **Remaining:** merge PR #531 and verify the exact Production Pages deployment plus raw first-response HTML on canonical BG/RU/EN category URLs. This SSR task is separate from the existing Search Console noindex/canonical discrepancies for other URLs.
+- Production merge commit `39e756fe63993557ee7702dee4eaefc6c8111b14` deployed successfully as Cloudflare Pages deployment `d558f601-ebc0-495c-ac2a-a900214a60ca`.
+- Production raw first-response smoke run `45466953350` passed against `https://florial-bg.com` for BG/RU/EN: 20 product links each, exact CollectionPage ItemList order parity, and correct RU/EN locale query suffixes. The test uses native Node `fetch()` without browser execution or hydration.
+- **SSR Catalog v1 is complete.** The independent Search Console noindex/canonical discrepancies for other URLs remain a separate SEO workstream.
 - No Sanity, D1, Cloudflare configuration, secrets, orders or email writes are part of this task.
