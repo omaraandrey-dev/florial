@@ -351,9 +351,9 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   const shapeLabel = shape === 'rectangle' ? copy.rectangle : copy.lShape
   const locale = language === 'ru' ? 'ru-RU' : language === 'en' ? 'en-GB' : 'bg-BG'
   const numberFormat = (value: number) => value.toLocaleString(locale, { maximumFractionDigits: 2 })
-  const layoutModelNames = Array.from(new Set((layoutResult?.layout?.sprinklers ?? []).map((sprinkler: any) => String(sprinkler.performanceModel ?? ''))))
-  const layoutModelLabel = layoutModelNames.join(', ') || layoutResult?.operatingScenario?.model || '—'
-  const layoutNozzleLegend = layoutModelNames.map((model) => ({ model, color: sprinklerNozzleColor(model) }))
+  const layoutModelNames: string[] = Array.from(new Set<string>((layoutResult?.layout?.sprinklers ?? []).map((sprinkler: any): string => String(sprinkler.performanceModel ?? ''))))
+  const layoutModelLabel: string = layoutModelNames.join(', ') || layoutResult?.operatingScenario?.model || '—'
+  const layoutNozzleLegend: Array<{ model: string; color: string }> = layoutModelNames.map((model) => ({ model, color: sprinklerNozzleColor(model) }))
   const layoutLabels = language === 'ru' ? {
     title: 'Предварительная геометрическая раскладка', candidate: 'Форсунки',
     heads: 'Количество дождевателей',
