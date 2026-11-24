@@ -22,7 +22,7 @@ function snapshotFor(length, width) {
   })
 }
 
-test('Florial selects each R-VAN head from its local reach while retaining the base scenario', () => {
+test('Florial selects each R-VAN head from local reach and reports the actual model set', () => {
   for (const [length, width] of [[10, 3], [10, 4], [10, 5], [32, 6]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated')
@@ -81,7 +81,7 @@ test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 r
   }
 })
 
-test('30x5 lawn is covered by mixed-radius perimeter heads in two balanced zones', () => {
+test('30x5 lawn is covered by perimeter heads in two balanced zones', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(30, 5))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.model, 'R-VAN24')
