@@ -1,4 +1,4 @@
-import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout, sprinklersMutuallyReach } from './lawnSprinklerLayout.mjs'
+import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout } from './lawnSprinklerLayout.mjs'
 import { decomposeOrthogonalRegion } from './orthogonalRectangleDecomposition.mjs'
 import { validateLawnGeometry } from './lawnGeometry.mjs'
 import { generateRainBird3504Layout } from './rainBird3504Layout.mjs'
@@ -557,7 +557,12 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const circularHeads = initialHeads.filter((head) => head.pattern !== 'strip')
   const sampledCoverage = { sampledPoints: 0, coveredPoints: 0, uncoveredPoints: 0 }
   const modelSet = new Set(initialHeads.map((head) => head.performanceModel))
-  const layoutWarnings = []
+  const layoutWarnings = initialHeads.length ? [
+    { code: '3504pc_radius_is_owner_defined_florial_planning_value', path: 'layout.sprinklers.radiusM' },
+    { code: '3504pc_arc_invariant_radius_not_claimed_as_manufacturer_arc_table', path: 'layout.sprinklers.arcDeg' },
+    { code: '3504pc_flow_and_nozzle_pressure_not_calculated', path: 'hydraulics' },
+    { code: '3504pc_precipitation_uniformity_not_evaluated', path: 'precipitation' },
+  ] : []
   let circularCoverageComplete = true
   for (let index = 0; index < prepared.length; index += 1) {
     const part = prepared[index]
@@ -653,7 +658,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   return result(resultStatus, {
     shortSideM,
     manufacturer: 'Rain Bird',
-    family: 'R-VAN',
+    family: layout.family,
     model: layout.model,
     operatingScenario: Object.freeze({
       manufacturer: 'Rain Bird',
@@ -759,7 +764,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     }))
     return buildDecomposedLShapeLayout(
       geometry, validation, partsWithStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
-      sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)),
+      sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)), initialRotorHeads,
     )
   }
 
@@ -870,6 +875,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const layout = initialRotorHeads.length
     ? Object.freeze({
       ...rvanLayout,
+      status: combinedHeadToHeadPassed === false ? 'coverage_incomplete' : rvanLayout.status,
       family: combinedSprinklers.some((head) => head.performanceModel.startsWith('R-VAN')) ? 'mixed' : '3500',
       model: [...new Set(combinedSprinklers.map((head) => head.performanceModel))].sort().join(' / '),
       sprinklers: Object.freeze(combinedSprinklers),
@@ -910,7 +916,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
       pressureBasis: initialRotorHeads.length ? '3504-PC planning radius is owner-defined; pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
       modelSelectionBasis: initialRotorHeads.length ? '3504-PC is prioritized at 10/9/8 m planning reach; unchanged R-VAN selection fills uncovered samples' : 'Florial per-position nozzle selection from corner-to-centre reach and adjacent perimeter spacing; radius independent of arc',
       layoutRadiusM: null,
-      sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
+      sourceUrl: initialRotorHeads.length ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
     }),
