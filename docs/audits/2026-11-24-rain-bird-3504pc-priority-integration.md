@@ -1,3 +1,15 @@
+## Owner refinement — area-ascending per-rectangle selection
+
+- Replaced the whole-lawn rotor prepass + R-VAN gap-fill behavior with independent decisions for each calculation rectangle.
+- Rectangles are processed from smallest area to largest area.
+- Each non-strip rectangle tries 3504-PC planning radii 10 m, 9 m and 8 m in that order. Rotor heads are accepted only when they cover the rectangle's sampled targets completely and pass the rotor Head-to-Head gate.
+- If the rotor candidate set is incomplete or fails its gate, all rotor candidates for that rectangle are discarded and the unchanged R-VAN solver is used for that rectangle. A rectangle is not left with a partial mix of rotor and R-VAN heads.
+- Existing 1 m / 2 m directional strip patterns remain R-VAN-specific.
+- At a shared strip seam, the adjacent rectangular solver may offset its own corner candidate 0.075 m inward. The offset is revalidated against the local rectangle and original lawn boundary.
+- The R-VAN solver's selection, nozzle sizing, perimeter-first coverage and repair algorithms are unchanged; only the optional seam-offset candidate input was added.
+- New regressions cover 38×16 m rotor-only coverage, ascending rectangle area order and 7.5 cm seam separation.
+- This is sampled geometric planning only. No hydraulic, nozzle-flow, precipitation-uniformity or field-performance claim is added.
+
 # 2026-11-24 — Rain Bird 3504-PC integration audit
 
 **Work item:** PR #527 — https://github.com/omaraandrey-dev/florial/pull/527  
