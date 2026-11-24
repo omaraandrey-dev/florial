@@ -47,6 +47,7 @@ The bridge in `src/lib/irrigation/irrigationLayoutBridge.mjs` now follows an are
 3. Process each rectangle independently. The 1 m / 2 m narrow strips retain their existing directional R-VAN-LCS/RCS/SST pattern because the 3504-PC planning envelope cannot fit those strips.
 4. For every other rectangle with sufficient local width, try 3504-PC at 10 m, then 9 m, then 8 m. Accept the rotor set only if that rectangle has complete sampled coverage and passes its rotor Head-to-Head gate.
 5. If no rotor radius fully serves the rectangle, discard that rectangle's partial rotor candidates and calculate that entire rectangle with the unchanged local R-VAN solver. Do not mix partial 3504-PC and R-VAN heads inside the same rectangle.
+   The rotor selector may start an additional, spatially separate group only as a mutually Head-to-Head-reachable pair; this prevents a large rectangle's far edge from remaining uncovered merely because it is not connected to the first greedy group.
 6. Keep heads from previously processed rectangles as coverage context for later R-VAN rectangles. This avoids unnecessary duplicate coverage while preserving the small-to-large processing order.
 7. Validate the combined accepted footprints against the original lawn and exclusions at 1° angular and 0.2 m radial sampling.
 
