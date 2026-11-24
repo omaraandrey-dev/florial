@@ -423,17 +423,27 @@ A 90°, 180°, 270° or 360° sector changes the shape of the spray sector, not 
 - L-shape candidates are clipped against the original polygon; points in the cut-out are excluded. No staggered/triangular interior lattice is used.
 - Perimeter candidates and head-to-head repair remain separate from the interior pass.
 
-### R-VAN-RCS strip rule
+### Narrow strip rules: R-VAN-LCS, R-VAN-RCS and R-VAN-SST
 
-For a rectangular lawn with short-side width exactly 1 m or 2 m, use Rain Bird R-VAN-RCS (catalogue SKU A84668), not circular R-VAN substitutes:
+For rectangular lawns with short-side width exactly 1 m or 2 m, use dedicated Rain Bird strip nozzles only. Catalogue bindings already present in the Rain Bird dataset:
+- R-VAN-LCS — SKU A84667;
+- R-VAN-RCS — SKU A84668;
+- R-VAN-SST — SKU A84669.
 
-- 1 m strip width → Florial planning throw length 2 m.
-- 2 m strip width → Florial planning throw length 4 m.
-- For the 2 m strip: 4 m long → 1 nozzle; 6 m → 2; 8 m → 3.
-- The first nozzle is at the lower-right corner. Further nozzles are distributed evenly along the same long side.
-- The placement is recorded as a strip pattern, not a circular arc. Sampled circular coverage and circular head-to-head checks are not claimed for this pattern.
+All heads are installed in one row along the lower long edge (horizontal rectangle: y = maxY). For a vertical rectangle the row rotates to the right long edge (x = maxX), starting at the lower end. The layout is directional metadata, not circular arc/radius placement.
 
-The implementation follows the owner's explicit count examples using half-throw placement intervals. It does not infer a circular spray radius from the strip dimensions.
+**2 m width**
+- Length ≤ 4 m: one R-VAN-RCS at the right/lower end, directed toward the left/upper end; planning reach about 4 m.
+- Length > 4 m: RCS at the right/lower end and LCS at the left/upper end, facing each other.
+- Length > 7 m: add central SST nozzles between the end heads at approximately 4 m spacing. Each SST is bidirectional with about 4 m reach in each direction.
+- Reference 10 × 2 m: RCS at x=10, SST at x=6 and x=2, LCS at x=0, all on y=2.
+
+**1 m width**
+- Length ≤ 3 m: one R-VAN-RCS at the right/lower end, directed along the strip; planning reach about 3 m.
+- Length > 3 m: add the opposing R-VAN-LCS at the left/upper end.
+- Length > 5 m: add central bidirectional SST nozzles at approximately 3 m spacing; planning reach about 3 m in each direction.
+
+The stripDirection and stripAxis fields preserve the orientation through the customer diagram, checkout snapshot, server validation and owner PDF. SST directions are bidirectional along the long axis. The layout does not claim sampled circular coverage or circular head-to-head validation; actual hydraulic feasibility and field uniformity remain unevaluated.
 
 ### Mixed zones and precipitation compatibility
 
