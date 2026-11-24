@@ -1,6 +1,6 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
-import { collectDescendantCategoryIds, renderPlantCategoryListing, renderEquipmentCategoryListing } from './_lib/plantCategoryHtml.mjs'
+import { collectDescendantCategoryIds, buildEquipmentCategoryEntries, renderPlantCategoryListing, renderEquipmentCategoryListing } from './_lib/plantCategoryHtml.mjs'
 import { buildProductOffer, getServerProductPrice } from './_lib/productJsonLd.mjs'
 
 const SITE_NAME = 'Florial'
@@ -1284,13 +1284,21 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       if (hasTranslation(doc, type, 'en')) alternates.en = localizedRouteUrl(pagePath, 'en')
       alternates['x-default'] = localizedRouteUrl(pagePath, 'bg')
 
+      const equipmentCategoryOptions = {
+        rootCatalog: doc.slugValue === 'vsichko-za-polivane',
+        categories: equipmentCategoryTree || [],
+      }
+      const categoryStructuredProducts = doc._dataset === 'production' && categoryProducts !== null
+        ? buildEquipmentCategoryEntries(categoryProducts || [], language, equipmentCategoryOptions)
+        : categoryProducts || []
+
       const structuredData: Array<{ id: string; data: Record<string, unknown> }> = [
         { id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, language) },
       ]
       if (type === 'category') {
         structuredData.push({
           id: 'collection-page',
-          data: makeCategoryCollectionJsonLd(name, metaDescription, canonicalUrl, categoryProducts || [], language),
+          data: makeCategoryCollectionJsonLd(name, metaDescription, canonicalUrl, categoryStructuredProducts, language),
         })
       }
       if (type === 'product') {
