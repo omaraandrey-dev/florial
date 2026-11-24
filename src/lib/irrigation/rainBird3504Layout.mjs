@@ -139,6 +139,7 @@ function buildCornerFirstGrid(bounds, planningRadiusM, candidatePositionOffsets 
         pressureBar: null,
         flowLpm: null,
         planningRadiusSource: 'owner-approved-florial-3504pc-rule',
+        ...(offset ? { seamOffsetM: Math.hypot(offset.dx, offset.dy) } : {}),
       })
       if (!sectorFitsRectangle(head, bounds)) return null
       heads.push(head)
