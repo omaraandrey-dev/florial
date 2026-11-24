@@ -823,15 +823,9 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
-  // Rotor-first prepass is isolated from the R-VAN solver. Narrow 1–5 m lawns
-  // keep their established R-VAN/strip behavior; wider geometry may be served
-  // by owner-approved 3504-PC planning radii before R-VAN fills remaining gaps.
-  const rotorLayout = shortSideM >= 6
-    ? generateRainBird3504Layout(geometry, { sampleStepM })
-    : null
-  const initialRotorHeads = rotorLayout?.status === 'layout_generated'
-    ? rotorLayout.sprinklers
-    : []
+  // Rotor selection is performed independently inside each calculation rectangle.
+  // The whole-site path below uses the same single-rectangle decision rule.
+  const initialRotorHeads = []
 
   const lShapeParts = validation.regions[0].shape === 'l-shape' && !(region.exclusions?.length)
     ? decomposeOrthogonalLShape(vertices)
@@ -845,7 +839,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     }))
     return buildDecomposedLShapeLayout(
       geometry, validation, partsWithStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
-      sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)), initialRotorHeads,
+      sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)), [],
     )
   }
 
@@ -865,7 +859,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     }))
     return buildDecomposedLShapeLayout(
       geometry, validation, withStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
-      sampleStepM, Math.min(...parts.map((part) => part.shortSideM)), initialRotorHeads,
+      sampleStepM, Math.min(...parts.map((part) => part.shortSideM)), [],
     )
   }
 
@@ -935,77 +929,28 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   }
 
   const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
-  const createRvanLayout = (initialSprinklers = [], rotorActive = false) => generateLawnSprinklerLayout({
+  const bounds = {
+    minX: Math.min(...xs), maxX: Math.max(...xs),
+    minY: Math.min(...ys), maxY: Math.max(...ys),
+  }
+  const rectangleDimensions = rectangleSize(bounds)
+  const rotorLayout = rectangleRotorLayout(geometry, rectangleDimensions, sampleStepM)
+  const createRvanLayout = () => generateLawnSprinklerLayout({
     geometry,
     family: 'R-VAN',
     model,
     pressureBar,
     sampleStepM,
     radiusM,
-    initialSprinklers,
-    sprayBoundaryGeometry: rotorActive ? geometry : null,
-    preventOverspray: rotorActive,
   })
-  let rvanLayout = createRvanLayout(initialRotorHeads, initialRotorHeads.length > 0)
-  let rotorAccepted = initialRotorHeads.length > 0
-  let combinedSprinklers = rotorAccepted
-    ? [...initialRotorHeads, ...rvanLayout.sprinklers]
-    : [...rvanLayout.sprinklers]
-  let combinedHeadToHeadChecks = combinedSprinklers.length > 1
-    ? evaluateHeadToHeadSpacing(combinedSprinklers)
-    : []
-  let combinedHeadToHeadPassed = combinedSprinklers.length > 1
-    ? combinedHeadToHeadChecks.every((entry) => entry.passed)
-    : null
-  const compositeOversprayPassed = rotorAccepted
-    ? evaluateCompositeOverspray(combinedSprinklers, [], geometry)
-    : null
-  let rotorRejectionReason = null
-  if (rotorAccepted && combinedHeadToHeadPassed === false) rotorRejectionReason = 'head_to_head'
-  if (rotorAccepted && compositeOversprayPassed === false) rotorRejectionReason = 'overspray'
-  if (rotorRejectionReason) {
-    rotorAccepted = false
-    rvanLayout = createRvanLayout([], false)
-    combinedSprinklers = [...rvanLayout.sprinklers]
-    combinedHeadToHeadChecks = rvanLayout.headToHead?.checks ?? []
-    combinedHeadToHeadPassed = rvanLayout.headToHead?.passed ?? null
-  }
-  const layout = rotorAccepted
-    ? Object.freeze({
-      ...rvanLayout,
-      status: rvanLayout.status,
-      family: combinedSprinklers.some((head) => head.performanceModel.startsWith('R-VAN')) ? 'mixed' : '3500',
-      model: [...new Set(combinedSprinklers.map((head) => head.performanceModel))].sort().join(' / '),
-      pressureBar: combinedSprinklers.some((head) => head.performanceModel.startsWith('R-VAN')) ? pressureBar : null,
-      sprinklers: Object.freeze(combinedSprinklers),
-      headToHead: Object.freeze({ passed: combinedHeadToHeadPassed, applicable: combinedSprinklers.length > 1, checks: Object.freeze(combinedHeadToHeadChecks) }),
-      overspray: 'sampled_inside_boundary',
-      warnings: Object.freeze([
-        ...rvanLayout.warnings.filter((warning) => warning.code !== 'overspray_not_evaluated'),
-        ...rotorLayout.warnings.filter((warning) => warning.code !== 'sampled_coverage_is_not_a_continuous_proof'),
-        Object.freeze({ code: '3504pc_rotors_prioritized_before_rvan_gap_fill', path: 'layout.sprinklers' }),
-        Object.freeze({ code: 'composite_rotor_and_rvan_footprints_sampled_inside_original_geometry', path: 'layout.overspray' }),
-      ]),
-    })
-    : Object.freeze({
-      ...rvanLayout,
-      warnings: Object.freeze([
-        ...rvanLayout.warnings,
-        ...(rotorRejectionReason ? [Object.freeze({
-          code: rotorRejectionReason === 'overspray'
-            ? '3504pc_prepass_rejected_by_composite_overspray_check'
-            : '3504pc_prepass_rejected_by_head_to_head_check',
-          path: 'layout.sprinklers',
-        })] : []),
-      ]),
-    })
-
+  const rvanLayout = rotorLayout ? null : createRvanLayout()
+  const layout = rotorLayout ?? rvanLayout
   if (layout.status !== 'coverage_complete_sampled' && layout.status !== 'coverage_incomplete') {
     return result('layout_incomplete', {
       shortSideM,
       manufacturer: 'Rain Bird',
-      family: 'R-VAN',
-      model,
+      family: layout.family ?? 'R-VAN',
+      model: layout.model ?? model,
       layout,
       projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
     })
@@ -1024,9 +969,11 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
       manufacturer: 'Rain Bird',
       family: layout.family ?? 'R-VAN',
       model: layout.model ?? model,
-      pressureBar: rotorAccepted && !combinedSprinklers.some((head) => head.performanceModel.startsWith('R-VAN')) ? null : pressureBar,
-      pressureBasis: rotorAccepted ? '3504-PC planning radius is owner-defined; pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: rotorAccepted ? '3504-PC is prioritized at 10/9/8 m planning reach; unchanged R-VAN selection fills uncovered samples' : 'Florial per-position nozzle selection from corner-to-centre reach and adjacent perimeter spacing; radius independent of arc',
+      pressureBar: layout.family === '3500' ? null : pressureBar,
+      pressureBasis: layout.family === '3500' ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
+      modelSelectionBasis: layout.family === '3500'
+        ? 'the complete rectangle is served by 3504-PC at the largest usable 10/9/8 m planning radius; R-VAN is not added to the same rectangle'
+        : 'R-VAN fallback uses the unchanged local model/radius selection; radius independent of arc',
       layoutRadiusM: null,
       sourceUrl: rotorAccepted ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
@@ -1046,10 +993,12 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     warnings: Object.freeze([
       ...layout.warnings,
       Object.freeze({ code: 'approximate_customer_dimensions', path: 'geometry' }),
-      Object.freeze({ code: 'manufacturer_nozzle_pressure_is_reference_not_measured_site_pressure', path: 'operatingScenario.pressureBar' }),
+      ...(layout.family === '3500' ? [] : [
+        Object.freeze({ code: 'manufacturer_nozzle_pressure_is_reference_not_measured_site_pressure', path: 'operatingScenario.pressureBar' }),
+        Object.freeze({ code: 'overspray_not_evaluated', path: 'layout.overspray' }),
+      ]),
       Object.freeze({ code: 'hydraulic_calculation_not_performed', path: 'hydraulics' }),
       Object.freeze({ code: 'sampled_coverage_is_not_continuous_proof', path: 'layout.coverage' }),
-      Object.freeze({ code: 'overspray_not_evaluated', path: 'layout.overspray' }),
     ]),
   })
 }
