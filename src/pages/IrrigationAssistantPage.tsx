@@ -351,7 +351,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   const shapeLabel = shape === 'rectangle' ? copy.rectangle : copy.lShape
   const locale = language === 'ru' ? 'ru-RU' : language === 'en' ? 'en-GB' : 'bg-BG'
   const numberFormat = (value: number) => value.toLocaleString(locale, { maximumFractionDigits: 2 })
-  const layoutModelNames = Array.from(new Set((layoutResult?.layout?.sprinklers ?? []).map((sprinkler: any) => String(sprinkler.performanceModel ?? '').replace(/-360$/, ''))))
+  const layoutModelNames = Array.from(new Set((layoutResult?.layout?.sprinklers ?? []).map((sprinkler: any) => String(sprinkler.performanceModel ?? ''))))
   const layoutModelLabel = layoutModelNames.join(', ') || layoutResult?.operatingScenario?.model || '—'
   const layoutNozzleLegend = layoutModelNames.map((model) => ({ model, color: sprinklerNozzleColor(model) }))
   const layoutLabels = language === 'ru' ? {
@@ -586,7 +586,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                             const zoneHeads = (layoutResult.layout?.sprinklers ?? []).filter((sprinkler: any) => zone.sprinklerIds.includes(sprinkler.id))
                             const modelCounts = new Map<string, number>()
                             for (const sprinkler of zoneHeads) {
-                              const model = String(sprinkler.performanceModel ?? 'R-VAN').replace(/-360$/, '')
+                              const model = String(sprinkler.performanceModel ?? 'R-VAN')
                               modelCounts.set(model, (modelCounts.get(model) ?? 0) + 1)
                             }
                             const nozzleSummary = [...modelCounts.entries()].map(([model, count]) => model + ' × ' + count).join(', ')
