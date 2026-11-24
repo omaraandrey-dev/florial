@@ -98,21 +98,15 @@ test('local clearances reduce rotor radii without breaking adjacent head-to-head
   assert.ok(result.sprinklers.some((head) => head.radiusM === 7))
 })
 
-test('3504-PC candidate sectors remain inside their calculation rectangle and support an inward seam offset', () => {
-  const result = generateRainBird3504Layout(geometry(12, 14), {
-    candidatePositionOffsets: [{
-      from: { x: 12, y: 0 },
-      dx: -0.0530330086,
-      dy: 0.0530330086,
-    }],
-  })
+test('3504-PC corner-first placement keeps rotor positions on the true rectangle corners', () => {
+  const result = generateRainBird3504Layout(geometry(12, 14))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.coverage?.uncoveredPoints, 0)
   assert.equal(result.headToHead?.passed, true)
-  assert.ok(result.candidateStats?.offsetCandidatePositions > 0)
   assert.ok(result.sprinklers.every((head) =>
     head.position.x >= 0 && head.position.x <= 12 &&
     head.position.y >= 0 && head.position.y <= 14))
+  assert.ok(result.sprinklers.some((head) => head.source === 'vertex'))
 })
 
 test('3504-PC rejects unsupported exclusions and invalid geometry without manufacturing a layout', () => {
