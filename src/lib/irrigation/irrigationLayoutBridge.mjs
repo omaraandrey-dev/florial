@@ -69,9 +69,8 @@ function buildRcsStripLayout(geometry, shortSideM) {
     return Object.freeze({
       id: 's' + String(index + 1).padStart(5, '0'),
       position: Object.freeze(position),
-      // arcDeg is retained as a legacy schema discriminator; pattern='strip'
-      // is authoritative and prevents this head being interpreted as a sector.
-      arcDeg: 180,
+      // Strip nozzles have no circular arc; null is intentional.
+      arcDeg: null,
       directionDeg: null,
       source: 'edge',
       radiusM: reachM,
