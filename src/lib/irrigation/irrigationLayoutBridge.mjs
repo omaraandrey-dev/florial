@@ -56,11 +56,11 @@ function buildRvanStripLayout(geometry, shortSideM) {
   const horizontal = maxX - minX >= maxY - minY
   const lengthM = horizontal ? maxX - minX : maxY - minY
   const rule = STRIP_MODELS[widthM]
-  const rightOrBottom = horizontal ? maxX : maxY
-  const fixedSide = horizontal ? maxY : maxX
+  const rightOrBottom = horizontal ? maxX : minY
+  const fixedSide = horizontal ? minY : maxX
   const makePosition = (offsetFromStart) => horizontal
     ? { x: rightOrBottom - offsetFromStart, y: fixedSide }
-    : { x: fixedSide, y: rightOrBottom - offsetFromStart }
+    : { x: fixedSide, y: rightOrBottom + offsetFromStart }
 
   const heads = []
   const addHead = (model, offsetFromStart, direction, reachM) => {
