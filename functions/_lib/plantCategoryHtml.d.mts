@@ -35,7 +35,6 @@ export function renderPlantCategoryListing(
   products: PlantCategoryProduct[],
   language?: 'bg' | 'ru' | 'en',
   siteUrl?: string,
-  options?: EquipmentCategoryOptions,
 ): string
 
 export function buildPlantCategoryItemList(
@@ -60,4 +59,5 @@ export function renderEquipmentCategoryListing(
   products: PlantCategoryProduct[],
   language?: 'bg' | 'ru' | 'en',
   siteUrl?: string,
+  options?: EquipmentCategoryOptions,
 ): string
