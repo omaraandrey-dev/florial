@@ -739,7 +739,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       <details className="mt-3 rounded-xl bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
-                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; performanceModel?: string; pattern?: string; stripWidthM?: number; stripLengthM?: number; stripDirection?: string; stripAxis?: string }) => (
+                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; radiusM?: number | null; performanceModel?: string; pattern?: string; stripWidthM?: number; stripLengthM?: number; stripDirection?: string; stripAxis?: string }) => (
                             <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' · ' + sprinkler.stripWidthM + ' m · ' + sprinkler.stripLengthM + ' m · ' + ((sprinkler.stripDirection ?? '—') + ' / ' + (sprinkler.stripAxis ?? '—')) : (sprinkler.performanceModel ?? 'R-VAN') + ' · ' + sprinkler.arcDeg + '°' + (sprinkler.pattern === 'rotor' ? ' · R ' + numberFormat(sprinkler.radiusM ?? 0) + ' m' : '')}</li>
                           ))}
                         </ol>
