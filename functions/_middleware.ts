@@ -1,6 +1,6 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
-import { collectDescendantCategoryIds, renderPlantCategoryListing } from './_lib/plantCategoryHtml.mjs'
+import { collectDescendantCategoryIds, renderPlantCategoryListing, renderEquipmentCategoryListing } from './_lib/plantCategoryHtml.mjs'
 import { buildProductOffer, getServerProductPrice } from './_lib/productJsonLd.mjs'
 
 const SITE_NAME = 'Florial'
@@ -17,6 +17,8 @@ type PagesContext = {
 type SeoPlantProduct = {
   _id: string
   name?: string
+  sku?: string
+  imageUrl?: string
   slugValue?: string
   priceEUR?: number
   stockStatus?: string
@@ -328,6 +330,8 @@ async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryI
       translations { bg { name }, ru { name, seo { h1 } }, en { name, seo { h1 } } },
       seo { h1 },
       "slugValue": slug.current,
+      sku,
+      "imageUrl": coalesce(mainImage.asset->url, image.asset->url, imageUrl, externalImageUrl),
       priceEUR,
       stockStatus,
       saleVariants[] { name, nameEn, nameRu, priceEUR, stockStatus, saleHeightCm, containerVolumeL }
@@ -679,7 +683,7 @@ function renderResponsiveSanityImagePreload(imageUrl: string): string {
   }
 }
 
-function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[]): string {
+function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[], equipmentProducts?: SeoPlantProduct[]): string {
   // Category and service hero imagery is rendered responsively by the client app.
   // Do not emit a second raw image into the initial HTML: it is replaced on hydration,
   // can trigger a duplicate/oversized download, and has no reserved responsive sizing.
@@ -709,7 +713,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
   return '<main style="' + mainStyle + '">' +
     '<h1>' + escapeHtml(h1) + '</h1>' + image +
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
-    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
+    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + (type === 'category' && doc._dataset === 'production' && Array.isArray(equipmentProducts) ? renderEquipmentCategoryListing(equipmentProducts, language, SITE_URL) : '') + '<p><a href="/">Florial</a></p></main>'
 }
 
 function makeBreadcrumb(path: string, name: string, language: string): Record<string, unknown> {
@@ -1291,7 +1295,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         structuredData.push({ id: 'blog-posting', data: makeBlogPostingJsonLd(doc, name, metaDescription, canonicalUrl, language) })
       }
       const pageH1 = type === 'product' ? String(seo?.h1 || name) : categorySeo?.h1 || name
-      const body = documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined)
+      const body = documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {
@@ -1305,9 +1309,9 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           structuredData,
           pageType: type === 'product' ? 'product' : type === 'blogPost' ? 'article' : 'website',
         })
-      }, categoryProducts !== null
-        ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
-        : undefined)
+      }, categoryProducts === null
+        ? 'no-store'
+        : 'public, max-age=0, s-maxage=30, stale-while-revalidate=60')
     } catch {
       // Do not turn an upstream Sanity outage into a false 200 or false 404.
       return unavailableResponse(language)
