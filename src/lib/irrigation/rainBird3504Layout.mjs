@@ -186,6 +186,40 @@ function headToHeadPasses(heads, initialHeads = []) {
   return combined.length <= 1 || evaluateHeadToHeadSpacing(combined).every((entry) => entry.passed)
 }
 
+function extendLocalRadiiForUncovered(input, targets, bounds, initialHeads = []) {
+  const heads = input.slice()
+  const prior = initialHeads.filter((head) => head.pattern === 'strip' || Number.isFinite(head.radiusM))
+  for (let attempt = 0; attempt < heads.length * 5; attempt += 1) {
+    const combined = [...prior, ...heads]
+    const uncovered = targets.filter((target) =>
+      !combined.some((head) => headCoversPoint(head, target)))
+    if (!uncovered.length) break
+
+    let bestIndex = -1
+    let bestHead = null
+    let bestGain = 0
+    for (let index = 0; index < heads.length; index += 1) {
+      const current = heads[index]
+      const source = { source: current.source, arcDeg: current.arcDeg, directionDeg: current.directionDeg }
+      const safeMaximum = maximumSafeRadius(
+        current.position.x, current.position.y, bounds, source)
+      const nextRadius = Math.min(10, Math.ceil(current.radiusM + EPSILON))
+      if (nextRadius <= current.radiusM + EPSILON || nextRadius > safeMaximum + EPSILON) continue
+      const candidate = Object.freeze({ ...current, radiusM: nextRadius })
+      if (!sectorFitsRectangle(candidate, bounds)) continue
+      const gain = uncovered.reduce((sum, target) => sum + (headCoversPoint(candidate, target) ? 1 : 0), 0)
+      if (gain > bestGain) {
+        bestGain = gain
+        bestIndex = index
+        bestHead = candidate
+      }
+    }
+    if (bestIndex < 0 || !bestHead || bestGain === 0) break
+    heads[bestIndex] = bestHead
+  }
+  return heads
+}
+
 function pruneRedundantHeads(input, targets, initialHeads = []) {
   let heads = input.slice()
   let changed = true
@@ -274,7 +308,10 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5, initia
   for (const planningRadiusM of ROTOR_RADII_M) {
     const candidates = buildGrid(bounds, planningRadiusM, 'r3504-', priorHeads)
     if (!candidates.length || candidates.length > MAX_SELECTED_ROTORS) continue
-    const optimized = pruneRedundantHeads(candidates, targets, priorHeads)
+    const radiusAdjusted = planningRadiusM === 8
+      ? extendLocalRadiiForUncovered(candidates, targets, bounds, priorHeads)
+      : candidates
+    const optimized = pruneRedundantHeads(radiusAdjusted, targets, priorHeads)
     const coverage = evaluateCoverage([...priorHeads, ...optimized], targets)
     const previousCircular = priorHeads.filter((head) => head.pattern !== 'strip' && Number.isFinite(head.radiusM))
     const checks = evaluateHeadToHeadSpacing([...previousCircular, ...optimized])
@@ -304,6 +341,7 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5, initia
         }),
         candidateStats: Object.freeze({
           initialGridHeads: candidates.length,
+          locallyExtendedHeads: optimized.filter((head, index) => head.radiusM > (radiusAdjusted[index]?.radiusM ?? head.radiusM)).length,
           priorHeadsUsedForCoverage: priorHeads.length,
           selectedHeads: optimized.length,
           removedRedundantHeads: candidates.length - optimized.length,
