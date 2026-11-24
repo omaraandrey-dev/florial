@@ -374,7 +374,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   const layoutLabels = language === 'ru' ? {
     title: 'Предварительная геометрическая раскладка', candidate: 'Форсунки',
     heads: 'Количество дождевателей',
-    coverage: 'Выборочное геометрическое покрытие', uncovered: 'Непокрытых контрольных точек', compositeCoverage: 'Проверка круглой зоны', compositeUncovered: 'Непокрытых точек круглой зоны',
+    coverage: 'Выборочное геометрическое покрытие', uncovered: 'Непокрытых контрольных точек', compositeCoverage: 'Проверка круглой зоны', compositeUncovered: 'Непокрытых точек круглой зоны', compositeHeadToHead: 'Head-to-head для круглой зоны',
     positions: 'Координаты дождевателей, м',
     hevanScenarioNote: 'Для HE-VAN использована точка таблицы 2,07 бар, ближайшая к указанному Rain Bird оптимуму 2,1 бар. Это сценарий производителя, а не измеренное давление на сопле.',
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
@@ -386,7 +386,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   } : language === 'en' ? {
     title: 'Preliminary geometric sprinkler layout', candidate: 'Nozzles',
     heads: 'Sprinkler count',
-    coverage: 'Sampled geometric coverage', uncovered: 'Uncovered sample points', compositeCoverage: 'Circular-zone sample check', compositeUncovered: 'Uncovered points in circular zone',
+    coverage: 'Sampled geometric coverage', uncovered: 'Uncovered sample points', compositeCoverage: 'Circular-zone sample check', compositeUncovered: 'Uncovered points in circular zone', compositeHeadToHead: 'Circular-zone head-to-head check',
     positions: 'Sprinkler coordinates, m',
     hevanScenarioNote: 'The HE-VAN table point 2.07 bar is used as the closest exact point to Rain Bird’s 2.1 bar optimum. This is a manufacturer scenario, not measured nozzle pressure.',
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
@@ -398,7 +398,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   } : {
     title: 'Предварителна геометрична схема на разпръсквачите', candidate: 'Дюзи',
     heads: 'Брой разпръсквачи',
-    coverage: 'Геометрично покритие по контролна мрежа', uncovered: 'Непокрити контролни точки', compositeCoverage: 'Проверка на кръговата зона', compositeUncovered: 'Непокрити точки в кръговата зона',
+    coverage: 'Геометрично покритие по контролна мрежа', uncovered: 'Непокрити контролни точки', compositeCoverage: 'Проверка на кръговата зона', compositeUncovered: 'Непокрити точки в кръговата зона', compositeHeadToHead: 'Head-to-head проверка на кръговата зона',
     positions: 'Координати на разпръсквачите, м',
     hevanScenarioNote: 'За HE-VAN е използвана точка 2,07 bar — най-близката точна таблична стойност до оптимума 2,1 bar на Rain Bird. Това е сценарий, а не измерено налягане при дюзата.',
     generated: 'Двигателят създаде предварителна схема с покритие на всички контролни точки.',
@@ -603,7 +603,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                         </div>
                       )}
                       <div className="mt-3 rounded-xl bg-white p-3 text-sm">
-                        <p className="font-semibold text-slate-800">{layoutLabels.headToHead}: <span className={layoutResult.layout?.headToHead?.applicable === false ? 'text-slate-600' : layoutResult.layout?.headToHead?.passed ? 'text-emerald-700' : 'text-amber-700'}>{layoutResult.layout?.headToHead?.applicable === false ? layoutLabels.notApplicable : layoutResult.layout?.headToHead?.passed ? layoutLabels.passed : layoutLabels.failed}</span></p>
+                        <p className="font-semibold text-slate-800">{layoutResult.layout?.coverageScope === 'decomposed_rectangular_zones' ? layoutLabels.compositeHeadToHead : layoutLabels.headToHead}: <span className={layoutResult.layout?.headToHead?.applicable === false ? 'text-slate-600' : layoutResult.layout?.headToHead?.passed ? 'text-emerald-700' : 'text-amber-700'}>{layoutResult.layout?.headToHead?.applicable === false ? layoutLabels.notApplicable : layoutResult.layout?.headToHead?.passed ? layoutLabels.passed : layoutLabels.failed}</span></p>
 {layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? <p className="mt-2 text-xs leading-5 text-slate-600">{language === 'ru' ? 'Полосовой рисунок и размещение заданы правилами Florial; круговая проверка покрытия и head-to-head не выполняется.' : language === 'en' ? 'The strip pattern and placement follow Florial rules; circular coverage and head-to-head checks are not run.' : 'Лентовият модел и разположението следват правилата на Florial; кръгово покритие и head-to-head не се проверяват.'}</p> : layoutResult.operatingScenario?.family === 'HE-VAN' ? <p className="mt-2 text-xs leading-5 text-slate-600">{layoutLabels.hevanScenarioNote}</p> : null}
                       </div>
                       {layoutResult.zones?.length > 0 && <div className="mt-3 rounded-xl bg-white p-3 text-sm">
