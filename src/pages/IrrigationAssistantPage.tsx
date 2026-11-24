@@ -393,6 +393,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     headToHead: 'Проверка на разстоянието head-to-head', passed: 'Успешна', failed: 'Има забележки', notApplicable: 'Не се прилага за лентови дюзи',
   }
   const svgPoints = boundaryVertices?.map((point) => String(Math.round(point.x * 1000) / 1000) + ',' + String(Math.round(point.y * 1000) / 1000)).join(' ')
+  const svgTransform = 'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'
   const progress = 100
 
   function updateGeometry(setter: (value: string) => void, value: string) {
@@ -491,7 +492,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                     <h3 className="mb-3 text-sm font-bold text-emerald-950">{copy.geometryPreview}</h3>
                     <div className="rounded-xl border border-emerald-100 bg-white p-3">
                       <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={copy.geometryPreview} className="max-h-56 w-full" preserveAspectRatio="xMidYMid meet">
-                        <polygon points={svgPoints} fill="#bbf7d0" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
+                        <g transform={svgTransform}><polygon points={svgPoints} fill="#bbf7d0" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" /></g>
                       </svg>
                     </div>
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -549,7 +550,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                         <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3">
                           <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={layoutLabels.title} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
                             <defs><marker id="strip-direction-arrow" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L4 2 L0 4 z" fill="#475569" /></marker></defs>
-                            <g>
+                            <g transform={svgTransform}>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
                               {layoutResult.pipeNetwork?.mainRoute && <polyline points={layoutResult.pipeNetwork.mainRoute.map((point: { x: number; y: number }) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#ea580c" strokeWidth="0.12" strokeLinejoin="round" />}
                               {layoutResult.pipeNetwork?.branches?.map((branch) => (
@@ -568,13 +569,13 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                                   {sprinkler.pattern === 'strip' && sprinkler.stripDirection && sprinkler.stripLengthM && <g stroke="#475569" strokeWidth="0.09" markerEnd="url(#strip-direction-arrow)">
                                     {sprinkler.stripDirection === 'left' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x - sprinkler.stripLengthM} y2={sprinkler.position.y} />}
                                     {sprinkler.stripDirection === 'right' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x + sprinkler.stripLengthM} y2={sprinkler.position.y} />}
-                                    {sprinkler.stripDirection === 'up' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y - sprinkler.stripLengthM} />}
-                                    {sprinkler.stripDirection === 'down' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y + sprinkler.stripLengthM} />}
+                                    {sprinkler.stripDirection === 'up' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y + sprinkler.stripLengthM} />}
+                                    {sprinkler.stripDirection === 'down' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y - sprinkler.stripLengthM} />}
                                     {sprinkler.stripDirection === 'both' && (sprinkler.stripAxis === 'vertical' ? <><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y - sprinkler.stripLengthM} /><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y + sprinkler.stripLengthM} /></> : <><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x - sprinkler.stripLengthM} y2={sprinkler.position.y} /><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x + sprinkler.stripLengthM} y2={sprinkler.position.y} /></>)}
                                   </g>}
                                   {sprinkler.radiusM !== null && <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke={nozzleColor} strokeWidth="0.055" strokeDasharray="0.22 0.14" opacity="0.78" />}
                                   <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill={nozzleColor} stroke="#ffffff" strokeWidth="0.08" />
-                                  {zoneNumber !== undefined && <g transform={'translate(' + (sprinkler.position.x + 0.22) + ' ' + sprinkler.position.y + ')'}><text x="0" y="-0.22" fontSize="0.72" fontWeight="700" fill="#0f172a" stroke="#ffffff" strokeWidth="0.12" paintOrder="stroke">{zoneNumber}</text></g>}
+                                  {zoneNumber !== undefined && <g transform={'translate(' + (sprinkler.position.x + 0.22) + ' ' + sprinkler.position.y + ') scale(1 -1)'}><text x="0" y="-0.22" fontSize="0.72" fontWeight="700" fill="#0f172a" stroke="#ffffff" strokeWidth="0.12" paintOrder="stroke">{zoneNumber}</text></g>}
                                 </g>
                                 )
                               })}
