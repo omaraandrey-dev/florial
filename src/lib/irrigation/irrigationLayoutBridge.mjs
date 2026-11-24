@@ -975,7 +975,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
         ? 'the complete rectangle is served by 3504-PC at the largest usable 10/9/8 m planning radius; R-VAN is not added to the same rectangle'
         : 'R-VAN fallback uses the unchanged local model/radius selection; radius independent of arc',
       layoutRadiusM: null,
-      sourceUrl: rotorAccepted ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
+      sourceUrl: layout.family === '3500' ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
     }),
