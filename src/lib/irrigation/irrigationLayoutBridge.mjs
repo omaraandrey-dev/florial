@@ -481,7 +481,7 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
   return true
 }
 
-function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM, initialHeads = []) {
+function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM, initialHeads = [], rotorFallbackReason = null) {
   const orderedParts = parts.slice().sort((a, b) =>
     a.shortSideM - b.shortSideM || a.lengthM - b.lengthM ||
     a.minY - b.minY || a.minX - b.minX)
@@ -621,8 +621,17 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       ? headToHeadChecks.every((entry) => entry.passed)
       : null
   }
-  if (initialHeads.length && headToHeadPassed === false) {
-    return buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM, [])
+  if (initialHeads.length && (headToHeadPassed === false || !oversprayPassed)) {
+    return buildDecomposedLShapeLayout(
+      geometry,
+      validation,
+      parts,
+      pressureBar,
+      sampleStepM,
+      shortSideM,
+      [],
+      oversprayPassed ? 'head_to_head' : 'overspray',
+    )
   }
   const coveragePercent = sampledCoverage.sampledPoints
     ? (sampledCoverage.coveredPoints / sampledCoverage.sampledPoints) * 100
@@ -637,6 +646,12 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     { code: 'spray_footprints_checked_against_original_lawn_and_exclusions_with_spatial_sampling', path: 'layout.overspray' },
   ]
   if (!oversprayPassed) warnings.push({ code: 'sampled_spray_footprint_exceeds_lawn_boundary', path: 'layout.overspray' })
+  if (rotorFallbackReason) warnings.push({
+    code: rotorFallbackReason === 'overspray'
+      ? '3504pc_prepass_rejected_by_composite_overspray_check'
+      : '3504pc_prepass_rejected_by_head_to_head_check',
+    path: 'layout.sprinklers',
+  })
   if (!circularCoverageComplete) warnings.push({ code: 'one_or_more_rectangular_zones_have_uncovered_sample_points', path: 'layout.coverage' })
   if (headToHeadPassed === false) warnings.push({ code: 'head_to_head_spacing_check_failed', path: 'layout.headToHead' })
 
