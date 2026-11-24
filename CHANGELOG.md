@@ -1,4 +1,10 @@
-## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR in progress)
+## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531)
+
+- Added an equipment-specific initial HTML renderer using the existing published Sanity `production` category query; the previous middleware inserted initial product cards only for the `plants` dataset.
+- The additive renderer emits up to 20 localized product links with generated localized image ALT/title, EUR price when present, known stock status and SKU when present. Existing React filtering/pagination and plant SSR are preserved.
+- Failed equipment category queries do not emit a false empty state and the failed category response is marked `no-store`; caching behavior for product/service/blog routes is preserved.
+- Exact-PR-head GitHub Actions validation passed: 481/481 tests, app/Pages Functions type-check, lint, website build, Studio type-check/build; D1 migration validation also passed without applying migrations.
+- Cloudflare Pages Preview deployment succeeded from the exact validated PR head. Raw initial-HTML QA is still open; no merge or Production deployment has occurred.
 
 - Added a server-rendered equipment-category listing using the existing published Sanity `production` catalogue query; the previous implementation injected initial category product cards only for the `plants` dataset.
 - The additive renderer emits up to 20 localized product links with image ALT/title, EUR price when present, known stock status and SKU when present. Existing React filtering/pagination and plant SSR are preserved.
