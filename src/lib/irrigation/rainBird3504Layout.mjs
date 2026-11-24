@@ -311,6 +311,10 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5, initia
     const radiusAdjusted = planningRadiusM === 8
       ? extendLocalRadiiForUncovered(candidates, targets, bounds, priorHeads)
       : candidates
+    const locallyExtendedHeads = radiusAdjusted.filter((head) => {
+      const original = candidates.find((candidate) => candidate.id === head.id)
+      return original && head.radiusM > original.radiusM + EPSILON
+    }).length
     const optimized = pruneRedundantHeads(radiusAdjusted, targets, priorHeads)
     const coverage = evaluateCoverage([...priorHeads, ...optimized], targets)
     const previousCircular = priorHeads.filter((head) => head.pattern !== 'strip' && Number.isFinite(head.radiusM))
@@ -341,7 +345,7 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5, initia
         }),
         candidateStats: Object.freeze({
           initialGridHeads: candidates.length,
-          locallyExtendedHeads: optimized.filter((head, index) => head.radiusM > (radiusAdjusted[index]?.radiusM ?? head.radiusM)).length,
+          locallyExtendedHeads,
           priorHeadsUsedForCoverage: priorHeads.length,
           selectedHeads: optimized.length,
           removedRedundantHeads: candidates.length - optimized.length,
