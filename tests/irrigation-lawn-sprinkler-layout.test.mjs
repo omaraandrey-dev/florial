@@ -216,6 +216,27 @@ test('sampled coverage remains complete at a finer spatial resolution', () => {
 })
 
 
+
+test('R-VAN planning radius is fixed by model and does not change with arc', () => {
+  for (const [model, radiusM] of [['R-VAN14', 3], ['R-VAN18', 5], ['R-VAN24', 6]]) {
+    const result = generateLawnSprinklerLayout({
+      geometry: rectangle, family: 'R-VAN', model, pressureBar: 3.1, sampleStepM: 0.5,
+    })
+    assert.ok(result.sprinklers.length > 0)
+    assert.ok(result.sprinklers.every((head) => head.radiusM === radiusM))
+    assert.ok(result.sprinklers.some((head) => head.arcDeg === 90))
+    assert.ok(result.sprinklers.some((head) => head.arcDeg === 180))
+    assert.ok(result.sprinklers.some((head) => head.arcDeg === 360))
+  }
+})
+
+test('default control mesh interval is 0.5 metres', () => {
+  const result = generateLawnSprinklerLayout({
+    geometry: rectangle, family: 'R-VAN', model: 'R-VAN18', pressureBar: 3.1,
+  })
+  assert.equal(result.sampleStepM, 0.5)
+})
+
 test('head-to-head spacing rejects nearby sprinklers whose sectors face away from each other', () => {
   const checks = evaluateHeadToHeadSpacing([
     { id: 'a', position: { x: 0, y: 0 }, arcDeg: 90, directionDeg: 0, radiusM: 5 },
