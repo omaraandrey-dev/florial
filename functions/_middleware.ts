@@ -312,7 +312,7 @@ async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryI
     dataset,
     categoryQuery,
     {},
-    'sanity/' + dataset + '/category-tree',
+    'sanity/' + dataset + '/category-tree-v2',
     300,
   )
   if (!Array.isArray(categories)) throw new Error('Sanity ' + dataset + ' category tree is not an array')
@@ -348,7 +348,7 @@ async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryI
     dataset,
     productQuery,
     { categoryIds },
-    'sanity/' + dataset + '/category-products/' + encodeURIComponent(categoryId),
+    'sanity/' + dataset + '/category-products-v2/' + encodeURIComponent(categoryId),
     30,
   )
   if (!Array.isArray(products)) throw new Error('Sanity ' + dataset + ' category products is not an array')
