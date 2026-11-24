@@ -117,7 +117,7 @@ export function renderPlantCategoryListing(products, language = 'bg', siteUrl = 
   const cards = entries.map((product) => {
     const name = localizedProductName(product, language) || product.slugValue
     const url = productUrl(product, language, siteUrl)
-    const price = getStartingPrice(product)
+    const price = typeof product.priceEUR === 'number' && Number.isFinite(product.priceEUR) && product.priceEUR > 0 ? product.priceEUR : null
     const priceLabel = price === null
       ? ''
       : (language === 'ru' ? 'Цена от ' : language === 'en' ? 'From ' : 'Цена от ') +
@@ -174,6 +174,14 @@ export function buildEquipmentCategoryEntries(products, language = 'bg') {
     .slice(0, PAGE_SIZE)
 }
 
+function equipmentAvailabilityLabel(product, language) {
+  const status = ['inStock', 'onRequest', 'outOfStock'].includes(product.stockStatus) ? product.stockStatus : null
+  if (!status) return ''
+  if (language === 'ru') return status === 'inStock' ? 'В наличии' : status === 'outOfStock' ? 'Нет в наличии' : 'По запросу'
+  if (language === 'en') return status === 'inStock' ? 'In stock' : status === 'outOfStock' ? 'Out of stock' : 'On request'
+  return status === 'inStock' ? 'В наличност' : status === 'outOfStock' ? 'Изчерпан' : 'По заявка'
+}
+
 export function renderEquipmentCategoryListing(products, language = 'bg', siteUrl = 'https://florial-bg.com') {
   const entries = buildEquipmentCategoryEntries(products, language)
   const heading = language === 'ru' ? 'Оборудование в категории' : language === 'en' ? 'Equipment in this category' : 'Оборудване в категорията'
@@ -196,7 +204,7 @@ export function renderEquipmentCategoryListing(products, language = 'bg', siteUr
       ? ''
       : (language === 'ru' ? 'Цена: ' : language === 'en' ? 'Price: ' : 'Цена: ') +
         price.toFixed(2) + ' €'
-    const status = availabilityLabel(product, language)
+    const status = equipmentAvailabilityLabel(product, language)
     const imageUrl = typeof product.imageUrl === 'string' ? product.imageUrl : ''
     const image = imageUrl
       ? '<div style="height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f8fafc;border-radius:8px;margin-bottom:12px"><img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(equipmentImageText(name, language, index, 'alt')) + '" title="' + escapeHtml(equipmentImageText(name, language, index, 'title')) + '" loading="lazy" decoding="async" style="max-width:100%;max-height:100%;object-fit:contain" /></div>'
