@@ -61,7 +61,7 @@ jobs:
           for (const route of routes) {
             const { response, html } = await fetchHtml(route);
             assert.match(response.headers.get('content-type') || '', /text\/html/i);
-            assert.match(html, /<meta name="robots" content="index, follow">/i);
+            assert.match(html, /<meta\\s+name="robots"\\s+content="index, follow"\\s*\\/?\\s*>/i);
 
             const sectionMatch = html.match(/<section\b[^>]*data-florial-server-catalogue="equipment"[^>]*>([\s\S]*?)<\/section>/i);
             assert.ok(sectionMatch, `${route.lang}: equipment SSR section must be in the first HTTP response`);
