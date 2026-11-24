@@ -260,6 +260,7 @@ test('irrigation project PDF contains the drawing, zone assignment, BOM and expl
   assert.match(pdf, /Неполиваеми правоъгълници/)
   assert.match(pdf, /annotation\.lengthM\.toFixed\(1\)/)
   assert.match(pdf, /exclusion\.polygon\.vertices\.map\(mapPoint\)/)
+  assert.match(pdf, /color: rgb\(0\.86, 0\.89, 0\.93\)/)
   assert.match(pdf, /планировъчен R=/)
   assert.match(pdf, /геометрична планировъчна стойност на Florial/)
   const assistantPage = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
