@@ -112,7 +112,21 @@ export const createIrrigationProjectPdf = async (
     page.drawLine({ start: a, end: b, color: green, thickness: 1.4 })
   }
   for (const exclusion of exclusions) {
-    const points = exclusion.polygon.vertices.map(mapPoint)
+    const exclusionVertices = exclusion.polygon.vertices
+    const xs = exclusionVertices.map((point) => point.x)
+    const ys = exclusionVertices.map((point) => point.y)
+    const bottomLeft = mapPoint({ x: Math.min(...xs), y: Math.min(...ys) })
+    const topRight = mapPoint({ x: Math.max(...xs), y: Math.max(...ys) })
+    page.drawRectangle({
+      x: bottomLeft.x,
+      y: bottomLeft.y,
+      width: topRight.x - bottomLeft.x,
+      height: topRight.y - bottomLeft.y,
+      color: rgb(0.86, 0.89, 0.93),
+      borderColor: rgb(0.42, 0.48, 0.56),
+      borderWidth: 0.65,
+    })
+    const points = exclusionVertices.map(mapPoint)
     for (let index = 0; index < points.length; index += 1) {
       page.drawLine({
         start: points[index],
