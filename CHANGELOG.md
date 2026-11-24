@@ -4452,3 +4452,19 @@ Backups:
 - Preview deployment `3346af33-2918-46e6-aae9-6a175f84c6e2` succeeded from PR head `03a48c23a654160577ad130bf424650c34bac820`. Exact code-bearing PR revision `17aefbb2781d24b401310d759dbe9cb678b4e945` passed 483/483 tests, app/Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check/build and D1 validation.
 - A main-branch smoke workflow now verifies first-response SSR on Production as well as Preview. No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets, orders, email or other Production configuration changes were made.
 - **SSR Catalog v1 is closed.** The separate Search Console noindex/canonical discrepancies affecting other URLs remain a distinct SEO follow-up.
+
+
+## 2026-11-24 — SSR Content v1 roadmap created
+
+- Added `docs/roadmaps/SSR_CONTENT_V1_ROADMAP_2026-11-24.md` for the sequential server-rendering workstream across public content pages.
+- Owner-approved order: homepage first; then services directory and service details; blog index; portfolio; individual articles/projects; contacts; About; final cross-route BG/RU/EN regression.
+- Each phase requires raw first-HTTP-response evidence without JavaScript, exact-SHA CI and deployment evidence. Existing published Sanity service/blog/portfolio documents remain protected; no Sanity writes are authorized by this roadmap.
+- Initial homepage phase is in read-only technical discovery. No application code, Sanity content/schema, Cloudflare configuration/secrets, D1 data/schema or Production settings were changed in this documentation step.
+
+
+## 2026-11-24 — SSR Content v1 Phase 1 homepage discovery
+
+- Read-only inspection of `src/pages/HomePage.tsx`, `src/App.tsx` and `functions/_middleware.ts` confirms the root route currently inserts only a localized H1 and short paragraph into the initial HTML. Homepage sections and their Sanity data are loaded by client-side effects.
+- Recorded the existing section order, data projections, curated product-selection rules, category selection, service ordering and pinned blog teaser behavior in `docs/audits/2026-11-24-ssr-content-v1-phase-1-homepage-discovery.md`.
+- Next: complete the remaining read-only middleware/component inspection, then implement bounded server rendering and raw BG/RU/EN first-response tests without changing Sanity content or the shared Header/Footer shell.
+- No application code or live service data/configuration was changed in this discovery step.
