@@ -15,6 +15,7 @@ const PRODUCT_SKUS = Object.freeze({
     'R-VAN14-360': 'A84664',
     'R-VAN18-360': 'A84665',
     'R-VAN24-360': 'A84666',
+    'R-VAN-RCS': 'A84668',
   }),
 })
 
