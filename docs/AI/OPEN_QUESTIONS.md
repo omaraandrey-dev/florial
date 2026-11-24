@@ -1,3 +1,13 @@
+## 2026-11-25 — SSR Content v1 Phase 1: homepage parity and verification update (PR #533)
+
+- **IN PROGRESS — implementation:** branch `feat/ssr-homepage-content-v1`, draft PR #533. The renderer now includes the full homepage content sequence and matches the client category-visibility, service-order, featured-product, plant-stock, blog-order and responsive-image contracts. Homepage JSON-LD includes `OnlineStore` and `WebSite`, plus the existing local `GardenStore` entities.
+- **CODE-BEARING HEAD:** `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`.
+- **PENDING — exact-head CI:** the preceding head `fc21108f98de7c30b57ebe5190111002258281c6` passed type-check and lint; 492/493 tests passed. The single failure was a test assertion that searched the whole homepage for “Available on request” and accidentally matched an equipment card. The assertion is now scoped to the Magnolia plant card; the newer exact head still needs CI confirmation.
+- **PENDING — latest Preview:** Cloudflare Pages deployment `76d903af-80f2-414f-82d4-d6dd6717655f` succeeded for the previous code head `fc21108f98de7c30b57ebe5190111002258281c6`; deployment for `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6` was queued at the time of this update. No raw homepage smoke or Production release is claimed yet.
+- **OPEN — client startup/CLS:** `src/main.tsx` uses React `createRoot`, not `hydrateRoot`. It replaces server markup inside `#root` when the SPA starts. Raw first-response HTML is present for crawlers, but the browser may briefly replace that content while client queries load. A safe “keep SSR visible until client homepage data is ready” or true-hydration solution requires a scoped change to the app bootstrap/HomePage data readiness; do not change this global startup path without owner approval.
+- **OPEN — cart discoverability:** homepage now exposes `OnlineStore` and `WebSite` structured data and links to product/category pages. `/cart` remains correctly `noindex, nofollow`. `Header.tsx` still renders the cart control as a button, not a crawlable anchor; a visible semantic anchor conversion requires separate owner approval. No hidden link is proposed.
+- No Header, main menu, Footer, Sanity content, D1 schema/data, Cloudflare settings/secrets or Production settings were changed.
+
 ## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531) — CLOSED
 
 - PR #531 merged into __BT__main__BT__ as __BT__39e756fe63993557ee7702dee4eaefc6c8111b14__BT__.
