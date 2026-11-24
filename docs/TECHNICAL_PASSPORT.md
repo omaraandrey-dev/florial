@@ -1,4 +1,10 @@
-## 2026-11-24 — equipment category server-rendered catalogue (SSR Catalog v1)
+## 2026-11-24 — equipment category server-rendered catalogue (SSR Catalog v1, PR #531)
+
+- Implementation and scope: `docs/roadmaps/SEO_EQUIPMENT_CATEGORY_SSR_V1.md`; evidence: `docs/audits/2026-11-24-equipment-category-ssr-v1.md`.
+- Middleware now connects the existing published Sanity `production` category product result to an equipment-specific initial HTML listing. Existing plant SSR and interactive React CategoryPage behavior are preserved.
+- Exact PR-head CI passed: 481/481 tests, app/Pages Functions type-check, lint, Vite build, Studio type-check/build; D1 validation passed without a migration write.
+- Cloudflare Pages Preview build/deployment succeeded from the exact PR head. Raw HTTP initial-HTML verification remains open; browser DOM snapshots used so far run after React hydration and are not valid evidence of the initial response.
+- PR #531 remains open; no Production deployment, Sanity writes, D1 changes, or Cloudflare settings/secrets changes were made.
 
 - Implementation candidate is tracked in `docs/roadmaps/SEO_EQUIPMENT_CATEGORY_SSR_V1.md` and `docs/audits/2026-11-24-equipment-category-ssr-v1.md`.
 - Existing middleware already fetched equipment products from Sanity `production` for CollectionPage JSON-LD, but `documentBody()` previously rendered the initial product list only for `plants`.
