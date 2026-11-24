@@ -166,12 +166,81 @@ function equipmentImageText(productName, language, imageIndex, kind) {
   return kind === 'title' ? `Продажба на ${productName} в ${location}` : `Купете ${productName} в ${location}`
 }
 
-export function buildEquipmentCategoryEntries(products, language = 'bg') {
-  return (Array.isArray(products) ? products : [])
+export function buildEquipmentCategoryEntries(products, language = 'bg', options = {}) {
+  const sorted = (Array.isArray(products) ? products : [])
     .filter((product) => product && product._id && (product.slugValue || product.slug?.current))
     .slice()
     .sort((a, b) => localizedProductName(a, language).localeCompare(localizedProductName(b, language), language))
-    .slice(0, PAGE_SIZE)
+
+  if (options.rootCatalog && Array.isArray(options.categories)) {
+    const prioritySlugs = [
+      'controllers',
+      'gotovi-komplekti-za-polivane',
+      'sprinklers',
+      'nozzles',
+      'klapani',
+      'shahti',
+    ]
+    const priorityIds = prioritySlugs
+      .map((slug) => options.categories.find((item) => item.slugValue === slug)?._id)
+      .filter(Boolean)
+    const priorityIdSet = new Set(priorityIds)
+    const parentById = new Map(options.categories.map((item) => [item._id, item.parentId]))
+    const getRootCategoryId = (categoryId) => {
+      let currentId = categoryId
+      const visited = new Set()
+      while (currentId && !visited.has(currentId)) {
+        if (priorityIdSet.has(currentId)) return currentId
+        visited.add(currentId)
+        currentId = parentById.get(currentId)
+      }
+      return undefined
+    }
+
+    const buckets = new Map(priorityIds.map((id) => [id, []]))
+    const otherProducts = []
+    sorted.forEach((product) => {
+      const categoryCandidates = [
+        product.categoryId,
+        ...(Array.isArray(product.categoryIds) ? product.categoryIds : []),
+      ].filter(Boolean)
+      const matchingPriorityId = categoryCandidates
+        .map((id) => getRootCategoryId(id))
+        .find(Boolean)
+      if (matchingPriorityId) buckets.get(matchingPriorityId)?.push(product)
+      else otherProducts.push(product)
+    })
+
+    const nozzlesCategoryId = options.categories.find((item) => item.slugValue === 'nozzles')?._id
+    const nozzlesBucket = nozzlesCategoryId ? buckets.get(nozzlesCategoryId) : undefined
+    if (nozzlesBucket) {
+      const getNozzleSeriesRank = (product) => {
+        const productText = [product.name, localizedProductName(product, language), product.sku]
+          .filter(Boolean).join(' ').toLocaleUpperCase()
+        if (/\\bR[\\s-]?VAN\\b/.test(productText)) return 0
+        if (/\\bHE[\\s-]?VAN\\b/.test(productText)) return 1
+        if (/\\bVAN\\b/.test(productText)) return 2
+        return 3
+      }
+      nozzlesBucket.sort((a, b) => getNozzleSeriesRank(a) - getNozzleSeriesRank(b))
+    }
+
+    const priorityProducts = []
+    let hasMorePriorityProducts = true
+    while (hasMorePriorityProducts) {
+      hasMorePriorityProducts = false
+      priorityIds.forEach((id) => {
+        const nextProduct = buckets.get(id)?.shift()
+        if (nextProduct) {
+          priorityProducts.push(nextProduct)
+          hasMorePriorityProducts = true
+        }
+      })
+    }
+    return [...priorityProducts, ...otherProducts].slice(0, PAGE_SIZE)
+  }
+
+  return sorted.slice(0, PAGE_SIZE)
 }
 
 function equipmentAvailabilityLabel(product, language) {
@@ -182,8 +251,8 @@ function equipmentAvailabilityLabel(product, language) {
   return status === 'inStock' ? 'В наличност' : status === 'outOfStock' ? 'Изчерпан' : 'По заявка'
 }
 
-export function renderEquipmentCategoryListing(products, language = 'bg', siteUrl = 'https://florial-bg.com') {
-  const entries = buildEquipmentCategoryEntries(products, language)
+export function renderEquipmentCategoryListing(products, language = 'bg', siteUrl = 'https://florial-bg.com', options = {}) {
+  const entries = buildEquipmentCategoryEntries(products, language, options)
   const heading = language === 'ru' ? 'Оборудование в категории' : language === 'en' ? 'Equipment in this category' : 'Оборудване в категорията'
   const empty = language === 'ru'
     ? 'В этой категории пока нет товаров.'
