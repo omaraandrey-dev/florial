@@ -39,6 +39,8 @@ Work branch: `fix/irrigation-mixed-rvan-visual-layout`
 - `tests/irrigation-layout-bridge.test.mjs`
 - `docs/engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md`
 
+- The first PR-head TypeScript check caught inferred `unknown` types in the new legend list. The list and legend are now explicitly typed; final validation must run against the updated PR head.
+
 ## Safety boundary
 
 No Sanity writes, D1 schema/data changes, Cloudflare configuration/secrets, Production orders, emails or service/content edits are part of this task. The implementation is code, tests and documentation only.
