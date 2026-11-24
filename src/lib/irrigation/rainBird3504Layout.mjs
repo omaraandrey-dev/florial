@@ -136,8 +136,8 @@ function buildGrid(bounds, pitchM, idPrefix, initialHeads = []) {
       const y = bounds.minY + localY
       const position = classifyPosition(x, y, bounds)
       const safeRadius = maximumSafeRadius(x, y, bounds, position)
-      const radiusM = Math.min(pitchM, safeRadius)
-      if (radiusM < 5 - EPSILON) continue
+      if (safeRadius < 5 - EPSILON) continue
+      const radiusM = Math.min(pitchM, Math.max(5, safeRadius))
       const occupied = initialHeads.some((head) => head.position &&
         distance(head.position, { x, y }) <= 0.001)
       const center = { x: (bounds.minX + bounds.maxX) / 2, y: (bounds.minY + bounds.maxY) / 2 }
