@@ -25,7 +25,7 @@ Work branch: `fix/irrigation-mixed-rvan-visual-layout`
 - Project radius mapping: R-VAN14 = 3 m; R-VAN18 = 4 m or 5 m; R-VAN24 = 6 m. Arc changes sector shape only.
 - Sampled coverage and head-to-head checks run using each candidate's actual selected model/radius. No precipitation-intensity matching gate is added.
 - Added a regression target for 8 × 8 m: four R-VAN24 / 6 m corners and four R-VAN18 / 4 m side midpoints, complete sampled coverage and passed head-to-head.
-- The customer SVG uses model-specific colors for sprinkler markers and radius rings and shows a legend of the models present. Zone labels list model-specific quantities.
+- The customer SVG uses model-specific colors for sprinkler markers and radius rings and shows a legend of the models present. Zone labels list exact model variants and quantities. Both the layout result and the project/PDF operating-scenario label report the actual selected model set (for example, `R-VAN18 / R-VAN24`) rather than the former single base model.
 - Removed the R-VAN fixed-radius note, removed flex-pipe metres/coil wording from the kit summary, and preserved exact `-360` model names in zone summaries.
 - Rain Bird color references: R-VAN14 blue, R-VAN18 tan/beige, R-VAN24 burgundy. R-VAN strip nozzles are gray in the official technical sheet; RCS is shown in medium gray to remain distinct on the diagram.
 
