@@ -244,7 +244,7 @@ test('accepts and preserves an R-VAN-RCS strip head in a mixed project snapshot'
   const project = snapshot()
   project.layout.sprinklers[0] = {
     ...project.layout.sprinklers[0],
-    arcDeg: 180,
+    arcDeg: null,
     performanceModel: 'R-VAN-RCS',
     pattern: 'strip',
     stripWidthM: 2,
