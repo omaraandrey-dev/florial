@@ -58,8 +58,14 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
   let rotorCount = 0
   let sprayBodyCount = 0
   for (const sprinkler of sprinklers) {
-    const baseModel = String(sprinkler.performanceModel ?? layout.model ?? '').replace(/-360$/, '')
-    if (baseModel === '3504-PC') {
+    const performanceModel = String(sprinkler.performanceModel ?? layout.model ?? '')
+    const baseModel = performanceModel.replace(/-360$/, '')
+    if (baseModel === '3504-PC' || sprinkler.pattern === 'rotor') {
+      if (performanceModel !== '3504-PC' || sprinkler.pattern !== 'rotor' ||
+          !Number.isFinite(sprinkler.radiusM) || sprinkler.radiusM < 5 || sprinkler.radiusM > 10 ||
+          ![90, 180, 270, 360].includes(sprinkler.arcDeg)) {
+        return Object.freeze({ valid: false, reason: 'invalid_3504_pc_rotor_definition', items: Object.freeze([]) })
+      }
       rotorCount += 1
       continue
     }
