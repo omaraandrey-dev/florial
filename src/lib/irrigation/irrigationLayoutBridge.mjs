@@ -1,4 +1,5 @@
-import { generateLawnSprinklerLayout } from './lawnSprinklerLayout.mjs'
+import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout } from './lawnSprinklerLayout.mjs'
+import { validateLawnGeometry } from './lawnGeometry.mjs'
 import {
   findRainBirdRvanPerformancePoint,
   RAIN_BIRD_RVAN_DATASET,
@@ -41,7 +42,7 @@ function isRectangle(vertices) {
   })
 }
 
-function buildRvanStripLayout(geometry, shortSideM) {
+function buildRvanStripLayout(geometry, shortSideM, connectedEnd = null) {
   const vertices = geometry.regions[0].boundary.vertices
   if (!isRectangle(vertices)) return null
   const widthM = SUPPORTED_STRIP_WIDTHS_M.find((width) => Math.abs(width - shortSideM) <= 1e-8)
@@ -53,7 +54,11 @@ function buildRvanStripLayout(geometry, shortSideM) {
   const maxX = Math.max(...xs)
   const minY = Math.min(...ys)
   const maxY = Math.max(...ys)
-  const horizontal = maxX - minX >= maxY - minY
+  const horizontal = connectedEnd === 'left' || connectedEnd === 'right'
+    ? true
+    : connectedEnd === 'top' || connectedEnd === 'bottom'
+      ? false
+      : maxX - minX >= maxY - minY
   const lengthM = horizontal ? maxX - minX : maxY - minY
   const rule = STRIP_MODELS[widthM]
   const rightOrBottom = horizontal ? maxX : minY
@@ -128,6 +133,515 @@ function buildRvanStripLayout(geometry, shortSideM) {
   })
 }
 
+
+function rectangleGeometry(regionId, bounds) {
+  return Object.freeze({
+    schemaVersion: 1,
+    coordinateSystem: 'local_cartesian_m',
+    status: 'confirmed',
+    regions: Object.freeze([Object.freeze({
+      id: regionId,
+      boundary: Object.freeze({ vertices: Object.freeze([
+        Object.freeze({ x: bounds.minX, y: bounds.minY }),
+        Object.freeze({ x: bounds.maxX, y: bounds.minY }),
+        Object.freeze({ x: bounds.maxX, y: bounds.maxY }),
+        Object.freeze({ x: bounds.minX, y: bounds.maxY }),
+      ]) }),
+      exclusions: Object.freeze([]),
+    })]),
+  })
+}
+
+function rectangleSize(bounds) {
+  return {
+    widthM: bounds.maxX - bounds.minX,
+    heightM: bounds.maxY - bounds.minY,
+    shortSideM: Math.min(bounds.maxX - bounds.minX, bounds.maxY - bounds.minY),
+    lengthM: Math.max(bounds.maxX - bounds.minX, bounds.maxY - bounds.minY),
+  }
+}
+
+function decomposeOrthogonalLShape(vertices) {
+  const points = vertices.filter((point, index) =>
+    index < vertices.length - 1 ||
+    Math.hypot(point.x - vertices[0].x, point.y - vertices[0].y) > 1e-8)
+  if (points.length !== 6) return null
+  for (let index = 0; index < points.length; index += 1) {
+    const current = points[index]
+    const next = points[(index + 1) % points.length]
+    if (Math.abs(current.x - next.x) > 1e-8 && Math.abs(current.y - next.y) > 1e-8) return null
+  }
+
+  let twiceArea = 0
+  for (let index = 0; index < points.length; index += 1) {
+    const current = points[index]
+    const next = points[(index + 1) % points.length]
+    twiceArea += current.x * next.y - next.x * current.y
+  }
+  const orientation = Math.sign(twiceArea) || 1
+  let reflex = null
+  for (let index = 0; index < points.length; index += 1) {
+    const previous = points[(index - 1 + points.length) % points.length]
+    const current = points[index]
+    const next = points[(index + 1) % points.length]
+    const turn = (current.x - previous.x) * (next.y - current.y) -
+      (current.y - previous.y) * (next.x - current.x)
+    if (turn * orientation < -1e-8) {
+      if (reflex) return null
+      reflex = current
+    }
+  }
+  if (!reflex) return null
+
+  const minX = Math.min(...points.map((point) => point.x))
+  const maxX = Math.max(...points.map((point) => point.x))
+  const minY = Math.min(...points.map((point) => point.y))
+  const maxY = Math.max(...points.map((point) => point.y))
+  const reflexIndex = points.indexOf(reflex)
+  const adjacent = [
+    points[(reflexIndex - 1 + points.length) % points.length],
+    points[(reflexIndex + 1) % points.length],
+  ]
+  const horizontalNeighbor = adjacent.find((point) => Math.abs(point.y - reflex.y) <= 1e-8)
+  const verticalNeighbor = adjacent.find((point) => Math.abs(point.x - reflex.x) <= 1e-8)
+  if (!horizontalNeighbor || !verticalNeighbor) return null
+  const notchRight = horizontalNeighbor.x > reflex.x
+  const notchTop = verticalNeighbor.y > reflex.y
+
+  const main = {
+    id: 'main',
+    minX: notchRight ? minX : reflex.x,
+    maxX: notchRight ? reflex.x : maxX,
+    minY,
+    maxY,
+    connectedEnd: notchTop ? 'bottom' : 'top',
+  }
+  const arm = {
+    id: 'arm',
+    minX: notchRight ? reflex.x : minX,
+    maxX: notchRight ? maxX : reflex.x,
+    minY: notchTop ? minY : reflex.y,
+    maxY: notchTop ? reflex.y : maxY,
+    connectedEnd: notchRight ? 'left' : 'right',
+  }
+  const mainSize = rectangleSize(main)
+  const armSize = rectangleSize(arm)
+  const sumArea = mainSize.widthM * mainSize.heightM + armSize.widthM * armSize.heightM
+  const polygonArea = Math.abs(twiceArea / 2)
+  if (Math.abs(sumArea - polygonArea) > 1e-6 ||
+      mainSize.widthM <= 0 || mainSize.heightM <= 0 ||
+      armSize.widthM <= 0 || armSize.heightM <= 0) return null
+
+  return Object.freeze([
+    Object.freeze({ ...main, ...mainSize }),
+    Object.freeze({ ...arm, ...armSize }),
+  ])
+}
+
+function connectedStripNeedsSeamHead(lengthM, widthM) {
+  const rule = STRIP_MODELS[widthM]
+  return Boolean(rule && lengthM > rule.endPairAfterM + 1e-8 &&
+    lengthM <= rule.centersAfterM + 1e-8)
+}
+
+function connectedStripSeamPoint(bounds, connectedEnd, horizontal) {
+  if (horizontal) {
+    return {
+      x: connectedEnd === 'left' ? bounds.minX : bounds.maxX,
+      y: bounds.minY,
+    }
+  }
+  return {
+    x: bounds.maxX,
+    y: connectedEnd === 'bottom' ? bounds.minY : bounds.maxY,
+  }
+}
+
+function buildConnectedRvanStripLayout(geometry, shortSideM, connectedEnd) {
+  const base = buildRvanStripLayout(geometry, shortSideM, connectedEnd)
+  if (!base) return null
+  const vertices = geometry.regions[0].boundary.vertices
+  const xs = vertices.map((point) => point.x)
+  const ys = vertices.map((point) => point.y)
+  const minX = Math.min(...xs)
+  const maxX = Math.max(...xs)
+  const minY = Math.min(...ys)
+  const maxY = Math.max(...ys)
+  const horizontal = connectedEnd === 'left' || connectedEnd === 'right'
+  const lengthM = horizontal ? maxX - minX : maxY - minY
+  const widthM = shortSideM
+  const rule = STRIP_MODELS[widthM]
+  const fixedSide = horizontal ? minY : maxX
+  const makePosition = (axisValue) => horizontal
+    ? { x: axisValue, y: fixedSide }
+    : { x: fixedSide, y: axisValue }
+  const connectedAtMin = horizontal ? connectedEnd === 'left' : connectedEnd === 'bottom'
+  const freeAtMax = connectedAtMin
+  const heads = []
+  const addAt = (model, axisValue, direction, reachM) => {
+    const point = findRainBirdRvanPerformancePoint(model, RECOMMENDED_NOZZLE_PRESSURE_BAR, null)
+    if (!point) return false
+    heads.push(Object.freeze({
+      id: 's' + String(heads.length + 1).padStart(5, '0'),
+      position: Object.freeze(makePosition(axisValue)),
+      arcDeg: null,
+      directionDeg: null,
+      stripDirection: direction,
+      stripAxis: horizontal ? 'horizontal' : 'vertical',
+      source: 'edge',
+      radiusM: null,
+      pressureBar: point.pressureBar,
+      flowLpm: point.flowLpm,
+      precipitationSquareMmH: point.precipitationSquareMmH,
+      precipitationTriangularMmH: point.precipitationTriangularMmH,
+      performanceModel: model,
+      pattern: 'strip',
+      stripWidthM: widthM,
+      stripLengthM: reachM,
+    }))
+    return true
+  }
+
+  const freeEndModel = horizontal
+    ? (freeAtMax ? 'R-VAN-RCS' : 'R-VAN-LCS')
+    : (freeAtMax ? 'R-VAN-LCS' : 'R-VAN-RCS')
+  const freeEndAxis = freeAtMax ? (horizontal ? maxX : maxY) : (horizontal ? minX : minY)
+  const freeEndDirection = horizontal
+    ? (freeAtMax ? 'left' : 'right')
+    : (freeAtMax ? 'down' : 'up')
+  if (!addAt(freeEndModel, freeEndAxis, freeEndDirection, rule.endReachM)) return null
+
+  if (lengthM > rule.centersAfterM + 1e-8) {
+    const maxFromConnected = lengthM - rule.endReachM
+    const offsets = []
+    for (let offset = rule.centerSpacingM; offset <= maxFromConnected + 1e-8; offset += rule.centerSpacingM) {
+      offsets.push(offset)
+    }
+    if (!offsets.length && maxFromConnected > 0) offsets.push(maxFromConnected)
+    for (const offset of offsets) {
+      const axisValue = connectedAtMin
+        ? (horizontal ? minX : minY) + offset
+        : (horizontal ? maxX : maxY) - offset
+      if (!addAt('R-VAN-SST', axisValue, 'both', rule.centerReachM)) return null
+    }
+  } else if (lengthM > rule.endPairAfterM + 1e-8) {
+    const connectedModel = horizontal
+      ? (connectedAtMin ? 'R-VAN-LCS' : 'R-VAN-RCS')
+      : (connectedAtMin ? 'R-VAN-RCS' : 'R-VAN-LCS')
+    const connectedAxis = connectedAtMin
+      ? (horizontal ? minX : minY)
+      : (horizontal ? maxX : maxY)
+    const connectedDirection = horizontal
+      ? (connectedAtMin ? 'right' : 'left')
+      : (connectedAtMin ? 'up' : 'down')
+    if (!addAt(connectedModel, connectedAxis, connectedDirection, rule.endReachM)) return null
+  }
+
+  const modelSet = [...new Set(heads.map((head) => head.performanceModel))].sort()
+  return Object.freeze({
+    ...base,
+    algorithm: 'owner-defined-rvan-connected-lcs-rcs-sst-strip-placement-v1',
+    model: modelSet.join(' / '),
+    sprinklers: Object.freeze(heads),
+    warnings: Object.freeze([
+      ...base.warnings.filter((warning) =>
+        warning.code !== 'owner_defined_rvan_strip_pattern_not_sampled_as_circular_coverage'),
+      Object.freeze({ code: 'connected_strip_end_is_covered_from_the_strip_interior', path: 'layout.sprinklers' }),
+      Object.freeze({ code: 'owner_defined_rvan_strip_pattern_not_sampled_as_circular_coverage', path: 'layout.coverage' }),
+    ]),
+  })
+}
+
+function pointOnPolygonSegment(point, a, b) {
+  const cross = (b.x - a.x) * (point.y - a.y) - (b.y - a.y) * (point.x - a.x)
+  if (Math.abs(cross) > 1e-7) return false
+  return point.x >= Math.min(a.x, b.x) - 1e-7 &&
+    point.x <= Math.max(a.x, b.x) + 1e-7 &&
+    point.y >= Math.min(a.y, b.y) - 1e-7 &&
+    point.y <= Math.max(a.y, b.y) + 1e-7
+}
+
+function pointInPolygon(point, vertices) {
+  let inside = false
+  for (let index = 0; index < vertices.length; index += 1) {
+    const a = vertices[index]
+    const b = vertices[(index + 1) % vertices.length]
+    if (pointOnPolygonSegment(point, a, b)) return true
+    if ((a.y > point.y) !== (b.y > point.y)) {
+      const intersectionX = a.x + ((point.y - a.y) * (b.x - a.x)) / (b.y - a.y)
+      if (point.x < intersectionX) inside = !inside
+    }
+  }
+  return inside
+}
+
+function sampleRectangleInsidePolygon(bounds, vertices, stepM = 0.2) {
+  const xSteps = Math.max(1, Math.ceil((bounds.maxX - bounds.minX) / stepM))
+  const ySteps = Math.max(1, Math.ceil((bounds.maxY - bounds.minY) / stepM))
+  for (let yIndex = 0; yIndex <= ySteps; yIndex += 1) {
+    const y = bounds.minY + (bounds.maxY - bounds.minY) * yIndex / ySteps
+    for (let xIndex = 0; xIndex <= xSteps; xIndex += 1) {
+      const x = bounds.minX + (bounds.maxX - bounds.minX) * xIndex / xSteps
+      if (!pointInPolygon({ x, y }, vertices)) return false
+    }
+  }
+  return true
+}
+
+function evaluateCompositeOverspray(sprinklers, parts, originalVertices) {
+  const stripPartByHeadId = new Map()
+  for (let index = 0; index < parts.length; index += 1) {
+    const part = parts[index]
+    if (!part.isStrip) continue
+    for (const head of part.layout.sprinklers) {
+      stripPartByHeadId.set('z' + (index + 1) + '-' + head.id, part)
+    }
+  }
+
+  for (const head of sprinklers) {
+    if (head.pattern === 'strip') {
+      const part = stripPartByHeadId.get(head.id)
+      if (!part) return false
+      const bounds = part
+      const horizontal = head.stripAxis === 'horizontal'
+      const reach = head.stripLengthM
+      let footprint
+      if (horizontal) {
+        const minX = head.stripDirection === 'left' ? head.position.x - reach
+          : head.stripDirection === 'right' ? head.position.x
+            : head.position.x - reach
+        const maxX = head.stripDirection === 'left' ? head.position.x
+          : head.stripDirection === 'right' ? head.position.x + reach
+            : head.position.x + reach
+        footprint = { minX, maxX, minY: bounds.minY, maxY: bounds.maxY }
+      } else {
+        const minY = head.stripDirection === 'up' ? head.position.y
+          : head.stripDirection === 'down' ? head.position.y - reach
+            : head.position.y - reach
+        const maxY = head.stripDirection === 'up' ? head.position.y + reach
+          : head.stripDirection === 'down' ? head.position.y
+            : head.position.y + reach
+        footprint = { minX: bounds.minX, maxX: bounds.maxX, minY, maxY }
+      }
+      if (!sampleRectangleInsidePolygon(footprint, originalVertices)) return false
+      continue
+    }
+
+    const arc = head.arcDeg ?? 360
+    const start = arc === 360 ? 0 : (head.directionDeg ?? 0) - arc / 2
+    const angleStep = 1
+    const radialStep = 0.2
+    for (let angleOffset = 0; angleOffset <= arc + 1e-8; angleOffset += angleStep) {
+      const angle = (start + angleOffset) * Math.PI / 180
+      const dx = Math.cos(angle)
+      const dy = Math.sin(angle)
+      for (let distanceM = 0; distanceM <= head.radiusM + 1e-8; distanceM += radialStep) {
+        const point = {
+          x: head.position.x + dx * Math.min(distanceM, head.radiusM),
+          y: head.position.y + dy * Math.min(distanceM, head.radiusM),
+        }
+        if (!pointInPolygon(point, originalVertices)) return false
+      }
+    }
+  }
+  return true
+}
+
+function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM) {
+  const stripParts = parts.filter((part) => SUPPORTED_STRIP_WIDTHS_M.some((width) =>
+    Math.abs(part.shortSideM - width) <= 1e-8))
+  const prepared = parts.map((part) => {
+    const isStrip = stripParts.includes(part)
+    const rectGeometry = rectangleGeometry('lawn-' + part.id, part)
+    const layout = isStrip
+      ? buildConnectedRvanStripLayout(rectGeometry, part.shortSideM, part.connectedEnd)
+      : null
+    return { ...part, isStrip, rectGeometry, layout }
+  })
+
+  const seamHeadParts = prepared.filter((part) => part.isStrip &&
+    connectedStripNeedsSeamHead(part.lengthM, part.shortSideM))
+  if (seamHeadParts.length > 1) {
+    return result('layout_incomplete', {
+      shortSideM,
+      reason: 'adjacent_short_strip_arms_require_conflicting_heads_at_the_shared_corner',
+      warnings: Object.freeze([{ code: 'manual_engineering_review_required_at_shared_strip_corner', path: 'geometry' }]),
+    })
+  }
+
+  const circularPart = prepared.find((part) => !part.isStrip)
+  if (circularPart && seamHeadParts.length) {
+    const stripPart = seamHeadParts[0]
+    const seam = connectedStripSeamPoint(stripPart, stripPart.connectedEnd,
+      stripPart.connectedEnd === 'left' || stripPart.connectedEnd === 'right')
+    circularPart.excludedCandidatePositions = [seam]
+  }
+
+  for (const part of prepared) {
+    if (part.isStrip) {
+      if (!part.layout) {
+        return result('layout_incomplete', {
+          shortSideM,
+          reason: 'connected_strip_pattern_not_available',
+          warnings: Object.freeze([{ code: 'connected_strip_pattern_not_available', path: 'geometry' }]),
+        })
+      }
+      continue
+    }
+    const selected = selectRvanModel(part.shortSideM)
+    part.layout = generateLawnSprinklerLayout({
+      geometry: part.rectGeometry,
+      family: 'R-VAN',
+      model: selected.model,
+      pressureBar,
+      sampleStepM,
+      radiusM: selected.radiusM,
+      excludedCandidatePositions: part.excludedCandidatePositions ?? [],
+      preventOverspray: true,
+    })
+    if (!['coverage_complete_sampled', 'coverage_incomplete'].includes(part.layout.status)) {
+      return result('layout_incomplete', {
+        shortSideM,
+        reason: 'rectangular_zone_layout_not_available',
+        layout: part.layout,
+        warnings: Object.freeze([{ code: 'rectangular_zone_layout_not_available', path: 'geometry' }]),
+      })
+    }
+  }
+
+  const allHeads = []
+  const circularHeads = []
+  const sampledCoverage = { sampledPoints: 0, coveredPoints: 0, uncoveredPoints: 0 }
+  const modelSet = new Set()
+  const layoutWarnings = []
+  let circularCoverageComplete = true
+  for (let index = 0; index < prepared.length; index += 1) {
+    const part = prepared[index]
+    for (const head of part.layout.sprinklers) {
+      const prefixed = Object.freeze({ ...head, id: 'z' + (index + 1) + '-' + head.id })
+      allHeads.push(prefixed)
+      modelSet.add(prefixed.performanceModel)
+      if (prefixed.pattern !== 'strip') circularHeads.push(prefixed)
+    }
+    if (!part.isStrip) {
+      sampledCoverage.sampledPoints += part.layout.coverage?.sampledPoints ?? 0
+      sampledCoverage.coveredPoints += part.layout.coverage?.coveredPoints ?? 0
+      sampledCoverage.uncoveredPoints += part.layout.coverage?.uncoveredPoints ?? 0
+      if (part.layout.status !== 'coverage_complete_sampled') circularCoverageComplete = false
+    }
+    layoutWarnings.push(...part.layout.warnings.filter((warning) =>
+      warning.code !== 'overspray_not_evaluated'))
+  }
+
+  const originalVertices = geometry.regions[0].boundary.vertices.filter((point, index, points) =>
+    index < points.length - 1 ||
+    Math.hypot(point.x - points[0].x, point.y - points[0].y) > 1e-8)
+  const oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, originalVertices)
+  const headToHeadChecks = circularHeads.length ? evaluateHeadToHeadSpacing(circularHeads) : []
+  const headToHeadPassed = circularHeads.length
+    ? headToHeadChecks.every((entry) => entry.passed)
+    : null
+  const coveragePercent = sampledCoverage.sampledPoints
+    ? (sampledCoverage.coveredPoints / sampledCoverage.sampledPoints) * 100
+    : null
+  const hasStrip = stripParts.length > 0
+  const coverageScope = hasStrip
+    ? (circularHeads.length ? 'decomposed_rectangular_zones' : 'owner_defined_strip_pattern')
+    : 'sampled_geometry_only'
+  const warnings = [
+    ...layoutWarnings,
+    { code: 'l_shape_split_into_non_overlapping_rectangular_calculation_zones', path: 'geometry' },
+    { code: 'overspray_checked_against_original_l_shape_polygon_with_spatial_sampling', path: 'layout.overspray' },
+  ]
+  if (!oversprayPassed) warnings.push({ code: 'sampled_spray_footprint_exceeds_lawn_boundary', path: 'layout.overspray' })
+  if (!circularCoverageComplete) warnings.push({ code: 'one_or_more_rectangular_zones_have_uncovered_sample_points', path: 'layout.coverage' })
+  if (headToHeadPassed === false) warnings.push({ code: 'head_to_head_spacing_check_failed', path: 'layout.headToHead' })
+
+  const selectedModels = [...modelSet].sort()
+  const layout = Object.freeze({
+    engineVersion: '0.6.0',
+    algorithm: 'decomposed-l-shape-rectangular-zones-v1',
+    status: !oversprayPassed || !circularCoverageComplete || headToHeadPassed === false
+      ? 'coverage_incomplete'
+      : (circularHeads.length ? 'coverage_complete_sampled' : 'strip_pattern_placement_ready'),
+    coverageScope,
+    family: 'R-VAN',
+    model: selectedModels.join(' / '),
+    pressureBar,
+    sampleStepM: circularHeads.length ? sampleStepM : null,
+    geometry: Object.freeze({
+      regionId: geometry.regions[0].id,
+      shape: validation.regions[0].shape,
+      areaM2: validation.regions[0].netAreaM2,
+    }),
+    coverage: Object.freeze({
+      sampledPoints: sampledCoverage.sampledPoints,
+      coveredPoints: sampledCoverage.coveredPoints,
+      uncoveredPoints: sampledCoverage.uncoveredPoints,
+      coveragePercent,
+      uncoveredSamples: Object.freeze(prepared.flatMap((part) =>
+        part.isStrip ? [] : (part.layout.coverage?.uncoveredSamples ?? [])).slice(0, 100)),
+    }),
+    sprinklers: Object.freeze(allHeads),
+    headToHead: Object.freeze({
+      passed: headToHeadPassed,
+      applicable: circularHeads.length > 0,
+      checks: Object.freeze(headToHeadChecks),
+    }),
+    warnings: Object.freeze(warnings.map((warning) => Object.freeze(warning))),
+    hydraulicFeasibility: 'not_evaluated',
+    precipitationUniformity: 'not_evaluated',
+    bodyCompatibility: 'not_evaluated',
+    overspray: oversprayPassed ? 'sampled_inside_boundary' : 'sampled_outside_boundary',
+    calculationRegions: Object.freeze(prepared.map((part) => Object.freeze({
+      id: part.id,
+      bounds: Object.freeze({ minX: part.minX, minY: part.minY, maxX: part.maxX, maxY: part.maxY }),
+      shape: 'rectangle',
+      pattern: part.isStrip ? 'strip' : 'circular',
+    }))),
+  })
+
+  const zones = buildIrrigationZones(allHeads, geometry)
+  const pipeNetwork = buildPerimeterPipeNetwork(geometry, allHeads, zones)
+  const resultStatus = layout.status === 'coverage_complete_sampled' ||
+    layout.status === 'strip_pattern_placement_ready' ? 'layout_generated' : 'layout_incomplete'
+  return result(resultStatus, {
+    shortSideM,
+    manufacturer: 'Rain Bird',
+    family: 'R-VAN',
+    model: layout.model,
+    operatingScenario: Object.freeze({
+      manufacturer: 'Rain Bird',
+      family: 'R-VAN',
+      model: layout.model,
+      pressureBar,
+      pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
+      modelSelectionBasis: 'per-rectangle local dimensions; connected narrow arms use the owner-defined directional LCS/RCS/SST pattern',
+      layoutRadiusM: null,
+      sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
+      actualNozzlePressureVerified: false,
+      customerSourceMeasurementsUsedAsNozzlePressure: false,
+    }),
+    geometry: Object.freeze({
+      shape: validation.regions[0].shape,
+      areaM2: validation.regions[0].netAreaM2,
+      shortSideM,
+      dimensionsAreApproximate: true,
+    }),
+    engine: Object.freeze({
+      name: 'Florial decomposed L-shape layout',
+      version: layout.engineVersion,
+      algorithm: layout.algorithm,
+    }),
+    projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
+    zones,
+    pipeNetwork,
+    layout,
+    overspray: layout.overspray,
+    warnings: Object.freeze(warnings.map((warning) => Object.freeze(warning))),
+  })
+}
+
 function stripOptions(shortSideM) {
   const exact = []
   for (const model of ['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST']) {
@@ -174,9 +688,20 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   }
 
   const vertices = region.boundary.vertices
+  const validation = validateLawnGeometry(geometry)
+  if (!validation.valid || validation.regions.length !== 1) {
+    return result('geometry_not_supported', { reason: 'normalized_geometry_failed_validation' })
+  }
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
+
+  const lShapeParts = validation.regions[0].shape === 'l-shape'
+    ? decomposeOrthogonalLShape(vertices)
+    : null
+  if (lShapeParts && lShapeParts.some((part) => SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8))) {
+    return buildDecomposedLShapeLayout(geometry, validation, lShapeParts, RECOMMENDED_NOZZLE_PRESSURE_BAR, sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)))
+  }
 
   if (SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)) {
     const layout = buildRvanStripLayout(geometry, shortSideM)

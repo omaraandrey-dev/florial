@@ -1,3 +1,24 @@
+## 2026-11-24 — PR #520 connected strip correction — verification update
+
+- **CLOSED — runtime ReferenceError:** latest PR head `dbf49336b58cb093dac7f125c6b97ac6f6a4c063` passes `connectedEnd` explicitly into the base strip solver; connected square regions use the shared-edge orientation.
+- **CLOSED — automated verification:** Blog/Studio run `45347161890` passed 448/448 tests, type-checks, lint, website build, read-only D1 validation and Sanity Studio type-check/build. D1 workflow `45347161809` succeeded.
+- **CLOSED — exact-head Preview deployment:** Cloudflare Pages deployment `980c2271-6a36-4456-86b9-59613259aa3e` deployed successfully from `dbf49336b58cb093dac7f125c6b97ac6f6a4c063`.
+- **OPEN — visual Preview QA:** inspect all four cut-out orientations on the latest preview; previous manual checks were on an earlier commit and only covered top-right horizontal and transposed vertical reference cases.
+- **OPEN — merge/Production release:** PR #520 awaits explicit owner approval; no Production deployment has been made.
+- **OPEN — hydraulic/field validation:** pressure/flow, losses, nozzle pressure, precipitation uniformity and field distribution remain outside the geometric solver.
+
+## 2026-11-24 — L-shape rectangular-zone solver and spray-sector boundary check (PR #520 pending)
+
+- **CLOSED — algorithm implementation:** supported orthogonal L-shapes with a 1 m / 2 m arm are split into two exact rectangular calculation regions; each uses its own local solver.
+- **CLOSED — reference horizontal case:** 28 × 14 m with 16 × 12 m top-right cut-out is calculated as 12 × 14 m plus 16 × 2 m; preview result 15 heads, 3 zones, 100% sampled coverage in the circular zone, 0 uncovered circular samples, head-to-head passed.
+- **CLOSED — rotated vertical case:** transposed 14 × 28 m with 12 × 16 m top-right cut-out also passed preview interaction with 15 heads, 3 zones, 100% circular-zone sampled coverage, 0 uncovered circular samples and head-to-head passed.
+- **CLOSED — regression/CI:** all four cut-out corners, vertical strip, two narrow arms, unique head IDs and SVG arrow size are covered. Exact PR head `16b537442d949751cb22650389681806b6a7f9f4`; Blog/Studio run `45342615527` passed 447/447 tests plus type-checks, lint and website/Studio builds; D1 run `45342615577` succeeded.
+- **CLOSED — Preview deployment:** Cloudflare Pages Preview deployment `e320d6d7-ae8f-4456-a91d-29572e9dbbb1` succeeded from the exact PR head.
+- **OPEN — visual preview QA for remaining cut-out orientations:** automated tests cover all four corners, but only the top-right horizontal and top-right vertical cases have been manually inspected in Browser Rendering.
+- **OPEN — merge/Production release:** PR #520 awaits explicit owner approval; no Production deployment has been made.
+- **OPEN — hydraulic/field validation:** measured dynamic pressure/flow, losses, nozzle pressure, precipitation uniformity and field distribution remain outside the geometric solver.
+- Evidence: `../audits/2026-11-24-irrigation-lshape-rectangular-zone-solver.md`; algorithm: `../engineering/IRRIGATION_ASSISTANT_L_SHAPE_RECTANGULAR_ZONES_V1.md`.
+
 ## 2026-11-24 — L-shape orientation and directional narrow-strip layout (PR #518)
 
 - **CLOSED — selected L-shape cut-out corner:** all four corners are normalized into the solver's Y-up coordinate system; regression tests confirm heads do not enter the cut-out and preliminary/calculated diagrams share the same transform.
@@ -5,7 +26,8 @@
 - **CLOSED — catalogue mapping:** published Sanity Production records for LCS A84667, RCS A84668 and SST A84669 were checked read-only and are active.
 - **CLOSED — implementation, regression suite and merge:** PR #518 merged to `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`; exact PR-head Blog/Studio validation #2512 and D1 validation #2693 succeeded (442/442 tests in Blog/Studio run).
 - **CLOSED — Production deployment:** Cloudflare Pages Production deployment `ef950cfb-2c24-48d0-ab9e-7f46cd0f89a3` completed successfully from exact merge SHA `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.
-- **OPEN — live customer interaction QA:** inspect preliminary and calculated L-shape diagrams for each corner and horizontal/vertical strip results on the live site. Automated regression tests and deployment status are not substitutes for visual/interaction acceptance.
+- **CLOSED — top-right preview interaction QA:** the 28 × 14 m / 16 × 12 m horizontal-arm and transposed 14 × 28 m / 12 × 16 m vertical-arm cases were inspected in Preview under PR #520; see the PR #520 evidence above.
+- **OPEN — remaining live visual QA:** inspect the other three cut-out corners in Preview. Automated regression tests cover all four corners but are not a substitute for visual acceptance.
 - **OPEN — hydraulic/field validation:** actual pressure/flow, nozzle pressure, hydraulic feasibility and field distribution uniformity are outside this geometric strip algorithm and remain unverified. Do not describe the layout as a hydraulic design or circular sampled-coverage proof.
 - Evidence: `docs/audits/2026-11-24-irrigation-l-shape-and-narrow-strip-layout.md`.
 

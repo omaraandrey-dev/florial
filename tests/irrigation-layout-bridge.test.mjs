@@ -229,6 +229,111 @@ test('geometry preview and calculated customer SVG share one Y-up to SVG transfo
   assert.match(assistant, /<g transform={svgTransform}>\s*<polygon points={svgPoints} fill=/)
 })
 
+
+test('28x14 L-shape with a 16x12 cut-out is split into a 12x14 R-VAN zone and a connected 16x2 strip', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+    shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 12, cutoutCorner: 'top-right',
+  }))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.geometry?.shape, 'l-shape')
+  assert.equal(result.geometry?.areaM2, 200)
+  assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones')
+  assert.equal(result.layout?.geometry?.shape, 'l-shape')
+  assert.equal(result.layout?.geometry?.areaM2, 200)
+  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+  const stripHeads = result.layout?.sprinklers?.filter((head) => head.pattern === 'strip') ?? []
+  assert.deepEqual(stripHeads.map((head) => head.performanceModel), [
+    'R-VAN-RCS', 'R-VAN-SST', 'R-VAN-SST', 'R-VAN-SST',
+  ])
+  assert.deepEqual(stripHeads.map((head) => head.position.x), [28, 16, 20, 24])
+  assert.ok(stripHeads.every((head) => head.position.y === 0 && head.stripAxis === 'horizontal'))
+  assert.ok(stripHeads.every((head) => head.stripWidthM === 2 && head.stripLengthM === 4))
+  assert.ok(result.layout?.sprinklers?.filter((head) => head.pattern !== 'strip')
+    .every((head) => head.position.x <= 12 + 1e-8))
+  assert.ok(result.layout?.sprinklers?.every((head) => {
+    const { x, y } = head.position
+    return !(x > 12 && x < 28 && y > 2 && y < 14)
+  }))
+  assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
+  assert.equal(result.zones?.reduce((sum, zone) => sum + zone.sprinklerCount, 0), result.layout?.sprinklers?.length)
+})
+
+test('decomposed L-shape keeps the 1m/2m strip connected to the wide zone in all four cut-out corners', () => {
+  for (const cutoutCorner of ['top-left', 'top-right', 'bottom-left', 'bottom-right']) {
+    const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+      shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 12, cutoutCorner,
+    }))
+    assert.equal(result.status, 'layout_generated', cutoutCorner)
+    assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones', cutoutCorner)
+    assert.equal(result.layout?.overspray, 'sampled_inside_boundary', cutoutCorner)
+    const stripHeads = result.layout?.sprinklers?.filter((head) => head.pattern === 'strip') ?? []
+    assert.equal(stripHeads.length, 4, cutoutCorner)
+    assert.ok(stripHeads.every((head) => head.stripWidthM === 2), cutoutCorner)
+    assert.ok(stripHeads.every((head) => head.stripAxis === 'horizontal'), cutoutCorner)
+    assert.ok(result.layout?.sprinklers?.every((head) => {
+      const { x, y } = head.position
+      return cutoutCorner === 'top-left' ? !(x < 16 && y > 2)
+        : cutoutCorner === 'top-right' ? !(x > 12 && y > 2)
+          : cutoutCorner === 'bottom-left' ? !(x < 16 && y < 12)
+            : !(x > 12 && y < 12)
+    }), cutoutCorner)
+  }
+})
+
+test('a 2m vertical connected L-shape arm uses a rotated strip row and keeps its nozzles in the irrigated polygon', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(14, 28, {
+    shape: 'l-shape', cutoutWidth: 12, cutoutDepth: 16, cutoutCorner: 'top-right',
+  }))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones')
+  const stripHeads = result.layout?.sprinklers?.filter((head) => head.pattern === 'strip') ?? []
+  assert.ok(stripHeads.length > 0)
+  assert.ok(stripHeads.every((head) => head.stripAxis === 'vertical' && head.stripWidthM === 2))
+  assert.ok(stripHeads.every((head) => head.position.x === 2))
+  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+})
+
+
+
+
+test('two narrow connected arms keep separate strip geometry and unique sprinkler references', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+    shape: 'l-shape', cutoutWidth: 26, cutoutDepth: 12, cutoutCorner: 'top-right',
+  }))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
+  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+  assert.ok(result.layout?.sprinklers?.every((head) => head.pattern === 'strip'))
+  assert.equal(new Set(result.layout?.sprinklers?.map((head) => head.id)).size, result.layout?.sprinklers?.length)
+  assert.ok(result.layout?.calculationRegions?.every((region) => region.pattern === 'strip'))
+})
+
+
+
+test('square 2m connected arm keeps its vertical strip axis from the shared edge', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(18, 2, {
+    shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 1, cutoutCorner: 'top-right',
+  }))
+  assert.equal(result.status, 'layout_incomplete')
+  assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
+  assert.equal(result.layout?.overspray, 'sampled_outside_boundary')
+  const verticalHeads = result.layout?.sprinklers?.filter((head) => head.stripWidthM === 2) ?? []
+  assert.ok(verticalHeads.length > 0)
+  assert.ok(verticalHeads.every((head) => head.stripAxis === 'vertical' && head.position.x === 2))
+  const horizontalHeads = result.layout?.sprinklers?.filter((head) => head.stripWidthM === 1) ?? []
+  assert.ok(horizontalHeads.length > 0)
+  assert.ok(horizontalHeads.every((head) => head.stripAxis === 'horizontal' && head.position.y === 0))
+  assert.equal(result.layout?.overspray, 'sampled_outside_boundary')
+})
+
+
+test('strip direction arrows use sub-metre SVG markers and cannot masquerade as spray coverage', async () => {
+  const assistant = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
+  assert.match(assistant, /markerWidth="0\.32" markerHeight="0\.32"/)
+  assert.doesNotMatch(assistant, /markerWidth="4" markerHeight="4"/)
+})
+
+
 test('unsupported narrow widths do not fall back to circular sprinklers', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(10, 1.5))
   assert.ok([

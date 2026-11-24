@@ -11,6 +11,10 @@ export interface LawnSprinklerLayoutInput {
   readonly sampleStepM?: number
   /** Base interior-grid spacing hint. R-VAN radii are selected per candidate from local reach/spacing and remain independent of arc. */
   readonly radiusM?: number
+  /** Candidate coordinates reserved for a connected strip-pattern zone. */
+  readonly excludedCandidatePositions?: ReadonlyArray<Readonly<{ x: number; y: number }>>
+  /** Restrict circular spray sectors to the rectangular solver bounds. */
+  readonly preventOverspray?: boolean
 }
 
 export interface LawnSprinklerCandidate {
@@ -74,7 +78,7 @@ export interface LawnSprinklerLayoutResult {
   readonly hydraulicFeasibility?: 'not_evaluated'
   readonly precipitationUniformity?: 'not_evaluated'
   readonly bodyCompatibility?: 'not_evaluated'
-  readonly overspray?: 'not_evaluated'
+  readonly overspray?: 'not_evaluated' | 'sampled_inside_boundary' | 'sampled_outside_boundary'
   readonly errors?: ReadonlyArray<Readonly<{ code: string; path: string }>>
 }
 

@@ -1,4 +1,30 @@
-# Latest release — irrigation assistant L-shape and narrow-strip layout (2026-11-24)
+# Current implementation under review — L-shape rectangular-zone solver (2026-11-24)
+
+- PR #520 is open: https://github.com/omaraandrey-dev/florial/pull/520.
+- Current exact PR head: `dbf49336b58cb093dac7f125c6b97ac6f6a4c063` (branch `fix/irrigation-lshape-rectangular-zone-solver`; based on current main with 19 commits ahead, 0 behind at verification).
+- Corrected the `connectedEnd is not defined` runtime failure by passing the connected edge into the strip solver. Square connected rectangles now take their axis from the shared edge rather than a width/height comparison.
+- Blog/Studio CI run `45347161890`: 448/448 tests passed; type-checks, lint, website build, read-only D1 validation, Studio type-check and Studio build succeeded. D1 workflow `45347161809` succeeded.
+- Exact-head Cloudflare Pages Preview deployment `980c2271-6a36-4456-86b9-59613259aa3e` succeeded: https://980c2271.florial.pages.dev.
+- The prior manual Browser Rendering checks cover the top-right horizontal and transposed vertical examples on an earlier code revision. All four corners and square-axis regression are automated; visual interaction acceptance of all four orientations on the latest preview remains open.
+- PR #520 has not been merged; Production remains on main. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes or Production deployment were performed.
+
+---
+
+# Current implementation under review — L-shape rectangular-zone solver (2026-11-24)
+
+- PR #520 is open: https://github.com/omaraandrey-dev/florial/pull/520.
+- Branch: `fix/irrigation-lshape-rectangular-zone-solver`; exact reviewed head: `16b537442d949751cb22650389681806b6a7f9f4`.
+- Supported L-shapes with a 1 m / 2 m arm are split into two exact rectangular calculation regions; the wide region uses boundary-safe R-VAN placement and the narrow connected arm uses directional LCS/RCS/SST placement.
+- The 28 × 14 m / 16 × 12 m top-right cut-out and the transposed 14 × 28 m / 12 × 16 m top-right cut-out both passed Preview interaction: 15 heads, 3 zones, 100% sampled coverage in the circular zone, 0 uncovered circular samples and head-to-head passed.
+- Blog/Studio CI run `45342615527`: 447/447 tests passed; TypeScript, lint, website build, Studio type-check and Studio build succeeded. D1 validation run `45342615577` succeeded. Cloudflare Pages Preview deployment `e320d6d7-ae8f-4456-a91d-29572e9dbbb1` succeeded from the exact head.
+- Other three cut-out corners have automated regression coverage but still need visual Preview acceptance. Hydraulic/field validation remains open.
+- PR #520 has not been merged; Production remains on the existing `main` release. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders/emails or Production deployment were performed.
+- Engineering details: `docs/engineering/IRRIGATION_ASSISTANT_L_SHAPE_RECTANGULAR_ZONES_V1.md`; evidence: `docs/audits/2026-11-24-irrigation-lshape-rectangular-zone-solver.md`.
+
+
+---
+
+# Latest merged main release — irrigation assistant L-shape and narrow-strip layout (2026-11-24)
 
 - PR #518 merged to `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.
 - The fix aligns all four L-shape cut-out corners with the solver's Y-up coordinates and makes the preliminary/calculated SVG transforms consistent.
