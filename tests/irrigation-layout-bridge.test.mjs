@@ -314,8 +314,9 @@ test('square 2m connected arm keeps its vertical strip axis from the shared edge
   const result = buildPreliminaryLawnLayout(snapshotFor(18, 2, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 1, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.status, 'layout_incomplete')
   assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
+  assert.equal(result.layout?.overspray, 'sampled_outside_boundary')
   const verticalHeads = result.layout?.sprinklers?.filter((head) => head.stripWidthM === 2) ?? []
   assert.ok(verticalHeads.length > 0)
   assert.ok(verticalHeads.every((head) => head.stripAxis === 'vertical' && head.position.x === 2))
