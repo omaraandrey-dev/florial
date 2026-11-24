@@ -1,3 +1,14 @@
+## 2026-11-24 — Irrigation assistant algorithm update (implementation branch; CI pending)
+
+- Implemented the owner-approved Florial R-VAN planning radii: R-VAN14 = 3 m, R-VAN18 = 4/5 m, R-VAN24 = 6 m. Radius is fixed by selected model and independent of 90°/180°/270°/360° arc.
+- Changed the default sampled control mesh from 0.25 m to 0.5 m. Orthogonal L-shapes now use the same axis-aligned rectangular interior candidate lattice as rectangles, clipped against the original polygon; the staggered triangular grid is removed.
+- Added R-VAN-RCS strip placement for rectangular 1 m / 2 m widths, catalogue SKU A84668, owner-defined throw lengths 2 m / 4 m, lower-right first head and evenly distributed positions along the same long side. Explicit 2 m width cases: length 4 m → 1 head; 6 m → 2; 8 m → 3. The result is labelled as strip placement, not sampled circular coverage.
+- BOM, cart catalogue lookup, order snapshot validation and owner PDF now preserve the RCS strip model/pattern. Mixed R-VAN14/18/24/RCS heads are permitted in one zone; nozzle model/pattern does not split zones.
+- Owner confirms precipitation-intensity compatibility among these R-VAN models/patterns; no additional per-zone precipitation-intensity matching gate is required.
+- Added regression coverage for fixed arc-independent radii, 0.5 m default sampling, RCS counts/positions, mixed nozzle BOM/zone grouping and RCS project snapshot validation.
+- Scope: code/docs/tests only. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders/emails or Production deployment.
+- **Verification pending:** exact PR-head CI, website build, TypeScript, lint, all irrigation regression tests, Preview/Production release. Do not treat this branch as deployed until those checks and release steps are complete.
+
 ## 2026-11-24 — Blog article performance release and documentation close-out (PR #512 / #513)
 
 - Article runtime optimization PR #512 was squash-merged at `2fe92f6b269fa29183cd02e7bc334d27ccb8006c`; Cloudflare Pages Production deployment `e2b84205-e7a2-4164-ba20-d657dbad0a8e` succeeded from that exact `main` commit.
