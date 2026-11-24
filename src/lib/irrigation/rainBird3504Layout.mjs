@@ -299,7 +299,7 @@ function buildGrid(bounds, stageRadiusM, offsets = []) {
   for (let row = 0; row < ys.length; row += 1) {
     for (let column = 0; column < xs.length; column += 1) {
       const point = { x: xs[column], y: ys[row] }
-      const head = makeHead(point, point, bounds, stageRadiusM, index, offsets)
+      const head = makeHead(point, bounds, stageRadiusM, index, offsets)
       if (!head) return null
       heads.push(Object.freeze({ ...head, gridKey: row + ':' + column }))
       index += 1
