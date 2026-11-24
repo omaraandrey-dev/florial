@@ -16,7 +16,7 @@ export interface LawnSprinklerLayoutInput {
 export interface LawnSprinklerCandidate {
   readonly id: string
   readonly position: Readonly<{ x: number; y: number }>
-  readonly arcDeg: 90 | 180 | 270 | 360
+  readonly arcDeg: 90 | 180 | 270 | 360 | null
   /** Sector centre, degrees counter-clockwise from +X; null for full circle. */
   readonly directionDeg: number | null
   readonly source: 'vertex' | 'edge' | 'interior'
