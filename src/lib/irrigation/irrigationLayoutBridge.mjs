@@ -537,7 +537,7 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
 
 function rectangleRotorLayout(rectGeometry, part, sampleStepM) {
   if (part.shortSideM < 6 - 1e-8) return null
-  const candidate = generateRainBird3504Layout(rectGeometry, { sampleStepM })
+  const candidate = generateRainBird3504Layout(rectGeometry, { sampleStepM, candidatePositionOffsets: part.candidatePositionOffsets ?? [] })
   if (candidate.status !== 'layout_generated' || candidate.coverage?.uncoveredPoints !== 0 ||
       !candidate.sprinklers.length) return null
   const checks = candidate.sprinklers.length > 1
@@ -572,6 +572,15 @@ function rectangleRotorLayout(rectGeometry, part, sampleStepM) {
   })
 }
 
+function inwardRotorSeamOffset(bounds, seam, offsetM = 0.075) {
+  const center = { x: (bounds.minX + bounds.maxX) / 2, y: (bounds.minY + bounds.maxY) / 2 }
+  const dx = center.x - seam.x
+  const dy = center.y - seam.y
+  const length = Math.hypot(dx, dy)
+  if (length <= 1e-8) return null
+  return Object.freeze({ from: seam, dx: dx / length * offsetM, dy: dy / length * offsetM })
+}
+
 function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM, initialHeads = []) {
   const orderedParts = parts.slice().sort((a, b) =>
     (a.shortSideM * a.lengthM) - (b.shortSideM * b.lengthM) ||
@@ -587,11 +596,25 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         ? buildConnectedRvanStripLayout(rectGeometry, part.shortSideM, part.connectedEnd)
         : buildRvanStripLayout(rectGeometry, part.shortSideM))
       : null
-    return { ...part, isStrip, rectGeometry, layout }
+    return { ...part, isStrip, rectGeometry, layout, candidatePositionOffsets: [] }
   })
 
   const seamHeadParts = prepared.filter((part) => part.isStrip &&
     connectedStripNeedsSeamHead(part.lengthM, part.shortSideM))
+  for (const stripPart of seamHeadParts) {
+    const seam = connectedStripSeamPoint(stripPart, stripPart.connectedEnd,
+      stripPart.connectedEnd === 'left' || stripPart.connectedEnd === 'right')
+    const adjacentRectangle = prepared.find((part) => !part.isStrip &&
+      seam.x >= part.minX - 1e-8 && seam.x <= part.maxX + 1e-8 &&
+      seam.y >= part.minY - 1e-8 && seam.y <= part.maxY + 1e-8 &&
+      (Math.abs(seam.x - part.minX) <= 1e-8 || Math.abs(seam.x - part.maxX) <= 1e-8 ||
+       Math.abs(seam.y - part.minY) <= 1e-8 || Math.abs(seam.y - part.maxY) <= 1e-8))
+    if (adjacentRectangle) {
+      const offset = inwardRotorSeamOffset(adjacentRectangle, seam, 0.075)
+      if (offset) adjacentRectangle.candidatePositionOffsets.push(offset)
+    }
+  }
+
   if (seamHeadParts.length > 1) {
     return result('layout_incomplete', {
       shortSideM,
@@ -712,7 +735,10 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     ...layoutWarnings,
     { code: 'orthogonal_lawn_split_into_non_overlapping_rectangular_calculation_zones', path: 'geometry' },
     { code: 'rectangles_processed_in_ascending_area_order', path: 'geometry.calculationRegions' },
-    { code: 'each_rectangle_tries_3504pc_before_rvan_fallback', path: 'layout.sprinklers' },
+    { code: 'each_rectangle_tries_corner_first_3504pc_before_unchanged_rvan_fallback', path: 'layout.sprinklers' },
+    ...(prepared.some((part) => part.candidatePositionOffsets.length)
+      ? [{ code: 'rotor_corner_inset_0_075m_only_when_a_directional_strip_head_occupies_the_shared_seam', path: 'layout.sprinklers' }]
+      : []),
     { code: 'spray_footprints_checked_against_original_lawn_and_exclusions_with_spatial_sampling', path: 'layout.overspray' },
   ]
   if (!oversprayPassed) warnings.push({ code: 'sampled_spray_footprint_exceeds_lawn_boundary', path: 'layout.overspray' })
