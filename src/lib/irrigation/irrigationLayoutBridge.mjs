@@ -57,7 +57,6 @@ function buildRvanStripLayout(geometry, shortSideM) {
   const lengthM = horizontal ? maxX - minX : maxY - minY
   const rule = STRIP_MODELS[widthM]
   const rightOrBottom = horizontal ? maxX : maxY
-  const leftOrTop = horizontal ? minX : minY
   const fixedSide = horizontal ? maxY : maxX
   const makePosition = (offsetFromStart) => horizontal
     ? { x: rightOrBottom - offsetFromStart, y: fixedSide }
@@ -195,7 +194,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
           model: layout.model,
           pressureBar: RECOMMENDED_NOZZLE_PRESSURE_BAR,
           pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
-          modelSelectionBasis: 'owner_defined_RCS_strip_width_and_throw_rule',
+          modelSelectionBasis: 'owner_defined_LCS_RCS_SST_strip_width_throw_spacing_and_direction_rules',
           layoutRadiusM: null,
           sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
           actualNozzlePressureVerified: false,
