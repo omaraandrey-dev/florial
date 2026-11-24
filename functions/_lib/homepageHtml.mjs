@@ -308,11 +308,7 @@ function availabilityLabel(status, copy) {
   return copy.checkAvailability
 }
 
-function priceMarkup(price) {
-  return Number.isFinite(price) && price > 0
-    ? '<p class="mt-3 text-base font-extrabold text-[#34452D] sm:text-lg">' + price.toFixed(2) + ' €</p>'
-    : ''
-}
+
 
 function selectVisibleEquipmentCategories(categories) {
   const items = Array.isArray(categories) ? categories : []
