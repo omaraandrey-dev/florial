@@ -47,7 +47,7 @@ function legacyRvanLayout(length, width) {
   return generateLawnSprinklerLayout({
     geometry: snapshot.geometry.normalized,
     family: 'R-VAN',
-    model: 'R-VAN14',
+    model: 'R-VAN24',
     pressureBar: RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar,
     sampleStepM: 0.5,
     radiusM: 6,
@@ -156,7 +156,7 @@ test('R-VAN fallback applies the approved 7.5cm inward offset only to the matchi
   const layout = generateLawnSprinklerLayout({
     geometry,
     family: 'R-VAN',
-    model: 'R-VAN24',
+    model: 'R-VAN14',
     pressureBar: RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar,
     sampleStepM: 0.5,
     radiusM: 3,
