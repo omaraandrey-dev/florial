@@ -1,11 +1,12 @@
 ## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531)
 
-- **CLOSED — implementation and exact-head CI:** final PR head `a30dcd3323922130441b28331c28872934378e4c` passed Blog/Studio workflow run `45462628899` and D1 workflow run `45462628831`; all steps succeeded. Earlier code-head test report: 481/481 passing.
-- **CLOSED — Preview deployment:** Cloudflare Pages deployment `5db5441d-2f0b-4b92-a9c5-6b939ecf9cf4` succeeded from exact head `a30dcd3323922130441b28331c28872934378e4c`.
-- **CLOSED — post-hydration route smoke:** BG/RU/EN controllers pages returned HTTP 200 with 20 product links and one React grid; irrigation root returned 20, nested autonomous controllers 10, nested 9V valves 6. These are client DOM checks only.
+- **CLOSED — implementation and exact-head CI:** code head `331ffee5b548864c36497fafb788293569c4180a` passed Blog/Studio run `45464093721` and D1 validation run `45464093741`; all steps succeeded. `npm test`: 483/483 passed; type-check, lint, website build, Studio type-check/build passed.
+- **CLOSED — Preview deployment:** Cloudflare Pages deployment `ba6a681a-2865-4c40-815e-27216bc510e5` succeeded from the exact code head.
+- **CLOSED — post-hydration route smoke:** BG/RU/EN controllers returned HTTP 200 with 20 product links and one React grid each; irrigation root 20, nested autonomous controllers 10, nested 9V valves 6. These checks inspect the hydrated DOM only.
 - **OPEN — raw initial HTML:** verify the first HTTP response before React hydration. Firecrawl snapshots are post-hydration; Browser Use was unavailable due insufficient credits. Do not treat the hydrated DOM as SSR evidence.
-- **OPEN — Production:** no merge or Production deployment is claimed.
-- No Sanity content/schema, D1 data, Cloudflare configuration/secrets, orders or email writes are included.
+- **OPEN — Production:** PR #531 remains open; no merge or Production deployment is claimed.
+- No Sanity content/schema, D1 data/migrations, Cloudflare configuration/secrets, orders or email writes are included.
+
 ## 2026-11-24 — irrigation assistant paused by owner
 
 - **Owner decision:** pause all further development of the irrigation-design assistant until the owner returns with observed errors or a new task. This is an intentional project pause, not a request to continue polishing, optimize, refactor, or proactively fix anything.
