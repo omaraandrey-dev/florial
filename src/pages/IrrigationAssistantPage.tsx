@@ -576,8 +576,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       <details className="mt-3 rounded-xl bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
-                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number }) => (
-                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.arcDeg}°</li>
+                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number; pattern?: string; stripWidthM?: number; stripLengthM?: number }) => (
+                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? 'R-VAN-RCS · ' + sprinkler.stripWidthM + ' × ' + sprinkler.stripLengthM + ' m' : sprinkler.arcDeg + '°'}</li>
                           ))}
                         </ol>
                       </details>
