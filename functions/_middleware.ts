@@ -2,6 +2,8 @@ import { resolveCategorySeo } from '../src/lib/categorySeo'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
 import { collectDescendantCategoryIds, buildEquipmentCategoryEntries, renderPlantCategoryListing, renderEquipmentCategoryListing } from './_lib/plantCategoryHtml.mjs'
 import { buildProductOffer, getServerProductPrice } from './_lib/productJsonLd.mjs'
+import { getOrderedServiceEntries } from '../src/lib/servicesOrder'
+import { renderHomepageHtml } from './_lib/homepageHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -565,6 +567,137 @@ async function transformHtmlResponse(response: Response, transform: (html: strin
   return new Response(html, { status: response.status, statusText: response.statusText, headers })
 }
 
+const HOMEPAGE_PINNED_SLUGS = [
+  'podroben-landshaften-proekt-gradina',
+  'cena-sistema-avtomatichno-napoyavane-burgas',
+]
+
+function homepageBlogProjection(language: string): string {
+  return ' { _id, slug, publishedAt, tags, "cover": {"asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption}, "translations": {"' +
+    language + '": {"title": coalesce(translations.' + language + '.title, translations.bg.title), "shortDescription": coalesce(translations.' +
+    language + '.shortDescription, translations.bg.shortDescription), "coverAlt": coalesce(translations.' + language +
+    '.coverAlt, translations.bg.coverAlt)}} }'
+}
+
+async function fetchHomepageHtml(language: string): Promise<string> {
+  const equipmentCategoryQuery = `
+    *[_type == "category"] | order(sortOrder asc) {
+      _id, name, translations { bg { name }, ru { name }, en { name } },
+      "slug": { "current": coalesce(slug.current, slug) },
+      sortOrder, "parentId": parent->_id,
+      "productCount": count(*[_type == "product" && isActive != false && defined(slug) &&
+        (category._ref == ^._id || ^._id in categories[]._ref)]),
+      "imageUrl": image.asset->url,
+      "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
+      "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu
+    }
+  `
+  const plantCategoryQuery = `
+    *[_type == "category" && _id in [
+      "plants-root", "plants-palms", "plants-olives",
+      "plants-trees-shrubs", "plants-solitaires", "plants-flowers"
+    ]] {
+      _id, name, translations { bg { name }, ru { name }, en { name } },
+      "slug": { "current": coalesce(slug.current, slug) },
+      sortOrder, "parentId": parent->_id,
+      "imageUrl": coalesce(image.asset->url, externalImageUrl),
+      "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
+      "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu
+    }
+  `
+  const featuredPlantsQuery = `
+    *[_type == "product" && !(_id in path("drafts.**")) &&
+      productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&
+      isActive != false && isFeatured == true &&
+      defined(coalesce(slug.current, slug)) && defined(mainImage.asset)] | order(sortOrder asc, name asc)[0...8] {
+        _id, name, productType, scientificName,
+        "slug": { "current": coalesce(slug.current, slug) },
+        translations { bg { name }, ru { name }, en { name } },
+        priceEUR, vatIncluded, stockStatus,
+        saleVariants[]{_key, name, nameEn, nameRu, priceEUR, stockStatus, stockQuantity, saleHeightCm, containerVolumeL},
+        "imageUrl": mainImage.asset->url,
+        "imageAlt": mainImage.alt, "imageAltEn": mainImage.altEn, "imageAltRu": mainImage.altRu
+      }
+  `
+  const featuredEquipmentQuery = `
+    *[_type == "product" && isActive != false && references("6709cd41-18c6-4c5f-bc27-90d55d685dec") &&
+      stockStatus != "outOfStock" && defined(coalesce(slug.current, slug)) &&
+      defined(mainImage.asset) && defined(priceEUR) && priceEUR > 0] | order(priceEUR asc, name asc)[0...20] {
+        _id, name,
+        "slug": { "current": coalesce(slug.current, slug) },
+        translations { bg { name }, ru { name }, en { name } },
+        priceEUR, vatIncluded, stockStatus,
+        "imageUrl": mainImage.asset->url,
+        "imageAlt": mainImage.alt, "imageAltEn": mainImage.altEn, "imageAltRu": mainImage.altRu
+      }
+  `
+  const serviceQuery = `
+    *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
+      _id, name, shortDescription,
+      translations { bg { name, shortDescription }, ru { name, shortDescription }, en { name, shortDescription } },
+      "slug": { "current": coalesce(slug.current, slug) },
+      sortOrder, serviceCategory, serviceLayout,
+      "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
+      "imageAlt": coalesce(image.alt, mainImage.alt, hero.image.alt),
+      "imageAltEn": coalesce(image.altEn, mainImage.altEn, hero.image.altEn),
+      "imageAltRu": coalesce(image.altRu, mainImage.altRu, hero.image.altRu)
+    }
+  `
+  const heroQuery = `
+    *[_type == "photo" && slug == "florial-homepage-hero-background" && isActive == true][0] {
+      "imageUrl": image.asset->url
+    }
+  `
+  const blogProjection = homepageBlogProjection(language)
+  const pinnedQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt) && slug.current in $slugs]' + blogProjection
+  const latestQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc)[0...10]' + blogProjection
+
+  const [
+    equipmentCategories,
+    plantCategories,
+    featuredPlants,
+    featuredEquipment,
+    services,
+    hero,
+    pinnedPosts,
+    latestPosts,
+  ] = await Promise.all([
+    querySanityData<any[]>('production', equipmentCategoryQuery, {}, 'homepage/equipment-categories-v1', 300),
+    querySanityData<any[]>('plants', plantCategoryQuery, {}, 'homepage/plant-categories-v1', 300),
+    querySanityData<any[]>('plants', featuredPlantsQuery, {}, 'homepage/featured-plants-v1', 30),
+    querySanityData<any[]>('production', featuredEquipmentQuery, {}, 'homepage/featured-equipment-v1', 30),
+    querySanityData<any[]>('production', serviceQuery, {}, 'homepage/services-v1', 60),
+    querySanityData<{ imageUrl?: string } | null>('production', heroQuery, {}, 'homepage/hero-v1', 300),
+    querySanityData<any[]>('production', pinnedQuery, { slugs: HOMEPAGE_PINNED_SLUGS }, 'homepage/blog-pinned-' + language + '-v1', 60),
+    querySanityData<any[]>('production', latestQuery, {}, 'homepage/blog-latest-' + language + '-v1', 60),
+  ])
+
+  const collections = [
+    equipmentCategories, plantCategories, featuredPlants, featuredEquipment,
+    services, pinnedPosts, latestPosts,
+  ]
+  if (collections.some((items) => !Array.isArray(items))) {
+    throw new Error('Homepage Sanity query returned an invalid collection')
+  }
+
+  const pinnedBySlug = new Map(pinnedPosts.map((post) => [post.slug?.current || post.slug, post]))
+  const orderedPinnedPosts = HOMEPAGE_PINNED_SLUGS.flatMap((slug) => {
+    const post = pinnedBySlug.get(slug)
+    return post ? [post] : []
+  })
+
+  return renderHomepageHtml({
+    equipmentCategories,
+    plantCategories,
+    featuredPlants,
+    featuredEquipment,
+    serviceEntries: getOrderedServiceEntries(services as any[]),
+    heroImageUrl: hero?.imageUrl || null,
+    pinnedPosts: orderedPinnedPosts,
+    latestPosts,
+  }, language)
+}
+
 function staticPageMetadata(path: string, language: string) {
   if (path === '/about') {
     if (language === 'ru') return {
@@ -1107,8 +1240,19 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       en: SITE_URL + path + '?lang=en',
       'x-default': SITE_URL + path,
     }
+    let body = meta.body
+    let cacheControl: string | undefined
+    if (path === '/') {
+      try {
+        body = await fetchHomepageHtml(language)
+        cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
+      } catch (error) {
+        console.error('Florial homepage SSR data unavailable; serving the existing static fallback:', error)
+        cacheControl = 'no-store'
+      }
+    }
     return transformHtmlResponse(await context.next(), (html) => {
-      const root = renderRoot(html, meta.body)
+      const root = renderRoot(html, body)
       return setPageHead(root, {
         language,
         title: meta.title,
@@ -1166,7 +1310,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           },
         }],
       })
-    })
+    }, cacheControl)
   }
 
   if (path === '/cart' || path === '/search') {
