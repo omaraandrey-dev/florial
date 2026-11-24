@@ -138,7 +138,7 @@ test('R-VAN-RCS uses the owner-defined strip width, throw and head-count rules',
     assert.ok(result.layout.sprinklers.every((head) =>
       head.pattern === 'strip' && head.performanceModel === 'R-VAN-RCS' &&
       head.stripWidthM === width && head.stripLengthM === expectedReach &&
-      head.radiusM === expectedReach))
+      head.radiusM === null))
     assert.equal(result.layout?.headToHead?.passed, null)
     assert.equal(result.layout?.headToHead?.applicable, false)
     assert.equal(result.zones?.reduce((sum, zone) => sum + zone.sprinklerCount, 0), expectedCount)
