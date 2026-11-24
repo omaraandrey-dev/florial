@@ -582,6 +582,7 @@ export function generateLawnSprinklerLayout({
   pressureBar,
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
   radiusM = null,
+  excludedCandidatePositions = [],
 }) {
   const validation = validateLawnGeometry(geometry)
   if (!validation.valid || !['accepted', 'unsupported'].includes(validation.status)) {
@@ -664,7 +665,11 @@ export function generateLawnSprinklerLayout({
     })
   }
 
+  const excluded = Array.isArray(excludedCandidatePositions) ? excludedCandidatePositions : []
   const candidates = buildCandidates(vertices, family, model, pressureBar, effectiveRadiusM)
+    .filter((candidate) => !excluded.some((point) => point &&
+      Number.isFinite(point.x) && Number.isFinite(point.y) &&
+      distance(candidate.position, point) <= EPSILON))
   if (!candidates || candidates.length > MAX_CANDIDATES) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
