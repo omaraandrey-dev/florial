@@ -199,6 +199,9 @@ export const createIrrigationProjectPdf = async (
   write('Изчислено по контура: площ ' + project.geometry.areaM2.toFixed(2) + ' m² · периметър ' + project.geometry.perimeterM.toFixed(2) + ' m')
   write('Модел: ' + project.operatingScenario.manufacturer + ' ' + project.operatingScenario.family + ' ' + project.operatingScenario.model)
   write('Референтна точка от таблицата на производителя за избраната дюза: ' + (project.operatingScenario.pressureBar == null ? 'не е зададена' : project.operatingScenario.pressureBar.toFixed(2) + ' bar') + '. Това не е измерване на обекта и не представлява хидравлично изчисление.')
+  if (project.layout.sprinklers.some((sprinkler) => sprinkler.performanceModel === '3504-PC')) {
+    write('3504-PC: показаният радиус е геометрична планировъчна стойност на Florial, а не потвърден работен радиус. Реалният радиус и дебит зависят от избраната дюза и налягането; хидравлично изчисление не е извършено.', { color: muted, size: 7 })
+  }
   write('Размерите са приблизителни. Геометрията и разположението са предварителни.', { color: muted })
 
   heading('2. Разпръсквачи и зони')
@@ -211,7 +214,7 @@ export const createIrrigationProjectPdf = async (
     write(zone.id + ' · ' + zone.sprinklerIds.length + ' бр. · ' + zone.zoneType + ': ' + members, { size: 7 })
   }
   for (const sprinkler of project.layout.sprinklers) {
-    write(sprinkler.id + ': X=' + sprinkler.position.x.toFixed(2) + ' m, Y=' + sprinkler.position.y.toFixed(2) + ' m · ' + (sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' strip ' + sprinkler.stripWidthM + ' m / ' + sprinkler.stripLengthM + ' m / ' + ((sprinkler.stripDirection || 'direction not recorded') + (sprinkler.stripAxis ? ' / ' + sprinkler.stripAxis : '')) : sprinkler.arcDeg + '° · R=' + sprinkler.radiusM.toFixed(2) + ' m') + ' · ' + sprinkler.performanceModel, { size: 6.8, color: muted })
+    write(sprinkler.id + ': X=' + sprinkler.position.x.toFixed(2) + ' m, Y=' + sprinkler.position.y.toFixed(2) + ' m · ' + (sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' strip ' + sprinkler.stripWidthM + ' m / ' + sprinkler.stripLengthM + ' m / ' + ((sprinkler.stripDirection || 'direction not recorded') + (sprinkler.stripAxis ? ' / ' + sprinkler.stripAxis : '')) : sprinkler.arcDeg + '° · ' + (sprinkler.performanceModel === '3504-PC' ? 'планировъчен R=' : 'R=') + sprinkler.radiusM.toFixed(2) + ' m') + ' · ' + sprinkler.performanceModel, { size: 6.8, color: muted })
   }
 
   heading('3. Схематични трасета на тръбите')
