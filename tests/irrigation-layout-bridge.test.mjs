@@ -23,12 +23,18 @@ function snapshotFor(length, width) {
 }
 
 test('Florial selects the fixed R-VAN planning radius from the short side', () => {
-  for (const [length, width, expectedModel] of [[10, 5, 'R-VAN18'], [20, 5, 'R-VAN18'], [32, 6, 'R-VAN24']]) {
+  for (const [length, width, expectedModel, expectedRadius] of [
+    [10, 3, 'R-VAN14', 3],
+    [10, 4, 'R-VAN18', 4],
+    [10, 5, 'R-VAN18', 5],
+    [32, 6, 'R-VAN24', 6],
+  ]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated')
     assert.equal(result.operatingScenario?.family, 'R-VAN')
     assert.equal(result.operatingScenario?.model, expectedModel)
-    assert.ok(result.layout?.sprinklers?.every((head) => head.radiusM === (expectedModel === 'R-VAN14' ? 3 : expectedModel === 'R-VAN18' ? 5 : 6)))
+    assert.equal(result.operatingScenario?.layoutRadiusM, expectedRadius)
+    assert.ok(result.layout?.sprinklers?.every((head) => head.radiusM === expectedRadius))
     assert.equal(result.layout?.coverageScope, 'sampled_geometry_only')
     assert.equal(result.layout?.hydraulicFeasibility, 'not_evaluated')
     assert.equal(result.pipeNetwork?.connectionPoint?.x, length)
