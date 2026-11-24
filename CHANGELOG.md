@@ -1,3 +1,13 @@
+## 2026-11-24 — Blog article performance release and documentation close-out (PR #512 / #513)
+
+- Article runtime optimization PR #512 was squash-merged at `2fe92f6b269fa29183cd02e7bc334d27ccb8006c`; Cloudflare Pages Production deployment `e2b84205-e7a2-4164-ba20-d657dbad0a8e` succeeded from that exact `main` commit.
+- The owner-supplied PageSpeed baseline was captured at 23 Nov 2026 23:28 GMT+2, before the runtime merge at 23:41: Performance 66, FCP 0.9 s, LCP 3.6 s, TBT 10 ms, CLS 0.760, Speed Index 1.7 s. Footer accounted for 0.731 CLS. This report is a pre-release baseline, not a post-release result.
+- Runtime changes: article-specific loading skeleton reserves at least 100svh during lazy/Sanity loading and in initial HTML; article cover gets responsive high-priority preload and Sanity CDN preconnects; Portable Text images use corrected content-width sizing and quality 68; a 720px responsive candidate was added. Regression tests cover fallback, preload, route hints and sizing.
+- Exact PR-head validation: Blog/Studio CI `45272014683` and D1 validation `45272014645` succeeded on `fd0ef9c279bb5d484440ff77ba3903198baac98c`. Preview `4a67958b-f4d5-4dd1-8741-7997aa6b6808` succeeded. Production Browser Rendering confirmed initial HTML hints/reserved height and hydrated article content/skeleton removal.
+- Documentation PR #513 was merged at `739ce9a12b9b1ef8f816a388cddce65949a6f01e`. Production Pages deployment `2d9b3529-336f-4f01-90c4-ed093d8d45f8` completed successfully from that exact `main` SHA.
+- No Sanity documents/schema, D1, Cloudflare settings/secrets/bindings/DNS, Resend, Header, Footer, global CSS or route architecture were changed.
+- **OPEN — matched post-release measurement:** rerun three mobile PSI/Lighthouse tests on the same Moto G Power / Lighthouse 13.6 / low-end 4G profile and compare medians; no post-release score or numeric LCP/CLS improvement is claimed. See `docs/audits/2026-11-23-blog-article-performance-remediation.md`.
+
 ## 2026-11-23 — Blog and portfolio localization, compact filters and editorial category correction (PR #509 merged)
 
 - PR #509 squash-merged into `main` at `f899e0592bcab4221d606568ddb459ba39941e35`.
