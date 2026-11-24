@@ -463,3 +463,12 @@ Implementation: [balanced zones and order PDF](../engineering/IRRIGATION_ASSISTA
 - Preview raw smoke also passed, and exact code-bearing PR revision `17aefbb2781d24b401310d759dbe9cb678b4e945` passed 483/483 tests plus app/Pages Functions type-check, lint, website build, Studio type-check/build and D1 validation.
 - No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets or Production configuration changes were made.
 - This closes the SSR catalogue implementation and release checks only. The separate 2026-11-23 Search Console noindex/canonical discrepancies for other URLs remain open in the comprehensive SEO audit.
+
+
+## 2026-11-24 — SSR Content v1: homepage-first roadmap
+
+- **OPEN — Phase 1: homepage initial HTML:** owner approved the workstream and explicitly set the order: homepage first; then services; blog; portfolio; contacts; About. The full sequential plan and per-phase acceptance criteria are in [SSR Content v1 roadmap](../roadmaps/SSR_CONTENT_V1_ROADMAP_2026-11-24.md).
+- **IN PROGRESS — read-only homepage discovery:** inspect current Sanity queries/projections, locale fallback, category ordering, curated featured plants/equipment, service ordering, pinned blog cards, image handling and client hydration parity before implementing server output.
+- **GUARDRAILS:** no Sanity writes; existing published service/blog/portfolio content is protected; no Header/menu/Footer/global shell/routing changes; no Cloudflare settings/secrets or D1 changes. Keep React UI and behavior intact.
+- **ACCEPTANCE:** raw first HTTP response (native fetch, no JS) in BG/RU/EN must include the homepage's substantive sections, key content links and metadata; compare selected content/order with the hydrated app; run exact-SHA tests/build/Preview and Production smoke only after the phase is approved for release.
+- Baseline at roadmap creation: main `f4e04913a2876bf863deef9fa1b7774b5c416a47`. Roadmap documentation is on branch `docs/ssr-content-v1-roadmap`; application implementation has not started.
