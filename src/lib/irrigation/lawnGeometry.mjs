@@ -246,7 +246,7 @@ function classifySupportedShape(ring) {
   if (points.length === 6 && reflexCount === 1) return 'l-shape'
   // Any simple axis-aligned orthogonal polygon can be decomposed into
   // non-overlapping rectangles by the layout bridge.
-  if (points.length >= 8 && points.length % 2 === 0) return 'orthogonal-polygon'
+  if (points.length >= 6 && points.length % 2 === 0) return 'orthogonal-polygon'
   return 'unsupported'
 }
 

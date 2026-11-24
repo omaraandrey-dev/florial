@@ -395,11 +395,17 @@ function pointInPolygon(point, vertices) {
   return inside
 }
 
+function pointOnRingBoundary(point, vertices) {
+  return vertices.some((a, index) =>
+    pointOnPolygonSegment(point, a, vertices[(index + 1) % vertices.length]))
+}
+
 function pointInIrrigatedGeometry(point, geometry) {
   const region = geometry?.regions?.[0]
   if (!region || !pointInPolygon(point, region.boundary.vertices)) return false
   return !(region.exclusions ?? []).some((exclusion) =>
-    pointInPolygon(point, exclusion.polygon.vertices))
+    pointInPolygon(point, exclusion.polygon.vertices) &&
+    !pointOnRingBoundary(point, exclusion.polygon.vertices))
 }
 
 function sampleRectangleInsideGeometry(bounds, geometry, stepM = 0.2) {
@@ -749,7 +755,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
-  const lShapeParts = validation.regions[0].shape === 'l-shape'
+  const lShapeParts = validation.regions[0].shape === 'l-shape' && !(region.exclusions?.length)
     ? decomposeOrthogonalLShape(vertices)
     : null
   if (lShapeParts) {
