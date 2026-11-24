@@ -1,4 +1,5 @@
-import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout } from './lawnSprinklerLayout.mjs'
+import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout, sprinklersMutuallyReach } from './lawnSprinklerLayout.mjs'
+import { decomposeOrthogonalRegion } from './orthogonalRectangleDecomposition.mjs'
 import { validateLawnGeometry } from './lawnGeometry.mjs'
 import {
   findRainBirdRvanPerformancePoint,
@@ -88,6 +89,7 @@ function buildRvanStripLayout(geometry, shortSideM, connectedEnd = null) {
       pattern: 'strip',
       stripWidthM: widthM,
       stripLengthM: reachM,
+      stripBounds: Object.freeze({ minX, minY, maxX, maxY }),
     }))
     return true
   }
@@ -244,6 +246,23 @@ function connectedStripNeedsSeamHead(lengthM, widthM) {
     lengthM <= rule.centersAfterM + 1e-8)
 }
 
+function inferConnectedStripEnd(strip, rectangles) {
+  const horizontal = strip.widthM >= strip.heightM
+  for (const other of rectangles) {
+    if (other.id === strip.id) continue
+    if (horizontal) {
+      const overlap = Math.min(strip.maxY, other.maxY) - Math.max(strip.minY, other.minY)
+      if (overlap >= strip.heightM - 1e-8 && Math.abs(other.maxX - strip.minX) <= 1e-8) return 'left'
+      if (overlap >= strip.heightM - 1e-8 && Math.abs(other.minX - strip.maxX) <= 1e-8) return 'right'
+    } else {
+      const overlap = Math.min(strip.maxX, other.maxX) - Math.max(strip.minX, other.minX)
+      if (overlap >= strip.widthM - 1e-8 && Math.abs(other.maxY - strip.minY) <= 1e-8) return 'bottom'
+      if (overlap >= strip.widthM - 1e-8 && Math.abs(other.minY - strip.maxY) <= 1e-8) return 'top'
+    }
+  }
+  return null
+}
+
 function connectedStripSeamPoint(bounds, connectedEnd, horizontal) {
   if (horizontal) {
     return {
@@ -298,6 +317,7 @@ function buildConnectedRvanStripLayout(geometry, shortSideM, connectedEnd) {
       pattern: 'strip',
       stripWidthM: widthM,
       stripLengthM: reachM,
+      stripBounds: Object.freeze({ minX, minY, maxX, maxY }),
     }))
     return true
   }
@@ -375,20 +395,27 @@ function pointInPolygon(point, vertices) {
   return inside
 }
 
-function sampleRectangleInsidePolygon(bounds, vertices, stepM = 0.2) {
+function pointInIrrigatedGeometry(point, geometry) {
+  const region = geometry?.regions?.[0]
+  if (!region || !pointInPolygon(point, region.boundary.vertices)) return false
+  return !(region.exclusions ?? []).some((exclusion) =>
+    pointInPolygon(point, exclusion.polygon.vertices))
+}
+
+function sampleRectangleInsideGeometry(bounds, geometry, stepM = 0.2) {
   const xSteps = Math.max(1, Math.ceil((bounds.maxX - bounds.minX) / stepM))
   const ySteps = Math.max(1, Math.ceil((bounds.maxY - bounds.minY) / stepM))
   for (let yIndex = 0; yIndex <= ySteps; yIndex += 1) {
     const y = bounds.minY + (bounds.maxY - bounds.minY) * yIndex / ySteps
     for (let xIndex = 0; xIndex <= xSteps; xIndex += 1) {
       const x = bounds.minX + (bounds.maxX - bounds.minX) * xIndex / xSteps
-      if (!pointInPolygon({ x, y }, vertices)) return false
+      if (!pointInIrrigatedGeometry({ x, y }, geometry)) return false
     }
   }
   return true
 }
 
-function evaluateCompositeOverspray(sprinklers, parts, originalVertices) {
+function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
   const stripPartByHeadId = new Map()
   for (let index = 0; index < parts.length; index += 1) {
     const part = parts[index]
@@ -423,7 +450,7 @@ function evaluateCompositeOverspray(sprinklers, parts, originalVertices) {
             : head.position.y + reach
         footprint = { minX: bounds.minX, maxX: bounds.maxX, minY, maxY }
       }
-      if (!sampleRectangleInsidePolygon(footprint, originalVertices)) return false
+      if (!sampleRectangleInsideGeometry(footprint, originalGeometry)) return false
       continue
     }
 
@@ -440,7 +467,7 @@ function evaluateCompositeOverspray(sprinklers, parts, originalVertices) {
           x: head.position.x + dx * Math.min(distanceM, head.radiusM),
           y: head.position.y + dy * Math.min(distanceM, head.radiusM),
         }
-        if (!pointInPolygon(point, originalVertices)) return false
+        if (!pointInIrrigatedGeometry(point, originalGeometry)) return false
       }
     }
   }
@@ -448,9 +475,12 @@ function evaluateCompositeOverspray(sprinklers, parts, originalVertices) {
 }
 
 function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM) {
-  const stripParts = parts.filter((part) => SUPPORTED_STRIP_WIDTHS_M.some((width) =>
+  const orderedParts = parts.slice().sort((a, b) =>
+    a.shortSideM - b.shortSideM || a.lengthM - b.lengthM ||
+    a.minY - b.minY || a.minX - b.minX)
+  const stripParts = orderedParts.filter((part) => SUPPORTED_STRIP_WIDTHS_M.some((width) =>
     Math.abs(part.shortSideM - width) <= 1e-8))
-  const prepared = parts.map((part) => {
+  const prepared = orderedParts.map((part) => {
     const isStrip = stripParts.includes(part)
     const rectGeometry = rectangleGeometry('lawn-' + part.id, part)
     const layout = isStrip
@@ -477,6 +507,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     circularPart.excludedCandidatePositions = [seam]
   }
 
+  const previouslyPlacedHeads = []
   for (const part of prepared) {
     if (part.isStrip) {
       if (!part.layout) {
@@ -486,6 +517,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
           warnings: Object.freeze([{ code: 'connected_strip_pattern_not_available', path: 'geometry' }]),
         })
       }
+      previouslyPlacedHeads.push(...part.layout.sprinklers)
       continue
     }
     const selected = selectRvanModel(part.shortSideM)
@@ -497,7 +529,9 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       sampleStepM,
       radiusM: selected.radiusM,
       excludedCandidatePositions: part.excludedCandidatePositions ?? [],
-      preventOverspray: true,
+      preventOverspray: false,
+      initialSprinklers: previouslyPlacedHeads,
+      sprayBoundaryGeometry: geometry,
     })
     if (!['coverage_complete_sampled', 'coverage_incomplete'].includes(part.layout.status)) {
       return result('layout_incomplete', {
@@ -507,6 +541,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         warnings: Object.freeze([{ code: 'rectangular_zone_layout_not_available', path: 'geometry' }]),
       })
     }
+    previouslyPlacedHeads.push(...part.layout.sprinklers)
   }
 
   const allHeads = []
@@ -533,11 +568,31 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       warning.code !== 'overspray_not_evaluated'))
   }
 
-  const originalVertices = geometry.regions[0].boundary.vertices.filter((point, index, points) =>
-    index < points.length - 1 ||
-    Math.hypot(point.x - points[0].x, point.y - points[0].y) > 1e-8)
-  const oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, originalVertices)
-  const headToHeadChecks = circularHeads.length ? evaluateHeadToHeadSpacing(circularHeads) : []
+  const oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, geometry)
+  const localHeadToHeadChecks = prepared.filter((part) => !part.isStrip)
+    .flatMap((part) => evaluateHeadToHeadSpacing(part.layout.sprinklers))
+  const crossRegionChecks = []
+  for (let first = 0; first < prepared.length; first += 1) {
+    const firstHeads = prepared[first].layout.sprinklers.filter((head) =>
+      head.pattern !== 'strip' && Number.isFinite(head.radiusM))
+    for (let second = first + 1; second < prepared.length; second += 1) {
+      const secondHeads = prepared[second].layout.sprinklers.filter((head) =>
+        head.pattern !== 'strip' && Number.isFinite(head.radiusM))
+      for (const a of firstHeads) for (const b of secondHeads) {
+        const separation = Math.hypot(a.position.x - b.position.x, a.position.y - b.position.y)
+        if (separation <= Math.min(a.radiusM, b.radiusM) + 1e-8) {
+          const passed = sprinklersMutuallyReach(a, b)
+          crossRegionChecks.push(Object.freeze({
+            sprinklerId: a.id,
+            neighborId: b.id,
+            separationM: separation,
+            passed,
+          }))
+        }
+      }
+    }
+  }
+  const headToHeadChecks = [...localHeadToHeadChecks, ...crossRegionChecks]
   const headToHeadPassed = circularHeads.length
     ? headToHeadChecks.every((entry) => entry.passed)
     : null
@@ -550,8 +605,8 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     : 'sampled_geometry_only'
   const warnings = [
     ...layoutWarnings,
-    { code: 'l_shape_split_into_non_overlapping_rectangular_calculation_zones', path: 'geometry' },
-    { code: 'overspray_checked_against_original_l_shape_polygon_with_spatial_sampling', path: 'layout.overspray' },
+    { code: 'orthogonal_lawn_split_into_non_overlapping_rectangular_calculation_zones', path: 'geometry' },
+    { code: 'spray_footprints_checked_against_original_lawn_and_exclusions_with_spatial_sampling', path: 'layout.overspray' },
   ]
   if (!oversprayPassed) warnings.push({ code: 'sampled_spray_footprint_exceeds_lawn_boundary', path: 'layout.overspray' })
   if (!circularCoverageComplete) warnings.push({ code: 'one_or_more_rectangular_zones_have_uncovered_sample_points', path: 'layout.coverage' })
@@ -560,7 +615,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const selectedModels = [...modelSet].sort()
   const layout = Object.freeze({
     engineVersion: '0.6.0',
-    algorithm: 'decomposed-l-shape-rectangular-zones-v1',
+    algorithm: 'decomposed-orthogonal-rectangular-zones-v2',
     status: !oversprayPassed || !circularCoverageComplete || headToHeadPassed === false
       ? 'coverage_incomplete'
       : (circularHeads.length ? 'coverage_complete_sampled' : 'strip_pattern_placement_ready'),
@@ -595,6 +650,8 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     overspray: oversprayPassed ? 'sampled_inside_boundary' : 'sampled_outside_boundary',
     calculationRegions: Object.freeze(prepared.map((part) => Object.freeze({
       id: part.id,
+      shortSideM: part.shortSideM,
+      lengthM: part.lengthM,
       bounds: Object.freeze({ minX: part.minX, minY: part.minY, maxX: part.maxX, maxY: part.maxY }),
       shape: 'rectangle',
       pattern: part.isStrip ? 'strip' : 'circular',
@@ -629,7 +686,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       dimensionsAreApproximate: true,
     }),
     engine: Object.freeze({
-      name: 'Florial decomposed L-shape layout',
+      name: 'Florial decomposed orthogonal lawn layout',
       version: layout.engineVersion,
       algorithm: layout.algorithm,
     }),
@@ -683,14 +740,10 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   if (!Array.isArray(region.boundary?.vertices) || region.boundary.vertices.length < 4) {
     return result('geometry_not_supported', { reason: 'invalid_or_missing_boundary' })
   }
-  if (region.exclusions?.length) {
-    return result('geometry_not_supported', { reason: 'exclusions_not_supported_by_layout_engine' })
-  }
-
   const vertices = region.boundary.vertices
   const validation = validateLawnGeometry(geometry)
-  if (!validation.valid || validation.regions.length !== 1) {
-    return result('geometry_not_supported', { reason: 'normalized_geometry_failed_validation' })
+  if (!validation.valid || !validation.supported || validation.regions.length !== 1) {
+    return result('geometry_not_supported', { reason: 'normalized_geometry_failed_validation_or_orthogonal_support' })
   }
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
@@ -699,8 +752,45 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const lShapeParts = validation.regions[0].shape === 'l-shape'
     ? decomposeOrthogonalLShape(vertices)
     : null
-  if (lShapeParts && lShapeParts.some((part) => SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8))) {
-    return buildDecomposedLShapeLayout(geometry, validation, lShapeParts, RECOMMENDED_NOZZLE_PRESSURE_BAR, sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)))
+  if (lShapeParts) {
+    const partsWithStripEnds = lShapeParts.map((part) => ({
+      ...part,
+      connectedEnd: SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8)
+        ? part.connectedEnd
+        : null,
+    }))
+    return buildDecomposedLShapeLayout(
+      geometry, validation, partsWithStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
+      sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)),
+    )
+  }
+
+  if (region.exclusions?.length || validation.regions[0].shape === 'orthogonal-polygon') {
+    const parts = decomposeOrthogonalRegion(region, validation.regions[0].netAreaM2)
+    if (!parts?.length) {
+      return result('layout_incomplete', {
+        reason: 'orthogonal_rectangle_decomposition_failed_area_or_overlap_check',
+        warnings: Object.freeze([{ code: 'orthogonal_rectangle_decomposition_failed', path: 'geometry' }]),
+      })
+    }
+    const withStripEnds = parts.map((part) => ({
+      ...part,
+      connectedEnd: SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8)
+        ? inferConnectedStripEnd(part, parts)
+        : null,
+    }))
+    if (withStripEnds.some((part) =>
+      SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8) &&
+      !part.connectedEnd)) {
+      return result('layout_incomplete', {
+        reason: 'decomposed_narrow_strip_is_not_connected_at_a_supported_end',
+        warnings: Object.freeze([{ code: 'manual_engineering_review_required_for_decomposed_narrow_strip', path: 'geometry' }]),
+      })
+    }
+    return buildDecomposedLShapeLayout(
+      geometry, validation, withStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
+      sampleStepM, Math.min(...parts.map((part) => part.shortSideM)),
+    )
   }
 
   if (SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)) {
