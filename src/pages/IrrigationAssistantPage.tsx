@@ -564,7 +564,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       {boundaryVertices && (layoutResult.layout?.sprinklers?.length ?? 0) > 0 && (
                         <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3">
                           <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={layoutLabels.title} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
-                            <defs><marker id="strip-direction-arrow" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L4 2 L0 4 z" fill="#475569" /></marker></defs>
+                            <defs><marker id="strip-direction-arrow" markerWidth="0.32" markerHeight="0.32" refX="0.26" refY="0.16" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L0.32 0.16 L0 0.32 z" fill="#475569" /></marker></defs>
                             <g transform={svgTransform}>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
                               {layoutResult.pipeNetwork?.mainRoute && <polyline points={layoutResult.pipeNetwork.mainRoute.map((point: { x: number; y: number }) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#ea580c" strokeWidth="0.12" strokeLinejoin="round" />}
@@ -581,7 +581,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                                 const nozzleColor = sprinklerNozzleColor(sprinkler.performanceModel)
                                 return (
                                 <g key={sprinkler.id}>
-                                  {sprinkler.pattern === 'strip' && sprinkler.stripDirection && sprinkler.stripLengthM && <g stroke="#475569" strokeWidth="0.09" markerEnd="url(#strip-direction-arrow)">
+                                  {sprinkler.pattern === 'strip' && sprinkler.stripDirection && sprinkler.stripLengthM && <g stroke="#475569" strokeWidth="0.05" markerEnd="url(#strip-direction-arrow)">
                                     {sprinkler.stripDirection === 'left' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x - sprinkler.stripLengthM} y2={sprinkler.position.y} />}
                                     {sprinkler.stripDirection === 'right' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x + sprinkler.stripLengthM} y2={sprinkler.position.y} />}
                                     {sprinkler.stripDirection === 'up' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y + sprinkler.stripLengthM} />}

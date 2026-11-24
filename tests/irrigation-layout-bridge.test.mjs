@@ -294,6 +294,14 @@ test('a 2m vertical connected L-shape arm uses a rotated strip row and keeps its
 })
 
 
+
+test('strip direction arrows use sub-metre SVG markers and cannot masquerade as spray coverage', async () => {
+  const assistant = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
+  assert.match(assistant, /markerWidth="0\.32" markerHeight="0\.32"/)
+  assert.doesNotMatch(assistant, /markerWidth="4" markerHeight="4"/)
+})
+
+
 test('unsupported narrow widths do not fall back to circular sprinklers', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(10, 1.5))
   assert.ok([
