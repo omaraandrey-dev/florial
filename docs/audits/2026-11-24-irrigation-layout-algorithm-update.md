@@ -36,7 +36,8 @@ Implement the owner's latest layout rules in the existing geometric lawn assista
 
 ## Verification status
 
-- Implementation is on branch feat/irrigation-rvan-r1-rcs-layout-rules, created from the then-current main.
-- Automated test/CI and build results are pending PR-head validation.
-- No live Sanity/D1/Cloudflare settings/Production order/email writes.
-- Production deployment is not yet claimed.
+- Implementation is on PR #515, branch feat/irrigation-rvan-r1-rcs-layout-rules, based on main commit ceae0797b3ca75251b275e3c17ced09773b1a6cb.
+- PR-head CI passed: application/Pages Functions type-check, lint, full website utility tests, website build, Studio type-check and build, plus D1 migration validation.
+- Cloudflare Pages Preview deployment ba29688a-1117-4c5b-bbfc-1c84260cef0b succeeded at https://ba29688a.florial.pages.dev for code commit 689a619296892b135e4755160c5c4b8bb126b386.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production order/email writes or Production deployment.
+- Production merge/deployment verification remains pending.
