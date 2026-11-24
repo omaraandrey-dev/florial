@@ -48,5 +48,5 @@ test('3504-PC candidate sectors stay inside the irrigated geometry and avoid rec
 
 test('3504-PC rejects missing or invalid geometry without manufacturing a layout', () => {
   assert.equal(generateRainBird3504Layout(null).status, 'invalid_geometry')
-  assert.equal(generateRainBird3504Layout(geometry(0, 8)).status, 'layout_generated')
+  assert.equal(generateRainBird3504Layout(geometry(0, 8)).status, 'invalid_geometry')
 })
