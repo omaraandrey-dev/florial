@@ -15,6 +15,8 @@ The 3504-PC layout module uses the following owner-approved geometric planning v
 
 These values are Florial planning assumptions. They are **not** manufacturer-certified per-arc operating points or pressure/nozzle performance data.
 
+The published Sanity product's short description currently states a 4.3–9 m radius, while the manufacturer's general technical specification gives 4.6–10.7 m across the series. The installed nozzle and nozzle pressure determine the real operating point. In particular, the 10 m planning value must not be interpreted as a verified throw for the factory-installed 2.0 nozzle. The assistant and PDF label these values explicitly as geometric planning radii.
+
 The manufacturer documents mechanical arc adjustment from 40° to 360°, a 1/2-inch female threaded bottom inlet, and broad operating ranges. The published performance chart's precipitation basis is half-circle operation. No per-arc performance conversion is inferred by this implementation.
 
 References:
