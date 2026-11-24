@@ -1,6 +1,6 @@
 # Current implementation handoff — PR #530 merged and Production deployed (2026-11-24)
 
-- **Main:** `ac29eafb5e4e1af4706c05e28e9de9fe31743336` (PR #530 merge commit); PR #530 is closed and merged.
+- **PR #530 merge commit:** `ac29eafb5e4e1af4706c05e28e9de9fe31743336`; PR #530 is closed and merged into `main`.
 - **Production:** Cloudflare Pages deployment `3304a92b-4284-4293-88a4-8d5605d5c437`, environment `production`, build and deploy stages succeeded from the exact merge SHA. Deployment URL: https://3304a92b.florial.pages.dev.
 - **CI on exact PR head:** Blog/Studio run `45451360534` passed 475/475 tests, application/Pages Functions type-check, lint, website build, read-only D1 dry-run, Studio type-check/build. D1 validation run `45451040299` passed; no migration was applied.
 - **Preview:** final PR-head Preview deployment https://bdbe70cc.florial.pages.dev succeeded.
