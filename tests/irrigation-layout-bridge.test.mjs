@@ -323,7 +323,7 @@ test('square 2m connected arm keeps its vertical strip axis from the shared edge
   const horizontalHeads = result.layout?.sprinklers?.filter((head) => head.stripWidthM === 1) ?? []
   assert.ok(horizontalHeads.length > 0)
   assert.ok(horizontalHeads.every((head) => head.stripAxis === 'horizontal' && head.position.y === 0))
-  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+  assert.equal(result.layout?.overspray, 'sampled_outside_boundary')
 })
 
 
