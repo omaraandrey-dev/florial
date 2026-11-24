@@ -411,7 +411,7 @@ This addendum supersedes earlier radius, sampling and L-shape candidate-grid des
 Florial's layout radius is a fixed project planning value by nozzle model and does not change with the selected sector angle:
 
 - R-VAN14: 3 m.
-- R-VAN18: 4 m or 5 m, selected from the required short-side reach.
+- R-VAN18: 4 m or 5 m, selected independently for each candidate from its local required reach/spacing.
 - R-VAN24: 6 m.
 
 A 90°, 180°, 270° or 360° sector changes the shape of the spray sector, not its planning radius. Manufacturer arc-specific flow/precipitation records remain source data; they do not override this Florial geometric-radius rule. Model/arc combinations continue to resolve through the exact model records. R-VAN model differences do not create zone boundaries.
