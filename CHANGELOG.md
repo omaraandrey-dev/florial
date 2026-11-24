@@ -1,3 +1,14 @@
+## 2026-11-25 — SSR Content v1 Phase 1: homepage parity hardening (PR #533)
+
+- Expanded the first-response homepage HTML to include the full current section sequence: hero with plant/equipment category image CTAs, value-proposition advantages, services, plant categories, featured plants, irrigation categories, featured equipment and blog teaser.
+- Mirrored the client-side category visibility contract from `App.tsx`: populated categories plus ancestors, excludes the legacy `electromagnetic-valves` card and plant-category IDs from the irrigation grid, then applies the existing root-category order and six-card limit.
+- Matched the shared Sanity responsive-image URL algorithm, including `src`, `srcset`, `sizes`, intrinsic dimensions, preferred widths and loading priority. Matched plant display-name and unknown-stock fallback behavior.
+- Homepage structured data now identifies Florial as an `OnlineStore`, adds a localized `WebSite` node and retains the existing Nessebar/Ravda `GardenStore` entities. The cart remains `noindex, nofollow`; no Header link change is included.
+- Added regressions for populated-category ancestors, excluded categories, full localized homepage sections, responsive image output, OnlineStore/WebSite JSON-LD and unknown plant stock.
+- **Verification boundary:** code-bearing head `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`. The preceding head `fc21108f98de7c30b57ebe5190111002258281c6` passed type-check and lint but had 492/493 tests because one new assertion matched an unrelated equipment card; that assertion was narrowed to the plant card in the newer head. Exact-head CI and the latest Preview deployment are pending. No Production release is claimed.
+- **Known SPA limitation:** the current client entry uses `createRoot`, not `hydrateRoot`; React replaces the initial `#root` HTML on startup. The server response is useful to crawlers that inspect the first HTTP response, but the client transition/CLS still needs a separate decision and verification. No global bootstrap change is included in this PR.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets or Production settings were made.
+
 ## 2026-11-24 — SSR Content v1 Phase 1: homepage implementation started (PR #533)
 
 - Draft PR #533 adds a dedicated homepage initial-HTML renderer and bounded, parallel published-Sanity projections for BG/RU/EN.
