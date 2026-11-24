@@ -89,12 +89,13 @@ test('20x10 rectangle may extend to 10m when that avoids an unnecessary extra ro
 })
 
 test('local clearances reduce rotor radii without breaking adjacent head-to-head links', () => {
-  const result = generateRainBird3504Layout(geometry(20, 15))
+  const result = generateRainBird3504Layout(geometry(18, 14))
   assert.equal(result.status, 'layout_generated')
+  assert.equal(result.planningRadiusM, 8)
   assert.equal(result.coverage?.uncoveredPoints, 0)
   assert.equal(result.headToHead?.passed, true)
   assert.ok(result.sprinklers.every((head) => [5, 6, 7, 8, 9, 10].includes(head.radiusM)))
-  assert.ok(result.sprinklers.some((head) => head.radiusM < result.planningRadiusM))
+  assert.ok(result.sprinklers.some((head) => head.radiusM === 7))
 })
 
 test('3504-PC candidate sectors remain inside their calculation rectangle and support an inward seam offset', () => {
