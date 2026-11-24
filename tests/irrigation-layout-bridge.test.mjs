@@ -124,10 +124,11 @@ test('3504-PC integration respects an L-shape recess and rectangular non-irrigat
       exclusions: [{ id: 'pool', x: 8, y: 6, width: 4, height: 4 }],
     }),
   ]
-  for (const snapshot of cases) {
+  for (const [index, snapshot] of cases.entries()) {
     const result = buildPreliminaryLawnLayout(snapshot)
-    assert.equal(result.status, 'layout_generated')
-    assert.ok(result.layout.sprinklers.some((head) => head.performanceModel === '3504-PC'))
+    assert.equal(result.status, 'layout_generated', 'case ' + index + ': ' + result.reason)
+    assert.ok(result.layout.sprinklers.some((head) => head.performanceModel === '3504-PC'),
+      'case ' + index + ' selected ' + result.model + '; warnings=' + JSON.stringify(result.warnings))
     assert.equal(result.layout.coverage.uncoveredPoints, 0)
     assert.equal(result.layout.overspray, 'sampled_inside_boundary')
     assert.equal(result.overspray, 'sampled_inside_boundary')
