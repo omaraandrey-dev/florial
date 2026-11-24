@@ -764,7 +764,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                     {billOfMaterials.headCount} {language === 'ru' ? 'дождевателей' : language === 'en' ? 'sprinklers' : 'разпръсквача'} · {billOfMaterials.zoneCount} {language === 'ru' ? 'зоны' : language === 'en' ? 'zones' : 'зони'}
                   </p>
                   <p className="mt-1 text-xs text-emerald-800">
-                    {language === 'ru' ? 'В комплект входят подобранные форсунки, корпуса 1804, гибкие соединения и фитинги. Тип клапанов и автоматики выберете на следующем шаге.' : language === 'en' ? 'Includes selected nozzles, 1804 bodies, flexible connections and fittings. Choose the valve and controller arrangement in the next step.' : 'Включва избрани дюзи, тела 1804, гъвкави връзки и фитинги. Изберете вида клапани и управление на следващата стъпка.'}
+                    {language === 'ru' ? 'В комплект входят подобранные дождеватели и форсунки, гибкие соединения и фитинги. Тип клапанов и автоматики выберете на следующем шаге.' : language === 'en' ? 'Includes selected sprinklers and nozzles, flexible connections and fittings. Choose the valve and controller arrangement in the next step.' : 'Включва избрани разпръсквачи и дюзи, гъвкави връзки и фитинги. Изберете вида клапани и управление на следващата стъпка.'}
                   </p>
                   <button
                     type="button"

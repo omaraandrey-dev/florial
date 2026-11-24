@@ -39,7 +39,7 @@ Replace the Rain Bird 3504-PC placement logic with a corner-first, shared-cell a
 - `src/lib/irrigation/rainBird3504Layout.d.mts`: updated result/type contract.
 - `functions/api/_lib/irrigation-project.mjs`: preserve validated rotor pattern.
 - `src/lib/irrigation/irrigationBillOfMaterials.mjs`: validate rotor pattern/radius and map Y34001.
-- `src/pages/IrrigationAssistantPage.tsx`: display rotor planning radius in sprinkler list.
+- `src/pages/IrrigationAssistantPage.tsx`: display rotor planning radius in sprinkler list; use accurate generic BOM summary copy without implying that 3504-PC rotors require 1804 spray bodies.
 - `tests/irrigation-rain-bird-3504-layout.test.mjs`: corner-only, 38×16 shared-cell, 20×10 and local-radius regressions; rotor corners remain unshifted.
 - `tests/irrigation-layout-bridge.test.mjs`: 7.5 cm offset regression is scoped to the matching R-VAN corner candidate.
 - `tests/irrigation-bom.test.mjs` and `tests/irrigation-project-order.test.mjs`: BOM and persisted snapshot regressions.

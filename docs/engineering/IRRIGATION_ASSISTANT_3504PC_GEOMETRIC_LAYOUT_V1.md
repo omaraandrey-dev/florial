@@ -66,7 +66,7 @@ Each 3504-PC head is explicitly tagged:
 - `source: 'vertex' | 'edge' | 'interior'`;
 - `radiusM: 5 | 6 | 7 | 8 | 9 | 10`.
 
-The project snapshot validator accepts and preserves the rotor pattern. The BOM validates that a 3504-PC head is a rotor with a 5–10 m planning radius, adds SKU `Y34001`, and does not add an 1804 spray body to that rotor. The assistant's layout details show the planning radius beside the 3504-PC arc.
+The project snapshot validator accepts and preserves the rotor pattern. The BOM validates that a 3504-PC head is a rotor with a 5–10 m planning radius, adds SKU `Y34001`, and does not add an 1804 spray body to that rotor. The assistant's layout details show the planning radius beside the 3504-PC arc. The customer-facing equipment-set summary uses generic sprinkler/nozzle wording and does not incorrectly claim that every layout contains 1804 spray bodies.
 
 The four-corner and shared-cell diagnostics are included in the solver result so regression tests can verify cell count, four corner positions per cell and unique shared-node count.
 
