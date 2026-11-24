@@ -68,7 +68,8 @@ test('Cloudflare Pages middleware includes plant products in the initial categor
   assert.match(middleware, /await fetchPlantCategoryProducts\(doc\._id\)/)
   assert.match(middleware, /defined\(slug\.current\)/)
   assert.match(middleware, /renderPlantCategoryListing\(plantProducts \|\| \[\], language, SITE_URL\)/)
-  assert.match(middleware, /makeCategoryCollectionJsonLd\(name, metaDescription, canonicalUrl, categoryProducts \|\| \[\], language\)/)
+  assert.match(middleware, /makeCategoryCollectionJsonLd\(name, metaDescription, canonicalUrl, categoryStructuredProducts, language\)/)
+  assert.match(middleware, /: categoryProducts \|\| \[\]/)
 })
 
 test('plant catalogue failures do not become a false empty-category response', async () => {
