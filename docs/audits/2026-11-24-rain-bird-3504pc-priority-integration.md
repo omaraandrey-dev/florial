@@ -2,7 +2,8 @@
 
 **Work item:** PR #527 — https://github.com/omaraandrey-dev/florial/pull/527  
 **Base:** `main` at `d9a24afc4ba04f36b4bf027646eba986e38156f5`  
-**Validated implementation commit:** `a337a8923fcbb303b91f99a88d7b03b218d8fc3c`  
+**Validated source implementation:** `16e9065fbece2b9ed7722daf9f94db64cc2e9d14`  
+**Final validation head:** `32cadca23bb81f5e002971b22ee165cfabd116ef`  
 **Status:** implementation and automated validation complete; owner visual acceptance and merge remain pending.
 
 ## Work performed
@@ -24,14 +25,14 @@
 
 ## Automated verification
 
-For implementation commit `a337a8923fcbb303b91f99a88d7b03b218d8fc3c`:
+For final validation head `32cadca23bb81f5e002971b22ee165cfabd116ef`:
 
-- Blog and Studio validation: run **45383446806**, success; **466 tests passed, 0 failed**. Type-check, lint, website tests/build, migration script syntax, read-only migration dry-run, Studio type-check and Studio build all passed.
-- D1 migration validation: run **45383448234**, success.
-- Cloudflare Pages Preview: successful deployment for the same commit.
-  - Preview: https://b3a0e185.florial.pages.dev/irrigation-assistant
+- Blog and Studio validation: run **45383957913**, success; **466 tests passed, 0 failed**. Application/Pages type-check, lint, website tests/build, migration script syntax, read-only migration dry-run, Studio type-check and Studio build all passed.
+- D1 migration validation: run **45383958067**, success.
+- Cloudflare Pages Preview: successful deployment for the final validation head.
+  - Preview: https://4f1baa64.florial.pages.dev/irrigation-assistant
 
-The documentation-only commits added after that implementation commit are being revalidated by the PR checks.
+The validated code includes the decomposed-geometry fallback on either combined Head-to-Head or composite overspray failure, and explicit UI/PDF labels that distinguish the 3504-PC planning radius from manufacturer performance data.
 
 ## Live catalogue read-back
 
