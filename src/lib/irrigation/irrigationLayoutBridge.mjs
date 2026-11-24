@@ -589,6 +589,9 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const headToHeadPassed = circularHeads.length > 1
     ? headToHeadChecks.every((entry) => entry.passed)
     : null
+  if (initialHeads.length && headToHeadPassed === false) {
+    return buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM, [])
+  }
   const coveragePercent = sampledCoverage.sampledPoints
     ? (sampledCoverage.coveredPoints / sampledCoverage.sampledPoints) * 100
     : null
@@ -615,7 +618,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     coverageScope,
     family: selectedModels.includes('3504-PC') ? (selectedModels.some((model) => model.startsWith('R-VAN')) ? 'mixed' : '3500') : 'R-VAN',
     model: selectedModels.join(' / '),
-    pressureBar,
+    pressureBar: selectedModels.includes('3504-PC') && !selectedModels.some((model) => model.startsWith('R-VAN')) ? null : pressureBar,
     sampleStepM: circularHeads.length ? sampleStepM : null,
     geometry: Object.freeze({
       regionId: geometry.regions[0].id,
@@ -854,30 +857,42 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   }
 
   const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
-  const rvanLayout = generateLawnSprinklerLayout({
+  const createRvanLayout = (initialSprinklers = [], rotorActive = false) => generateLawnSprinklerLayout({
     geometry,
     family: 'R-VAN',
     model,
     pressureBar,
     sampleStepM,
     radiusM,
-    initialSprinklers: initialRotorHeads,
-    sprayBoundaryGeometry: geometry,
-    preventOverspray: true,
+    initialSprinklers,
+    sprayBoundaryGeometry: rotorActive ? geometry : null,
+    preventOverspray: rotorActive,
   })
-  const combinedSprinklers = [...initialRotorHeads, ...rvanLayout.sprinklers]
-  const combinedHeadToHeadChecks = combinedSprinklers.length > 1
+  let rvanLayout = createRvanLayout(initialRotorHeads, initialRotorHeads.length > 0)
+  let rotorAccepted = initialRotorHeads.length > 0
+  let combinedSprinklers = rotorAccepted
+    ? [...initialRotorHeads, ...rvanLayout.sprinklers]
+    : [...rvanLayout.sprinklers]
+  let combinedHeadToHeadChecks = combinedSprinklers.length > 1
     ? evaluateHeadToHeadSpacing(combinedSprinklers)
     : []
-  const combinedHeadToHeadPassed = combinedSprinklers.length > 1
+  let combinedHeadToHeadPassed = combinedSprinklers.length > 1
     ? combinedHeadToHeadChecks.every((entry) => entry.passed)
     : null
-  const layout = initialRotorHeads.length
+  if (rotorAccepted && combinedHeadToHeadPassed === false) {
+    rotorAccepted = false
+    rvanLayout = createRvanLayout([], false)
+    combinedSprinklers = [...rvanLayout.sprinklers]
+    combinedHeadToHeadChecks = rvanLayout.headToHead?.checks ?? []
+    combinedHeadToHeadPassed = rvanLayout.headToHead?.passed ?? null
+  }
+  const layout = rotorAccepted
     ? Object.freeze({
       ...rvanLayout,
       status: combinedHeadToHeadPassed === false ? 'coverage_incomplete' : rvanLayout.status,
       family: combinedSprinklers.some((head) => head.performanceModel.startsWith('R-VAN')) ? 'mixed' : '3500',
       model: [...new Set(combinedSprinklers.map((head) => head.performanceModel))].sort().join(' / '),
+      pressureBar: combinedSprinklers.some((head) => head.performanceModel.startsWith('R-VAN')) ? pressureBar : null,
       sprinklers: Object.freeze(combinedSprinklers),
       headToHead: Object.freeze({ passed: combinedHeadToHeadPassed, applicable: combinedSprinklers.length > 1, checks: Object.freeze(combinedHeadToHeadChecks) }),
       warnings: Object.freeze([
