@@ -1245,8 +1245,8 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           // Preserve the existing fail-closed behavior for plant category SSR.
           categoryProducts = await fetchPlantCategoryProducts(doc._id)
         } else {
-          // Irrigation listings remain client-rendered; structured data is an enhancement.
-          // A temporary catalogue-query failure must not turn a valid category page into 503.
+          // Equipment categories use the same fetched catalogue for CollectionPage data and initial HTML.
+          // React remains responsible for the interactive catalogue; a temporary query failure must not turn a valid category page into 503.
           try {
             categoryProducts = await fetchCategoryProducts('production', doc._id, (categories) => { equipmentCategoryTree = categories })
           } catch {
