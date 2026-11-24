@@ -5,7 +5,7 @@
 - Customer diagram markers and radius rings now use Rain Bird identification colors (R-VAN14 blue, R-VAN18 tan, R-VAN24 burgundy; RCS dark charcoal). Added a model legend and per-zone nozzle-model counts.
 - Removed the fixed planning-radius explanatory note and flex-pipe length/coil text from the customer result. The kit summary shows sprinkler and zone counts only.
 - Updated the perimeter-first engineering guide and added an audit. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets, Production orders or emails.
-- CI and Preview verification are pending for the exact PR head; do not claim Production publication until exact-head CI and Pages deployment are checked.
+- Blog/Studio CI run #2483 and D1 validation run #2668 passed on code/test commit `b01e408e026f39dacc22ab59cee14154db7fc731`. Cloudflare Pages Preview deployment `8d51ca33-4410-4633-a440-a6622f4c1e4c` succeeded for documentation-integrated commit `e87896d9aada9ef9138a1c09308ac197d33b6773`. Manual browser visual QA was unavailable (Browser Use credits); Production merge/deployment awaits owner approval.
 
 ## 2026-11-24 — Irrigation assistant algorithm update (implementation branch; CI pending)
 
