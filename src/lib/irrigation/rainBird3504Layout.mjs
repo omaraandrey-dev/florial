@@ -105,8 +105,9 @@ function maximumSafeRadius(x, y, bounds, position) {
   const height = bounds.maxY - bounds.minY
   if (position.source === 'vertex') return Math.min(10, width, height)
   if (position.source === 'edge') {
-    return Math.min(10, position.arcDeg === 180 && (position.directionDeg === 90 || position.directionDeg === 270)
-      ? height : width)
+    return position.directionDeg === 90 || position.directionDeg === 270
+      ? Math.min(10, height, x - bounds.minX, bounds.maxX - x)
+      : Math.min(10, width, y - bounds.minY, bounds.maxY - y)
   }
   return Math.min(10, x - bounds.minX, bounds.maxX - x, y - bounds.minY, bounds.maxY - y)
 }
