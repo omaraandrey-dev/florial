@@ -116,8 +116,10 @@ test('equipment initial HTML listing is capped at the first 20 products', () => 
 
 test('middleware injects equipment listings only after a successful production catalogue query', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
-  assert.match(middleware, /renderEquipmentCategoryListing\(equipmentProducts, language, SITE_URL\)/)
+  assert.match(middleware, /renderEquipmentCategoryListing\(equipmentProducts, language, SITE_URL, \{ rootCatalog: doc\.slugValue === 'vsichko-za-polivane'/)
   assert.match(middleware, /doc\._dataset === 'production' && categoryProducts !== null \? categoryProducts : undefined/)
   assert.match(middleware, /type === 'category' && categoryProducts === null\s*\? 'no-store'/)
-  assert.match(middleware, /fetchCategoryProducts\('production', doc\._id\)/)
+  assert.match(middleware, /fetchCategoryProducts\('production', doc\._id, \(categories\) => \{ equipmentCategoryTree = categories \}\)/)
+  assert.match(middleware, /"categoryId": category->_id/)
+  assert.match(middleware, /"categoryIds": categories\[\]._ref/)
 })
