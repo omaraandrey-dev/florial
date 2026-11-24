@@ -64,7 +64,7 @@ test('8x8 rectangle uses R-VAN24 in the four corners and R-VAN18 at the four sid
 })
 
 test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 routes', () => {
-  for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 14, [5, 5, 4]]]) {
+  for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 12, [6, 6]]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, 5))
     assert.equal(result.status, 'layout_generated')
     assert.equal(result.operatingScenario?.model, 'R-VAN18')
@@ -83,14 +83,15 @@ test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 r
   }
 })
 
-test('30x5 lawn balances all perimeter and interior heads across three zones', () => {
+test('30x5 lawn is covered by mixed-radius perimeter heads in two balanced zones', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(30, 5))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.model, 'R-VAN18')
-  assert.equal(result.layout?.sprinklers?.length, 14)
-  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [5, 5, 4])
+  assert.equal(result.layout?.sprinklers?.length, 12)
+  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [6, 6])
   assert.equal(result.layout?.headToHead?.passed, true)
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.ok(result.layout?.sprinklers?.every((head) => head.source !== 'interior'))
   assert.ok(result.pipeNetwork?.branches?.every((branch) => branch.sprinklerIds.length > 0))
 })
 
