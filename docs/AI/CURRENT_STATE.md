@@ -1,16 +1,18 @@
-# Current implementation handoff — PR #530 corner-first 3504-PC integration (2026-11-24)
+# Current implementation handoff — PR #530 merged and Production deployed (2026-11-24)
 
-- **Main remains:** `d9a24afc4ba04f36b4bf027646eba986e38156f5`; integration PR #530 is open, based on this exact main SHA.
-- **Final integration head:** `61c41f489f8050d778f5122c40130d5e8ca36700`.
-- **CI:** Blog/Studio run `45449765697` passed 475/475 tests, type-check, lint, website build, read-only D1 dry-run, Studio type-check/build; D1 validation `45449765622` passed.
-- **Preview:** Cloudflare Pages deployment `c5161fba-12a2-42b4-a4a9-695f0cbc188b` succeeded from the exact integration head: https://c5161fba.florial.pages.dev.
-- **Algorithm:** 3504-PC uses true-corner-first placement, then a complete shared-cell grid with deduplicated nodes and mutual Head-to-Head. No seam offsets are passed to the rotor solver.
-- **Approved seam adjustment:** 7.5 cm inward offset is available only for the exact matching R-VAN corner candidate at a shared strip/rectangle seam when that rectangle falls back to R-VAN. All other R-VAN model/radius selection and placement logic remains unchanged.
-- **Functional browser smoke checks:** 8×8, 10×10, 38×16, 28×14 L-shape with 16×12 cut-out, and 28×4 L-shape with 16×2 cut-out all rendered and calculated successfully on the exact Preview. Manual screenshot/visual design review and owner acceptance remain pending.
-- **Release boundary:** PR #530 is mergeable but not merged. Merge triggers Production deployment; explicit owner release approval is pending. No Sanity writes, D1 schema/data changes or Cloudflare settings/secrets changes have been made.
-- **Engineering limits:** sampled geometric coverage only; hydraulics, precipitation uniformity and field performance are not evaluated.
+- **Main:** `ac29eafb5e4e1af4706c05e28e9de9fe31743336` (PR #530 merge commit); PR #530 is closed and merged.
+- **Production:** Cloudflare Pages deployment `3304a92b-4284-4293-88a4-8d5605d5c437`, environment `production`, build and deploy stages succeeded from the exact merge SHA. Deployment URL: https://3304a92b.florial.pages.dev.
+- **CI on exact PR head:** Blog/Studio run `45451360534` passed 475/475 tests, application/Pages Functions type-check, lint, website build, read-only D1 dry-run, Studio type-check/build. D1 validation run `45451040299` passed; no migration was applied.
+- **Preview:** final PR-head Preview deployment https://bdbe70cc.florial.pages.dev succeeded.
+- **Current geometry order:** decompose supported orthogonal lawn/exclusion geometry into non-overlapping rectangles; process rectangles from smallest area to largest; pass actual previously placed heads to the next rectangle. Validate final sampled coverage and spray footprints against the original lawn and exclusions. Group zones only after the complete head set is assembled; maximum six heads per zone.
+- **3504-PC:** for each non-strip rectangle, test four true geometric corner rotors first. If they do not pass, build a complete shared-cell grid with deduplicated shared nodes. Require complete sampled coverage and mutual Head-to-Head. Prefer 8 m; 9/10 m are alternatives when they materially reduce head count; use local 7/6/5 m where safe clearance requires. A failed rotor candidate set is discarded before the existing R-VAN fallback.
+- **R-VAN protection:** all established model/nozzle/radius selection, normal candidate placement, perimeter/interior ordering and spacing remain unchanged. The only approved extension is the opt-in 7.5 cm inward offset for the exact matching R-VAN corner candidate at a shared narrow-strip/rectangle seam when the adjacent rectangle falls back to R-VAN. No offset is passed to the 3504-PC solver.
+- **Functional Preview cases:** 8×8, 10×10, 38×16, 28×14 L-shape with 16×12 cut-out, and 28×4 L-shape with 16×2 cut-out all passed the recorded browser-rendered calculations. Screenshots were reviewed for 8×8, 38×16 and 28×14.
+- **Still open:** separate rendered-PDF visual review; hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance are not evaluated. Production browser-interaction smoke was not completed in this run.
+- **No live data/config writes:** no Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails.
 
 ---
+
 
 # Current implementation handoff — orthogonal lawn solver Production release (2026-11-24)
 

@@ -1,4 +1,15 @@
-## 2026-11-24 — PR #530 readiness for owner release approval
+## 2026-11-24 — PR #530 merged and Production deployed
+
+- PR #530 merged into `main` at merge commit `ac29eafb5e4e1af4706c05e28e9de9fe31743336`; PR head `2e4337c132694c35f0a33aa20282c9506b47479b`, integration branch `integration/irrigation-3504pc-corner-first`. The integration brings together PR #527 dimensioned orthogonal geometry/PDF work and PR #528 rotor persistence/BOM contract with the owner-approved corner-first 3504-PC solver.
+- Cloudflare Pages Production deployment `3304a92b-4284-4293-88a4-8d5605d5c437` completed successfully from the exact merge commit; deployment URL: https://3304a92b.florial.pages.dev.
+- Exact PR-head validation: Blog/Studio run `45451360534` succeeded with 475/475 tests, application and Pages Functions type-check, lint, website build, read-only D1 migration dry-run, Studio type-check and build. D1 validation run `45451040299` succeeded; no migration was applied.
+- Preview deployment from the final PR head succeeded at https://bdbe70cc.florial.pages.dev. Browser-rendered Preview calculations passed: 8×8 m (4 heads), 10×10 m (4 heads), 38×16 m (18 heads / 3 zones), 28×14 m with 16×12 m top-right cut-out (16 mixed heads / 3 zones), and 28×4 m with 16×2 m top-right cut-out (12 heads). The recorded cases had 100% sampled coverage, zero uncovered samples and applicable Head-to-Head checks passing.
+- Preview screenshots were visually reviewed for 8×8 m, 38×16 m and the 28×14 m L-shape. Automated PDF regression tests passed; a separate rendered-PDF visual review remains open. A new Production browser-interaction smoke test was not completed in this run.
+- Current rectangle processing is smallest area to largest. Each non-strip rectangle attempts a complete corner-first 3504-PC layout; the four true corners are tested first, shared cell corners are deduplicated, and actual mutual Head-to-Head plus sampled coverage are required. The 8 m stage is preferred; 9/10 m are considered where they reduce head count; local 7/6/5 m radii are allowed for safe clearance. If the rotor layout fails, its candidates are discarded and the existing R-VAN fallback is used. Zones are grouped after the full sprinkler set is assembled, with no more than six heads per zone.
+- The approved 7.5 cm inward seam adjustment remains narrowly limited to the exact matching R-VAN corner candidate at a shared strip/rectangle seam when that rectangle uses R-VAN fallback. The 3504-PC solver remains on true geometric corners.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails were performed. Hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance remain outside this sampled geometric solver.
+
+## 2026-11-24 — PR #530 pre-merge readiness checkpoint (historical)
 
 - Integrated code commit: `61c41f489f8050d778f5122c40130d5e8ca36700`; documentation/verification snapshot commit: `5d355a05c9942bb860fd7050344d7aded0c26223`. PR #530 is open against current `main` `d9a24afc4ba04f36b4bf027646eba986e38156f5`, with no base-branch divergence.
 - Final Blog/Studio validation run `45450454774` passed: 475/475 tests, app/Pages Functions type-check, lint, website build, read-only D1 migration dry-run, Studio type-check and build. D1 validation run `45450455013` passed; no migration was applied.

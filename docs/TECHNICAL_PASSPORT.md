@@ -1,4 +1,17 @@
-## 2026-11-24 — PR #530 readiness for owner release approval
+## 2026-11-24 — PR #530 merged and Production deployed
+
+- PR #530 merged into `main` at `ac29eafb5e4e1af4706c05e28e9de9fe31743336`; integration head `2e4337c132694c35f0a33aa20282c9506b47479b`; source PRs #527 and #528 are integrated.
+- Cloudflare Pages Production deployment `3304a92b-4284-4293-88a4-8d5605d5c437` succeeded from the exact merge commit. URL: https://3304a92b.florial.pages.dev.
+- Exact PR-head Blog/Studio validation run `45451360534`: 475/475 tests passed, application/Pages Functions type-check, lint, website build, read-only D1 migration dry-run, Studio type-check and build. D1 validation run `45451040299` passed; no migration was applied.
+- The current orthogonal geometry pipeline processes non-overlapping calculation rectangles from smallest area to largest, reuses actual previously placed heads, validates composite sampled coverage/overspray against the original lawn and exclusions, then groups zones (maximum six heads).
+- Per non-strip rectangle, the 3504-PC solver tests the four true corners first, then a complete shared-cell grid with deduplicated nodes; sampled coverage and mutual Head-to-Head must pass. The 8 m stage is preferred; 9/10 m alternatives are considered where they materially reduce head count; local 7/6/5 m radii are allowed where safe clearance requires. Failed rotor candidates are discarded before the established R-VAN fallback.
+- The established R-VAN algorithm remains unchanged except for the owner-approved opt-in 7.5 cm inward offset on the exact matching R-VAN corner candidate at a shared strip/rectangle seam when that rectangle uses R-VAN fallback. No offset is passed to the 3504-PC solver.
+- Preview calculations passed for 8×8, 10×10, 38×16, 28×14 with 16×12 cut-out and 28×4 with 16×2 cut-out. Screenshots were reviewed for 8×8, 38×16 and 28×14. Automated PDF regression passed; rendered-PDF visual review remains outstanding.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails. Hydraulic/field validation remains outside this geometric solver.
+
+---
+
+## 2026-11-24 — PR #530 pre-merge readiness checkpoint (historical)
 
 - Integrated code commit: `61c41f489f8050d778f5122c40130d5e8ca36700`; documentation/verification snapshot commit: `5d355a05c9942bb860fd7050344d7aded0c26223`. PR #530 is open against current `main` `d9a24afc4ba04f36b4bf027646eba986e38156f5`, with no base-branch divergence.
 - Final Blog/Studio validation run `45450454774` passed: 475/475 tests, app/Pages Functions type-check, lint, website build, read-only D1 migration dry-run, Studio type-check and build. D1 validation run `45450455013` passed; no migration was applied.

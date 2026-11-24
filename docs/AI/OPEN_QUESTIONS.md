@@ -1,13 +1,13 @@
-## 2026-11-24 — PR #530 corner-first 3504-PC integration
+## 2026-11-24 — PR #530 merged and Production released
 
-- **CLOSED — code integration candidate:** PR #530 combines the relevant #527 dimensioned diagram/PDF/orthogonal-zone work and #528 rotor persistence/BOM contract with the owner-approved corner-first shared-cell solver.
-- **CLOSED — bounded R-VAN seam offset:** owner approved a 7.5 cm inward offset only for the exact matching R-VAN corner candidate at a shared narrow-strip/rectangle seam when the rectangle uses R-VAN fallback. Other R-VAN selection and placement rules remain unchanged.
-- **CLOSED — automated validation:** exact final head `61c41f489f8050d778f5122c40130d5e8ca36700`; Blog/Studio run `45449765697` passed 475/475 tests and all checks; D1 validation `45449765622` passed.
-- **CLOSED — Preview deployment:** deployment `c5161fba-12a2-42b4-a4a9-695f0cbc188b` succeeded from the exact final head: https://c5161fba.florial.pages.dev.
-- **CLOSED — functional browser smoke checks:** 8×8, 10×10, 38×16, 28×14 L-shape with 16×12 cut-out, and 28×4 L-shape with 16×2 cut-out rendered and calculated successfully; 3504-PC cases showed full sampled coverage and passing Head-to-Head.
-- **OPEN — manual visual design review and owner acceptance:** inspect diagram appearance, dimension annotations, exclusions, markers, zones and PDF on the Preview before merge.
-- **OPEN — merge and Production release:** PR #530 remains open; no main merge or Production deployment has occurred.
-- **OPEN — engineering validation:** hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance remain outside the geometric solver.
+- **CLOSED — integration and merge:** PR #530 merged into `main` at `ac29eafb5e4e1af4706c05e28e9de9fe31743336`; it integrates PR #527 geometry/dimensions/PDF work and PR #528 3504-PC rotor persistence/BOM contract.
+- **CLOSED — automated validation:** exact PR head `2e4337c132694c35f0a33aa20282c9506b47479b`; Blog/Studio run `45451360534` passed 475/475 tests and all listed checks; D1 validation `45451040299` passed without applying a migration.
+- **CLOSED — Production deployment:** Cloudflare Pages deployment `3304a92b-4284-4293-88a4-8d5605d5c437` succeeded from merge commit `ac29eafb5e4e1af4706c05e28e9de9fe31743336`.
+- **CLOSED — functional Preview calculations:** 8×8, 10×10, 38×16, 28×14 L-shape with 16×12 cut-out, and 28×4 L-shape with 16×2 cut-out passed the recorded browser-rendered calculations. Screenshots reviewed for 8×8, 38×16 and 28×14.
+- **OPEN — rendered-PDF visual review:** automated PDF regression tests passed, but a separate visual inspection of a rendered PDF is not recorded.
+- **OPEN — hydraulic/field validation:** pressure/flow, pipe losses, precipitation uniformity and actual field performance remain outside the geometric solver. The layout is sampled geometric planning, not a complete hydraulic design.
+- **NOT CONFIRMED — Production browser-interaction smoke:** not completed in this run; the Production deployment itself is confirmed successful.
+- **SCOPE CONFIRMATION:** no Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails were performed.
 
 ## 2026-11-24 — PR #525 Production release close-out
 

@@ -2,7 +2,7 @@
 
 - Replaced the whole-lawn rotor prepass + R-VAN gap-fill behavior with independent decisions for each calculation rectangle.
 - Rectangles are processed from smallest area to largest area.
-- Each non-strip rectangle tries 3504-PC planning radii 10 m, 9 m and 8 m in that order. Rotor heads are accepted only when they cover the rectangle's sampled targets completely and pass the rotor Head-to-Head gate.
+- Each non-strip rectangle runs the corner-first 3504-PC solver. It tests the 8 m planning stage first; 9 m and 10 m alternatives are scored when they materially reduce the number of heads, while local 7/6/5 m radii remain available for safe clearance. A candidate is accepted only when sampled coverage and mutual Head-to-Head pass.
 - If the rotor candidate set is incomplete or fails its gate, all rotor candidates for that rectangle are discarded and the unchanged R-VAN solver is used for that rectangle. A rectangle is not left with a partial mix of rotor and R-VAN heads.
 - Existing 1 m / 2 m directional strip patterns remain R-VAN-specific.
 - At a shared strip seam, the adjacent rectangular solver may offset its own corner candidate 0.075 m inward. The offset is revalidated against the local rectangle and original lawn boundary.

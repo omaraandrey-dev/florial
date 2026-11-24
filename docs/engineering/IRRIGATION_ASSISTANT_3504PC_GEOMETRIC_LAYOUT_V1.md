@@ -1,6 +1,6 @@
 # Rain Bird 3504-PC geometric layout — corner-first shared-cell algorithm
 
-**Status:** implementation in integration PR #530; not merged to `main`. Automated CI and Preview deployment passed on final exact head `61c41f489f8050d778f5122c40130d5e8ca36700`; functional browser-rendered smoke checks passed for 8×8, 10×10, 38×16 and two L-shaped cases; manual screenshot/visual design review remains pending.  
+**Status:** merged into `main` at `ac29eafb5e4e1af4706c05e28e9de9fe31743336`; Cloudflare Pages Production deployment `3304a92b-4284-4293-88a4-8d5605d5c437` succeeded from that exact merge commit. Exact PR-head CI passed 475/475 tests and all listed checks. Preview functional calculations passed for 8×8, 10×10, 38×16 and two L-shaped cases. Screenshots were reviewed for 8×8, 38×16 and 28×14; rendered-PDF visual review remains pending.  
 **Owner-approved scope:** revise the Rain Bird 3504-PC rotor placement algorithm and add the separately approved 7.5 cm R-VAN corner offset only for a shared strip/rectangle seam fallback. All other established R-VAN selection and placement rules remain unchanged. This remains preliminary geometric planning, not a hydraulic design.
 
 ## 1. Owner-approved layout rules
@@ -107,4 +107,4 @@ The integration test suite must verify:
 
 ## 7. Release boundary
 
-No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production deployment or Production order/email tests are part of this work. Visual Preview acceptance is a separate check and must not be claimed until performed.
+PR #530 is merged and its exact merge commit was deployed successfully to Cloudflare Pages Production. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or email tests were part of this work. A separate rendered-PDF visual review remains outstanding. Hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance are not evaluated.
