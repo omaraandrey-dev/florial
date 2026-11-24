@@ -226,7 +226,7 @@ test('geometry preview and calculated customer SVG share one Y-up to SVG transfo
   assert.match(assistant, /const svgTransform = 'translate\\(0 '/)
   assert.equal((assistant.match(/<g transform={svgTransform}>/g) ?? []).length, 2)
   assert.match(assistant, /<g transform={svgTransform}><polygon points={svgPoints} fill=/)
-  assert.match(assistant, /<g transform={svgTransform}>\\s*<polygon points={svgPoints} fill=/)
+  assert.match(assistant, /<g transform={svgTransform}>\s*<polygon points={svgPoints} fill=/)
 })
 
 test('unsupported narrow widths do not fall back to circular sprinklers', () => {
