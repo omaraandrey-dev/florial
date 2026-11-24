@@ -2,7 +2,7 @@
 
 - Corrected the per-position nozzle selection defect: the prior bridge selected one model from the overall short side and the solver reused it for every sprinkler. The solver now sizes corner, side and interior candidates independently from local geometric reach/spacing.
 - Regression target for an 8 × 8 m rectangle: R-VAN24 / 6 m at four corners and R-VAN18 / 4 m at four side midpoints; coverage and head-to-head are checked with each head's actual radius.
-- Customer diagram markers and radius rings now use Rain Bird identification colors (R-VAN14 blue, R-VAN18 tan, R-VAN24 burgundy; RCS gray). Added a model legend and per-zone nozzle-model counts.
+- Customer diagram markers and radius rings now use Rain Bird identification colors (R-VAN14 blue, R-VAN18 tan, R-VAN24 burgundy; RCS gray). Added a model legend and per-zone nozzle-model counts. Layout and project/PDF scenario labels now report the actual selected model set instead of a single base model.
 - Removed the fixed planning-radius explanatory note and flex-pipe length/coil text from the customer result. The kit summary shows sprinkler and zone counts only.
 - Updated the perimeter-first engineering guide and added an audit. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets, Production orders or emails.
 - Blog/Studio CI run #2483 and D1 validation run #2668 passed on code/test commit `b01e408e026f39dacc22ab59cee14154db7fc731`. Cloudflare Pages Preview deployment `8d51ca33-4410-4633-a440-a6622f4c1e4c` succeeded for documentation-integrated commit `e87896d9aada9ef9138a1c09308ac197d33b6773`. Manual browser visual QA was unavailable (Browser Use credits); Production merge/deployment awaits owner approval.
