@@ -26,11 +26,8 @@ No React category behavior, Sanity documents or schemas, D1, Cloudflare settings
 
 ## Verification
 
-- Source-level review: performed against the branch files.
-- Isolated runtime assertions against the actual renderer source passed for BG/RU/EN output, localized URLs, root equipment price/stock semantics, image ALT/title, SKU, empty state and the 20-item cap. A plant-variant renderer regression assertion also passed.
-- **CLOSED — exact-PR-head CI:** Blog and Studio workflow run `45462084817` succeeded. `npm test` reported 481/481 passing; app/Pages Functions type-check, oxlint, website build, migration-script syntax check, read-only description migration dry-run, Studio type-check and Studio build all succeeded.
-- **CLOSED — D1 workflow validation:** run `45462037512` succeeded, including lint, website build, Pages Functions syntax check and the existing D1 migration validators. No migration was applied.
-- **CLOSED — Preview build/deployment:** Cloudflare Pages deployment `5535da5d-488c-405a-9101-cae9cf6c1dbe` succeeded from exact PR head `fb3b065930ee2bbe8e030b96fc13684727acfd48`; Preview URL: https://5535da5d.florial.pages.dev.
-- **OPEN — raw initial HTML:** Firecrawl snapshots return the post-hydration DOM (the existing plant SSR marker is also absent after React mounts), so they cannot prove what the first HTTP response contained. Browser Use could not run because its project has insufficient credits. A network-level raw response check is still required before merge.
+- **CLOSED — final documentation-head CI:** PR head `a30dcd3323922130441b28331c28872934378e4c` passed Blog/Studio workflow run `45462628899` and D1 workflow run `45462628831`; all steps succeeded.
+- **CLOSED — final Preview deployment:** deployment `5db5441d-2f0b-4b92-a9c5-6b939ecf9cf4` succeeded from exact head `a30dcd3323922130441b28331c28872934378e4c`; URL: https://5db5441d.florial.pages.dev.
+- **CLOSED — post-hydration route smoke:** Firecrawl returned HTTP 200 and the correct BG/RU/EN language/H1 for `controllers`; each rendered 20 product links and exactly one React product grid. The irrigation root rendered 20 links; nested `autonomous-controllers` rendered 10; nested `electromagnetic-valves-9v` rendered 6. These are post-hydration DOM checks, not proof of the first HTTP response.
+- **OPEN — raw initial HTML:** Firecrawl snapshots are post-hydration DOMs and cannot prove what the first HTTP response contained. The existing plant SSR marker also disappears after React mounts. Browser Use could not run because its project has insufficient credits. A network-level raw response check remains required before merge.
 - **OPEN — Production:** no merge or Production deployment is claimed.
-
