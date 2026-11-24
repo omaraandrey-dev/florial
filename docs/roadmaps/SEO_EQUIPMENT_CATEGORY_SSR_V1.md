@@ -1,6 +1,6 @@
 # Equipment category server-rendered catalogue — SSR Catalog v1
 
-**Status:** implementation in PR #531; CI and Preview build passed; raw initial-HTML verification and merge remain open.  
+**Status:** implementation, exact-head CI, Preview and raw initial-HTML verification passed in PR #531; merge and Production verification remain.  
 **Scope:** equipment categories in Sanity dataset `production`. Plant category SSR is a frozen compatibility baseline and is not redesigned.
 
 ## Objective
@@ -28,12 +28,12 @@ Include a useful, crawlable product listing in the initial HTML response for irr
 6. Plant category SSR output and its failure behavior remain unchanged.
 7. Equipment query failure does not become an empty listing and is not edge-cached.
 8. Existing React catalogue behavior remains responsible for filtering and pagination; no second interactive layer is added.
-9. Tests and exact-SHA CI pass; Production raw HTML smoke is checked only after a confirmed deployment.
+9. Tests and exact-SHA CI pass; Preview first-response HTML is verified directly without JavaScript; Production smoke is checked after merge and deployment.
 
 ## Verification status
 
-- Exact code-head CI passed on `331ffee5b548864c36497fafb788293569c4180a`: 483/483 tests, app/Pages Functions type-check, lint, website build, Studio type-check/build; D1 validation passed without applying a migration.
-- Cloudflare Pages Preview deployment `ba6a681a-2865-4c40-815e-27216bc510e5` succeeded from that exact SHA.
-- Post-hydration Preview smoke checks passed for BG/RU/EN controllers, irrigation root and nested categories. These do not verify the initial HTTP HTML.
-- Raw first-response HTML verification remains open because available Firecrawl snapshots are post-hydration and Browser Use was unavailable. Production merge/deployment remains pending.
+- Exact PR head `17aefbb2781d24b401310d759dbe9cb678b4e945`: Blog/Studio CI run `45466168536` and D1 validation run `45466168430` passed. Website tests: 483 passed / 0 failed; app/Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check and Studio build passed. No migration was applied.
+- Raw first-response smoke passed for BG/RU/EN using Node native `fetch()` from GitHub Actions (push run `45466157907`, PR run `45466168466`). Each initial HTML response contains 20 equipment product links; the ordered links match CollectionPage ItemList; RU/EN links retain the locale query. No JavaScript or browser hydration is involved in this proof.
+- Cloudflare Pages Preview deployment `34fe3142-5306-4391-afb5-d195691361a4` succeeded from the same exact SHA.
+- **Remaining:** merge PR #531 and verify the exact Production Pages deployment plus raw first-response HTML on canonical BG/RU/EN category URLs. This SSR task is separate from the existing Search Console noindex/canonical discrepancies for other URLs.
 - No Sanity, D1, Cloudflare configuration, secrets, orders or email writes are part of this task.

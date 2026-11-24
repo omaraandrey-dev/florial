@@ -4432,3 +4432,13 @@ Backups:
 - Exact-head Blog/Studio and D1 CI passed; Preview and Production deployments succeeded. No Sanity, D1, Cloudflare settings/secrets, Resend, Footer, Header/menu or global CSS changes.
 - **Measurement boundary:** no matched post-change PSI/Lighthouse result is available yet. Do not claim the baseline score 79 or CLS 0.337 improved until the same mobile profile is rerun. Screenshot/interaction QA also remains open because Browser Use credits were unavailable.
 - Detailed evidence: docs/audits/2026-11-23-blog-performance-remediation.md.
+
+
+## 2026-11-24 — Equipment category SSR Catalog v1 (PR #531)
+
+- Added a server-rendered equipment catalogue to the initial HTML response for published irrigation-equipment categories in Sanity dataset `production`. The existing interactive React catalogue, filtering and pagination remain in place; plant SSR remains unchanged.
+- Root category `vsichko-za-polivane` uses the React-compatible six-category round-robin and R-VAN → HE-VAN → VAN nozzle priority. The CollectionPage ItemList follows the same ordered entries.
+- **Raw first-response verification passed:** GitHub Actions workflow `Equipment SSR Preview smoke`, run `45466157907` (push) and run `45466168466` (pull request), exact source revision `17aefbb2781d24b401310d759dbe9cb678b4e945`. The Node.js test uses native `fetch()` and does not execute page JavaScript. BG, RU and EN responses each contained 20 server-rendered product cards; all product URLs matched the CollectionPage ItemList order and locale suffixes were preserved.
+- **Exact-head CI passed:** Blog and Studio validation run `45466168536`; D1 migration validation run `45466168430`. The website test step reported 483 passed / 0 failed; app and Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check/build and D1 validation passed. No migration was applied.
+- Cloudflare Pages Preview deployment `34fe3142-5306-4391-afb5-d195691361a4` succeeded from exact revision `17aefbb2781d24b401310d759dbe9cb678b4e945`.
+- PR #531 is ready for merge. Production deployment is not yet claimed; it must be checked after merge. No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets, orders, email, or Production configuration changes were made.

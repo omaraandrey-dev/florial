@@ -4362,3 +4362,14 @@ Read-only GROQ `references(blogPostId)` в Production обнаружил:
 - Middleware adds preconnect hints for the Sanity query CDN and image CDN only on the blog index. Blog category/article cards use tighter sizes and Sanity image quality 68; original assets unchanged.
 - Production BG/RU/EN mobile rendered-HTML smoke passed. No screenshot/interactive QA and no matched post-change PSI/Lighthouse runs; do not claim a numerical performance gain. Baseline: Performance 79, FCP 0.9 s, LCP 2.7 s, TBT 10 ms, CLS 0.337, Speed Index 2.9 s.
 - No Footer/Header/menu/global CSS/routes, Sanity schema/documents/assets, D1, Cloudflare settings/secrets/DNS or Resend changes. Audit: docs/audits/2026-11-23-blog-performance-remediation.md.
+
+
+## 2026-11-24 — Equipment category SSR Catalog v1
+
+- Cloudflare Pages middleware renders up to 20 published irrigation-equipment product cards directly into the initial HTML response for category pages in Sanity dataset `production`.
+- Cards expose localized product name/link, image ALT/title, EUR price when present, stock status when known and SKU when present. The root irrigation category preserves six-category round-robin and R-VAN → HE-VAN → VAN ordering; CollectionPage ItemList uses the same sequence.
+- The client React catalogue remains responsible for interactive filtering and pagination and replaces the initial fallback on mount. Existing plant category SSR behavior remains unchanged.
+- Failed category product fetches do not become false empty catalogues and use `Cache-Control: no-store`; successful responses use the existing short edge-cache policy.
+- Verified on PR head `17aefbb2781d24b401310d759dbe9cb678b4e945`: 483/483 website tests, app/Pages Functions type-check, lint, website build, Studio type-check/build and D1 validation passed. Raw initial HTTP smoke passed for BG/RU/EN: 20 product links each, matching CollectionPage ItemList order.
+- Preview deployment `34fe3142-5306-4391-afb5-d195691361a4` succeeded from that exact SHA. Production rollout remains pending PR merge and exact deployment verification.
+- No Sanity schema/documents, D1 data/schema, Cloudflare settings/secrets or irrigation-assistant code were changed.
