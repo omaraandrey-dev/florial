@@ -110,19 +110,19 @@ zoneCapacity: {
 
 Движок использует только точное совпадение модели, давления и дуги через `findRainBirdRvanPerformancePoint`. Нет интерполяции, экстраполяции, выбора ближайшей строки или подстановки несуществующей рабочей точки.
 
-### Правило выбора базовой модели
-`irrigationLayoutBridge.mjs` вычисляет короткую сторону bounding box и перебирает в порядке:
-1. R-VAN14;
-2. R-VAN18;
-3. R-VAN24.
+### Правило выбора базовой модели и индивидуальной форсунки
+Короткая сторона bounding box выбирает только исходную модель для построения внутренней кандидатной сетки. Она больше не назначает одну модель всем дождевателям.
 
-Для каждой модели запрашивается точная точка 3.1 bar / 180°. Выбирается первая модель, радиус которой не меньше короткой стороны участка. Если короткая сторона шире доступного радиуса R-VAN24, выбирается R-VAN24 и прямоугольник обслуживается дополнительными внутренними рядами, если их поддерживает placement solver.
+Для каждого периметрального кандидата движок выбирает модель отдельно:
+- угловая позиция — по расстоянию от вершины до центра площади полигона;
+- промежуточная позиция на стороне — по фактическому равномерному интервалу между соседними позициями этой стороны;
+- внутренняя позиция — по интервалу внутренней прямоугольной сетки.
 
-Из известных точек таблицы:
-- R-VAN18 при 3.1 bar: радиус 5.2 m;
-- R-VAN24 при 3.1 bar: радиус 7.0 m.
+Проектные значения Florial: R-VAN14 = 3 m; R-VAN18 = 4 m или 5 m; R-VAN24 = 6 m. Выбирается наименьший допустимый проектный радиус, который не меньше требуемого локального расстояния. Угол 90°/180°/270°/360° меняет сектор, но не выбранный радиус. Для каждой позиции выполняется точный lookup производителя по выбранной модели, давлению и дуге; геометрический радиус хранится отдельно от табличного радиуса производителя.
 
-Это правило предварительного подбора модели и радиуса по геометрии на основании таблицы производителя. Значение 3.1 bar — референтная точка таблицы, не измерение объекта. Помощник не рассчитывает давление на форсунках и не выполняет гидравлическую проверку. В output прямо установлено:
+Например, на прямоугольнике 8 × 8 m четыре угловые позиции требуют R-VAN24 / 6 m по расстоянию до центра, а четыре середины сторон имеют интервал 4 m и получают R-VAN18 / 4 m. Head-to-head затем проверяется по фактическим радиусам обеих соседних форсунок и их секторам.
+
+Значение 3.1 bar — референтная точка таблицы, не измерение объекта. Помощник не рассчитывает давление на форсунках и не выполняет гидравлическую проверку. В output прямо установлено:
 - `actualNozzlePressureVerified: false`;
 - `customerSourceMeasurementsUsedAsNozzlePressure: false`;
 - `hydraulicFeasibility: not_evaluated`.
@@ -131,10 +131,10 @@ zoneCapacity: {
 
 ## 5. Генерация позиций дождевателей
 
-Реализация: `src/lib/irrigation/lawnSprinklerLayout.mjs`, алгоритм `perimeter-first-multi-row-greedy-set-cover-v3`.
+Реализация: `src/lib/irrigation/lawnSprinklerLayout.mjs`, алгоритм `perimeter-first-mixed-rvan-spacing-aware-set-cover-v5`.
 
 ### 5.1 Контрольные точки покрытия
-- Шаг выборочной сетки по умолчанию: 0.25 m.
+- Шаг выборочной сетки по умолчанию: 0.5 m.
 - Внутренние точки создаются по bounding box и фильтруются проверкой point-in-polygon.
 - Точки на границе дополнительно добавляются отдельно, чтобы сетка не пропускала промежутки между узлами.
 - Повторяющиеся координаты устраняются.
@@ -160,7 +160,7 @@ zoneCapacity: {
 - внутренние кандидаты имеют дугу 360°;
 - фактическая необходимость каждой позиции решается покрытием, а не простым фактом наличия в решётке.
 
-Для L-shape применяется консервативная внутренняя треугольная решётка с шагом рядов `radius × sqrt(3) / 2` и шахматным смещением соседних рядов на половину радиуса. Каждая точка проверяется на нахождение строго внутри исходного полигона.
+Для L-shape применяется та же осевая прямоугольная решётка, что и для прямоугольника. Каждая кандидатная точка проверяется по исходному полигону; точки в вырезе исключаются. Шахматное смещение и треугольная решётка не используются.
 
 ### 5.4 Двухпроходный greedy set-cover
 1. Все кандидаты оцениваются по тому, какие контрольные точки они покрывают.
@@ -442,3 +442,12 @@ R-VAN14, R-VAN18, R-VAN24 and R-VAN-RCS may coexist in one operating zone. The z
 ### Verification boundary
 
 The assistant remains a preliminary geometric layout and catalogue BOM tool. It does not calculate hydraulic feasibility, source flow/pressure, pipe losses or field distribution uniformity. RCS strip placement is explicitly identified as owner-rule placement; it is not represented as a sampled circular-coverage proof.
+
+
+## 2026-11-24 — Per-position R-VAN model selection and customer diagram
+
+- R-VAN nozzle model is now selected per sprinkler candidate, not once for the whole lawn. Corner candidates use corner-to-area-centre reach; side candidates use the actual equal spacing on that side; interior candidates use the interior-grid spacing.
+- For an 8 × 8 m rectangle the regression target is four R-VAN24 corner heads at 6 m and four R-VAN18 side-midpoint heads at 4 m. Sampled coverage and mutual head-to-head are evaluated with each sprinkler's own model/radius.
+- Customer diagram markers and radius rings use model-specific colors; the legend lists only models present in the generated layout. Zone labels include model counts.
+- Removed the customer-facing fixed-planning-radius explanatory note and the flex-pipe metres/coil wording from the equipment summary. The equipment summary now reports only sprinkler and zone counts.
+- No precipitation-intensity compatibility gate is added; the owner's manufacturer-compatibility decision remains authoritative.
