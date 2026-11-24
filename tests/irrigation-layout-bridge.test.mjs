@@ -146,35 +146,17 @@ test('rectangle decomposition is processed by ascending area and a shared strip 
     'the adjacent rectangle must receive a separate inward candidate at the shared strip seam')
 })
 
-test('R-VAN solver can place a corner head 7.5cm inward from a shared seam', () => {
-  const geometry = snapshotFor(10, 10).geometry.normalized
-  const base = generateLawnSprinklerLayout({
-    geometry, family: 'R-VAN', model: 'R-VAN24', pressureBar: 3.1,
-  })
-  const seam = { x: 10, y: 0 }
-  const stripHead = {
-    id: 'seam-strip-head',
-    position: seam,
-    pattern: 'strip',
-    stripBounds: { minX: 10, minY: 0, maxX: 16, maxY: 2 },
-    stripDirection: 'right',
-    stripAxis: 'horizontal',
-  }
-  const initialSprinklers = base.sprinklers.filter((head) =>
-    Math.hypot(head.position.x - seam.x, head.position.y - seam.y) > 6)
-  initialSprinklers.push(stripHead)
-  const layout = generateLawnSprinklerLayout({
-    geometry,
-    family: 'R-VAN',
-    model: 'R-VAN24',
-    pressureBar: 3.1,
-    initialSprinklers,
+test('3504-PC candidate can be shifted 7.5cm inward from a shared seam', () => {
+  const geometry = snapshotFor(12, 14).geometry.normalized
+  const seam = { x: 12, y: 0 }
+  const layout = generateRainBird3504Layout(geometry, {
     candidatePositionOffsets: [{
       from: seam,
       dx: -0.0530330086,
       dy: 0.0530330086,
     }],
   })
+  assert.equal(layout.status, 'layout_generated')
   assert.ok(layout.sprinklers.some((head) =>
     Math.abs(Math.hypot(head.position.x - seam.x, head.position.y - seam.y) - 0.075) < 0.005))
 })
