@@ -1,3 +1,16 @@
+## 2026-11-24 — PR #530 readiness for owner release approval
+
+- Integrated code commit: `61c41f489f8050d778f5122c40130d5e8ca36700`; documentation/verification snapshot commit: `5d355a05c9942bb860fd7050344d7aded0c26223`. PR #530 is open against current `main` `d9a24afc4ba04f36b4bf027646eba986e38156f5`, with no base-branch divergence.
+- Final Blog/Studio validation run `45450454774` passed: 475/475 tests, app/Pages Functions type-check, lint, website build, read-only D1 migration dry-run, Studio type-check and build. D1 validation run `45450455013` passed; no migration was applied.
+- Cloudflare Pages Preview deployment `4bc4ed5b-a96f-4205-aee3-0f311bb2bda5` succeeded from the verification snapshot: https://4bc4ed5b.florial.pages.dev.
+- Browser-rendered checks on Preview passed: 8×8 (4 rotors), 10×10 (4 rotors), 38×16 (18 rotors / 3 zones), 28×14 L-shape with 16×12 cut-out (16 heads / 3 zones), and 28×4 L-shape with 16×2 cut-out (12 heads / 2 zones). All reported 100% sampled coverage, zero uncovered samples and passing applicable Head-to-Head checks.
+- Screenshots were visually inspected for 8×8, 38×16 and the 28×14 L-shape. Dimension labels, 3504-PC markers/sectors, R-VAN legend and zone grouping were visible. Automated PDF regression tests passed; a separate rendered-PDF visual review remains outstanding.
+- R-VAN diff is limited to the opt-in `candidatePositionOffsets` handling for a matching corner candidate and bridge forwarding for the approved 7.5 cm shared-seam adjustment. Model/nozzle/radius selection and normal R-VAN placement remain unchanged.
+- PR #530 is technically ready and mergeable. It has not been merged; no Production deployment has occurred. Merge to `main` triggers the Production release, so explicit owner release approval is still required.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails were performed.
+
+---
+
 ## 2026-11-24 — PR #530 integration candidate: corner-first 3504-PC and bounded R-VAN seam fallback
 
 - PR #530 integrates the dimensioned lawn diagrams, orthogonal calculation-region/PDF work from PR #527 with the 3504-PC rotor persistence/BOM contract from PR #528, using the owner-approved corner-first shared-cell solver.

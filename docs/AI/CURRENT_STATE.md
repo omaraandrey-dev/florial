@@ -7,7 +7,7 @@
 - **Algorithm:** 3504-PC uses true-corner-first placement, then a complete shared-cell grid with deduplicated nodes and mutual Head-to-Head. No seam offsets are passed to the rotor solver.
 - **Approved seam adjustment:** 7.5 cm inward offset is available only for the exact matching R-VAN corner candidate at a shared strip/rectangle seam when that rectangle falls back to R-VAN. All other R-VAN model/radius selection and placement logic remains unchanged.
 - **Functional browser smoke checks:** 8×8, 10×10, 38×16, 28×14 L-shape with 16×12 cut-out, and 28×4 L-shape with 16×2 cut-out all rendered and calculated successfully on the exact Preview. Manual screenshot/visual design review and owner acceptance remain pending.
-- **Release boundary:** PR is not merged; no Production deployment, Sanity writes, D1 schema/data changes or Cloudflare settings/secrets changes have been made.
+- **Release boundary:** PR #530 is mergeable but not merged. Merge triggers Production deployment; explicit owner release approval is pending. No Sanity writes, D1 schema/data changes or Cloudflare settings/secrets changes have been made.
 - **Engineering limits:** sampled geometric coverage only; hydraulics, precipitation uniformity and field performance are not evaluated.
 
 ---

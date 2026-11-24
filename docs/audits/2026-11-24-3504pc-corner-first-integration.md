@@ -4,7 +4,7 @@
 **Source branch A:** `feature/irrigation-dimensions-3504pc` (PR #527)  
 **Source branch B:** `feature/irrigation-3504pc-global-layout-v2` (PR #528)  
 **Base main SHA at integration start:** `d9a24afc4ba04f36b4bf027646eba986e38156f5`  
-**Status:** implementation, automated validation and Preview deployment passed on final head `61c41f489f8050d778f5122c40130d5e8ca36700`; functional browser-rendered smoke checks passed; manual screenshot/visual design review remains pending.
+**Status:** implementation, automated validation, Preview deployment and browser-rendered layout checks passed. Screenshots reviewed for 8×8, 38×16 and 28×14 L-shape. Automated PDF regressions passed; rendered-PDF visual review and owner release approval remain pending.
 
 ## Owner-approved change
 
@@ -65,9 +65,10 @@ Replace the Rain Bird 3504-PC placement logic with a corner-first, shared-cell a
 - Run the full Blog/Studio validation on the exact integration head.
 - Run D1 migration validation; no migration should be applied.
 - Verify all existing irrigation bridge, L-shape, exclusion, PDF, BOM and R-VAN regressions.
-- Confirm the exact R-VAN source blob is unchanged from main.
+- Confirm the R-VAN source diff remains limited to the approved opt-in `candidatePositionOffsets` handling and bridge forwarding; no other R-VAN model/nozzle/radius/placement logic changes.
 - Review the complete integration diff and the final shared-document changes.
-- Deploy a Cloudflare Pages Preview from the exact final head and visually check 8×8, 10×10 and 38×16 layouts, including the 3504-PC marker/radius, dimensions, exclusions, zones and PDF.
-- Do not claim visual acceptance if Browser Use/Preview interaction is unavailable.
+- Automated Preview checks and screenshots completed for 8×8, 10×10, 38×16 and two L-shaped cases; dimension annotations, model markers, coverage sectors and zone grouping were inspected in screenshots.
+- Automated PDF regression tests passed. A separate rendered-PDF visual review remains outstanding.
+- PR #530 is mergeable, but owner release approval is required before merging to `main`, because the merge triggers Production deployment.
 
-No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets changes, Production deployments, Production orders or emails are authorized by this integration task.
+No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets changes, Production deployments, Production orders or emails have been performed. Production release remains pending owner approval.
