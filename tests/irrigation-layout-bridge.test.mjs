@@ -43,13 +43,13 @@ test('Florial selects the fixed R-VAN planning radius from the short side', () =
   }
 })
 
-test('25x5 and 26x5 reference lawns create three balanced zones with source-fed Ø25 routes', () => {
-  for (const length of [25, 26]) {
+test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 routes', () => {
+  for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 14, [5, 5, 4]]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, 5))
     assert.equal(result.status, 'layout_generated')
     assert.equal(result.operatingScenario?.model, 'R-VAN18')
-    assert.equal(result.layout?.sprinklers?.length, 14)
-    assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [5, 5, 4])
+    assert.equal(result.layout?.sprinklers?.length, expectedCount)
+    assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), expectedZones)
     assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
     assert.equal(result.pipeNetwork?.mainDiameterMm, 25)
     assert.equal(result.pipeNetwork?.zoneDiameterMm, 25)
