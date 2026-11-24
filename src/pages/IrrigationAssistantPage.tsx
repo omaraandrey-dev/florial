@@ -19,6 +19,15 @@ interface IrrigationAssistantPageProps {
   onSetIrrigationProject: (project: IrrigationProjectSnapshot) => void
 }
 
+function sprinklerNozzleColor(model: string | null | undefined) {
+  const normalized = String(model ?? '').replace(/-360$/, '')
+  if (normalized === 'R-VAN14') return '#3b82f6'
+  if (normalized === 'R-VAN18') return '#c49a6c'
+  if (normalized === 'R-VAN24') return '#800020'
+  if (normalized === 'R-VAN-RCS') return '#374151'
+  return '#64748b'
+}
+
 export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddToCart, onSetIrrigationProject }: IrrigationAssistantPageProps) {
   const { language } = useI18n()
   const [shape, setShape] = useState<LawnInputShape>('rectangle')
@@ -342,12 +351,14 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
   const shapeLabel = shape === 'rectangle' ? copy.rectangle : copy.lShape
   const locale = language === 'ru' ? 'ru-RU' : language === 'en' ? 'en-GB' : 'bg-BG'
   const numberFormat = (value: number) => value.toLocaleString(locale, { maximumFractionDigits: 2 })
+  const layoutModelNames = Array.from(new Set((layoutResult?.layout?.sprinklers ?? []).map((sprinkler: any) => String(sprinkler.performanceModel ?? '').replace(/-360$/, ''))))
+  const layoutModelLabel = layoutModelNames.join(', ') || layoutResult?.operatingScenario?.model || '—'
+  const layoutNozzleLegend = layoutModelNames.map((model) => ({ model, color: sprinklerNozzleColor(model) }))
   const layoutLabels = language === 'ru' ? {
-    title: 'Предварительная геометрическая раскладка', candidate: 'Кандидат по таблице производителя',
+    title: 'Предварительная геометрическая раскладка', candidate: 'Форсунки',
     heads: 'Количество дождевателей',
     coverage: 'Выборочное геометрическое покрытие', uncovered: 'Непокрытых контрольных точек',
     positions: 'Координаты дождевателей, м',
-    rvanScenarioNote: 'В схеме используется фиксированный планировочный радиус Florial: R-VAN14 — 3 м, R-VAN18 — 4/5 м, R-VAN24 — 6 м. Угол меняет сектор, но не радиус. 3,1 бар — рекомендованная рабочая точка Rain Bird, а не измеренное давление на сопле.',
     hevanScenarioNote: 'Для HE-VAN использована точка таблицы 2,07 бар, ближайшая к указанному Rain Bird оптимуму 2,1 бар. Это сценарий производителя, а не измеренное давление на сопле.',
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
     incomplete: 'Движок построил вариант, но контрольная сетка содержит непокрытые точки. Нужна инженерная проверка.',
@@ -356,11 +367,10 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     notReady: 'Для предварительной раскладки нужны корректные размеры участка.', engineError: 'Текущий инженерный движок не поддерживает эту геометрию или конфигурацию.',
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания', notApplicable: 'Не применяется к полосовой форсунке',
   } : language === 'en' ? {
-    title: 'Preliminary geometric sprinkler layout', candidate: 'Manufacturer-table candidate',
+    title: 'Preliminary geometric sprinkler layout', candidate: 'Nozzles',
     heads: 'Sprinkler count',
     coverage: 'Sampled geometric coverage', uncovered: 'Uncovered sample points',
     positions: 'Sprinkler coordinates, m',
-    rvanScenarioNote: 'The layout uses Florial fixed planning radii: R-VAN14 — 3 m, R-VAN18 — 4/5 m, R-VAN24 — 6 m. Arc changes the sector shape, not the radius. 3.1 bar is Rain Bird’s recommended operating point, not measured nozzle pressure.',
     hevanScenarioNote: 'The HE-VAN table point 2.07 bar is used as the closest exact point to Rain Bird’s 2.1 bar optimum. This is a manufacturer scenario, not measured nozzle pressure.',
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
     incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
@@ -526,7 +536,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                   </div>
                   {layoutResult.status === 'layout_generated' || layoutResult.status === 'layout_incomplete' ? (
                     <>
-                      <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.family} {layoutResult.operatingScenario?.model} · {numberFormat(layoutResult.operatingScenario?.pressureBar ?? 0)} bar</p>
+                      <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.family} · {layoutModelLabel} · {numberFormat(layoutResult.operatingScenario?.pressureBar ?? 0)} bar</p>
                       <p className="mt-2 text-sm leading-6 text-slate-700">{layoutResult.status === 'layout_generated' ? (layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовые R-VAN-RCS размещены по согласованному правилу Florial. Выборочное круговое покрытие для этой схемы не рассчитывается.' : language === 'en' ? 'R-VAN-RCS strip nozzles are placed using the approved Florial rule. Circular sampled coverage is not calculated for this pattern.' : 'Лентовите R-VAN-RCS дюзи са разположени по одобреното правило на Florial. Кръгово семплирано покритие не се изчислява за този модел.') : layoutLabels.generated) : layoutLabels.incomplete}</p>
                       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.heads}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.sprinklers?.length ?? 0}</dd></div>
@@ -548,12 +558,13 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                                   ))}
                                 </g>
                               ))}
-                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number | null }) => {
+                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number | null; performanceModel?: string }) => {
                                 const zoneNumber = layoutResult.zones?.find((zone: { zoneNumber: number; sprinklerIds: ReadonlyArray<string> }) => zone.sprinklerIds.includes(sprinkler.id))?.zoneNumber
+                                const nozzleColor = sprinklerNozzleColor(sprinkler.performanceModel)
                                 return (
                                 <g key={sprinkler.id}>
-                                  {sprinkler.radiusM !== null && <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke="#0284c7" strokeWidth="0.045" strokeDasharray="0.22 0.14" opacity="0.7" />}
-                                  <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill="#0369a1" stroke="#ffffff" strokeWidth="0.08" />
+                                  {sprinkler.radiusM !== null && <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke={nozzleColor} strokeWidth="0.055" strokeDasharray="0.22 0.14" opacity="0.78" />}
+                                  <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill={nozzleColor} stroke="#ffffff" strokeWidth="0.08" />
                                   {zoneNumber !== undefined && <g transform={'translate(' + (sprinkler.position.x + 0.22) + ' ' + sprinkler.position.y + ') scale(1 -1)'}><text x="0" y="-0.22" fontSize="0.72" fontWeight="700" fill="#0f172a" stroke="#ffffff" strokeWidth="0.12" paintOrder="stroke">{zoneNumber}</text></g>}
                                 </g>
                                 )
@@ -564,14 +575,21 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       )}
                       <div className="mt-3 rounded-xl bg-white p-3 text-sm">
                         <p className="font-semibold text-slate-800">{layoutLabels.headToHead}: <span className={layoutResult.layout?.headToHead?.applicable === false ? 'text-slate-600' : layoutResult.layout?.headToHead?.passed ? 'text-emerald-700' : 'text-amber-700'}>{layoutResult.layout?.headToHead?.applicable === false ? layoutLabels.notApplicable : layoutResult.layout?.headToHead?.passed ? layoutLabels.passed : layoutLabels.failed}</span></p>
-                        <p className="mt-2 text-xs leading-5 text-slate-600">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовой рисунок и размещение заданы правилами Florial; круговая проверка покрытия и head-to-head не выполняется.' : language === 'en' ? 'The strip pattern and placement follow Florial rules; circular coverage and head-to-head checks are not run.' : 'Лентовият модел и разположението следват правилата на Florial; кръгово покритие и head-to-head не се проверяват.') : (layoutResult.operatingScenario?.family === 'HE-VAN' ? layoutLabels.hevanScenarioNote : layoutLabels.rvanScenarioNote)}</p>
+{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? <p className="mt-2 text-xs leading-5 text-slate-600">{language === 'ru' ? 'Полосовой рисунок и размещение заданы правилами Florial; круговая проверка покрытия и head-to-head не выполняется.' : language === 'en' ? 'The strip pattern and placement follow Florial rules; circular coverage and head-to-head checks are not run.' : 'Лентовият модел и разположението следват правилата на Florial; кръгово покритие и head-to-head не се проверяват.'}</p> : layoutResult.operatingScenario?.family === 'HE-VAN' ? <p className="mt-2 text-xs leading-5 text-slate-600">{layoutLabels.hevanScenarioNote}</p> : null}
                       </div>
                       {layoutResult.zones?.length > 0 && <div className="mt-3 rounded-xl bg-white p-3 text-sm">
                         <p className="font-semibold text-slate-800">{language === 'ru' ? 'Зоны полива' : language === 'en' ? 'Irrigation zones' : 'Зони за напояване'}</p>
                         <ul className="mt-2 space-y-1 text-slate-600">
-                          {layoutResult.zones.map((zone: { id: string; zoneNumber: number; sprinklerCount: number }) => (
-                            <li key={zone.id}>{language === 'ru' ? 'Зона' : language === 'en' ? 'Zone' : 'Зона'} {zone.zoneNumber} · {zone.sprinklerCount}</li>
-                          ))}
+                          {layoutResult.zones.map((zone: { id: string; zoneNumber: number; sprinklerCount: number; sprinklerIds: ReadonlyArray<string> }) => {
+                            const zoneHeads = (layoutResult.layout?.sprinklers ?? []).filter((sprinkler: any) => zone.sprinklerIds.includes(sprinkler.id))
+                            const modelCounts = new Map<string, number>()
+                            for (const sprinkler of zoneHeads) {
+                              const model = String(sprinkler.performanceModel ?? 'R-VAN').replace(/-360$/, '')
+                              modelCounts.set(model, (modelCounts.get(model) ?? 0) + 1)
+                            }
+                            const nozzleSummary = [...modelCounts.entries()].map(([model, count]) => model + ' × ' + count).join(', ')
+                            return <li key={zone.id}>{language === 'ru' ? 'Зона' : language === 'en' ? 'Zone' : 'Зона'} {zone.zoneNumber} ({nozzleSummary})</li>
+                          })}
                         </ul>
                       </div>}
                       <details className="mt-3 rounded-xl bg-white p-3">
@@ -599,7 +617,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                     {language === 'ru' ? 'Комплект оборудования для этой схемы' : language === 'en' ? 'Equipment kit for this layout' : 'Комплект оборудване за тази схема'}
                   </p>
                   <p className="mt-1 text-sm leading-6 text-emerald-900">
-                    {billOfMaterials.headCount} {language === 'ru' ? 'дождевателей' : language === 'en' ? 'sprinklers' : 'разпръсквача'} · {billOfMaterials.zoneCount} {language === 'ru' ? 'зоны' : language === 'en' ? 'zones' : 'зони'} · {billOfMaterials.flexPipeRequiredM} {language === 'ru' ? 'м гибкой трубы; продаётся бухтами по 30 м' : language === 'en' ? 'm of flex pipe; sold in 30 m coils' : 'm гъвкава тръба; продава се на ролки по 30 m'}
+                    {billOfMaterials.headCount} {language === 'ru' ? 'дождевателей' : language === 'en' ? 'sprinklers' : 'разпръсквача'} · {billOfMaterials.zoneCount} {language === 'ru' ? 'зоны' : language === 'en' ? 'zones' : 'зони'}
                   </p>
                   <p className="mt-1 text-xs text-emerald-800">
                     {language === 'ru' ? 'В комплект входят подобранные форсунки, корпуса 1804, гибкие соединения и фитинги. Тип клапанов и автоматики выберете на следующем шаге.' : language === 'en' ? 'Includes selected nozzles, 1804 bodies, flexible connections and fittings. Choose the valve and controller arrangement in the next step.' : 'Включва избрани дюзи, тела 1804, гъвкави връзки и фитинги. Изберете вида клапани и управление на следващата стъпка.'}
