@@ -316,7 +316,7 @@ function priceMarkup(price) {
 }
 
 function selectVisibleEquipmentCategories(categories) {
-  const items = Array.isArray(categories) ? categories.filter((item) => !String(item._id || '').startsWith('plants-')) : []
+  const items = Array.isArray(categories) ? categories : []
   const byId = new Map(items.map((item) => [item._id, item]))
   const visibleIds = new Set()
 
@@ -332,7 +332,9 @@ function selectVisibleEquipmentCategories(categories) {
   })
 
   const visible = items.filter((category) =>
-    category.slug?.current !== 'electromagnetic-valves' && visibleIds.has(category._id)
+    !String(category._id || '').startsWith('plants-') &&
+    category.slug?.current !== 'electromagnetic-valves' &&
+    visibleIds.has(category._id)
   )
   const rootId = visible.find((category) => category.slug?.current === 'vsichko-za-polivane')?._id
   const roots = visible.filter((category) => !category.parentId || category.parentId === rootId)
