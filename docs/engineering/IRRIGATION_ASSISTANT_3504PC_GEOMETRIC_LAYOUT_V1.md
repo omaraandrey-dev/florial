@@ -1,120 +1,95 @@
-# Rain Bird 3504-PC geometric layout integration
+# Rain Bird 3504-PC geometric layout — corner-first shared-cell algorithm
 
-**Status:** bounded implementation in PR #527; not merged and not enabled in Production.  
-**Owner-approved scope:** geometric planning and preliminary layout only. This document does not approve hydraulic design, nozzle selection, precipitation matching or a final bill of materials.
+**Status:** implementation in integration branch `integration/irrigation-3504pc-corner-first`; not merged to `main`. Automated CI and Preview verification are pending for the integration head.  
+**Owner-approved scope:** revise only the Rain Bird 3504-PC rotor placement algorithm. Keep the established R-VAN algorithm unchanged. This remains preliminary geometric planning, not a hydraulic design.
 
-## 1. Approved Florial planning rules
+## 1. Owner-approved layout rules
 
-The 3504-PC layout module uses the following owner-approved geometric planning values:
+- Start with the four actual geometric corners of each rectangular calculation region.
+- Test those four corner rotors before creating side rows, interior rows or additional cells.
+- If the four corner rotors provide complete sampled coverage and mutual Head-to-Head, retain only those four.
+- If four corners are insufficient, subdivide the rectangle into square/rectangular cells. Every cell has four corner positions.
+- A coordinate shared by two or more cells is one physical rotor position, not multiple duplicated heads.
+- Adjacent Head-to-Head is checked in both directions against the actual sector of each rotor, not by distance alone.
+- The base planning stage is 8 m. 9 m and 10 m are allowed when they materially reduce unnecessary heads and still pass all geometry/Head-to-Head checks. Local safe reach may be reduced to 7 m, 6 m or 5 m.
+- Sector orientation and radius are validated against the calculation rectangle before a rotor is accepted.
 
-- Planning radii: 10 m, 9 m and 8 m, tried in that order.
-- Discrete layout sectors: 90°, 180°, 270° and 360°.
-- Direction search step: 45°.
-- Target coverage mesh: 0.5 m.
-- Candidate-position grid: half of the planning radius, with additional samples along the boundary and exclusion edges.
+These are Florial planning rules, not Rain Bird manufacturer-certified throw distances for every arc/nozzle/pressure. The UI and project documentation must keep that distinction explicit.
 
-These values are Florial planning assumptions. They are **not** manufacturer-certified per-arc operating points or pressure/nozzle performance data.
-
-The published Sanity product's short description currently states a 4.3–9 m radius, while the manufacturer's general technical specification gives 4.6–10.7 m across the series. The installed nozzle and nozzle pressure determine the real operating point. In particular, the 10 m planning value must not be interpreted as a verified throw for the factory-installed 2.0 nozzle. The assistant and PDF label these values explicitly as geometric planning radii.
-
-The manufacturer documents mechanical arc adjustment from 40° to 360°, a 1/2-inch female threaded bottom inlet, and broad operating ranges. The published performance chart's precipitation basis is half-circle operation. No per-arc performance conversion is inferred by this implementation.
-
-References:
-- Rain Bird 3500 Series product information: https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers
-- Rain Bird 3500 Series technical specification D42378: https://www.rainbird.com/sites/default/files/media/documents/2023-11/d42378_3500_rotor_tech_spec.pdf
-- Rain Bird 3500 performance chart: https://www.rainbird.com/media/4157
-
-## 2. Geometry and candidate generation
+## 2. Algorithm phases
 
 Implementation: `src/lib/irrigation/rainBird3504Layout.mjs`.
 
-The module accepts only confirmed, supported geometry with one irrigated region. It samples target points inside the outer boundary and outside rectangular non-irrigated exclusions. Candidate rotor positions must be inside irrigated geometry.
+### Phase A — geometry validation
 
-A candidate sector is retained only when the sampled footprint stays inside the original irrigated geometry. Candidate generation is bounded by implementation safety limits:
+- Accept one confirmed axis-aligned rectangular calculation region with no exclusions inside that rectangle.
+- The bridge decomposes supported orthogonal lawn geometry and rectangular exclusions into non-overlapping calculation rectangles before calling this rectangle solver.
+- Reject unsupported geometry instead of manufacturing a layout.
+- Build a 0.5 m sampled target grid, subject to a 30,000-target safety limit.
 
-- 30,000 target points;
-- 5,000 candidate sectors;
-- 60 selected rotors.
+### Phase B — four-corner seed
 
-The selector is a deterministic greedy set-cover heuristic, not a global optimizer. Each rotor added after the first must mutually reach at least one already selected rotor. The returned sampled coverage is not a mathematical proof of continuous coverage.
+Create one 90° rotor at each true rectangle corner, with the sector bisector directed into the rectangle. Choose the largest permitted local radius not exceeding the current stage or the safe rectangle clearance.
 
-## 3. Integration order and safe fallback — per-rectangle strategy
+Try stages in the order 8 m, 9 m, 10 m, then 7 m, 6 m and 5 m. The first corner-only set that passes complete sampled coverage and mutual Head-to-Head is accepted without adding intermediate heads.
 
-The bridge in `src/lib/irrigation/irrigationLayoutBridge.mjs` now follows an area-ascending, per-rectangle decision:
+### Phase C — shared cell grid
 
-1. Decompose the supported orthogonal lawn and rectangular exclusions into non-overlapping calculation rectangles.
-2. Sort rectangles by area from smallest to largest; ties use the short side, then long side and stable coordinates.
-3. Process each rectangle independently. The 1 m / 2 m narrow strips retain their existing directional R-VAN-LCS/RCS/SST pattern because the 3504-PC planning envelope cannot fit those strips.
-4. For every other rectangle with sufficient local width, try 3504-PC at 10 m, then 9 m, then 8 m. Accept the rotor set only if that rectangle has complete sampled coverage and passes its rotor Head-to-Head gate.
-5. If no rotor radius fully serves the rectangle, discard that rectangle's partial rotor candidates and calculate that entire rectangle with the unchanged local R-VAN solver. Do not mix partial 3504-PC and R-VAN heads inside the same rectangle.
-   The rotor selector may start an additional, spatially separate group only as a mutually Head-to-Head-reachable pair; this prevents a large rectangle's far edge from remaining uncovered merely because it is not connected to the first greedy group.
-6. Keep heads from previously processed rectangles as coverage context for later R-VAN rectangles. This avoids unnecessary duplicate coverage while preserving the small-to-large processing order.
-7. Validate the combined accepted footprints against the original lawn and exclusions at 1° angular and 0.2 m radial sampling.
+If the four-corner set cannot pass, create X/Y axis positions for a complete cell grid. Every resulting cell has four corner positions. The global coordinate set deduplicates shared corners, so an N×M cell layout contains (N+1)×(M+1) unique grid nodes rather than four independent rotors per cell.
 
-For a narrow strip that requires a head at its connection seam, the adjacent wider rectangle may place its own corner head 0.075 m (7.5 cm) inward from the same seam. This is an explicit physical separation allowance, not a general permission to place arbitrary duplicate heads. The offset candidate is rechecked against the rectangle bounds and original spray boundary.
+For each node:
+- a rectangle vertex receives a 90° sector bisected toward the interior;
+- a boundary node receives a 180° sector directed inward;
+- an interior node receives a 360° sector;
+- its radius is capped by the actual local clearance and selected from 10/9/8/7/6/5 m.
 
-The established R-VAN candidate selection, perimeter-first coverage, nozzle/radius sizing and Head-to-Head repair logic remain unchanged. The only R-VAN engine extension is an optional, narrowly scoped candidate-position offset for the shared strip seam.
+The grid is rejected if any node lacks a safe rotor radius, any sampled target remains uncovered, any sector leaves the calculation rectangle, or any horizontally/vertically adjacent grid pair fails mutual Head-to-Head.
 
-## 4. Dimension annotations and project PDF
+When several complete grid candidates pass, the solver scores rotor count plus a radius-stage penalty. This prefers the 8 m baseline unless a 9/10 m stage meaningfully reduces the number of physical heads. Lower stages remain available where local geometry requires them.
 
-`src/lib/irrigation/lawnDimensionAnnotations.mjs` produces outward dimension annotations for every edge of the outer lawn boundary and each rectangular exclusion.
+### Phase D — integration and fallback
 
-The irrigation assistant renders those annotations in both the geometry preview and the calculated layout diagram. The project PDF now:
+The bridge retains the existing area-ascending decomposition and per-rectangle decision:
+- a non-strip rectangle is accepted as a 3504-PC layout only when the rectangle is completely covered and its Head-to-Head checks pass;
+- otherwise its partial rotor candidates are discarded and the established R-VAN fallback is used for that rectangle;
+- 1 m / 2 m directional LCS/RCS/SST strip rules remain unchanged.
 
-- draws the outer lawn boundary;
-- draws rectangular non-irrigated exclusions;
-- draws dimension lines and edge-length labels for both;
-- lists the dimensions of each exclusion in the geometry section.
+The 3504-PC solver supports the 7.5 cm inward candidate offset at a shared narrow-strip seam. This offset is only passed to the rotor solver.
 
-The order snapshot validator in `functions/api/_lib/irrigation-project.mjs` preserves sanitized rectangular exclusions so the PDF can render them. It accepts the closed rings emitted by the geometry normalizer, validates four-corner axis-aligned rectangles, checks their sampled points against the outer boundary, rejects overlapping exclusions, and stores the normalized open rectangle ring. No D1 schema migration is required; this is an additive field in the JSON project snapshot.
+**R-VAN protection:** `src/lib/irrigation/lawnSprinklerLayout.mjs` is restored byte-for-byte to the current `main` blob (`900e97408406c15de6a089f4a992e6cef8ec1f47`). The bridge does not pass rotor seam-offset options into the R-VAN solver. No R-VAN selection, nozzle sizing, placement, repair, or Head-to-Head logic is changed.
 
-## 5. Catalogue and preliminary BOM boundary
+## 3. Output and order snapshot
 
-Read-only Sanity Production verification on 2026-11-24 confirmed:
+Each 3504-PC head is explicitly tagged:
+- `performanceModel: '3504-PC'`;
+- `pattern: 'rotor'`;
+- `source: 'vertex' | 'edge' | 'interior'`;
+- `radiusM: 5 | 6 | 7 | 8 | 9 | 10`.
 
-- `Y34001` — published Rain Bird 3504-PC product;
-- `A46010` — Rain Bird SBE-050, 1/2-inch male threaded fitting for compatible SPX-FLEX pipe;
-- `A82060` — Rain Bird SPX-FLEX30, 30 m flexible pipe roll.
+The project snapshot validator accepts and preserves the rotor pattern. The BOM validates that a 3504-PC head is a rotor with a 5–10 m planning radius, adds SKU `Y34001`, and does not add an 1804 spray body to that rotor. The assistant's layout details show the planning radius beside the 3504-PC arc.
 
-The manufacturer product information describes the 3500 as having an attachable six-nozzle Rain Curtain tree. Regional product listings identify Y34001 as 3504-PC/2.0 with nozzle 2.0 pre-installed. This is useful package evidence, but it does not settle every accessory, installation configuration or final project BOM assumption.
+The four-corner and shared-cell diagnostics are included in the solver result so regression tests can verify cell count, four corner positions per cell and unique shared-node count.
 
-Current preliminary BOM behavior:
-- one `Y34001` rotor SKU per 3504-PC head;
-- no separate `A44120` 1804 spray body for a rotor;
-- the existing flexible-connection calculation currently allows two `A46010` SBE-050 fittings per head and 0.5 m of SPX-FLEX per head.
+## 4. Regression acceptance cases
 
-The accessory quantities and final factory package remain provisional pending engineering confirmation. Do not present this BOM as a final purchase list.
+The integration test suite must verify:
+- 8×8 m: exactly four 8 m corner rotors, no intermediate heads;
+- 10×10 m: four 10 m corner rotors are chosen before adding intermediate heads;
+- 38×16 m: 5×2 cells, 10 cells, 18 unique rotor positions, complete coverage and mutual Head-to-Head;
+- 20×10 m: 10 m grid stage avoids an unnecessary extra row while retaining mutual Head-to-Head;
+- 20×15 m: local clearances reduce selected radii while preserving adjacent Head-to-Head;
+- seam-offset candidates remain inside the calculation rectangle;
+- the decomposed L-shape and exclusion regressions still pass;
+- the established R-VAN regression cases remain unchanged.
 
-## 6. Explicitly not calculated
+## 5. Engineering limitations
 
-This geometric implementation does not calculate or infer:
+- Sampled coverage is not a continuous mathematical proof.
+- Sector-boundary validation is spatially sampled.
+- No 3504-PC nozzle-specific flow, measured nozzle pressure, actual field throw, precipitation rate by arc, DU/CU, pipe loss or hydraulic zone feasibility is inferred.
+- Manufacturer package/accessory configuration and final BOM quantities remain provisional.
+- The rectangle solver does not independently solve arbitrary polygons; it relies on the existing geometry decomposition bridge and final composite overspray checks.
 
-- selected nozzle size or nozzle pressure;
-- 3504-PC flow at a selected nozzle/pressure/arc;
-- arc-specific precipitation or radius conversions;
-- source pressure, pipe losses or hydraulic zone feasibility;
-- DU/CU or precipitation uniformity;
-- a field-validated continuous coverage guarantee.
+## 6. Release boundary
 
-The 3500 performance dataset remains separate. Do not interpolate or reuse its half-circle precipitation values for other arcs. Do not apply a 25% or 35% radius-reduction factor automatically; the manufacturer documentation has conflicting statements.
-
-The result remains a preliminary geometric layout, not a hydraulically validated design.
-
-## 7. Regression coverage
-
-The current suite covers:
-
-- full 3504-PC-only coverage on 8×8, 20×10, 20×15, 30×30 and 38×16 m rectangles, without redundant R-VAN heads in a rotor-served rectangle;
-- area-ascending processing of decomposed L-shaped and exclusion-based rectangles;
-- a 28×14 m L-shaped lawn with a 16×12 m top-right recess;
-- a 20×16 m lawn with a 4×4 m non-irrigated rectangle, where rectangles that cannot be fully served by rotors use the unchanged R-VAN fallback;
-- a connected 2 m strip whose seam head can coexist with a separate adjacent-rectangle head at a 7.5 cm inward offset;
-- legacy R-VAN model selection and interior rows through the unchanged R-VAN engine;
-- 3504 geometry validation, rotor BOM mapping and exclusion persistence;
-- dimension annotations and PDF source-level regression checks.
-
-## 8. Release boundary
-
-PR #527 is not merged. No Production deployment, Sanity write, D1 data write, schema change or Cloudflare settings/secret change was performed for this task.
-
-The shared `CHANGELOG.md`, Technical Passport, `OPEN_QUESTIONS.md` and `CURRENT_STATE.md` are intentionally not edited on this branch because open PR #409 also changes those shared records. Reconcile and update the shared project records during the single integration step after the owner accepts this PR.
+No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production deployment or Production order/email tests are part of this work. Visual Preview acceptance is a separate check and must not be claimed until performed.
