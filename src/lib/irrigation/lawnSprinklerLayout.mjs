@@ -313,10 +313,8 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
       Math.max(...vertices.map((point) => point.x)) - Math.min(...vertices.map((point) => point.x)),
       Math.max(...vertices.map((point) => point.y)) - Math.min(...vertices.map((point) => point.y)),
     )
-    const rectangleCornerReachLimitM = vertices.length === 4
-      ? (boundsShortSideM <= 3 + EPSILON ? 3
-        : boundsShortSideM <= 5 + EPSILON ? boundsShortSideM + 0.5
-          : null)
+    const rectangleCornerReachLimitM = vertices.length === 4 && boundsShortSideM <= 5 + EPSILON
+      ? boundsShortSideM
       : null
     const cornerRequiredRadiusM = rectangleCornerReachLimitM
       ? Math.min(distance(current, center), rectangleCornerReachLimitM)
