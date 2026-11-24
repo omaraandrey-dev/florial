@@ -379,7 +379,7 @@ test('L-shaped 4 m arm is calculated before the wider rectangle and uses R-VAN18
   const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 10, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
   assert.deepEqual(result.layout?.calculationRegions?.map((part) => part.shortSideM), [4, 12])
   const armHeads = result.layout?.sprinklers?.filter((head) => head.calculationRegionId === 'arm') ?? []
   assert.ok(armHeads.length > 0)
@@ -392,7 +392,7 @@ test('rectangular lawn with a non-irrigated rectangular exclusion is decomposed 
   const result = buildPreliminaryLawnLayout(snapshotFor(20, 12, {
     exclusions: [{ id: 'pool', x: 8, y: 4, width: 4, height: 4 }],
   }))
-  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
   assert.ok(result.layout?.calculationRegions?.length >= 2)
   assert.deepEqual(
     result.layout?.calculationRegions?.map((part) => part.shortSideM),
