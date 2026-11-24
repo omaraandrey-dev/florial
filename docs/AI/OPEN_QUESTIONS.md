@@ -1,11 +1,12 @@
-## 2026-11-24 — SSR Catalog v1: equipment category initial HTML
+## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531)
 
-- **IN PROGRESS:** equipment category server listing is implemented on branch `feat/seo-equipment-category-ssr-v1`; PR #531 is open. Isolated renderer runtime assertions passed, but repository tests/CI are not yet confirmed.
-- **OPEN — CI:** run focused unit tests, full tests, type-check, lint and website/Pages Functions build; inspect failures and final diff.
-- **OPEN — Preview:** inspect raw initial HTML for BG/RU/EN, parent/child categories, empty category and representative large category; confirm product links, images/ALT, price, stock and SKU.
-- **OPEN — client parity:** verify the existing React `createRoot` mount replaces the server fallback and retains its filtering/pagination behavior without duplicate cards.
-- **OPEN — Production:** verify deployment only after an approved merge/release and check exact deployment source SHA. No Production deployment is claimed.
-- No Sanity content/schema, D1, Cloudflare configuration/secrets, orders or email writes are included.
+- **CLOSED — implementation and exact code-head CI:** PR code head `fb3b065930ee2bbe8e030b96fc13684727acfd48` passed Blog/Studio workflow run `45462084817`: 481/481 tests, app/Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check and build.
+- **CLOSED — D1 validation:** workflow run `45462037512` passed all checks; no migration was applied.
+- **CLOSED — Preview deployment:** Cloudflare Pages Preview deployment `5535da5d-488c-405a-9101-cae9cf6c1dbe` succeeded from that exact code head.
+- **OPEN — raw initial HTML:** verify the first HTTP response (before React hydration) in BG/RU/EN and parent/child categories. Firecrawl snapshots are post-hydration DOMs and do not prove the initial HTML; Browser Use was unavailable because the connected project has insufficient credits.
+- **OPEN — final documentation-only head checks:** documentation commits were added after the validated code head; confirm the resulting latest PR head's CI and Preview deployment before close-out.
+- **OPEN — Production:** no merge or Production deployment is claimed.
+- No Sanity content/schema, D1 data, Cloudflare configuration/secrets, orders or email writes are included.
 
 ## 2026-11-24 — irrigation assistant paused by owner
 
