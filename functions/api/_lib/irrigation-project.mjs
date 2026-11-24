@@ -32,7 +32,7 @@ export function validateIrrigationProjectSnapshot(input) {
         !finite(sprinkler.position?.x, -500, 500) ||
         !finite(sprinkler.position?.y, -500, 500) ||
         !finite(sprinkler.radiusM, 0.1, 30) ||
-        ![90, 180, 270, 360].includes(sprinkler.arcDeg) ||
+        !(sprinkler.pattern === 'strip' ? sprinkler.arcDeg === null : [90, 180, 270, 360].includes(sprinkler.arcDeg)) ||
         !cleanLabel(sprinkler.performanceModel, 60) ||
         (sprinkler.pattern !== undefined && !['circular', 'strip'].includes(sprinkler.pattern)) ||
         (sprinkler.pattern === 'strip' &&
@@ -244,7 +244,7 @@ export function validateIrrigationProjectSnapshot(input) {
           id: item.id,
           position: { x: item.position.x, y: item.position.y },
           radiusM: item.radiusM,
-          arcDeg: item.arcDeg,
+          arcDeg: item.pattern === 'strip' ? null : item.arcDeg,
           performanceModel: cleanLabel(item.performanceModel, 60),
           pattern: item.pattern === 'strip' ? 'strip' : 'circular',
           stripWidthM: item.pattern === 'strip' && finite(item.stripWidthM, 1, 2) ? item.stripWidthM : null,
