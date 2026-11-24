@@ -1,6 +1,6 @@
 # Current implementation handoff — irrigation solver integration (2026-11-24)
 
-- Current GitHub main: 9ecdb05506e6f1bc28b5debc046cdd37972856d3.
+- Irrigation code baseline: PR #522 merged at 9ecdb05506e6f1bc28b5debc046cdd37972856d3; the subsequent documentation consolidation PR #523 merged into main at ad6f8ebdbccf68477b69b6be3ff87e2d7c72e1c6.
 - PR #520 merged at 3387e8ff140756e69339b11215b82f5c6acbc9ed, delivering the supported narrow-arm L-shape rectangular solver.
 - PR #522 merged at 9ecdb05506e6f1bc28b5debc046cdd37972856d3, integrating the 3 m-wide rectangle corner-sizing correction after PR #520. Exact PR head 9e4973ad5b4c4fbd45fbc57059715e0e91421c83: Blog/Studio run 45358607939 and D1 validation 45358607880 succeeded; Preview 80bc2842-cdd2-415b-8630-6e8276958127 succeeded at https://80bc2842.florial.pages.dev.
 - Regression targets: 18 × 3 m and 3 × 18 m use R-VAN14 / 3 m, no interior row, full sampled coverage, head-to-head pass and in-bounds positions. No Production deployment was made.
