@@ -239,3 +239,24 @@ test('irrigation project PDF contains the drawing, zone assignment, BOM and expl
   assert.match(pdf, /getPageCount\(\) !== 3/)
   assert.match(pdf, /pdf\.copyPages/)
 })
+
+test('accepts and preserves an R-VAN-RCS strip head in a mixed project snapshot', () => {
+  const project = snapshot()
+  project.layout.sprinklers[0] = {
+    ...project.layout.sprinklers[0],
+    arcDeg: 180,
+    performanceModel: 'R-VAN-RCS',
+    pattern: 'strip',
+    stripWidthM: 2,
+    stripLengthM: 4,
+  }
+  project.billOfMaterials.items.push({ sku: 'A84668', quantity: 1, name: 'Rain Bird R-VAN-RCS' })
+  const result = validateIrrigationProjectSnapshot({
+    ...project,
+    orderItems: [...orderItems, { sku: 'A84668', qty: 1 }],
+  })
+  assert.equal(result.valid, true)
+  assert.equal(result.snapshot.layout.sprinklers[0].pattern, 'strip')
+  assert.equal(result.snapshot.layout.sprinklers[0].stripWidthM, 2)
+  assert.equal(result.snapshot.layout.sprinklers[0].stripLengthM, 4)
+})
