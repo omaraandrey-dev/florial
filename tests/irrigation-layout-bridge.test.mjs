@@ -61,6 +61,22 @@ test('Florial selects each R-VAN head from local reach and reports the actual mo
   }
 })
 
+test('8x8 lawn prioritizes 3504-PC rotors while 4m and 5m rectangles retain the R-VAN rule', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(8, 8))
+  assert.equal(result.status, 'layout_generated')
+  assert.ok(result.layout.sprinklers.length > 0)
+  assert.ok(result.layout.sprinklers.every((head) => head.performanceModel === '3504-PC'))
+  assert.ok(result.layout.sprinklers.every((head) => head.radiusM === 8))
+  assert.ok(result.layout.sprinklers.every((head) => [90, 180, 270, 360].includes(head.arcDeg)))
+  assert.equal(result.layout.coverage.uncoveredPoints, 0)
+  assert.equal(result.layout.headToHead.passed, true)
+  assert.equal(result.zones.reduce((sum, zone) => sum + zone.sprinklerCount, 0), result.layout.sprinklers.length)
+  const bom = buildIrrigationBillOfMaterials(result.layout, result.zones)
+  assert.equal(bom.valid, true)
+  assert.equal(bom.items.find((item) => item.sku === 'Y34001')?.quantity, result.layout.sprinklers.length)
+  assert.equal(bom.items.find((item) => item.sku === 'A44120'), undefined)
+})
+
 test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach allowance', () => {
   for (const [length, width, expectedRadius] of [[10, 4, 4], [18, 4, 4], [10, 5, 5], [18, 5, 5]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
