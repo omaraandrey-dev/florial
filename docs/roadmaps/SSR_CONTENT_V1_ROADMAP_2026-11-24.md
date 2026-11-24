@@ -145,6 +145,19 @@ Read-only инвентаризация перед кодом:
 
 ## 5. Текущий статус
 
+- Этап 1 (главная): **IN PROGRESS — implementation hardening in draft PR #533** ([PR](https://github.com/omaraandrey-dev/florial/pull/533), branch `feat/ssr-homepage-content-v1`). Code-bearing head `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`. The dedicated renderer covers hero/category image CTAs, the four value propositions, services, plant categories, featured plants, irrigation categories, featured equipment and blog teaser.
+- Selection parity: the SSR renderer mirrors `App.tsx` populated-category visibility and ancestor retention, excludes `plants-*` IDs and legacy `electromagnetic-valves`, then applies the existing root-category order/six-card limit. It reuses the shared featured-equipment and service-order helpers, plant price/stock rules and pinned/latest blog ordering.
+- Image parity: initial HTML uses the same Sanity URL transformation and responsive candidate list as `getSanityImageProps`; product-card aspect ratios and responsive sizes are aligned to the current React cards. Plant unknown-stock fallback and localized display-name fallback are covered by tests.
+- Homepage commercial identity: `OnlineStore` and `WebSite` JSON-LD are emitted on the homepage; existing Nessebar/Ravda `GardenStore` entities remain. Product/category links remain crawlable. The cart itself remains `noindex, nofollow`; a visible Header anchor is a separate owner-approval decision.
+- **Verification pending:** the preceding head `fc21108f98de7c30b57ebe5190111002258281c6` passed type-check/lint but had 492/493 tests due a false-positive assertion, corrected in code-bearing head `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`. Exact-head CI, latest Preview deployment and native-fetch BG/RU/EN raw HTML smoke must pass before the stage can close. No Production release is claimed.
+- **Architecture caveat:** `src/main.tsx` currently uses `createRoot`, so React replaces the initial server markup inside `#root`; this is first-response SSR, not React hydration. The client transition/CLS must be evaluated separately. Do not change the app bootstrap/global shell without owner approval.
+- **Cart discovery finding:** `Header.tsx` currently renders the cart control as a `<button>`, not an anchor with `href`; `/cart` is already correctly `noindex`. No Header change is included; a visible semantic anchor conversion awaits separate owner approval. No hidden link.
+- Этапы 2–9: **NOT STARTED**.
+- Sanity writes: **не выполнялись и не входят в общий scope**.
+- Production/Cloudflare settings, secrets, D1: **не изменялись**.
+
+
+
 - Этап 1 (главная): **IN PROGRESS — discovery complete; initial implementation is in draft PR #533** ([PR](https://github.com/omaraandrey-dev/florial/pull/533), branch `feat/ssr-homepage-content-v1`). Dedicated renderer, bounded Sanity projections, localized content and raw HTTP smoke script/workflow are added but are not yet CI/Preview verified or merged.
 - Реализация повторяет текущие projections/selection: шесть фиксированных plant categories; populated equipment roots/ancestors and existing category order; up to four curated plants; existing featured equipment kit selection; up to six `getOrderedServiceEntries`; two pinned blog slugs plus one latest non-pinned article. Sanity requests run in parallel through existing `querySanityData` cache. On Sanity failure, existing minimal static homepage fallback is retained with `Cache-Control: no-store`.
 - **Cart discovery finding:** the current Header cart control is a `<button>`, not an anchor with `href`; `/cart` is already correctly marked `noindex`. No Header change is included in PR #533. A semantic anchor conversion with the same appearance and SPA behavior is awaiting separate owner approval; no hidden link and no removal of cart `noindex`.
