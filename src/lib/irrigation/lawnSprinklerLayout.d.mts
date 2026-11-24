@@ -21,7 +21,7 @@ export interface LawnSprinklerCandidate {
   readonly directionDeg: number | null
   readonly source: 'vertex' | 'edge' | 'interior'
   readonly placementGroup?: 'central_row'
-  readonly radiusM: number
+  readonly radiusM: number | null
   readonly flowLpm: number
   readonly pressureBar: number
   readonly precipitationSquareMmH: number
@@ -30,6 +30,8 @@ export interface LawnSprinklerCandidate {
   readonly pattern?: 'circular' | 'strip'
   readonly stripWidthM?: number
   readonly stripLengthM?: number
+  readonly stripDirection?: 'left' | 'right' | 'up' | 'down' | 'both'
+  readonly stripAxis?: 'horizontal' | 'vertical'
 }
 
 export interface LawnSprinklerLayoutResult {
