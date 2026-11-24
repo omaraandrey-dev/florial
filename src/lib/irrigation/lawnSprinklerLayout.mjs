@@ -693,6 +693,8 @@ export function generateLawnSprinklerLayout({
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
   const checks = evaluateHeadToHeadSpacing(sprinklers)
   const allHeadToHead = checks.every((entry) => entry.passed)
+  const selectedModels = [...new Set(sprinklers.map((head) => head.performanceModel))].sort()
+  const resultModel = family === 'R-VAN' ? selectedModels.join(' / ') : model
   const warnings = [
     { code: 'sampled_coverage_is_not_a_continuous_mathematical_proof', path: 'coverage' },
     { code: 'hydraulic_feasibility_not_evaluated', path: 'hydraulics' },
@@ -710,7 +712,7 @@ export function generateLawnSprinklerLayout({
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
-    model,
+    model: resultModel,
     pressureBar,
     sampleStepM,
     radiusM: family === 'R-VAN' ? null : effectiveRadiusM,
