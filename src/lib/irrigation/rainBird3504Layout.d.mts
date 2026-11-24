@@ -30,5 +30,8 @@ export interface RainBird3504LayoutResult {
 }
 export function generateRainBird3504Layout(
   geometry: Readonly<Record<string, any>>,
-  options?: { sampleStepM?: number },
+  options?: {
+    sampleStepM?: number
+    candidatePositionOffsets?: ReadonlyArray<Readonly<{ from: Readonly<{ x: number; y: number }>; dx: number; dy: number }>>
+  },
 ): RainBird3504LayoutResult
