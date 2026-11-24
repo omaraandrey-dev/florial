@@ -5,7 +5,7 @@
 - The all-irrigation root reproduces React's six-category round-robin and nozzle-series order; CollectionPage ItemList shares the same ordering. Plant SSR and React interactivity remain unchanged.
 - Exact code-head CI `331ffee5b548864c36497fafb788293569c4180a` passed: 483/483 tests, app/Pages Functions type-check, lint, Vite build, Studio type-check/build and D1 validation. No D1 migration was applied.
 - Cloudflare Pages Preview deployment `ba6a681a-2865-4c40-815e-27216bc510e5` succeeded from that exact SHA. Post-hydration category route smoke checks passed.
-- Raw initial-HTTP HTML verification remains open because available Firecrawl snapshots run after React hydration. PR #531 remains open; no Production deployment, Sanity writes, D1 data changes, or Cloudflare settings/secrets changes were made.
+- PR #531 merged into `main` as `39e756fe63993557ee7702dee4eaefc6c8111b14`; Cloudflare Pages Production deployment `d558f601-ebc0-495c-ac2a-a900214a60ca` succeeded from that exact merge commit. Production native-fetch raw first-response smoke run `45466953350` passed for BG/RU/EN with 20 equipment product links per locale and CollectionPage ItemList order parity. The separate Search Console noindex/canonical discrepancies remain open. No Sanity writes, D1 data changes, or Cloudflare settings/secrets changes were made.
 
 ## 2026-11-24 — irrigation assistant paused by owner
 
