@@ -1,3 +1,17 @@
+# Current implementation handoff — orthogonal lawn solver Production release (2026-11-24)
+
+- **Main:** `a14e2e3294f96f76542623e7956f5cece78919d0`; PR #525 is merged.
+- **Production:** Cloudflare Pages deployment `1e048889-5840-4aad-9411-f50d8dd1d4d6`, environment `production`, stage `success`, exact source SHA matches main. Deployment URL: https://1e048889.florial.pages.dev; configured project aliases include https://florial-bg.com and https://www.florial-bg.com.
+- **CI:** Blog/Studio run `45369756924` passed; D1 validation run `45369757211` passed.
+- R-VAN model selection: 4 m and 5 m rectangular short sides use R-VAN18; corner reach is capped by local short-side width to avoid overspray. R-VAN24 remains the 6 m corner-reach class; edge heads continue to use local spacing.
+- Geometry solver: one simple orthogonal lawn polygon and one or more rectangular non-irrigated exclusions are decomposed into exact non-overlapping rectangles. Rectangles are processed by ascending short-side width, then length. Each next rectangle reuses the actual coverage of previously placed circular/strip heads.
+- Final validation: 0.5 m sampled target mesh against the full irrigated geometry; spray footprints sampled against the original boundary and all exclusions; zones grouped after the complete sprinkler set is assembled.
+- Customer UI: multiple non-irrigated rectangles can be entered in BG/RU/EN; X/Y are measured from the lower-left lawn corner.
+- **Owner verification pending:** test the new 4 m / 5 m R-VAN18 behavior and several orthogonal layouts with exclusions on the deployed site. Hydraulic feasibility, precipitation uniformity and field validation remain outside this geometric solver.
+- Geometry boundaries: one lawn region; simple orthogonal outer boundary; rectangular, non-overlapping exclusions. Curved boundaries, non-rectangular exclusions and multiple separate lawn regions are unsupported.
+
+---
+
 # Current implementation handoff — orthogonal lawn decomposition (2026-11-24)
 
 - Implementation PR: [#525](https://github.com/omaraandrey-dev/florial/pull/525), based on main `8444f4b63d074887a45b35c4aa92e650513d7cc7`; exact validated head `696ff3b71972797bf4a2f643da07784cbcd28cec`.

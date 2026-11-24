@@ -1,3 +1,10 @@
+## 2026-11-24 — PR #525 merged and Production deployment verified
+
+- PR #525 was squash-merged into `main` at `a14e2e3294f96f76542623e7956f5cece78919d0`.
+- Post-merge Blog/Studio validation run `45369756924` passed, including website type-check, lint, full utility test suite, website build, read-only checks and Sanity Studio type-check/build. D1 validation run `45369757211` passed.
+- Cloudflare Pages deployment `1e048889-5840-4aad-9411-f50d8dd1d4d6` is confirmed in the `production` environment; deployment stage completed successfully for the exact main commit `a14e2e3294f96f76542623e7956f5cece78919d0`. Deployment URL: https://1e048889.florial.pages.dev; project aliases include https://florial-bg.com and https://www.florial-bg.com.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, orders or emails were performed. Owner functional verification of the updated irrigation assistant remains pending.
+
 ## 2026-11-24 — generalized orthogonal lawn solver and local R-VAN18 sizing (PR #525)
 
 - Added R-VAN18 selection for 4 m and 5 m short-side rectangles; local corner reach is capped by the actual rectangle short side to prevent overspray (4 m → up to 4 m; 5 m → up to 5 m). The 6 m planning class retains R-VAN24 for the corner reach requirement; side heads continue to be selected from their own local spacing.
