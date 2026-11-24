@@ -126,8 +126,8 @@ test('3504-PC rotors map to the complete rotor SKU without adding an 1804 spray 
   const result = buildIrrigationBillOfMaterials({
     model: '3504-PC / R-VAN18',
     sprinklers: [
-      { id: 'rotor-1', arcDeg: 90, performanceModel: '3504-PC', radiusM: 8 },
-      { id: 'rotor-2', arcDeg: 270, performanceModel: '3504-PC', radiusM: 9 },
+      { id: 'rotor-1', arcDeg: 90, performanceModel: '3504-PC', pattern: 'rotor', radiusM: 8 },
+      { id: 'rotor-2', arcDeg: 270, performanceModel: '3504-PC', pattern: 'rotor', radiusM: 9 },
       { id: 'spray-1', arcDeg: 180, performanceModel: 'R-VAN18' },
       { id: 'spray-2', arcDeg: 360, performanceModel: 'R-VAN18-360' },
     ],
@@ -139,4 +139,22 @@ test('3504-PC rotors map to the complete rotor SKU without adding an 1804 spray 
   assert.equal(quantities.A84665, 1)
   assert.equal(quantities.A44120, 2)
   assert.equal(quantities.A46010, 8)
+})
+
+test('rejects a 3504-PC rotor without the rotor pattern or a valid planning radius', () => {
+  const base = {
+    model: '3504-PC',
+    sprinklers: [{
+      id: 'rotor-1', arcDeg: 90, performanceModel: '3504-PC',
+      pattern: 'rotor', radiusM: 8,
+    }],
+  }
+  const zones = [{ id: 'zone-01', zoneNumber: 1, sprinklerIds: ['rotor-1'] }]
+  assert.equal(buildIrrigationBillOfMaterials(base, zones).valid, true)
+  assert.equal(buildIrrigationBillOfMaterials({
+    ...base, sprinklers: [{ ...base.sprinklers[0], pattern: 'circular' }],
+  }, zones).reason, 'invalid_3504_pc_head_definition')
+  assert.equal(buildIrrigationBillOfMaterials({
+    ...base, sprinklers: [{ ...base.sprinklers[0], radiusM: 11 }],
+  }, zones).reason, 'invalid_3504_pc_head_definition')
 })
