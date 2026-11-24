@@ -21,7 +21,11 @@ export function validateIrrigationProjectSnapshot(input) {
 
   const layout = input.layout
   const sprinklers = layout?.sprinklers
-  if (!isRecord(layout) || layout.headToHeadPassed !== true ||
+  const stripOnlyLayout = Array.isArray(sprinklers) && sprinklers.length > 0 &&
+    sprinklers.every((sprinkler) => sprinkler?.pattern === 'strip')
+  const headToHeadValid = layout?.headToHeadPassed === true ||
+    (layout?.headToHeadPassed === null && layout?.headToHeadApplicable === false && stripOnlyLayout)
+  if (!isRecord(layout) || !headToHeadValid ||
       !Array.isArray(sprinklers) || sprinklers.length < 1 || sprinklers.length > 150) {
     return { valid: false, reason: 'invalid_project_layout' }
   }
@@ -239,7 +243,8 @@ export function validateIrrigationProjectSnapshot(input) {
         model: cleanLabel(layout.model, 60),
         engineVersion: cleanLabel(layout.engineVersion, 80),
         algorithm: cleanLabel(layout.algorithm, 120),
-        headToHeadPassed: true,
+        headToHeadPassed: layout.headToHeadPassed === null ? null : true,
+        headToHeadApplicable: layout.headToHeadApplicable !== false,
         sprinklers: sprinklers.map((item) => ({
           id: item.id,
           position: { x: item.position.x, y: item.position.y },
