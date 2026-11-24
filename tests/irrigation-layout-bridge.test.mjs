@@ -185,7 +185,7 @@ test('narrow strip heads use the lower long edge and rotate correctly for vertic
   const vertical = buildPreliminaryLawnLayout(snapshotFor(2, 10))
   assert.equal(vertical.status, 'layout_generated')
   assert.deepEqual(vertical.layout.sprinklers.map((head) => [head.position.x, head.position.y, head.stripDirection]), [
-    [2, 10, 'up'], [2, 6, 'both'], [2, 2, 'both'], [2, 0, 'down'],
+    [2, 0, 'up'], [2, 4, 'both'], [2, 8, 'both'], [2, 10, 'down'],
   ])
 })
 
@@ -225,8 +225,8 @@ test('geometry preview and calculated customer SVG share one Y-up to SVG transfo
   const assistant = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
   assert.match(assistant, /const svgTransform = 'translate\\(0 '/)
   assert.equal((assistant.match(/<g transform={svgTransform}>/g) ?? []).length, 2)
-  assert.match(assistant, /<g transform={svgTransform}><polygon points={svgPoints}/)
-  assert.match(assistant, /<g transform={svgTransform}>\\s*<polygon points={svgPoints}/)
+  assert.match(assistant, /<g transform={svgTransform}><polygon points={svgPoints} fill=/)
+  assert.match(assistant, /<g transform={svgTransform}>\\s*<polygon points={svgPoints} fill=/)
 })
 
 test('unsupported narrow widths do not fall back to circular sprinklers', () => {
