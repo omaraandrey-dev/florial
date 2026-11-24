@@ -3,7 +3,7 @@
 **Date:** 24.11.2026  
 **Repository baseline:** `omaraandrey-dev/florial`  
 **main SHA inspected:** `f4e04913a2876bf863deef9fa1b7774b5c416a47`  
-**Status:** read-only code discovery; no implementation or live data writes.
+**Status:** read-only discovery completed; initial implementation exists in draft PR #533 and is not merged. No live data writes.
 
 ## Confirmed current behavior
 
@@ -54,7 +54,42 @@ Heading outline currently includes one H1, a hero H2, and H3/H4 for services, pl
 - Verify exact-SHA CI and Preview first. Production release requires the normal explicit phase release decision and exact deployment verification.
 
 ## Boundaries / not done
-- No application code changed.
+- Application code changes exist only on branch `feat/ssr-homepage-content-v1` in draft PR #533; they are not merged into `main`.
 - No Sanity documents/schema changed; no Sanity writes performed.
 - No Cloudflare settings/secrets, D1 schema/data, orders, email or Production settings changed.
 - No claim of raw Production HTML verification is made in this audit.
+
+
+## Implementation pass — draft PR #533
+
+**Implementation base:** `07b99481571ca079a06eb5f6e44e9d903f9dc304`
+**Branch:** `feat/ssr-homepage-content-v1`
+**PR:** https://github.com/omaraandrey-dev/florial/pull/533
+**Current PR head at this audit update:** `5f7585061f2b4bae83f9359099698842e107d28d`
+**Verification:** pending exact-head CI and Preview raw HTTP smoke. No Production release.
+
+### Initial implementation shape
+
+- Added `functions/_lib/homepageHtml.mjs` with a dedicated, escaped HTML renderer and `homepageHtml.d.mts` declarations.
+- Added `fetchHomepageHtml(language)` to `functions/_middleware.ts`. It runs bounded Sanity projections in parallel through the existing `querySanityData` cache:
+  - equipment categories from `production`;
+  - the six existing homepage plant categories and curated featured plants from `plants`;
+  - featured irrigation kits, active services, hero photo and pinned/latest blog cards from `production`.
+- Preserved existing business selection rules: equipment category visibility/ancestors and fixed order; six explicit plant category IDs; plant variant-aware minimum price and stock filtering; `selectFeaturedEquipment`; `getOrderedServiceEntries`; two pinned blog slugs plus one latest non-pinned post.
+- The homepage root body is now rendered from the server projection when all required queries succeed. On query failure the existing minimal static fallback remains and the response is `Cache-Control: no-store`; no false empty listing is cached.
+- Added `tests/homepage-ssr.test.mjs`, `scripts/smoke-homepage-ssr.mjs` and a manual GitHub Actions workflow `.github/workflows/homepage-ssr-smoke.yml`. The smoke script uses native `fetch()` and does not execute JavaScript.
+- The client React app, `HomePage.tsx`, `Header.tsx`, Footer, routing and Sanity content have not been changed in this PR branch.
+
+### Cart discoverability finding
+
+- `src/components/Header.tsx` currently renders the cart control as a `<button>` with an `onClick` handler and `aria-label`, not a crawlable `<a href="/cart">`.
+- `functions/_middleware.ts` correctly sets `noindex, nofollow` for `/cart` and `/search`. Do not remove cart `noindex`: the personal cart state must not be indexed.
+- A visible ordinary cart anchor would let crawlers discover the cart route while preserving its `noindex` response. Converting the existing Header button into an anchor with the same styling and SPA behavior requires separate owner approval because Header changes are outside the current SSR scope.
+- No hidden link or invisible SEO-only link is proposed. No Header change is included in PR #533 pending owner approval.
+
+### Current verification boundary
+
+- Unit tests, type-check, lint and build have not yet been confirmed for the PR head.
+- Preview deployment and raw first-response smoke for BG/RU/EN have not yet been confirmed.
+- Production raw HTTP response has not been fetched during this implementation pass.
+- No Sanity writes, D1 changes, Cloudflare settings/secrets or Production settings were made.
