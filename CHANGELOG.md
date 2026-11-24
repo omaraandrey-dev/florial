@@ -1,3 +1,12 @@
+## 2026-11-24 — SSR Content v1 Phase 1: homepage implementation started (PR #533)
+
+- Draft PR #533 adds a dedicated homepage initial-HTML renderer and bounded, parallel published-Sanity projections for BG/RU/EN.
+- The implementation mirrors existing category visibility/order, curated featured plants, irrigation-kit selection, service ordering and pinned/latest blog selection; the React client UI and route behavior are unchanged.
+- Sanity query failures retain the existing minimal static homepage fallback and set `Cache-Control: no-store`; failed/partial results are not edge-cached as an empty homepage.
+- Added homepage SSR unit/regression tests and a manual native-fetch raw HTTP smoke script/workflow. Exact-head CI and Preview verification are pending; no Production release is claimed.
+- Cart audit: Header cart is currently a button rather than a crawlable anchor; `/cart` correctly remains `noindex`. Header change is excluded pending separate owner approval.
+- No Sanity writes, D1 changes, Cloudflare settings/secrets or Production settings were made.
+
 ## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531)
 
 - Added an equipment-specific initial HTML renderer using the existing published Sanity `production` category query.
