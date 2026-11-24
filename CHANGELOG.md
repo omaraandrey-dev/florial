@@ -1,3 +1,15 @@
+## 2026-11-24 — Irrigation assistant L-shape orientation and directional narrow strips (PR #518 merged)
+
+- PR #518 was squash-merged into `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.
+- L-shaped geometry now uses the layout engine's shared Y-up convention for all four selected cut-out corners. The preliminary and calculated customer diagrams apply the same SVG reflection; zone labels remain upright and the fixed top-right connection point is preserved.
+- Rectangular 1 m / 2 m narrow strips now use directional Rain Bird R-VAN-LCS / RCS / SST placement. Published Sanity catalogue SKUs were checked read-only: LCS A84667, RCS A84668 and SST A84669 are active.
+- Strip planning rules: 2 m width — RCS through 4 m, opposing LCS beyond 4 m, central bidirectional SST beyond 7 m at about 4 m spacing; 1 m width — RCS through 3 m, opposing LCS beyond 3 m, central bidirectional SST beyond 5 m at about 3 m spacing. Vertical strips rotate the row to the right long edge and start from its lower end.
+- Pattern/model, planning reach, direction and axis are preserved in the customer result, cart project snapshot, server validation, BOM and owner project PDF. Regression tests cover all four L-shape corners, cut-out exclusion, thresholds, vertical strips, BOM and snapshot persistence.
+- Exact PR head `6dc34ead66d808cfd7d7fbec524de0513a5e0ba6`: Blog/Studio validation runs #2511 and #2512 and D1 validation #2693 succeeded; run #2512 includes 442/442 tests, type checks, lint, website build and Studio build. Published Sanity product records were read-only verified.
+- Cloudflare Pages Production deployment was triggered from exact merge SHA `bcc2afa32cded5359d3a52807f2a13c8d92627f4`; build stage succeeded and deployment stage was still active at documentation close-out. Final deployment completion and live customer UI interaction QA must be recorded after independent verification.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails were made. The strip algorithm is a geometric planning pattern, not proof of sampled circular coverage, hydraulic feasibility, nozzle pressure or field distribution uniformity.
+- Detailed implementation and test boundaries: `docs/audits/2026-11-24-irrigation-l-shape-and-narrow-strip-layout.md`.
+
 ## 2026-11-24 — Irrigation assistant mixed R-VAN selection and customer diagram (PR pending)
 
 - Corrected the per-position nozzle selection defect: the prior bridge selected one model from the overall short side and the solver reused it for every sprinkler. The solver now sizes corner, side and interior candidates independently from local geometric reach/spacing.
