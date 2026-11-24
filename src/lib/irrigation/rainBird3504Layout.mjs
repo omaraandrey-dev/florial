@@ -78,7 +78,7 @@ function sampleTargets(region, stepM) {
   return targets
 }
 
-function candidatePositions(region, radiusM) {
+function candidatePositions(region, radiusM, positionOffsets = []) {
   const xs = region.boundary.map((point) => point.x)
   const ys = region.boundary.map((point) => point.y)
   const minX = Math.min(...xs), maxX = Math.max(...xs)
@@ -106,7 +106,14 @@ function candidatePositions(region, radiusM) {
       }
     }
   }
-  return positions
+  return positions.map((position) => {
+    const offset = positionOffsets.find((entry) => entry?.from &&
+      distance(position, entry.from) <= EPSILON &&
+      Number.isFinite(entry.dx) && Number.isFinite(entry.dy))
+    return offset
+      ? Object.freeze({ x: position.x + offset.dx, y: position.y + offset.dy })
+      : position
+  })
 }
 
 function sectorFitsGeometry(candidate, region) {
@@ -126,9 +133,9 @@ function sectorFitsGeometry(candidate, region) {
   return true
 }
 
-function buildCandidates(region, targets, radiusM) {
+function buildCandidates(region, targets, radiusM, positionOffsets = []) {
   const candidates = []
-  for (const position of candidatePositions(region, radiusM)) {
+  for (const position of candidatePositions(region, radiusM, positionOffsets)) {
     for (const arcDeg of ARCS) {
       const directions = arcDeg === 360 ? [null] : Array.from({ length: 360 / DIRECTION_STEP_DEG }, (_, index) => index * DIRECTION_STEP_DEG)
       for (const directionDeg of directions) {
@@ -189,7 +196,7 @@ function selectRotors(candidates, targetCount) {
  * These are Florial planning values, not a claim of arc-specific manufacturer
  * performance data. Hydraulic flow/pressure and precipitation are not inferred.
  */
-export function generateRainBird3504Layout(geometry, { sampleStepM = TARGET_STEP_M } = {}) {
+export function generateRainBird3504Layout(geometry, { sampleStepM = TARGET_STEP_M, candidatePositionOffsets = [] } = {}) {
   const validation = validateLawnGeometry(geometry)
   const rawRegion = geometry?.regions?.[0]
   if (!rawRegion || geometry.regions.length !== 1 || geometry.status !== 'confirmed' ||
@@ -215,9 +222,9 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = TARGET_STEP
   let candidateCount = 0
   let positionCount = 0
   for (const radiusM of PLANNING_RADII_M) {
-    const positions = candidatePositions(region, radiusM)
+    const positions = candidatePositions(region, radiusM, candidatePositionOffsets)
     positionCount += positions.length
-    const candidates = buildCandidates(region, targets, radiusM)
+    const candidates = buildCandidates(region, targets, radiusM, candidatePositionOffsets)
     if (!candidates) {
       return Object.freeze({ status: 'candidate_limit_exceeded', sprinklers: Object.freeze([]), warnings: Object.freeze([]) })
     }
