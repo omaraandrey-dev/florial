@@ -20,9 +20,9 @@ Implement a whole-rectangle 3504-PC rotor placement algorithm in a fresh branch 
 
 ## Validation boundary
 
-- Blog and Studio validation run **45416339750** passed: 459/459 tests, application/Pages type-check, lint, website build, migration syntax/dry-run, Studio type-check and Studio build.
-- D1 migration validation run **45416339422** passed.
-- Cloudflare Pages Preview for commit **543079132cd20365ecaa0ed4b513bb860b08d9ab** deployed successfully at https://5660b9cc.florial.pages.dev/irrigation-assistant.
+- Blog and Studio validation run **45416854026** passed: 459/459 tests, application/Pages type-check, lint, website build, migration syntax/dry-run, Studio type-check and Studio build.
+- D1 migration validation run **45416853774** passed.
+- Cloudflare Pages Preview for commit **6ed016834c13754a8fd501aeb2bf01dff9833ac4** deployed successfully at https://98cfc162.florial.pages.dev/irrigation-assistant.
 - Manual interactive visual QA of the 38 × 16 m page has not yet been completed. No Production deployment, Sanity write, D1 data/schema write or Cloudflare settings/secret change was made.
 
 ## Owner acceptance still required
