@@ -253,9 +253,13 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = TARGET_STEP
   let selectedRadiusM = null
   let candidateCount = 0
   let positionCount = 0
+  let offsetPositionCount = 0
   for (const radiusM of PLANNING_RADII_M) {
     const positions = candidatePositions(region, radiusM, candidatePositionOffsets)
     positionCount += positions.length
+    offsetPositionCount += positions.filter((position) => candidatePositionOffsets.some((entry) =>
+      entry?.from && Number.isFinite(entry.dx) && Number.isFinite(entry.dy) &&
+      distance(position, { x: entry.from.x + entry.dx, y: entry.from.y + entry.dy }) <= EPSILON)).length
     const candidates = buildCandidates(region, targets, radiusM, candidatePositionOffsets)
     if (!candidates) {
       return Object.freeze({ status: 'candidate_limit_exceeded', sprinklers: Object.freeze([]), warnings: Object.freeze([]) })
@@ -300,7 +304,7 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = TARGET_STEP
       coveragePercent: (targets.length - uncovered.size) / targets.length * 100,
       uncoveredSamples: Object.freeze([...uncovered].slice(0, 100).map((index) => targets[index])),
     }),
-    candidateStats: Object.freeze({ candidatePositions: positionCount, candidates: candidateCount, selectedRotors: sprinklers.length }),
+    candidateStats: Object.freeze({ candidatePositions: positionCount, candidates: candidateCount, selectedRotors: sprinklers.length, offsetCandidatePositions: offsetPositionCount }),
     warnings: Object.freeze([
       Object.freeze({ code: '3504pc_radius_is_owner_defined_florial_planning_value', path: 'layout.sprinklers.radiusM' }),
       Object.freeze({ code: '3504pc_arc_invariant_radius_not_claimed_as_manufacturer_arc_table', path: 'layout.sprinklers.arcDeg' }),
