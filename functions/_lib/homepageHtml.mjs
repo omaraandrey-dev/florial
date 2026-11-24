@@ -317,8 +317,25 @@ function priceMarkup(price) {
 
 function selectVisibleEquipmentCategories(categories) {
   const items = Array.isArray(categories) ? categories : []
-  const rootId = items.find((category) => category.slug?.current === 'vsichko-za-polivane')?._id
-  const roots = items.filter((category) => !category.parentId || category.parentId === rootId)
+  const byId = new Map(items.map((item) => [item._id, item]))
+  const visibleIds = new Set()
+
+  items.forEach((category) => {
+    if ((category.productCount || 0) <= 0) return
+    let current = category
+    const visited = new Set()
+    while (current && !visited.has(current._id)) {
+      visited.add(current._id)
+      visibleIds.add(current._id)
+      current = current.parentId ? byId.get(current.parentId) : undefined
+    }
+  })
+
+  const visible = items.filter((category) =>
+    category.slug?.current !== 'electromagnetic-valves' && visibleIds.has(category._id)
+  )
+  const rootId = visible.find((category) => category.slug?.current === 'vsichko-za-polivane')?._id
+  const roots = visible.filter((category) => !category.parentId || category.parentId === rootId)
   return roots.slice().sort((a, b) => {
     const aIndex = EQUIPMENT_CATEGORY_ORDER.indexOf(a.slug?.current || '')
     const bIndex = EQUIPMENT_CATEGORY_ORDER.indexOf(b.slug?.current || '')
