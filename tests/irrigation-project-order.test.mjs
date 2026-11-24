@@ -73,12 +73,12 @@ test('preserves validated rectangular non-irrigated areas in the persisted proje
   project.geometry.normalized.regions[0].exclusions = [{
     id: 'pool',
     polygon: { vertices: [
-      { x: 8, y: 1 }, { x: 12, y: 1 }, { x: 12, y: 4 }, { x: 8, y: 4 },
+      { x: 8, y: 1 }, { x: 12, y: 1 }, { x: 12, y: 4 }, { x: 8, y: 4 }, { x: 8, y: 1 },
     ] },
   }]
   const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
   assert.equal(result.valid, true)
-  assert.deepEqual(result.snapshot.geometry.normalized.regions[0].exclusions, project.geometry.normalized.regions[0].exclusions)
+  assert.deepEqual(result.snapshot.geometry.normalized.regions[0].exclusions[0].polygon.vertices, project.geometry.normalized.regions[0].exclusions[0].polygon.vertices.slice(0, 4))
 })
 
 test('rejects malformed or out-of-bound non-irrigated rectangles', () => {
@@ -86,7 +86,7 @@ test('rejects malformed or out-of-bound non-irrigated rectangles', () => {
   project.geometry.normalized.regions[0].exclusions = [{
     id: 'outside',
     polygon: { vertices: [
-      { x: 22, y: 1 }, { x: 27, y: 1 }, { x: 27, y: 4 }, { x: 22, y: 4 },
+      { x: 22, y: 1 }, { x: 27, y: 1 }, { x: 27, y: 4 }, { x: 22, y: 4 }, { x: 22, y: 1 },
     ] },
   }]
   const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
