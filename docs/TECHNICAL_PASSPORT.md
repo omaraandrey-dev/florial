@@ -4,7 +4,7 @@
 - Default control mesh is 0.5 m. L-shape internal candidates use the rectangular axis-aligned grid clipped to the actual polygon; no triangular/staggered grid.
 - Rectangular 1 m / 2 m strips use R-VAN-RCS SKU A84668 with owner-defined throw lengths 2 m / 4 m. First nozzle at lower-right; subsequent nozzles evenly distributed on the same long side. For width 2 m: length 4/6/8 m maps to 1/2/3 heads. RCS is persisted and shown as a strip pattern, not a circular arc or sampled circular-coverage proof.
 - R-VAN14/18/24/RCS may be mixed in one zone. The owner confirms manufacturer precipitation-intensity compatibility; no additional zone precipitation-intensity matching gate is required.
-- Code, tests and engineering documentation are updated on branch feat/irrigation-rvan-r1-rcs-layout-rules. Exact CI, Preview and Production deployment are pending; no live Sanity, D1, Cloudflare configuration, order or email writes were made.
+- Code, tests and engineering documentation are updated on PR #515, branch feat/irrigation-rvan-r1-rcs-layout-rules. CI passed and Cloudflare Pages Preview deployment ba29688a-1117-4c5b-bbfc-1c84260cef0b succeeded at https://ba29688a.florial.pages.dev. Production merge/deployment is pending. No live Sanity writes, D1 schema/data changes, Cloudflare configuration changes, orders or email writes were made.
 
 ## 2026-11-24 — Blog article route performance optimization (PR #512; documentation PR #513)
 
