@@ -1,3 +1,15 @@
+# Latest release — irrigation assistant L-shape and narrow-strip layout (2026-11-24)
+
+- PR #518 merged to `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.
+- The fix aligns all four L-shape cut-out corners with the solver's Y-up coordinates and makes the preliminary/calculated SVG transforms consistent.
+- The 1 m / 2 m strip algorithm now uses directional R-VAN-LCS/RCS/SST selection; catalogue SKUs A84667/A84668/A84669 were read-only verified active in Sanity Production.
+- Exact PR-head Blog/Studio validation #2512 and D1 validation #2693 passed; Blog/Studio reports 442/442 tests, plus type checks, lint, website and Studio builds.
+- Cloudflare Pages Production deployment `ef950cfb-2c24-48d0-ab9e-7f46cd0f89a3` completed successfully from this exact main SHA; deployment URL `https://ef950cfb.florial.pages.dev`.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails. Browser-based live interaction QA remains open.
+- Audit: `docs/audits/2026-11-24-irrigation-l-shape-and-narrow-strip-layout.md`.
+
+---
+
 # Latest content publication — Florial Irrigation Assistant service (2026-11-23)
 
 - Sanity Production service: `c265afd2-f31d-41f0-b377-ed95664a6d20`, slug `inzhener-pomoshtnik-florial-online`, route `/services/inzhener-pomoshtnik-florial-online`.
