@@ -24,6 +24,8 @@ Implement the owner's latest layout rules in the existing geometric lawn assista
 - functions/api/_lib/irrigation-project-pdf.ts — owner PDF labels RCS as a strip pattern.
 - Irrigation tests and the engineering guides / changelog / passport / open questions updated.
 
+- Read-only Sanity Production lookup confirmed the published catalogue product for SKU A84668: product ID 42f54182-8fc4-41ee-9b8c-2c50b504907d, active=true, stockStatus=onRequest. No Sanity document was written.
+
 ## Deliberate boundaries
 
 - RCS is represented as pattern: strip with arcDeg: null. The UI/PDF display RCS strip dimensions; it is never represented as a circular sector.
