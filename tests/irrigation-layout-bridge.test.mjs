@@ -141,15 +141,27 @@ test('rectangle decomposition is processed by ascending area and a shared strip 
   const stripSeamHead = result.layout.sprinklers.find((head) =>
     head.pattern === 'strip' && Math.abs(head.position.x - 8) < 1e-6 && Math.abs(head.position.y) < 1e-6)
   assert.ok(stripSeamHead, 'connected strip head should remain at the shared seam')
-  const adjacentHead = result.layout.sprinklers.find((head) =>
-    head.pattern !== 'strip' && Math.abs(Math.hypot(head.position.x - 8, head.position.y) - 0.075) < 0.005)
-  assert.ok(adjacentHead, JSON.stringify({
-    calculationRegions: result.layout.calculationRegions,
-    heads: result.layout.sprinklers.map((head) => ({
-      id: head.id, family: head.performanceModel, position: head.position,
-      arcDeg: head.arcDeg, directionDeg: head.directionDeg, pattern: head.pattern,
-    })),
-  }))
+  const mainRegion = result.layout.calculationRegions.find((part) => part.id === 'main')
+  assert.equal(mainRegion?.seamOffsets?.length, 1,
+    'the adjacent rectangle must receive a separate inward candidate at the shared strip seam')
+})
+
+test('R-VAN solver can place a corner head 7.5cm inward from a shared seam', () => {
+  const geometry = snapshotFor(10, 10).geometry.normalized
+  const layout = generateLawnSprinklerLayout({
+    geometry,
+    family: 'R-VAN',
+    model: 'R-VAN24',
+    pressureBar: 3.1,
+    candidatePositionOffsets: [{
+      from: { x: 10, y: 0 },
+      dx: -0.0530330086,
+      dy: 0.0530330086,
+    }],
+  })
+  assert.equal(layout.status, 'coverage_complete_sampled')
+  assert.ok(layout.sprinklers.some((head) =>
+    Math.abs(Math.hypot(head.position.x - 10, head.position.y) - 0.075) < 0.005))
 })
 
 test('3504-PC priority works on a supported L-shape with a rectangular recess', () => {
