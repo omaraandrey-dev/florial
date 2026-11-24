@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { renderHomepageHtml, homepageSelectionForTest } from '../functions/_lib/homepageHtml.mjs'
+import { readFile } from 'node:fs/promises'
 
 const plantCategories = [
   { _id: 'plants-flowers', name: 'Цветя', slug: { current: 'cvetya' } },
@@ -110,4 +111,31 @@ test('homepage SSR escapes untrusted Sanity text and rejects non-HTTPS image URL
   assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/)
   assert.match(html, /&lt;img src=x onerror=alert\(1\)&gt;/)
   assert.doesNotMatch(html, /src="javascript:/)
+})
+
+
+test('homepage middleware uses bounded published Sanity projections and keeps fallback uncached', async () => {
+  const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
+  assert.match(middleware, /async function fetchHomepageHtml\(language: string\)/)
+  assert.match(middleware, /querySanityData<any\[]>\('plants', featuredPlantsQuery/)
+  assert.match(middleware, /querySanityData<any\[]>\('production', featuredEquipmentQuery/)
+  assert.match(middleware, /querySanityData<any\[]>\('production', pinnedQuery/)
+  assert.match(middleware, /getOrderedServiceEntries\(services as any\[\]\)/)
+  assert.match(middleware, /renderHomepageHtml\(\{/)
+  assert.match(middleware, /cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'/)
+  assert.match(middleware, /cacheControl = 'no-store'/)
+})
+
+test('homepage SSR renderer keeps cart route out of index while homepage remains indexable', async () => {
+  const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
+  const homepageBranch = middleware.slice(
+    middleware.indexOf("if (path === '/' || path === '/contacts' || path === '/about')"),
+    middleware.indexOf("if (path === '/cart' || path === '/search')"),
+  )
+  const cartBranch = middleware.slice(
+    middleware.indexOf("if (path === '/cart' || path === '/search')"),
+    middleware.indexOf('// Specialist landing pages'),
+  )
+  assert.doesNotMatch(homepageBranch, /noIndex:\s*true/)
+  assert.match(cartBranch, /noIndex:\s*true/)
 })
