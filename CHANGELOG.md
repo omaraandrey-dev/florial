@@ -1,3 +1,10 @@
+## 2026-11-24 — integration close-out: irrigation solver and pending documentation artifacts
+
+- PR #522 was squash-merged into main at 9ecdb05506e6f1bc28b5debc046cdd37972856d3. It reapplies the narrow 3 m rectangle corner-sizing correction after PR #520; exact PR head 9e4973ad5b4c4fbd45fbc57059715e0e91421c83 passed Blog/Studio validation run 45358607939 and D1 validation run 45358607880; Cloudflare Pages Preview 80bc2842-cdd2-415b-8630-6e8276958127 succeeded at https://80bc2842.florial.pages.dev.
+- The 18 × 3 m and rotated 3 × 18 m regression cases require R-VAN14 / 3 m, no interior row, complete sampled coverage, passing head-to-head and in-bounds sprinkler positions. No Production deployment or live service/data/configuration write was made.
+- Preserved the missing audit/backup artifacts from the older documentation PRs: [SEO Step 4 Sanity read-only audit](docs/audits/2026-11-23-sanity-seo-step4-readonly-audit.md), [spray-nozzle content rewrite audit](docs/audits/2026-11-23-spray-nozzles-content-rewrite.md), and [pre-write ESP-BAT-BT1 / 100-HV-9V Sanity snapshot](docs/backups/sanity/2026-11-23-esp-bat-bt1-and-100-hv-9v-before-compatibility-copy.json). Existing matching audit records and roadmap updates were retained rather than copied again.
+- PR #521 is superseded by #522 and closed without merge. The generalized multi-rectangle algorithm for arbitrary orthogonal polygons/multiple cut-outs remains open; this release does not claim it is implemented.
+
 ## 2026-11-24 — 3 m-wide rectangle nozzle selection integrated after L-shape solver
 
 - Reapplied the reviewed PR #521 correction on top of the newly merged L-shape solver: corner heads on rectangular lawns with a short side ≤3 m are sized to the local 3 m R-VAN14 envelope instead of the distant global centroid.
