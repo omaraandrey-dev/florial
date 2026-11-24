@@ -25,7 +25,7 @@ export interface RainBird3504LayoutResult {
     coveragePercent: number
     uncoveredSamples: ReadonlyArray<Readonly<{ x: number; y: number }>>
   }>
-  readonly candidateStats?: Readonly<{ candidatePositions: number; candidates: number; selectedRotors: number }>
+  readonly candidateStats?: Readonly<{ candidatePositions: number; candidates: number; selectedRotors: number; offsetCandidatePositions?: number }>
   readonly warnings: ReadonlyArray<Readonly<{ code: string; path: string }>>
 }
 export function generateRainBird3504Layout(
