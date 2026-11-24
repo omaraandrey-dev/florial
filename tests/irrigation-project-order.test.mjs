@@ -240,27 +240,37 @@ test('irrigation project PDF contains the drawing, zone assignment, BOM and expl
   assert.match(pdf, /pdf\.copyPages/)
 })
 
-test('accepts and preserves an R-VAN-RCS strip head in a mixed project snapshot', () => {
+test('accepts an R-VAN-RCS strip-only project without a circular head-to-head claim', () => {
   const project = snapshot()
   project.layout.headToHeadPassed = null
   project.layout.headToHeadApplicable = false
-  project.layout.sprinklers[0] = {
-    ...project.layout.sprinklers[0],
+  project.layout.sprinklers = [{
+    id: 'strip-1',
+    position: { x: 25, y: 0 },
+    radiusM: 4,
     arcDeg: null,
     performanceModel: 'R-VAN-RCS',
     pattern: 'strip',
     stripWidthM: 2,
     stripLengthM: 4,
-  }
-  project.billOfMaterials.items.push({ sku: 'A84668', quantity: 1, name: 'Rain Bird R-VAN-RCS' })
+    source: 'perimeter',
+  }]
+  project.zones = [{ id: 'zone-01', zoneNumber: 1, zoneType: 'perimeter', sprinklerIds: ['strip-1'] }]
+  project.billOfMaterials.headCount = 1
+  project.billOfMaterials.zoneCount = 1
+  project.billOfMaterials.items = [
+    { sku: 'A44120', quantity: 1, name: 'Rain Bird 1804' },
+    { sku: 'A84668', quantity: 1, name: 'Rain Bird R-VAN-RCS' },
+  ]
   const result = validateIrrigationProjectSnapshot({
     ...project,
-    orderItems: [...orderItems, { sku: 'A84668', qty: 1 }],
+    orderItems: [{ sku: 'A44120', qty: 1 }, { sku: 'A84668', qty: 1 }],
   })
   assert.equal(result.valid, true)
   assert.equal(result.snapshot.layout.headToHeadPassed, null)
   assert.equal(result.snapshot.layout.headToHeadApplicable, false)
   assert.equal(result.snapshot.layout.sprinklers[0].pattern, 'strip')
+  assert.equal(result.snapshot.layout.sprinklers[0].arcDeg, null)
   assert.equal(result.snapshot.layout.sprinklers[0].stripWidthM, 2)
   assert.equal(result.snapshot.layout.sprinklers[0].stripLengthM, 4)
 })
