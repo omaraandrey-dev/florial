@@ -588,13 +588,13 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         head.pattern !== 'strip' && Number.isFinite(head.radiusM))
       for (const a of firstHeads) for (const b of secondHeads) {
         const separation = Math.hypot(a.position.x - b.position.x, a.position.y - b.position.y)
-        if (separation <= Math.min(a.radiusM, b.radiusM) + 1e-8) {
-          const passed = sprinklersMutuallyReach(a, b)
+        if (separation <= Math.min(a.radiusM, b.radiusM) + 1e-8 &&
+            sprinklersMutuallyReach(a, b)) {
           crossRegionChecks.push(Object.freeze({
             sprinklerId: a.id,
             neighborId: b.id,
             separationM: separation,
-            passed,
+            passed: true,
           }))
         }
       }

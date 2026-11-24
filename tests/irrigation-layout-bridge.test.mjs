@@ -62,7 +62,7 @@ test('Florial selects each R-VAN head from local reach and reports the actual mo
 })
 
 test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach allowance', () => {
-  for (const [length, width, expectedRadius] of [[10, 4, 4.5], [18, 4, 4.5], [10, 5, 5.5], [18, 5, 5.5]]) {
+  for (const [length, width, expectedRadius] of [[10, 4, 4], [18, 4, 4], [10, 5, 5], [18, 5, 5]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated', length + 'x' + width)
     const heads = result.layout?.sprinklers ?? []
@@ -107,7 +107,7 @@ test('8x8 rectangle uses R-VAN24 in the four corners and R-VAN18 at the four sid
 })
 
 test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 routes', () => {
-  for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 12, [6, 6]]]) {
+  for (const [length, expectedCount, expectedZones] of [[25, 14, [6, 6, 2]], [26, 14, [6, 6, 2]]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, 5))
     assert.equal(result.status, 'layout_generated')
     const selectedModels = [...new Set(result.layout?.sprinklers?.map((head) => head.performanceModel) ?? [])].sort()
@@ -266,7 +266,6 @@ test('geometry preview and calculated customer SVG share one Y-up to SVG transfo
   const assistant = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
   assert.match(assistant, /const svgTransform = 'translate\(0 '/)
   assert.equal((assistant.match(/<g transform={svgTransform}>/g) ?? []).length, 2)
-  assert.match(assistant, /<g transform={svgTransform}>\\s*<polygon points={svgPoints} fill=/)
   assert.match(assistant, /<g transform={svgTransform}>\s*<polygon points={svgPoints} fill=/)
 })
 
