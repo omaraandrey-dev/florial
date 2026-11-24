@@ -24,7 +24,7 @@ function sprinklerNozzleColor(model: string | null | undefined) {
   if (normalized === 'R-VAN14') return '#3b82f6'
   if (normalized === 'R-VAN18') return '#c49a6c'
   if (normalized === 'R-VAN24') return '#800020'
-  if (normalized === 'R-VAN-RCS') return '#6b7280'
+  if (['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'].includes(normalized)) return '#6b7280'
   return '#64748b'
 }
 
@@ -302,6 +302,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
           pattern: sprinkler.pattern ?? 'circular',
           stripWidthM: sprinkler.stripWidthM ?? null,
           stripLengthM: sprinkler.stripLengthM ?? null,
+          stripDirection: sprinkler.stripDirection ?? null,
           source: sprinkler.source === 'interior' ? 'interior' : 'perimeter',
         })),
       },
@@ -363,7 +364,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     generated: 'Движок построил предварительную раскладку с полным покрытием контрольной сетки.',
     incomplete: 'Движок построил вариант, но контрольная сетка содержит непокрытые точки. Нужна инженерная проверка.',
     unsupported: 'Геометрия выходит за текущий проверенный диапазон автоматической раскладки R-VAN. Не подставляем HE-VAN или другую неподтверждённую модель. Для этого участка требуется отдельная инженерная проверка.',
-    narrow: 'Для узкой полосы рассматриваются только специальные полосовые форсунки Rain Bird R-VAN LCS, RCS и SST. Круглые форсунки вместо них не подставляются. Схема размещения требует точной проверки направления и перекрытия полос.',
+    narrow: 'Для узкой полосы используются специальные полосовые форсунки Rain Bird LCS, RCS и SST. Круглые форсунки не подставляются.',
     notReady: 'Для предварительной раскладки нужны корректные размеры участка.', engineError: 'Текущий инженерный движок не поддерживает эту геометрию или конфигурацию.',
     headToHead: 'Проверка расстояний head-to-head', passed: 'Пройдена', failed: 'Есть замечания', notApplicable: 'Не применяется к полосовой форсунке',
   } : language === 'en' ? {
@@ -375,7 +376,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     generated: 'The engine generated a preliminary layout with all sampled points covered.',
     incomplete: 'The engine generated a candidate, but some sampled points remain uncovered. Engineering review is required.',
     unsupported: 'The geometry is outside the current verified R-VAN layout range. No HE-VAN or other unverified model is substituted. This site requires a separate engineering review.',
-    narrow: 'Narrow strips require dedicated Rain Bird R-VAN LCS, RCS or SST strip nozzles. Circular nozzles are not substituted. Placement still requires exact pattern orientation and overlap validation.',
+    narrow: 'Narrow strips use dedicated Rain Bird LCS, RCS and SST strip nozzles. Circular nozzles are not substituted.',
     notReady: 'Valid lawn dimensions are required before generating a preliminary layout.', engineError: 'The current engineering engine does not support this geometry or configuration.',
     headToHead: 'Head-to-head spacing check', passed: 'Passed', failed: 'Warnings', notApplicable: 'Not applicable to strip nozzles',
   } : {
@@ -546,7 +547,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       {boundaryVertices && (layoutResult.layout?.sprinklers?.length ?? 0) > 0 && (
                         <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3">
                           <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={layoutLabels.title} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
-                            <g transform={'translate(0 ' + Number(width.replace(',', '.')) + ') scale(1 -1)'}>
+                            <g>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
                               {layoutResult.pipeNetwork?.mainRoute && <polyline points={layoutResult.pipeNetwork.mainRoute.map((point: { x: number; y: number }) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#ea580c" strokeWidth="0.12" strokeLinejoin="round" />}
                               {layoutResult.pipeNetwork?.branches?.map((branch) => (
@@ -564,7 +565,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                                 <g key={sprinkler.id}>
                                   {sprinkler.radiusM !== null && <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke={nozzleColor} strokeWidth="0.055" strokeDasharray="0.22 0.14" opacity="0.78" />}
                                   <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill={nozzleColor} stroke="#ffffff" strokeWidth="0.08" />
-                                  {zoneNumber !== undefined && <g transform={'translate(' + (sprinkler.position.x + 0.22) + ' ' + sprinkler.position.y + ') scale(1 -1)'}><text x="0" y="-0.22" fontSize="0.72" fontWeight="700" fill="#0f172a" stroke="#ffffff" strokeWidth="0.12" paintOrder="stroke">{zoneNumber}</text></g>}
+                                  {zoneNumber !== undefined && <g transform={'translate(' + (sprinkler.position.x + 0.22) + ' ' + sprinkler.position.y + ')'}><text x="0" y="-0.22" fontSize="0.72" fontWeight="700" fill="#0f172a" stroke="#ffffff" strokeWidth="0.12" paintOrder="stroke">{zoneNumber}</text></g>}
                                 </g>
                                 )
                               })}
@@ -598,7 +599,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
                           {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; performanceModel?: string; pattern?: string; stripWidthM?: number; stripLengthM?: number }) => (
-                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? 'R-VAN-RCS · ' + sprinkler.stripWidthM + ' × ' + sprinkler.stripLengthM + ' m' : (sprinkler.performanceModel ?? 'R-VAN') + ' · ' + sprinkler.arcDeg + '°'}</li>
+                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' · ' + sprinkler.stripWidthM + ' m · ' + sprinkler.stripLengthM + ' m · ' + (sprinkler.stripDirection ?? '—') : (sprinkler.performanceModel ?? 'R-VAN') + ' · ' + sprinkler.arcDeg + '°'}</li>
                           ))}
                         </ol>
                       </details>
