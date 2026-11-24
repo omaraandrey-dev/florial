@@ -810,7 +810,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
           pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
           modelSelectionBasis: 'owner_defined_LCS_RCS_SST_strip_width_throw_spacing_and_direction_rules',
           layoutRadiusM: null,
-          sourceUrl: rotorAccepted ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
+          sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
           actualNozzlePressureVerified: false,
           customerSourceMeasurementsUsedAsNozzlePressure: false,
         }),
