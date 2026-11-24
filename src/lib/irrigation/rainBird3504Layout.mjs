@@ -311,7 +311,7 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5 } = {})
         candidateStats: Object.freeze({
           requiredCornerPositions: grid.heads.length,
           cellCount: grid.cells.length,
-          sharedCellCornersDeduplicated: grid.heads.length,
+          sharedCellCornersDeduplicated: grid.cells.length * 4 - grid.heads.length,
           selectedRotors: sprinklers.length,
         }),
         warnings: Object.freeze([
