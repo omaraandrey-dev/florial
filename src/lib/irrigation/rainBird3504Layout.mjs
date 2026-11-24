@@ -173,7 +173,7 @@ function offsetFor(point, offsets) {
     Number.isFinite(entry.dx) && Number.isFinite(entry.dy)) ?? null
 }
 
-function makeHead(point, sourcePoint, bounds, stageRadiusM, index, offsets) {
+function makeHead(sourcePoint, bounds, stageRadiusM, index, offsets) {
   const positionClass = classifyPosition(sourcePoint.x, sourcePoint.y, bounds)
   const offset = offsetFor(sourcePoint, offsets)
   const position = offset
@@ -282,7 +282,7 @@ function buildCornerOnly(bounds, stageRadiusM, offsets = []) {
     { x: bounds.minX, y: bounds.maxY },
   ]
   const heads = corners.map((point, index) =>
-    makeHead(point, point, bounds, stageRadiusM, index + 1, offsets))
+    makeHead(point, bounds, stageRadiusM, index + 1, offsets))
   if (heads.some((head) => !head)) return null
   return heads
 }
