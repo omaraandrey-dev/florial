@@ -181,7 +181,7 @@ test('narrow strip rules select RCS, LCS and SST at the approved thresholds', ()
 
 test('narrow strip heads use the lower long edge and rotate correctly for vertical lawns', () => {
   const horizontal = buildPreliminaryLawnLayout(snapshotFor(10, 2))
-  assert.ok(horizontal.layout.sprinklers.every((head) => head.position.y === 2))
+  assert.ok(horizontal.layout.sprinklers.every((head) => head.position.y === 0))
   const vertical = buildPreliminaryLawnLayout(snapshotFor(2, 10))
   assert.equal(vertical.status, 'layout_generated')
   assert.deepEqual(vertical.layout.sprinklers.map((head) => [head.position.x, head.position.y, head.stripDirection]), [
@@ -212,19 +212,21 @@ test('all four L-shaped cut-out corners survive intake normalization and layout 
     assert.equal(result.layout?.geometry?.shape, 'l-shape', cutoutCorner)
     for (const head of result.layout?.sprinklers ?? []) {
       const { x, y } = head.position
-      const insideCutout = cutoutCorner === 'top-left' ? x < cutoutWidth && y < cutoutDepth
-        : cutoutCorner === 'top-right' ? x > length - cutoutWidth && y < cutoutDepth
-          : cutoutCorner === 'bottom-left' ? x < cutoutWidth && y > width - cutoutDepth
-            : x > length - cutoutWidth && y > width - cutoutDepth
+      const insideCutout = cutoutCorner === 'top-left' ? x < cutoutWidth && y > width - cutoutDepth
+        : cutoutCorner === 'top-right' ? x > length - cutoutWidth && y > width - cutoutDepth
+          : cutoutCorner === 'bottom-left' ? x < cutoutWidth && y < cutoutDepth
+            : x > length - cutoutWidth && y < cutoutDepth
       assert.equal(insideCutout, false, cutoutCorner + ' ' + head.id)
     }
   }
 })
 
-test('calculated customer SVG uses the same unreflected coordinate orientation as the geometry preview', async () => {
+test('geometry preview and calculated customer SVG share one Y-up to SVG transform', async () => {
   const assistant = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
-  assert.match(assistant, /<g>\s*<polygon points={svgPoints}/)
-  assert.doesNotMatch(assistant, /translate\(0 .*scale\(1 -1\)/)
+  assert.match(assistant, /const svgTransform = 'translate\\(0 '/)
+  assert.equal((assistant.match(/<g transform={svgTransform}>/g) ?? []).length, 2)
+  assert.match(assistant, /<g transform={svgTransform}><polygon points={svgPoints}/)
+  assert.match(assistant, /<g transform={svgTransform}>\\s*<polygon points={svgPoints}/)
 })
 
 test('unsupported narrow widths do not fall back to circular sprinklers', () => {
