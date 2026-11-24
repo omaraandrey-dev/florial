@@ -1309,9 +1309,11 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           structuredData,
           pageType: type === 'product' ? 'product' : type === 'blogPost' ? 'article' : 'website',
         })
-      }, categoryProducts === null
+      }, type === 'category' && categoryProducts === null
         ? 'no-store'
-        : 'public, max-age=0, s-maxage=30, stale-while-revalidate=60')
+        : categoryProducts !== null
+          ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
+          : undefined)
     } catch {
       // Do not turn an upstream Sanity outage into a false 200 or false 404.
       return unavailableResponse(language)
