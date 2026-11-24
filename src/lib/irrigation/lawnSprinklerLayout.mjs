@@ -714,6 +714,7 @@ export function generateLawnSprinklerLayout({
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
   radiusM = null,
   excludedCandidatePositions = [],
+  candidatePositionOffsets = [],
   preventOverspray = false,
   initialSprinklers = [],
   sprayBoundaryGeometry = null,
@@ -803,7 +804,25 @@ export function generateLawnSprinklerLayout({
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const candidateBounds = { minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys) }
+  const positionOffsets = family === 'R-VAN' && Array.isArray(candidatePositionOffsets)
+    ? candidatePositionOffsets
+    : []
   const candidates = buildCandidates(vertices, family, model, pressureBar, effectiveRadiusM, { preventOverspray })
+    .map((candidate) => {
+      if (candidate.source !== 'vertex') return candidate
+      const offset = positionOffsets.find((entry) => entry?.from &&
+        Number.isFinite(entry.from.x) && Number.isFinite(entry.from.y) &&
+        distance(candidate.position, entry.from) <= EPSILON)
+      if (!offset || !Number.isFinite(offset.dx) || !Number.isFinite(offset.dy)) return candidate
+      return {
+        ...candidate,
+        id: candidate.id + '-offset',
+        position: Object.freeze({
+          x: candidate.position.x + offset.dx,
+          y: candidate.position.y + offset.dy,
+        }),
+      }
+    })
     .filter((candidate) => !preventOverspray || candidateSectorFitsBounds(candidate, candidateBounds))
     .filter((candidate) => !sprayBoundaryGeometry || candidateSectorFitsGeometry(candidate, sprayBoundaryGeometry))
     .filter((candidate) => !excluded.some((point) => point &&
