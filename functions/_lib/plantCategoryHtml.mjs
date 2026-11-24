@@ -149,3 +149,68 @@ export function buildPlantCategoryItemList(products, language = 'bg', siteUrl = 
     })),
   }
 }
+
+
+function equipmentImageText(productName, language, imageIndex, kind) {
+  const locations = [
+    { bg: 'Несебър', ru: 'Несебре', en: 'Nessebar' },
+    { bg: 'Равда', ru: 'Равде', en: 'Ravda' },
+    { bg: 'Слънчев бряг', ru: 'Солнечном Берегу', en: 'Sunny Beach' },
+    { bg: 'Свети Влас', ru: 'Свети-Власе', en: 'Sveti Vlas' },
+    { bg: 'Поморие', ru: 'Поморие', en: 'Pomorie' },
+  ]
+  const locale = language === 'ru' || language === 'en' ? language : 'bg'
+  const location = locations[Math.max(0, imageIndex) % locations.length][locale]
+  if (locale === 'ru') return kind === 'title' ? `Продажа ${productName} в ${location}` : `Купить ${productName} в ${location}`
+  if (locale === 'en') return kind === 'title' ? `${productName} for sale in ${location}` : `Buy ${productName} in ${location}`
+  return kind === 'title' ? `Продажба на ${productName} в ${location}` : `Купете ${productName} в ${location}`
+}
+
+export function buildEquipmentCategoryEntries(products, language = 'bg') {
+  return (Array.isArray(products) ? products : [])
+    .filter((product) => product && product._id && (product.slugValue || product.slug?.current))
+    .slice()
+    .sort((a, b) => localizedProductName(a, language).localeCompare(localizedProductName(b, language), language))
+    .slice(0, PAGE_SIZE)
+}
+
+export function renderEquipmentCategoryListing(products, language = 'bg', siteUrl = 'https://florial-bg.com') {
+  const entries = buildEquipmentCategoryEntries(products, language)
+  const heading = language === 'ru' ? 'Оборудование в категории' : language === 'en' ? 'Equipment in this category' : 'Оборудване в категорията'
+  const empty = language === 'ru'
+    ? 'В этой категории пока нет товаров.'
+    : language === 'en'
+      ? 'There are currently no products in this category.'
+      : 'В тази категория все още няма продукти.'
+
+  if (!entries.length) {
+    return '<section aria-labelledby="florial-equipment-category-products" data-florial-server-catalogue="equipment">' +
+      '<h2 id="florial-equipment-category-products">' + heading + '</h2><p>' + empty + '</p></section>'
+  }
+
+  const cards = entries.map((product, index) => {
+    const name = localizedProductName(product, language) || product.slugValue
+    const url = productUrl(product, language, siteUrl)
+    const price = getStartingPrice(product)
+    const priceLabel = price === null
+      ? ''
+      : (language === 'ru' ? 'Цена: ' : language === 'en' ? 'Price: ' : 'Цена: ') +
+        price.toFixed(2) + ' €'
+    const status = availabilityLabel(product, language)
+    const imageUrl = typeof product.imageUrl === 'string' ? product.imageUrl : ''
+    const image = imageUrl
+      ? '<div style="height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f8fafc;border-radius:8px;margin-bottom:12px"><img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(equipmentImageText(name, language, index, 'alt')) + '" title="' + escapeHtml(equipmentImageText(name, language, index, 'title')) + '" loading="lazy" decoding="async" style="max-width:100%;max-height:100%;object-fit:contain" /></div>'
+      : ''
+    return '<li><article style="height:100%;border:1px solid #e5e7eb;border-radius:12px;padding:16px">' + image +
+      '<h3><a href="' + escapeHtml(url) + '">' + escapeHtml(name) + '</a></h3>' +
+      (priceLabel ? '<p><strong>' + escapeHtml(priceLabel) + '</strong></p>' : '') +
+      (status ? '<p>' + escapeHtml(status) + '</p>' : '') +
+      (product.sku ? '<p>SKU: ' + escapeHtml(product.sku) + '</p>' : '') +
+      '</article></li>'
+  }).join('')
+
+  return '<section aria-labelledby="florial-equipment-category-products" data-florial-server-catalogue="equipment" style="margin:24px 0">' +
+    '<h2 id="florial-equipment-category-products">' + heading + '</h2>' +
+    '<p>' + (language === 'ru' ? 'Показано товаров: ' : language === 'en' ? 'Showing products: ' : 'Показани продукти: ') + entries.length + '</p>' +
+    '<ul style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;list-style:none;padding:0">' + cards + '</ul></section>'
+}
