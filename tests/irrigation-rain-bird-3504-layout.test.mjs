@@ -26,27 +26,98 @@ function geometry(length, width, exclusions = []) {
   }
 }
 
-test('3504-PC can cover an 8x8 rectangle with owner planning radius and independent arc', () => {
+function coordinateKey(point) {
+  return point.x.toFixed(5) + ':' + point.y.toFixed(5)
+}
+
+test('8x8 square starts and finishes with exactly four corner rotors', () => {
   const result = generateRainBird3504Layout(geometry(8, 8))
   assert.equal(result.status, 'layout_generated')
-  assert.ok(result.sprinklers.length > 0)
-  assert.ok(result.sprinklers.every((head) => head.performanceModel === '3504-PC'))
-  assert.ok(result.sprinklers.every((head) => [8, 9, 10].includes(head.radiusM)))
-  assert.ok(result.sprinklers.every((head) => [90, 180, 270, 360].includes(head.arcDeg)))
-  assert.equal(result.coverage.uncoveredPoints, 0)
+  assert.equal(result.layoutStrategy, 'four-corners-first')
+  assert.equal(result.planningRadiusM, 8)
+  assert.equal(result.sprinklers.length, 4)
+  assert.equal(result.grid?.cornerPositionsPerCell, 4)
+  assert.equal(result.grid?.uniqueCornerPositions, 4)
+  assert.equal(result.coverage?.uncoveredPoints, 0)
+  assert.equal(result.headToHead?.passed, true)
+  assert.ok(result.sprinklers.every((head) =>
+    head.performanceModel === '3504-PC' && head.pattern === 'rotor' &&
+    head.arcDeg === 90 && head.radiusM === 8))
+  assert.deepEqual(
+    result.sprinklers.map((head) => coordinateKey(head.position)).sort(),
+    ['0.00000:0.00000', '0.00000:8.00000', '8.00000:0.00000', '8.00000:8.00000'].sort(),
+  )
 })
 
-test('3504-PC candidate sectors stay inside the irrigated geometry and avoid rectangular exclusions', () => {
-  const result = generateRainBird3504Layout(geometry(20, 16, [{ x: 8, y: 6, width: 4, height: 4 }]))
-  assert.ok(['layout_generated', 'no_usable_rotor_candidates'].includes(result.status))
-  for (const head of result.sprinklers) {
-    assert.ok(head.position.x >= 0 && head.position.x <= 20)
-    assert.ok(head.position.y >= 0 && head.position.y <= 16)
-  }
-  assert.ok(result.sprinklers.every((head) => head.radiusM === result.planningRadiusM))
+test('10x10 square expands corner reach to 10m before adding intermediate heads', () => {
+  const result = generateRainBird3504Layout(geometry(10, 10))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.layoutStrategy, 'four-corners-first')
+  assert.equal(result.planningRadiusM, 10)
+  assert.equal(result.sprinklers.length, 4)
+  assert.ok(result.sprinklers.every((head) => head.radiusM === 10))
+  assert.equal(result.coverage?.uncoveredPoints, 0)
+  assert.equal(result.headToHead?.passed, true)
 })
 
-test('3504-PC rejects missing or invalid geometry without manufacturing a layout', () => {
+test('38x16 rectangle uses a shared corner grid with four positions per cell and no duplicated shared corners', () => {
+  const result = generateRainBird3504Layout(geometry(38, 16))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.layoutStrategy, 'corner-first-shared-cell-grid')
+  assert.equal(result.planningRadiusM, 8)
+  assert.equal(result.grid?.columns, 5)
+  assert.equal(result.grid?.rows, 2)
+  assert.equal(result.grid?.cells, 10)
+  assert.equal(result.grid?.cornerPositionsPerCell, 4)
+  assert.equal(result.grid?.uniqueCornerPositions, 18)
+  assert.equal(result.sprinklers.length, 18)
+  assert.equal(new Set(result.sprinklers.map((head) => coordinateKey(head.position))).size, 18)
+  assert.ok(result.sprinklers.every((head) => head.radiusM === 8))
+  assert.equal(result.coverage?.uncoveredPoints, 0)
+  assert.equal(result.headToHead?.passed, true)
+  assert.ok(result.headToHead.checks.length >= 22)
+})
+
+test('20x10 rectangle may extend to 10m when that avoids an unnecessary extra rotor row', () => {
+  const result = generateRainBird3504Layout(geometry(20, 10))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.planningRadiusM, 10)
+  assert.equal(result.grid?.cells, 2)
+  assert.equal(result.sprinklers.length, 6)
+  assert.equal(result.coverage?.uncoveredPoints, 0)
+  assert.equal(result.headToHead?.passed, true)
+})
+
+test('local clearances reduce rotor radii without breaking adjacent head-to-head links', () => {
+  const result = generateRainBird3504Layout(geometry(20, 15))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.coverage?.uncoveredPoints, 0)
+  assert.equal(result.headToHead?.passed, true)
+  assert.ok(result.sprinklers.every((head) => [5, 6, 7, 8, 9, 10].includes(head.radiusM)))
+  assert.ok(result.sprinklers.some((head) => head.radiusM < result.planningRadiusM))
+})
+
+test('3504-PC candidate sectors remain inside their calculation rectangle and support an inward seam offset', () => {
+  const result = generateRainBird3504Layout(geometry(12, 14), {
+    candidatePositionOffsets: [{
+      from: { x: 12, y: 0 },
+      dx: -0.0530330086,
+      dy: 0.0530330086,
+    }],
+  })
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.coverage?.uncoveredPoints, 0)
+  assert.equal(result.headToHead?.passed, true)
+  assert.ok(result.candidateStats?.offsetCandidatePositions > 0)
+  assert.ok(result.sprinklers.every((head) =>
+    head.position.x >= 0 && head.position.x <= 12 &&
+    head.position.y >= 0 && head.position.y <= 14))
+})
+
+test('3504-PC rejects unsupported exclusions and invalid geometry without manufacturing a layout', () => {
   assert.equal(generateRainBird3504Layout(null).status, 'invalid_geometry')
   assert.equal(generateRainBird3504Layout(geometry(0, 8)).status, 'invalid_geometry')
+  assert.equal(generateRainBird3504Layout(geometry(20, 16, [
+    { x: 8, y: 6, width: 4, height: 4 },
+  ])).status, 'invalid_geometry')
 })
