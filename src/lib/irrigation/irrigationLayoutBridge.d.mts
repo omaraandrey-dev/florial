@@ -30,6 +30,7 @@ export interface PreliminaryLawnLayoutResult {
     pressureBar: number
     pressureBasis: string
     modelSelectionBasis: string
+    layoutRadiusM?: number | null
     sourceUrl: string
     actualNozzlePressureVerified: false
     customerSourceMeasurementsUsedAsNozzlePressure: false
@@ -39,7 +40,7 @@ export interface PreliminaryLawnLayoutResult {
   readonly zones?: ReadonlyArray<Readonly<{
     id: string
     zoneNumber: number
-    zoneType: 'perimeter' | 'interior'
+    zoneType: 'perimeter' | 'interior' | 'mixed'
     branchDirection: 'forward' | 'reverse' | 'mixed'
     branchDirections: ReadonlyArray<'forward' | 'reverse'>
     sprinklerIds: ReadonlyArray<string>

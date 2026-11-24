@@ -19,15 +19,98 @@ function result(status, extra = {}) {
   })
 }
 
+const RCS_MODEL = 'R-VAN-RCS'
+const RCS_SUPPORTED_STRIP_WIDTHS_M = Object.freeze([1, 2])
+
 function selectRvanModel(shortSideM) {
-  const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
-  for (const model of ['R-VAN14', 'R-VAN18', 'R-VAN24']) {
-    const point = findRainBirdRvanPerformancePoint(model, pressureBar, 180)
-    if (point?.radiusM >= shortSideM - 1e-8) return model
-  }
-  // R-VAN24 remains the largest supported circular-spray candidate. Wider
-  // lawns are handled with additional interior rows instead of rejection.
-  return 'R-VAN24'
+  if (shortSideM <= 3 + 1e-8) return Object.freeze({ model: 'R-VAN14', radiusM: 3 })
+  if (shortSideM <= 4 + 1e-8) return Object.freeze({ model: 'R-VAN18', radiusM: 4 })
+  if (shortSideM <= 5 + 1e-8) return Object.freeze({ model: 'R-VAN18', radiusM: 5 })
+  // R-VAN24 is the largest supported circular-spray candidate. Wider lawns
+  // are handled with additional interior rows instead of changing its radius.
+  return Object.freeze({ model: 'R-VAN24', radiusM: 6 })
+}
+
+function isRectangle(vertices) {
+  const open = vertices.filter((point, index) => index < vertices.length - 1 ||
+    Math.hypot(point.x - vertices[0].x, point.y - vertices[0].y) > 1e-8)
+  return open.length === 4 && open.every((point, index) => {
+    const next = open[(index + 1) % open.length]
+    return Math.abs(point.x - next.x) <= 1e-8 || Math.abs(point.y - next.y) <= 1e-8
+  })
+}
+
+function buildRcsStripLayout(geometry, shortSideM) {
+  const vertices = geometry.regions[0].boundary.vertices
+  if (!isRectangle(vertices)) return null
+  const widthM = RCS_SUPPORTED_STRIP_WIDTHS_M.find((width) => Math.abs(width - shortSideM) <= 1e-8)
+  if (!widthM) return null
+
+  const xs = vertices.map((point) => point.x)
+  const ys = vertices.map((point) => point.y)
+  const minX = Math.min(...xs)
+  const maxX = Math.max(...xs)
+  const minY = Math.min(...ys)
+  const maxY = Math.max(...ys)
+  const lengthM = Math.max(maxX - minX, maxY - minY)
+  const horizontal = maxX - minX >= maxY - minY
+  const reachM = widthM === 1 ? 2 : 4
+  // Owner-approved examples: width 2m -> length 4m: 1 head, 6m: 2,
+  // 8m: 3. Half-throw spacing preserves those exact counts.
+  const count = Math.max(1, Math.ceil(lengthM / (reachM / 2)) - 1)
+  const point = findRainBirdRvanPerformancePoint(RCS_MODEL, RECOMMENDED_NOZZLE_PRESSURE_BAR, null)
+  if (!point) return null
+
+  const sprinklers = Array.from({ length: count }, (_, index) => {
+    const ratio = count === 1 ? 0 : index / (count - 1)
+    const position = horizontal
+      ? { x: maxX - lengthM * ratio, y: minY }
+      : { x: maxX, y: minY + lengthM * ratio }
+    return Object.freeze({
+      id: 's' + String(index + 1).padStart(5, '0'),
+      position: Object.freeze(position),
+      // Strip nozzles have no circular arc; null is intentional.
+      arcDeg: null,
+      directionDeg: null,
+      source: 'edge',
+      radiusM: null,
+      pressureBar: point.pressureBar,
+      flowLpm: point.flowLpm,
+      precipitationSquareMmH: point.precipitationSquareMmH,
+      precipitationTriangularMmH: point.precipitationTriangularMmH,
+      performanceModel: RCS_MODEL,
+      pattern: 'strip',
+      stripWidthM: widthM,
+      stripLengthM: reachM,
+    })
+  })
+
+  return Object.freeze({
+    engineVersion: '0.3.0',
+    algorithm: 'owner-defined-rvan-rcs-strip-placement-v1',
+    status: 'strip_pattern_placement_ready',
+    coverageScope: 'owner_defined_strip_pattern',
+    family: 'R-VAN',
+    model: RCS_MODEL,
+    pressureBar: RECOMMENDED_NOZZLE_PRESSURE_BAR,
+    sampleStepM: null,
+    geometry: Object.freeze({
+      regionId: geometry.regions[0].id,
+      shape: 'rectangle',
+      areaM2: lengthM * widthM,
+    }),
+    sprinklers: Object.freeze(sprinklers),
+    headToHead: Object.freeze({ passed: null, checks: Object.freeze([]), applicable: false }),
+    hydraulicFeasibility: 'not_evaluated',
+    precipitationUniformity: 'not_evaluated',
+    bodyCompatibility: 'not_evaluated',
+    overspray: 'not_evaluated',
+    warnings: Object.freeze([
+      Object.freeze({ code: 'owner_defined_rcs_strip_pattern_not_sampled_as_circular_coverage', path: 'layout.coverage' }),
+      Object.freeze({ code: 'strip_head_to_head_circular_sector_check_not_applicable', path: 'layout.headToHead' }),
+      Object.freeze({ code: 'hydraulic_calculation_not_performed', path: 'hydraulics' }),
+    ]),
+  })
 }
 
 function stripOptions(shortSideM) {
@@ -51,7 +134,7 @@ function stripOptions(shortSideM) {
  * R-VAN solver and attaches Florial's fixed pipe/zone project standards.
  * No customer water-source, pressure or flow inputs are requested or used.
  */
-export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}) {
+export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {}) {
   if (!snapshot || snapshot.schemaVersion !== 2 ||
       snapshot.projectType !== 'automatic_lawn_irrigation') {
     return result('invalid_intake_snapshot')
@@ -80,6 +163,47 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
+  if (RCS_SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)) {
+    const layout = buildRcsStripLayout(geometry, shortSideM)
+    if (layout) {
+      const zones = buildIrrigationZones(layout.sprinklers, geometry)
+      const pipeNetwork = buildPerimeterPipeNetwork(geometry, layout.sprinklers, zones)
+      return result('layout_generated', {
+        engine: Object.freeze({
+          name: 'Florial deterministic lawn layout',
+          version: layout.engineVersion,
+          algorithm: layout.algorithm,
+        }),
+        operatingScenario: Object.freeze({
+          manufacturer: 'Rain Bird',
+          family: 'R-VAN',
+          model: RCS_MODEL,
+          pressureBar: RECOMMENDED_NOZZLE_PRESSURE_BAR,
+          pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
+          modelSelectionBasis: 'owner_defined_RCS_strip_width_and_throw_rule',
+          layoutRadiusM: null,
+          sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
+          actualNozzlePressureVerified: false,
+          customerSourceMeasurementsUsedAsNozzlePressure: false,
+        }),
+        geometry: Object.freeze({
+          shape: 'rectangle',
+          areaM2: layout.geometry.areaM2,
+          shortSideM,
+          dimensionsAreApproximate: true,
+        }),
+        projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
+        zones,
+        pipeNetwork,
+        layout,
+        warnings: Object.freeze([
+          ...layout.warnings,
+          Object.freeze({ code: 'approximate_customer_dimensions', path: 'geometry' }),
+        ]),
+      })
+    }
+  }
+
   if (shortSideM < 2.4) {
     const options = stripOptions(shortSideM)
     return result(options.length
@@ -95,7 +219,8 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
     })
   }
 
-  const model = selectRvanModel(shortSideM)
+  const selectedRvan = selectRvanModel(shortSideM)
+  const { model, radiusM } = selectedRvan
   if (!model) {
     return result('requires_engineer_review', {
       shortSideM,
@@ -110,6 +235,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
     model,
     pressureBar,
     sampleStepM,
+    radiusM,
   })
 
   if (layout.status !== 'coverage_complete_sampled' && layout.status !== 'coverage_incomplete') {
@@ -138,7 +264,8 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.25 } = {}
       model,
       pressureBar,
       pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: 'smallest_exact_rvan_radius_covering_short_side_or_rvan24_multi_row',
+      modelSelectionBasis: 'Florial fixed planning radius by R-VAN model; radius independent of arc',
+      layoutRadiusM: radiusM,
       sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,

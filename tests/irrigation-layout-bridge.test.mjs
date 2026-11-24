@@ -22,12 +22,19 @@ function snapshotFor(length, width) {
   })
 }
 
-test('short lawns select the smallest exact R-VAN radius that covers the short side', () => {
-  for (const [length, width, expectedModel] of [[10, 5, 'R-VAN18'], [20, 5, 'R-VAN18'], [32, 6, 'R-VAN24']]) {
+test('Florial selects the fixed R-VAN planning radius from the short side', () => {
+  for (const [length, width, expectedModel, expectedRadius] of [
+    [10, 3, 'R-VAN14', 3],
+    [10, 4, 'R-VAN18', 4],
+    [10, 5, 'R-VAN18', 5],
+    [32, 6, 'R-VAN24', 6],
+  ]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated')
     assert.equal(result.operatingScenario?.family, 'R-VAN')
     assert.equal(result.operatingScenario?.model, expectedModel)
+    assert.equal(result.operatingScenario?.layoutRadiusM, expectedRadius)
+    assert.ok(result.layout?.sprinklers?.every((head) => head.radiusM === expectedRadius))
     assert.equal(result.layout?.coverageScope, 'sampled_geometry_only')
     assert.equal(result.layout?.hydraulicFeasibility, 'not_evaluated')
     assert.equal(result.pipeNetwork?.connectionPoint?.x, length)
@@ -36,13 +43,13 @@ test('short lawns select the smallest exact R-VAN radius that covers the short s
   }
 })
 
-test('25x5 and 26x5 reference lawns create two six-head zones with source-fed Ø25 routes', () => {
-  for (const length of [25, 26]) {
+test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 routes', () => {
+  for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 14, [5, 5, 4]]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, 5))
     assert.equal(result.status, 'layout_generated')
     assert.equal(result.operatingScenario?.model, 'R-VAN18')
-    assert.equal(result.layout?.sprinklers?.length, 12)
-    assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [6, 6])
+    assert.equal(result.layout?.sprinklers?.length, expectedCount)
+    assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), expectedZones)
     assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
     assert.equal(result.pipeNetwork?.mainDiameterMm, 25)
     assert.equal(result.pipeNetwork?.zoneDiameterMm, 25)
@@ -67,13 +74,13 @@ test('30x5 lawn balances all perimeter and interior heads across three zones', (
   assert.ok(result.pipeNetwork?.branches?.every((branch) => branch.sprinklerIds.length > 0))
 })
 
-test('32x6 uses R-VAN24 radius to avoid unnecessary mid-edge heads and interior sprinklers', () => {
+test('32x6 uses the fixed 6m R-VAN24 planning radius and remains perimeter-only', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(32, 6))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.model, 'R-VAN24')
-  assert.equal(result.layout?.sprinklers?.length, 12)
+  assert.equal(result.layout?.sprinklers?.length, 14)
   assert.ok(result.layout?.sprinklers?.every((sprinkler) => sprinkler.source !== 'interior'))
-  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [6, 6])
+  assert.deepEqual(result.zones?.map((zone) => zone.sprinklerCount), [5, 5, 4])
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
 })
@@ -92,7 +99,7 @@ test('20x15 uses an interior circular row when perimeter coverage alone is insuf
   assert.equal(result.operatingScenario?.model, 'R-VAN24')
   const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
   assert.ok(interior.length > 0)
-  assert.ok(interior.some((entry) => Math.abs(entry.position.y - 7.5) < 1e-6))
+  assert.ok(interior.every((entry) => [5, 7.5, 10].some((row) => Math.abs(entry.position.y - row) < 1e-6)))
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
   assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
@@ -116,14 +123,41 @@ test('30x30 uses multiple interior rows and permits mixed balanced zones', () =>
   assert.ok(result.zones?.every((zone) => ['perimeter', 'interior', 'mixed'].includes(zone.zoneType)))
 })
 
-test('narrow strips do not fall back to circular R-VAN or HE-VAN nozzles', () => {
-  for (const width of [1, 1.5, 2]) {
-    const result = buildPreliminaryLawnLayout(snapshotFor(10, width))
-    assert.ok([
-      'strip_nozzle_layout_requires_exact_pattern_engine',
-      'strip_width_not_supported_by_exact_manufacturer_point',
-    ].includes(result.status))
-    assert.equal(result.layout, undefined)
-    assert.ok(Array.isArray(result.stripNozzleOptions))
+test('R-VAN-RCS uses the owner-defined strip width, throw and head-count rules', () => {
+  for (const [length, width, expectedCount, expectedReach] of [
+    [4, 2, 1, 4],
+    [6, 2, 2, 4],
+    [8, 2, 3, 4],
+    [4, 1, 3, 2],
+  ]) {
+    const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
+    assert.equal(result.status, 'layout_generated')
+    assert.equal(result.operatingScenario?.model, 'R-VAN-RCS')
+    assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
+    assert.equal(result.layout?.sprinklers?.length, expectedCount)
+    assert.ok(result.layout.sprinklers.every((head) =>
+      head.pattern === 'strip' && head.performanceModel === 'R-VAN-RCS' &&
+      head.stripWidthM === width && head.stripLengthM === expectedReach &&
+      head.radiusM === null))
+    assert.equal(result.layout?.headToHead?.passed, null)
+    assert.equal(result.layout?.headToHead?.applicable, false)
+    assert.equal(result.zones?.reduce((sum, zone) => sum + zone.sprinklerCount, 0), expectedCount)
+    assert.equal(result.layout.sprinklers[0].position.x, length)
+    assert.equal(result.layout.sprinklers[0].position.y, 0)
+    if (expectedCount > 1) {
+      assert.equal(result.layout.sprinklers.at(-1).position.x, 0)
+      const gaps = result.layout.sprinklers.slice(1).map((head, index) =>
+        Math.abs(head.position.x - result.layout.sprinklers[index].position.x))
+      assert.ok(gaps.every((gap) => Math.abs(gap - gaps[0]) < 1e-8))
+    }
   }
+})
+
+test('unsupported narrow widths do not fall back to circular sprinklers', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(10, 1.5))
+  assert.ok([
+    'strip_nozzle_layout_requires_exact_pattern_engine',
+    'strip_width_not_supported_by_exact_manufacturer_point',
+  ].includes(result.status))
+  assert.equal(result.layout, undefined)
 })

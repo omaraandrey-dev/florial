@@ -21,7 +21,11 @@ export function validateIrrigationProjectSnapshot(input) {
 
   const layout = input.layout
   const sprinklers = layout?.sprinklers
-  if (!isRecord(layout) || layout.headToHeadPassed !== true ||
+  const stripOnlyLayout = Array.isArray(sprinklers) && sprinklers.length > 0 &&
+    sprinklers.every((sprinkler) => sprinkler?.pattern === 'strip')
+  const headToHeadValid = layout?.headToHeadPassed === true ||
+    (layout?.headToHeadPassed === null && layout?.headToHeadApplicable === false && stripOnlyLayout)
+  if (!isRecord(layout) || !headToHeadValid ||
       !Array.isArray(sprinklers) || sprinklers.length < 1 || sprinklers.length > 150) {
     return { valid: false, reason: 'invalid_project_layout' }
   }
@@ -31,9 +35,14 @@ export function validateIrrigationProjectSnapshot(input) {
         sprinklerIds.has(sprinkler.id) ||
         !finite(sprinkler.position?.x, -500, 500) ||
         !finite(sprinkler.position?.y, -500, 500) ||
-        !finite(sprinkler.radiusM, 0.1, 30) ||
-        ![90, 180, 270, 360].includes(sprinkler.arcDeg) ||
-        !cleanLabel(sprinkler.performanceModel, 60)) {
+        !(sprinkler.pattern === 'strip' ? sprinkler.radiusM === null : finite(sprinkler.radiusM, 0.1, 30)) ||
+        !(sprinkler.pattern === 'strip' ? sprinkler.arcDeg === null : [90, 180, 270, 360].includes(sprinkler.arcDeg)) ||
+        !cleanLabel(sprinkler.performanceModel, 60) ||
+        (sprinkler.pattern !== undefined && !['circular', 'strip'].includes(sprinkler.pattern)) ||
+        (sprinkler.pattern === 'strip' &&
+          (sprinkler.performanceModel !== 'R-VAN-RCS' ||
+            ![1, 2].includes(sprinkler.stripWidthM) ||
+            ![2, 4].includes(sprinkler.stripLengthM)))) {
       return { valid: false, reason: 'invalid_project_sprinkler' }
     }
     sprinklerIds.add(sprinkler.id)
@@ -234,13 +243,17 @@ export function validateIrrigationProjectSnapshot(input) {
         model: cleanLabel(layout.model, 60),
         engineVersion: cleanLabel(layout.engineVersion, 80),
         algorithm: cleanLabel(layout.algorithm, 120),
-        headToHeadPassed: true,
+        headToHeadPassed: layout.headToHeadPassed === null ? null : true,
+        headToHeadApplicable: layout.headToHeadApplicable !== false,
         sprinklers: sprinklers.map((item) => ({
           id: item.id,
           position: { x: item.position.x, y: item.position.y },
-          radiusM: item.radiusM,
-          arcDeg: item.arcDeg,
+          radiusM: item.pattern === 'strip' ? null : item.radiusM,
+          arcDeg: item.pattern === 'strip' ? null : item.arcDeg,
           performanceModel: cleanLabel(item.performanceModel, 60),
+          pattern: item.pattern === 'strip' ? 'strip' : 'circular',
+          stripWidthM: item.pattern === 'strip' && finite(item.stripWidthM, 1, 2) ? item.stripWidthM : null,
+          stripLengthM: item.pattern === 'strip' && finite(item.stripLengthM, 2, 4) ? item.stripLengthM : null,
           source: item.source === 'interior' ? 'interior' : 'perimeter',
         })),
       },

@@ -106,3 +106,18 @@ test('refuses duplicated sprinkler membership across zones', () => {
   assert.equal(result.valid, false)
   assert.equal(result.reason, 'zone_assignment_incomplete')
 })
+
+test('allows R-VAN-RCS and circular R-VAN heads together in one zone', () => {
+  const result = buildIrrigationBillOfMaterials({
+    model: 'R-VAN18',
+    sprinklers: [
+      { id: 'strip', arcDeg: 180, pattern: 'strip', performanceModel: 'R-VAN-RCS' },
+      { id: 'circle', arcDeg: 180, pattern: 'circular', performanceModel: 'R-VAN14' },
+    ],
+  }, [{ id: 'zone-01', zoneNumber: 1, sprinklerIds: ['strip', 'circle'] }])
+  assert.equal(result.valid, true)
+  const quantities = Object.fromEntries(result.items.map((item) => [item.sku, item.quantity]))
+  assert.equal(quantities.A84668, 1)
+  assert.equal(quantities.A84659, 1)
+  assert.equal(quantities.A44120, 2)
+})

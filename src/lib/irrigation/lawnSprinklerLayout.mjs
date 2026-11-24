@@ -8,12 +8,13 @@ import {
   RAIN_BIRD_HEVAN_DATASET,
 } from './rainBirdHevanPerformanceData.mjs'
 
-const ENGINE_VERSION = '0.2.0'
+const ENGINE_VERSION = '0.3.0'
 const EPSILON = 1e-8
-const DEFAULT_SAMPLE_STEP_M = 0.25
+const DEFAULT_SAMPLE_STEP_M = 0.5
 const MAX_SAMPLE_POINTS = 30000
 const MAX_CANDIDATES = 12000
 const MAX_SELECTED_SPRINKLERS = 150
+const DEFAULT_RVAN_LAYOUT_RADII_M = Object.freeze({ 'R-VAN14': 3, 'R-VAN18': 5, 'R-VAN24': 6 })
 
 function cross(a, b, c) {
   return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
@@ -158,7 +159,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       arcDeg,
       directionDeg: arcDeg === 360 ? null : normalizeDegrees(Math.atan2(direction.y, direction.x) * 180 / Math.PI),
       source,
-      radiusM: point.radiusM,
+      radiusM: family === 'R-VAN' ? radiusM : point.radiusM,
       pressureBar: point.pressureBar,
       precipitationSquareMmH: point.precipitationSquareMmH,
       precipitationTriangularMmH: point.precipitationTriangularMmH,
@@ -184,7 +185,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     return {
       arcDeg,
       direction: bisector ?? incoming,
-      radiusM: Number.isFinite(point?.radiusM) && point.radiusM > 0 ? point.radiusM : radiusM,
+      radiusM: family === 'R-VAN' ? radiusM : Number.isFinite(point?.radiusM) && point.radiusM > 0 ? point.radiusM : radiusM,
     }
   })
 
@@ -230,7 +231,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       return Math.abs(point.x - next.x) <= EPSILON || Math.abs(point.y - next.y) <= EPSILON
     })
 
-  if (isRectangle) {
+  if (isRectangle || vertices.length > 4) {
     const lengthX = maxX - minX
     const lengthY = maxY - minY
     const xDivisions = Math.max(1, Math.ceil(lengthX / radiusM))
@@ -267,17 +268,9 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       }
     }
   } else {
-    const rowStep = radiusM * Math.sqrt(3) / 2
-    let row = 0
-    for (let y = minY + rowStep / 2; y < maxY - EPSILON; y += rowStep) {
-      const offset = row % 2 ? radiusM / 2 : 0
-      for (let x = minX + radiusM / 2 + offset; x < maxX - EPSILON; x += radiusM) {
-        const position = { x, y }
-        if (pointInRing(position, vertices) === 1) add(position, 360, { x: 1, y: 0 }, 'interior')
-        if (candidates.length > MAX_CANDIDATES) return null
-      }
-      row += 1
-    }
+    // All supported orthogonal shapes use the same axis-aligned rectangular
+    // candidate lattice. For an L-shape, pointInRing clips every candidate
+    // to the actual polygon; no triangular/staggered rows are generated.
   }
   return candidates
 }
@@ -543,6 +536,7 @@ export function generateLawnSprinklerLayout({
   model,
   pressureBar,
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
+  radiusM = null,
 }) {
   const validation = validateLawnGeometry(geometry)
   if (!validation.valid || !['accepted', 'unsupported'].includes(validation.status)) {
@@ -595,7 +589,7 @@ export function generateLawnSprinklerLayout({
   const vertices = geometry.regions[0].boundary.vertices
     .filter((point, index, points) => index < points.length - 1 ||
       distance(point, points[0]) > EPSILON)
-  const probeArc = family === 'R-VAN' ? 180 : 180
+  const probeArc = 180
   const probe = performanceFor(family, model, pressureBar, probeArc)
   if (!probe) {
     return Object.freeze({
@@ -605,6 +599,13 @@ export function generateLawnSprinklerLayout({
       warnings: Object.freeze([]),
       sprinklers: Object.freeze([]),
     })
+  }
+
+  const effectiveRadiusM = family === 'R-VAN'
+    ? (Number.isFinite(radiusM) && radiusM > 0 ? radiusM : DEFAULT_RVAN_LAYOUT_RADII_M[model])
+    : probe.radiusM
+  if (!Number.isFinite(effectiveRadiusM) || effectiveRadiusM <= 0) {
+    return Object.freeze({ engineVersion: ENGINE_VERSION, status: 'invalid_operating_input', errors: Object.freeze([{ code: 'invalid_layout_radius', path: 'radiusM' }]), warnings: Object.freeze([]), sprinklers: Object.freeze([]) })
   }
 
   const targets = buildTargetSamples(vertices, sampleStepM)
@@ -618,7 +619,7 @@ export function generateLawnSprinklerLayout({
     })
   }
 
-  const candidates = buildCandidates(vertices, family, model, pressureBar, probe.radiusM)
+  const candidates = buildCandidates(vertices, family, model, pressureBar, effectiveRadiusM)
   if (!candidates || candidates.length > MAX_CANDIDATES) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
@@ -660,13 +661,14 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'perimeter-first-multi-row-greedy-set-cover-v3',
+    algorithm: 'perimeter-first-rectangular-grid-greedy-set-cover-v4',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
     model,
     pressureBar,
     sampleStepM,
+    radiusM: effectiveRadiusM,
     geometry: Object.freeze({
       regionId: geometry.regions[0].id,
       shape: validation.regions[0].shape,

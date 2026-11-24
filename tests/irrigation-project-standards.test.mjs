@@ -104,3 +104,16 @@ test('14 perimeter and interior heads are evenly balanced without separating by 
   assert.ok(zones.every((zone) => zone.sprinklerCount <= 6))
   assert.equal(new Set(zones.flatMap((zone) => zone.sprinklerIds)).size, fourteen.length)
 })
+
+test('one zone can contain R-VAN14, R-VAN18, R-VAN24 and R-VAN-RCS heads', () => {
+  const heads = [
+    { id: 'r14', position: { x: 25, y: 5 }, arcDeg: 90, performanceModel: 'R-VAN14' },
+    { id: 'r18', position: { x: 20, y: 5 }, arcDeg: 180, performanceModel: 'R-VAN18' },
+    { id: 'r24', position: { x: 15, y: 5 }, arcDeg: 180, performanceModel: 'R-VAN24' },
+    { id: 'rcs', position: { x: 10, y: 5 }, arcDeg: 180, performanceModel: 'R-VAN-RCS', pattern: 'strip' },
+  ]
+  const zones = buildIrrigationZones(heads, rectangle)
+  assert.equal(zones.length, 1)
+  assert.equal(zones[0].sprinklerCount, 4)
+  assert.deepEqual(new Set(zones[0].sprinklerIds), new Set(heads.map((head) => head.id)))
+})

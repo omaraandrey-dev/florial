@@ -7,14 +7,16 @@ export interface LawnSprinklerLayoutInput {
   readonly model: string
   /** Exact manufacturer pressure point in bar. */
   readonly pressureBar: number
-  /** Sampling interval in metres; defaults to 0.25m. */
+  /** Sampling interval in metres; defaults to 0.5m. */
   readonly sampleStepM?: number
+  /** Florial planning radius override for R-VAN; independent of the selected arc. */
+  readonly radiusM?: number
 }
 
 export interface LawnSprinklerCandidate {
   readonly id: string
   readonly position: Readonly<{ x: number; y: number }>
-  readonly arcDeg: 90 | 180 | 270 | 360
+  readonly arcDeg: 90 | 180 | 270 | 360 | null
   /** Sector centre, degrees counter-clockwise from +X; null for full circle. */
   readonly directionDeg: number | null
   readonly source: 'vertex' | 'edge' | 'interior'
@@ -25,6 +27,9 @@ export interface LawnSprinklerCandidate {
   readonly precipitationSquareMmH: number
   readonly precipitationTriangularMmH: number
   readonly performanceModel: string
+  readonly pattern?: 'circular' | 'strip'
+  readonly stripWidthM?: number
+  readonly stripLengthM?: number
 }
 
 export interface LawnSprinklerLayoutResult {
@@ -49,7 +54,8 @@ export interface LawnSprinklerLayoutResult {
   }>
   readonly sprinklers: ReadonlyArray<LawnSprinklerCandidate>
   readonly headToHead?: Readonly<{
-    passed: boolean
+    passed: boolean | null
+    applicable?: boolean
     checks: ReadonlyArray<Readonly<{
       sprinklerId: string
       nearestSprinklerId: string | null
