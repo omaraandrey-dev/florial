@@ -1,4 +1,5 @@
 import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout, sprinklersMutuallyReach } from './lawnSprinklerLayout.mjs'
+import { generateRainBird3504Layout } from './rainBird3504Layout.mjs'
 import { decomposeOrthogonalRegion } from './orthogonalRectangleDecomposition.mjs'
 import { validateLawnGeometry } from './lawnGeometry.mjs'
 import {
@@ -528,19 +529,26 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       previouslyPlacedHeads.push(...part.layout.sprinklers)
       continue
     }
-    const selected = selectRvanModel(part.shortSideM)
-    part.layout = generateLawnSprinklerLayout({
-      geometry: part.rectGeometry,
-      family: 'R-VAN',
-      model: selected.model,
-      pressureBar,
-      sampleStepM,
-      radiusM: selected.radiusM,
-      excludedCandidatePositions: part.excludedCandidatePositions ?? [],
-      preventOverspray: true,
-      initialSprinklers: previouslyPlacedHeads,
-      sprayBoundaryGeometry: geometry,
-    })
+    const rotorLayout = generateRainBird3504Layout(part.rectGeometry, { sampleStepM })
+    if (rotorLayout.status === 'coverage_complete_sampled') {
+      part.layout = rotorLayout
+      part.family = '3500'
+    } else {
+      const selected = selectRvanModel(part.shortSideM)
+      part.layout = generateLawnSprinklerLayout({
+        geometry: part.rectGeometry,
+        family: 'R-VAN',
+        model: selected.model,
+        pressureBar,
+        sampleStepM,
+        radiusM: selected.radiusM,
+        excludedCandidatePositions: part.excludedCandidatePositions ?? [],
+        preventOverspray: true,
+        initialSprinklers: previouslyPlacedHeads,
+        sprayBoundaryGeometry: geometry,
+      })
+      part.family = 'R-VAN'
+    }
     if (!['coverage_complete_sampled', 'coverage_incomplete'].includes(part.layout.status)) {
       return result('layout_incomplete', {
         shortSideM,
@@ -556,6 +564,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const circularHeads = []
   const sampledCoverage = { sampledPoints: 0, coveredPoints: 0, uncoveredPoints: 0 }
   const modelSet = new Set()
+  const familySet = new Set()
   const layoutWarnings = []
   let circularCoverageComplete = true
   for (let index = 0; index < prepared.length; index += 1) {
@@ -564,6 +573,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       const prefixed = Object.freeze({ ...head, id: 'z' + (index + 1) + '-' + head.id, calculationRegionId: part.id })
       allHeads.push(prefixed)
       modelSet.add(prefixed.performanceModel)
+      familySet.add(prefixed.performanceModel === '3504-PC' ? '3500' : 'R-VAN')
       if (prefixed.pattern !== 'strip') circularHeads.push(prefixed)
     }
     if (!part.isStrip) {
@@ -621,16 +631,19 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   if (headToHeadPassed === false) warnings.push({ code: 'head_to_head_spacing_check_failed', path: 'layout.headToHead' })
 
   const selectedModels = [...modelSet].sort()
+  const selectedFamilies = [...familySet].sort()
+  const resultFamily = selectedFamilies.length > 1 ? 'mixed' : (selectedFamilies[0] ?? 'R-VAN')
+  const resultPressureBar = selectedFamilies.includes('R-VAN') ? pressureBar : null
   const layout = Object.freeze({
-    engineVersion: '0.6.0',
-    algorithm: 'decomposed-orthogonal-rectangular-zones-v2',
+    engineVersion: '0.7.0',
+    algorithm: 'decomposed-orthogonal-rectangular-zones-with-3504pc-global-grid-v3',
     status: !oversprayPassed || !circularCoverageComplete || headToHeadPassed === false
       ? 'coverage_incomplete'
       : (circularHeads.length ? 'coverage_complete_sampled' : 'strip_pattern_placement_ready'),
     coverageScope,
-    family: 'R-VAN',
+    family: resultFamily,
     model: selectedModels.join(' / '),
-    pressureBar,
+    pressureBar: resultPressureBar,
     sampleStepM: circularHeads.length ? sampleStepM : null,
     geometry: Object.freeze({
       regionId: geometry.regions[0].id,
@@ -673,17 +686,19 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   return result(resultStatus, {
     shortSideM,
     manufacturer: 'Rain Bird',
-    family: 'R-VAN',
+    family: resultFamily,
     model: layout.model,
     operatingScenario: Object.freeze({
       manufacturer: 'Rain Bird',
-      family: 'R-VAN',
+      family: resultFamily,
       model: layout.model,
-      pressureBar,
-      pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: 'per-rectangle local dimensions; connected narrow arms use the owner-defined directional LCS/RCS/SST pattern',
+      pressureBar: resultPressureBar,
+      pressureBasis: selectedFamilies.includes('R-VAN') ? 'Rain Bird R-VAN manufacturer reference point; not measured at the nozzle' : null,
+      modelSelectionBasis: '3504-PC global rectangular rotor layout first; unchanged R-VAN fallback for rectangles without a valid rotor-only solution; directional LCS/RCS/SST remains for narrow strips',
       layoutRadiusM: null,
-      sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
+      sourceUrl: selectedFamilies.length === 1 && selectedFamilies[0] === '3500'
+        ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers'
+        : selectedFamilies.length === 1 ? RAIN_BIRD_RVAN_DATASET.source.url : null,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
     }),
@@ -846,6 +861,50 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
       manufacturerPressureBar: RECOMMENDED_NOZZLE_PRESSURE_BAR,
       reason: 'No circular spray substitute is allowed for a narrow strip; exact pattern placement and orientation must be validated.',
       projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
+    })
+  }
+
+  const rotorLayout = generateRainBird3504Layout(geometry, { sampleStepM })
+  if (rotorLayout.status === 'coverage_complete_sampled') {
+    const zones = buildIrrigationZones(rotorLayout.sprinklers, geometry)
+    const pipeNetwork = buildPerimeterPipeNetwork(geometry, rotorLayout.sprinklers, zones)
+    return result('layout_generated', {
+      manufacturer: 'Rain Bird',
+      family: '3500',
+      model: '3504-PC',
+      engine: Object.freeze({
+        name: 'Florial global 3504-PC rectangular layout',
+        version: rotorLayout.engineVersion,
+        algorithm: rotorLayout.algorithm,
+      }),
+      operatingScenario: Object.freeze({
+        manufacturer: 'Rain Bird',
+        family: '3500',
+        model: '3504-PC',
+        pressureBar: null,
+        pressureBasis: null,
+        modelSelectionBasis: 'owner-defined 8m default radius; whole-rectangle grid search and redundancy pruning; 9m/10m escalation and 7m/6m/5m local envelope only when required',
+        layoutRadiusM: null,
+        sourceUrl: 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers',
+        actualNozzlePressureVerified: false,
+        customerSourceMeasurementsUsedAsNozzlePressure: false,
+      }),
+      geometry: Object.freeze({
+        shape: 'rectangle',
+        areaM2: rotorLayout.geometry.areaM2,
+        shortSideM,
+        dimensionsAreApproximate: true,
+      }),
+      projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
+      zones,
+      pipeNetwork,
+      layout: rotorLayout,
+      overspray: rotorLayout.overspray,
+      warnings: Object.freeze([
+        ...rotorLayout.warnings,
+        Object.freeze({ code: 'approximate_customer_dimensions', path: 'geometry' }),
+        Object.freeze({ code: '3504_pc_geometric_radius_is_not_a_manufacturer_verified_performance_value', path: 'layout.sprinklers' }),
+      ]),
     })
   }
 
