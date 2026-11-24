@@ -911,7 +911,13 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   let combinedHeadToHeadPassed = combinedSprinklers.length > 1
     ? combinedHeadToHeadChecks.every((entry) => entry.passed)
     : null
-  if (rotorAccepted && combinedHeadToHeadPassed === false) {
+  const compositeOversprayPassed = rotorAccepted
+    ? evaluateCompositeOverspray(combinedSprinklers, [], geometry)
+    : null
+  let rotorRejectionReason = null
+  if (rotorAccepted && combinedHeadToHeadPassed === false) rotorRejectionReason = 'head_to_head'
+  if (rotorAccepted && compositeOversprayPassed === false) rotorRejectionReason = 'overspray'
+  if (rotorRejectionReason) {
     rotorAccepted = false
     rvanLayout = createRvanLayout([], false)
     combinedSprinklers = [...rvanLayout.sprinklers]
@@ -921,19 +927,32 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const layout = rotorAccepted
     ? Object.freeze({
       ...rvanLayout,
-      status: combinedHeadToHeadPassed === false ? 'coverage_incomplete' : rvanLayout.status,
+      status: rvanLayout.status,
       family: combinedSprinklers.some((head) => head.performanceModel.startsWith('R-VAN')) ? 'mixed' : '3500',
       model: [...new Set(combinedSprinklers.map((head) => head.performanceModel))].sort().join(' / '),
       pressureBar: combinedSprinklers.some((head) => head.performanceModel.startsWith('R-VAN')) ? pressureBar : null,
       sprinklers: Object.freeze(combinedSprinklers),
       headToHead: Object.freeze({ passed: combinedHeadToHeadPassed, applicable: combinedSprinklers.length > 1, checks: Object.freeze(combinedHeadToHeadChecks) }),
+      overspray: 'sampled_inside_boundary',
       warnings: Object.freeze([
-        ...rvanLayout.warnings,
-        ...rotorLayout.warnings,
+        ...rvanLayout.warnings.filter((warning) => warning.code !== 'overspray_not_evaluated'),
+        ...rotorLayout.warnings.filter((warning) => warning.code !== 'sampled_coverage_is_not_a_continuous_proof'),
         Object.freeze({ code: '3504pc_rotors_prioritized_before_rvan_gap_fill', path: 'layout.sprinklers' }),
+        Object.freeze({ code: 'composite_rotor_and_rvan_footprints_sampled_inside_original_geometry', path: 'layout.overspray' }),
       ]),
     })
-    : rvanLayout
+    : Object.freeze({
+      ...rvanLayout,
+      warnings: Object.freeze([
+        ...rvanLayout.warnings,
+        ...(rotorRejectionReason ? [Object.freeze({
+          code: rotorRejectionReason === 'overspray'
+            ? '3504pc_prepass_rejected_by_composite_overspray_check'
+            : '3504pc_prepass_rejected_by_head_to_head_check',
+          path: 'layout.sprinklers',
+        })] : []),
+      ]),
+    })
 
   if (layout.status !== 'coverage_complete_sampled' && layout.status !== 'coverage_incomplete') {
     return result('layout_incomplete', {
