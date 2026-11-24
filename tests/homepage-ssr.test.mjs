@@ -140,6 +140,10 @@ test('homepage SSR renderer keeps cart route out of index while homepage remains
   )
   assert.doesNotMatch(homepageBranch, /noIndex:\s*true/)
   assert.match(cartBranch, /noIndex:\s*true/)
+  assert.match(homepageBranch, /'@type': 'OnlineStore'/)
+  assert.match(homepageBranch, /'@type': 'WebSite'/)
+  assert.match(homepageBranch, /id: 'organization'/)
+  assert.match(homepageBranch, /id: 'website'/)
 })
 
 test('homepage SSR emits the same responsive Sanity image candidates used by React', () => {
