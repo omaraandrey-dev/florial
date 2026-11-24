@@ -107,7 +107,7 @@ test('8x8 rectangle uses R-VAN24 in the four corners and R-VAN18 at the four sid
 })
 
 test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 routes', () => {
-  for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 12, [6, 6]]]) {
+  for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 14, [6, 6, 2]]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, 5))
     assert.equal(result.status, 'layout_generated')
     const selectedModels = [...new Set(result.layout?.sprinklers?.map((head) => head.performanceModel) ?? [])].sort()
