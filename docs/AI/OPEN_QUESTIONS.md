@@ -4,7 +4,7 @@
 - **CLOSED — 1 m / 2 m narrow-strip model selection:** directional LCS/RCS/SST placement is implemented with owner-approved length thresholds, vertical orientation, catalogue SKU resolution and persisted direction/axis metadata.
 - **CLOSED — catalogue mapping:** published Sanity Production records for LCS A84667, RCS A84668 and SST A84669 were checked read-only and are active.
 - **CLOSED — implementation, regression suite and merge:** PR #518 merged to `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`; exact PR-head Blog/Studio validation #2512 and D1 validation #2693 succeeded (442/442 tests in Blog/Studio run).
-- **OPEN — Production deployment close-out:** Cloudflare Pages deployment was triggered from the exact merge SHA; build succeeded but deploy stage was still active at this entry. Confirm terminal deployment status and source SHA before marking publication complete.
+- **CLOSED — Production deployment:** Cloudflare Pages Production deployment `ef950cfb-2c24-48d0-ab9e-7f46cd0f89a3` completed successfully from exact merge SHA `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.
 - **OPEN — live customer interaction QA:** inspect preliminary and calculated L-shape diagrams for each corner and horizontal/vertical strip results on the live site. Automated regression tests and deployment status are not substitutes for visual/interaction acceptance.
 - **OPEN — hydraulic/field validation:** actual pressure/flow, nozzle pressure, hydraulic feasibility and field distribution uniformity are outside this geometric strip algorithm and remain unverified. Do not describe the layout as a hydraulic design or circular sampled-coverage proof.
 - Evidence: `docs/audits/2026-11-24-irrigation-l-shape-and-narrow-strip-layout.md`.
