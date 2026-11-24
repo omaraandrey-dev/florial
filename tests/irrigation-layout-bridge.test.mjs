@@ -7,6 +7,10 @@ import { buildIrrigationIntakeSnapshot } from '../src/lib/irrigation/irrigationI
 import { buildPreliminaryLawnLayout } from '../src/lib/irrigation/irrigationLayoutBridge.mjs'
 import { buildIrrigationBillOfMaterials } from '../src/lib/irrigation/irrigationBillOfMaterials.mjs'
 
+function buildRvanOnlyLayout(snapshot) {
+  return buildPreliminaryLawnLayout(snapshot, { prefer3504PcRotors: false })
+}
+
 function snapshotFor(length, width, options = {}) {
   const shape = options.shape ?? 'rectangle'
   const vertices = buildLawnBoundary({ shape, length, width, cutoutWidth: options.cutoutWidth, cutoutDepth: options.cutoutDepth, cutoutCorner: options.cutoutCorner })
@@ -40,7 +44,7 @@ function snapshotFor(length, width, options = {}) {
 
 test('Florial selects each R-VAN head from local reach and reports the actual model set', () => {
   for (const [length, width] of [[10, 3], [10, 4], [10, 5], [32, 6]]) {
-    const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
+    const result = buildRvanOnlyLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated')
     assert.equal(result.operatingScenario?.family, 'R-VAN')
     const selectedModels = [...new Set(result.layout?.sprinklers?.map((head) => head.performanceModel) ?? [])].sort()
@@ -80,7 +84,7 @@ test('38x16 rectangle is solved as a complete 3504-PC rotor grid before any R-VA
 
 test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach allowance', () => {
   for (const [length, width, expectedRadius] of [[10, 4, 4], [18, 4, 4], [10, 5, 5], [18, 5, 5]]) {
-    const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
+    const result = buildRvanOnlyLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated', length + 'x' + width)
     const heads = result.layout?.sprinklers ?? []
     assert.ok(heads.length > 0)
@@ -95,7 +99,7 @@ test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach al
 
 test('3x18 narrow rectangle keeps every head at R-VAN14 instead of sizing corners to the global centroid', () => {
   for (const [length, width] of [[18, 3], [3, 18]]) {
-    const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
+    const result = buildRvanOnlyLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated', length + 'x' + width)
     assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
     assert.equal(result.layout?.headToHead?.passed, true)
@@ -109,7 +113,7 @@ test('3x18 narrow rectangle keeps every head at R-VAN14 instead of sizing corner
 })
 
 test('8x8 rectangle uses R-VAN24 in the four corners and R-VAN18 at the four side midpoints', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(8, 8))
+  const result = buildRvanOnlyLayout(snapshotFor(8, 8))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.headToHead?.passed, true)
@@ -125,7 +129,7 @@ test('8x8 rectangle uses R-VAN24 in the four corners and R-VAN18 at the four sid
 
 test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 routes', () => {
   for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 14, [5, 5, 4]]]) {
-    const result = buildPreliminaryLawnLayout(snapshotFor(length, 5))
+    const result = buildRvanOnlyLayout(snapshotFor(length, 5))
     assert.equal(result.status, 'layout_generated')
     const selectedModels = [...new Set(result.layout?.sprinklers?.map((head) => head.performanceModel) ?? [])].sort()
     assert.equal(result.operatingScenario?.model, selectedModels.join(' / '))
@@ -145,7 +149,7 @@ test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 r
 })
 
 test('30x5 lawn is covered by perimeter heads in two balanced zones', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(30, 5))
+  const result = buildRvanOnlyLayout(snapshotFor(30, 5))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.model, 'R-VAN18')
   assert.equal(result.layout?.sprinklers?.length, 14)
@@ -157,7 +161,7 @@ test('30x5 lawn is covered by perimeter heads in two balanced zones', () => {
 })
 
 test('32x6 uses the fixed 6m R-VAN24 planning radius and remains perimeter-only', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(32, 6))
+  const result = buildRvanOnlyLayout(snapshotFor(32, 6))
   assert.equal(result.status, 'layout_generated')
   assert.ok(result.layout?.sprinklers?.some((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN24'))
   assert.ok(result.layout?.sprinklers?.every((head) => ['R-VAN18', 'R-VAN24'].includes(head.performanceModel.replace(/-360$/, ''))))
@@ -169,7 +173,7 @@ test('32x6 uses the fixed 6m R-VAN24 planning radius and remains perimeter-only'
 })
 
 test('20x10 reports mixed models and keeps complete sampled perimeter coverage', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(20, 10))
+  const result = buildRvanOnlyLayout(snapshotFor(20, 10))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.model, 'R-VAN18 / R-VAN18-360 / R-VAN24')
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
@@ -177,7 +181,7 @@ test('20x10 reports mixed models and keeps complete sampled perimeter coverage',
 })
 
 test('20x15 uses mixed R-VAN models and an interior circular row when perimeter coverage alone is insufficient', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(20, 15))
+  const result = buildRvanOnlyLayout(snapshotFor(20, 15))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.model, 'R-VAN18 / R-VAN18-360 / R-VAN24')
   const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
@@ -189,7 +193,7 @@ test('20x15 uses mixed R-VAN models and an interior circular row when perimeter 
 })
 
 test('30x30 uses multiple interior rows and permits mixed balanced zones', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(30, 30))
+  const result = buildRvanOnlyLayout(snapshotFor(30, 30))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.model, 'R-VAN24 / R-VAN24-360')
   const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
@@ -222,7 +226,7 @@ test('narrow strip rules select RCS, LCS and SST at the approved thresholds', ()
   ]
 
   for (const entry of cases) {
-    const result = buildPreliminaryLawnLayout(snapshotFor(entry.length, entry.width))
+    const result = buildRvanOnlyLayout(snapshotFor(entry.length, entry.width))
     assert.equal(result.status, 'layout_generated', entry.length + 'x' + entry.width)
     assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
     assert.deepEqual(result.layout?.sprinklers?.map((head) => head.performanceModel), entry.models)
@@ -238,9 +242,9 @@ test('narrow strip rules select RCS, LCS and SST at the approved thresholds', ()
 })
 
 test('narrow strip heads use the lower long edge and rotate correctly for vertical lawns', () => {
-  const horizontal = buildPreliminaryLawnLayout(snapshotFor(10, 2))
+  const horizontal = buildRvanOnlyLayout(snapshotFor(10, 2))
   assert.ok(horizontal.layout.sprinklers.every((head) => head.position.y === 0))
-  const vertical = buildPreliminaryLawnLayout(snapshotFor(2, 10))
+  const vertical = buildRvanOnlyLayout(snapshotFor(2, 10))
   assert.equal(vertical.status, 'layout_generated')
   assert.deepEqual(vertical.layout.sprinklers.map((head) => [head.position.x, head.position.y, head.stripDirection, head.stripAxis]), [
     [2, 0, 'up', 'vertical'], [2, 4, 'both', 'vertical'], [2, 8, 'both', 'vertical'], [2, 10, 'down', 'vertical'],
@@ -248,7 +252,7 @@ test('narrow strip heads use the lower long edge and rotate correctly for vertic
 })
 
 test('10x2 narrow-strip BOM uses the real LCS, RCS and SST catalog SKUs', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(10, 2))
+  const result = buildRvanOnlyLayout(snapshotFor(10, 2))
   const bom = buildIrrigationBillOfMaterials(result.layout, result.zones)
   assert.equal(bom.valid, true)
   assert.equal(bom.items.find((item) => item.sku === 'A84667')?.quantity, 1)
@@ -265,7 +269,7 @@ test('all four L-shaped cut-out corners survive intake normalization and layout 
     const expected = buildLawnBoundary({ shape: 'l-shape', length, width, cutoutWidth, cutoutDepth, cutoutCorner })
     assert.deepEqual(normalized, expected, cutoutCorner)
 
-    const result = buildPreliminaryLawnLayout(snapshot)
+    const result = buildRvanOnlyLayout(snapshot)
     assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status), cutoutCorner)
     assert.equal(result.layout?.geometry?.shape, 'l-shape', cutoutCorner)
     for (const head of result.layout?.sprinklers ?? []) {
@@ -288,7 +292,7 @@ test('geometry preview and calculated customer SVG share one Y-up to SVG transfo
 
 
 test('28x14 L-shape with a 16x12 cut-out is split into a 12x14 R-VAN zone and a connected 16x2 strip', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+  const result = buildRvanOnlyLayout(snapshotFor(28, 14, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 12, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
@@ -317,7 +321,7 @@ test('28x14 L-shape with a 16x12 cut-out is split into a 12x14 R-VAN zone and a 
 
 test('decomposed L-shape keeps the 1m/2m strip connected to the wide zone in all four cut-out corners', () => {
   for (const cutoutCorner of ['top-left', 'top-right', 'bottom-left', 'bottom-right']) {
-    const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+    const result = buildRvanOnlyLayout(snapshotFor(28, 14, {
       shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 12, cutoutCorner,
     }))
     assert.equal(result.status, 'layout_generated', cutoutCorner + ' ' + JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
@@ -338,7 +342,7 @@ test('decomposed L-shape keeps the 1m/2m strip connected to the wide zone in all
 })
 
 test('a 2m vertical connected L-shape arm uses a rotated strip row and keeps its nozzles in the irrigated polygon', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(14, 28, {
+  const result = buildRvanOnlyLayout(snapshotFor(14, 28, {
     shape: 'l-shape', cutoutWidth: 12, cutoutDepth: 16, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
@@ -354,7 +358,7 @@ test('a 2m vertical connected L-shape arm uses a rotated strip row and keeps its
 
 
 test('two narrow connected arms keep separate strip geometry and unique sprinkler references', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+  const result = buildRvanOnlyLayout(snapshotFor(28, 14, {
     shape: 'l-shape', cutoutWidth: 26, cutoutDepth: 12, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated')
@@ -368,7 +372,7 @@ test('two narrow connected arms keep separate strip geometry and unique sprinkle
 
 
 test('square 2m connected arm keeps its vertical strip axis from the shared edge', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(18, 2, {
+  const result = buildRvanOnlyLayout(snapshotFor(18, 2, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 1, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_incomplete')
@@ -392,7 +396,7 @@ test('strip direction arrows use sub-metre SVG markers and cannot masquerade as 
 
 
 test('L-shaped 4 m arm is calculated before the wider rectangle and uses R-VAN18 locally', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+  const result = buildRvanOnlyLayout(snapshotFor(28, 14, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 10, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
@@ -405,7 +409,7 @@ test('L-shaped 4 m arm is calculated before the wider rectangle and uses R-VAN18
 })
 
 test('rectangular lawn with a non-irrigated rectangular exclusion is decomposed and checked against the hole', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(20, 12, {
+  const result = buildRvanOnlyLayout(snapshotFor(20, 12, {
     exclusions: [{ id: 'pool', x: 8, y: 4, width: 4, height: 4 }],
   }))
   assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
@@ -421,7 +425,7 @@ test('rectangular lawn with a non-irrigated rectangular exclusion is decomposed 
 })
 
 test('unsupported narrow widths do not fall back to circular sprinklers', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(10, 1.5))
+  const result = buildRvanOnlyLayout(snapshotFor(10, 1.5))
   assert.ok([
     'strip_nozzle_layout_requires_exact_pattern_engine',
     'strip_width_not_supported_by_exact_manufacturer_point',
