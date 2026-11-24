@@ -483,7 +483,7 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
 
 function rectangleRotorLayout(rectGeometry, part, sampleStepM) {
   if (part.shortSideM < 6 - 1e-8) return null
-  const candidate = generateRainBird3504Layout(rectGeometry, { sampleStepM })
+  const candidate = generateRainBird3504Layout(rectGeometry, { sampleStepM, candidatePositionOffsets: part.candidatePositionOffsets ?? [] })
   if (candidate.status !== 'layout_generated' || candidate.coverage?.uncoveredPoints !== 0 ||
       !candidate.sprinklers.length) return null
   const checks = candidate.sprinklers.length > 1
