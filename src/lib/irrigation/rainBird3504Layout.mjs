@@ -183,9 +183,41 @@ function selectRotors(candidates, targetCount) {
       for (const index of candidate.covered) if (uncovered.has(index)) gain += 1
       if (gain > bestGain) { best = candidate; bestGain = gain }
     }
-    if (!best) break
-    selected.push(best)
-    for (const index of best.covered) uncovered.delete(index)
+
+    if (best) {
+      selected.push(best)
+      for (const index of best.covered) uncovered.delete(index)
+      continue
+    }
+
+    // A large rectangle can contain two spatially separate rotor groups.
+    // Start a new group only as a mutually-reachable pair, so no selected
+    // rotor is left without a Head-to-Head neighbour.
+    const useful = ordered.filter((candidate) =>
+      !selected.some((entry) => distance(entry.position, candidate.position) <= EPSILON) &&
+      candidate.covered.some((index) => uncovered.has(index)))
+    let bestPair = null
+    let bestPairGain = 0
+    for (let firstIndex = 0; firstIndex < useful.length; firstIndex += 1) {
+      const a = useful[firstIndex]
+      for (let secondIndex = firstIndex + 1; secondIndex < useful.length; secondIndex += 1) {
+        const b = useful[secondIndex]
+        if (distance(a.position, b.position) > Math.min(a.radiusM, b.radiusM) + EPSILON ||
+            !mutuallyReach(a, b)) continue
+        let gain = 0
+        for (const index of a.covered) if (uncovered.has(index)) gain += 1
+        for (const index of b.covered) if (uncovered.has(index) && !a.covered.includes(index)) gain += 1
+        if (gain > bestPairGain) {
+          bestPair = [a, b]
+          bestPairGain = gain
+        }
+      }
+    }
+    if (!bestPair || bestPairGain <= 0 || selected.length + 2 > MAX_ROTORS) break
+    selected.push(...bestPair)
+    for (const candidate of bestPair) {
+      for (const index of candidate.covered) uncovered.delete(index)
+    }
   }
   return { selected, uncovered }
 }
