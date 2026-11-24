@@ -316,7 +316,7 @@ function priceMarkup(price) {
 }
 
 function selectVisibleEquipmentCategories(categories) {
-  const items = Array.isArray(categories) ? categories : []
+  const items = Array.isArray(categories) ? categories.filter((item) => !String(item._id || '').startsWith('plants-')) : []
   const byId = new Map(items.map((item) => [item._id, item]))
   const visibleIds = new Set()
 
