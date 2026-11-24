@@ -220,7 +220,7 @@ test('sampled coverage remains complete at a finer spatial resolution', () => {
 test('R-VAN planning radius is fixed by model and does not change with arc', () => {
   for (const [model, radiusM] of [['R-VAN14', 3], ['R-VAN18', 5], ['R-VAN24', 6]]) {
     const result = generateLawnSprinklerLayout({
-      geometry: rectangle, family: 'R-VAN', model, pressureBar: 3.1, sampleStepM: 0.5,
+      geometry: confirmedGeometry([{ x: 0, y: 0 }, { x: 30, y: 0 }, { x: 30, y: 30 }, { x: 0, y: 30 }]), family: 'R-VAN', model, pressureBar: 3.1, sampleStepM: 0.5,
     })
     assert.ok(result.sprinklers.length > 0)
     assert.ok(result.sprinklers.every((head) => head.radiusM === radiusM))
