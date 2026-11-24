@@ -38,3 +38,15 @@ export function buildPlantCategoryItemList(
   language?: 'bg' | 'ru' | 'en',
   siteUrl?: string,
 ): Record<string, unknown>
+
+
+export function buildEquipmentCategoryEntries(
+  products: PlantCategoryProduct[],
+  language?: 'bg' | 'ru' | 'en',
+): PlantCategoryProduct[]
+
+export function renderEquipmentCategoryListing(
+  products: PlantCategoryProduct[],
+  language?: 'bg' | 'ru' | 'en',
+  siteUrl?: string,
+): string
