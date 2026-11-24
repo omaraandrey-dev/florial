@@ -33,7 +33,12 @@ export function validateIrrigationProjectSnapshot(input) {
         !finite(sprinkler.position?.y, -500, 500) ||
         !finite(sprinkler.radiusM, 0.1, 30) ||
         ![90, 180, 270, 360].includes(sprinkler.arcDeg) ||
-        !cleanLabel(sprinkler.performanceModel, 60)) {
+        !cleanLabel(sprinkler.performanceModel, 60) ||
+        (sprinkler.pattern !== undefined && !['circular', 'strip'].includes(sprinkler.pattern)) ||
+        (sprinkler.pattern === 'strip' &&
+          (sprinkler.performanceModel !== 'R-VAN-RCS' ||
+            ![1, 2].includes(sprinkler.stripWidthM) ||
+            ![2, 4].includes(sprinkler.stripLengthM)))) {
       return { valid: false, reason: 'invalid_project_sprinkler' }
     }
     sprinklerIds.add(sprinkler.id)
@@ -241,6 +246,9 @@ export function validateIrrigationProjectSnapshot(input) {
           radiusM: item.radiusM,
           arcDeg: item.arcDeg,
           performanceModel: cleanLabel(item.performanceModel, 60),
+          pattern: item.pattern === 'strip' ? 'strip' : 'circular',
+          stripWidthM: item.pattern === 'strip' && finite(item.stripWidthM, 1, 2) ? item.stripWidthM : null,
+          stripLengthM: item.pattern === 'strip' && finite(item.stripLengthM, 2, 4) ? item.stripLengthM : null,
           source: item.source === 'interior' ? 'interior' : 'perimeter',
         })),
       },
