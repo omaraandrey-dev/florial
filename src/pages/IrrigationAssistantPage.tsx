@@ -537,7 +537,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                   {layoutResult.status === 'layout_generated' || layoutResult.status === 'layout_incomplete' ? (
                     <>
                       <p className="mt-3 text-sm font-semibold text-slate-900">{layoutLabels.candidate}: {layoutResult.operatingScenario?.manufacturer} {layoutResult.operatingScenario?.family} · {layoutModelLabel} · {numberFormat(layoutResult.operatingScenario?.pressureBar ?? 0)} bar</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-700">{layoutResult.status === 'layout_generated' ? (layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовые R-VAN-RCS размещены по согласованному правилу Florial. Выборочное круговое покрытие для этой схемы не рассчитывается.' : language === 'en' ? 'R-VAN-RCS strip nozzles are placed using the approved Florial rule. Circular sampled coverage is not calculated for this pattern.' : 'Лентовите R-VAN-RCS дюзи са разположени по одобреното правило на Florial. Кръгово семплирано покритие не се изчислява за този модел.') : layoutLabels.generated) : layoutLabels.incomplete}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">{layoutResult.status === 'layout_generated' ? (layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? (language === 'ru' ? 'Полосовые R-VAN-RCS размещены по согласованному правилу Florial. Выборочное круговое покрытие для этой схемы не рассчитывается.' : language === 'en' ? 'LCS, RCS and SST strip nozzles are placed using the approved Florial rule. Circular sampled coverage is not calculated for this pattern.' : 'Лентовите R-VAN-RCS дюзи са разположени по одобреното правило на Florial. Кръгово семплирано покритие не се изчислява за този модел.') : layoutLabels.generated) : layoutLabels.incomplete}</p>
                       <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.heads}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.sprinklers?.length ?? 0}</dd></div>
                         
@@ -547,6 +547,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       {boundaryVertices && (layoutResult.layout?.sprinklers?.length ?? 0) > 0 && (
                         <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3">
                           <svg viewBox={'-0.5 -0.5 ' + (Number(length.replace(',', '.')) + 1) + ' ' + (Number(width.replace(',', '.')) + 1)} role="img" aria-label={layoutLabels.title} className="max-h-64 w-full" preserveAspectRatio="xMidYMid meet">
+                            <defs><marker id="strip-direction-arrow" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L4 2 L0 4 z" fill="#475569" /></marker></defs>
                             <g>
                               <polygon points={svgPoints} fill="#dcfce7" stroke="#047857" strokeWidth="0.12" strokeLinejoin="round" />
                               {layoutResult.pipeNetwork?.mainRoute && <polyline points={layoutResult.pipeNetwork.mainRoute.map((point: { x: number; y: number }) => point.x + ',' + point.y).join(' ')} fill="none" stroke="#ea580c" strokeWidth="0.12" strokeLinejoin="round" />}
@@ -558,11 +559,18 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                                   ))}
                                 </g>
                               ))}
-                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number | null; performanceModel?: string }) => {
+                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number | null; performanceModel?: string; pattern?: string; stripDirection?: string; stripLengthM?: number }) => {
                                 const zoneNumber = layoutResult.zones?.find((zone: { zoneNumber: number; sprinklerIds: ReadonlyArray<string> }) => zone.sprinklerIds.includes(sprinkler.id))?.zoneNumber
                                 const nozzleColor = sprinklerNozzleColor(sprinkler.performanceModel)
                                 return (
                                 <g key={sprinkler.id}>
+                                  {sprinkler.pattern === 'strip' && sprinkler.stripDirection && sprinkler.stripLengthM && <g stroke="#475569" strokeWidth="0.09" markerEnd="url(#strip-direction-arrow)">
+                                    {sprinkler.stripDirection === 'left' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x - sprinkler.stripLengthM} y2={sprinkler.position.y} />}
+                                    {sprinkler.stripDirection === 'right' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x + sprinkler.stripLengthM} y2={sprinkler.position.y} />}
+                                    {sprinkler.stripDirection === 'up' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y - sprinkler.stripLengthM} />}
+                                    {sprinkler.stripDirection === 'down' && <line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x} y2={sprinkler.position.y + sprinkler.stripLengthM} />}
+                                    {sprinkler.stripDirection === 'both' && <><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x - sprinkler.stripLengthM} y2={sprinkler.position.y} /><line x1={sprinkler.position.x} y1={sprinkler.position.y} x2={sprinkler.position.x + sprinkler.stripLengthM} y2={sprinkler.position.y} /></>}
+                                  </g>}
                                   {sprinkler.radiusM !== null && <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r={sprinkler.radiusM} fill="none" stroke={nozzleColor} strokeWidth="0.055" strokeDasharray="0.22 0.14" opacity="0.78" />}
                                   <circle cx={sprinkler.position.x} cy={sprinkler.position.y} r="0.18" fill={nozzleColor} stroke="#ffffff" strokeWidth="0.08" />
                                   {zoneNumber !== undefined && <g transform={'translate(' + (sprinkler.position.x + 0.22) + ' ' + sprinkler.position.y + ')'}><text x="0" y="-0.22" fontSize="0.72" fontWeight="700" fill="#0f172a" stroke="#ffffff" strokeWidth="0.12" paintOrder="stroke">{zoneNumber}</text></g>}
