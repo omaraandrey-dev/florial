@@ -7,7 +7,7 @@
 - **CLOSED — mixed zones:** R-VAN14, R-VAN18, R-VAN24 and R-VAN-RCS may coexist in one zone; model, radius, arc and strip/circular pattern are not zone boundaries.
 - **CLOSED — precipitation-intensity compatibility:** owner confirms the manufacturer compatibility of these R-VAN models/patterns. Do not add a separate per-zone precipitation-intensity matching gate.
 - **OPEN — 1804 body / selected R-VAN nozzle assembly and pressure-regulation compatibility:** this remains a distinct product-assembly question and is not the precipitation-intensity matching rule above.
-- Implementation PR #515: CI passed; Cloudflare Pages Preview deployment succeeded (ba29688a-1117-4c5b-bbfc-1c84260cef0b). Production merge/deployment evidence remains pending.
+- Implementation PR #515: CI passed; Cloudflare Pages Preview deployment succeeded (ba29688a-1117-4c5b-bbfc-1c84260cef0b). PR #515 merged to main (commit 6057a28159282e1449fde961613dee301480d93c); Cloudflare Pages Production deployment 5be817f9-e59e-4744-92bb-3f88cfceffa8 succeeded. This implementation/release item is closed.
 
 ## 2026-11-24 — Blog article performance release: measurement follow-up
 

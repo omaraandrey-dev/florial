@@ -40,4 +40,4 @@ Implement the owner's latest layout rules in the existing geometric lawn assista
 - PR-head CI passed: application/Pages Functions type-check, lint, full website utility tests, website build, Studio type-check and build, plus D1 migration validation.
 - Cloudflare Pages Preview deployment ba29688a-1117-4c5b-bbfc-1c84260cef0b succeeded at https://ba29688a.florial.pages.dev for code commit 689a619296892b135e4755160c5c4b8bb126b386.
 - No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production order/email writes or Production deployment.
-- Production merge/deployment verification remains pending.
+- PR #515 merged to main as commit 6057a28159282e1449fde961613dee301480d93c. Cloudflare Pages Production deployment 5be817f9-e59e-4744-92bb-3f88cfceffa8 completed successfully on 2026-11-24. Canonical aliases florial-bg.com and www.florial-bg.com are attached. Production release verification is complete.
