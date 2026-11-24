@@ -39,7 +39,7 @@ test('customer layout distinguishes nozzle models and keeps the result summary c
   assert.match(page, /normalized === 'R-VAN14'\) return '#3b82f6'/)
   assert.match(page, /normalized === 'R-VAN18'\) return '#c49a6c'/)
   assert.match(page, /normalized === 'R-VAN24'\) return '#800020'/)
-  assert.match(page, /normalized === 'R-VAN-RCS'\) return '#374151'/)
+  assert.match(page, /normalized === 'R-VAN-RCS'\) return '#6b7280'/)
   assert.match(page, /stroke=\{nozzleColor\}/)
   assert.match(page, /fill=\{nozzleColor\}/)
   assert.match(page, /layoutNozzleLegend\.map/)
