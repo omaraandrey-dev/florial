@@ -223,21 +223,20 @@ function responsiveImage(value, options = {}) {
     if (
       source.protocol === 'https:' &&
       source.hostname === 'cdn.sanity.io' &&
-      /^\/images\/[^/]+\/[^/]+\//.test(source.pathname) &&
-      dimensions
+      /^\/images\/[^/]+\/[^/]+\//.test(source.pathname)
     ) {
-      intrinsicWidth = Number(dimensions[1])
-      intrinsicHeight = Number(dimensions[2])
+      intrinsicWidth = dimensions ? Number(dimensions[1]) : undefined
+      intrinsicHeight = dimensions ? Number(dimensions[2]) : undefined
       const buildUrl = (candidateWidth) => {
         const image = new URL(source)
-        image.searchParams.set('w', String(Math.min(candidateWidth, intrinsicWidth)))
+        image.searchParams.set('w', String(intrinsicWidth ? Math.min(candidateWidth, intrinsicWidth) : candidateWidth))
         image.searchParams.set('fit', 'max')
         image.searchParams.set('auto', 'format')
         image.searchParams.set('q', String(Math.min(100, Math.max(1, Math.round(quality)))))
         return image.toString()
       }
       const candidates = [160, 240, 320, 480, 640, 720, 800, 960, 1200, 1600]
-        .map((candidateWidth) => Math.min(candidateWidth, intrinsicWidth))
+        .map((candidateWidth) => intrinsicWidth ? Math.min(candidateWidth, intrinsicWidth) : candidateWidth)
         .filter((candidateWidth, index, all) => candidateWidth > 0 && all.indexOf(candidateWidth) === index)
         .sort((a, b) => a - b)
       src = buildUrl(preferredWidth)
