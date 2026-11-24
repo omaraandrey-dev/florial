@@ -184,8 +184,8 @@ test('narrow strip heads use the lower long edge and rotate correctly for vertic
   assert.ok(horizontal.layout.sprinklers.every((head) => head.position.y === 0))
   const vertical = buildPreliminaryLawnLayout(snapshotFor(2, 10))
   assert.equal(vertical.status, 'layout_generated')
-  assert.deepEqual(vertical.layout.sprinklers.map((head) => [head.position.x, head.position.y, head.stripDirection]), [
-    [2, 0, 'up'], [2, 4, 'both'], [2, 8, 'both'], [2, 10, 'down'],
+  assert.deepEqual(vertical.layout.sprinklers.map((head) => [head.position.x, head.position.y, head.stripDirection, head.stripAxis]), [
+    [2, 0, 'up', 'vertical'], [2, 4, 'both', 'vertical'], [2, 8, 'both', 'vertical'], [2, 10, 'down', 'vertical'],
   ])
 })
 
