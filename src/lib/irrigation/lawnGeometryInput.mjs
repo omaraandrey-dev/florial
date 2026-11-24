@@ -45,8 +45,12 @@ export function buildLawnBoundary({
     { x: 0, y: width },
   ]
 
+  // Geometry uses a Cartesian Y-up axis: y=0 is the bottom edge and
+  // y=width is the top edge. This matches the solver's top-right connection
+  // convention at (maxX, maxY); SVG rendering applies the same Y reflection
+  // in both the preview and calculated diagram.
   return vertices.map(({ x, y }) => ({
     x: cutoutCorner.endsWith('left') ? length - x : x,
-    y: cutoutCorner.startsWith('bottom') ? width - y : y,
+    y: width - (cutoutCorner.startsWith('bottom') ? width - y : y),
   }))
 }
