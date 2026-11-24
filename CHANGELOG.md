@@ -1,15 +1,12 @@
 ## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531)
 
-- Added an equipment-specific initial HTML renderer using the existing published Sanity `production` category query; the previous middleware inserted initial product cards only for the `plants` dataset.
-- The additive renderer emits up to 20 localized product links with generated localized image ALT/title, EUR price when present, known stock status and SKU when present. Existing React filtering/pagination and plant SSR are preserved.
-- Failed equipment category queries do not emit a false empty state and the failed category response is marked `no-store`; caching behavior for product/service/blog routes is preserved.
-- Exact-PR-head GitHub Actions validation passed: 481/481 tests, app/Pages Functions type-check, lint, website build, Studio type-check/build; D1 migration validation also passed without applying migrations.
-- Cloudflare Pages Preview deployment succeeded from the exact validated PR head. Raw initial-HTML QA is still open; no merge or Production deployment has occurred.
-
-- Added a server-rendered equipment-category listing using the existing published Sanity `production` catalogue query; the previous implementation injected initial category product cards only for the `plants` dataset.
-- The additive renderer emits up to 20 localized product links with image ALT/title, EUR price when present, known stock status and SKU when present. Existing React filtering/pagination and plant SSR are preserved.
-- Equipment query failures do not emit a false empty state and the resulting HTML is marked `no-store`.
-- Added focused tests and a dedicated roadmap/audit. CI, Preview raw-HTML checks and Production deployment are pending; no live data/configuration writes were performed.
+- Added an equipment-specific initial HTML renderer using the existing published Sanity `production` category query.
+- Added up to 20 localized equipment product links with image ALT/title, EUR price, known stock status and SKU.
+- Mirrored the React all-irrigation root's six-category round-robin and R-VAN → HE-VAN → VAN nozzle ordering; the CollectionPage ItemList uses the same ordered equipment entries.
+- Preserved the plant SSR renderer, React filtering/pagination, and product/service/blog cache behavior. Failed equipment category queries do not render a false empty state and are not edge-cached.
+- Exact code-head CI `331ffee5b548864c36497fafb788293569c4180a` passed: 483/483 tests, app/Pages Functions type-check, lint, website build, Studio type-check/build and D1 validation.
+- Cloudflare Pages Preview deployment `ba6a681a-2865-4c40-815e-27216bc510e5` succeeded from that exact head. Post-hydration BG/RU/EN and nested-category smoke checks passed.
+- Raw initial-HTTP HTML verification remains open; no merge or Production deployment has occurred.
 
 ## 2026-11-24 — irrigation assistant paused by owner
 
