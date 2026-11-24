@@ -1,3 +1,17 @@
+# Current implementation handoff — PR #530 corner-first 3504-PC integration (2026-11-24)
+
+- **Main remains:** `d9a24afc4ba04f36b4bf027646eba986e38156f5`; integration PR #530 is open, based on this exact main SHA.
+- **Integration head:** `e1480631e4dedd2bb119fc644f7369b0cb9228ca` at the time of verification.
+- **CI:** Blog/Studio run `45448308122` passed 475/475 tests, type-check, lint, website build, read-only D1 dry-run, Studio type-check/build; D1 validation `45448308116` passed.
+- **Preview:** Cloudflare Pages deployment `03615d85-7a08-42a9-8d41-cbd0d3ec2de9` succeeded from the exact integration head: https://03615d85.florial.pages.dev.
+- **Algorithm:** 3504-PC uses true-corner-first placement, then a complete shared-cell grid with deduplicated nodes and mutual Head-to-Head. No seam offsets are passed to the rotor solver.
+- **Approved seam adjustment:** 7.5 cm inward offset is available only for the exact matching R-VAN corner candidate at a shared strip/rectangle seam when that rectangle falls back to R-VAN. All other R-VAN model/radius selection and placement logic remains unchanged.
+- **Owner visual QA pending:** browser interaction could not be run because the connected Browser Use project reported insufficient credits. Preview deployment success does not prove visual acceptance.
+- **Release boundary:** PR is not merged; no Production deployment, Sanity writes, D1 schema/data changes or Cloudflare settings/secrets changes have been made.
+- **Engineering limits:** sampled geometric coverage only; hydraulics, precipitation uniformity and field performance are not evaluated.
+
+---
+
 # Current implementation handoff — orthogonal lawn solver Production release (2026-11-24)
 
 - **Main:** `a14e2e3294f96f76542623e7956f5cece78919d0`; PR #525 is merged.

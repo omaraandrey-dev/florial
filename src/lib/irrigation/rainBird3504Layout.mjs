@@ -167,18 +167,9 @@ function axisPositions(length, pitch) {
   return positions
 }
 
-function offsetFor(point, offsets) {
-  return offsets.find((entry) => entry?.from &&
-    distance(point, entry.from) <= 0.001 &&
-    Number.isFinite(entry.dx) && Number.isFinite(entry.dy)) ?? null
-}
-
-function makeHead(sourcePoint, bounds, stageRadiusM, index, offsets) {
+function makeHead(sourcePoint, bounds, stageRadiusM, index) {
   const positionClass = classifyPosition(sourcePoint.x, sourcePoint.y, bounds)
-  const offset = offsetFor(sourcePoint, offsets)
-  const position = offset
-    ? { x: sourcePoint.x + offset.dx, y: sourcePoint.y + offset.dy }
-    : { x: sourcePoint.x, y: sourcePoint.y }
+  const position = { x: sourcePoint.x, y: sourcePoint.y }
   const safeMaximum = maximumSafeRadius(
     sourcePoint.x, sourcePoint.y, bounds, positionClass.source)
   const radiusM = selectSafeRadius(stageRadiusM, safeMaximum)
@@ -274,7 +265,7 @@ function evaluateCornerHeadToHead(heads, bounds) {
   return Object.freeze({ passed: checks.every((entry) => entry.passed), checks: Object.freeze(checks) })
 }
 
-function buildCornerOnly(bounds, stageRadiusM, offsets = []) {
+function buildCornerOnly(bounds, stageRadiusM) {
   const corners = [
     { x: bounds.minX, y: bounds.minY },
     { x: bounds.maxX, y: bounds.minY },
@@ -282,12 +273,12 @@ function buildCornerOnly(bounds, stageRadiusM, offsets = []) {
     { x: bounds.minX, y: bounds.maxY },
   ]
   const heads = corners.map((point, index) =>
-    makeHead(point, bounds, stageRadiusM, index + 1, offsets))
+    makeHead(point, bounds, stageRadiusM, index + 1))
   if (heads.some((head) => !head)) return null
   return heads
 }
 
-function buildGrid(bounds, stageRadiusM, offsets = []) {
+function buildGrid(bounds, stageRadiusM) {
   const width = bounds.maxX - bounds.minX
   const height = bounds.maxY - bounds.minY
   const localXs = axisPositions(width, stageRadiusM)
@@ -299,7 +290,7 @@ function buildGrid(bounds, stageRadiusM, offsets = []) {
   for (let row = 0; row < ys.length; row += 1) {
     for (let column = 0; column < xs.length; column += 1) {
       const point = { x: xs[column], y: ys[row] }
-      const head = makeHead(point, bounds, stageRadiusM, index, offsets)
+      const head = makeHead(point, bounds, stageRadiusM, index)
       if (!head) return null
       heads.push(Object.freeze({ ...head, gridKey: row + ':' + column }))
       index += 1
@@ -337,7 +328,6 @@ function result(status, extra = {}) {
  */
 export function generateRainBird3504Layout(geometry, {
   sampleStepM = 0.5,
-  candidatePositionOffsets = [],
   initialSprinklers = [],
 } = {}) {
   const validation = validateLawnGeometry(geometry)
@@ -354,12 +344,11 @@ export function generateRainBird3504Layout(geometry, {
   }
   const targets = buildTargets(bounds, sampleStepM)
   if (!targets) return result('sampling_limit_exceeded')
-  const offsets = Array.isArray(candidatePositionOffsets) ? candidatePositionOffsets : []
   const prior = Array.isArray(initialSprinklers) ? initialSprinklers : []
 
   // Phase 1: all four true rectangle corners, before any interior or side rows.
   for (const stageRadiusM of RADIUS_STAGES_M) {
-    const heads = buildCornerOnly(bounds, stageRadiusM, offsets)
+    const heads = buildCornerOnly(bounds, stageRadiusM)
     if (!heads) continue
     const coverage = evaluateCoverage(heads, targets, prior)
     if (coverage.uncoveredPoints !== 0) continue
@@ -374,7 +363,7 @@ export function generateRainBird3504Layout(geometry, {
       sprinklers: Object.freeze(heads),
       coverage,
       headToHead: Object.freeze({ passed: true, applicable: true, checks: spacing.checks }),
-      candidateStats: Object.freeze({ candidatePositions: 4, selectedRotors: heads.length, offsetCandidatePositions: heads.filter((head) => offsets.some((entry) => distance(head.position, { x: entry.from.x + entry.dx, y: entry.from.y + entry.dy }) <= 0.001)).length }),
+      candidateStats: Object.freeze({ candidatePositions: 4, selectedRotors: heads.length }),
       warnings: Object.freeze([
         Object.freeze({ code: '3504pc_four_geometric_corners_tested_before_grid_expansion', path: 'layout.sprinklers' }),
         Object.freeze({ code: '3504pc_radius_is_owner_defined_florial_planning_value', path: 'layout.sprinklers.radiusM' }),
@@ -389,7 +378,7 @@ export function generateRainBird3504Layout(geometry, {
   // while shared coordinates are stored once in the global grid.
   const completeLayouts = []
   for (const stageRadiusM of RADIUS_STAGES_M) {
-    const grid = buildGrid(bounds, stageRadiusM, offsets)
+    const grid = buildGrid(bounds, stageRadiusM)
     if (!grid || grid.heads.length > MAX_ROTORS) continue
     const coverage = evaluateCoverage(grid.heads, targets, prior)
     if (coverage.uncoveredPoints !== 0) continue
@@ -421,9 +410,6 @@ export function generateRainBird3504Layout(geometry, {
   })
 
   const sprinklers = Object.freeze(selected.grid.heads.map(({ gridKey, ...head }) => head))
-  const offsetCount = sprinklers.filter((head) => offsets.some((entry) =>
-    entry?.from && Number.isFinite(entry.dx) && Number.isFinite(entry.dy) &&
-    distance(head.position, { x: entry.from.x + entry.dx, y: entry.from.y + entry.dy }) <= 0.001)).length
   return result('layout_generated', {
     family: '3500',
     model: '3504-PC',
@@ -442,7 +428,6 @@ export function generateRainBird3504Layout(geometry, {
     candidateStats: Object.freeze({
       candidatePositions: selected.grid.heads.length,
       selectedRotors: sprinklers.length,
-      offsetCandidatePositions: offsetCount,
     }),
     warnings: Object.freeze([
       Object.freeze({ code: '3504pc_four_corners_seeded_before_shared_cell_grid', path: 'layout.sprinklers' }),

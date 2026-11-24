@@ -1,3 +1,14 @@
+## 2026-11-24 — PR #530 integration candidate: corner-first 3504-PC and bounded R-VAN seam fallback
+
+- PR #530 integrates the dimensioned lawn diagrams, orthogonal calculation-region/PDF work from PR #527 with the 3504-PC rotor persistence/BOM contract from PR #528, using the owner-approved corner-first shared-cell solver.
+- The 3504-PC solver tries the four true rectangle corners first, then complete shared-cell grids with deduplicated nodes and mutual Head-to-Head checks. Rotor seam offsets were removed from this solver; true geometric corners remain unshifted.
+- With the owner's approval, the bridge may apply a 7.5 cm inward offset to the exact matching R-VAN corner candidate at a shared narrow-strip/rectangle seam, only when the rectangle uses the R-VAN fallback. Default R-VAN selection, model/radius sizing and placement remain unchanged.
+- Exact integration head: `e1480631e4dedd2bb119fc644f7369b0cb9228ca`. Blog/Studio validation run `45448308122` passed: 475/475 tests, application/Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check and build. D1 validation run `45448308116` passed.
+- Cloudflare Pages Preview deployment `03615d85-7a08-42a9-8d41-cbd0d3ec2de9` succeeded from that exact head: https://03615d85.florial.pages.dev.
+- Manual browser interaction/visual acceptance remains pending because the connected Browser Use project reported insufficient credits. Do not treat the Preview deployment as visual acceptance.
+- PR #530 remains open; no merge to main or Production deployment has occurred. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails were performed.
+- Hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance remain outside this sampled geometric solver.
+
 ## 2026-11-24 — PR #525 merged and Production deployment verified
 
 - PR #525 was squash-merged into `main` at `a14e2e3294f96f76542623e7956f5cece78919d0`.

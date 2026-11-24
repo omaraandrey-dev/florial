@@ -35,14 +35,13 @@ export interface RainBird3504LayoutResult {
     uncoveredSamples: ReadonlyArray<Readonly<{ x: number; y: number }>>
   }>
   readonly headToHead?: Readonly<{ passed: boolean; applicable: boolean; checks: ReadonlyArray<Readonly<Record<string, unknown>>> }>
-  readonly candidateStats?: Readonly<{ candidatePositions: number; selectedRotors: number; offsetCandidatePositions?: number }>
+  readonly candidateStats?: Readonly<{ candidatePositions: number; selectedRotors: number }>
   readonly warnings: ReadonlyArray<Readonly<{ code: string; path: string }>>
 }
 export function generateRainBird3504Layout(
   geometry: Readonly<Record<string, any>>,
   options?: {
     sampleStepM?: number
-    candidatePositionOffsets?: ReadonlyArray<Readonly<{ from: Readonly<{ x: number; y: number }>; dx: number; dy: number }>>
     initialSprinklers?: ReadonlyArray<Readonly<Record<string, any>>>
   },
 ): RainBird3504LayoutResult

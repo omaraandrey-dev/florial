@@ -1,7 +1,7 @@
 # Rain Bird 3504-PC geometric layout — corner-first shared-cell algorithm
 
-**Status:** implementation in integration branch `integration/irrigation-3504pc-corner-first`; not merged to `main`. Automated CI and Preview verification are pending for the integration head.  
-**Owner-approved scope:** revise only the Rain Bird 3504-PC rotor placement algorithm. Keep the established R-VAN algorithm unchanged. This remains preliminary geometric planning, not a hydraulic design.
+**Status:** implementation in integration PR #530; not merged to `main`. Automated CI and Preview deployment passed on exact head `e1480631e4dedd2bb119fc644f7369b0cb9228ca`; owner visual acceptance remains pending.  
+**Owner-approved scope:** revise the Rain Bird 3504-PC rotor placement algorithm and add the separately approved 7.5 cm R-VAN corner offset only for a shared strip/rectangle seam fallback. All other established R-VAN selection and placement rules remain unchanged. This remains preliminary geometric planning, not a hydraulic design.
 
 ## 1. Owner-approved layout rules
 
@@ -54,9 +54,9 @@ The bridge retains the existing area-ascending decomposition and per-rectangle d
 - otherwise its partial rotor candidates are discarded and the established R-VAN fallback is used for that rectangle;
 - 1 m / 2 m directional LCS/RCS/SST strip rules remain unchanged.
 
-The 3504-PC solver supports the 7.5 cm inward candidate offset at a shared narrow-strip seam. This offset is only passed to the rotor solver.
+At a shared narrow-strip seam, the 7.5 cm inward offset is applied only to the matching R-VAN corner candidate, and only if the adjacent rectangle uses the R-VAN fallback. The offset is an opt-in candidate-position adjustment; it does not alter model selection, nozzle sizing, radius selection, perimeter/interior ordering or spacing rules. The candidate's spray sector must still pass rectangle-boundary and original-lawn/exclusion checks.
 
-**R-VAN protection:** `src/lib/irrigation/lawnSprinklerLayout.mjs` is restored byte-for-byte to the current `main` blob (`900e97408406c15de6a089f4a992e6cef8ec1f47`). The bridge does not pass rotor seam-offset options into the R-VAN solver. No R-VAN selection, nozzle sizing, placement, repair, or Head-to-Head logic is changed.
+The 3504-PC solver does not accept seam offsets. Its corner-first positions remain at true geometric corners; shared-grid nodes are not shifted.
 
 ## 3. Output and order snapshot
 
@@ -78,9 +78,10 @@ The integration test suite must verify:
 - 38×16 m: 5×2 cells, 10 cells, 18 unique rotor positions, complete coverage and mutual Head-to-Head;
 - 20×10 m: 10 m grid stage avoids an unnecessary extra row while retaining mutual Head-to-Head;
 - 20×15 m: local clearances reduce selected radii while preserving adjacent Head-to-Head;
-- seam-offset candidates remain inside the calculation rectangle;
+- the 3504-PC solver keeps all geometric corner positions unshifted;
+- a 7.5 cm seam offset applies only to the matching R-VAN fallback corner candidate;
 - the decomposed L-shape and exclusion regressions still pass;
-- the established R-VAN regression cases remain unchanged.
+- established R-VAN model/radius and placement regressions remain unchanged outside the explicit seam-offset case.
 
 ## 5. Engineering limitations
 
@@ -90,6 +91,13 @@ The integration test suite must verify:
 - Manufacturer package/accessory configuration and final BOM quantities remain provisional.
 - The rectangle solver does not independently solve arbitrary polygons; it relies on the existing geometry decomposition bridge and final composite overspray checks.
 
-## 6. Release boundary
+## 6. Verification record
+
+- Blog/Studio validation run `45448308122` passed on exact head `e1480631e4dedd2bb119fc644f7369b0cb9228ca`: 475/475 tests, app/Pages Functions type-check, lint, website build, read-only D1 dry-run, Studio type-check and build.
+- D1 validation run `45448308116` passed; no migration was applied.
+- Cloudflare Pages Preview deployment `03615d85-7a08-42a9-8d41-cbd0d3ec2de9` succeeded: https://03615d85.florial.pages.dev.
+- Browser interaction/visual QA is not confirmed; owner review remains pending.
+
+## 7. Release boundary
 
 No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production deployment or Production order/email tests are part of this work. Visual Preview acceptance is a separate check and must not be claimed until performed.
