@@ -289,6 +289,9 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
           radiusM: sprinkler.radiusM,
           arcDeg: sprinkler.arcDeg,
           performanceModel: sprinkler.performanceModel,
+          pattern: sprinkler.pattern ?? 'circular',
+          stripWidthM: sprinkler.stripWidthM ?? null,
+          stripLengthM: sprinkler.stripLengthM ?? null,
           source: sprinkler.source === 'interior' ? 'interior' : 'perimeter',
         })),
       },
@@ -528,7 +531,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.heads}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.sprinklers?.length ?? 0}</dd></div>
                         
                         <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.coverage}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{numberFormat(layoutResult.layout?.coverage?.coveragePercent ?? 0)}%</dd></div>
-                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.uncovered}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverage?.uncoveredPoints ?? 0}</dd></div>
+                        <div className="rounded-xl bg-white p-3"><dt className="text-xs font-semibold text-slate-500">{layoutLabels.uncovered}</dt><dd className="mt-1 text-lg font-extrabold tabular-nums text-slate-900">{layoutResult.layout?.coverageScope === 'owner_defined_strip_pattern' ? '—' : layoutResult.layout?.coverage?.uncoveredPoints ?? 0}</dd></div>
                       </dl>
                       {boundaryVertices && (layoutResult.layout?.sprinklers?.length ?? 0) > 0 && (
                         <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3">
