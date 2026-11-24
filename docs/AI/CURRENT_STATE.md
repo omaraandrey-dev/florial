@@ -4,7 +4,7 @@
 - The fix aligns all four L-shape cut-out corners with the solver's Y-up coordinates and makes the preliminary/calculated SVG transforms consistent.
 - The 1 m / 2 m strip algorithm now uses directional R-VAN-LCS/RCS/SST selection; catalogue SKUs A84667/A84668/A84669 were read-only verified active in Sanity Production.
 - Exact PR-head Blog/Studio validation #2512 and D1 validation #2693 passed; Blog/Studio reports 442/442 tests, plus type checks, lint, website and Studio builds.
-- Cloudflare Pages Production deployment from this exact main SHA was triggered; build succeeded and deployment was active at the time of this entry. Confirm final deployment status before treating the release as fully published.
+- Cloudflare Pages Production deployment `ef950cfb-2c24-48d0-ab9e-7f46cd0f89a3` completed successfully from this exact main SHA; deployment URL `https://ef950cfb.florial.pages.dev`.
 - No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or emails. Browser-based live interaction QA remains open.
 - Audit: `docs/audits/2026-11-24-irrigation-l-shape-and-narrow-strip-layout.md`.
 
