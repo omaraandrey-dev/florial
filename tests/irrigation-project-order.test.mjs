@@ -247,7 +247,7 @@ test('accepts an R-VAN-RCS strip-only project without a circular head-to-head cl
   project.layout.sprinklers = [{
     id: 'strip-1',
     position: { x: 25, y: 0 },
-    radiusM: 4,
+    radiusM: null,
     arcDeg: null,
     performanceModel: 'R-VAN-RCS',
     pattern: 'strip',
