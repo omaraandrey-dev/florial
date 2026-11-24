@@ -1,5 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import { readFile } from 'node:fs/promises'
 import { buildLawnBoundary } from '../src/lib/irrigation/lawnGeometryInput.mjs'
 import { validateLawnGeometry } from '../src/lib/irrigation/lawnGeometry.mjs'
 import { buildIrrigationIntakeSnapshot } from '../src/lib/irrigation/irrigationIntake.mjs'
@@ -20,6 +21,9 @@ function snapshotFor(length, width, options = {}) {
     shape,
     length: String(length),
     width: String(width),
+    cutoutWidth: options.cutoutWidth == null ? '' : String(options.cutoutWidth),
+    cutoutDepth: options.cutoutDepth == null ? '' : String(options.cutoutDepth),
+    cutoutCorner: options.cutoutCorner ?? 'top-right',
     geometryValidation,
   })
 }
@@ -192,6 +196,35 @@ test('10x2 narrow-strip BOM uses the real LCS, RCS and SST catalog SKUs', () => 
   assert.equal(bom.items.find((item) => item.sku === 'A84667')?.quantity, 1)
   assert.equal(bom.items.find((item) => item.sku === 'A84668')?.quantity, 1)
   assert.equal(bom.items.find((item) => item.sku === 'A84669')?.quantity, 2)
+})
+
+test('all four L-shaped cut-out corners survive intake normalization and layout generation', () => {
+  const corners = ['top-left', 'top-right', 'bottom-left', 'bottom-right']
+  for (const cutoutCorner of corners) {
+    const length = 12, width = 8, cutoutWidth = 4, cutoutDepth = 3
+    const snapshot = snapshotFor(length, width, { shape: 'l-shape', cutoutWidth, cutoutDepth, cutoutCorner })
+    const normalized = snapshot.geometry.normalized.regions[0].boundary.vertices.slice(0, -1)
+    const expected = buildLawnBoundary({ shape: 'l-shape', length, width, cutoutWidth, cutoutDepth, cutoutCorner })
+    assert.deepEqual(normalized, expected, cutoutCorner)
+
+    const result = buildPreliminaryLawnLayout(snapshot)
+    assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status), cutoutCorner)
+    assert.equal(result.layout?.geometry?.shape, 'l-shape', cutoutCorner)
+    for (const head of result.layout?.sprinklers ?? []) {
+      const { x, y } = head.position
+      const insideCutout = cutoutCorner === 'top-left' ? x < cutoutWidth && y < cutoutDepth
+        : cutoutCorner === 'top-right' ? x > length - cutoutWidth && y < cutoutDepth
+          : cutoutCorner === 'bottom-left' ? x < cutoutWidth && y > width - cutoutDepth
+            : x > length - cutoutWidth && y > width - cutoutDepth
+      assert.equal(insideCutout, false, cutoutCorner + ' ' + head.id)
+    }
+  }
+})
+
+test('calculated customer SVG uses the same unreflected coordinate orientation as the geometry preview', async () => {
+  const assistant = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
+  assert.match(assistant, /<g>\s*<polygon points={svgPoints}/)
+  assert.doesNotMatch(assistant, /translate\(0 .*scale\(1 -1\)/)
 })
 
 test('unsupported narrow widths do not fall back to circular sprinklers', () => {
