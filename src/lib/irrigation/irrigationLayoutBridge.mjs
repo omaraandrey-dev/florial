@@ -20,7 +20,6 @@ function result(status, extra = {}) {
 }
 
 const RCS_MODEL = 'R-VAN-RCS'
-const RCS_SKU = 'A84668'
 const RCS_SUPPORTED_STRIP_WIDTHS_M = Object.freeze([1, 2])
 
 function selectRvanModel(shortSideM) {
@@ -165,7 +164,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
-  if (shortSideM === 1 || shortSideM === 2) {
+  if (RCS_SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)) {
     const layout = buildRcsStripLayout(geometry, shortSideM)
     if (layout) {
       const zones = buildIrrigationZones(layout.sprinklers, geometry)
