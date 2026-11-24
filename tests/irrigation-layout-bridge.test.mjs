@@ -117,7 +117,7 @@ test('38x16 rectangle is covered by 3504-PC rotors without redundant R-VAN heads
   const snapshot = snapshotFor(38, 16)
   const rotorAttempt = generateRainBird3504Layout(snapshot.geometry.normalized)
   assert.equal(rotorAttempt.coverage?.uncoveredPoints, 0,
-    JSON.stringify({ status: rotorAttempt.status, coverage: rotorAttempt.coverage, stats: rotorAttempt.candidateStats }))
+    JSON.stringify({ status: rotorAttempt.status, coverage: rotorAttempt.coverage, stats: rotorAttempt.candidateStats, rotors: rotorAttempt.sprinklers.map((head) => ({ position: head.position, arc: head.arcDeg, direction: head.directionDeg, radius: head.radiusM })) }))
   const result = buildPreliminaryLawnLayout(snapshot)
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.operatingScenario?.family, '3500')
@@ -131,7 +131,7 @@ test('38x16 rectangle is covered by 3504-PC rotors without redundant R-VAN heads
 })
 
 test('rectangle decomposition is processed by ascending area and a shared strip seam gets a 7.5cm inward offset', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(14, 14, {
+  const result = buildPreliminaryLawnLayout(snapshotFor(18, 14, {
     shape: 'l-shape', cutoutWidth: 6, cutoutDepth: 12, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated',
@@ -139,10 +139,10 @@ test('rectangle decomposition is processed by ascending area and a shared strip 
   const areas = result.layout.calculationRegions.map((part) => part.areaM2)
   assert.deepEqual(areas, areas.slice().sort((a, b) => a - b))
   const stripSeamHead = result.layout.sprinklers.find((head) =>
-    head.pattern === 'strip' && Math.abs(head.position.x - 8) < 1e-6 && Math.abs(head.position.y) < 1e-6)
+    head.pattern === 'strip' && Math.abs(head.position.x - 12) < 1e-6 && Math.abs(head.position.y) < 1e-6)
   assert.ok(stripSeamHead, 'connected strip head should remain at the shared seam')
   const adjacentHead = result.layout.sprinklers.find((head) =>
-    head.pattern !== 'strip' && Math.abs(Math.hypot(head.position.x - 8, head.position.y) - 0.075) < 0.005)
+    head.pattern !== 'strip' && Math.abs(Math.hypot(head.position.x - 12, head.position.y) - 0.075) < 0.005)
   assert.ok(adjacentHead, 'the wide rectangle should allow its own head 5–10cm from the strip head')
 })
 
