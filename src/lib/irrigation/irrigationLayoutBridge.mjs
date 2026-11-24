@@ -1,4 +1,5 @@
 import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout } from './lawnSprinklerLayout.mjs'
+import { validateLawnGeometry } from './lawnGeometry.mjs'
 import {
   findRainBirdRvanPerformancePoint,
   RAIN_BIRD_RVAN_DATASET,
@@ -680,6 +681,10 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   }
 
   const vertices = region.boundary.vertices
+  const validation = validateLawnGeometry(geometry)
+  if (!validation.valid || validation.regions.length !== 1) {
+    return result('geometry_not_supported', { reason: 'normalized_geometry_failed_validation' })
+  }
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
