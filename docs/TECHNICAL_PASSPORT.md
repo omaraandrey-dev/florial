@@ -1,3 +1,10 @@
+## 2026-11-24 — equipment category server-rendered catalogue (SSR Catalog v1)
+
+- Implementation candidate is tracked in `docs/roadmaps/SEO_EQUIPMENT_CATEGORY_SSR_V1.md` and `docs/audits/2026-11-24-equipment-category-ssr-v1.md`.
+- Existing middleware already fetched equipment products from Sanity `production` for CollectionPage JSON-LD, but `documentBody()` previously rendered the initial product list only for `plants`.
+- The new additive equipment renderer is intended to place up to 20 localized product cards in initial category HTML. React remains the interactive catalogue and replaces the fallback at the existing `createRoot` mount. Existing plant SSR remains unchanged.
+- Exact-commit CI, Preview/Production raw HTML, and deployment verification are pending. No Sanity, D1, Cloudflare settings/secrets or Production data writes are part of this implementation.
+
 ## 2026-11-24 — irrigation assistant paused by owner
 
 - **Owner decision:** pause all further development of the irrigation-design assistant until the owner returns with observed errors or a new task. This is an intentional project pause, not a request to continue polishing, optimize, refactor, or proactively fix anything.
