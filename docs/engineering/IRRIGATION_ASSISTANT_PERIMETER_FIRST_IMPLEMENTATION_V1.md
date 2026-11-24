@@ -398,3 +398,47 @@ The cart detaches the snapshot when any generated kit SKU quantity is changed or
 - Таблицы Rain Bird используются только как исходные данные для геометрического выбора модели/радиуса; табличное давление не является измерением на объекте.
 - Главная магистраль и все зональные трубопроводы — PE Ø25 mm. Вариант Ø32 mm отсутствует; серверная проверка проекта приводит любые переданные значения диаметра к 25 mm.
 - Итоговый PDF содержит сначала индивидуальный проект и ведомость материалов, затем три оригинальные страницы болгарской инструкции по монтажу без перерисовки или сокращений.
+
+
+---
+
+## Owner-approved algorithm update — 2026-11-24
+
+This addendum supersedes earlier radius, sampling and L-shape candidate-grid descriptions where they conflict.
+
+### R-VAN planning radii
+
+Florial's layout radius is a fixed project planning value by nozzle model and does not change with the selected sector angle:
+
+- R-VAN14: 3 m.
+- R-VAN18: 4 m or 5 m, selected from the required short-side reach.
+- R-VAN24: 6 m.
+
+A 90°, 180°, 270° or 360° sector changes the shape of the spray sector, not its planning radius. Manufacturer arc-specific flow/precipitation records remain source data; they do not override this Florial geometric-radius rule. Model/arc combinations continue to resolve through the exact model records. R-VAN model differences do not create zone boundaries.
+
+### Sampling and interior positions
+
+- Default control-point mesh: 0.5 m.
+- Rectangles and orthogonal L-shapes use the same axis-aligned rectangular interior candidate grid.
+- L-shape candidates are clipped against the original polygon; points in the cut-out are excluded. No staggered/triangular interior lattice is used.
+- Perimeter candidates and head-to-head repair remain separate from the interior pass.
+
+### R-VAN-RCS strip rule
+
+For a rectangular lawn with short-side width exactly 1 m or 2 m, use Rain Bird R-VAN-RCS (catalogue SKU A84668), not circular R-VAN substitutes:
+
+- 1 m strip width → Florial planning throw length 2 m.
+- 2 m strip width → Florial planning throw length 4 m.
+- For the 2 m strip: 4 m long → 1 nozzle; 6 m → 2; 8 m → 3.
+- The first nozzle is at the lower-right corner. Further nozzles are distributed evenly along the same long side.
+- The placement is recorded as a strip pattern, not a circular arc. Sampled circular coverage and circular head-to-head checks are not claimed for this pattern.
+
+The implementation follows the owner's explicit count examples using half-throw placement intervals. It does not infer a circular spray radius from the strip dimensions.
+
+### Mixed zones and precipitation compatibility
+
+R-VAN14, R-VAN18, R-VAN24 and R-VAN-RCS may coexist in one operating zone. The zone builder must not split a zone solely by nozzle model, radius or arc. The owner confirms these Rain Bird models/patterns are compatible by precipitation intensity; no additional per-zone precipitation-intensity compatibility check is required. The six-head maximum remains a grouping limit, not a hydraulic calculation.
+
+### Verification boundary
+
+The assistant remains a preliminary geometric layout and catalogue BOM tool. It does not calculate hydraulic feasibility, source flow/pressure, pipe losses or field distribution uniformity. RCS strip placement is explicitly identified as owner-rule placement; it is not represented as a sampled circular-coverage proof.
