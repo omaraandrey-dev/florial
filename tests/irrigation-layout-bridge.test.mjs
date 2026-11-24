@@ -22,12 +22,13 @@ function snapshotFor(length, width) {
   })
 }
 
-test('short lawns select the smallest exact R-VAN radius that covers the short side', () => {
+test('Florial selects the fixed R-VAN planning radius from the short side', () => {
   for (const [length, width, expectedModel] of [[10, 5, 'R-VAN18'], [20, 5, 'R-VAN18'], [32, 6, 'R-VAN24']]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
     assert.equal(result.status, 'layout_generated')
     assert.equal(result.operatingScenario?.family, 'R-VAN')
     assert.equal(result.operatingScenario?.model, expectedModel)
+    assert.ok(result.layout?.sprinklers?.every((head) => head.radiusM === (expectedModel === 'R-VAN14' ? 3 : expectedModel === 'R-VAN18' ? 5 : 6)))
     assert.equal(result.layout?.coverageScope, 'sampled_geometry_only')
     assert.equal(result.layout?.hydraulicFeasibility, 'not_evaluated')
     assert.equal(result.pipeNetwork?.connectionPoint?.x, length)
@@ -116,14 +117,40 @@ test('30x30 uses multiple interior rows and permits mixed balanced zones', () =>
   assert.ok(result.zones?.every((zone) => ['perimeter', 'interior', 'mixed'].includes(zone.zoneType)))
 })
 
-test('narrow strips do not fall back to circular R-VAN or HE-VAN nozzles', () => {
-  for (const width of [1, 1.5, 2]) {
-    const result = buildPreliminaryLawnLayout(snapshotFor(10, width))
-    assert.ok([
-      'strip_nozzle_layout_requires_exact_pattern_engine',
-      'strip_width_not_supported_by_exact_manufacturer_point',
-    ].includes(result.status))
-    assert.equal(result.layout, undefined)
-    assert.ok(Array.isArray(result.stripNozzleOptions))
+test('R-VAN-RCS uses the owner-defined strip width, throw and head-count rules', () => {
+  for (const [length, width, expectedCount, expectedReach] of [
+    [4, 2, 1, 4],
+    [6, 2, 2, 4],
+    [8, 2, 3, 4],
+    [4, 1, 3, 2],
+  ]) {
+    const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
+    assert.equal(result.status, 'layout_generated')
+    assert.equal(result.operatingScenario?.model, 'R-VAN-RCS')
+    assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
+    assert.equal(result.layout?.sprinklers?.length, expectedCount)
+    assert.ok(result.layout.sprinklers.every((head) =>
+      head.pattern === 'strip' && head.performanceModel === 'R-VAN-RCS' &&
+      head.stripWidthM === width && head.stripLengthM === expectedReach &&
+      head.radiusM === expectedReach))
+    assert.equal(result.layout?.headToHead?.passed, true)
+    assert.equal(result.zones?.reduce((sum, zone) => sum + zone.sprinklerCount, 0), expectedCount)
+    assert.equal(result.layout.sprinklers[0].position.x, length)
+    assert.equal(result.layout.sprinklers[0].position.y, 0)
+    if (expectedCount > 1) {
+      assert.equal(result.layout.sprinklers.at(-1).position.x, 0)
+      const gaps = result.layout.sprinklers.slice(1).map((head, index) =>
+        Math.abs(head.position.x - result.layout.sprinklers[index].position.x))
+      assert.ok(gaps.every((gap) => Math.abs(gap - gaps[0]) < 1e-8))
+    }
   }
+})
+
+test('unsupported narrow widths do not fall back to circular sprinklers', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(10, 1.5))
+  assert.ok([
+    'strip_nozzle_layout_requires_exact_pattern_engine',
+    'strip_width_not_supported_by_exact_manufacturer_point',
+  ].includes(result.status))
+  assert.equal(result.layout, undefined)
 })
