@@ -1,6 +1,10 @@
 name: Homepage SSR raw HTTP smoke
 
 on:
+  push:
+    branches:
+      - feat/ssr-homepage-content-v1
+      - main
   workflow_dispatch:
     inputs:
       base_url:
@@ -25,5 +29,5 @@ jobs:
           node-version: 22
       - name: Verify first HTTP response without executing JavaScript
         env:
-          BASE_URL: ${{ inputs.base_url }}
+          BASE_URL: ${{ inputs.base_url || (github.ref_name == 'main' && 'https://florial-bg.com' || 'https://feat-ssr-homepage-content-v1.florial.pages.dev') }}
         run: node scripts/smoke-homepage-ssr.mjs
