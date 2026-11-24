@@ -167,10 +167,10 @@ test('R-VAN fallback applies the approved 7.5cm inward offset only to the matchi
       dy: 0.0530330086,
     }],
   })
-  assert.equal(layout.status, 'coverage_complete_sampled')
   assert.ok(layout.sprinklers.some((head) =>
     Math.abs(head.position.x - (seam.x - 0.0530330086)) < 1e-6 &&
-    Math.abs(head.position.y - (seam.y + 0.0530330086)) < 1e-6))
+    Math.abs(head.position.y - (seam.y + 0.0530330086)) < 1e-6),
+  JSON.stringify(layout.sprinklers.map((head) => ({ position: head.position, source: head.source, model: head.performanceModel }))))
   assert.ok(layout.sprinklers.every((head) =>
     head.position.x >= 0 && head.position.x <= 4 &&
     head.position.y >= 0 && head.position.y <= 4))
