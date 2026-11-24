@@ -996,6 +996,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     zones,
     pipeNetwork,
     layout,
+    overspray: layout.overspray ?? 'not_evaluated',
     warnings: Object.freeze([
       ...layout.warnings,
       Object.freeze({ code: 'approximate_customer_dimensions', path: 'geometry' }),
