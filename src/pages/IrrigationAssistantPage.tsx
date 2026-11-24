@@ -576,7 +576,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                                   ))}
                                 </g>
                               ))}
-                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number | null; performanceModel?: string; pattern?: string; stripDirection?: string; stripAxis?: string; stripLengthM?: number }) => {
+                              {layoutResult.layout.sprinklers.map((sprinkler: { id: string; position: { x: number; y: number }; radiusM: number | null; arcDeg: number | null; directionDeg: number | null; performanceModel?: string; pattern?: string; stripDirection?: string; stripAxis?: string; stripLengthM?: number }) => {
                                 const zoneNumber = layoutResult.zones?.find((zone: { zoneNumber: number; sprinklerIds: ReadonlyArray<string> }) => zone.sprinklerIds.includes(sprinkler.id))?.zoneNumber
                                 const nozzleColor = sprinklerNozzleColor(sprinkler.performanceModel)
                                 return (
