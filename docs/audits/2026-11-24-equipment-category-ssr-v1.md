@@ -27,8 +27,10 @@ No React category behavior, Sanity documents or schemas, D1, Cloudflare settings
 ## Verification
 
 - Source-level review: performed against the branch files.
-- Isolated runtime assertions against the actual renderer source passed for BG/RU/EN output, localized URLs, root equipment price/stock semantics, image ALT/title, SKU, empty state and the 20-item cap. A plant-variant renderer regression assertion also passed. This is not the repository test suite or CI.
-- Unit tests: pending CI.
-- Type-check/lint/build: pending exact-commit CI.
-- Preview raw HTML for BG/RU/EN and nested categories: pending.
-- Production HTML/deployment: pending; no deployment claim.
+- Isolated runtime assertions against the actual renderer source passed for BG/RU/EN output, localized URLs, root equipment price/stock semantics, image ALT/title, SKU, empty state and the 20-item cap. A plant-variant renderer regression assertion also passed.
+- **CLOSED — exact-PR-head CI:** Blog and Studio workflow run `45462084817` succeeded. `npm test` reported 481/481 passing; app/Pages Functions type-check, oxlint, website build, migration-script syntax check, read-only description migration dry-run, Studio type-check and Studio build all succeeded.
+- **CLOSED — D1 workflow validation:** run `45462037512` succeeded, including lint, website build, Pages Functions syntax check and the existing D1 migration validators. No migration was applied.
+- **CLOSED — Preview build/deployment:** Cloudflare Pages deployment `5535da5d-488c-405a-9101-cae9cf6c1dbe` succeeded from exact PR head `fb3b065930ee2bbe8e030b96fc13684727acfd48`; Preview URL: https://5535da5d.florial.pages.dev.
+- **OPEN — raw initial HTML:** Firecrawl snapshots return the post-hydration DOM (the existing plant SSR marker is also absent after React mounts), so they cannot prove what the first HTTP response contained. Browser Use could not run because its project has insufficient credits. A network-level raw response check is still required before merge.
+- **OPEN — Production:** no merge or Production deployment is claimed.
+
