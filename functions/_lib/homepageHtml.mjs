@@ -31,6 +31,15 @@ const IMAGE_LOCATIONS = {
 
 const COPY = {
   bg: {
+    why: 'Предимствата на Florial',
+    years: '25+ години опит',
+    yearsDetail: 'Професионализъм и опит',
+    plantsDetailTitle: 'Растения и поливно оборудване',
+    plantsDetail: 'За градината на едно място',
+    region: 'Несебър и региона',
+    regionDetail: 'Местно обслужване',
+    design: 'Проектиране и монтаж',
+    designDetail: 'От идеята до реализацията',
     heroTitle: 'Градински център Флориал',
     heroSubtitle: 'Професионален ландшафтен дизайн, продажба на растения и поливна техника в Несебър, Равда, Слънчев бряг, Бургас',
     heroText: 'Флориал е вашият доверен партньор с над 25 години опит в ландшафтния дизайн, озеленяването и автоматизираните системи за поливане. Проектираме и реализираме уникални градини за частни и обществени обекти „под ключ“ — с внимание към детайла и климатичните особености на региона.',
@@ -69,6 +78,15 @@ const COPY = {
     deliveryText: 'Доставка на оборудване и консултация с инженер.',
   },
   ru: {
+    why: 'Преимущества Florial',
+    years: 'Более 25 лет опыта',
+    yearsDetail: 'Опыт и профессионализм',
+    plantsDetailTitle: 'Растения и оборудование для полива',
+    plantsDetail: 'Всё для сада в одном месте',
+    region: 'Несебр и регион',
+    regionDetail: 'Местное обслуживание',
+    design: 'Проектирование и монтаж',
+    designDetail: 'От идеи до реализации',
     heroTitle: 'Садовый центр Florial',
     heroSubtitle: 'Профессиональный ландшафтный дизайн, продажа растений и оборудования для полива в Несебре, Равде, Солнечном Береге и Бургасе',
     heroText: 'Florial — ваш надёжный партнёр с более чем 25-летним опытом в ландшафтном дизайне, озеленении и автоматических системах полива. Мы проектируем и создаём уникальные сады под ключ для частных и общественных объектов, уделяя внимание деталям и климатическим особенностям региона.',
@@ -107,6 +125,15 @@ const COPY = {
     deliveryText: 'Доставка оборудования и консультация инженера.',
   },
   en: {
+    why: 'Why choose Florial',
+    years: '25+ years of experience',
+    yearsDetail: 'Experience and professionalism',
+    plantsDetailTitle: 'Plants and irrigation equipment',
+    plantsDetail: 'Everything for your garden in one place',
+    region: 'Nessebar and the surrounding area',
+    regionDetail: 'Local service',
+    design: 'Design and installation',
+    designDetail: 'From idea to completion',
     heroTitle: 'Florial Garden Centre',
     heroSubtitle: 'Professional landscape design, plant sales and irrigation equipment in Nessebar, Ravda, Sunny Beach and Burgas',
     heroText: 'Florial is your trusted partner with over 25 years of experience in landscape design, landscaping and automated irrigation systems. We design and create unique turnkey gardens for private and public spaces, paying close attention to detail and the region’s climate.',
@@ -539,6 +566,9 @@ export function renderHomepageHtml(data, language = 'bg') {
   const heroImage = safeImageUrl(data.heroImageUrl) || HERO_FALLBACK
   const plantCategories = selectVisiblePlantCategories(data.plantCategories)
   const equipmentCategories = selectVisibleEquipmentCategories(data.equipmentCategories)
+  const plantRootCategory = plantCategories.find((category) => category._id === 'plants-root' || category.slug?.current === 'rastenia')
+  const readyKitsCategory = (Array.isArray(data.equipmentCategories) ? data.equipmentCategories : [])
+    .find((category) => category.slug?.current === 'gotovi-komplekti-za-polivane')
   const plants = selectVisiblePlants(data.featuredPlants)
   const equipment = selectVisibleEquipment(data.featuredEquipment)
   const serviceEntries = (data.serviceEntries || []).slice(0, 6)
@@ -565,14 +595,26 @@ export function renderHomepageHtml(data, language = 'bg') {
         '<h2 class="mb-5 text-xl font-bold tracking-tight text-[#263323] md:text-3xl">' + escapeHtml(copy.heroSubtitle) + '</h2>' +
         '<p class="mx-auto max-w-4xl text-sm font-semibold leading-relaxed text-[#11150F] md:text-lg">' + escapeHtml(copy.heroText) + '</p>' +
         '<div class="mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">' +
-          '<a href="' + escapeHtml(href('/category/rastenia', lang)) + '">' + escapeHtml(copy.plantsCta) + '</a>' +
-          '<a href="' + escapeHtml(href('/category/vsichko-za-polivane', lang)) + '">' + escapeHtml(copy.equipmentCta) + '</a>' +
-          '<a href="' + escapeHtml(href('/about', lang)) + '">' + escapeHtml(copy.aboutCta) + '</a>' +
-        '</div></div></section>' +
-    '<section class="bg-[#F7F8F1] border-y border-[#E7EBDD]"><div class="max-w-7xl mx-auto px-4 py-10">' +
-      '<div class="flex items-center justify-between gap-3 mb-6"><div><p>' + escapeHtml(copy.serviceEyebrow) + '</p><h3>' + escapeHtml(copy.services) + '</h3></div><a href="' + escapeHtml(href('/services', lang)) + '">' + escapeHtml(copy.allServices) + ' →</a></div>' +
-      (serviceCards ? '<ul class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-6">' + serviceCards + '</ul>' : '') +
-    '</div></section>' +
+          '<a href="' + escapeHtml(href('/category/rastenia', lang)) + '" class="inline-flex w-4/5 max-w-[208px] items-center justify-start gap-3 rounded-xl bg-[#647746] px-3 py-3 text-left text-base font-bold text-white shadow-lg shadow-[#647746]/20 transition hover:-translate-y-0.5 hover:bg-[#53643A] hover:shadow-xl no-underline sm:w-[208px]">' +
+            (plantRootCategory?.imageUrl ? responsiveImage(plantRootCategory.imageUrl, { alt: '', sizes: '48px', className: 'h-12 w-12 shrink-0 rounded-lg object-cover', ariaHidden: true }) : '') +
+            '<span class="flex-1">' + escapeHtml(copy.plantsCta) + '</span><span aria-hidden="true">→</span></a>' +
+          '<a href="' + escapeHtml(href('/category/vsichko-za-polivane', lang)) + '" class="inline-flex w-4/5 max-w-[208px] items-center justify-start gap-3 rounded-xl border-2 border-[#647746] bg-white/95 px-3 py-[10px] text-left text-base font-bold text-[#34452D] shadow-sm transition hover:-translate-y-0.5 hover:bg-[#F3F5EC] no-underline sm:w-[208px]">' +
+            (readyKitsCategory?.imageUrl ? responsiveImage(readyKitsCategory.imageUrl, { alt: '', sizes: '48px', className: 'h-12 w-12 shrink-0 rounded-lg object-cover', ariaHidden: true }) : '') +
+            '<span class="flex-1">' + escapeHtml(copy.equipmentCta) + '</span><span aria-hidden="true">→</span></a>' +
+        '</div><a href="' + escapeHtml(href('/about', lang)) + '" class="mt-4 inline-flex text-sm font-semibold text-[#34452D] underline decoration-[#B9C79C] underline-offset-4 transition hover:text-[#263323]">' + escapeHtml(copy.aboutCta) + '</a>' +
+        '</div></section>' +
+    '<section aria-label="' + escapeHtml(copy.why) + '" class="border-b border-[#E4E8DA] bg-white px-4 py-5 md:py-6">' +
+      '<div class="mx-auto grid max-w-7xl grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">' +
+        [['25+', copy.years, copy.yearsDetail], ['🌿', copy.plantsDetailTitle, copy.plantsDetail], ['⌖', copy.region, copy.regionDetail], ['✓', copy.design, copy.designDetail]].map(([mark, title, detail]) => 
+          '<div class="flex items-center gap-3"><span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#DDE3D0] bg-[#F3F5EC] text-base font-extrabold text-[#647746]">' + mark + '</span><div class="min-w-0"><p class="text-sm font-bold leading-snug text-[#34452D]">' + escapeHtml(title) + '</p><p class="mt-0.5 text-xs leading-snug text-slate-500">' + escapeHtml(detail) + '</p></div></div>'
+        ).join('') +
+      '</div></section>' +
+    '<section class="bg-[#EEF1E4] text-slate-800 py-5 md:py-6 px-4"><div class="max-w-7xl mx-auto text-center"><div class="mt-1 text-left"><div class="mb-5">' +
+      '<div class="grid grid-cols-[1fr_auto] items-center gap-x-3 gap-y-2 md:grid-cols-[1fr_auto_1fr] md:gap-6">' +
+        '<span class="order-1 block text-[10px] font-bold uppercase tracking-widest text-left text-[#697A49] md:text-xs">' + escapeHtml(copy.serviceEyebrow) + '</span>' +
+        '<h3 class="order-3 col-span-2 mt-0 text-center text-xl font-bold text-slate-900 md:order-2 md:col-span-1 md:whitespace-nowrap md:text-2xl">' + escapeHtml(copy.services) + '</h3>' +
+        '<a href="' + escapeHtml(href('/services', lang)) + '" class="order-2 inline-flex shrink-0 items-center justify-self-end rounded-lg border border-[#B9C79C] bg-white px-3 py-2 text-sm font-bold text-[#34452D] shadow-sm transition hover:border-[#8E9F6C] hover:bg-[#F3F5EC] md:order-3 md:justify-self-end md:px-4 md:font-semibold">' + escapeHtml(copy.allServices) + ' →</a>' +
+      '</div></div><ul class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">' + serviceCards + '</ul></div></div></section>' +
     '<section class="border-y border-[#E7EBDD] bg-[#F7F8F1]"><div class="mx-auto max-w-7xl px-4 py-10">' +
       '<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><h3>' + escapeHtml(copy.plants) + '</h3><p>' + escapeHtml(copy.plantsIntro) + '</p></div>' +
       (plantCategoryCards ? '<ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">' + plantCategoryCards + '</ul>' : '') +
