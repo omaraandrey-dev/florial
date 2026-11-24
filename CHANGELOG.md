@@ -1,3 +1,15 @@
+## 2026-11-24 — L-shape rectangular-zone solver and spray-sector correction (PR #520 pending)
+
+- The L-shape bridge now decomposes a supported orthogonal six-vertex lawn into two exact, non-overlapping rectangular calculation zones when either arm is a supported 1 m / 2 m strip. Example 28 × 14 m with a 16 × 12 m top-right cut-out becomes a 12 × 14 m circular zone plus a connected 16 × 2 m strip (200 m² total).
+- The circular zone uses its local dimensions and boundary-safe R-VAN candidate placement. The narrow arm uses connected LCS/RCS/SST placement; redundant connected-end heads are omitted when SSTs reach the seam, and conflicting short-strip seam heads fail closed.
+- Combined spray footprints are sampled against the original L-shaped polygon. Partial 90°/180°/270° sprinklers now render their actual sectors instead of full-radius circles. Strip arrow markers were reduced from 4 m to 0.32 m.
+- Mixed-layout coverage and head-to-head labels now state that these checks apply to the circular zone only; strip coverage remains the owner-defined directional pattern, not circular sampled coverage.
+- Regression cases cover the 28 × 14 m / 16 × 12 m example, all four cut-out corners, a rotated vertical strip, two narrow connected arms, unique sprinkler IDs and diagram arrow sizing.
+- Exact PR head `16b537442d949751cb22650389681806b6a7f9f4`: Blog/Studio CI run `45342615527` passed 447/447 tests, TypeScript checks, lint, website build, Studio type-check/build; D1 validation `45342615577` succeeded with read-only migration dry-run.
+- Cloudflare Pages Preview deployment `e320d6d7-ae8f-4456-a91d-29572e9dbbb1` succeeded from the exact PR head. Browser Rendering preview checks for horizontal and vertical top-right cut-outs both returned 15 heads, 3 zones, 100% sampled coverage in the circular zone, 0 uncovered circular samples and passed head-to-head.
+- Scope is code/docs/tests only. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders/emails or Production deployment. Hydraulic/field validation remains open. PR #520 awaits owner approval to merge.
+- Engineering details: `docs/engineering/IRRIGATION_ASSISTANT_L_SHAPE_RECTANGULAR_ZONES_V1.md`; evidence: `docs/audits/2026-11-24-irrigation-lshape-rectangular-zone-solver.md`.
+
 ## 2026-11-24 — Irrigation assistant L-shape orientation and directional narrow strips (PR #518 merged)
 
 - PR #518 was squash-merged into `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.

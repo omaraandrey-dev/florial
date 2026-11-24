@@ -1,3 +1,15 @@
+## 2026-11-24 — L-shape rectangular-zone calculation and spray-sector boundary correction (PR #520 pending)
+
+- The previous bridge selected the narrow-strip algorithm only when the whole lawn was a rectangle. Supported orthogonal L-shapes are now decomposed into two non-overlapping rectangles when one arm is 1 m / 2 m wide; each rectangle is calculated from its own local dimensions.
+- Reference 28 × 14 m with 16 × 12 m top-right cut-out: main 12 × 14 m rectangle plus connected 16 × 2 m strip; net irrigated area 200 m². Four cut-out orientations and transposed vertical strips are covered by tests.
+- The wide rectangle uses boundary-safe R-VAN candidate placement; the narrow arm uses connected directional LCS/RCS/SST heads and avoids redundant heads at the internal seam. Conflicting short-strip seam heads fail closed.
+- Combined circular sectors and directional strip footprints are spatially sampled against the original polygon. The SVG now renders actual partial spray sectors and uses sub-metre strip arrow markers.
+- In mixed layouts, coverage/head-to-head metrics explicitly apply only to the circular calculation region; strip placement remains the approved owner-defined pattern. The pipe network, BOM, cart snapshot and owner PDF reuse the combined sprinkler list.
+- Exact PR head `16b537442d949751cb22650389681806b6a7f9f4`: Blog/Studio CI `45342615527` passed 447/447 tests, type checks, lint and website/Studio builds; D1 validation `45342615577` succeeded. Cloudflare Preview deployment `e320d6d7-ae8f-4456-a91d-29572e9dbbb1` succeeded.
+- Browser Rendering preview checked the 28 × 14 m / 16 × 12 m horizontal-arm example and the transposed 14 × 28 m / 12 × 16 m vertical-arm example; both returned 15 heads, 3 zones, 100% circular-zone sampled coverage, 0 uncovered circular samples and passed head-to-head.
+- This is geometric planning, not hydraulic design or continuous mathematical proof. Pressure/flow, losses, precipitation uniformity, field performance and body/nozzle assembly compatibility remain unverified. Other three cut-out orientations have automated tests but still need visual preview acceptance. No Production merge/deployment or live data/configuration writes; PR #520 awaits owner approval.
+- Detailed algorithm: [L-shape rectangular-zone layout v1](engineering/IRRIGATION_ASSISTANT_L_SHAPE_RECTANGULAR_ZONES_V1.md); evidence: [audit](audits/2026-11-24-irrigation-lshape-rectangular-zone-solver.md).
+
 ## 2026-11-24 — L-shape corner orientation and directional narrow-strip nozzle layout (PR #518)
 
 - PR #518 squash-merged to `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.
