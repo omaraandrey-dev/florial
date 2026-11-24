@@ -32,6 +32,7 @@ function sprinklerNozzleColor(model: string | null | undefined) {
   if (normalized === 'R-VAN14') return '#3b82f6'
   if (normalized === 'R-VAN18') return '#c49a6c'
   if (normalized === 'R-VAN24') return '#800020'
+  if (normalized === '3504-PC') return '#0f766e'
   if (['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'].includes(normalized)) return '#6b7280'
   return '#64748b'
 }
@@ -690,8 +691,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       <details className="mt-3 rounded-xl bg-white p-3">
                         <summary className="cursor-pointer text-sm font-semibold text-slate-800">{layoutLabels.positions}</summary>
                         <ol className="mt-2 grid gap-1 text-xs text-slate-600 sm:grid-cols-2">
-                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; performanceModel?: string; pattern?: string; stripWidthM?: number; stripLengthM?: number; stripDirection?: string; stripAxis?: string }) => (
-                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' · ' + sprinkler.stripWidthM + ' m · ' + sprinkler.stripLengthM + ' m · ' + ((sprinkler.stripDirection ?? '—') + ' / ' + (sprinkler.stripAxis ?? '—')) : (sprinkler.performanceModel ?? 'R-VAN') + ' · ' + sprinkler.arcDeg + '°'}</li>
+                          {layoutResult.layout?.sprinklers?.map((sprinkler: { id: string; position: { x: number; y: number }; arcDeg: number | null; radiusM?: number | null; performanceModel?: string; pattern?: string; stripWidthM?: number; stripLengthM?: number; stripDirection?: string; stripAxis?: string }) => (
+                            <li key={sprinkler.id}>{sprinkler.id}: X {numberFormat(sprinkler.position.x)}, Y {numberFormat(sprinkler.position.y)} · {sprinkler.pattern === 'strip' ? sprinkler.performanceModel + ' · ' + sprinkler.stripWidthM + ' m · ' + sprinkler.stripLengthM + ' m · ' + ((sprinkler.stripDirection ?? '—') + ' / ' + (sprinkler.stripAxis ?? '—')) : (sprinkler.performanceModel ?? 'R-VAN') + ' · ' + sprinkler.arcDeg + '°' + (sprinkler.pattern === 'rotor' ? ' · R ' + numberFormat(sprinkler.radiusM ?? 0) + ' m' : '')}</li>
                           ))}
                         </ol>
                       </details>

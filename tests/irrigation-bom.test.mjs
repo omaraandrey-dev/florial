@@ -121,3 +121,22 @@ test('allows R-VAN-RCS and circular R-VAN heads together in one zone', () => {
   assert.equal(quantities.A84659, 1)
   assert.equal(quantities.A44120, 2)
 })
+
+test('3504-PC rotor BOM uses the rotor SKU and does not add an 1804 body', () => {
+  const result = buildIrrigationBillOfMaterials({
+    model: '3504-PC',
+    sprinklers: [{
+      id: 'rotor-1',
+      arcDeg: 90,
+      radiusM: 8,
+      performanceModel: '3504-PC',
+      pattern: 'rotor',
+    }],
+  }, [{ id: 'zone-01', zoneNumber: 1, zoneType: 'perimeter', sprinklerIds: ['rotor-1'] }])
+  assert.equal(result.valid, true)
+  const quantities = Object.fromEntries(result.items.map((item) => [item.sku, item.quantity]))
+  assert.equal(quantities.Y34001, 1)
+  assert.equal(quantities.A44120, undefined)
+  assert.equal(quantities.A46010, 2)
+  assert.equal(quantities.A82060, 1)
+})

@@ -68,6 +68,46 @@ test('accepts a balanced mixed-arc project and sanitizes the persisted snapshot'
   assert.equal(result.snapshot.pipeNetwork.zoneDiameterMm, 25)
 })
 
+test('accepts and persists a 3504-PC rotor without converting it to an R-VAN circular head', () => {
+  const project = snapshot()
+  project.operatingScenario = {
+    manufacturer: 'Rain Bird', family: '3500', model: '3504-PC', pressureBar: null,
+  }
+  project.layout = {
+    model: '3504-PC',
+    engineVersion: '1.0.0',
+    algorithm: '3504pc-global-rectangular-grid-prune-v1',
+    headToHeadPassed: true,
+    headToHeadApplicable: true,
+    sprinklers: [{
+      id: 'rotor-1',
+      position: { x: 12.5, y: 2.5 },
+      radiusM: 8,
+      arcDeg: 90,
+      performanceModel: '3504-PC',
+      pattern: 'rotor',
+      source: 'vertex',
+    }],
+  }
+  project.zones = [{
+    id: 'zone-01', zoneNumber: 1, zoneType: 'perimeter', sprinklerIds: ['rotor-1'],
+  }]
+  project.billOfMaterials = {
+    headCount: 1,
+    zoneCount: 1,
+    flexPipeRequiredM: 0.5,
+    flexPipeCoils30m: 1,
+    items: [{ sku: 'Y34001', quantity: 1, name: 'Rain Bird 3504-PC' }],
+  }
+  const result = validateIrrigationProjectSnapshot({
+    ...project,
+    orderItems: [{ sku: 'Y34001', qty: 1 }],
+  })
+  assert.equal(result.valid, true)
+  assert.equal(result.snapshot.layout.sprinklers[0].performanceModel, '3504-PC')
+  assert.equal(result.snapshot.layout.sprinklers[0].pattern, 'rotor')
+})
+
 test('rejects project snapshots when the BOM does not match submitted order quantities', () => {
   const result = validateIrrigationProjectSnapshot({
     ...snapshot(),
