@@ -1,3 +1,9 @@
+## 2026-11-24 — Irrigation solver integration after PR #520
+
+- PR #520 is merged at `3387e8ff140756e69339b11215b82f5c6acbc9ed` and adds the supported 1 m / 2 m narrow-arm L-shape rectangular solver.
+- The PR #521 3 m-wide rectangle correction has been reapplied against the updated main in a fresh integration branch; it caps corner sizing at the local 3 m envelope and adds 18 × 3 m / 3 × 18 m regressions. CI/Preview are pending.
+- The broader owner-approved algorithm is still open: decompose general orthogonal polygons (including multiple cut-outs) into non-overlapping rectangles; process ascending short-side width; reuse previously selected actual sector/strip footprints; do a final 0.5 m sampled coverage and no-overspray check against the original polygon; only then group all heads into zones.
+
 ## 2026-11-24 — Connected L-shape strip axis correction and verification (PR #520 pending)
 
 - Fixed a runtime error in `buildRvanStripLayout`: the connected edge is now an explicit optional input, and `buildConnectedRvanStripLayout` passes its `connectedEnd` value. Non-connected rectangles retain a geometry-based fallback; square connected regions use the shared-edge axis.
