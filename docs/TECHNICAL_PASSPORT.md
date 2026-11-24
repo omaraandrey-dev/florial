@@ -1,3 +1,14 @@
+## 2026-11-24 — Irrigation solver integration: PR #522 merged
+
+- Current main commit: 9ecdb05506e6f1bc28b5debc046cdd37972856d3.
+- PR #522 squash-merged the 3 m-wide rectangular corner-sizing correction on top of PR #520's supported L-shape solver. Code changes are in src/lib/irrigation/lawnSprinklerLayout.mjs; regression coverage is in tests/irrigation-layout-bridge.test.mjs.
+- For rectangular lawns with a short side ≤3 m, corner reach is capped at the owner-approved local 3 m R-VAN14 envelope instead of sizing the corner from distance to the global polygon centroid. Edge heads continue to use their actual equal spacing. Reference cases include 18 × 3 m and rotated 3 × 18 m; tests require R-VAN14 / 3 m, no interior row, zero uncovered sampled points, head-to-head pass and in-bounds positions.
+- Exact PR head 9e4973ad5b4c4fbd45fbc57059715e0e91421c83: Blog/Studio validation 45358607939 and D1 validation 45358607880 succeeded; Cloudflare Pages Preview 80bc2842-cdd2-415b-8630-6e8276958127 succeeded. No Production deployment, Sanity write, D1 schema/data change or Cloudflare settings/secrets change.
+- The generalized multi-rectangle solver remains open: arbitrary orthogonal polygons/multiple cut-outs, ascending short-side processing, reuse of actual prior sector/strip footprints, final sampled coverage/no-overspray check against the original polygon, and zone grouping after the full sprinkler set. Visual Preview acceptance and hydraulic/field validation remain separate verification boundaries.
+- Documentation artifacts restored in this integration: docs/audits/2026-11-23-sanity-seo-step4-readonly-audit.md, docs/audits/2026-11-23-spray-nozzles-content-rewrite.md, and the pre-write compatibility snapshot under docs/backups/sanity/.
+
+---
+
 ## 2026-11-24 — Irrigation solver integration after PR #520
 
 - PR #520 is merged at `3387e8ff140756e69339b11215b82f5c6acbc9ed` and adds the supported 1 m / 2 m narrow-arm L-shape rectangular solver.

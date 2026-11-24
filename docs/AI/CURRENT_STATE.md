@@ -1,3 +1,15 @@
+# Current implementation handoff — irrigation solver integration (2026-11-24)
+
+- Current GitHub main: 9ecdb05506e6f1bc28b5debc046cdd37972856d3.
+- PR #520 merged at 3387e8ff140756e69339b11215b82f5c6acbc9ed, delivering the supported narrow-arm L-shape rectangular solver.
+- PR #522 merged at 9ecdb05506e6f1bc28b5debc046cdd37972856d3, integrating the 3 m-wide rectangle corner-sizing correction after PR #520. Exact PR head 9e4973ad5b4c4fbd45fbc57059715e0e91421c83: Blog/Studio run 45358607939 and D1 validation 45358607880 succeeded; Preview 80bc2842-cdd2-415b-8630-6e8276958127 succeeded at https://80bc2842.florial.pages.dev.
+- Regression targets: 18 × 3 m and 3 × 18 m use R-VAN14 / 3 m, no interior row, full sampled coverage, head-to-head pass and in-bounds positions. No Production deployment was made.
+- PR #521 was closed as superseded by #522; it was not merged separately.
+- **Still open:** generalized decomposition of arbitrary orthogonal lawns/multiple cut-outs into rectangles, processing by ascending short-side width, reusing actual selected sector/strip coverage, final 0.5 m sampled coverage/no-overspray validation against the original polygon, and grouping zones after the full sprinkler set. Visual owner QA of the integrated Preview is also pending.
+- The previous handoff entries below are historical snapshots and must be interpreted using their own timestamps; where their PR state differs, this section and the current main HEAD are authoritative.
+
+---
+
 # Current implementation handoff — 3 m rectangle sizing after L-shape merge (2026-11-24)
 
 - PR #520 merged into main at `3387e8ff140756e69339b11215b82f5c6acbc9ed`; supported narrow-arm L-shapes now use the rectangular-zone calculation.

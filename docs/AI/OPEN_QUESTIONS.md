@@ -1,3 +1,11 @@
+## 2026-11-24 — irrigation solver integration close-out (PR #522 merged)
+
+- **CLOSED — 3 m rectangle nozzle sizing integration:** PR #522 merged into main at 9ecdb05506e6f1bc28b5debc046cdd37972856d3. Exact head 9e4973ad5b4c4fbd45fbc57059715e0e91421c83 passed Blog/Studio run 45358607939, D1 run 45358607880, and Cloudflare Pages Preview deployment 80bc2842-cdd2-415b-8630-6e8276958127.
+- **CLOSED — regression coverage:** 18 × 3 m and 3 × 18 m require R-VAN14 / 3 m, no interior row, zero uncovered sampled points, passing head-to-head and all heads inside the rectangle.
+- **OPEN — generalized orthogonal-polygon algorithm:** arbitrary multiple cut-outs, rectangle decomposition in ascending short-side order, reuse of actual prior sector/strip coverage, final validation against the original polygon, and zone grouping only after the full sprinkler layout remain unimplemented.
+- **OPEN — visual Preview acceptance:** owner visual/interaction review of the integrated narrow-rectangle result has not been performed. No Production deployment was made.
+- **Documentation artifacts restored to main:** SEO Step 4 Sanity read-only audit, spray-nozzle content rewrite audit and ESP-BAT-BT1 / 100-HV-9V pre-write Sanity snapshot. Existing audits/backups and current roadmap statuses were preserved without duplicate copies.
+
 ## 2026-11-24 — irrigation solver integration follow-up
 
 - **CLOSED — supported narrow-arm L-shape solver:** PR #520 merged at `3387e8ff140756e69339b11215b82f5c6acbc9ed`.
