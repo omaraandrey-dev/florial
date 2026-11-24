@@ -23,7 +23,7 @@ const STRIP_MODELS = Object.freeze({
   1: Object.freeze({ endReachM: 3, centerReachM: 3, centerSpacingM: 3, endPairAfterM: 3, centersAfterM: 5 }),
   2: Object.freeze({ endReachM: 4, centerReachM: 4, centerSpacingM: 4, endPairAfterM: 4, centersAfterM: 7 }),
 })
-const RCS_SUPPORTED_STRIP_WIDTHS_M = Object.freeze([1, 2])
+const SUPPORTED_STRIP_WIDTHS_M = Object.freeze([1, 2])
 
 function selectRvanModel(shortSideM) {
   if (shortSideM <= 3 + 1e-8) return Object.freeze({ model: 'R-VAN14', radiusM: 3 })
@@ -44,7 +44,7 @@ function isRectangle(vertices) {
 function buildRvanStripLayout(geometry, shortSideM) {
   const vertices = geometry.regions[0].boundary.vertices
   if (!isRectangle(vertices)) return null
-  const widthM = RCS_SUPPORTED_STRIP_WIDTHS_M.find((width) => Math.abs(width - shortSideM) <= 1e-8)
+  const widthM = SUPPORTED_STRIP_WIDTHS_M.find((width) => Math.abs(width - shortSideM) <= 1e-8)
   if (!widthM) return null
 
   const xs = vertices.map((point) => point.x)
@@ -178,7 +178,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
 
-  if (RCS_SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)) {
+  if (SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)) {
     const layout = buildRvanStripLayout(geometry, shortSideM)
     if (layout) {
       const zones = buildIrrigationZones(layout.sprinklers, geometry)
