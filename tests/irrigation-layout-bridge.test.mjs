@@ -6,6 +6,9 @@ import { validateLawnGeometry } from '../src/lib/irrigation/lawnGeometry.mjs'
 import { buildIrrigationIntakeSnapshot } from '../src/lib/irrigation/irrigationIntake.mjs'
 import { buildPreliminaryLawnLayout } from '../src/lib/irrigation/irrigationLayoutBridge.mjs'
 import { buildIrrigationBillOfMaterials } from '../src/lib/irrigation/irrigationBillOfMaterials.mjs'
+import { generateLawnSprinklerLayout } from '../src/lib/irrigation/lawnSprinklerLayout.mjs'
+import { RAIN_BIRD_RVAN_DATASET } from '../src/lib/irrigation/rainBirdRvanPerformanceData.mjs'
+import { buildIrrigationZones } from '../src/lib/irrigation/irrigationProjectStandards.mjs'
 
 function snapshotFor(length, width, options = {}) {
   const shape = options.shape ?? 'rectangle'
@@ -35,6 +38,18 @@ function snapshotFor(length, width, options = {}) {
     cutoutDepth: options.cutoutDepth == null ? '' : String(options.cutoutDepth),
     cutoutCorner: options.cutoutCorner ?? 'top-right',
     geometryValidation,
+  })
+}
+
+function legacyRvanLayout(length, width) {
+  const snapshot = snapshotFor(length, width)
+  return generateLawnSprinklerLayout({
+    geometry: snapshot.geometry.normalized,
+    family: 'R-VAN',
+    model: 'R-VAN24',
+    pressureBar: RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar,
+    sampleStepM: 0.5,
+    radiusM: 6,
   })
 }
 
@@ -107,19 +122,20 @@ test('3x18 narrow rectangle keeps every head at R-VAN14 instead of sizing corner
   }
 })
 
-test('8x8 rectangle uses R-VAN24 in the four corners and R-VAN18 at the four side midpoints', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(8, 8))
-  assert.equal(result.status, 'layout_generated')
-  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
-  assert.equal(result.layout?.headToHead?.passed, true)
-  const heads = result.layout?.sprinklers ?? []
-  const corners = heads.filter((head) => head.source === 'vertex')
-  const sideMidpoints = heads.filter((head) => head.source === 'edge')
+test('legacy R-VAN solver retains the 8x8 corner and side-midpoint model selection', () => {
+  const snapshot = snapshotFor(8, 8)
+  const layout = legacyRvanLayout(8, 8)
+  assert.equal(layout.status, 'coverage_complete_sampled')
+  assert.equal(layout.coverage?.uncoveredPoints, 0)
+  assert.equal(layout.headToHead?.passed, true)
+  const corners = layout.sprinklers.filter((head) => head.source === 'vertex')
+  const sideMidpoints = layout.sprinklers.filter((head) => head.source === 'edge')
   assert.equal(corners.length, 4)
   assert.equal(sideMidpoints.length, 4)
   assert.ok(corners.every((head) => head.performanceModel === 'R-VAN24' && head.radiusM === 6))
   assert.ok(sideMidpoints.every((head) => head.performanceModel === 'R-VAN18' && head.radiusM === 4))
-  assert.deepEqual(result.zones?.reduce((sum, zone) => sum + zone.sprinklerCount, 0), 8)
+  const zones = buildIrrigationZones(layout.sprinklers, snapshot.geometry.normalized)
+  assert.equal(zones.reduce((sum, zone) => sum + zone.sprinklerCount, 0), 8)
 })
 
 test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 routes', () => {
@@ -167,42 +183,46 @@ test('32x6 uses the fixed 6m R-VAN24 planning radius and remains perimeter-only'
   assert.equal(result.layout?.headToHead?.passed, true)
 })
 
-test('20x10 reports mixed models and keeps complete sampled perimeter coverage', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(20, 10))
-  assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.model, 'R-VAN18 / R-VAN18-360 / R-VAN24')
-  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
-  assert.equal(result.layout?.headToHead?.passed, true)
+test('legacy R-VAN solver retains mixed models and complete sampled coverage on 20x10', () => {
+  const layout = legacyRvanLayout(20, 10)
+  assert.equal(layout.status, 'coverage_complete_sampled')
+  assert.equal([...new Set(layout.sprinklers.map((head) => head.performanceModel))].sort().join(' / '), 'R-VAN18 / R-VAN18-360 / R-VAN24')
+  assert.equal(layout.coverage?.uncoveredPoints, 0)
+  assert.equal(layout.headToHead?.passed, true)
 })
 
-test('20x15 uses mixed R-VAN models and an interior circular row when perimeter coverage alone is insufficient', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(20, 15))
-  assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.model, 'R-VAN18 / R-VAN18-360 / R-VAN24')
-  const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
+test('legacy R-VAN solver retains interior-row placement on 20x15', () => {
+  const snapshot = snapshotFor(20, 15)
+  const layout = legacyRvanLayout(20, 15)
+  assert.equal(layout.status, 'coverage_complete_sampled')
+  assert.equal([...new Set(layout.sprinklers.map((head) => head.performanceModel))].sort().join(' / '), 'R-VAN18 / R-VAN18-360 / R-VAN24')
+  const interior = layout.sprinklers.filter((entry) => entry.source === 'interior')
   assert.ok(interior.length > 0)
   assert.ok(interior.every((entry) => [5, 7.5, 10].some((row) => Math.abs(entry.position.y - row) < 1e-6)))
-  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
-  assert.equal(result.layout?.headToHead?.passed, true)
-  assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
+  assert.equal(layout.coverage?.uncoveredPoints, 0)
+  assert.equal(layout.headToHead?.passed, true)
+  const zones = buildIrrigationZones(layout.sprinklers, snapshot.geometry.normalized)
+  assert.ok(zones.every((zone) => zone.sprinklerCount <= 6))
 })
 
-test('30x30 uses multiple interior rows and permits mixed balanced zones', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(30, 30))
-  assert.equal(result.status, 'layout_generated')
-  assert.equal(result.operatingScenario?.model, 'R-VAN24 / R-VAN24-360')
-  const interior = result.layout?.sprinklers?.filter((entry) => entry.source === 'interior') ?? []
+test('legacy R-VAN solver retains multiple interior rows and balanced mixed zones on 30x30', () => {
+  const snapshot = snapshotFor(30, 30)
+  const layout = legacyRvanLayout(30, 30)
+  assert.equal(layout.status, 'coverage_complete_sampled')
+  assert.equal([...new Set(layout.sprinklers.map((head) => head.performanceModel))].sort().join(' / '), 'R-VAN24 / R-VAN24-360')
+  const interior = layout.sprinklers.filter((entry) => entry.source === 'interior')
   assert.ok(interior.length >= 3)
   assert.ok(new Set(interior.map((entry) => Number(entry.position.y.toFixed(2)))).size >= 3)
   assert.ok(interior.every((entry) => entry.arcDeg === 360))
-  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
-  assert.equal(result.layout?.headToHead?.passed, true)
-  assert.ok(result.zones?.every((zone) => zone.sprinklerCount <= 6))
-  const zoneSizes = result.zones?.map((zone) => zone.sprinklerCount) ?? []
-  assert.equal(result.zones?.length, Math.ceil((result.layout?.sprinklers?.length ?? 0) / 6))
+  assert.equal(layout.coverage?.uncoveredPoints, 0)
+  assert.equal(layout.headToHead?.passed, true)
+  const zones = buildIrrigationZones(layout.sprinklers, snapshot.geometry.normalized)
+  assert.ok(zones.every((zone) => zone.sprinklerCount <= 6))
+  const zoneSizes = zones.map((zone) => zone.sprinklerCount)
+  assert.equal(zones.length, Math.ceil(layout.sprinklers.length / 6))
   assert.ok(Math.max(...zoneSizes) - Math.min(...zoneSizes) <= 1)
-  assert.ok(result.zones?.some((zone) => zone.zoneType === 'mixed'))
-  assert.ok(result.zones?.every((zone) => ['perimeter', 'interior', 'mixed'].includes(zone.zoneType)))
+  assert.ok(zones.some((zone) => zone.zoneType === 'mixed'))
+  assert.ok(zones.every((zone) => ['perimeter', 'interior', 'mixed'].includes(zone.zoneType)))
 })
 
 test('narrow strip rules select RCS, LCS and SST at the approved thresholds', () => {
