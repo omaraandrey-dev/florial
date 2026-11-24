@@ -3,7 +3,7 @@
 - **CLOSED — per-position nozzle selection:** do not choose one R-VAN model for the entire lawn. Select corner, edge and interior candidates from local geometric reach/spacing, with each sprinkler retaining its own radius and exact model/arc performance lookup.
 - **CLOSED — 8 × 8 m reference:** four corner R-VAN24 heads at 6 m and four side-midpoint R-VAN18 heads at 4 m; test sampled coverage and head-to-head with mixed radii.
 - **CLOSED — customer result:** use Rain Bird nozzle identification colors, show a model legend and per-zone model quantities; remove fixed planning-radius explanation and flex-pipe metres/coil wording from the kit summary.
-- Implementation is on `fix/irrigation-mixed-rvan-visual-layout`; exact-head CI and release verification remain pending.
+- Implementation is on `fix/irrigation-mixed-rvan-visual-layout`. Blog/Studio CI #2483 and D1 validation #2668 passed on code/test commit `b01e408e026f39dacc22ab59cee14154db7fc731`; Preview deployment `8d51ca33-4410-4633-a440-a6622f4c1e4c` succeeded for documentation-integrated commit `e87896d9aada9ef9138a1c09308ac197d33b6773`. Manual browser visual QA remains unconfirmed; Production merge/deployment awaits owner approval.
 
 ## 2026-11-24 — Irrigation layout owner decisions
 
