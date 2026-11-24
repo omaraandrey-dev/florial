@@ -228,8 +228,20 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     // A corner nozzle must reach the polygon's centre of area. This selects
     // the smallest Florial nozzle range that can reach the central coverage
     // area; it is independent of the sector angle.
+    // On a 3 m-wide rectangle, corner heads serve the local corner and
+    // connect to perimeter heads spaced along the long sides. They must not
+    // be upsized to reach the global centroid across the long axis: that
+    // incorrectly selects R-VAN24 on lawns such as 3 × 18 m. Keep the
+    // owner-defined 3 m R-VAN14 envelope for this narrow rectangular case.
+    const boundsShortSideM = Math.min(
+      Math.max(...vertices.map((point) => point.x)) - Math.min(...vertices.map((point) => point.x)),
+      Math.max(...vertices.map((point) => point.y)) - Math.min(...vertices.map((point) => point.y)),
+    )
+    const cornerRequiredRadiusM = vertices.length === 4 && boundsShortSideM <= 3 + EPSILON
+      ? Math.min(distance(current, center), 3)
+      : distance(current, center)
     const nozzle = family === 'R-VAN'
-      ? nozzleForRadius(distance(current, center))
+      ? nozzleForRadius(cornerRequiredRadiusM)
       : { model, radiusM: performanceFor(family, model, pressureBar, arcDeg)?.radiusM ?? radiusM }
     return { arcDeg, direction: bisector ?? incoming, nozzle }
   })
