@@ -223,7 +223,7 @@ test('all four L-shaped cut-out corners survive intake normalization and layout 
 
 test('geometry preview and calculated customer SVG share one Y-up to SVG transform', async () => {
   const assistant = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
-  assert.match(assistant, /const svgTransform = 'translate\\(0 '/)
+  assert.match(assistant, /const svgTransform = 'translate\(0 '/)
   assert.equal((assistant.match(/<g transform={svgTransform}>/g) ?? []).length, 2)
   assert.match(assistant, /<g transform={svgTransform}><polygon points={svgPoints} fill=/)
   assert.match(assistant, /<g transform={svgTransform}>\s*<polygon points={svgPoints} fill=/)
