@@ -1,3 +1,9 @@
+## 2026-11-24 — documentation consolidation PR #523 merged
+
+- PR #523 was squash-merged into main at ad6f8ebdbccf68477b69b6be3ff87e2d7c72e1c6. It preserves the missing SEO Step 4 and spray-nozzle audit artifacts and the pre-write ESP-BAT-BT1 / 100-HV-9V Sanity snapshot.
+- Exact PR head 4cd77c9a2e87c7dd4beb32d7d1dedb3c91a54e3a: Blog/Studio validation run 45360716154 passed; D1 validation run 45360716084 passed; Cloudflare Pages Preview deployment a9a88341-f580-4890-a3d4-825650fa6c2b succeeded at https://a9a88341.florial.pages.dev.
+- Documentation-only integration. No runtime code, Sanity writes, D1 changes, Cloudflare settings/secrets or Production data changes were included.
+
 ## 2026-11-24 — integration close-out: irrigation solver and pending documentation artifacts
 
 - PR #522 was squash-merged into main at 9ecdb05506e6f1bc28b5debc046cdd37972856d3. It reapplies the narrow 3 m rectangle corner-sizing correction after PR #520; exact PR head 9e4973ad5b4c4fbd45fbc57059715e0e91421c83 passed Blog/Studio validation run 45358607939 and D1 validation run 45358607880; Cloudflare Pages Preview 80bc2842-cdd2-415b-8630-6e8276958127 succeeded at https://80bc2842.florial.pages.dev.
