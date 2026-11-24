@@ -483,7 +483,7 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
 
 function rectangleRotorLayout(rectGeometry, part, sampleStepM) {
   if (part.shortSideM < 6 - 1e-8) return null
-  const candidate = generateRainBird3504Layout(rectGeometry, { sampleStepM, candidatePositionOffsets: part.candidatePositionOffsets ?? [] })
+  const candidate = generateRainBird3504Layout(rectGeometry, { sampleStepM })
   if (candidate.status !== 'layout_generated' || candidate.coverage?.uncoveredPoints !== 0 ||
       !candidate.sprinklers.length) return null
   const checks = candidate.sprinklers.length > 1
@@ -518,15 +518,6 @@ function rectangleRotorLayout(rectGeometry, part, sampleStepM) {
   })
 }
 
-function inwardSeamOffset(bounds, seam, offsetM = 0.075) {
-  const center = { x: (bounds.minX + bounds.maxX) / 2, y: (bounds.minY + bounds.maxY) / 2 }
-  const dx = center.x - seam.x
-  const dy = center.y - seam.y
-  const length = Math.hypot(dx, dy)
-  if (length <= 1e-8) return null
-  return Object.freeze({ from: seam, dx: dx / length * offsetM, dy: dy / length * offsetM })
-}
-
 function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM, initialHeads = []) {
   const orderedParts = parts.slice().sort((a, b) =>
     (a.shortSideM * a.lengthM) - (b.shortSideM * b.lengthM) ||
@@ -542,7 +533,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         ? buildConnectedRvanStripLayout(rectGeometry, part.shortSideM, part.connectedEnd)
         : buildRvanStripLayout(rectGeometry, part.shortSideM))
       : null
-    return { ...part, isStrip, rectGeometry, layout, candidatePositionOffsets: [] }
+    return { ...part, isStrip, rectGeometry, layout }
   })
 
   const seamHeadParts = prepared.filter((part) => part.isStrip &&
@@ -553,20 +544,6 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       reason: 'adjacent_short_strip_arms_require_conflicting_heads_at_the_shared_corner',
       warnings: Object.freeze([{ code: 'manual_engineering_review_required_at_shared_strip_corner', path: 'geometry' }]),
     })
-  }
-
-  for (const stripPart of seamHeadParts) {
-    const seam = connectedStripSeamPoint(stripPart, stripPart.connectedEnd,
-      stripPart.connectedEnd === 'left' || stripPart.connectedEnd === 'right')
-    const adjacentRectangle = prepared.find((part) => !part.isStrip &&
-      seam.x >= part.minX - 1e-8 && seam.x <= part.maxX + 1e-8 &&
-      seam.y >= part.minY - 1e-8 && seam.y <= part.maxY + 1e-8 &&
-      (Math.abs(seam.x - part.minX) <= 1e-8 || Math.abs(seam.x - part.maxX) <= 1e-8 ||
-       Math.abs(seam.y - part.minY) <= 1e-8 || Math.abs(seam.y - part.maxY) <= 1e-8))
-    if (adjacentRectangle) {
-      const offset = inwardSeamOffset(adjacentRectangle, seam, 0.075)
-      if (offset) adjacentRectangle.candidatePositionOffsets.push(offset)
-    }
   }
 
   const previouslyPlacedHeads = initialHeads.slice()
@@ -595,7 +572,6 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         pressureBar,
         sampleStepM,
         radiusM: selected.radiusM,
-        candidatePositionOffsets: part.candidatePositionOffsets,
         preventOverspray: true,
         initialSprinklers: previouslyPlacedHeads.filter((head) => head.pattern !== 'strip'),
         sprayBoundaryGeometry: geometry,
@@ -677,7 +653,6 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     { code: 'orthogonal_lawn_split_into_non_overlapping_rectangular_calculation_zones', path: 'geometry' },
     { code: 'rectangles_processed_in_ascending_area_order', path: 'geometry.calculationRegions' },
     { code: 'each_rectangle_tries_3504pc_before_rvan_fallback', path: 'layout.sprinklers' },
-    { code: 'adjacent_strip_and_rectangle_heads_may_be_offset_by_0_075m', path: 'layout.sprinklers' },
     { code: 'spray_footprints_checked_against_original_lawn_and_exclusions_with_spatial_sampling', path: 'layout.overspray' },
   ]
   if (!oversprayPassed) warnings.push({ code: 'sampled_spray_footprint_exceeds_lawn_boundary', path: 'layout.overspray' })
