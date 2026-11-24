@@ -83,7 +83,7 @@ test('homepage SSR returns localized semantic content and crawlable product/cate
   assert.match(html, /Олива/)
   assert.match(html, /Ландшафтный проект/)
   assert.match(html, /Перейти в каталог растений/)
-  assert.match(html, /aspect-\\[4\\/5\\]/)
+  assert.match(html, /aspect-\[4\/5\]/)
   assert.doesNotMatch(html, /Празна категория/)
 })
 
@@ -160,6 +160,6 @@ test('homepage SSR emits the same responsive Sanity image candidates used by Rea
   assert.match(html, /srcset="[^"]+ 160w/)
   assert.match(html, /sizes="100vw"/)
   assert.match(html, /fetchpriority="high"/)
-  assert.match(html, /aspect-\\[4\\/5\\]/)
+  assert.match(html, /aspect-\[4\/5\]/)
   assert.match(html, /width="800" height="600"/)
 })
