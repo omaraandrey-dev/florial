@@ -4460,3 +4460,11 @@ Backups:
 - Owner-approved order: homepage first; then services directory and service details; blog index; portfolio; individual articles/projects; contacts; About; final cross-route BG/RU/EN regression.
 - Each phase requires raw first-HTTP-response evidence without JavaScript, exact-SHA CI and deployment evidence. Existing published Sanity service/blog/portfolio documents remain protected; no Sanity writes are authorized by this roadmap.
 - Initial homepage phase is in read-only technical discovery. No application code, Sanity content/schema, Cloudflare configuration/secrets, D1 data/schema or Production settings were changed in this documentation step.
+
+
+## 2026-11-24 — SSR Content v1 Phase 1 homepage discovery
+
+- Read-only inspection of `src/pages/HomePage.tsx`, `src/App.tsx` and `functions/_middleware.ts` confirms the root route currently inserts only a localized H1 and short paragraph into the initial HTML. Homepage sections and their Sanity data are loaded by client-side effects.
+- Recorded the existing section order, data projections, curated product-selection rules, category selection, service ordering and pinned blog teaser behavior in `docs/audits/2026-11-24-ssr-content-v1-phase-1-homepage-discovery.md`.
+- Next: complete the remaining read-only middleware/component inspection, then implement bounded server rendering and raw BG/RU/EN first-response tests without changing Sanity content or the shared Header/Footer shell.
+- No application code or live service data/configuration was changed in this discovery step.
