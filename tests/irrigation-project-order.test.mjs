@@ -382,3 +382,53 @@ test('accepts a single 3504-PC rotor without inventing a head-to-head neighbour'
   assert.equal(result.snapshot.layout.headToHeadApplicable, false)
 })
 
+test('persists the explicit rotor pattern and corner-first layout identity for 3504-PC', () => {
+  const project = snapshot()
+  const positions = [
+    { x: 0, y: 0 }, { x: 8, y: 0 }, { x: 8, y: 8 }, { x: 0, y: 8 },
+  ]
+  project.operatingScenario = {
+    manufacturer: 'Rain Bird', family: '3500', model: '3504-PC', pressureBar: null,
+  }
+  project.layout = {
+    model: '3504-PC',
+    engineVersion: '2.0.0',
+    algorithm: 'corner-first-shared-cell-grid',
+    headToHeadPassed: true,
+    headToHeadApplicable: true,
+    sprinklers: positions.map((position, index) => ({
+      id: 'rotor-' + index,
+      position,
+      radiusM: 8,
+      arcDeg: 90,
+      directionDeg: [45, 135, 225, 315][index],
+      performanceModel: '3504-PC',
+      pattern: 'rotor',
+      source: 'vertex',
+    })),
+  }
+  project.zones = [{
+    id: 'zone-01',
+    zoneNumber: 1,
+    zoneType: 'perimeter',
+    sprinklerIds: ['rotor-0', 'rotor-1', 'rotor-2', 'rotor-3'],
+  }]
+  project.billOfMaterials = {
+    headCount: 4,
+    zoneCount: 1,
+    flexPipeRequiredM: 2,
+    flexPipeCoils30m: 1,
+    items: [
+      { sku: 'Y34001', quantity: 4, name: 'Rain Bird 3504-PC' },
+      { sku: 'A46010', quantity: 8, name: 'SBE-050' },
+    ],
+  }
+  const result = validateIrrigationProjectSnapshot({
+    ...project,
+    orderItems: [{ sku: 'Y34001', qty: 4 }, { sku: 'A46010', qty: 8 }],
+  })
+  assert.equal(result.valid, true)
+  assert.ok(result.snapshot.layout.sprinklers.every((head) => head.pattern === 'rotor'))
+  assert.equal(result.snapshot.layout.algorithm, 'corner-first-shared-cell-grid')
+})
+
