@@ -282,7 +282,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
         model: layoutResult?.layout?.model ?? layoutResult?.operatingScenario?.model ?? null,
         engineVersion: layoutResult?.engine?.version ?? null,
         algorithm: layoutResult?.engine?.algorithm ?? null,
-        headToHeadPassed: layoutResult?.layout?.headToHead?.passed === true,
+        headToHeadPassed: layoutResult?.layout?.headToHead?.applicable === false ? null : layoutResult?.layout?.headToHead?.passed === true,
+        headToHeadApplicable: layoutResult?.layout?.headToHead?.applicable !== false,
         sprinklers: (layoutResult?.layout?.sprinklers ?? []).map((sprinkler: any) => ({
           id: sprinkler.id,
           position: sprinkler.position,
