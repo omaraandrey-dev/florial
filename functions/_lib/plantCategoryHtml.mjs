@@ -18,6 +18,12 @@ function localizedProductName(product, language) {
   return String(product.name || product.seo?.h1 || '').trim()
 }
 
+function localizedEquipmentProductName(product, language) {
+  const translated = product.translations?.[language]?.name
+  if (typeof translated === 'string' && translated.trim()) return translated.trim()
+  return String(product.name || '').trim()
+}
+
 function getAvailability(product) {
   const statuses = (product.saleVariants || [])
     .map((variant) => variant?.stockStatus)
@@ -170,7 +176,7 @@ export function buildEquipmentCategoryEntries(products, language = 'bg', options
   const sorted = (Array.isArray(products) ? products : [])
     .filter((product) => product && product._id && (product.slugValue || product.slug?.current))
     .slice()
-    .sort((a, b) => localizedProductName(a, language).localeCompare(localizedProductName(b, language), language))
+    .sort((a, b) => localizedEquipmentProductName(a, language).localeCompare(localizedEquipmentProductName(b, language), language))
 
   if (options.rootCatalog && Array.isArray(options.categories)) {
     const prioritySlugs = [
@@ -215,7 +221,7 @@ export function buildEquipmentCategoryEntries(products, language = 'bg', options
     const nozzlesBucket = nozzlesCategoryId ? buckets.get(nozzlesCategoryId) : undefined
     if (nozzlesBucket) {
       const getNozzleSeriesRank = (product) => {
-        const productText = [product.name, localizedProductName(product, language), product.sku]
+        const productText = [product.name, localizedEquipmentProductName(product, language), product.sku]
           .filter(Boolean).join(' ').toLocaleUpperCase()
         if (/\bR[\s-]?VAN\b/.test(productText)) return 0
         if (/\bHE[\s-]?VAN\b/.test(productText)) return 1
@@ -266,7 +272,7 @@ export function renderEquipmentCategoryListing(products, language = 'bg', siteUr
   }
 
   const cards = entries.map((product, index) => {
-    const name = localizedProductName(product, language) || product.slugValue
+    const name = localizedEquipmentProductName(product, language) || product.slugValue
     const url = productUrl(product, language, siteUrl)
     const price = typeof product.priceEUR === 'number' && Number.isFinite(product.priceEUR) && product.priceEUR > 0 ? product.priceEUR : null
     const priceLabel = price === null
