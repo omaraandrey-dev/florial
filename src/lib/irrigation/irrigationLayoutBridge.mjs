@@ -72,6 +72,7 @@ function buildRvanStripLayout(geometry, shortSideM) {
       arcDeg: null,
       directionDeg: null,
       stripDirection: direction,
+      stripAxis: horizontal ? 'horizontal' : 'vertical',
       source: 'edge',
       radiusM: null,
       pressureBar: point.pressureBar,
