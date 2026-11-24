@@ -25,7 +25,7 @@
 
 ## Scope boundaries
 
-No Sanity documents/schemas, D1 data or migrations, Cloudflare settings/secrets, orders, email, routing, global layout, Header/Footer, or irrigation-assistant code were changed. No Production deployment was made.
+No Sanity documents/schemas, D1 data or migrations, Cloudflare settings/secrets, orders, email, routing, global layout, Header/Footer, or irrigation-assistant code were changed. The only Production runtime release was the automatic Cloudflare Pages deployment from the explicitly merged PR; no direct Production configuration change was made.
 
 ## Verification
 
