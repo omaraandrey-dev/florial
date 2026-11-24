@@ -1,3 +1,13 @@
+## 2026-11-25 — homepage first-response SSR (PR #533, in progress)
+
+- Branch: `feat/ssr-homepage-content-v1`; PR #533. Code-bearing head: `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`.
+- Cloudflare Pages middleware uses `functions/_lib/homepageHtml.mjs` and bounded parallel published-Sanity projections to render the homepage content in the first HTTP response for BG/RU/EN.
+- The renderer covers hero and category-image CTAs, value propositions, services, plant categories, featured plants, irrigation categories, featured equipment and pinned/latest blog teaser. It mirrors App/HomePage selection, shared service/featured-product helpers, plant price/stock/display-name rules and localized blog ordering.
+- Responsive Sanity image URLs are built to match `src/lib/sanityImage.ts:getSanityImageProps` (src/srcset/sizes/width/height/loading priority). Homepage JSON-LD adds `OnlineStore` and `WebSite`; existing local `GardenStore` entities remain. `/cart` stays `noindex, nofollow`.
+- Query failure keeps the existing minimal static fallback and uses `Cache-Control: no-store`; partial/invalid query collections are not cached as an empty homepage.
+- **Important runtime boundary:** the client bootstrap still uses React `createRoot`, not `hydrateRoot`; it replaces initial markup inside `#root` on startup. This is raw first-response SSR, not React hydration. Client transition/CLS preservation is an open, separately approved task.
+- Exact-head CI and Preview/raw HTTP verification for code head `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6` remain pending; no Production release is claimed. No Sanity writes, D1 schema/data changes or Cloudflare settings/secrets changed.
+
 ## 2026-11-24 — equipment category server-rendered catalogue (SSR Catalog v1, PR #531)
 
 - Implementation: `functions/_middleware.ts` and `functions/_lib/plantCategoryHtml.mjs`; plan: `docs/roadmaps/SEO_EQUIPMENT_CATEGORY_SSR_V1.md`; evidence: `docs/audits/2026-11-24-equipment-category-ssr-v1.md`.
