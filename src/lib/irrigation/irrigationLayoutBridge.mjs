@@ -529,7 +529,10 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       previouslyPlacedHeads.push(...part.layout.sprinklers)
       continue
     }
-    const rotorLayout = generateRainBird3504Layout(part.rectGeometry, { sampleStepM })
+    const rotorLayout = generateRainBird3504Layout(part.rectGeometry, {
+      sampleStepM,
+      initialSprinklers: previouslyPlacedHeads,
+    })
     if (rotorLayout.status === 'coverage_complete_sampled') {
       part.layout = rotorLayout
       part.family = '3500'
