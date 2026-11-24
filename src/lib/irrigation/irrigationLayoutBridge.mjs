@@ -42,7 +42,7 @@ function isRectangle(vertices) {
   })
 }
 
-function buildRvanStripLayout(geometry, shortSideM) {
+function buildRvanStripLayout(geometry, shortSideM, connectedEnd = null) {
   const vertices = geometry.regions[0].boundary.vertices
   if (!isRectangle(vertices)) return null
   const widthM = SUPPORTED_STRIP_WIDTHS_M.find((width) => Math.abs(width - shortSideM) <= 1e-8)
@@ -55,6 +55,10 @@ function buildRvanStripLayout(geometry, shortSideM) {
   const minY = Math.min(...ys)
   const maxY = Math.max(...ys)
   const horizontal = connectedEnd === 'left' || connectedEnd === 'right'
+    ? true
+    : connectedEnd === 'top' || connectedEnd === 'bottom'
+      ? false
+      : maxX - minX >= maxY - minY
   const lengthM = horizontal ? maxX - minX : maxY - minY
   const rule = STRIP_MODELS[widthM]
   const rightOrBottom = horizontal ? maxX : minY
@@ -254,7 +258,7 @@ function connectedStripSeamPoint(bounds, connectedEnd, horizontal) {
 }
 
 function buildConnectedRvanStripLayout(geometry, shortSideM, connectedEnd) {
-  const base = buildRvanStripLayout(geometry, shortSideM)
+  const base = buildRvanStripLayout(geometry, shortSideM, connectedEnd)
   if (!base) return null
   const vertices = geometry.regions[0].boundary.vertices
   const xs = vertices.map((point) => point.x)
@@ -263,7 +267,7 @@ function buildConnectedRvanStripLayout(geometry, shortSideM, connectedEnd) {
   const maxX = Math.max(...xs)
   const minY = Math.min(...ys)
   const maxY = Math.max(...ys)
-  const horizontal = maxX - minX >= maxY - minY
+  const horizontal = connectedEnd === 'left' || connectedEnd === 'right'
   const lengthM = horizontal ? maxX - minX : maxY - minY
   const widthM = shortSideM
   const rule = STRIP_MODELS[widthM]
