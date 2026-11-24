@@ -51,6 +51,21 @@ test('Florial selects each R-VAN head from local reach and reports the actual mo
   }
 })
 
+test('3x18 narrow rectangle keeps every head at R-VAN14 instead of sizing corners to the global centroid', () => {
+  for (const [length, width] of [[18, 3], [3, 18]]) {
+    const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
+    assert.equal(result.status, 'layout_generated', length + 'x' + width)
+    assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+    assert.equal(result.layout?.headToHead?.passed, true)
+    const heads = result.layout?.sprinklers ?? []
+    assert.ok(heads.length > 0)
+    assert.ok(heads.every((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN14' && head.radiusM === 3))
+    assert.ok(heads.every((head) => head.source !== 'interior'))
+    assert.ok(heads.every((head) => head.position.x >= 0 && head.position.x <= length &&
+      head.position.y >= 0 && head.position.y <= width))
+  }
+})
+
 test('8x8 rectangle uses R-VAN24 in the four corners and R-VAN18 at the four side midpoints', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(8, 8))
   assert.equal(result.status, 'layout_generated')
