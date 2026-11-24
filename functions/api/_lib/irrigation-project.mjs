@@ -23,8 +23,9 @@ export function validateIrrigationProjectSnapshot(input) {
   const sprinklers = layout?.sprinklers
   const stripOnlyLayout = Array.isArray(sprinklers) && sprinklers.length > 0 &&
     sprinklers.every((sprinkler) => sprinkler?.pattern === 'strip')
-  const single3504RotorLayout = Array.isArray(sprinklers) && sprinklers.length === 1 &&
-    sprinklers[0]?.performanceModel === '3504-PC' && layout?.headToHeadPassed === null &&
+  const circularHeads = Array.isArray(sprinklers) ? sprinklers.filter((sprinkler) => sprinkler?.pattern !== 'strip') : []
+  const single3504RotorLayout = circularHeads.length === 1 &&
+    circularHeads[0]?.performanceModel === '3504-PC' && layout?.headToHeadPassed === null &&
     layout?.headToHeadApplicable === false
   const headToHeadValid = layout?.headToHeadPassed === true ||
     (layout?.headToHeadPassed === null && layout?.headToHeadApplicable === false && stripOnlyLayout) ||
