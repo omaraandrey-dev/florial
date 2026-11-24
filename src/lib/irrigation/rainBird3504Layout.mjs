@@ -1,316 +1,348 @@
-import { validateLawnGeometry } from './lawnGeometry.mjs'
+import { sprinklersMutuallyReach } from './lawnSprinklerLayout.mjs'
 
+const ENGINE_VERSION = '1.1.0'
 const EPSILON = 1e-8
-const PLANNING_RADII_M = Object.freeze([10, 9, 8])
-const ARCS = Object.freeze([90, 180, 270, 360])
-const DIRECTION_STEP_DEG = 45
-const TARGET_STEP_M = 0.5
-const POSITION_STEP_FACTOR = 0.5
-const MAX_TARGETS = 30000
-const MAX_CANDIDATES = 5000
-const MAX_ROTORS = 60
+const ROTOR_RADII_M = Object.freeze([8, 9, 10, 7, 6, 5])
+const MAX_TARGET_POINTS = 30000
+const MAX_SELECTED_ROTORS = 150
 
 function distance(a, b) {
   return Math.hypot(a.x - b.x, a.y - b.y)
 }
 
-function normalizeDegrees(value) {
-  return ((value % 360) + 360) % 360
+function pointInRect(point, bounds) {
+  return point.x >= bounds.minX - EPSILON && point.x <= bounds.maxX + EPSILON &&
+    point.y >= bounds.minY - EPSILON && point.y <= bounds.maxY + EPSILON
 }
 
-function openRing(vertices = []) {
-  return vertices.filter((point, index) => index < vertices.length - 1 ||
-    distance(point, vertices[0]) > EPSILON)
+function axisPositions(length, pitch) {
+  if (length <= pitch + EPSILON) return [0, length]
+  const intervals = Math.ceil(length / pitch)
+  if (length <= 2 * pitch + EPSILON) {
+    return Array.from({ length: intervals + 1 }, (_, index) => length * index / intervals)
+  }
+  const positions = [0]
+  for (let value = pitch; value < length - pitch - EPSILON; value += pitch) positions.push(value)
+  const inset = length - pitch
+  if (inset - positions[positions.length - 1] > EPSILON) positions.push(inset)
+  positions.push(length)
+  return positions
 }
 
-function pointOnSegment(point, a, b) {
-  const cross = (b.x - a.x) * (point.y - a.y) - (b.y - a.y) * (point.x - a.x)
-  return Math.abs(cross) <= EPSILON &&
-    point.x >= Math.min(a.x, b.x) - EPSILON && point.x <= Math.max(a.x, b.x) + EPSILON &&
-    point.y >= Math.min(a.y, b.y) - EPSILON && point.y <= Math.max(a.y, b.y) + EPSILON
-}
-
-function pointInRing(point, ring) {
-  let inside = false
-  for (let index = 0, previous = ring.length - 1; index < ring.length; previous = index, index += 1) {
-    const a = ring[previous]
-    const b = ring[index]
-    if (pointOnSegment(point, a, b)) return 0
-    if ((a.y > point.y) !== (b.y > point.y)) {
-      const intersectionX = a.x + ((point.y - a.y) * (b.x - a.x)) / (b.y - a.y)
-      if (point.x < intersectionX) inside = !inside
+function classifyPosition(x, y, bounds) {
+  const left = Math.abs(x - bounds.minX) <= EPSILON
+  const right = Math.abs(x - bounds.maxX) <= EPSILON
+  const bottom = Math.abs(y - bounds.minY) <= EPSILON
+  const top = Math.abs(y - bounds.maxY) <= EPSILON
+  if ((left || right) && (bottom || top)) {
+    return {
+      source: 'vertex',
+      arcDeg: 90,
+      directionDeg: left ? (bottom ? 45 : 315) : (bottom ? 135 : 225),
     }
   }
-  return inside ? 1 : -1
+  if (bottom) return { source: 'edge', arcDeg: 180, directionDeg: 90 }
+  if (top) return { source: 'edge', arcDeg: 180, directionDeg: 270 }
+  if (left) return { source: 'edge', arcDeg: 180, directionDeg: 0 }
+  if (right) return { source: 'edge', arcDeg: 180, directionDeg: 180 }
+  return { source: 'interior', arcDeg: 360, directionDeg: null }
 }
 
-function pointInIrrigatedGeometry(point, region) {
-  if (pointInRing(point, region.boundary) < 0) return false
-  return !region.exclusions.some((ring) => pointInRing(point, ring) > 0)
-}
-
-function sectorContains(point, sprinkler) {
-  const dx = point.x - sprinkler.position.x
-  const dy = point.y - sprinkler.position.y
-  if (Math.hypot(dx, dy) > sprinkler.radiusM + EPSILON) return false
-  if (sprinkler.arcDeg === 360) return true
-  const angle = normalizeDegrees(Math.atan2(dy, dx) * 180 / Math.PI)
-  const difference = Math.abs(((angle - sprinkler.directionDeg + 540) % 360) - 180)
-  return difference <= sprinkler.arcDeg / 2 + EPSILON
-}
-
-function sampleTargets(region, stepM) {
-  const xs = region.boundary.map((point) => point.x)
-  const ys = region.boundary.map((point) => point.y)
-  const minX = Math.min(...xs), maxX = Math.max(...xs)
-  const minY = Math.min(...ys), maxY = Math.max(...ys)
-  const columns = Math.ceil((maxX - minX) / stepM)
-  const rows = Math.ceil((maxY - minY) / stepM)
-  if ((columns + 1) * (rows + 1) > MAX_TARGETS) return null
-  const targets = []
-  for (let row = 0; row <= rows; row += 1) {
-    const y = minY + Math.min(row * stepM, maxY - minY)
-    for (let column = 0; column <= columns; column += 1) {
-      const x = minX + Math.min(column * stepM, maxX - minX)
-      if (pointInIrrigatedGeometry({ x, y }, region)) targets.push(Object.freeze({ x, y }))
+function maximumSafeRadius(x, y, bounds, position) {
+  const width = bounds.maxX - bounds.minX
+  const height = bounds.maxY - bounds.minY
+  if (position.source === 'vertex') return Math.min(10, width, height)
+  if (position.source === 'edge') {
+    if (position.directionDeg === 90 || position.directionDeg === 270) {
+      return Math.min(10, x - bounds.minX, bounds.maxX - x, height)
     }
+    return Math.min(10, y - bounds.minY, bounds.maxY - y, width)
   }
-  return targets
+  return Math.min(10, x - bounds.minX, bounds.maxX - x, y - bounds.minY, bounds.maxY - y)
 }
 
-function candidatePositions(region, radiusM, positionOffsets = []) {
-  const xs = region.boundary.map((point) => point.x)
-  const ys = region.boundary.map((point) => point.y)
-  const minX = Math.min(...xs), maxX = Math.max(...xs)
-  const minY = Math.min(...ys), maxY = Math.max(...ys)
-  const step = radiusM * POSITION_STEP_FACTOR
-  const positions = []
-  const seen = new Set()
-  const add = (point) => {
-    if (!pointInIrrigatedGeometry(point, region)) return
-    const key = point.x.toFixed(5) + ':' + point.y.toFixed(5)
-    if (seen.has(key)) return
-    seen.add(key)
-    positions.push(Object.freeze({ x: point.x, y: point.y }))
-  }
-  for (let y = minY; y <= maxY + EPSILON; y += step) {
-    for (let x = minX; x <= maxX + EPSILON; x += step) add({ x: Math.min(x, maxX), y: Math.min(y, maxY) })
-  }
-  for (const ring of [region.boundary, ...region.exclusions]) {
-    for (let index = 0; index < ring.length; index += 1) {
-      const a = ring[index], b = ring[(index + 1) % ring.length]
-      const divisions = Math.max(1, Math.ceil(distance(a, b) / step))
-      for (let part = 0; part <= divisions; part += 1) {
-        const ratio = part / divisions
-        add({ x: a.x + (b.x - a.x) * ratio, y: a.y + (b.y - a.y) * ratio })
-      }
-    }
-  }
-  return positions.map((position) => {
-    const offset = positionOffsets.find((entry) => entry?.from &&
-      distance(position, entry.from) <= EPSILON &&
-      Number.isFinite(entry.dx) && Number.isFinite(entry.dy))
-    return offset
-      ? Object.freeze({ x: position.x + offset.dx, y: position.y + offset.dy })
-      : position
-  })
+function sectorContains(point, head) {
+  const dx = point.x - head.position.x
+  const dy = point.y - head.position.y
+  if (Math.hypot(dx, dy) > head.radiusM + EPSILON) return false
+  if (head.arcDeg === 360) return true
+  const angle = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360
+  const delta = Math.abs(((angle - head.directionDeg + 540) % 360) - 180)
+  return delta <= head.arcDeg / 2 + EPSILON
 }
 
-function sectorFitsGeometry(candidate, region) {
-  const start = candidate.arcDeg === 360 ? 0 : candidate.directionDeg - candidate.arcDeg / 2
-  const angleStep = 3
-  const radialStep = 0.5
-  for (let angleOffset = 0; angleOffset <= candidate.arcDeg + EPSILON; angleOffset += angleStep) {
-    const angle = (start + angleOffset) * Math.PI / 180
-    for (let radius = 0; radius <= candidate.radiusM + EPSILON; radius += radialStep) {
-      const point = {
-        x: candidate.position.x + Math.cos(angle) * Math.min(radius, candidate.radiusM),
-        y: candidate.position.y + Math.sin(angle) * Math.min(radius, candidate.radiusM),
-      }
-      if (!pointInIrrigatedGeometry(point, region)) return false
+function sectorFitsRectangle(head, bounds) {
+  const start = head.arcDeg === 360 ? 0 : head.directionDeg - head.arcDeg / 2
+  for (let angleOffset = 0; angleOffset <= head.arcDeg + EPSILON; angleOffset += 1) {
+    const angle = (start + Math.min(angleOffset, head.arcDeg)) * Math.PI / 180
+    for (let radius = 0; radius <= head.radiusM + EPSILON; radius += 0.2) {
+      const reach = Math.min(radius, head.radiusM)
+      if (!pointInRect({
+        x: head.position.x + Math.cos(angle) * reach,
+        y: head.position.y + Math.sin(angle) * reach,
+      }, bounds)) return false
     }
   }
   return true
 }
 
-function buildCandidates(region, targets, radiusM, positionOffsets = []) {
-  const candidates = []
-  for (const position of candidatePositions(region, radiusM, positionOffsets)) {
-    for (const arcDeg of ARCS) {
-      const directions = arcDeg === 360 ? [null] : Array.from({ length: 360 / DIRECTION_STEP_DEG }, (_, index) => index * DIRECTION_STEP_DEG)
-      for (const directionDeg of directions) {
-        const candidate = { position, radiusM, arcDeg, directionDeg }
-        if (!sectorFitsGeometry(candidate, region)) continue
-        const covered = []
-        for (let index = 0; index < targets.length; index += 1) {
-          if (sectorContains(targets[index], candidate)) covered.push(index)
-        }
-        if (covered.length) candidates.push({ ...candidate, covered })
-        if (candidates.length > MAX_CANDIDATES) return null
-      }
+function buildTargets(bounds, stepM) {
+  const width = bounds.maxX - bounds.minX
+  const height = bounds.maxY - bounds.minY
+  const columns = Math.ceil(width / stepM)
+  const rows = Math.ceil(height / stepM)
+  if ((columns + 1) * (rows + 1) > MAX_TARGET_POINTS) return null
+  const targets = []
+  for (let row = 0; row <= rows; row += 1) {
+    const y = bounds.minY + height * row / rows
+    for (let column = 0; column <= columns; column += 1) {
+      const x = bounds.minX + width * column / columns
+      targets.push(Object.freeze({ x, y }))
     }
   }
-  return candidates
+  return targets
 }
 
-function mutuallyReach(a, b) {
-  const separation = distance(a.position, b.position)
-  return separation > EPSILON &&
-    separation <= Math.min(a.radiusM, b.radiusM) + EPSILON &&
-    sectorContains(a.position, b) && sectorContains(b.position, a)
-}
+function buildCornerFirstGrid(bounds, planningRadiusM) {
+  const width = bounds.maxX - bounds.minX
+  const height = bounds.maxY - bounds.minY
+  const pitch = Math.min(planningRadiusM, width, height)
+  const xs = axisPositions(width, pitch)
+  const ys = axisPositions(height, pitch)
+  const heads = []
+  const byCoordinate = new Map()
 
-function selectRotors(candidates, targetCount) {
-  if (!candidates.length) return { selected: [], uncovered: new Set(Array.from({ length: targetCount }, (_, i) => i)) }
-  const ordered = candidates.slice().sort((a, b) =>
-    b.covered.length - a.covered.length ||
-    a.position.y - b.position.y || a.position.x - b.position.x ||
-    a.arcDeg - b.arcDeg || (a.directionDeg ?? -1) - (b.directionDeg ?? -1))
-  const selected = []
-  const uncovered = new Set(Array.from({ length: targetCount }, (_, i) => i))
-  const first = ordered.find((candidate) => candidate.covered.length > 0)
-  if (!first) return { selected, uncovered }
-  selected.push(first)
-  for (const index of first.covered) uncovered.delete(index)
-
-  while (uncovered.size && selected.length < MAX_ROTORS) {
-    let best = null
-    let bestGain = 0
-    for (const candidate of ordered) {
-      if (selected.some((entry) => distance(entry.position, candidate.position) <= EPSILON)) continue
-      if (!selected.some((entry) => mutuallyReach(candidate, entry))) continue
-      let gain = 0
-      for (const index of candidate.covered) if (uncovered.has(index)) gain += 1
-      if (gain > bestGain) { best = candidate; bestGain = gain }
-    }
-
-    if (best) {
-      selected.push(best)
-      for (const index of best.covered) uncovered.delete(index)
-      continue
-    }
-
-    // A large rectangle can contain two spatially separate rotor groups.
-    // Start a new group only as a mutually-reachable pair, so no selected
-    // rotor is left without a Head-to-Head neighbour.
-    const useful = ordered.filter((candidate) =>
-      !selected.some((entry) => distance(entry.position, candidate.position) <= EPSILON) &&
-      candidate.covered.some((index) => uncovered.has(index)))
-    let bestPair = null
-    let bestPairGain = 0
-    for (let firstIndex = 0; firstIndex < useful.length; firstIndex += 1) {
-      const a = useful[firstIndex]
-      for (let secondIndex = firstIndex + 1; secondIndex < useful.length; secondIndex += 1) {
-        const b = useful[secondIndex]
-        if (distance(a.position, b.position) > Math.min(a.radiusM, b.radiusM) + EPSILON ||
-            !mutuallyReach(a, b)) continue
-        let gain = 0
-        for (const index of a.covered) if (uncovered.has(index)) gain += 1
-        for (const index of b.covered) if (uncovered.has(index) && !a.covered.includes(index)) gain += 1
-        if (gain > bestPairGain) {
-          bestPair = [a, b]
-          bestPairGain = gain
-        }
-      }
-    }
-    if (!bestPair || bestPairGain <= 0 || selected.length + 2 > MAX_ROTORS) break
-    selected.push(...bestPair)
-    for (const candidate of bestPair) {
-      for (const index of candidate.covered) uncovered.delete(index)
+  for (let row = 0; row < ys.length; row += 1) {
+    for (let column = 0; column < xs.length; column += 1) {
+      const x = bounds.minX + xs[column]
+      const y = bounds.minY + ys[row]
+      const position = classifyPosition(x, y, bounds)
+      const safeRadius = maximumSafeRadius(x, y, bounds, position)
+      if (safeRadius < 5 - EPSILON) return null
+      const radiusM = Math.min(planningRadiusM, safeRadius)
+      const head = Object.freeze({
+        id: 'r3504-r' + row + '-c' + column,
+        position: Object.freeze({ x, y }),
+        arcDeg: position.arcDeg,
+        directionDeg: position.directionDeg,
+        source: position.source,
+        radiusM,
+        performanceModel: '3504-PC',
+        family: '3500',
+        pattern: 'rotor',
+        pressureBar: null,
+        flowLpm: null,
+        planningRadiusSource: 'owner-approved-florial-3504pc-rule',
+      })
+      if (!sectorFitsRectangle(head, bounds)) return null
+      heads.push(head)
+      byCoordinate.set(row + ':' + column, head)
     }
   }
-  return { selected, uncovered }
+
+  const cells = []
+  for (let row = 0; row < ys.length - 1; row += 1) {
+    for (let column = 0; column < xs.length - 1; column += 1) {
+      const corners = [
+        byCoordinate.get(row + ':' + column),
+        byCoordinate.get(row + ':' + (column + 1)),
+        byCoordinate.get((row + 1) + ':' + (column + 1)),
+        byCoordinate.get((row + 1) + ':' + column),
+      ]
+      if (corners.some((head) => !head)) return null
+      cells.push(Object.freeze({
+        id: 'cell-r' + row + '-c' + column,
+        cornerHeadIds: Object.freeze(corners.map((head) => head.id)),
+      }))
+    }
+  }
+
+  const adjacentPairs = []
+  for (let row = 0; row < ys.length; row += 1) {
+    for (let column = 0; column < xs.length; column += 1) {
+      const current = byCoordinate.get(row + ':' + column)
+      if (column + 1 < xs.length) adjacentPairs.push([current, byCoordinate.get(row + ':' + (column + 1))])
+      if (row + 1 < ys.length) adjacentPairs.push([current, byCoordinate.get((row + 1) + ':' + column)])
+    }
+  }
+  const headToHeadChecks = adjacentPairs.map(([a, b]) => {
+    const separationM = distance(a.position, b.position)
+    return Object.freeze({
+      sprinklerId: a.id,
+      neighborId: b.id,
+      separationM,
+      requiredMaximumM: Math.min(a.radiusM, b.radiusM),
+      passed: separationM <= Math.min(a.radiusM, b.radiusM) + EPSILON &&
+        sprinklersMutuallyReach(a, b),
+    })
+  })
+
+  return { heads, cells, headToHeadChecks, pitchM: pitch, columns: xs.length, rows: ys.length }
+}
+
+function evaluateCoverage(heads, targets) {
+  let covered = 0
+  const uncovered = []
+  for (const target of targets) {
+    if (heads.some((head) => sectorContains(target, head))) covered += 1
+    else if (uncovered.length < 100) uncovered.push(target)
+  }
+  return Object.freeze({
+    sampledPoints: targets.length,
+    coveredPoints: covered,
+    uncoveredPoints: targets.length - covered,
+    coveragePercent: targets.length ? covered / targets.length * 100 : 0,
+    uncoveredSamples: Object.freeze(uncovered),
+  })
+}
+
+function rectangleBounds(geometry) {
+  const region = geometry?.regions?.[0]
+  const vertices = region?.boundary?.vertices
+  if (!Array.isArray(vertices) || vertices.length < 4 || region.exclusions?.length) return null
+  const xs = vertices.map((point) => point.x)
+  const ys = vertices.map((point) => point.y)
+  const bounds = {
+    minX: Math.min(...xs), minY: Math.min(...ys),
+    maxX: Math.max(...xs), maxY: Math.max(...ys),
+  }
+  const corners = [
+    { x: bounds.minX, y: bounds.minY },
+    { x: bounds.maxX, y: bounds.minY },
+    { x: bounds.maxX, y: bounds.maxY },
+    { x: bounds.minX, y: bounds.maxY },
+  ]
+  const unique = new Set(vertices.map((point) => point.x.toFixed(8) + ':' + point.y.toFixed(8)))
+  const axisAligned = vertices.every((point, index) => {
+    const next = vertices[(index + 1) % vertices.length]
+    return Math.abs(point.x - next.x) <= EPSILON || Math.abs(point.y - next.y) <= EPSILON
+  })
+  if (unique.size !== 4 || !axisAligned ||
+      corners.some((corner) => !vertices.some((point) => distance(point, corner) <= EPSILON))) return null
+  return bounds
 }
 
 /**
- * Owner-approved geometric planning path for Rain Bird 3504-PC.
- * Planning reach is 10/9/8 m, independent of selected 90/180/270/360 degree arc.
- * These are Florial planning values, not a claim of arc-specific manufacturer
- * performance data. Hydraulic flow/pressure and precipitation are not inferred.
+ * Corner-first 3504-PC layout.
+ * Every calculation cell is created from four required corner positions.
+ * Shared cell corners are one physical head, never duplicate heads.
+ * The first accepted stage is 8 m; 9/10 m are expansion options, followed
+ * by 7/6/5 m denser grids. Values are Florial geometric planning assumptions.
  */
-export function generateRainBird3504Layout(geometry, { sampleStepM = TARGET_STEP_M, candidatePositionOffsets = [] } = {}) {
-  const validation = validateLawnGeometry(geometry)
-  const rawRegion = geometry?.regions?.[0]
-  if (!rawRegion || geometry.regions.length !== 1 || geometry.status !== 'confirmed' ||
-      !validation.valid || !validation.supported || validation.regions.length !== 1 ||
-      !Number.isFinite(sampleStepM) || sampleStepM <= 0) {
-    return Object.freeze({ status: 'invalid_geometry', sprinklers: Object.freeze([]), warnings: Object.freeze([]) })
+export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5 } = {}) {
+  const bounds = rectangleBounds(geometry)
+  if (!bounds || !Number.isFinite(sampleStepM) || sampleStepM <= 0) {
+    return Object.freeze({
+      engineVersion: ENGINE_VERSION,
+      algorithm: '3504pc-corner-first-shared-cell-grid-v1',
+      status: 'invalid_geometry',
+      sprinklers: Object.freeze([]),
+      warnings: Object.freeze([]),
+    })
   }
-  const region = {
-    boundary: openRing(rawRegion.boundary?.vertices ?? []),
-    exclusions: (rawRegion.exclusions ?? []).map((entry) => openRing(entry.polygon?.vertices ?? [])),
+  const width = bounds.maxX - bounds.minX
+  const height = bounds.maxY - bounds.minY
+  if (width <= 0 || height <= 0 || Math.min(width, height) < 5 - EPSILON) {
+    return Object.freeze({
+      engineVersion: ENGINE_VERSION,
+      algorithm: '3504pc-corner-first-shared-cell-grid-v1',
+      status: 'no_usable_rotor_candidates',
+      sprinklers: Object.freeze([]),
+      warnings: Object.freeze([]),
+    })
   }
-  if (region.boundary.length < 4) {
-    return Object.freeze({ status: 'invalid_geometry', sprinklers: Object.freeze([]), warnings: Object.freeze([]) })
-  }
-  const targets = sampleTargets(region, sampleStepM)
-  if (!targets?.length) {
-    return Object.freeze({ status: 'sampling_limit_exceeded', sprinklers: Object.freeze([]), warnings: Object.freeze([]) })
-  }
-
-  let selected = []
-  let uncovered = new Set(Array.from({ length: targets.length }, (_, i) => i))
-  let selectedRadiusM = null
-  let candidateCount = 0
-  let positionCount = 0
-  let offsetPositionCount = 0
-  for (const radiusM of PLANNING_RADII_M) {
-    const positions = candidatePositions(region, radiusM, candidatePositionOffsets)
-    positionCount += positions.length
-    offsetPositionCount += positions.filter((position) => candidatePositionOffsets.some((entry) =>
-      entry?.from && Number.isFinite(entry.dx) && Number.isFinite(entry.dy) &&
-      distance(position, { x: entry.from.x + entry.dx, y: entry.from.y + entry.dy }) <= EPSILON)).length
-    const candidates = buildCandidates(region, targets, radiusM, candidatePositionOffsets)
-    if (!candidates) {
-      return Object.freeze({ status: 'candidate_limit_exceeded', sprinklers: Object.freeze([]), warnings: Object.freeze([]) })
-    }
-    candidateCount += candidates.length
-    const result = selectRotors(candidates, targets.length)
-    if (result.selected.length && result.uncovered.size < uncovered.size) {
-      selected = result.selected
-      uncovered = result.uncovered
-      selectedRadiusM = radiusM
-    }
-    if (uncovered.size === 0) break
+  const targets = buildTargets(bounds, sampleStepM)
+  if (!targets) {
+    return Object.freeze({
+      engineVersion: ENGINE_VERSION,
+      algorithm: '3504pc-corner-first-shared-cell-grid-v1',
+      status: 'sampling_limit_exceeded',
+      sprinklers: Object.freeze([]),
+      warnings: Object.freeze([]),
+    })
   }
 
-  const sprinklers = selected.map((candidate, index) => Object.freeze({
-    id: 'rotor-3504-' + String(index + 1).padStart(3, '0'),
-    position: candidate.position,
-    arcDeg: candidate.arcDeg,
-    directionDeg: candidate.directionDeg,
-    source: region.boundary.some((a, index) => pointOnSegment(candidate.position, a, region.boundary[(index + 1) % region.boundary.length]))
-      ? 'edge' : 'interior',
-    radiusM: candidate.radiusM,
-    pressureBar: null,
-    flowLpm: null,
-    precipitationSquareMmH: null,
-    precipitationTriangularMmH: null,
-    performanceModel: '3504-PC',
-    pattern: 'circular',
-    planningRadiusSource: 'owner-approved-florial-3504pc-rule',
-  }))
+  let lastAttempt = null
+  for (const planningRadiusM of ROTOR_RADII_M) {
+    const grid = buildCornerFirstGrid(bounds, planningRadiusM)
+    if (!grid || grid.heads.length > MAX_SELECTED_ROTORS) continue
+    const coverage = evaluateCoverage(grid.heads, targets)
+    const headToHeadPassed = grid.headToHeadChecks.length > 0 &&
+      grid.headToHeadChecks.every((entry) => entry.passed)
+    lastAttempt = { planningRadiusM, grid, coverage, headToHeadPassed }
+    if (coverage.uncoveredPoints === 0 && headToHeadPassed) {
+      const sprinklers = Object.freeze(grid.heads.map((head, index) => Object.freeze({
+        ...head,
+        id: 'rotor-3504-' + String(index + 1).padStart(3, '0'),
+      })))
+      const idMap = new Map(grid.heads.map((head, index) => [head.id, sprinklers[index].id]))
+      const cells = Object.freeze(grid.cells.map((cell) => Object.freeze({
+        ...cell,
+        cornerHeadIds: Object.freeze(cell.cornerHeadIds.map((id) => idMap.get(id))),
+      })))
+      const checks = Object.freeze(grid.headToHeadChecks.map((entry) => Object.freeze({
+        ...entry,
+        sprinklerId: idMap.get(entry.sprinklerId),
+        neighborId: idMap.get(entry.neighborId),
+      })))
+      return Object.freeze({
+        engineVersion: ENGINE_VERSION,
+        algorithm: '3504pc-corner-first-shared-cell-grid-v1',
+        status: 'layout_generated',
+        family: '3500',
+        model: '3504-PC',
+        pressureBar: null,
+        planningRadiusM,
+        sampleStepM,
+        geometry: Object.freeze({
+          regionId: geometry.regions[0].id,
+          shape: 'rectangle',
+          areaM2: width * height,
+        }),
+        coverage,
+        sprinklers,
+        cells,
+        grid: Object.freeze({ pitchM: grid.pitchM, columns: grid.columns, rows: grid.rows }),
+        headToHead: Object.freeze({
+          passed: true,
+          applicable: true,
+          checks,
+        }),
+        candidateStats: Object.freeze({
+          requiredCornerPositions: grid.heads.length,
+          cellCount: grid.cells.length,
+          sharedCellCornersDeduplicated: grid.heads.length,
+          selectedRotors: sprinklers.length,
+        }),
+        warnings: Object.freeze([
+          Object.freeze({ code: '3504_pc_radius_is_florial_geometric_planning_value_not_manufacturer_performance_claim', path: 'sprinklers.radiusM' }),
+          Object.freeze({ code: 'sampled_coverage_is_not_a_continuous_mathematical_proof', path: 'coverage' }),
+          Object.freeze({ code: 'hydraulic_feasibility_and_precipitation_uniformity_not_evaluated', path: 'hydraulics' }),
+        ]),
+        overspray: 'sampled_inside_rectangle',
+        hydraulicFeasibility: 'not_evaluated',
+        precipitationUniformity: 'not_evaluated',
+        bodyCompatibility: 'not_evaluated',
+      })
+    }
+  }
 
   return Object.freeze({
-    status: sprinklers.length ? 'layout_generated' : 'no_usable_rotor_candidates',
+    engineVersion: ENGINE_VERSION,
+    algorithm: '3504pc-corner-first-shared-cell-grid-v1',
+    status: 'no_complete_rotor_layout',
     family: '3500',
     model: '3504-PC',
-    planningRadiusM: selectedRadiusM,
-    sprinklers: Object.freeze(sprinklers),
-    coverage: Object.freeze({
-      sampledPoints: targets.length,
-      coveredPoints: targets.length - uncovered.size,
-      uncoveredPoints: uncovered.size,
-      coveragePercent: (targets.length - uncovered.size) / targets.length * 100,
-      uncoveredSamples: Object.freeze([...uncovered].slice(0, 100).map((index) => targets[index])),
+    planningRadiusM: lastAttempt?.planningRadiusM ?? null,
+    coverage: lastAttempt?.coverage ?? null,
+    sprinklers: Object.freeze([]),
+    headToHead: Object.freeze({
+      passed: lastAttempt?.headToHeadPassed ?? false,
+      applicable: true,
+      checks: Object.freeze(lastAttempt?.grid?.headToHeadChecks ?? []),
     }),
-    candidateStats: Object.freeze({ candidatePositions: positionCount, candidates: candidateCount, selectedRotors: sprinklers.length, offsetCandidatePositions: offsetPositionCount }),
     warnings: Object.freeze([
-      Object.freeze({ code: '3504pc_radius_is_owner_defined_florial_planning_value', path: 'layout.sprinklers.radiusM' }),
-      Object.freeze({ code: '3504pc_arc_invariant_radius_not_claimed_as_manufacturer_arc_table', path: 'layout.sprinklers.arcDeg' }),
-      Object.freeze({ code: '3504pc_flow_and_nozzle_pressure_not_calculated', path: 'hydraulics' }),
-      Object.freeze({ code: '3504pc_precipitation_uniformity_not_evaluated', path: 'precipitation' }),
-      Object.freeze({ code: 'sampled_coverage_is_not_a_continuous_proof', path: 'coverage' }),
+      Object.freeze({ code: 'no_corner_first_3504_pc_grid_passed_coverage_and_head_to_head', path: 'layout' }),
     ]),
   })
 }
