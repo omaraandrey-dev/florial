@@ -2,8 +2,8 @@
 
 **Work item:** PR #527 — https://github.com/omaraandrey-dev/florial/pull/527  
 **Base:** `main` at `d9a24afc4ba04f36b4bf027646eba986e38156f5`  
-**Validated source implementation:** `16e9065fbece2b9ed7722daf9f94db64cc2e9d14`  
-**Final validation head:** `32cadca23bb81f5e002971b22ee165cfabd116ef`  
+**Validated source implementation:** `1592636828a9beedbbe13cab2ac6dcfb5c6a2bb4`  
+**Final validation head:** `eb40814672572cc6bb40d8c41742b6c957b0073b`  
 **Status:** implementation and automated validation complete; owner visual acceptance and merge remain pending.
 
 ## Work performed
@@ -25,14 +25,14 @@
 
 ## Automated verification
 
-For final validation head `32cadca23bb81f5e002971b22ee165cfabd116ef`:
+For final validation head `eb40814672572cc6bb40d8c41742b6c957b0073b`:
 
-- Blog and Studio validation: run **45383957913**, success; **466 tests passed, 0 failed**. Application/Pages type-check, lint, website tests/build, migration script syntax, read-only migration dry-run, Studio type-check and Studio build all passed.
-- D1 migration validation: run **45383958067**, success.
+- Blog and Studio validation: run **45384479026**, success; **466 tests passed, 0 failed**. Application/Pages type-check, lint, website tests/build, migration script syntax, read-only migration dry-run, Studio type-check and Studio build all passed.
+- D1 migration validation: run **45384478882**, success.
 - Cloudflare Pages Preview: successful deployment for the final validation head.
-  - Preview: https://4f1baa64.florial.pages.dev/irrigation-assistant
+  - Preview: https://4a775a0c.florial.pages.dev/irrigation-assistant
 
-The validated code includes the decomposed-geometry fallback on either combined Head-to-Head or composite overspray failure, and explicit UI/PDF labels that distinguish the 3504-PC planning radius from manufacturer performance data.
+The validated code includes the decomposed-geometry fallback on either combined Head-to-Head or composite overspray failure, explicit UI/PDF labels that distinguish the 3504-PC planning radius from manufacturer performance data, and shaded/dimensioned exclusion rectangles in the project PDF.
 
 ## Live catalogue read-back
 
