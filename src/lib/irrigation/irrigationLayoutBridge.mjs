@@ -422,6 +422,60 @@ function sampleRectangleInsideGeometry(bounds, geometry, stepM = 0.2) {
   return true
 }
 
+function globalRotorSectorAtPosition(position, geometry) {
+  const offset = 0.02
+  const occupied = [
+    pointInIrrigatedGeometry({ x: position.x + offset, y: position.y + offset }, geometry),
+    pointInIrrigatedGeometry({ x: position.x - offset, y: position.y + offset }, geometry),
+    pointInIrrigatedGeometry({ x: position.x - offset, y: position.y - offset }, geometry),
+    pointInIrrigatedGeometry({ x: position.x + offset, y: position.y - offset }, geometry),
+  ]
+  const count = occupied.filter(Boolean).length
+  if (count === 4) return { arcDeg: 360, directionDeg: null, source: 'interior' }
+  if (count === 0 || count === 2 && occupied[0] === occupied[2]) return null
+  const start = occupied.findIndex((value, index) => value && !occupied[(index + 3) % 4])
+  if (start < 0) return null
+  let run = 0
+  while (run < 4 && occupied[(start + run) % 4]) run += 1
+  if (run !== count) return null
+  const arcDeg = run * 90
+  const directionDeg = ((45 + (start + (run - 1) / 2) * 90) % 360 + 360) % 360
+  return {
+    arcDeg,
+    directionDeg,
+    source: arcDeg === 180 ? 'edge' : 'vertex',
+  }
+}
+
+function mergeSharedRotorHeads(sprinklers, geometry) {
+  const merged = []
+  const rotorByPosition = new Map()
+  for (const sprinkler of sprinklers) {
+    if (sprinkler.performanceModel !== '3504-PC' || sprinkler.pattern !== 'rotor') {
+      merged.push(sprinkler)
+      continue
+    }
+    const key = sprinkler.position.x.toFixed(6) + ':' + sprinkler.position.y.toFixed(6)
+    const existingIndex = rotorByPosition.get(key)
+    const globalSector = globalRotorSectorAtPosition(sprinkler.position, geometry)
+    const normalized = globalSector ? Object.freeze({ ...sprinkler, ...globalSector }) : sprinkler
+    if (existingIndex === undefined) {
+      rotorByPosition.set(key, merged.length)
+      merged.push(normalized)
+      continue
+    }
+    const existing = merged[existingIndex]
+    const sector = globalSector ?? globalRotorSectorAtPosition(existing.position, geometry)
+    merged[existingIndex] = Object.freeze({
+      ...existing,
+      ...(sector ?? {}),
+      radiusM: Math.min(existing.radiusM, sprinkler.radiusM),
+      calculationRegionId: [existing.calculationRegionId, sprinkler.calculationRegionId].filter(Boolean).join('+'),
+    })
+  }
+  return merged
+}
+
 function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
   const stripPartByHeadId = new Map()
   for (let index = 0; index < parts.length; index += 1) {
@@ -493,7 +547,7 @@ function rectangleRotorLayout(rectGeometry, part, sampleStepM) {
   return Object.freeze({
     ...candidate,
     engineVersion: '0.7.0',
-    algorithm: 'area-ascending-per-rectangle-3504pc-first-rvan-fallback-v1',
+    algorithm: 'area-ascending-corner-first-3504pc-cell-grid-rvan-fallback-v2',
     status: 'coverage_complete_sampled',
     coverageScope: 'sampled_geometry_only',
     family: '3500',
@@ -612,8 +666,14 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       warning.code !== 'overspray_not_evaluated'))
   }
 
+  const uniqueHeads = mergeSharedRotorHeads(allHeads, geometry)
+  allHeads.splice(0, allHeads.length, ...uniqueHeads)
+  circularHeads.splice(0, circularHeads.length, ...allHeads.filter((head) => head.pattern !== 'strip'))
   const oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, geometry)
-  const localHeadToHeadChecks = prepared.filter((part) => !part.isStrip && part.layout.sprinklers.length > 1)
+  const rotorHeads = allHeads.filter((head) => head.performanceModel === '3504-PC' && head.pattern === 'rotor')
+  const rotorHeadToHeadChecks = rotorHeads.length > 1 ? evaluateHeadToHeadSpacing(rotorHeads) : []
+  const localHeadToHeadChecks = prepared.filter((part) =>
+    !part.isStrip && part.layout.family !== '3500' && part.layout.sprinklers.length > 1)
     .flatMap((part) => evaluateHeadToHeadSpacing(part.layout.sprinklers))
   const crossRegionChecks = []
   for (let first = 0; first < prepared.length; first += 1) {
@@ -636,7 +696,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       }
     }
   }
-  const headToHeadChecks = [...localHeadToHeadChecks, ...crossRegionChecks]
+  const headToHeadChecks = [...localHeadToHeadChecks, ...rotorHeadToHeadChecks, ...crossRegionChecks]
   const headToHeadPassed = headToHeadChecks.length
     ? headToHeadChecks.every((entry) => entry.passed)
     : null
@@ -704,7 +764,6 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       shape: 'rectangle',
       pattern: part.isStrip ? 'strip' : 'circular',
       family: part.isStrip ? 'R-VAN' : part.layout.family,
-      seamOffsets: Object.freeze(part.candidatePositionOffsets),
     }))),
   })
 
@@ -723,7 +782,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       model: layout.model,
       pressureBar: selectedModels.includes('3504-PC') && !selectedModels.some((model) => model.startsWith('R-VAN')) ? null : pressureBar,
       pressureBasis: selectedModels.includes('3504-PC') ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: 'process rectangles from smallest area to largest; try 3504-PC at 10/9/8 m first for each rectangle; if the rectangle is not fully served, use the unchanged local R-VAN fallback; 1 m/2 m strips retain their directional R-VAN pattern',
+      modelSelectionBasis: 'process rectangles from smallest area to largest; place all required cell corners first with shared positions deduplicated; try 3504-PC at 8 m, then 9/10 m, then denser 7/6/5 m grids; if no complete Head-to-Head layout exists, use the unchanged local R-VAN fallback; 1 m/2 m strips retain their directional R-VAN pattern',
       layoutRadiusM: null,
       sourceUrl: selectedModels.includes('3504-PC') ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
