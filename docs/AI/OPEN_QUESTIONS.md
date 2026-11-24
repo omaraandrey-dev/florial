@@ -1,3 +1,10 @@
+## 2026-11-24 — 3 m-wide elongated rectangle R-VAN correction (PR #521)
+
+- **CLOSED — code defect:** the prior corner selector used distance to the global polygon centroid. For 3 × 18 m this is ~9.1 m and incorrectly selected R-VAN24 / 6 m. Rectangular short sides ≤3 m now cap corner reach at R-VAN14 / 3 m; edge heads use local equal spacing.
+- **CLOSED — automated regression:** 18 × 3 m and 3 × 18 m are tested; all selected heads must be R-VAN14 / 3 m, with no interior row, zero uncovered samples and head-to-head pass. Existing 8 × 8 m and 30 × 5 m references remain in the suite.
+- **CLOSED — CI/Preview build:** Blog/Studio run `45350255095` passed 443/443 tests and all type/lint/build steps; D1 run `45350255177` succeeded. Preview `1ae47c71-3276-4ab8-b37a-ce36191231bc` deployed from exact code commit `28f43672bf259c95e6577c4eb8477462e56f4e40`.
+- **OPEN — visual owner QA and release:** Preview browser interaction/visual QA not performed; PR #521 is draft and not merged. Production remains unchanged.
+
 ## 2026-11-24 — L-shape orientation and directional narrow-strip layout (PR #518)
 
 - **CLOSED — selected L-shape cut-out corner:** all four corners are normalized into the solver's Y-up coordinate system; regression tests confirm heads do not enter the cut-out and preliminary/calculated diagrams share the same transform.

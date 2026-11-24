@@ -1,3 +1,15 @@
+# Current implementation handoff — 3 m-wide rectangle nozzle selection (2026-11-24)
+
+- PR #521: https://github.com/omaraandrey-dev/florial/pull/521 (open, draft; based on current main).
+- Code commit: `28f43672bf259c95e6577c4eb8477462e56f4e40`.
+- Fixed incorrect R-VAN24 corner selection on 3 × 18 m: corner-to-global-centroid distance (~9.1 m) was incorrectly used instead of the local 3 m planning envelope. Rectangles with short side ≤3 m now cap corner reach at R-VAN14 / 3 m; edge candidates still use their actual equal spacing.
+- Regression tests cover 18 × 3 m and rotated 3 × 18 m, requiring all heads to be R-VAN14 / 3 m, no interior heads, full sampled coverage and head-to-head pass. Existing 8 × 8 and 30 × 5 reference behavior remains covered.
+- Blog/Studio CI `45350255095`: 443/443 tests passed; type-check, lint, website build, read-only migration dry-run, Studio type-check/build passed. D1 validation `45350255177` succeeded.
+- Exact-head Preview deployment `1ae47c71-3276-4ab8-b37a-ce36191231bc` succeeded: https://1ae47c71.florial.pages.dev.
+- No Production release, Sanity write, D1 schema/data change or Cloudflare settings/secrets change. Browser visual QA remains unperformed; PR awaits owner review.
+
+---
+
 # Latest release — irrigation assistant L-shape and narrow-strip layout (2026-11-24)
 
 - PR #518 merged to `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.

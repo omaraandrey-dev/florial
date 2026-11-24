@@ -1,3 +1,11 @@
+## 2026-11-24 — R-VAN selection correction for 3 m-wide elongated rectangles (PR #521)
+
+- Root cause: `buildCandidates()` selected every corner nozzle from distance between the corner and global polygon centroid. On a 3 × 18 m rectangle this is about 9.1 m, so the local selector incorrectly escalated to R-VAN24 / 6 m despite the approved 3 m short-side R-VAN14 envelope.
+- Fix in `src/lib/irrigation/lawnSprinklerLayout.mjs`: for rectangular geometry whose short bounding-box side is ≤3 m, corner required reach is capped at 3 m. Perimeter edge candidates continue to select from actual equal spacing; perimeter-first and interior fallback flow are unchanged.
+- Regression cases in `tests/irrigation-layout-bridge.test.mjs` cover 18 × 3 m and 3 × 18 m, asserting all heads R-VAN14 / 3 m, no interior row, zero uncovered sampled points and head-to-head pass. Existing 8 × 8 and 30 × 5 reference tests guard against changing wider layouts.
+- Exact code commit `28f43672bf259c95e6577c4eb8477462e56f4e40`: Blog/Studio run `45350255095` passed 443/443 tests, type-checks, lint, website build, read-only migration dry-run, Studio type-check/build. D1 run `45350255177` succeeded. Preview deployment `1ae47c71-3276-4ab8-b37a-ce36191231bc` succeeded.
+- PR #521 remains draft pending visual owner QA/review. No Production deployment or live data/configuration writes were made.
+
 ## 2026-11-24 — L-shape corner orientation and directional narrow-strip nozzle layout (PR #518)
 
 - PR #518 squash-merged to `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.

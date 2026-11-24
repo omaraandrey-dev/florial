@@ -1,3 +1,13 @@
+## 2026-11-24 — Correct R-VAN selection on 3 m-wide elongated rectangles (PR #521)
+
+- Fixed a per-corner selection regression: the solver previously sized a corner nozzle by its distance to the lawn's global centroid. On a 3 × 18 m rectangle this distance is ~9.1 m, incorrectly promoting corner heads to R-VAN24 / 6 m even though the approved short-side model is R-VAN14 / 3 m and the long sides are served by sequential perimeter positions.
+- For rectangular lawns with a short side ≤ 3 m, corner required reach is now capped at the owner-defined 3 m R-VAN14 envelope. Edge nozzles continue to be selected from their actual equal spacing. Wider rectangle behavior is preserved, including 8 × 8 m (R-VAN24 corners / R-VAN18 side midpoints) and the existing 30 × 5 m reference.
+- Added regression cases for 18 × 3 m and rotated 3 × 18 m: all selected heads must be R-VAN14 / 3 m, no interior row, full sampled coverage and head-to-head pass.
+- Exact code commit `28f43672bf259c95e6577c4eb8477462e56f4e40`; Blog/Studio validation run `45350255095`: 443/443 tests passed, app/Pages Functions type-check, lint, website build, read-only migration dry-run, Studio type-check and Studio build all succeeded. D1 validation run `45350255177` succeeded.
+- Cloudflare Pages Preview deployment `1ae47c71-3276-4ab8-b37a-ce36191231bc` succeeded from the exact code commit: https://1ae47c71.florial.pages.dev.
+- PR #521 remains open for owner review. No Production deployment, Sanity write, D1 schema/data change or Cloudflare settings/secrets change. Visual browser QA has not been performed.
+- Detailed audit: `docs/audits/2026-11-24-irrigation-3m-rectangle-nozzle-selection.md`.
+
 ## 2026-11-24 — Irrigation assistant L-shape orientation and directional narrow strips (PR #518 merged)
 
 - PR #518 was squash-merged into `main` at `bcc2afa32cded5359d3a52807f2a13c8d92627f4`.

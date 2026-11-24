@@ -1,3 +1,13 @@
+## 2026-11-24 follow-up — 3 m-wide elongated rectangle corner sizing
+
+The earlier per-position rule sized a corner by its distance to the global polygon centroid. That is not valid for an elongated 3 m-wide rectangle: on 3 × 18 m the centroid is ~9.1 m from each corner, which incorrectly escalated corner heads to R-VAN24 / 6 m even though the narrow cross-lawn envelope and local perimeter spacing are 3 m.
+
+For rectangular lawns whose short side is ≤3 m, corner required reach is capped at the owner-defined R-VAN14 planning radius of 3 m. Intermediate perimeter heads continue to be placed from equal edge spacing and choose their own model from that spacing. The perimeter-first solver and interior fallback are unchanged. This is deliberately bounded to the ≤3 m rectangular case so accepted wider reference layouts remain unchanged (8 × 8 m corner R-VAN24 / side R-VAN18; 30 × 5 m reference).
+
+Regression coverage: both 18 × 3 m and rotated 3 × 18 m must generate only R-VAN14 / 3 m heads, no interior row, zero uncovered samples and passing head-to-head. Exact verification is recorded in `docs/audits/2026-11-24-irrigation-3m-rectangle-nozzle-selection.md`.
+
+---
+
 # Florial — инженер-проектировщик автоматического полива газона
 ## Реализация perimeter-first / Rain Bird R-VAN / зоны / комплект в корзину
 
