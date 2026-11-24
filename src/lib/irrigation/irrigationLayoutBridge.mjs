@@ -1,4 +1,4 @@
-import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout } from './lawnSprinklerLayout.mjs'
+import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout, sprinklersMutuallyReach } from './lawnSprinklerLayout.mjs'
 import { decomposeOrthogonalRegion } from './orthogonalRectangleDecomposition.mjs'
 import { validateLawnGeometry } from './lawnGeometry.mjs'
 import { generateRainBird3504Layout } from './rainBird3504Layout.mjs'
@@ -583,12 +583,44 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   }
 
   const oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, geometry)
-  const headToHeadChecks = circularHeads.length > 1
-    ? evaluateHeadToHeadSpacing(circularHeads)
-    : []
-  const headToHeadPassed = circularHeads.length > 1
-    ? headToHeadChecks.every((entry) => entry.passed)
-    : null
+  let headToHeadChecks
+  let headToHeadPassed
+  if (initialHeads.length) {
+    headToHeadChecks = circularHeads.length > 1
+      ? evaluateHeadToHeadSpacing(circularHeads)
+      : []
+    headToHeadPassed = circularHeads.length > 1
+      ? headToHeadChecks.every((entry) => entry.passed)
+      : null
+  } else {
+    const localHeadToHeadChecks = prepared.filter((part) => !part.isStrip)
+      .flatMap((part) => evaluateHeadToHeadSpacing(part.layout.sprinklers))
+    const crossRegionChecks = []
+    for (let first = 0; first < prepared.length; first += 1) {
+      const firstHeads = prepared[first].layout.sprinklers.filter((head) =>
+        head.pattern !== 'strip' && Number.isFinite(head.radiusM))
+      for (let second = first + 1; second < prepared.length; second += 1) {
+        const secondHeads = prepared[second].layout.sprinklers.filter((head) =>
+          head.pattern !== 'strip' && Number.isFinite(head.radiusM))
+        for (const a of firstHeads) for (const b of secondHeads) {
+          const separation = Math.hypot(a.position.x - b.position.x, a.position.y - b.position.y)
+          if (separation <= Math.min(a.radiusM, b.radiusM) + 1e-8 &&
+              sprinklersMutuallyReach(a, b)) {
+            crossRegionChecks.push(Object.freeze({
+              sprinklerId: a.id,
+              neighborId: b.id,
+              separationM: separation,
+              passed: true,
+            }))
+          }
+        }
+      }
+    }
+    headToHeadChecks = [...localHeadToHeadChecks, ...crossRegionChecks]
+    headToHeadPassed = circularHeads.length
+      ? headToHeadChecks.every((entry) => entry.passed)
+      : null
+  }
   if (initialHeads.length && headToHeadPassed === false) {
     return buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM, [])
   }
@@ -636,7 +668,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     sprinklers: Object.freeze(allHeads),
     headToHead: Object.freeze({
       passed: headToHeadPassed,
-      applicable: circularHeads.length > 1,
+      applicable: initialHeads.length ? circularHeads.length > 1 : circularHeads.length > 0,
       checks: Object.freeze(headToHeadChecks),
     }),
     warnings: Object.freeze(warnings.map((warning) => Object.freeze(warning))),
