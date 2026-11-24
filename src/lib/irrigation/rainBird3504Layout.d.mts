@@ -1,22 +1,31 @@
 export interface RainBird3504LayoutResult {
+  readonly engineVersion: string
   readonly status: string
   readonly family?: '3500'
   readonly model?: '3504-PC'
-  readonly planningRadiusM?: 8 | 9 | 10 | null
+  readonly planningRadiusM?: 5 | 6 | 7 | 8 | 9 | 10 | null
+  readonly layoutStrategy?: 'four-corners-first' | 'corner-first-shared-cell-grid'
+  readonly grid?: Readonly<{
+    columns: number
+    rows: number
+    cells: number
+    cornerPositionsPerCell: 4
+    uniqueCornerPositions: number
+  }>
   readonly sprinklers: ReadonlyArray<Readonly<{
     id: string
     position: Readonly<{ x: number; y: number }>
-    arcDeg: 90 | 180 | 270 | 360
+    arcDeg: 90 | 180 | 360
     directionDeg: number | null
-    source: 'edge' | 'interior'
-    radiusM: 8 | 9 | 10
+    source: 'vertex' | 'edge' | 'interior'
+    radiusM: 5 | 6 | 7 | 8 | 9 | 10
     pressureBar: null
     flowLpm: null
     precipitationSquareMmH: null
     precipitationTriangularMmH: null
     performanceModel: '3504-PC'
-    pattern: 'circular'
-    planningRadiusSource: 'owner-approved-florial-3504pc-rule'
+    pattern: 'rotor'
+    planningRadiusSource: 'owner-approved-florial-3504pc-corner-first-grid'
   }>>
   readonly coverage?: Readonly<{
     sampledPoints: number
@@ -25,7 +34,8 @@ export interface RainBird3504LayoutResult {
     coveragePercent: number
     uncoveredSamples: ReadonlyArray<Readonly<{ x: number; y: number }>>
   }>
-  readonly candidateStats?: Readonly<{ candidatePositions: number; candidates: number; selectedRotors: number; offsetCandidatePositions?: number }>
+  readonly headToHead?: Readonly<{ passed: boolean; applicable: boolean; checks: ReadonlyArray<Readonly<Record<string, unknown>>> }>
+  readonly candidateStats?: Readonly<{ candidatePositions: number; selectedRotors: number; offsetCandidatePositions?: number }>
   readonly warnings: ReadonlyArray<Readonly<{ code: string; path: string }>>
 }
 export function generateRainBird3504Layout(
@@ -33,5 +43,6 @@ export function generateRainBird3504Layout(
   options?: {
     sampleStepM?: number
     candidatePositionOffsets?: ReadonlyArray<Readonly<{ from: Readonly<{ x: number; y: number }>; dx: number; dy: number }>>
+    initialSprinklers?: ReadonlyArray<Readonly<Record<string, any>>>
   },
 ): RainBird3504LayoutResult
