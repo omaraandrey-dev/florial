@@ -73,7 +73,7 @@ function buildRcsStripLayout(geometry, shortSideM) {
       arcDeg: null,
       directionDeg: null,
       source: 'edge',
-      radiusM: reachM,
+      radiusM: null,
       pressureBar: point.pressureBar,
       flowLpm: point.flowLpm,
       precipitationSquareMmH: point.precipitationSquareMmH,
