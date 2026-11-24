@@ -92,6 +92,25 @@ test('8x8 lawn prioritizes 3504-PC rotors while 4m and 5m rectangles retain the 
   assert.equal(bom.items.find((item) => item.sku === 'A44120'), undefined)
 })
 
+test('3504-PC priority completes wider rectangles before the unchanged R-VAN gap-fill path', () => {
+  for (const [length, width] of [[20, 10], [20, 15], [30, 30]]) {
+    const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
+    assert.equal(result.status, 'layout_generated', length + 'x' + width)
+    assert.equal(result.operatingScenario?.family, '3500')
+    assert.equal(result.operatingScenario?.model, '3504-PC')
+    assert.ok(result.layout.sprinklers.length > 0)
+    assert.ok(result.layout.sprinklers.every((head) => head.performanceModel === '3504-PC'))
+    assert.equal(result.layout.coverage.uncoveredPoints, 0)
+    assert.equal(result.layout.headToHead.passed, true)
+    assert.equal(result.layout.overspray, 'sampled_inside_boundary')
+    assert.ok(result.zones.every((zone) => zone.sprinklerCount <= 6))
+    const bom = buildIrrigationBillOfMaterials(result.layout, result.zones)
+    assert.equal(bom.valid, true)
+    assert.equal(bom.items.find((item) => item.sku === 'Y34001')?.quantity, result.layout.sprinklers.length)
+    assert.equal(bom.items.find((item) => item.sku === 'A44120'), undefined)
+  }
+})
+
 test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach allowance', () => {
   for (const [length, width, expectedRadius] of [[10, 4, 4], [18, 4, 4], [10, 5, 5], [18, 5, 5]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
