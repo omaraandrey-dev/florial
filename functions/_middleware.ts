@@ -585,8 +585,6 @@ async function fetchHomepageHtml(language: string): Promise<string> {
       _id, name, translations { bg { name }, ru { name }, en { name } },
       "slug": { "current": coalesce(slug.current, slug) },
       sortOrder, "parentId": parent->_id,
-      "productCount": count(*[_type == "product" && isActive != false && defined(slug) &&
-        (category._ref == ^._id || ^._id in categories[]._ref)]),
       "imageUrl": image.asset->url,
       "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
       "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu
@@ -612,7 +610,8 @@ async function fetchHomepageHtml(language: string): Promise<string> {
       defined(coalesce(slug.current, slug)) && defined(mainImage.asset)] | order(sortOrder asc, name asc)[0...8] {
         _id, name, productType, scientificName,
         "slug": { "current": coalesce(slug.current, slug) },
-        translations { bg { name }, ru { name }, en { name } },
+        translations { bg { name }, ru { name, seo { h1 } }, en { name, seo { h1 } } },
+        seo { h1 },
         priceEUR, vatIncluded, stockStatus,
         saleVariants[]{_key, name, nameEn, nameRu, priceEUR, stockStatus, stockQuantity, saleHeightCm, containerVolumeL},
         "imageUrl": mainImage.asset->url,
