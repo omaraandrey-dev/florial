@@ -195,7 +195,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
 
   const layoutResult = useMemo(() => showSummary ? buildPreliminaryLawnLayout(snapshot) : null, [snapshot, showSummary])
   const billOfMaterials = useMemo(() =>
-    layoutResult?.status === 'layout_generated' && layoutResult.layout?.headToHead?.passed === true
+    layoutResult?.status === 'layout_generated' && (layoutResult.layout?.headToHead?.passed === true || layoutResult.layout?.headToHead?.applicable === false)
       ? buildIrrigationBillOfMaterials(layoutResult.layout, layoutResult.zones)
       : null,
   [layoutResult])
