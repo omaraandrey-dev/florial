@@ -1,3 +1,10 @@
+# Current implementation handoff — 3 m rectangle sizing after L-shape merge (2026-11-24)
+
+- PR #520 merged into main at `3387e8ff140756e69339b11215b82f5c6acbc9ed`; supported narrow-arm L-shapes now use the rectangular-zone calculation.
+- The 3 m-wide rectangle corner-sizing correction from former PR #521 has been reapplied on a fresh branch based on that merge; implementation and regression test are included in the current integration PR.
+- Important boundary: current L-shape decomposition is still limited to supported narrow-arm geometry. The owner's generalized rule — decompose orthogonal lawns into rectangles, process in ascending short-side width while reusing prior real spray coverage, then validate the original polygon and zone the complete sprinkler set — is not yet implemented.
+- No Production release is claimed for this integration. CI/Preview evidence will be attached to the PR after it runs.
+
 # Current implementation under review — L-shape rectangular-zone solver (2026-11-24)
 
 - PR #520 is open: https://github.com/omaraandrey-dev/florial/pull/520.
