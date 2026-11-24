@@ -550,9 +550,9 @@ export function renderHomepageHtml(data, language = 'bg') {
   const blogPosts = [...pinned, ...latest]
 
   const serviceCards = serviceEntries.map((entry) => renderServiceCard(entry, lang, copy)).join('')
-  const plantCategoryCards = plantCategories.map((category) => renderCategoryCard(category, lang)).join('')
+  const plantCategoryCards = plantCategories.map((category, index) => renderCategoryCard(category, lang, false, index)).join('')
   const plantCards = plants.map((product) => renderPlantCard(product, lang, copy)).join('')
-  const equipmentCategoryCards = equipmentCategories.map((category) => renderCategoryCard(category, lang, true)).join('')
+  const equipmentCategoryCards = equipmentCategories.map((category, index) => renderCategoryCard(category, lang, true, index)).join('')
   const equipmentCards = equipment.map((product) => renderEquipmentCard(product, lang, copy)).join('')
   const blogCards = blogPosts.map((post) => renderBlogCard(post, lang, copy)).join('')
 
