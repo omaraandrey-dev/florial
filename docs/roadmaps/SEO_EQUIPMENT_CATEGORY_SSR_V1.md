@@ -32,6 +32,7 @@ Include a useful, crawlable product listing in the initial HTML response for irr
 
 - Code inspection: existing middleware fetches production dataset products for CollectionPage JSON-LD, but before this change only plant dataset products were inserted into initial category HTML.
 - Added focused unit coverage for localized URLs, escaping, images/ALT/title, EUR price, stock, SKU, empty state and 20-item cap.
-- Automated test/CI status: pending.
-- Preview/Production raw HTML status: pending.
+- Exact code-head CI passed: 481/481 tests, app/Pages Functions type-check, lint, website build, Studio type-check/build; D1 validation passed without applying a migration.
+- Cloudflare Pages Preview deployment succeeded from the exact validated code head.
+- Raw first-response HTML verification remains open because the available Firecrawl page snapshot is post-hydration; Production merge/deployment remains pending.
 - No Sanity, D1, Cloudflare configuration, secrets, orders or email writes are part of this task.
