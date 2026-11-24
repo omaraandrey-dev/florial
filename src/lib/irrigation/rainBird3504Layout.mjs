@@ -26,6 +26,22 @@ function sectorContains(point, head) {
 }
 
 function headCoversPoint(head, point) {
+  if (head.pattern === 'strip' && head.stripBounds) {
+    const bounds = head.stripBounds
+    if (!pointInRect(point, bounds)) return false
+    if (head.stripAxis === 'horizontal') {
+      if (head.stripDirection === 'left') return point.x <= head.position.x + EPSILON &&
+        point.x >= head.position.x - head.stripLengthM - EPSILON
+      if (head.stripDirection === 'right') return point.x >= head.position.x - EPSILON &&
+        point.x <= head.position.x + head.stripLengthM + EPSILON
+      return true
+    }
+    if (head.stripDirection === 'up') return point.y >= head.position.y - EPSILON &&
+      point.y <= head.position.y + head.stripLengthM + EPSILON
+    if (head.stripDirection === 'down') return point.y <= head.position.y + EPSILON &&
+      point.y >= head.position.y - head.stripLengthM - EPSILON
+    return true
+  }
   return sectorContains(point, head)
 }
 
@@ -110,7 +126,7 @@ function sectorFitsRectangle(head, bounds) {
   return true
 }
 
-function buildGrid(bounds, pitchM, idPrefix) {
+function buildGrid(bounds, pitchM, idPrefix, initialHeads = []) {
   const xs = axisPositions(bounds.maxX - bounds.minX, pitchM)
   const ys = axisPositions(bounds.maxY - bounds.minY, pitchM)
   const heads = []
@@ -122,9 +138,16 @@ function buildGrid(bounds, pitchM, idPrefix) {
       const safeRadius = maximumSafeRadius(x, y, bounds, position)
       const radiusM = Math.min(pitchM, safeRadius)
       if (radiusM < 5 - EPSILON) continue
+      const occupied = initialHeads.some((head) => head.position &&
+        distance(head.position, { x, y }) <= 0.001)
+      const center = { x: (bounds.minX + bounds.maxX) / 2, y: (bounds.minY + bounds.maxY) / 2 }
+      const towardCenter = distance({ x, y }, center)
+      const offsetPosition = occupied && towardCenter > EPSILON
+        ? { x: x + (center.x - x) / towardCenter * 0.075, y: y + (center.y - y) / towardCenter * 0.075 }
+        : { x, y }
       const head = Object.freeze({
         id: idPrefix + String(heads.length + 1).padStart(4, '0'),
-        position: Object.freeze({ x, y }),
+        position: Object.freeze(offsetPosition),
         arcDeg: position.arcDeg,
         directionDeg: position.directionDeg,
         source: position.source,
@@ -157,11 +180,13 @@ function evaluateCoverage(heads, targets) {
   }
 }
 
-function headToHeadPasses(heads) {
-  return heads.length > 1 && evaluateHeadToHeadSpacing(heads).every((entry) => entry.passed)
+function headToHeadPasses(heads, initialHeads = []) {
+  const previousCircular = initialHeads.filter((head) => head.pattern !== 'strip' && Number.isFinite(head.radiusM))
+  const combined = [...previousCircular, ...heads]
+  return combined.length <= 1 || evaluateHeadToHeadSpacing(combined).every((entry) => entry.passed)
 }
 
-function pruneRedundantHeads(input, targets) {
+function pruneRedundantHeads(input, targets, initialHeads = []) {
   let heads = input.slice()
   let changed = true
   while (changed && heads.length > 1) {
@@ -172,8 +197,8 @@ function pruneRedundantHeads(input, targets) {
       a.position.y - b.position.y || a.position.x - b.position.x)
     for (const candidate of removalOrder) {
       const next = heads.filter((head) => head.id !== candidate.id)
-      if (!headToHeadPasses(next)) continue
-      if (evaluateCoverage(next, targets).uncoveredPoints !== 0) continue
+      if (!headToHeadPasses(next, initialHeads)) continue
+      if (evaluateCoverage([...initialHeads, ...next], targets).uncoveredPoints !== 0) continue
       heads = next
       changed = true
     }
@@ -214,7 +239,7 @@ function rectangleBounds(geometry) {
  * sampled coverage and mutual head-to-head remain valid. It never adds heads
  * greedily to chase a small uncovered tail.
  */
-export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5 } = {}) {
+export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5, initialSprinklers = [] } = {}) {
   const bounds = rectangleBounds(geometry)
   if (!bounds || !Number.isFinite(sampleStepM) || sampleStepM <= 0) {
     return Object.freeze({
@@ -244,14 +269,16 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5 } = {})
     })
   }
 
+  const priorHeads = Array.isArray(initialSprinklers) ? initialSprinklers : []
   let lastAttempt = null
   for (const planningRadiusM of ROTOR_RADII_M) {
-    const candidates = buildGrid(bounds, planningRadiusM, 'r3504-')
+    const candidates = buildGrid(bounds, planningRadiusM, 'r3504-', priorHeads)
     if (!candidates.length || candidates.length > MAX_SELECTED_ROTORS) continue
-    const optimized = pruneRedundantHeads(candidates, targets)
-    const coverage = evaluateCoverage(optimized, targets)
-    const checks = evaluateHeadToHeadSpacing(optimized)
-    const headToHeadPassed = optimized.length > 1 && checks.every((entry) => entry.passed)
+    const optimized = pruneRedundantHeads(candidates, targets, priorHeads)
+    const coverage = evaluateCoverage([...priorHeads, ...optimized], targets)
+    const previousCircular = priorHeads.filter((head) => head.pattern !== 'strip' && Number.isFinite(head.radiusM))
+    const checks = evaluateHeadToHeadSpacing([...previousCircular, ...optimized])
+    const headToHeadPassed = checks.every((entry) => entry.passed)
     lastAttempt = { planningRadiusM, optimized, coverage, checks, headToHeadPassed }
     if (coverage.uncoveredPoints === 0 && headToHeadPassed) {
       return Object.freeze({
@@ -277,6 +304,7 @@ export function generateRainBird3504Layout(geometry, { sampleStepM = 0.5 } = {})
         }),
         candidateStats: Object.freeze({
           initialGridHeads: candidates.length,
+          priorHeadsUsedForCoverage: priorHeads.length,
           selectedHeads: optimized.length,
           removedRedundantHeads: candidates.length - optimized.length,
         }),
