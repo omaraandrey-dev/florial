@@ -729,6 +729,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       shape: 'rectangle',
       pattern: part.isStrip ? 'strip' : 'circular',
       family: part.isStrip ? 'R-VAN' : part.layout.family,
+      seamOffsets: Object.freeze(part.candidatePositionOffsets),
     }))),
   })
 
