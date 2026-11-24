@@ -1260,6 +1260,37 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         alternates,
         pageType: 'website',
         structuredData: [{
+          id: 'organization',
+          data: {
+            '@context': 'https://schema.org',
+            '@type': 'OnlineStore',
+            '@id': SITE_URL + '/#organization',
+            name: SITE_NAME,
+            url: SITE_URL,
+            logo: {
+              '@type': 'ImageObject',
+              url: LOGO_URL,
+              width: 1547,
+              height: 581,
+            },
+            areaServed: { '@type': 'Country', name: 'Bulgaria' },
+            hasMerchantReturnPolicy: {
+              '@type': 'MerchantReturnPolicy',
+              merchantReturnLink: SITE_URL + '/terms',
+            },
+          },
+        }, {
+          id: 'website',
+          data: {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            '@id': SITE_URL + '/#website',
+            name: SITE_NAME,
+            url: SITE_URL,
+            inLanguage: language,
+            publisher: { '@id': SITE_URL + '/#organization' },
+          },
+        }, {
           id: 'local-business-nessebar',
           data: {
             '@context': 'https://schema.org',
