@@ -215,7 +215,7 @@ function availabilityLabel(status, copy) {
   return copy.checkAvailability
 }
 
-function priceMarkup(price, language) {
+function priceMarkup(price) {
   return Number.isFinite(price) && price > 0
     ? '<p class="mt-3 text-base font-extrabold text-[#34452D] sm:text-lg">' + price.toFixed(2) + ' €</p>'
     : ''
@@ -348,7 +348,7 @@ function renderEquipmentCard(product, language, copy) {
     '<a class="block text-left no-underline" href="' + escapeHtml(href('/product/' + encodeURIComponent(slug), language)) + '">' +
     (imageUrl ? '<img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(imageText(name, language, 'alt')) + '" loading="lazy" decoding="async" class="h-48 w-full object-contain p-3" />' : '') +
     '<div class="p-4"><h4 class="font-bold text-slate-900">' + escapeHtml(name) + '</h4>' +
-    priceMarkup(product.priceEUR, language) +
+    priceMarkup(product.priceEUR) +
     (product.vatIncluded === true ? '<p class="mt-1 text-xs text-slate-500">' + escapeHtml(copy.vat) + '</p>' : '') +
     '<p class="mt-2 text-xs font-semibold">' + escapeHtml(availabilityLabel(product.stockStatus, copy)) + '</p>' +
     '<span class="mt-3 inline-flex text-sm font-bold text-[#647746]">' + escapeHtml(copy.viewKit) + ' →</span></div></a></article></li>'
@@ -395,7 +395,7 @@ function renderBlogCard(post, language, copy) {
     '<span class="mt-4 inline-flex text-sm font-bold text-[#647746]">' + escapeHtml(copy.readMore) + ' →</span></div></a></article></li>'
 }
 
-export function renderHomepageHtml(data, language = 'bg', siteUrl = 'https://florial-bg.com') {
+export function renderHomepageHtml(data, language = 'bg') {
   const lang = language === 'ru' || language === 'en' ? language : 'bg'
   const copy = COPY[lang]
   const heroImage = safeImageUrl(data.heroImageUrl) || HERO_FALLBACK
@@ -410,8 +410,6 @@ export function renderHomepageHtml(data, language = 'bg', siteUrl = 'https://flo
     .filter((post) => !pinnedSlugs.has(typeof post.slug === 'string' ? post.slug : post.slug?.current))
     .slice(0, 1)
   const blogPosts = [...pinned, ...latest]
-  const plantsRoot = plantCategories.find((category) => category._id === 'plants-root') || plantCategories[0]
-  const equipmentRoot = equipmentCategories.find((category) => category.slug?.current === 'vsichko-za-polivane') || equipmentCategories[0]
 
   const serviceCards = serviceEntries.map((entry) => renderServiceCard(entry, lang, copy)).join('')
   const plantCategoryCards = plantCategories.map((category) => renderCategoryCard(category, lang)).join('')
@@ -439,10 +437,10 @@ export function renderHomepageHtml(data, language = 'bg', siteUrl = 'https://flo
     '<section class="border-y border-[#E7EBDD] bg-[#F7F8F1]"><div class="mx-auto max-w-7xl px-4 py-10">' +
       '<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><h3>' + escapeHtml(copy.plants) + '</h3><p>' + escapeHtml(copy.plantsIntro) + '</p></div>' +
       (plantCategoryCards ? '<ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 md:gap-5">' + plantCategoryCards + '</ul>' : '') +
+      '</div></section>' +
       (plants.length ? '<section class="border-b border-[#E7EBDD] bg-white px-4 py-10"><div class="mx-auto max-w-7xl">' +
         '<div class="mb-6 flex items-end justify-between gap-3"><div><h3>' + escapeHtml(copy.featuredPlants) + '</h3><p>' + escapeHtml(copy.featuredPlantsIntro) + '</p></div><a href="' + escapeHtml(href('/category/rastenia', lang)) + '">' + escapeHtml(copy.allPlants) + ' →</a></div>' +
         '<ul class="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-5">' + plantCards + '</ul></div></section>' : '') +
-    '</div></section>' +
     '<section class="mx-auto w-full max-w-7xl bg-[#EEF1E4] px-4 pb-5 pt-10">' +
       '<h3 class="mb-6 text-center">' + escapeHtml(copy.irrigation) + '</h3>' +
       (equipmentCategoryCards ? '<ul class="mb-6 grid grid-cols-3 gap-3 md:grid-cols-4 lg:grid-cols-5 md:gap-6">' + equipmentCategoryCards + '</ul>' : '') +
