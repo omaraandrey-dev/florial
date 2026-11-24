@@ -1,3 +1,11 @@
+## 2026-11-24 — Owner-approved irrigation layout algorithm update (implementation branch)
+
+- R-VAN Florial planning radii: R-VAN14 3 m; R-VAN18 4 or 5 m; R-VAN24 6 m. Arc changes sector shape only; it does not change the planning radius.
+- Default control mesh is 0.5 m. L-shape internal candidates use the rectangular axis-aligned grid clipped to the actual polygon; no triangular/staggered grid.
+- Rectangular 1 m / 2 m strips use R-VAN-RCS SKU A84668 with owner-defined throw lengths 2 m / 4 m. First nozzle at lower-right; subsequent nozzles evenly distributed on the same long side. For width 2 m: length 4/6/8 m maps to 1/2/3 heads. RCS is persisted and shown as a strip pattern, not a circular arc or sampled circular-coverage proof.
+- R-VAN14/18/24/RCS may be mixed in one zone. The owner confirms manufacturer precipitation-intensity compatibility; no additional zone precipitation-intensity matching gate is required.
+- Code, tests and engineering documentation are updated on branch feat/irrigation-rvan-r1-rcs-layout-rules. Exact CI, Preview and Production deployment are pending; no live Sanity, D1, Cloudflare configuration, order or email writes were made.
+
 ## 2026-11-24 — Blog article route performance optimization (PR #512; documentation PR #513)
 
 - Article route `/blog/:slug` runtime fix merged at `2fe92f6b269fa29183cd02e7bc334d27ccb8006c`; Production Pages deployment `e2b84205-e7a2-4164-ba20-d657dbad0a8e` succeeded on the exact commit.
