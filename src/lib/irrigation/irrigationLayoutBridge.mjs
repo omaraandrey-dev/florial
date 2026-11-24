@@ -292,7 +292,7 @@ function buildConnectedRvanStripLayout(geometry, shortSideM, connectedEnd) {
   const freeEndModel = horizontal
     ? (freeAtMax ? 'R-VAN-RCS' : 'R-VAN-LCS')
     : (freeAtMax ? 'R-VAN-LCS' : 'R-VAN-RCS')
-  const freeEndAxis = freeAtMax ? maxX : minX
+  const freeEndAxis = freeAtMax ? (horizontal ? maxX : maxY) : (horizontal ? minX : minY)
   const freeEndDirection = horizontal
     ? (freeAtMax ? 'left' : 'right')
     : (freeAtMax ? 'down' : 'up')
@@ -481,6 +481,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       sampleStepM,
       radiusM: selected.radiusM,
       excludedCandidatePositions: part.excludedCandidatePositions ?? [],
+      preventOverspray: true,
     })
     if (!['coverage_complete_sampled', 'coverage_incomplete'].includes(part.layout.status)) {
       return result('layout_incomplete', {

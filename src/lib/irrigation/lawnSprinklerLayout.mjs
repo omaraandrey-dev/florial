@@ -166,7 +166,29 @@ function selectRvanModelForRequiredRadius(requiredRadiusM) {
   return { model: 'R-VAN24', radiusM: 6 }
 }
 
-function buildCandidates(vertices, family, model, pressureBar, radiusM) {
+
+function selectRvanModelForMaximumRadius(maximumRadiusM) {
+  if (maximumRadiusM >= 6 - EPSILON) return { model: 'R-VAN24', radiusM: 6 }
+  if (maximumRadiusM >= 5 - EPSILON) return { model: 'R-VAN18', radiusM: 5 }
+  if (maximumRadiusM >= 4 - EPSILON) return { model: 'R-VAN18', radiusM: 4 }
+  if (maximumRadiusM >= 3 - EPSILON) return { model: 'R-VAN14', radiusM: 3 }
+  return null
+}
+
+function candidateSectorFitsBounds(candidate, bounds) {
+  const arc = candidate.arcDeg ?? 360
+  const start = arc === 360 ? 0 : (candidate.directionDeg ?? 0) - arc / 2
+  for (let offset = 0; offset <= arc + EPSILON; offset += 1) {
+    const angle = (start + offset) * Math.PI / 180
+    const x = candidate.position.x + Math.cos(angle) * candidate.radiusM
+    const y = candidate.position.y + Math.sin(angle) * candidate.radiusM
+    if (x < bounds.minX - EPSILON || x > bounds.maxX + EPSILON ||
+        y < bounds.minY - EPSILON || y > bounds.maxY + EPSILON) return false
+  }
+  return true
+}
+
+function buildCandidates(vertices, family, model, pressureBar, radiusM, { preventOverspray = false } = {}) {
   const candidates = []
   const orientation = Math.sign(signedArea(vertices)) || 1
   const center = polygonCentroid(vertices)
@@ -240,9 +262,10 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     add(vertices[index], spec.arcDeg, spec.direction, 'vertex', perimeterOffsets[index], spec.nozzle)
   }
 
-  // Edge spacing is first determined by the adjacent corner reach. Each
-  // intermediate nozzle is then selected for the actual equal spacing on
-  // that edge, instead of inheriting one model for the whole lawn.
+  // Edge candidates can optionally be inset by their own planning radius.
+  // This keeps their complete semicircular spray sector inside a rectangular
+  // calculation region instead of spacing heads from the edge endpoints and
+  // accidentally selecting a larger radius than the local clearance.
   for (let index = 0; index < vertices.length; index += 1) {
     const a = vertices[index]
     const b = vertices[(index + 1) % vertices.length]
@@ -251,11 +274,31 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
     const spacingRadiusM = family === 'R-VAN'
       ? Math.min(6, vertexSpecs[index].nozzle.radiusM, vertexSpecs[nextIndex].nozzle.radiusM)
       : Math.min(radiusM, vertexSpecs[index].nozzle.radiusM, vertexSpecs[nextIndex].nozzle.radiusM)
+    const normal = inwardNormal(a, b, orientation)
+    if (!normal) continue
+
+    if (preventOverspray && family === 'R-VAN') {
+      const safeMaximumRadiusM = Math.min(spacingRadiusM, length / 2)
+      const edgeNozzle = selectRvanModelForMaximumRadius(safeMaximumRadiusM)
+      if (!edgeNozzle) continue
+      const divisions = Math.max(1, Math.ceil(length / edgeNozzle.radiusM))
+      const headCount = divisions - 1
+      for (let part = 0; part < headCount; part += 1) {
+        const offsetM = headCount === 1
+          ? length / 2
+          : edgeNozzle.radiusM + (length - 2 * edgeNozzle.radiusM) * part / (headCount - 1)
+        const ratio = offsetM / length
+        add({
+          x: a.x + (b.x - a.x) * ratio,
+          y: a.y + (b.y - a.y) * ratio,
+        }, 180, normal, 'edge', perimeterOffsets[index] + offsetM, edgeNozzle)
+      }
+      continue
+    }
+
     const divisions = Math.max(1, Math.ceil(length / spacingRadiusM))
     const edgeSpacingM = length / divisions
     const edgeNozzle = family === 'R-VAN' ? nozzleForRadius(edgeSpacingM) : { model, radiusM }
-    const normal = inwardNormal(a, b, orientation)
-    if (!normal) continue
     for (let part = 1; part < divisions; part += 1) {
       const ratio = part / divisions
       add({
@@ -304,7 +347,9 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM) {
       }
     }
 
-    const interiorSpacingM = Math.min(lengthX / xDivisions, lengthY / yDivisions)
+    const interiorSpacingM = preventOverspray
+    ? Math.min(lengthX / 2, lengthY / 2)
+    : Math.min(lengthX / xDivisions, lengthY / yDivisions)
     const interiorNozzle = family === 'R-VAN' ? nozzleForRadius(interiorSpacingM) : { model, radiusM }
     if (xPositions.size > 0 && yPositions.size > 0) {
       for (const y of [...yPositions].sort((a, b) => a - b)) {
@@ -583,6 +628,7 @@ export function generateLawnSprinklerLayout({
   sampleStepM = DEFAULT_SAMPLE_STEP_M,
   radiusM = null,
   excludedCandidatePositions = [],
+  preventOverspray = false,
 }) {
   const validation = validateLawnGeometry(geometry)
   if (!validation.valid || !['accepted', 'unsupported'].includes(validation.status)) {
@@ -666,7 +712,11 @@ export function generateLawnSprinklerLayout({
   }
 
   const excluded = Array.isArray(excludedCandidatePositions) ? excludedCandidatePositions : []
-  const candidates = buildCandidates(vertices, family, model, pressureBar, effectiveRadiusM)
+  const xs = vertices.map((point) => point.x)
+  const ys = vertices.map((point) => point.y)
+  const candidateBounds = { minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys) }
+  const candidates = buildCandidates(vertices, family, model, pressureBar, effectiveRadiusM, { preventOverspray })
+    .filter((candidate) => !preventOverspray || candidateSectorFitsBounds(candidate, candidateBounds))
     .filter((candidate) => !excluded.some((point) => point &&
       Number.isFinite(point.x) && Number.isFinite(point.y) &&
       distance(candidate.position, point) <= EPSILON))

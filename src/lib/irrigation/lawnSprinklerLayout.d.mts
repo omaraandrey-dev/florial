@@ -13,6 +13,8 @@ export interface LawnSprinklerLayoutInput {
   readonly radiusM?: number
   /** Candidate coordinates reserved for a connected strip-pattern zone. */
   readonly excludedCandidatePositions?: ReadonlyArray<Readonly<{ x: number; y: number }>>
+  /** Restrict circular spray sectors to the rectangular solver bounds. */
+  readonly preventOverspray?: boolean
 }
 
 export interface LawnSprinklerCandidate {
