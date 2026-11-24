@@ -26,10 +26,15 @@ function sanitizeRectangularExclusions(rawExclusions, boundary) {
   for (let index = 0; index < entries.length; index += 1) {
     const entry = entries[index]
     const rawPoints = entry?.polygon?.vertices
-    if (!Array.isArray(rawPoints) || rawPoints.length !== 4 ||
+    if (!Array.isArray(rawPoints) || (rawPoints.length !== 4 && rawPoints.length !== 5) ||
       rawPoints.some((point) => !isRecord(point) ||
         !finite(point.x, -500, 500) || !finite(point.y, -500, 500))) return null
-    const points = rawPoints.map((point) => ({ x: point.x, y: point.y }))
+    const openPoints = rawPoints.length === 5 &&
+      Math.hypot(rawPoints[0].x - rawPoints[4].x, rawPoints[0].y - rawPoints[4].y) <= 1e-8
+      ? rawPoints.slice(0, -1)
+      : rawPoints
+    if (openPoints.length !== 4) return null
+    const points = openPoints.map((point) => ({ x: point.x, y: point.y }))
     const xs = [...new Set(points.map((point) => point.x))]
     const ys = [...new Set(points.map((point) => point.y))]
     if (xs.length !== 2 || ys.length !== 2) return null
