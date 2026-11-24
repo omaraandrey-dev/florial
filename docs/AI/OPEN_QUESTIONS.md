@@ -1,12 +1,19 @@
-## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531)
+## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531) — CLOSED
 
-- **CLOSED — implementation and exact-head CI:** code head `331ffee5b548864c36497fafb788293569c4180a` passed Blog/Studio run `45464093721` and D1 validation run `45464093741`; all steps succeeded. `npm test`: 483/483 passed; type-check, lint, website build, Studio type-check/build passed.
-- **CLOSED — Preview deployment:** Cloudflare Pages deployment `ba6a681a-2865-4c40-815e-27216bc510e5` succeeded from the exact code head.
-- **CLOSED — post-hydration route smoke:** BG/RU/EN controllers returned HTTP 200 with 20 product links and one React grid each; irrigation root 20, nested autonomous controllers 10, nested 9V valves 6. These checks inspect the hydrated DOM only.
-- **OPEN — raw initial HTML:** verify the first HTTP response before React hydration. Firecrawl snapshots are post-hydration; Browser Use was unavailable due insufficient credits. Do not treat the hydrated DOM as SSR evidence.
-- **OPEN — Production:** PR #531 remains open; no merge or Production deployment is claimed.
-- No Sanity content/schema, D1 data/migrations, Cloudflare configuration/secrets, orders or email writes are included.
+- PR #531 merged into __BT__main__BT__ as __BT__39e756fe63993557ee7702dee4eaefc6c8111b14__BT__.
+- Cloudflare Pages Production deployment __BT__d558f601-ebc0-495c-ac2a-a900214a60ca__BT__ succeeded from that exact merge commit.
+- Production raw first-response smoke run __BT__45466953350__BT__ passed against __BT__https://florial-bg.com__BT__ for BG/RU/EN using native Node __BT__fetch()__BT__ without JavaScript. Each response returned 20 server-rendered equipment product links and the link order matched CollectionPage ItemList.
+- Exact code-bearing PR revision __BT__17aefbb2781d24b401310d759dbe9cb678b4e945__BT__ passed 483/483 tests, type-check, lint, website build, Studio type-check/build and D1 validation.
+- The separate Search Console noindex/canonical discrepancies affecting other URLs remain open and are not closed by SSR Catalog v1.
+- No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets or Production settings were changed.
 
+
+## 2026-11-24 — SSR Content v1 Phase 1: homepage initial HTML (PR #533)
+
+- **IN PROGRESS — implementation:** draft PR https://github.com/omaraandrey-dev/florial/pull/533, branch `feat/ssr-homepage-content-v1`. Dedicated homepage renderer and bounded parallel Sanity projections are added for hero, categories, featured plants/equipment, services and blog teaser. Existing React UI and selection rules are intended to remain unchanged.
+- **PENDING — exact-head verification:** unit/regression tests, type-check, lint, website build, Pages Functions checks, Preview deployment and native-fetch raw HTML smoke for BG/RU/EN have not yet been confirmed. No Production release is claimed.
+- **OPEN — cart discoverability decision:** `Header.tsx` uses a cart `<button>` without an `href`; crawlers do not get a standard anchor from that control. The `/cart` route already has `noindex, nofollow`, which must remain. A visible semantic anchor conversion preserving appearance and SPA behavior requires owner approval; no Header change is included in PR #533.
+- No hidden link is proposed. No Sanity writes, D1 changes, Cloudflare settings/secrets or Production settings were made.
 ## 2026-11-24 — irrigation assistant paused by owner
 
 - **Owner decision:** pause all further development of the irrigation-design assistant until the owner returns with observed errors or a new task. This is an intentional project pause, not a request to continue polishing, optimize, refactor, or proactively fix anything.
