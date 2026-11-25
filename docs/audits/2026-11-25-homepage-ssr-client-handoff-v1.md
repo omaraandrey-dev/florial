@@ -5,7 +5,7 @@
 **Base main SHA:** `5772a3e567bd77e69854d647fca08a6f3ff732cd`  
 **Branch:** `fix/homepage-ssr-client-handoff-v1`  
 **PR:** [#534](https://github.com/omaraandrey-dev/florial/pull/534)  
-**Latest audit/code-workflow head:** `0003d527ec9a3cc0566fb4812f0bc8bf5e3683ef`  
+**Verification snapshot branch head:** `0003d527ec9a3cc0566fb4812f0bc8bf5e3683ef` (the subsequent `d38f3d3c1ff1eadcc691909bd247893d7c653594` commit contains documentation-only updates).  
 **Application code head used for Preview:** `d13d3a3dc011d62942b478a4680368a6f6ce9df2`  
 **Status:** implementation in review; no merge or Production release.
 
