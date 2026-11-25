@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 35
     env:
-      BASE_URL: ${{ github.event_name == 'push' && 'https://florial-bg.com' || 'https://feat-ssr-equipment-product-pages-v1.florial.pages.dev' }}
+      BASE_URL: ${{ github.event_name == 'push' && 'https://florial-bg.com' || 'https://feat-ssr-equipment-product-p.florial.pages.dev' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
