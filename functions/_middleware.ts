@@ -9,6 +9,7 @@ import { getServicesDirectoryMetadata, renderServicesDirectoryHtml } from './_li
 import { buildServiceDetailStructuredData, getServiceDetailMetadata, renderServiceDetailHtml } from './_lib/serviceDetailHtml.mjs'
 import { getBlogIndexMetadata, renderBlogIndexHtml, serializeBlogIndexPayload } from './_lib/blogIndexHtml.mjs'
 import { getBlogArticleMetadata, renderBlogArticleHtml, serializeBlogArticlePayload } from './_lib/blogArticleHtml.mjs'
+import { buildEquipmentProductStructuredData, renderEquipmentProductHtml } from './_lib/equipmentProductHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -104,6 +105,25 @@ type SeoDocument = {
   helpBlock?: Record<string, any>
 }
 
+type EquipmentProductDocument = SeoDocument & {
+  oldPriceEUR?: number
+  vatIncluded?: boolean
+  stockQuantity?: number
+  weightKg?: number
+  imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
+  galleryImages?: Array<{ _key?: string; url?: string; alt?: string; altEn?: string; altRu?: string }>
+  specifications?: Array<Record<string, any>>
+  compatibility?: string[]
+  manualPDFUrl?: string
+  catalogPDFUrl?: string
+  categoryId?: string
+  categoryIds?: string[]
+  relatedProducts?: Array<Record<string, any>>
+  relatedContent?: Array<Record<string, any>>
+  kitComponents?: Array<Record<string, any>>
+}
 
 const categoryFallbacks: Record<string, Record<'ru' | 'en', { name: string; description: string }>> = {
   controllers: {
@@ -478,6 +498,90 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
   return result
 }
 
+async function queryEquipmentProductDocument(slug: string): Promise<EquipmentProductDocument | null> {
+  const query = `
+    *[
+      _type == "product" &&
+      isActive != false &&
+      (coalesce(slug.current, slug) == $slug || _id == $slug)
+    ][0] {
+      _id, name, sku, priceEUR, oldPriceEUR, vatIncluded, stockStatus, stockQuantity, weightKg,
+      "slugValue": coalesce(slug.current, slug, _id),
+      "brandName": brand->name,
+      shortDescription, description, seo,
+      translations {
+        bg { name, shortDescription, description, formattedDescription, seo },
+        ru { name, shortDescription, description, formattedDescription, seo },
+        en { name, shortDescription, description, formattedDescription, seo }
+      },
+      "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
+      "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+      "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+      "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+      "galleryImages": gallery[] { _key, "url": asset->url, alt, altEn, altRu },
+      specifications[] { _key, name, value, unit, translations },
+      compatibility,
+      "manualPDFUrl": manualPDF.asset->url,
+      "catalogPDFUrl": catalogPDF.asset->url,
+      "categoryId": category->_id,
+      "categoryIds": categories[]._ref,
+      "relatedProducts": relatedProducts[]-> {
+        _id, name, translations { bg { name }, ru { name }, en { name } },
+        "slugValue": coalesce(slug.current, slug, _id),
+        sku, priceEUR, oldPriceEUR, stockStatus,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+        "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+        "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+        "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name)
+      },
+      "relatedContent": relatedContent[]-> {
+        _id, _type, name, title, translations,
+        "slugValue": coalesce(slug.current, slug, _id),
+        shortDescription, isActive, isPublished,
+        "imageUrl": coalesce(image.asset->url, cover.asset->url, hero.image.asset->url),
+        "imageAlt": coalesce(image.alt, cover.alt, name, translations.bg.title, title),
+        "imageAltEn": coalesce(image.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
+        "imageAltRu": coalesce(image.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
+      },
+      "kitComponents": kitComponents[] {
+        _key, quantity, unit, note { bg, ru, en },
+        "product": product-> {
+          _id, name, translations { bg { name }, ru { name }, en { name } },
+          "slugValue": coalesce(slug.current, slug, _id),
+          sku, isActive
+        }
+      }
+    }
+  `
+  const result = await querySanityData<EquipmentProductDocument | null>(
+    'production',
+    query,
+    { slug },
+    'sanity/production/equipment-product-detail-v1/' + encodeURIComponent(slug),
+    60,
+  )
+  return result ? { ...result, _dataset: 'production' } : null
+}
+
+async function fetchEquipmentProductCategoryTree(): Promise<SeoCategoryNode[]> {
+  const query = `
+    *[_type == "category"] {
+      _id, name, translations { bg { name }, ru { name }, en { name } },
+      "parentId": parent->_id,
+      "slugValue": coalesce(slug.current, slug)
+    }
+  `
+  const result = await querySanityData<SeoCategoryNode[]>(
+    'production',
+    query,
+    {},
+    'sanity/production/product-category-tree-v1',
+    300,
+  )
+  if (!Array.isArray(result)) throw new Error('Sanity production product category tree is not an array')
+  return result
+}
+
 async function queryServiceDocument(slug: string): Promise<ServiceDetailDocument | null> {
   const query = `
     *[
@@ -618,7 +722,7 @@ function setPageHead(
   },
 ): string {
   let html = sourceHtml
-  if (options.pageType === 'product' || options.pageType === 'blog' || options.pageType === 'article' || options.pageType === 'service') {
+  if (options.pageType === 'product' || options.pageType === 'equipment-product' || options.pageType === 'blog' || options.pageType === 'article' || options.pageType === 'service') {
     const resourceHints = options.pageType === 'blog' || options.pageType === 'article'
       ? [
           '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
@@ -631,8 +735,8 @@ function setPageHead(
         ]
     html = html.replace(/<\/head>/i, resourceHints.join('\n') + '\n</head>')
   }
-  if ((options.pageType === 'article' || options.pageType === 'service') && options.image) {
-    const preload = renderResponsiveSanityImagePreload(options.image)
+  if ((options.pageType === 'article' || options.pageType === 'service' || options.pageType === 'equipment-product') && options.image) {
+    const preload = renderResponsiveSanityImagePreload(options.image, options.pageType === 'equipment-product' ? '(min-width: 768px) 50vw, 100vw' : undefined)
     if (preload && !/<link\b[^>]*rel=["']preload["'][^>]*as=["']image["']/i.test(html)) {
       html = html.replace(/<\/head>/i, preload + '\n</head>')
     }
@@ -948,7 +1052,7 @@ function renderResponsiveProductImage(imageUrl: string, alt: string): string {
     ' style="max-width:100%;height:auto;max-height:360px;object-fit:contain" />'
 }
 
-function renderResponsiveSanityImagePreload(imageUrl: string): string {
+function renderResponsiveSanityImagePreload(imageUrl: string, sizes = '(min-width: 896px) 864px, calc(100vw - 2rem)'): string {
   try {
     const source = new URL(imageUrl)
     const dimensions = source.pathname.match(/-(\d+)x(\d+)\.[a-z0-9]+$/i)
@@ -964,14 +1068,14 @@ function renderResponsiveSanityImagePreload(imageUrl: string): string {
       image.searchParams.set('q', '68')
       return image.toString()
     }
-    const candidates = [160, 240, 320, 480, 640, 720, 800, 960, 1200, 1600]
+    const candidates = [160, 240, 320, 480, 640, 800, 960, 1200, 1600]
       .map((width) => Math.min(width, sourceWidth))
       .filter((width, index, all) => width > 0 && all.indexOf(width) === index)
       .sort((a, b) => a - b)
     const srcSet = candidates.map((width) => buildUrl(width) + ' ' + width + 'w').join(', ')
     return '<link rel="preload" as="image" href="' + escapeHtml(buildUrl(960)) +
       '" imagesrcset="' + escapeHtml(srcSet) +
-      '" imagesizes="(min-width: 896px) 864px, calc(100vw - 2rem)" fetchpriority="high" />'
+      '" imagesizes="' + escapeHtml(sizes) + '" fetchpriority="high" />'
   } catch {
     return ''
   }
@@ -1725,6 +1829,8 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         doc = await queryServiceDocument(slug)
       } else if (route === 'category') {
         doc = await queryDocument('production', type, slug) || await queryDocument('plants', type, slug)
+      } else if (type === 'product') {
+        doc = await queryEquipmentProductDocument(slug) || await queryDocument('plants', type, slug)
       } else {
         doc = await queryDocument('production', type, slug) || await queryDocument('plants', type, slug)
       }
@@ -1734,6 +1840,15 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       // Plant category listings are also rendered into the initial HTML; React remains interactive.
       let categoryProducts: SeoPlantProduct[] | null = null
       let equipmentCategoryTree: SeoCategoryNode[] | undefined
+      let equipmentProductCategories: SeoCategoryNode[] = []
+      if (type === 'product' && doc._dataset === 'production') {
+        try {
+          equipmentProductCategories = await fetchEquipmentProductCategoryTree()
+        } catch {
+          // Product detail content remains renderable if category breadcrumbs cannot be enriched.
+          equipmentProductCategories = []
+        }
+      }
       if (type === 'category') {
         if (doc._dataset === 'plants') {
           // Preserve the existing fail-closed behavior for plant category SSR.
@@ -1795,14 +1910,20 @@ async function handleRequest(context: PagesContext): Promise<Response> {
 
       const structuredData: Array<{ id: string; data: Record<string, unknown> }> = type === 'service'
         ? buildServiceDetailStructuredData(doc as ServiceDetailDocument, language)
-        : [{ id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, language) }]
+        : type === 'product' && doc._dataset === 'production'
+          ? []
+          : [{ id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, language) }]
       if (type === 'category') {
         structuredData.push({
           id: 'collection-page',
           data: makeCategoryCollectionJsonLd(name, metaDescription, canonicalUrl, categoryStructuredProducts, language),
         })
       }
-      if (type === 'product') {
+      if (type === 'product' && doc._dataset === 'production') {
+        const productStructuredData = buildEquipmentProductStructuredData(doc as EquipmentProductDocument, equipmentProductCategories, language, canonicalUrl)
+        structuredData.push({ id: 'product', data: productStructuredData[0] })
+        structuredData.push({ id: 'breadcrumbs', data: productStructuredData[1] })
+      } else if (type === 'product') {
         structuredData.push({ id: 'product', data: makeProductJsonLd(doc, name, metaDescription, canonicalUrl) })
       }
       if (type === 'blogPost') {
@@ -1811,7 +1932,9 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       const pageH1 = type === 'product' ? String(seo?.h1 || name) : categorySeo?.h1 || name
       const body = type === 'service'
         ? renderServiceDetailHtml(doc as ServiceDetailDocument, language)
-        : documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined)
+        : type === 'product' && doc._dataset === 'production'
+          ? renderEquipmentProductHtml(doc as EquipmentProductDocument, equipmentProductCategories, language)
+          : documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {
@@ -1823,11 +1946,11 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           noIndex,
           alternates,
           structuredData,
-          pageType: type === 'product' ? 'product' : type === 'blogPost' ? 'article' : type === 'service' ? 'service' : 'website',
+          pageType: type === 'product' && doc._dataset === 'production' ? 'equipment-product' : type === 'product' ? 'product' : type === 'blogPost' ? 'article' : type === 'service' ? 'service' : 'website',
         })
       }, type === 'category' && categoryProducts === null
         ? 'no-store'
-        : type === 'service'
+        : type === 'service' || (type === 'product' && doc._dataset === 'production')
           ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
           : categoryProducts !== null
             ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
