@@ -388,7 +388,7 @@ function renderRelatedContent(items, language) {
 function renderAdvantages(items, language) {
   if (!Array.isArray(items) || !items.length) return ''
   const title = language === 'ru' ? 'Преимущества' : language === 'en' ? 'Why choose us' : 'Предимства'
-  const cards = items.map((item, index) => '<article class="rounded-xl border border-slate-100 bg-white p-5 shadow-sm">' +
+  const cards = items.map((item) => '<article class="rounded-xl border border-slate-100 bg-white p-5 shadow-sm">' +
     (item?.title ? '<h3 class="mb-2 text-lg font-semibold text-slate-900">' + escapeHtml(item.title) + '</h3>' : '') +
     ((item?.text || item?.description) ? '<p class="leading-7 text-slate-600">' + escapeHtml(item.text || item.description) + '</p>' : '') +
     '</article>').join('')
@@ -415,7 +415,7 @@ function renderServiceContentBlocks(blocks, language, slug) {
     Boolean(block.imageUrl || block.title || block.text))
   if (!valid.length) return ''
   const title = language === 'ru' ? 'Дополнительная информация' : language === 'en' ? 'Additional information' : 'Допълнителна информация'
-  const articles = valid.map((block, index) => {
+  const articles = valid.map((block) => {
     const translated = language === 'bg' ? null : block.translations?.[language]
     const heading = translated?.title || block.title || ''
     const body = translated?.text || block.text
