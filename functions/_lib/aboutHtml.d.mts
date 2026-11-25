@@ -25,7 +25,7 @@ export interface AboutCentre {
 export interface AboutRenderData {
   photos?: AboutPhoto[]
   categories?: AboutCategory[]
-  team?: AboutTeamMember[]
-  centres?: AboutCentre[]
+  team?: readonly AboutTeamMember[]
+  centres?: readonly AboutCentre[]
 }
 export function renderAboutHtml(copy: Record<string, any>, data?: AboutRenderData, language?: AboutLanguage): string
