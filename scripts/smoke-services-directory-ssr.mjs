@@ -38,7 +38,9 @@ for (const route of routes) {
   assert.match(html, /data-florial-jsonld="breadcrumbs"/i)
   assert.match(html, /data-florial-jsonld="collection-page"/i)
 
-  const cardLinks = [...html.matchAll(/<a\b[^>]*href="([^"]*\/services\/[^"]+)"[^>]*>/gi)]
+  const mainMatch = html.match(/<main\b[^>]*data-florial-services-directory="true"[^>]*>([\s\S]*?)<\/main>/i)
+  assert.ok(mainMatch, route.lang + ': server-rendered main element missing')
+  const cardLinks = [...mainMatch[1].matchAll(/<a\b[^>]*href="([^"]*\/services\/[^"]+)"[^>]*>/gi)]
     .map((match) => match[1])
     .filter((url) => !new URL(url, base).pathname.includes('/services/category/'))
   assert.ok(cardLinks.length > 0, route.lang + ': no service detail links in first response')
