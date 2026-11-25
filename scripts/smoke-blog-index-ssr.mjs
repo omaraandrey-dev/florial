@@ -36,7 +36,7 @@ function parseJsonLd(html, id, language) {
 for (const route of routes) {
   const { response, html } = await fetchHtml(route)
   assert.match(response.headers.get('content-type') || '', /text\/html/i)
-  assert.match(html, new RegExp('<html\\\\b[^>]*lang="' + route.lang + '"', 'i'))
+  assert.match(html, new RegExp('<html\\b[^>]*lang="' + route.lang + '"', 'i'))
   assert.match(html, /name="robots"[^>]*content="index, follow"/i)
   assert.match(html, /hreflang="bg"/i)
   assert.match(html, /hreflang="ru"/i)
