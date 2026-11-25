@@ -128,14 +128,14 @@ test('About SSR escapes text and rejects non-Sanity image URLs', () => {
     team,
     centres,
     categories: [
-      { slugValue: 'rastenia', imageUrl: 'https://example.com/not-sanity.jpg' },
+      { slugValue: 'rastenia', imageUrl: 'https://cdn.sanity.io/images/evil-project/production/not-sanity.jpg' },
       { slugValue: 'vsichko-za-polivane', imageUrl: 'javascript:alert(1)' },
     ],
   }, 'bg')
   assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/)
   assert.match(html, /&lt;img src=x onerror=alert\(1\)&gt;/)
   assert.doesNotMatch(html, /<script>alert\(1\)<\/script>/)
-  assert.doesNotMatch(html, /src="javascript:|src="https:\/\/example\.com/)
+  assert.doesNotMatch(html, /src="javascript:|src="https:\/\/example\.com|src="https:\/\/cdn\.sanity\.io\/images\/evil-project/)
   assert.match(html, /Фото скоро не появится|Снимката скоро ще бъде добавена/)
   assert.match(html, /Няма изображение|Снимка/)
 })
