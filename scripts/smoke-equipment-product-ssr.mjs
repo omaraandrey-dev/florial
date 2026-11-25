@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 
 const BASE_URL = (process.env.BASE_URL || 'https://feat-ssr-equipment-product-pages-v1.florial.pages.dev').replace(/\/+$/, '')
 const SANITY_PROJECT_ID = 'bxvcy0qs'
+const SITE_URL = 'https://florial-bg.com'
 const SANITY_DATASET = 'production'
 const SANITY_API_VERSION = '2024-01-01'
 const LOCALES = ['bg', 'ru', 'en']
@@ -88,7 +89,7 @@ const products = await sanityFetch(\`
     },
     "specCount": count(specifications[defined(name) && defined(value)]),
     "galleryCount": count(gallery),
-    "kitCount": count(kitComponents[defined(product._ref)]),
+    "kitCount": count(kitComponents),
     "relatedProductCount": count(relatedProducts),
     "relatedContentCount": count(relatedContent),
     "hasManual": defined(manualPDF.asset),
@@ -141,7 +142,7 @@ for (const language of LOCALES) {
     assert.ok(Array.isArray(productData.image) && productData.image.length > 0, label + ': Product JSON-LD images missing')
     assert.equal(productData.offers?.price, Number(product.priceEUR).toFixed(2), label + ': Offer price mismatch')
     assert.equal(productData.offers?.priceCurrency, 'EUR', label + ': Offer currency mismatch')
-    assert.equal(productData.offers?.url, new URL(path, BASE_URL).origin + '/product/' + encodeURIComponent(product.slug) + (language === 'bg' ? '' : '?lang=' + language), label + ': Offer URL mismatch')
+    assert.equal(productData.offers?.url, SITE_URL + '/product/' + encodeURIComponent(product.slug) + (language === 'bg' ? '' : '?lang=' + language), label + ': Offer URL mismatch')
     if (product.stockStatus === 'inStock') assert.equal(productData.offers?.availability, 'https://schema.org/InStock', label + ': Offer availability mismatch')
     if (product.stockStatus === 'outOfStock') assert.equal(productData.offers?.availability, 'https://schema.org/OutOfStock', label + ': Offer availability mismatch')
     if (product.stockStatus === 'onRequest') assert.equal(productData.offers?.availability, undefined, label + ': on-request stock must not be represented as in-stock/pre-order')
