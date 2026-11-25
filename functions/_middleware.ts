@@ -1829,6 +1829,8 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         doc = await queryServiceDocument(slug)
       } else if (route === 'category') {
         doc = await queryDocument('production', type, slug) || await queryDocument('plants', type, slug)
+      } else if (type === 'product') {
+        doc = await queryEquipmentProductDocument(slug) || await queryDocument('plants', type, slug)
       } else {
         doc = await queryDocument('production', type, slug) || await queryDocument('plants', type, slug)
       }
@@ -1838,6 +1840,15 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       // Plant category listings are also rendered into the initial HTML; React remains interactive.
       let categoryProducts: SeoPlantProduct[] | null = null
       let equipmentCategoryTree: SeoCategoryNode[] | undefined
+      let equipmentProductCategories: SeoCategoryNode[] = []
+      if (type === 'product' && doc._dataset === 'production') {
+        try {
+          equipmentProductCategories = await fetchEquipmentProductCategoryTree()
+        } catch {
+          // Product detail content remains renderable if category breadcrumbs cannot be enriched.
+          equipmentProductCategories = []
+        }
+      }
       if (type === 'category') {
         if (doc._dataset === 'plants') {
           // Preserve the existing fail-closed behavior for plant category SSR.
@@ -1899,14 +1910,20 @@ async function handleRequest(context: PagesContext): Promise<Response> {
 
       const structuredData: Array<{ id: string; data: Record<string, unknown> }> = type === 'service'
         ? buildServiceDetailStructuredData(doc as ServiceDetailDocument, language)
-        : [{ id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, language) }]
+        : type === 'product' && doc._dataset === 'production'
+          ? []
+          : [{ id: 'breadcrumbs', data: makeBreadcrumb(pagePath, name, language) }]
       if (type === 'category') {
         structuredData.push({
           id: 'collection-page',
           data: makeCategoryCollectionJsonLd(name, metaDescription, canonicalUrl, categoryStructuredProducts, language),
         })
       }
-      if (type === 'product') {
+      if (type === 'product' && doc._dataset === 'production') {
+        const productStructuredData = buildEquipmentProductStructuredData(doc as EquipmentProductDocument, equipmentProductCategories, language, canonicalUrl)
+        structuredData.push({ id: 'product', data: productStructuredData[0] })
+        structuredData.push({ id: 'breadcrumbs', data: productStructuredData[1] })
+      } else if (type === 'product') {
         structuredData.push({ id: 'product', data: makeProductJsonLd(doc, name, metaDescription, canonicalUrl) })
       }
       if (type === 'blogPost') {
@@ -1915,7 +1932,9 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       const pageH1 = type === 'product' ? String(seo?.h1 || name) : categorySeo?.h1 || name
       const body = type === 'service'
         ? renderServiceDetailHtml(doc as ServiceDetailDocument, language)
-        : documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined)
+        : type === 'product' && doc._dataset === 'production'
+          ? renderEquipmentProductHtml(doc as EquipmentProductDocument, equipmentProductCategories, language)
+          : documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {
@@ -1931,7 +1950,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         })
       }, type === 'category' && categoryProducts === null
         ? 'no-store'
-        : type === 'service'
+        : type === 'service' || (type === 'product' && doc._dataset === 'production')
           ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
           : categoryProducts !== null
             ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
