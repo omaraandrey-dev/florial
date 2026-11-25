@@ -495,9 +495,9 @@ function equipmentImageText(productName, language, imageIndex, kind) {
   ]
   const locale = language === 'ru' || language === 'en' ? language : 'bg'
   const location = locations[Math.max(0, imageIndex) % locations.length][locale]
-  if (locale === 'ru') return kind === 'title' ? \`Продажа \${productName} в \${location}\` : \`Купить \${productName} в \${location}\`
-  if (locale === 'en') return kind === 'title' ? \`\${productName} for sale in \${location}\` : \`Buy \${productName} in \${location}\`
-  return kind === 'title' ? \`Продажба на \${productName} в \${location}\` : \`Купете \${productName} в \${location}\`
+  if (locale === 'ru') return kind === 'title' ? `Продажа ${productName} в ${location}` : `Купить ${productName} в ${location}`
+  if (locale === 'en') return kind === 'title' ? `${productName} for sale in ${location}` : `Buy ${productName} in ${location}`
+  return kind === 'title' ? `Продажба на ${productName} в ${location}` : `Купете ${productName} в ${location}`
 }
 
 export function buildEquipmentCategoryEntries(products, language = 'bg', options = {}) {
