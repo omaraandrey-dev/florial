@@ -1,5 +1,3 @@
-const SITE_URL = 'https://florial-bg.com'
-
 const TEAM = [
   {
     slug: 'landshaften-arhitekt',
@@ -240,9 +238,6 @@ export function renderAboutHtml(copy, data = {}, language = 'bg') {
     '<li class="flex gap-4 rounded-2xl bg-[#F5F7EF] p-4"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#647746] text-sm font-bold text-white">' +
     (index + 1) + '</span><span class="pt-1 text-sm leading-6 text-slate-700">' + escapeHtml(step) + '</span></li>'
   ).join('')
-
-  const categoryImage = (slug) => categories.find((item) => String(item?.slugValue || '').toLowerCase() === slug)?.imageUrl
-  const categoryMissing = offerCards.some((card) => categoryImage(card.slug) && !safeImageUrl(categoryImage(card.slug)))
 
   return '<main data-florial-ssr="about" class="flex-grow bg-[#F8F9F3]">' +
     '<section class="relative overflow-hidden bg-[#E9EDDB] px-4 py-14 md:py-20"><div class="mx-auto max-w-5xl text-center">' +
