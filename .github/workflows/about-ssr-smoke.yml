@@ -11,6 +11,9 @@ on:
       - "src/content/aboutPageContent.ts"
       - "src/pages/AboutPage.tsx"
       - "scripts/smoke-about-ssr.mjs"
+      - "docs/audits/2026-11-25-about-ssr-discovery.md"
+      - "docs/roadmaps/SSR_CONTENT_V1_ROADMAP_2026-11-24.md"
+      - "docs/roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md"
       - ".github/workflows/about-ssr-smoke.yml"
   push:
     branches: [main]
