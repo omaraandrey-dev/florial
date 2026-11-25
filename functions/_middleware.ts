@@ -13,7 +13,7 @@ import { buildEquipmentProductStructuredData, renderEquipmentProductHtml } from 
 import { buildPlantProductStructuredData, renderPlantProductHtml, renderPortableText } from './_lib/plantProductHtml.mjs'
 import { renderContactsHtml } from './_lib/contactsHtml.mjs'
 import { renderAboutHtml } from './_lib/aboutHtml.mjs'
-import { ABOUT_PAGE_CONTENT } from '../src/content/aboutPageContent'
+import { ABOUT_PAGE_CONTENT, ABOUT_PAGE_CENTRES, ABOUT_PAGE_TEAM } from '../src/content/aboutPageContent'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -508,10 +508,24 @@ async function fetchAboutHtml(language: string): Promise<{ html: string; complet
   const plantCategories = plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value)
     ? plantsResult.value
     : []
+  const categories = [...equipmentCategories, ...plantCategories]
+  const requiredPhotoSlugs = [
+    'landshaften-arhitekt',
+    'inzhener-polivni-sistemi',
+    'gardinar',
+    'specialist-trevni-ploshti',
+    'florial-nesebr',
+    'florial-ravda',
+  ]
+  const availablePhotoSlugs = new Set(photos.filter((photo) => photo.imageUrl).map((photo) => String(photo.slugValue || '').toLowerCase()))
+  const availableCategorySlugs = new Set(categories.filter((category) => category.imageUrl).map((category) => String(category.slugValue || '').toLowerCase()))
   const complete =
     photosResult.status === 'fulfilled' && Array.isArray(photosResult.value) &&
     equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value) &&
-    plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value)
+    plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value) &&
+    requiredPhotoSlugs.every((slug) => availablePhotoSlugs.has(slug)) &&
+    availableCategorySlugs.has('vsichko-za-polivane') &&
+    availableCategorySlugs.has('rastenia')
 
   if (!complete) {
     console.error('Florial About SSR Sanity data incomplete; rendering published text with available image fallbacks')
@@ -521,7 +535,9 @@ async function fetchAboutHtml(language: string): Promise<{ html: string; complet
   return {
     html: renderAboutHtml(copy, {
       photos,
-      categories: [...equipmentCategories, ...plantCategories],
+      categories,
+      team: ABOUT_PAGE_TEAM,
+      centres: ABOUT_PAGE_CENTRES,
     }, language),
     complete,
   }
