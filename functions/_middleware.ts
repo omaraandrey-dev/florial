@@ -12,6 +12,8 @@ import { getBlogArticleMetadata, renderBlogArticleHtml, serializeBlogArticlePayl
 import { buildEquipmentProductStructuredData, renderEquipmentProductHtml } from './_lib/equipmentProductHtml.mjs'
 import { buildPlantProductStructuredData, renderPlantProductHtml, renderPortableText } from './_lib/plantProductHtml.mjs'
 import { renderContactsHtml } from './_lib/contactsHtml.mjs'
+import { renderAboutHtml } from './_lib/aboutHtml.mjs'
+import { ABOUT_PAGE_CONTENT } from '../src/content/aboutPageContent'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -426,6 +428,103 @@ async function fetchContactsHtml(language: string): Promise<string> {
     if (slug === 'florial-ravda') images.ravda = photo.imageUrl || ''
   }
   return renderContactsHtml(language, images)
+}
+
+type AboutPhotoDocument = {
+  slugValue?: string
+  imageUrl?: string
+  imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
+}
+
+type AboutCategoryDocument = {
+  slugValue?: string
+  imageUrl?: string
+}
+
+async function fetchAboutHtml(language: string): Promise<{ html: string; complete: boolean }> {
+  const photoQuery = `
+    *[_type == "photo" && isActive != false && (
+      coalesce(slug.current, slug) in [
+        "landshaften-arhitekt",
+        "inzhener-polivni-sistemi",
+        "gardinar",
+        "specialist-trevni-ploshti"
+      ] ||
+      lower(slug) in ["florial-nesebr", "florial-ravda"] ||
+      lower(slug.current) in ["florial-nesebr", "florial-ravda"]
+    )] | order(coalesce(slug.current, slug) asc) {
+      "slugValue": coalesce(slug.current, slug),
+      "imageUrl": image.asset->url,
+      "imageAlt": image.alt,
+      "imageAltEn": image.altEn,
+      "imageAltRu": image.altRu
+    }
+  `
+  const equipmentCategoryQuery = `
+    *[_type == "category" && coalesce(slug.current, slug) == "vsichko-za-polivane"] {
+      "slugValue": coalesce(slug.current, slug),
+      "imageUrl": image.asset->url
+    }
+  `
+  const plantCategoryQuery = `
+    *[_type == "category" && coalesce(slug.current, slug) == "rastenia"] {
+      "slugValue": coalesce(slug.current, slug),
+      "imageUrl": coalesce(image.asset->url, externalImageUrl)
+    }
+  `
+
+  const [photosResult, equipmentResult, plantsResult] = await Promise.allSettled([
+    querySanityData<AboutPhotoDocument[]>(
+      'production',
+      photoQuery,
+      {},
+      'sanity/production/about-photos-v1',
+      300,
+    ),
+    querySanityData<AboutCategoryDocument[]>(
+      'production',
+      equipmentCategoryQuery,
+      {},
+      'sanity/production/about-equipment-category-v1',
+      300,
+    ),
+    querySanityData<AboutCategoryDocument[]>(
+      'plants',
+      plantCategoryQuery,
+      {},
+      'sanity/plants/about-plant-category-v1',
+      300,
+    ),
+  ])
+
+  const photos = photosResult.status === 'fulfilled' && Array.isArray(photosResult.value)
+    ? photosResult.value
+    : []
+  const equipmentCategories = equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value)
+    ? equipmentResult.value
+    : []
+  const plantCategories = plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value)
+    ? plantsResult.value
+    : []
+  const complete =
+    photosResult.status === 'fulfilled' && Array.isArray(photosResult.value) &&
+    equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value) &&
+    plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value)
+
+  if (!complete) {
+    console.error('Florial About SSR Sanity data incomplete; rendering published text with available image fallbacks')
+  }
+
+  const copy = ABOUT_PAGE_CONTENT[language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg']
+  return {
+    html: renderAboutHtml(copy, {
+      photos,
+      categories: [...equipmentCategories, ...plantCategories],
+    }, language),
+    complete,
+  }
 }
 
 async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string, onCategoryTree?: (categories: SeoCategoryNode[]) => void): Promise<SeoPlantProduct[]> {
@@ -1044,20 +1143,11 @@ async function fetchHomepageHtml(language: string): Promise<string> {
 
 function staticPageMetadata(path: string, language: string) {
   if (path === '/about') {
-    if (language === 'ru') return {
-      title: 'О нас — Florial | Садовый центр и автоматический полив в Болгарии',
-      description: 'Florial: ландшафтный дизайн, озеленение, системы автоматического полива, рулонный газон и обслуживание садов в Несебре, Равде и по Черноморскому побережью Болгарии.',
-      body: '<main><h1>О нас — Florial</h1><p>Ландшафтный дизайн, озеленение, автоматический полив и уход за садами в Болгарии.</p></main>',
-    }
-    if (language === 'en') return {
-      title: 'About Florial | Garden Centre & Irrigation in Bulgaria',
-      description: 'Florial provides landscape design, planting, automatic irrigation systems, roll turf and garden maintenance in Nessebar, Ravda and along Bulgaria’s Black Sea coast.',
-      body: '<main><h1>About Florial</h1><p>Landscape design, planting, automatic irrigation and garden care in Bulgaria.</p></main>',
-    }
+    const copy = ABOUT_PAGE_CONTENT[language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg']
     return {
-      title: 'За нас — Florial | Градински център и автоматично напояване',
-      description: 'Florial предлага ландшафтен дизайн, озеленяване, системи за автоматично напояване, тревен чим и поддръжка на градини в Несебър, Равда и по българското Черноморие.',
-      body: '<main><h1>За нас — Florial</h1><p>Ландшафтен дизайн, озеленяване, автоматично напояване и поддръжка на градини в България.</p></main>',
+      title: copy.seoTitle,
+      description: copy.seoDescription,
+      body: '<main><h1>' + escapeHtml(copy.title) + '</h1><p>' + escapeHtml(copy.intro) + '</p></main>',
     }
   }
   if (path === '/contacts') {
@@ -1791,6 +1881,12 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         body = renderContactsHtml(language)
         cacheControl = 'no-store'
       }
+    } else if (path === '/about') {
+      const about = await fetchAboutHtml(language)
+      body = about.html
+      cacheControl = about.complete
+        ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
+        : 'no-store'
     }
     return transformHtmlResponse(await context.next(), (html) => {
       const root = renderRoot(html, body)
@@ -1832,7 +1928,21 @@ async function handleRequest(context: PagesContext): Promise<Response> {
             inLanguage: language,
             publisher: { '@id': SITE_URL + '/#organization' },
           },
-        }, {
+        }, ...(path === '/about' ? [{
+          id: 'about-page',
+          data: {
+            '@context': 'https://schema.org',
+            '@type': 'AboutPage',
+            '@id': canonical + '#about',
+            url: canonical,
+            name: meta.title,
+            description: meta.description,
+            inLanguage: language,
+            about: { '@id': SITE_URL + '/#organization' },
+            mainEntity: { '@id': SITE_URL + '/#organization' },
+            isPartOf: { '@id': SITE_URL + '/#website' },
+          },
+        }] : []), {
           id: 'local-business-nessebar',
           data: {
             '@context': 'https://schema.org',
