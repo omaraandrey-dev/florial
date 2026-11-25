@@ -1,0 +1,82 @@
+name: About page SSR raw HTTP smoke
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - "functions/_middleware.ts"
+      - "functions/_lib/aboutHtml.mjs"
+      - "functions/_lib/aboutHtml.d.mts"
+      - "src/content/aboutPageContent.ts"
+      - "src/pages/AboutPage.tsx"
+      - "scripts/smoke-about-ssr.mjs"
+      - "docs/audits/2026-11-25-about-ssr-discovery.md"
+      - "docs/roadmaps/SSR_CONTENT_V1_ROADMAP_2026-11-24.md"
+      - "docs/roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md"
+      - ".github/workflows/about-ssr-smoke.yml"
+  push:
+    branches: [main]
+    paths:
+      - "functions/_middleware.ts"
+      - "functions/_lib/aboutHtml.mjs"
+      - "src/content/aboutPageContent.ts"
+      - "scripts/smoke-about-ssr.mjs"
+      - ".github/workflows/about-ssr-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: read
+
+jobs:
+  raw-http-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      BASE_URL: ${{ github.event_name == 'push' && 'https://florial-bg.com' || github.event_name == 'workflow_dispatch' && 'https://florial-bg.com' || '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Wait for exact Cloudflare Pages deployment
+        if: github.event_name != 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TARGET_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 60); do
+            checks="$(curl -fsSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_TOKEN}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${TARGET_SHA}/check-runs")"
+            status="$(printf '%s' "${checks}" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .status // empty')"
+            conclusion="$(printf '%s' "${checks}" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .conclusion // empty')"
+            details_url="$(printf '%s' "${checks}" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .details_url // empty')"
+            if [ "${status}" = "completed" ]; then
+              if [ "${conclusion}" != "success" ]; then echo "Cloudflare Pages deployment failed: ${details_url}"; exit 1; fi
+              if [ "${EVENT_NAME}" = "pull_request" ]; then
+                deployment_id="$(printf '%s' "${details_url}" | sed -nE 's#.*pages/view/florial/([0-9a-f-]+).*#\1#p')"
+                if [ -z "${deployment_id}" ]; then echo "Could not extract Preview deployment ID from ${details_url}"; exit 1; fi
+                deployment_short_id="${deployment_id:0:8}"
+                echo "BASE_URL=https://${deployment_short_id}.florial.pages.dev" >> "${GITHUB_ENV}"
+                echo "Using exact successful Preview deployment: https://${deployment_short_id}.florial.pages.dev"
+              else
+                echo "Using Production domain after successful Pages deployment: ${BASE_URL}"
+              fi
+              exit 0
+            fi
+            echo "Waiting for Cloudflare Pages check (attempt ${attempt}/60; status=${status:-pending})"
+            sleep 10
+          done
+          echo "Timed out waiting for Cloudflare Pages deployment for ${TARGET_SHA}"
+          exit 1
+
+      - name: Verify raw About HTML in BG/RU/EN without JavaScript
+        run: node scripts/smoke-about-ssr.mjs
