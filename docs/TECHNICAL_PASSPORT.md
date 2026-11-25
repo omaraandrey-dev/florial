@@ -1,12 +1,12 @@
-## 2026-11-25 — homepage first-response SSR (PR #533, in progress)
+## 2026-11-25 — homepage first-response SSR (PR #533, implementation verified)
 
-- Branch: `feat/ssr-homepage-content-v1`; PR #533. Code-bearing head: `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`.
+- Branch: `feat/ssr-homepage-content-v1`; PR #533. Code-bearing head: `0276d4d99256a92c500487f94a501da57b36ca21`.
 - Cloudflare Pages middleware uses `functions/_lib/homepageHtml.mjs` and bounded parallel published-Sanity projections to render the homepage content in the first HTTP response for BG/RU/EN.
 - The renderer covers hero and category-image CTAs, value propositions, services, plant categories, featured plants, irrigation categories, featured equipment and pinned/latest blog teaser. It mirrors App/HomePage selection, shared service/featured-product helpers, plant price/stock/display-name rules and localized blog ordering.
 - Responsive Sanity image URLs are built to match `src/lib/sanityImage.ts:getSanityImageProps` (src/srcset/sizes/width/height/loading priority). Homepage JSON-LD adds `OnlineStore` and `WebSite`; existing local `GardenStore` entities remain. `/cart` stays `noindex, nofollow`.
 - Query failure keeps the existing minimal static fallback and uses `Cache-Control: no-store`; partial/invalid query collections are not cached as an empty homepage.
 - **Important runtime boundary:** the client bootstrap still uses React `createRoot`, not `hydrateRoot`; it replaces initial markup inside `#root` on startup. This is raw first-response SSR, not React hydration. Client transition/CLS preservation is an open, separately approved task.
-- Exact-head CI and Preview/raw HTTP verification for code head `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6` remain pending; no Production release is claimed. No Sanity writes, D1 schema/data changes or Cloudflare settings/secrets changed.
+- **Verified on code head `0276d4d99256a92c500487f94a501da57b36ca21`:** Preview deployment `5206776a-6a44-459e-9f5c-89a33f83dbff` succeeded. Raw first-response smoke run `45514703501` passed BG/RU/EN without JavaScript. Blog and Studio validation run `45514716263` passed app/Pages type-check, lint, 493/493 tests, website build, migration syntax and read-only dry-run, Studio type-check/build. D1 validation run `45514716029` passed. No Production release is claimed. No Sanity writes, D1 schema/data changes or Cloudflare settings/secrets changed.
 
 ## 2026-11-24 — equipment category server-rendered catalogue (SSR Catalog v1, PR #531)
 
