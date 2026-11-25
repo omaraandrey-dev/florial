@@ -443,7 +443,7 @@ type AboutCategoryDocument = {
   imageUrl?: string
 }
 
-async function fetchAboutHtml(language: string): Promise<{ html: string; complete: boolean }> {
+async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{ html: string; complete: boolean }> {
   const photoQuery = `
     *[_type == "photo" && isActive != false && (
       coalesce(slug.current, slug) in [
