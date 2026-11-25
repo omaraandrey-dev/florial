@@ -81,7 +81,7 @@ function visibleCategoryIds(categories) {
   return visible
 }
 
-function categoryChildren(categoryId, categories, rootCatalog, visibleIds) {
+function categoryChildren(categoryId, categories, rootCatalog, visibleIds, language) {
   const children = categories.filter((item) =>
     item.parentId === categoryId &&
     item.slug &&
@@ -98,7 +98,7 @@ function categoryChildren(categoryId, categories, rootCatalog, visibleIds) {
         return ai - bi
       }
     }
-    return (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || String(a.name || '').localeCompare(String(b.name || ''))
+    return (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || String(a.name || '').localeCompare(String(b.name || ''), language)
   })
 }
 
@@ -262,7 +262,7 @@ const results = await mapLimit(cases, 10, async ({ category, language }) => {
     route + ': product order differs from React catalogue rules',
   )
 
-  const children = categoryChildren(category._id, categories, category.slug === 'vsichko-za-polivane', visibleIds)
+  const children = categoryChildren(category._id, categories, category.slug === 'vsichko-za-polivane', visibleIds, language)
   if (children.length) {
     const nav = html.match(/<section\b[^>]*data-florial-category-subcategories="true"[^>]*>([\s\S]*?)<\/section>/i)
     assert.ok(nav, route + ': direct subcategory navigation missing')
