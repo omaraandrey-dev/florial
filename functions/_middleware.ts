@@ -30,6 +30,7 @@ type SeoPlantProduct = {
   imageUrl?: string
   galleryImageUrls?: string[]
   plantCare?: { minWinterTempC?: number }
+  _catalogVariant?: { name?: string; nameEn?: string; nameRu?: string; priceEUR?: number; oldPriceEUR?: number; stockStatus?: string; saleHeightCm?: number; containerVolumeL?: number }
   categoryId?: string
   categoryIds?: string[]
   slugValue?: string
@@ -38,10 +39,14 @@ type SeoPlantProduct = {
   translations?: Record<string, { name?: string; shortDescription?: string; seo?: { h1?: string } } | undefined>
   seo?: { h1?: string }
   saleVariants?: Array<{
+    _key?: string
     name?: string
     nameEn?: string
     nameRu?: string
+    sku?: string
     priceEUR?: number
+    oldPriceEUR?: number
+    stockQuantity?: number
     stockStatus?: string
     saleHeightCm?: number
     containerVolumeL?: number
