@@ -9,6 +9,7 @@ import { getServicesDirectoryMetadata, renderServicesDirectoryHtml } from './_li
 import { buildServiceDetailStructuredData, getServiceDetailMetadata, renderServiceDetailHtml } from './_lib/serviceDetailHtml.mjs'
 import { getBlogIndexMetadata, renderBlogIndexHtml, serializeBlogIndexPayload } from './_lib/blogIndexHtml.mjs'
 import { getBlogArticleMetadata, renderBlogArticleHtml, serializeBlogArticlePayload } from './_lib/blogArticleHtml.mjs'
+import { buildEquipmentProductStructuredData, getEquipmentProductMetadata, renderEquipmentProductHtml } from './_lib/equipmentProductHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -104,6 +105,25 @@ type SeoDocument = {
   helpBlock?: Record<string, any>
 }
 
+type EquipmentProductDocument = SeoDocument & {
+  oldPriceEUR?: number
+  vatIncluded?: boolean
+  stockQuantity?: number
+  weightKg?: number
+  imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
+  galleryImages?: Array<{ _key?: string; url?: string; alt?: string; altEn?: string; altRu?: string }>
+  specifications?: Array<Record<string, any>>
+  compatibility?: string[]
+  manualPDFUrl?: string
+  catalogPDFUrl?: string
+  categoryId?: string
+  categoryIds?: string[]
+  relatedProducts?: Array<Record<string, any>>
+  relatedContent?: Array<Record<string, any>>
+  kitComponents?: Array<Record<string, any>>
+}
 
 const categoryFallbacks: Record<string, Record<'ru' | 'en', { name: string; description: string }>> = {
   controllers: {
@@ -475,6 +495,90 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
     }
   }
 
+  return result
+}
+
+async function queryEquipmentProductDocument(slug: string): Promise<EquipmentProductDocument | null> {
+  const query = \`
+    *[
+      _type == "product" &&
+      isActive != false &&
+      (coalesce(slug.current, slug) == $slug || _id == $slug)
+    ][0] {
+      _id, name, sku, priceEUR, oldPriceEUR, vatIncluded, stockStatus, stockQuantity, weightKg,
+      "slugValue": coalesce(slug.current, slug, _id),
+      "brandName": brand->name,
+      shortDescription, description, seo,
+      translations {
+        bg { name, shortDescription, description, formattedDescription, seo },
+        ru { name, shortDescription, description, formattedDescription, seo },
+        en { name, shortDescription, description, formattedDescription, seo }
+      },
+      "imageUrl": coalesce(mainImage.asset->url, image.asset->url, category->image.asset->url, category->externalImageUrl, category->parent->image.asset->url, category->parent->externalImageUrl),
+      "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+      "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+      "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
+      "galleryImages": gallery[] { _key, "url": asset->url, alt, altEn, altRu },
+      specifications[] { _key, name, value, unit, translations },
+      compatibility,
+      "manualPDFUrl": manualPDF.asset->url,
+      "catalogPDFUrl": catalogPDF.asset->url,
+      "categoryId": category->_id,
+      "categoryIds": categories[]._ref,
+      "relatedProducts": relatedProducts[]-> {
+        _id, name, translations { bg { name }, ru { name }, en { name } },
+        "slugValue": coalesce(slug.current, slug, _id),
+        sku, priceEUR, oldPriceEUR, stockStatus,
+        "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+        "imageAlt": coalesce(mainImage.alt, translations.bg.name, name),
+        "imageAltEn": coalesce(mainImage.altEn, translations.en.name, name),
+        "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name)
+      },
+      "relatedContent": relatedContent[]-> {
+        _id, _type, name, title, translations,
+        "slugValue": coalesce(slug.current, slug, _id),
+        shortDescription, isActive, isPublished,
+        "imageUrl": coalesce(image.asset->url, cover.asset->url, hero.image.asset->url),
+        "imageAlt": coalesce(image.alt, cover.alt, name, translations.bg.title, title),
+        "imageAltEn": coalesce(image.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
+        "imageAltRu": coalesce(image.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
+      },
+      "kitComponents": kitComponents[] {
+        _key, quantity, unit, note { bg, ru, en },
+        "product": product-> {
+          _id, name, translations { bg { name }, ru { name }, en { name } },
+          "slugValue": coalesce(slug.current, slug, _id),
+          sku, isActive
+        }
+      }
+    }
+  \`
+  const result = await querySanityData<EquipmentProductDocument | null>(
+    'production',
+    query,
+    { slug },
+    'sanity/production/equipment-product-detail-v1/' + encodeURIComponent(slug),
+    60,
+  )
+  return result ? { ...result, _dataset: 'production' } : null
+}
+
+async function fetchEquipmentProductCategoryTree(): Promise<SeoCategoryNode[]> {
+  const query = \`
+    *[_type == "category"] {
+      _id, name, translations { bg { name }, ru { name }, en { name } },
+      "parentId": parent->_id,
+      "slugValue": coalesce(slug.current, slug)
+    }
+  \`
+  const result = await querySanityData<SeoCategoryNode[]>(
+    'production',
+    query,
+    {},
+    'sanity/production/product-category-tree-v1',
+    300,
+  )
+  if (!Array.isArray(result)) throw new Error('Sanity production product category tree is not an array')
   return result
 }
 
