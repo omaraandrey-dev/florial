@@ -230,7 +230,7 @@ function renderBreadcrumbs(product, categories, language) {
     items.push('<a href="' + escapeHtml(localizedHref('/category/' + encodeURIComponent(category.slugValue), language)) + '">' + escapeHtml(name) + '</a>')
   }
   items.push('<span aria-current="page">' + escapeHtml(localizedName(product, language)) + '</span>')
-  return '<nav aria-label="' + (language === 'ru' ? 'Навигационная цепочка' : language === 'en' ? 'Breadcrumb' : 'Навигационна пътека') + '" class="mb-6 text-sm text-slate-500"><ol class="flex flex-wrap gap-2">' +
+  return '<nav data-florial-product-breadcrumbs="true" aria-label="' + (language === 'ru' ? 'Навигационная цепочка' : language === 'en' ? 'Breadcrumb' : 'Навигационна пътека') + '" class="mb-6 text-sm text-slate-500"><ol class="flex flex-wrap gap-2">' +
     items.map((item, index) => '<li class="flex items-center gap-2">' + (index ? '<span aria-hidden="true">/</span>' : '') + item + '</li>').join('') +
     '</ol></nav>'
 }
@@ -243,7 +243,7 @@ function renderGallery(product, language, name) {
   }
   if (!images.length) return '<div class="flex aspect-square items-center justify-center rounded-2xl bg-slate-100 text-slate-400">' +
     (language === 'ru' ? 'Нет изображения' : language === 'en' ? 'No image available' : 'Няма изображение') + '</div>'
-  return '<div class="space-y-3"><div class="overflow-hidden rounded-2xl bg-white">' +
+  return '<div data-florial-product-gallery="true" data-florial-product-gallery-count="' + images.length + '" class="space-y-3"><div class="overflow-hidden rounded-2xl bg-white">' +
     responsiveImage(images[0].url, localizedImageAlt(images[0], language, name), '(min-width: 768px) 50vw, 100vw', 'h-full max-h-[560px] w-full object-contain', 'eager', true) +
     '</div>' +
     (images.length > 1 ? '<div class="grid grid-cols-4 gap-3">' + images.slice(1).map((image) =>
@@ -258,7 +258,7 @@ function renderSpecifications(product, language) {
   ) : []
   if (!specs.length) return ''
   const title = language === 'ru' ? 'Технические характеристики' : language === 'en' ? 'Technical specifications' : 'Технически характеристики'
-  return '<section class="mb-10 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm md:p-7"><h2 class="mb-4 text-xl font-bold text-slate-900">' + title + '</h2><dl class="divide-y divide-slate-100">' +
+  return '<section data-florial-product-specifications="true" data-florial-product-spec-count="' + specs.length + '" class="mb-10 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm md:p-7"><h2 class="mb-4 text-xl font-bold text-slate-900">' + title + '</h2><dl class="divide-y divide-slate-100">' +
     specs.map((spec) => {
       const localized = spec.translations?.[language] || {}
       const label = textValue(localized.name || spec.name)
@@ -289,7 +289,7 @@ function renderKitComponents(product, language) {
       (note ? '<span class="mt-1 block text-xs text-slate-500">' + escapeHtml(note) + '</span>' : '') +
       '</span><span class="shrink-0 text-sm font-semibold text-slate-700">' + escapeHtml(quantity + ' ' + unit) + '</span></li>'
   })
-  return '<section class="mb-10 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm md:p-7"><h2 class="mb-3 text-xl font-bold text-slate-900">' + title + '</h2><ul>' + rows.join('') + '</ul></section>'
+  return '<section data-florial-product-kit="true" data-florial-product-kit-count="' + items.length + '" class="mb-10 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm md:p-7"><h2 class="mb-3 text-xl font-bold text-slate-900">' + title + '</h2><ul>' + rows.join('') + '</ul></section>'
 }
 
 function renderCompatibility(product, language) {
@@ -297,7 +297,7 @@ function renderCompatibility(product, language) {
   if (!values.length) return ''
   const title = language === 'ru' ? 'Совместимость' : language === 'en' ? 'Compatibility' : 'Съвместимост'
   const intro = language === 'ru' ? 'Проверьте совместимость перед покупкой.' : language === 'en' ? 'Check compatibility before purchasing.' : 'Проверете съвместимостта преди покупка.'
-  return '<section class="mb-10 rounded-2xl border border-cyan-100 bg-cyan-50/30 p-5 md:p-7"><h2 class="mb-2 text-xl font-bold text-slate-900">' + title + '</h2><p class="mb-4 text-sm text-slate-600">' + intro + '</p><div class="flex flex-wrap gap-2">' +
+  return '<section data-florial-product-compatibility="true" data-florial-product-compatibility-count="' + values.length + '" class="mb-10 rounded-2xl border border-cyan-100 bg-cyan-50/30 p-5 md:p-7"><h2 class="mb-2 text-xl font-bold text-slate-900">' + title + '</h2><p class="mb-4 text-sm text-slate-600">' + intro + '</p><div class="flex flex-wrap gap-2">' +
     values.map((value) => '<span class="rounded-lg border border-cyan-100 bg-white px-3 py-2 text-sm font-medium text-slate-700">' + escapeHtml(value) + '</span>').join('') +
     '</div></section>'
 }
@@ -309,7 +309,7 @@ function renderDocuments(product, language) {
   if (!items.length) return ''
   const title = language === 'ru' ? 'Документы и инструкции' : language === 'en' ? 'Documents and manuals' : 'Документи и инструкции'
   const intro = language === 'ru' ? 'Инструкции и каталоги производителя для ознакомления.' : language === 'en' ? 'Manufacturer manuals and catalogues for reference.' : 'Инструкции и каталози на производителя за справка.'
-  return '<section class="mb-10 rounded-2xl border border-sky-100 bg-sky-50/30 p-5 md:p-7"><h2 class="mb-2 text-xl font-bold text-slate-900">' + title + '</h2><p class="mb-4 text-sm text-slate-600">' + intro + '</p><div class="flex flex-col gap-2">' +
+  return '<section data-florial-product-documents="true" data-florial-product-documents-count="' + items.length + '" class="mb-10 rounded-2xl border border-sky-100 bg-sky-50/30 p-5 md:p-7"><h2 class="mb-2 text-xl font-bold text-slate-900">' + title + '</h2><p class="mb-4 text-sm text-slate-600">' + intro + '</p><div class="flex flex-col gap-2">' +
     items.map((item) => '<a href="' + escapeHtml(item.url) + '" target="_blank" rel="noopener noreferrer" class="rounded-xl border border-sky-100 bg-white px-4 py-3 text-sm font-semibold text-sky-800">' + item.title + '</a>').join('') +
     '</div></section>'
 }
@@ -330,7 +330,7 @@ function renderRelatedContent(product, language) {
   ).slice(0, 4)
   if (!items.length) return ''
   const title = language === 'ru' ? 'Полезные материалы и услуги' : language === 'en' ? 'Useful resources and services' : 'Полезни материали и услуги'
-  return '<section class="mb-10"><h2 class="mb-5 text-xl font-bold text-slate-900">' + title + '</h2><div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">' +
+  return '<section data-florial-product-related-content="true" data-florial-product-related-content-count="' + items.length + '" class="mb-10"><h2 class="mb-5 text-xl font-bold text-slate-900">' + title + '</h2><div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">' +
     items.map((item) => {
       const isService = item._type === 'service'
       const name = isService
@@ -355,7 +355,7 @@ function renderRelatedProducts(product, language) {
   if (!items.length) return ''
   const title = language === 'ru' ? 'С этим товаром покупают' : language === 'en' ? 'Frequently bought together' : 'Често купувани заедно'
   const vat = language === 'ru' ? 'Цена включает НДС.' : language === 'en' ? 'Price includes VAT.' : 'Цената е с включен ДДС.'
-  return '<section class="mb-10"><h2 class="mb-5 text-xl font-bold text-slate-900">' + title + '</h2><div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">' +
+  return '<section data-florial-product-related-products="true" data-florial-product-related-products-count="' + items.length + '" class="mb-10"><h2 class="mb-5 text-xl font-bold text-slate-900">' + title + '</h2><div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">' +
     items.map((item) => {
       const name = localizedName(item, language)
       return '<article class="flex flex-col rounded-xl border border-slate-100 bg-white p-4 shadow-sm">' +
@@ -461,15 +461,15 @@ export function renderEquipmentProductHtml(product, categories, language) {
     (sku ? '<p class="mb-3 text-sm text-slate-500">SKU: ' + escapeHtml(sku) + '</p>' : '') +
     (shortDescription ? '<p class="mb-5 text-base leading-relaxed text-slate-600">' + escapeHtml(shortDescription) + '</p>' : '') +
     '<div class="mb-3 flex flex-wrap items-baseline gap-3">' +
-    (price ? '<strong class="text-2xl font-bold text-emerald-800">' + escapeHtml(price) + '</strong>' : '<strong class="text-xl font-bold text-slate-800">' + (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване') + '</strong>') +
+    (price ? '<strong data-florial-product-price="' + escapeHtml(Number(product.priceEUR).toFixed(2)) + '" class="text-2xl font-bold text-emerald-800">' + escapeHtml(price) + '</strong>' : '<strong class="text-xl font-bold text-slate-800">' + (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване') + '</strong>') +
     (oldPrice ? '<s class="text-base text-slate-400">' + escapeHtml(oldPrice) + '</s>' : '') +
     '</div>' +
     '<p class="mb-3 text-xs text-slate-500">' + vatLabel + '</p>' +
-    '<p class="mb-2 inline-flex rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-800">' + escapeHtml(stock) + '</p>' +
+    '<p data-florial-product-stock="' + escapeHtml(product.stockStatus || 'onRequest') + '" class="mb-2 inline-flex rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-800">' + escapeHtml(stock) + '</p>' +
     (typeof product.weightKg === 'number' && product.weightKg > 0 ? '<p class="mt-3 text-sm text-slate-500">' + (language === 'ru' ? 'Вес' : language === 'en' ? 'Weight' : 'Тегло') + ': ' + escapeHtml(String(product.weightKg)) + ' kg</p>' : '') +
     '</div></div>' +
     (specs ? '<div class="mt-10">' + specs + '</div>' : '') +
-    (descriptionHtml ? '<section class="mb-10 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm md:p-7"><h2 class="mb-4 text-xl font-bold text-slate-900">' + detailsLabel + '</h2><div class="space-y-3 text-base leading-relaxed text-slate-600">' + descriptionHtml + '</div></section>' : '') +
+    (descriptionHtml ? '<section data-florial-product-description="true" data-florial-product-description-block-count="' + (Array.isArray(description) ? description.length : 0) + '" class="mb-10 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm md:p-7"><h2 class="mb-4 text-xl font-bold text-slate-900">' + detailsLabel + '</h2><div class="space-y-3 text-base leading-relaxed text-slate-600">' + descriptionHtml + '</div></section>' : '') +
     renderKitComponents(product, language) +
     renderCompatibility(product, language) +
     renderDocuments(product, language) +
