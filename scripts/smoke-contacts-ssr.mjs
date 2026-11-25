@@ -64,7 +64,7 @@ for (const locale of locales) {
     .normalize('NFC')
   const locationHeadings = [...html.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/gi)]
     .map((match) => headingText(match[1]))
-  assert.ok(locationHeadings.includes(locale.nesebar.normalize('NFC')), locale.code + ': Nessebar garden centre; found headings: ' + JSON.stringify(locationHeadings))
+  assert.ok(locationHeadings.includes(locale.nessebar.normalize('NFC')), locale.code + ': Nessebar garden centre; found headings: ' + JSON.stringify(locationHeadings))
   assert.ok(locationHeadings.includes(locale.ravda.normalize('NFC')), locale.code + ': Ravda garden centre; found headings: ' + JSON.stringify(locationHeadings))
   assert.ok(html.includes('pK8qGHh9b1xoCc4P9'), locale.code + ': Nessebar map')
   assert.ok(html.includes('3fiLaRgwSLDTH77U6'), locale.code + ': Ravda map')
