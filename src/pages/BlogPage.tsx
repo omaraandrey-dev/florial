@@ -23,7 +23,6 @@ function readBlogSsrPayload(): BlogSsrPayload | null {
   const element = document.getElementById('florial-blog-ssr-data')
   if (!element) return null
   const raw = element.textContent || ''
-  element.remove()
   try {
     const payload = JSON.parse(raw) as BlogSsrPayload
     if (['bg', 'ru', 'en'].includes(payload.language) && Array.isArray(payload.posts)) return payload
@@ -140,6 +139,10 @@ export function BlogPage() {
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest')
   const [searchQuery, setSearchQuery] = useState('')
+
+  useEffect(() => {
+    document.getElementById('florial-blog-ssr-data')?.remove()
+  }, [])
 
   const copy = {
     title: language === 'ru' ? 'Блог и портфолио' : language === 'en' ? 'Blog and portfolio' : 'Блог и портфолио',
