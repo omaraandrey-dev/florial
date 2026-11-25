@@ -53,7 +53,7 @@ test('services directory renders localized H1, intro and all active service card
   })
 
   assert.match(body, /<h1[^>]*>Услуги садового центра Florial/)
-  assert.ok(body.indexOf('Ландшафтный дизайн') < body.indexOf('Газоны'))
+  assert.ok(body.indexOf('href="/services/landshaften-dizain?lang=ru"') < body.indexOf('href="/services/trevni-ploshti?lang=ru"'))
   assert.match(body, /href="\/services\/landshaften-dizain\?lang=ru"/)
   assert.match(body, /href="\/services\/trevni-ploshti\?lang=ru"/)
   assert.match(body, /Ландшафтный архитектор/)
