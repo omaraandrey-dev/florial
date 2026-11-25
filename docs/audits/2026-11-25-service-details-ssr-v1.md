@@ -60,15 +60,23 @@ The renderer does not change the React component or its interactive lead submiss
 - Branch alias: `https://feat-ssr-service-details-v1.florial.pages.dev`
 - All Cloudflare Preview stages completed successfully.
 
+### Cloudflare Production
+
+- Deployment: `ed0dbd75-6f4a-4f86-8410-e74ef85113b1`
+- Commit: `28afdf7e895d1b6dbf6d32302e4ffc7dd60b3dab` (PR #539 squash merge).
+- Deployment URL: `https://ed0dbd75.florial.pages.dev`
+- Canonical aliases: `https://florial-bg.com` and `https://www.florial-bg.com`.
+- Production deploy stage completed successfully from the exact merge commit.
+
 ### GitHub Actions
 
-- Blog and Studio validation: run `45556253837` — success.
-- Service detail raw HTTP smoke: run `45556253801` — success.
-- Services directory smoke: run `45556253712` — success.
-- Equipment SSR smoke: run `45556253798` — success.
-- D1 migration validation: run `45556253731` — success; no migration applied.
-- Website tests: 506 passed, 0 failed.
-- Application/Pages type-check, lint, website build, read-only migration dry-run, Studio type-check and Studio build all passed.
+- Blog and Studio validation on merge commit: run `45557311577` — success.
+- Service detail Production raw HTTP smoke: run `45557311581`, attempt 2 — success. The first push-triggered attempt failed; after the Production deployment completed, the failed job was rerun and passed.
+- Services directory Production smoke: run `45557311571` — success.
+- Equipment SSR smoke: run `45557311599` — success.
+- Homepage SSR raw HTTP smoke: run `45557311588` — success.
+- D1 migration validation: run `45557311593` — success; no migration applied.
+- The original PR validation remains recorded above: 506 website tests passed, with application/Pages type-check, lint, website build, read-only migration dry-run, Studio type-check and Studio build all passing.
 
 ### Service detail raw HTTP smoke
 
@@ -89,7 +97,7 @@ For each Sanity detail response the smoke verifies:
 - parseable Service JSON-LD with name, description, URL, provider and areaServed;
 - parseable BreadcrumbList with a complete trail.
 
-This is raw first-response HTTP evidence for the Preview deployment. It is not a Google Rich Results Test or an independent visual/hydration screenshot.
+The Preview run above is raw first-response HTTP evidence. The Production run `45557311581` repeated the same discovery and BG/RU/EN checks against the canonical Production domain after deployment. Neither run is a Google Rich Results Test or an independent screenshot comparison of the hydrated DOM.
 
 ## 6. Scope and safety
 
@@ -107,11 +115,11 @@ The service page remains client-interactive after hydration. The SSR output is a
 ## 7. Acceptance and next action
 
 - **Automated Preview checks:** PASS.
-- **Owner visual/hydration review on desktop and mobile:** PENDING.
-- **Production deployment:** NOT RELEASED.
-- After owner acceptance, merge PR #539 and verify the exact Cloudflare Production deployment. The push-triggered raw HTTP workflow must then verify all active service details in BG/RU/EN on the canonical Production domain.
-- The existing services-directory Production smoke should run on the same main push.
-- Phase 4 (`/blog` index) must not start until Phase 3 is released and Production smoke is recorded.
+- **Owner visual/hydration review on desktop and mobile:** ACCEPTED by owner on 2026-11-25.
+- **Merge:** PR #539 squash-merged at `28afdf7e895d1b6dbf6d32302e4ffc7dd60b3dab`.
+- **Production deployment:** RELEASED; exact-SHA Cloudflare deployment `ed0dbd75-6f4a-4f86-8410-e74ef85113b1` succeeded.
+- **Production raw HTTP smoke:** PASS on rerun `45557311581` attempt 2; 25 active service detail routes passed in BG/RU/EN, and the legacy delivery route passed in all three locales.
+- **Next stage:** Phase 4 (`/blog` index) is now authorized and has started on branch `feat/ssr-blog-index-v1`.
 
 ## 8. Shared documentation boundary
 
