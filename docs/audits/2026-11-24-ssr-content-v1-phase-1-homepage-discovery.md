@@ -97,9 +97,9 @@ Heading outline currently includes one H1, a hero H2, and H3/H4 for services, pl
 
 ## 2026-11-25 — implementation parity hardening
 
-**Code-bearing head:** `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`  
+**Code-bearing head:** `0276d4d99256a92c500487f94a501da57b36ca21`  
 **PR:** #533 — `feat/ssr-homepage-content-v1`  
-**Status:** implementation in progress; exact-head CI and latest Preview/raw HTTP smoke pending.
+**Status:** implementation and technical verification passed; client startup/CLS remains an owner-decision follow-up.
 
 ### Corrections made
 
@@ -112,8 +112,8 @@ Heading outline currently includes one H1, a hero H2, and H3/H4 for services, pl
 
 ### Verification evidence and limitations
 
-- The preceding code head `fc21108f98de7c30b57ebe5190111002258281c6` completed type-check and lint successfully; 492/493 tests passed. The single failure was a test false positive because the page also contains an equipment card with “Available on request”; the assertion now inspects only the Magnolia plant card in head `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`.
-- Cloudflare Pages Preview deployment `76d903af-80f2-414f-82d4-d6dd6717655f` succeeded from the preceding head `fc21108f98de7c30b57ebe5190111002258281c6`; latest deployment for `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6` was queued when this audit was updated.
-- Exact-head CI, latest Preview and native-fetch raw HTTP smoke for BG/RU/EN remain pending. No Production raw-response verification is claimed.
+- **Verified on code head `0276d4d99256a92c500487f94a501da57b36ca21`:** Preview deployment `5206776a-6a44-459e-9f5c-89a33f83dbff` succeeded. Raw first-response smoke run `45514703501` passed BG/RU/EN without JavaScript. Blog and Studio validation run `45514716263` passed app/Pages type-check, lint, 493/493 tests, website build, migration syntax and read-only dry-run, Studio type-check/build. D1 validation run `45514716029` passed.
+- The earlier 492/493 result on `fc21108f98de7c30b57ebe5190111002258281c6` was a false-positive test assertion; it was scoped to the Magnolia plant card before the current passing run.
+- No Production deployment or Production raw-response verification is claimed.
 - **Client startup caveat:** `src/main.tsx` uses `createRoot`, not `hydrateRoot`; React clears/replaces initial HTML inside `#root` on startup. This branch improves first-response HTML for crawlers, but no claim is made that the SSR DOM is hydrated or that the browser transition has zero CLS. A separate approved app-bootstrap/data-readiness change is needed to preserve the initial markup until client data is ready.
 - No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets or Production settings changed.
