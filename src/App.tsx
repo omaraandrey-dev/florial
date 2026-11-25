@@ -397,7 +397,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   }, [
     isHomepageRoute,
     headerDataReady,
-    loadingCategories,
+    categoriesDataReady,
     homeCategoriesAndHeroReady,
     homeFeaturedPlantsReady,
     homeFeaturedEquipmentReady,
