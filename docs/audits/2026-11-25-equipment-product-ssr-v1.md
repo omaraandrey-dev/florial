@@ -10,7 +10,7 @@ Status: implementation in PR #543; Preview validation in progress; Production un
 - Branch: \`feat/ssr-equipment-product-pages-v1\`
 - PR: https://github.com/omaraandrey-dev/florial/pull/543
 - Current implementation commit at audit creation: \`f01ed43cc81b8459de25dcab8422c9afa8a21010\`
-- Preview alias: https://feat-ssr-equipment-product-pages-v1.florial.pages.dev
+- Preview alias: https://feat-ssr-equipment-product-p.florial.pages.dev
 - Production was not changed by this PR.
 
 ## Existing behavior confirmed from main
