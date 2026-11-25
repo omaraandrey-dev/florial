@@ -1075,7 +1075,7 @@ function renderResponsiveSanityImagePreload(imageUrl: string, sizes = '(min-widt
     const srcSet = candidates.map((width) => buildUrl(width) + ' ' + width + 'w').join(', ')
     return '<link rel="preload" as="image" href="' + escapeHtml(buildUrl(960)) +
       '" imagesrcset="' + escapeHtml(srcSet) +
-      '" imagesizes="(min-width: 896px) 864px, calc(100vw - 2rem)" fetchpriority="high" />'
+      '" imagesizes="' + escapeHtml(sizes) + '" fetchpriority="high" />'
   } catch {
     return ''
   }
