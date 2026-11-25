@@ -77,13 +77,35 @@ export function collectDescendantCategoryIds(rootId, categories) {
 }
 
 export function buildPlantCategoryEntries(products, language = 'bg') {
-  return (Array.isArray(products) ? products : [])
+  const sortedProducts = (Array.isArray(products) ? products : [])
     .filter((product) => product && product._id && (product.slugValue || product.slug?.current))
     .slice()
     .sort((a, b) => {
       const availabilityDifference = availabilityPriority(a) - availabilityPriority(b)
       if (availabilityDifference !== 0) return availabilityDifference
       return localizedProductName(a, language).localeCompare(localizedProductName(b, language), language)
+    })
+
+  const offers = sortedProducts.flatMap((product) => {
+    const variants = Array.isArray(product.saleVariants) ? product.saleVariants : []
+    return variants.length
+      ? variants.map((variant, index) => ({ ...product, _catalogVariant: variant, _catalogVariantIndex: index }))
+      : [{ ...product, _catalogVariant: null, _catalogVariantIndex: -1 }]
+  })
+
+  const offerPriority = (offer) => {
+    const status = offer._catalogVariant?.stockStatus || offer.stockStatus
+    return status === 'inStock' ? 0 : status === 'onRequest' ? 1 : 2
+  }
+
+  return offers
+    .sort((a, b) => {
+      const priorityDifference = offerPriority(a) - offerPriority(b)
+      if (priorityDifference !== 0) return priorityDifference
+      const nameDifference = localizedProductName(a, language).localeCompare(localizedProductName(b, language), language)
+      if (nameDifference !== 0) return nameDifference
+      if (a._id === b._id) return a._catalogVariantIndex - b._catalogVariantIndex
+      return 0
     })
     .slice(0, PAGE_SIZE)
 }
@@ -98,6 +120,11 @@ function availabilityLabel(product, language) {
     return status === 'inStock' ? 'In stock' : status === 'outOfStock' ? 'Out of stock' : 'On request'
   }
   return status === 'inStock' ? 'В наличност' : status === 'outOfStock' ? 'Изчерпан' : 'По заявка'
+}
+
+function formatPrice(price, language) {
+  if (typeof price !== 'number' || !Number.isFinite(price) || price <= 0) return ''
+  return language === 'en' ? '€' + price.toFixed(2) : price.toFixed(2) + ' €'
 }
 
 function productUrl(product, language, siteUrl) {
@@ -120,18 +147,59 @@ export function renderPlantCategoryListing(products, language = 'bg', siteUrl = 
       heading + '</h2><p>' + empty + '</p></section>'
   }
 
-  const cards = entries.map((product) => {
+  const cards = entries.map((product, index) => {
+    const variant = product._catalogVariant
     const name = localizedProductName(product, language) || product.slugValue
     const url = productUrl(product, language, siteUrl)
-    const price = getStartingPrice(product)
+    const price = typeof variant?.priceEUR === 'number' && variant.priceEUR > 0 ? variant.priceEUR : null
     const priceLabel = price === null
-      ? ''
-      : (language === 'ru' ? 'Цена от ' : language === 'en' ? 'From ' : 'Цена от ') +
-        (language === 'en' ? '€' + price.toFixed(2) : price.toFixed(2) + ' €')
-    const status = availabilityLabel(product, language)
-    return '<li><article style="height:100%;border:1px solid #e5e7eb;border-radius:12px;padding:16px"><h3><a href="' + escapeHtml(url) + '">' + escapeHtml(name) + '</a></h3>' +
-      (priceLabel ? '<p>' + escapeHtml(priceLabel) + '</p>' : '') +
-      (status ? '<p>' + escapeHtml(status) + '</p>' : '') + '</article></li>'
+      ? (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване')
+      : (language === 'ru' ? 'Цена: ' : language === 'en' ? 'Price: ' : 'Цена: ') + formatPrice(price, language)
+    const oldPrice = typeof variant?.oldPriceEUR === 'number' && typeof price === 'number' && variant.oldPriceEUR > price
+      ? formatPrice(variant.oldPriceEUR, language)
+      : ''
+    const status = availabilityLabel({ ...product, stockStatus: variant?.stockStatus || product.stockStatus }, language)
+    const mainImage = typeof product.imageUrl === 'string' ? product.imageUrl : ''
+    const gallery = Array.isArray(product.galleryImageUrls) ? product.galleryImageUrls.filter((url) => typeof url === 'string' && url) : []
+    const candidates = Array.from(new Set([mainImage, ...gallery].filter(Boolean)))
+    let imageUrl = mainImage || candidates[0] || ''
+    if (variant && candidates.length > 1) {
+      const prices = (product.saleVariants || []).map((item) => item.priceEUR).filter((item) => typeof item === 'number' && Number.isFinite(item) && item > 0)
+      const highestPrice = prices.length ? Math.max(...prices) : null
+      if (!(highestPrice !== null && variant.priceEUR === highestPrice)) {
+        const identity = variant._key || variant.sku || variant.name || String(product._catalogVariantIndex)
+        const seed = product._id + ':' + identity
+        let hash = 2166136261
+        for (let i = 0; i < seed.length; i += 1) {
+          hash ^= seed.charCodeAt(i)
+          hash = Math.imul(hash, 16777619)
+        }
+        imageUrl = candidates[(hash >>> 0) % candidates.length]
+      }
+    }
+    const image = imageUrl
+      ? '<div style="height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f8fafc;border-radius:8px;margin-bottom:12px"><img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(name) + '" loading="' + (index < 2 ? 'eager' : 'lazy') + '" decoding="async" style="max-width:100%;max-height:100%;object-fit:contain" /></div>'
+      : ''
+    const size = [
+      typeof variant?.saleHeightCm === 'number' && variant.saleHeightCm > 0 ? (language === 'en' ? 'Height ' : language === 'ru' ? 'Высота ' : 'Височина ') + variant.saleHeightCm + (language === 'en' ? ' cm' : ' см') : '',
+      typeof variant?.containerVolumeL === 'number' && variant.containerVolumeL > 0 ? (language === 'en' ? 'Pot ' : language === 'ru' ? 'Контейнер ' : 'Контейнер ') + variant.containerVolumeL + ' L' : '',
+    ].filter(Boolean).join(' · ')
+    const variantName = variant
+      ? (language === 'ru' ? variant.nameRu || variant.name : language === 'en' ? variant.nameEn || variant.name : variant.name) || ''
+      : ''
+    const shortDescription = localizedValue(product, 'shortDescription', language)
+    const winter = typeof product.plantCare?.minWinterTempC === 'number'
+      ? (language === 'en' ? 'Minimum winter temperature: ' : language === 'ru' ? 'Минимальная зимняя температура: ' : 'Минимална зимна температура: ') + product.plantCare.minWinterTempC + ' °C'
+      : ''
+    return '<li><article style="height:100%;border:1px solid #e5e7eb;border-radius:12px;padding:12px">' + image +
+      (winter ? '<p style="margin:0 0 6px;font-size:12px">❄ ' + escapeHtml(winter) + '</p>' : '') +
+      '<h3><a href="' + escapeHtml(url) + '">' + escapeHtml(name) + '</a></h3>' +
+      (shortDescription ? '<p>' + escapeHtml(shortDescription) + '</p>' : '') +
+      '<p><strong>' + escapeHtml(priceLabel) + '</strong> ' + (oldPrice ? '<del>' + escapeHtml(oldPrice) + '</del>' : '') + '</p>' +
+      (size ? '<p>' + escapeHtml(size) + '</p>' : '') +
+      (status ? '<p>' + escapeHtml(status) + '</p>' : '') +
+      (variantName ? '<p>' + escapeHtml((language === 'ru' ? 'Вариант: ' : language === 'en' ? 'Option: ' : 'Вариант: ') + variantName) + '</p>' : '') +
+      '</article></li>'
   }).join('')
 
   return '<section aria-labelledby="florial-category-products" data-florial-server-catalogue="plants" style="margin:24px 0">' +
