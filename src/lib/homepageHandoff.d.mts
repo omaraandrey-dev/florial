@@ -8,7 +8,7 @@ type HomepageReadiness = {
   homeBlogReady: boolean
 }
 
-type HiddenRoot = { hidden: boolean }
+type HiddenRoot = { hidden: boolean | string }
 
 export function isHomepageClientReady(readiness: HomepageReadiness): boolean
 export function completeHomepageHandoff(serverRoot: HiddenRoot | null, clientRoot: HiddenRoot | null): boolean
