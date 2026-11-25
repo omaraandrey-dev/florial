@@ -4,6 +4,7 @@ export interface EquipmentCategoryNode {
   slugValue?: string
   name?: string
   sortOrder?: number
+  productCount?: number
   imageUrl?: string
   imageAlt?: string
   imageAltEn?: string
