@@ -736,7 +736,7 @@ function setPageHead(
     html = html.replace(/<\/head>/i, resourceHints.join('\n') + '\n</head>')
   }
   if ((options.pageType === 'article' || options.pageType === 'service' || options.pageType === 'equipment-product') && options.image) {
-    const preload = renderResponsiveSanityImagePreload(options.image)
+    const preload = renderResponsiveSanityImagePreload(options.image, options.pageType === 'equipment-product' ? '(min-width: 768px) 50vw, 100vw' : undefined)
     if (preload && !/<link\b[^>]*rel=["']preload["'][^>]*as=["']image["']/i.test(html)) {
       html = html.replace(/<\/head>/i, preload + '\n</head>')
     }
@@ -1052,7 +1052,7 @@ function renderResponsiveProductImage(imageUrl: string, alt: string): string {
     ' style="max-width:100%;height:auto;max-height:360px;object-fit:contain" />'
 }
 
-function renderResponsiveSanityImagePreload(imageUrl: string): string {
+function renderResponsiveSanityImagePreload(imageUrl: string, sizes = '(min-width: 896px) 864px, calc(100vw - 2rem)'): string {
   try {
     const source = new URL(imageUrl)
     const dimensions = source.pathname.match(/-(\d+)x(\d+)\.[a-z0-9]+$/i)
@@ -1068,7 +1068,7 @@ function renderResponsiveSanityImagePreload(imageUrl: string): string {
       image.searchParams.set('q', '68')
       return image.toString()
     }
-    const candidates = [160, 240, 320, 480, 640, 720, 800, 960, 1200, 1600]
+    const candidates = [160, 240, 320, 480, 640, 800, 960, 1200, 1600]
       .map((width) => Math.min(width, sourceWidth))
       .filter((width, index, all) => width > 0 && all.indexOf(width) === index)
       .sort((a, b) => a - b)
