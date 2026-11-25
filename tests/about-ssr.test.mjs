@@ -155,6 +155,8 @@ test('About middleware uses published bounded Sanity queries, shared copy, safe 
   assert.match(middleware, /body = about\.html/)
   assert.match(middleware, /about\.complete[\s\S]*?no-store/)
   assert.match(middleware, /'@type': 'AboutPage'/)
+  assert.match(middleware, /options\.pageType === 'about'/)
+  assert.match(middleware, /pageType: path === '\/about' \? 'about' : 'website'/)
   assert.match(middleware, /team: ABOUT_PAGE_TEAM/)
   assert.match(middleware, /centres: ABOUT_PAGE_CENTRES/)
   assert.match(middleware, /mainEntity: \{ '@id': SITE_URL \+ '\/#organization' \}/)
