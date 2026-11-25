@@ -1,6 +1,7 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
 import { collectDescendantCategoryIds, buildEquipmentCategoryEntries, renderPlantCategoryListing, renderEquipmentCategoryListing } from './_lib/plantCategoryHtml.mjs'
+import { renderEquipmentCategoryNavigation, renderEquipmentCategorySeoContent, renderEquipmentCategoryHelpBlock } from './_lib/equipmentCategoryPageHtml.mjs'
 import { buildProductOffer, getServerProductPrice } from './_lib/productJsonLd.mjs'
 import { getOrderedServiceEntries } from '../src/lib/servicesOrder'
 import { renderHomepageHtml } from './_lib/homepageHtml.mjs'
@@ -60,7 +61,21 @@ type ServiceDetailDocument = SeoDocument & {
   leadForm?: Record<string, any>
 }
 
-type SeoCategoryNode = { _id: string; parentId?: string; slugValue?: string }
+type SeoCategoryNode = {
+  _id: string
+  parentId?: string
+  slugValue?: string
+  name?: string
+  sortOrder?: number
+  imageUrl?: string
+  imageAlt?: string
+  imageAltEn?: string
+  imageAltRu?: string
+  imageTitle?: string
+  imageTitleEn?: string
+  imageTitleRu?: string
+  translations?: Record<string, { name?: string } | undefined>
+}
 
 type SeoDocument = {
   _id: string
@@ -84,6 +99,8 @@ type SeoDocument = {
   brandName?: string
   seo?: Record<string, unknown> | null
   translations?: Record<string, Record<string, any>>
+  seoContent?: unknown[]
+  helpBlock?: Record<string, any>
 }
 
 
@@ -355,12 +372,12 @@ async function querySanityData<T>(
 }
 
 async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string, onCategoryTree?: (categories: SeoCategoryNode[]) => void): Promise<SeoPlantProduct[]> {
-  const categoryQuery = '*[_type == "category"]{_id,"parentId":parent._ref,"slugValue":coalesce(slug.current,slug)}'
+  const categoryQuery = '*[_type == "category"]{_id,name,translations{ru{name},en{name}},"parentId":parent._ref,"slugValue":coalesce(slug.current,slug),sortOrder,"imageUrl":image.asset->url,imageAlt:image.alt,imageAltEn:image.altEn,imageAltRu:image.altRu,imageTitle:image.title,imageTitleEn:image.titleEn,imageTitleRu:image.titleRu}'
   const categories = await querySanityData<SeoCategoryNode[]>(
     dataset,
     categoryQuery,
     {},
-    'sanity/' + dataset + '/category-tree-v2',
+    'sanity/' + dataset + '/category-tree-v3',
     300,
   )
   if (!Array.isArray(categories)) throw new Error('Sanity ' + dataset + ' category tree is not an array')
@@ -408,7 +425,7 @@ async function fetchPlantCategoryProducts(categoryId: string): Promise<SeoPlantP
 }
 
 async function queryDocument(dataset: string, type: string, slug: string): Promise<SeoDocument | null> {
-  const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false) && ($type != "blogPost" || isPublished == true)][0]{_id,name,title,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,productType,saleVariants[]{priceEUR,stockStatus,name},serviceCategory,sku,stockStatus,publishedAt,_updatedAt,isPublished,"coverUrl":cover.asset->url,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl,cover.asset->url),"brandName":brand->name,seo,translations}'
+  const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false) && ($type != "blogPost" || isPublished == true)][0]{_id,name,title,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,productType,saleVariants[]{priceEUR,stockStatus,name},serviceCategory,sku,stockStatus,publishedAt,_updatedAt,isPublished,"coverUrl":cover.asset->url,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl,cover.asset->url),"brandName":brand->name,seo,seoContent,helpBlock,translations}'
   const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
   url.searchParams.set('$type', JSON.stringify(type))
@@ -420,7 +437,7 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
   const cacheStorage = (globalThis as typeof globalThis & { caches?: { default?: Cache } }).caches
   const cache = cacheStorage?.default
   const cacheKey = new Request(
-    SITE_URL + '/__edge-cache/sanity/' + encodeURIComponent(dataset) + '/' +
+    SITE_URL + '/__edge-cache/sanity/' + (type === 'category' ? 'category-document-v2/' : '') + encodeURIComponent(dataset) + '/' +
     encodeURIComponent(type) + '/' + encodeURIComponent(slug),
     { method: 'GET' },
   )
@@ -986,10 +1003,24 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
   const mainStyle = type === 'product' || type === 'blogPost'
     ? 'max-width:1100px;min-height:100svh;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif'
     : 'max-width:1100px;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif'
+  const isEquipmentCategory = type === 'category' && doc._dataset === 'production'
+  const rootCatalog = doc.slugValue === 'vsichko-za-polivane'
+  const categoryNavigation = isEquipmentCategory && Array.isArray(equipmentCategoryTree)
+    ? renderEquipmentCategoryNavigation(equipmentCategoryTree, doc._id, language, SITE_URL, { rootCatalog })
+    : ''
+  const categorySeoContent = isEquipmentCategory
+    ? renderEquipmentCategorySeoContent(doc, language, SITE_URL)
+    : ''
+  const categoryHelpBlock = isEquipmentCategory
+    ? renderEquipmentCategoryHelpBlock(doc, language, SITE_URL)
+    : ''
   return '<main style="' + mainStyle + '">' +
     '<h1>' + escapeHtml(h1) + '</h1>' + image +
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
-    extra + (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') + (type === 'category' && doc._dataset === 'production' && Array.isArray(equipmentProducts) ? renderEquipmentCategoryListing(equipmentProducts, language, SITE_URL, { rootCatalog: doc.slugValue === 'vsichko-za-polivane', categories: equipmentCategoryTree || [] }) : '') + '<p><a href="/">Florial</a></p></main>'
+    extra + categoryNavigation +
+    (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') +
+    (isEquipmentCategory && Array.isArray(equipmentProducts) ? renderEquipmentCategoryListing(equipmentProducts, language, SITE_URL, { rootCatalog, categories: equipmentCategoryTree || [] }) : '') +
+    categorySeoContent + categoryHelpBlock + '<p><a href="/">Florial</a></p></main>'
 }
 
 function makeBreadcrumb(path: string, name: string, language: string): Record<string, unknown> {
