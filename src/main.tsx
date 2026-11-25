@@ -7,6 +7,7 @@ import { AnalyticsConsent } from './components/AnalyticsConsent'
 import App from './App.tsx'
 import { LanguageProvider } from './lib/i18n'
 import { Footer } from './components/Footer'
+import { completeHomepageHandoff } from './lib/homepageHandoff.mjs'
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(({ PrivacyPolicyPage }) => ({ default: PrivacyPolicyPage })))
 const WithdrawalPage = lazy(() => import('./pages/WithdrawalPage').then(({ WithdrawalPage }) => ({ default: WithdrawalPage })))
 const TermsPage = lazy(() => import('./pages/TermsPage').then(({ TermsPage }) => ({ default: TermsPage })))
@@ -17,7 +18,15 @@ const isPrivacyPolicyRoute = window.location.pathname.replace(/\/+$/, '') === '/
 const isWithdrawalRoute = window.location.pathname.replace(/\/+$/, '') === '/withdrawal'
 const isTermsRoute = window.location.pathname.replace(/\/+$/, '') === '/terms'
 
-createRoot(document.getElementById('root')!).render(
+const isHomepageRoute = window.location.pathname === '/'
+const serverRoot = document.getElementById('root')
+const clientRoot = isHomepageRoute ? document.getElementById('app-root') : null
+const appMountNode = clientRoot || serverRoot
+const onHomepageReady = isHomepageRoute ? () => {
+  completeHomepageHandoff(serverRoot, clientRoot)
+} : undefined
+
+createRoot(appMountNode!).render(
   <StrictMode>
     <Sentry.ErrorBoundary
       fallback={({ resetError }) => {
@@ -73,7 +82,7 @@ createRoot(document.getElementById('root')!).render(
         </div>
               <AnalyticsConsent />
       </LanguageProvider>
-    ) : <LanguageProvider><><App /><AnalyticsConsent /></></LanguageProvider>}
+    ) : <LanguageProvider><><App onHomepageReady={onHomepageReady} /><AnalyticsConsent /></></LanguageProvider>}
     </Sentry.ErrorBoundary>
   </StrictMode>,
 )

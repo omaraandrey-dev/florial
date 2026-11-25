@@ -4,12 +4,14 @@ import {blogSlug, blogTranslation, fetchBlogPosts, fetchBlogPostsBySlugs, format
 import {localizedHref} from '../lib/navigation'
 import {getSanityImageProps} from '../lib/sanityImage'
 
-export function BlogSection() {
+export function BlogSection({ onReadinessChange }: { onReadinessChange?: (ready: boolean) => void } = {}) {
   const {t, language} = useI18n()
   const [posts, setPosts] = useState<BlogPostCard[]>([])
   const [status, setStatus] = useState<'loading' | 'error' | 'empty' | 'ready'>('loading')
   useEffect(() => {
     let active = true
+    onReadinessChange?.(false)
+    let succeeded = false
     setPosts([])
     setStatus('loading')
     const pinnedSlugs = ['podroben-landshaften-proekt-gradina', 'cena-sistema-avtomatichno-napoyavane-burgas']
@@ -21,14 +23,18 @@ export function BlogSection() {
         const nextPosts = [...pinned, ...nextLatest]
         setPosts(nextPosts)
         setStatus(nextPosts.length ? 'ready' : 'empty')
+        succeeded = true
       })
       .catch((error) => {
         if (!active) return
         console.error('Florial blog could not load:', error)
         setStatus('error')
       })
+      .finally(() => {
+        if (active && succeeded) onReadinessChange?.(true)
+      })
     return () => { active = false }
-  }, [language])
+  }, [language, onReadinessChange])
   return <section className="border-t border-[#E4E8DA] bg-[#F7F8F1] px-4 py-10 md:py-14">
     <div className="mx-auto max-w-7xl">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
