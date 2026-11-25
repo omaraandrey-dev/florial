@@ -1958,7 +1958,6 @@ async function handleRequest(context: PagesContext): Promise<Response> {
             inLanguage: language,
             about: { '@id': SITE_URL + '/#organization' },
             mainEntity: { '@id': SITE_URL + '/#organization' },
-            isPartOf: { '@id': SITE_URL + '/#website' },
           },
         }] : []), {
           id: 'local-business-nessebar',
