@@ -154,6 +154,7 @@ Read-only инвентаризация:
 - Текущие видимые секции сохранены; старые поля copy, не отображаемые клиентской JSX, не добавляются в SSR. Исторический `about.docx` не используется как актуальный контент.
 - Copy, четыре роли и два центра вынесены в `src/content/aboutPageContent.ts`, общий источник для React и Pages Function.
 - Добавлен `functions/_lib/aboutHtml.mjs`, опубликованные Sanity projections с bounded Cache API keys, безопасные responsive image URLs, HTML escaping, localized metadata, SSR marker и AboutPage JSON-LD со ссылками на существующие Organization/WebSite/GardenStore entities.
+- Добавлены `tests/about-ssr.test.mjs`, `scripts/smoke-about-ssr.mjs` и `.github/workflows/about-ssr-smoke.yml`: exact Preview raw HTTP smoke проверяет BG/RU/EN без выполнения JavaScript и учитывает короткую задержку edge propagation.
 - При неполных Sanity media данные текста всё равно выводятся с placeholders и `no-store`; полное edge caching разрешается только при наличии всех 6 фото и обеих category images.
 - Sanity не изменялся. PR/CI/Preview и owner visual acceptance ещё pending. Подробности: `../audits/2026-11-25-about-ssr-discovery.md`.
 
