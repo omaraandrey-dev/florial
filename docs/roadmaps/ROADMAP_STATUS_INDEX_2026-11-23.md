@@ -1,8 +1,8 @@
 # Florial — единый реестр дорожных карт и текущих приоритетов
 
 **Срез:** 25.11.2026  
-**Production main HEAD на момент обновления:** `1e56c12ed4bd73307ff24f7255bc3b6c16780ea4` (в main после PR #543 добавлены только два smoke/CI файла; детали инцидента — в plant SSR audit).  
-**Единая ветка развития:** `develop`; синхронизирована с текущим main merge-коммитом `0f30704138d49169481d06b37c1aa7f26c5a4c75`; актуальная реализация и handoff ведутся только в develop.  
+**Production main HEAD на момент обновления:** `2b008089e1134dc72bf3b3f592b5102fdd52b6b9` (PR #545 plant SSR release).  
+**Единая ветка развития:** `develop`; синхронизирована с Production `main` merge-коммитом `c320d9195854ead8451506d26c4e72b1370b9019`; новые задачи ведутся только в develop.  
 **Назначение:** единая точка сверки статусов между самостоятельными дорожными картами. Этот индекс не заменяет подробные планы; он устраняет противоречия в статусах и определяет ближайший рабочий поток. После каждого существенного этапа обновлять соответствующую дорожную карту и этот реестр.
 
 ## 1. Главный активный поток — SEO Florial (7 последовательных этапов)
@@ -61,8 +61,8 @@
 - **Статьи `/blog/{slug}`: MERGED TO MAIN.** PR #541 merged; Preview smoke прошёл 19 статей × 3 локали (57 ответов). Отдельный Production raw HTTP smoke требуется подтвердить.
 - **Каталог оборудования и категории:** PR #531 и расширение PR #542 находятся в текущем main baseline. Для PR #542 подтверждён Preview smoke 54 категории × 3 локали (162 ответа); отдельный Production smoke требуется подтвердить.
 - **Отдельные товары оборудования:** PR #543 MERGED в `main` коммитом `7465914b61f859768b073d1f678f9d22161e9ba6`. Cloudflare Production deployment `25504afc-2b42-4a90-9595-501c7fa08fe8` успешен. Exact-main workflow `45576362238` прошёл 535/535 tests, type-check, lint и build; Production raw HTTP smoke подтвердил все 275 активных товаров × BG/RU/EN (825/825), а отсутствующий/неопубликованный товар возвращает 404 noindex. Владелец визуально принял страницы на desktop/mobile. Подробности: [product SSR audit](../audits/2026-11-25-equipment-product-ssr-v1.md).
-- **Каталог растений и карточки растений: CURRENT PRIORITY — Preview verified, not released.** В PR #545 (draft, `develop → main`) добавлены отдельный SSR renderer карточки растения, plant-only Sanity query, SSR категорий и корневого каталога с первыми 20 sale offers. Live Sanity inventory: 60 active published plants и 17 categories. Exact Preview deployment `8edfaba7-a854-4d4d-ba2a-65891e371d50` прошёл 180 plant detail routes + 51 category routes (231/231) в BG/RU/EN; 543/543 tests, type-check, lint, website build и Studio build прошли. Smoke: `45581140157`. Владелец ещё должен выполнить визуальную проверку desktop/mobile и проверить hydration/client handoff. Подробности: [plant SSR audit](../audits/2026-11-25-plant-catalog-ssr-v1.md).
-- **Следом после принятия растений:** этап 8 SSR `/contacts`; затем этап 9 `/about`; затем этап 10 — общая SSR/SEO регрессия BG/RU/EN.
+- **Каталог растений и карточки растений: RELEASED.** PR #545 squash-merged в `main` commit `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`; Cloudflare Pages Production deployment `5fba6345-f886-4eb8-a4b2-154efe326e04` успешен, домены `florial-bg.com` и `www.florial-bg.com` active. Live Sanity inventory: 60 active published plants и 17 categories. Exact Preview smoke: 180 plant detail + 51 category routes (231/231) в BG/RU/EN. Exact merge commit: 543/543 tests, type-check, lint, website build и Studio build passed. Owner visual acceptance completed. Отдельный plant-specific raw HTTP smoke на Production не выполнялся; это отмечено в audit. Подробности: [plant SSR audit](../audits/2026-11-25-plant-catalog-ssr-v1.md).
+- **Следующий этап:** SSR `/contacts` (этап 8), затем `/about` (этап 9), затем полная SSR/SEO регрессия BG/RU/EN.
 
 Не считать Preview-доказательства Production-релизом. Не менять Sanity-контент/схему, D1, Cloudflare settings/secrets или Production без соответствующего разрешения.
 
