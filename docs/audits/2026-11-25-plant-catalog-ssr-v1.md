@@ -1,14 +1,15 @@
-# Plant catalogue SSR v1 — implementation and Preview audit
+# Plant catalogue SSR v1 — implementation, Preview and Production release audit
 
 **Date:** 2026-11-25  
 **Development branch:** `develop`  
-**Code commit validated:** `f2731a635141608cb718e6b8fe2abcfd1dd446c3`  
-**Current develop HEAD after documentation-only follow-ups:** `80e2709faf0faeb5271c2251ae460981372672a5`  
-**Integration PR:** [#545 — feat(ssr): server-render the complete plant catalogue](https://github.com/omaraandrey-dev/florial/pull/545) (draft; not merged)  
+**Code commit validated in Preview:** `f2731a635141608cb718e6b8fe2abcfd1dd446c3`  
+**Integration PR:** [#545 — feat(ssr): server-render the complete plant catalogue](https://github.com/omaraandrey-dev/florial/pull/545) — merged by squash.  
+**Production merge commit:** `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`  
+**Develop synchronization merge:** `c320d9195854ead8451506d26c4e72b1370b9019` (tree identical to Production main at sync time).  
 **Cloudflare Preview deployment:** `8edfaba7-a854-4d4d-ba2a-65891e371d50`  
 **Preview URL:** https://8edfaba7.florial.pages.dev  
 **Preview status:** successful build and deployment  
-**Production status:** NOT RELEASED for plant SSR.
+**Production status:** RELEASED; Cloudflare Pages deployment succeeded from the exact PR #545 merge commit.
 
 ## 1. Scope
 
@@ -96,7 +97,7 @@ All 231 routes passed. The smoke validated:
 - root `/category/rastenia` category navigation and first 20 sale offers;
 - a missing plant product returns HTTP 404 and noindex.
 
-**Plant smoke workflow run:** `45581140157` — success.
+**Plant smoke workflow run on exact PR head:** `45581984035` — success.
 
 ## 5. CI and build evidence
 
@@ -112,12 +113,23 @@ For the same validated code commit:
 - Existing equipment, services, blog and other raw HTTP regression checks on the same commit — passed.
 
 Relevant validation runs include:
-- Plant catalogue SSR smoke: `45581140157`.
-- Blog and Studio validation: `45581140634`.
-- Equipment product SSR validation: `45581140132`.
-- D1 migration validation: `45581140383`.
+- Plant catalogue SSR smoke: `45581984035`.
+- Blog and Studio validation: `45581984034`.
+- Equipment product SSR validation: `45581983904`.
+- D1 migration validation: `45581984179`.
 
 No Sanity writes or D1 migrations were performed.
+
+## 5A. Production release verification
+
+- PR #545 was merged into `main` by squash at `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`.
+- Cloudflare Pages Production deployment: `5fba6345-f886-4eb8-a4b2-154efe326e04`; exact commit `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`; build and deploy stages succeeded.
+- Custom domains `florial-bg.com` and `www.florial-bg.com` are both active in Cloudflare Pages.
+- Exact merge-commit workflow `45582913604`: 543/543 tests passed; application/Pages Functions type-check, lint, website build, Studio type-check and Studio build passed. D1 validation `45582913445` was read-only; no migration was applied.
+- Other exact-merge-commit raw HTTP regression workflows passed for homepage, services, service details, blog index/articles, equipment categories and equipment product pages.
+- **Plant-specific Production raw HTTP smoke was not separately run after merge.** The exhaustive plant smoke remains confirmed on exact Preview: 180 product + 51 category routes (231/231). Do not claim a separate 231-route Production raw HTTP verification.
+- Owner visually checked plant catalogue and product detail pages in Preview and confirmed that navigation and pages work.
+- Production deployment success and active domain status are verified; direct HTTP fetch from the current execution environment was unavailable, so no independent manual Production page fetch is claimed.
 
 ## 6. Files changed for plant SSR
 
@@ -147,15 +159,15 @@ Cloudflare nevertheless created a Production deployment because `main` advanced:
 
 This deployment did not contain plant SSR application-code changes. The accidental commits were not reverted automatically because further changes to `main` require the owner's explicit approval.
 
-To restore branch ancestry, `main` was merged into `develop` by merge commit `0f30704138d49169481d06b37c1aa7f26c5a4c75`; the smoke files were then corrected on `develop`. No additional changes were made to `main`. PR #545 remains a draft integration PR from `develop` to `main`.
+PR #545 subsequently merged the complete plant SSR implementation to `main` at `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`. `develop` was synchronized with the released main by merge commit `c320d9195854ead8451506d26c4e72b1370b9019`; the two trees were identical at synchronization. The accidental test-only files remain in the history and were not rewritten or force-removed.
 
 PR #409 remains open and untouched. Shared documents overlapping PR #409 were not modified.
 
 ## 8. Remaining work / acceptance boundary
 
-- PR #545 is draft and not merged.
-- Plant SSR is verified in Preview only; it is not released to Production.
-- Owner visual review of representative plant detail and category pages on desktop/mobile is still pending. An attempted read-only Browser Use inspection could not start because the Browser Use service returned `insufficient_credits`; no visual review is claimed.
-- Check client handoff/hydration on representative plant pages for duplicate content, image reload and layout shift before merge.
-- Do not start contacts or about SSR until the plant SSR phase is accepted by the owner.
+- PR #545 is merged; plant SSR is released to Production from exact merge commit `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`.
+- Owner visually accepted the Preview catalogue and product pages. Production deployment succeeded and custom domains are active.
+- A separate 231-route plant raw HTTP smoke against Production remains unverified; Preview raw HTTP smoke passed 231/231.
+- Client startup still uses `createRoot`, not `hydrateRoot`; assess the SSR-to-client handoff and layout shift as a separate scoped task before changing the global bootstrap.
+- Next SSR roadmap stage is `/contacts`, followed by `/about` and the full SSR/SEO regression.
 - Do not edit Sanity product data, schema, D1 or Production configuration as part of this phase without separate approval.

@@ -1,8 +1,8 @@
 # Florial — единый реестр дорожных карт и текущих приоритетов
 
 **Срез:** 25.11.2026  
-**Production main HEAD на момент обновления:** `1e56c12ed4bd73307ff24f7255bc3b6c16780ea4` (в main после PR #543 добавлены только два smoke/CI файла; детали инцидента — в plant SSR audit).  
-**Единая ветка развития:** `develop`; синхронизирована с текущим main merge-коммитом `0f30704138d49169481d06b37c1aa7f26c5a4c75`; актуальная реализация и handoff ведутся только в develop.  
+**Production main HEAD на момент обновления:** `2b008089e1134dc72bf3b3f592b5102fdd52b6b9` (PR #545 plant SSR release).  
+**Единая ветка развития:** `develop`; синхронизирована с Production `main` merge-коммитом `c320d9195854ead8451506d26c4e72b1370b9019`; новые задачи ведутся только в develop.  
 **Назначение:** единая точка сверки статусов между самостоятельными дорожными картами. Этот индекс не заменяет подробные планы; он устраняет противоречия в статусах и определяет ближайший рабочий поток. После каждого существенного этапа обновлять соответствующую дорожную карту и этот реестр.
 
 ## 1. Главный активный поток — SEO Florial (7 последовательных этапов)
@@ -61,8 +61,8 @@
 - **Статьи `/blog/{slug}`: MERGED TO MAIN.** PR #541 merged; Preview smoke прошёл 19 статей × 3 локали (57 ответов). Отдельный Production raw HTTP smoke требуется подтвердить.
 - **Каталог оборудования и категории:** PR #531 и расширение PR #542 находятся в текущем main baseline. Для PR #542 подтверждён Preview smoke 54 категории × 3 локали (162 ответа); отдельный Production smoke требуется подтвердить.
 - **Отдельные товары оборудования:** PR #543 MERGED в `main` коммитом `7465914b61f859768b073d1f678f9d22161e9ba6`. Cloudflare Production deployment `25504afc-2b42-4a90-9595-501c7fa08fe8` успешен. Exact-main workflow `45576362238` прошёл 535/535 tests, type-check, lint и build; Production raw HTTP smoke подтвердил все 275 активных товаров × BG/RU/EN (825/825), а отсутствующий/неопубликованный товар возвращает 404 noindex. Владелец визуально принял страницы на desktop/mobile. Подробности: [product SSR audit](../audits/2026-11-25-equipment-product-ssr-v1.md).
-- **Каталог растений и карточки растений: CURRENT PRIORITY — Preview verified, not released.** В PR #545 (draft, `develop → main`) добавлены отдельный SSR renderer карточки растения, plant-only Sanity query, SSR категорий и корневого каталога с первыми 20 sale offers. Live Sanity inventory: 60 active published plants и 17 categories. Exact Preview deployment `8edfaba7-a854-4d4d-ba2a-65891e371d50` прошёл 180 plant detail routes + 51 category routes (231/231) в BG/RU/EN; 543/543 tests, type-check, lint, website build и Studio build прошли. Smoke: `45581140157`. Владелец ещё должен выполнить визуальную проверку desktop/mobile и проверить hydration/client handoff. Подробности: [plant SSR audit](../audits/2026-11-25-plant-catalog-ssr-v1.md).
-- **Следом после принятия растений:** этап 8 SSR `/contacts`; затем этап 9 `/about`; затем этап 10 — общая SSR/SEO регрессия BG/RU/EN.
+- **Каталог растений и карточки растений: RELEASED + PRODUCTION SMOKE PASS.** PR #545 squash-merged в `main` commit `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`; Cloudflare Pages Production deployment `5fba6345-f886-4eb8-a4b2-154efe326e04` успешен. Live Sanity inventory на момент проверки: 60 active published plants и 17 categories. Exact Preview и отдельный Production raw HTTP smoke: 180 plant detail + 51 category routes (231/231) в BG/RU/EN; missing product 404 noindex. Exact merge commit: 543/543 tests, type-check, lint, website build и Studio build passed. Owner visual acceptance completed. Подробности: [plant SSR audit](../audits/2026-11-25-plant-catalog-ssr-v1.md) и [contacts SSR audit](../audits/2026-11-25-contacts-ssr-discovery.md).
+- **Контакты `/contacts` — этап 8: PREVIEW VERIFIED; owner acceptance / merge pending.** PR #546, code head `43eaf03779392edfaca7df2a69e4653f3b32a4a8`; Preview deployment `95e04b33-8753-4a5d-8989-2f7fb83a90dd` successful. Raw HTTP BG/RU/EN smoke, desktop/mobile browser QA and exact-SHA CI passed (548/548 tests; type-check, lint, website build, Studio type-check/build, D1 read-only validation). Owner confirmed both locations daily 09:00–17:00. Phones and address fields were preserved. No Production release. Next after owner acceptance: `/about` (этап 9), then full SSR/SEO regression BG/RU/EN. Details: [contacts SSR audit](../audits/2026-11-25-contacts-ssr-discovery.md).
 
 Не считать Preview-доказательства Production-релизом. Не менять Sanity-контент/схему, D1, Cloudflare settings/secrets или Production без соответствующего разрешения.
 
@@ -114,7 +114,7 @@
 ## 8. Правила следующего чата
 
 1. Получить свежие HEAD `develop` и `main`; `develop` — единая ветка развития, `main` — Production. Прочитать `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, `WORK_PROTOCOL.md`, `MASTER_SPEC.md`, `TECHNICAL_PASSPORT.md`, верх `CHANGELOG.md`, `OPEN_QUESTIONS.md` и этот индекс.
-2. Текущий SSR приоритет — PR #545: полный SSR каталога растений и карточек растений. Завершить Preview/hydration/визуальную проверку и получить отдельное разрешение владельца до merge. После принятия растений продолжить `/contacts`, затем `/about`, затем общую SSR/SEO регрессию. SEO этап 6 — Local SEO вести как отдельный поток, read-only и по отдельному поручению.
+2. Текущий SSR приоритет — PR #546: contacts SSR. Preview raw HTTP BG/RU/EN и desktop/mobile browser QA пройдены; exact-SHA CI passed. Получить owner acceptance и отдельное разрешение до merge. После принятия контактов продолжить `/about`, затем общую SSR/SEO регрессию. SEO этап 6 — Local SEO вести как отдельный поток, read-only и по отдельному поручению.
 3. Не менять профили, внешние listings или сайт без отдельного согласования.
 4. Повторить desktop-only GSC анализ примерно 23.12.2026 на последних 28 финализированных днях; это не блокирует текущую работу.
 5. Повторно проверить сохранённые URL Inspection anomalies примерно через месяц; не менять код/Sanity без нового подтверждения.
@@ -134,3 +134,5 @@
 
 
 - 23.11.2026 — по отдельному разрешению владельца выполнена scoped performance remediation страницы /blog: PR #510 merged в main (f0913f3d379c718bc140d539e5b66beb7411a8f2), CI/Preview/Production успешны; BG/RU/EN Production HTML smoke пройден. Общая performance-оптимизация остальных страниц остаётся приостановленной. Для блога открыты только сопоставимый повторный PSI/Lighthouse и screenshot/interaction QA; численное улучшение пока не подтверждено. Аудит: docs/audits/2026-11-23-blog-performance-remediation.md.
+
+- 25.11.2026 — SSR этап 8: PR #546 добавил localized `/contacts` SSR и daily 09:00–17:00 в client view и двух GardenStore JSON-LD. Preview deployment `95e04b33-8753-4a5d-8989-2f7fb83a90dd` успешен; raw HTTP BG/RU/EN smoke, desktop/mobile browser QA и exact-SHA CI (548/548 tests) прошли. Owner acceptance/merge pending; Production не изменён. Подробности: [contacts SSR audit](../audits/2026-11-25-contacts-ssr-discovery.md).

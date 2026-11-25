@@ -82,6 +82,12 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
     fetchCenterImages()
   }, [])
 
+  const openingDays = language === 'en'
+    ? ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    : language === 'ru'
+      ? ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+      : ['Понеделник', 'Вторник', 'Сряда', 'Четвъртък', 'Петък', 'Събота', 'Неделя']
+
   const gardenCenters: CenterInfo[] = [
     {
       key: 'nesebr',
@@ -162,13 +168,12 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
       <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-6 shadow-sm mb-6">
         <h2 className="text-2xl font-bold text-slate-900 mb-4">{t('Работни часове')}</h2>
         <ul className="space-y-2 text-slate-700 font-medium">
-          <li className="flex justify-between border-b border-amber-200/50 pb-2"><i>{t('понеделник')}</i> <span>9:00 – 18.00</span></li>
-          <li className="flex justify-between border-b border-amber-200/50 pb-2"><i>{t('вторник')}</i> <span>9:00 – 18.00</span></li>
-          <li className="flex justify-between border-b border-amber-200/50 pb-2"><i>{t('сряда')}</i> <span>9:00 – 18.00</span></li>
-          <li className="flex justify-between border-b border-amber-200/50 pb-2"><i>{t('четвъртък')}</i> <span>9:00 – 18.00</span></li>
-          <li className="flex justify-between border-b border-amber-200/50 pb-2"><i>{t('петък')}</i> <span>9:00 – 18.00</span></li>
-          <li className="flex justify-between border-b border-amber-200/50 pb-2"><i>{t('Събота')}</i> <span>9:00 – 18.00</span></li>
-          <li className="flex justify-between pt-1"><i>{t('Възкресение')}</i> <span className="font-bold text-red-700">{t('Почивен ден')}</span></li>
+          {openingDays.map((day) => (
+            <li key={day} className="flex justify-between border-b border-amber-200/50 pb-2">
+              <i>{day}</i>
+              <span>09:00 – 17:00</span>
+            </li>
+          ))}
         </ul>
       </div>
 
