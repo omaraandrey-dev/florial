@@ -44,5 +44,5 @@
 - `main` HEAD после PR #546: `1b18d7ae7db06f8d656d539b28037889f99d8d94`.
 - PR #546 — SSR `/contacts` — squash-merged; Cloudflare Pages Production deployment `b91055ec-3e33-4a7e-aa3c-8024c02b30fc` завершился успешно с точного merge SHA.
 - `develop` синхронизирована с Production `main` merge-коммитом `30499dabd413590ceb3e975f1be760a37a6ea32a` без force-push; tree совпадает с main.
-- Production raw HTTP smoke `/contacts` BG/RU/EN остаётся отдельной незавершённой проверкой.
+- Production raw HTML smoke `/contacts` завершён: BG/RU/EN — 3/3 HTTP 200; SSR content, localized cards, opening hours, GardenStore JSON-LD и canonical подтверждены.
 - PR #409 — оставлен владельцем без изменений.
