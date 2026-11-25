@@ -39,7 +39,7 @@ for (const locale of locales) {
   const { response, html } = await fetchHtml(url, locale.code)
   assert.match(html, new RegExp('<html[^>]*lang="' + locale.code + '"', 'i'), locale.code + ': html lang')
   assert.match(html, /data-florial-ssr="contacts"/, locale.code + ': contacts SSR marker')
-  assert.equal((html.match(/<h1\\b/g) || []).length, 1, locale.code + ': exactly one H1')
+  assert.equal((html.match(/<h1\b/g) || []).length, 1, locale.code + ': exactly one H1')
   assert.ok(html.includes('<h1') && html.includes(locale.h1), locale.code + ': localized H1')
   assert.ok(html.includes('rel="canonical" href="' + locale.canonical + '"'), locale.code + ': canonical')
   assert.match(html, /name="robots"[^>]*content="index, follow"/i, locale.code + ': indexability')
