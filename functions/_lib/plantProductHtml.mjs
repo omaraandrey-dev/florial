@@ -435,7 +435,13 @@ export function buildPlantProductStructuredData(product, language = 'bg', canoni
   const offers = (Array.isArray(product.saleVariants) ? product.saleVariants : [])
     .filter((variant) => typeof variant.priceEUR === 'number' && variant.priceEUR > 0)
   const prices = offers.map((variant) => variant.priceEUR)
-  const knownStatuses = offers.map((variant) => variant.stockStatus).filter((status) => ['inStock', 'onRequest', 'outOfStock'].includes(status))
+  const availability = offers.some((variant) => variant.stockStatus === 'inStock')
+    ? 'https://schema.org/InStock'
+    : offers.length > 0 && offers.every((variant) => variant.stockStatus === 'onRequest')
+      ? 'https://schema.org/PreOrder'
+      : offers.length > 0 && offers.every((variant) => variant.stockStatus === 'outOfStock')
+        ? 'https://schema.org/OutOfStock'
+        : undefined
   const aggregateOffer = prices.length
     ? {
         '@type': 'AggregateOffer',
@@ -443,13 +449,7 @@ export function buildPlantProductStructuredData(product, language = 'bg', canoni
         lowPrice: Math.min(...prices).toFixed(2),
         highPrice: Math.max(...prices).toFixed(2),
         offerCount: offers.length,
-        ...(knownStatuses.length ? {
-          availability: knownStatuses.includes('inStock')
-            ? 'https://schema.org/InStock'
-            : knownStatuses.includes('onRequest')
-              ? 'https://schema.org/PreOrder'
-              : 'https://schema.org/OutOfStock',
-        } : {}),
+        ...(availability ? { availability } : {}),
       }
     : undefined
   const productData = {
