@@ -44,15 +44,32 @@ function jsonLdEntities(html) {
     .map(([, id, raw]) => ({ id, data: JSON.parse(raw) }))
 }
 
+async function fetchPreviewHtml(url, locale) {
+  let lastStatus = 0
+  let lastError = null
+  for (let attempt = 1; attempt <= 10; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        headers: { Accept: 'text/html', 'Cache-Control': 'no-cache' },
+        redirect: 'follow',
+      })
+      if (response.status === 200) return response
+      lastStatus = response.status
+      if (![404, 502, 503, 504].includes(response.status)) {
+        assert.equal(response.status, 200, locale + ' /about HTTP status')
+      }
+    } catch (error) {
+      lastError = error
+    }
+    if (attempt < 10) await new Promise((resolve) => setTimeout(resolve, 3000))
+  }
+  throw new Error(locale + ' /about did not become available after deployment propagation; last status=' + lastStatus + ', error=' + String(lastError || 'none'))
+}
+
 for (const locale of locales) {
   const url = baseUrl + '/about' + locale.query
-  const response = await fetch(url, {
-    headers: { Accept: 'text/html', 'Cache-Control': 'no-cache' },
-    redirect: 'follow',
-  })
+  const response = await fetchPreviewHtml(url, locale.code)
   const html = await response.text()
-
-  assert.equal(response.status, 200, locale.code + ' /about HTTP status')
   assert.match(response.headers.get('content-type') || '', /text\/html/i, locale.code + ' content type')
   assert.match(html, new RegExp('<html[^>]*lang="' + locale.code + '"', 'i'), locale.code + ' html lang')
   assert.match(html, /data-florial-ssr="about"/, locale.code + ' SSR marker')
