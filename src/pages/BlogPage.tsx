@@ -131,7 +131,8 @@ export function BlogPage() {
   const {t, language} = useI18n()
   const [ssrPayload] = useState<BlogSsrPayload | null>(() => readBlogSsrPayload())
   const hasInitialPosts = ssrPayload?.language === language
-  const [posts, setPosts] = useState<BlogPostCard[]>(() => hasInitialPosts ? ssrPayload.posts : [])
+  const initialPosts = hasInitialPosts && ssrPayload ? ssrPayload.posts : []
+  const [posts, setPosts] = useState<BlogPostCard[]>(() => initialPosts)
   const [loaded, setLoaded] = useState(hasInitialPosts)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
