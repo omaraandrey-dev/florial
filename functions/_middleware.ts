@@ -451,7 +451,9 @@ async function queryServiceDocument(slug: string): Promise<ServiceDetailDocument
       hero {
         title, subtitle,
         "imageUrl": image.asset->url,
-        imageAlt, imageAltEn, imageAltRu,
+        "imageAlt": image.alt,
+        "imageAltEn": image.altEn,
+        "imageAltRu": image.altRu,
         "imageLinkUrl": image.linkUrl
       },
       "galleryImages": gallery[] { _key, "url": asset->url, alt, altEn, altRu, linkUrl },
@@ -599,7 +601,7 @@ function setPageHead(
   html = setMetaTag(html, 'name', 'robots', options.noIndex ? 'noindex, nofollow' : 'index, follow')
   html = setMetaTag(html, 'property', 'og:title', options.title)
   html = setMetaTag(html, 'property', 'og:description', options.description)
-  html = setMetaTag(html, 'property', 'og:type', options.pageType || 'website')
+  html = setMetaTag(html, 'property', 'og:type', options.pageType === 'service' ? 'website' : options.pageType || 'website')
   html = setMetaTag(html, 'property', 'og:url', options.canonical)
   html = setMetaTag(html, 'property', 'og:locale', options.language === 'ru' ? 'ru_RU' : options.language === 'en' ? 'en_US' : 'bg_BG')
   html = setMetaTag(html, 'property', 'og:image', options.image || 'https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png')
@@ -1592,8 +1594,11 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         translations: doc.translations,
       }, language as 'bg' | 'ru' | 'en') : null
       const brand = language === 'bg' ? 'Флориал' : 'Florial'
-      const title = String(categorySeo?.metaTitle || seo?.metaTitle || seo?.title || (name + ' | ' + brand))
-      const metaDescription = String(categorySeo?.metaDescription || seo?.metaDescription || seo?.description || description || (name + ' — ' + brand))
+      const title = String(categorySeo?.metaTitle || seo?.metaTitle || seo?.title || (name + ' | ' + (type === 'service' ? 'Florial' : brand)))
+      const serviceDescriptionFallback = type === 'service'
+        ? (localized?.shortDescription || doc.shortDescription || (name + ' — ' + (language === 'ru' ? 'профессиональные услуги Florial в Болгарии' : language === 'en' ? 'professional Florial services in Bulgaria' : 'професионални услуги на Florial в България')))
+        : description || (name + ' — ' + brand)
+      const metaDescription = String(categorySeo?.metaDescription || seo?.metaDescription || seo?.description || serviceDescriptionFallback)
       const noIndex = seo?.noIndex === true || categorySeo?.noIndex === true
       const canonicalRoute = route === 'products' ? 'product' : route
       const pagePath = '/' + canonicalRoute + '/' + encodeURIComponent(doc.slugValue || slug)
