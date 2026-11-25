@@ -17,7 +17,7 @@ const isPrivacyPolicyRoute = window.location.pathname.replace(/\/+$/, '') === '/
 const isWithdrawalRoute = window.location.pathname.replace(/\/+$/, '') === '/withdrawal'
 const isTermsRoute = window.location.pathname.replace(/\/+$/, '') === '/terms'
 
-const isHomepageRoute = window.location.pathname.replace(/\\/+$/, '') === '/'
+const isHomepageRoute = window.location.pathname === '/'
 const serverRoot = document.getElementById('root')
 const clientRoot = isHomepageRoute ? document.getElementById('app-root') : null
 const appMountNode = clientRoot || serverRoot
