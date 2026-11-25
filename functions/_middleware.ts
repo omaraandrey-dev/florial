@@ -7,6 +7,7 @@ import { renderHomepageHtml } from './_lib/homepageHtml.mjs'
 import { getServicesDirectoryMetadata, renderServicesDirectoryHtml } from './_lib/servicesDirectoryHtml.mjs'
 import { buildServiceDetailStructuredData, getServiceDetailMetadata, renderServiceDetailHtml } from './_lib/serviceDetailHtml.mjs'
 import { getBlogIndexMetadata, renderBlogIndexHtml, serializeBlogIndexPayload } from './_lib/blogIndexHtml.mjs'
+import { getBlogArticleMetadata, renderBlogArticleHtml, serializeBlogArticlePayload } from './_lib/blogArticleHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -1303,6 +1304,94 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       }, 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
     } catch {
       // Never turn a Sanity outage into a successful empty blog index.
+      return blogUnavailableResponse(language)
+    }
+  }
+
+  if (path.startsWith('/blog/')) {
+    const rawArticleSlug = path.slice('/blog/'.length)
+    let articleSlug = ''
+    try {
+      articleSlug = decodeURIComponent(rawArticleSlug)
+    } catch {
+      return notFoundResponse(language)
+    }
+    if (!articleSlug || articleSlug.includes('/')) return notFoundResponse(language)
+
+    const articleQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt) && (slug.current == $slug || slug == $slug || _id == $slug)][0...1]{' +
+      '_id, slug, publishedAt, _updatedAt, tags, ' +
+      '"cover": {"asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption}, ' +
+      '"gallery": gallery[]{"asset": asset->{"url": url}, alt, altRu, altEn, caption}, ' +
+      '"translations": {"' + language + '": {' +
+        '"title": coalesce(translations.' + language + '.title, translations.bg.title), ' +
+        '"shortDescription": coalesce(translations.' + language + '.shortDescription, translations.bg.shortDescription), ' +
+        '"body": coalesce(translations.' + language + '.body, translations.bg.body)[]{' +
+          '_key, _type, style, listItem, children[]{_key, text, marks}, markDefs[]{_key, _type, href, blank}, ' +
+          '_type == "image" => {"assetUrl": asset->url, alt, altRu, altEn, caption}, ' +
+          '_type == "youtubeEmbed" => {url, title, caption}' +
+        '}, ' +
+        '"seoTitle": coalesce(translations.' + language + '.seoTitle, translations.bg.seoTitle), ' +
+        '"seoDescription": coalesce(translations.' + language + '.seoDescription, translations.bg.seoDescription), ' +
+        '"coverAlt": coalesce(translations.' + language + '.coverAlt, translations.bg.coverAlt)' +
+      '}}' +
+    '}'
+
+    try {
+      const matches = await querySanityData<any[]>(
+        'production',
+        articleQuery,
+        { slug: articleSlug },
+        'blog/article-v1/' + language + '/' + encodeURIComponent(articleSlug),
+        60,
+      )
+      const post = Array.isArray(matches) ? matches[0] : null
+      if (!post) return notFoundResponse(language)
+
+      let relatedPosts: any[] = []
+      try {
+        const relatedQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt) && _id != $excludeId]{' +
+          '"sharedTagCount": count(tags[@ in $tags]), ' +
+          '_id, slug, publishedAt, tags, ' +
+          '"cover": {"asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption}, ' +
+          '"translations": {"' + language + '": {' +
+            '"title": coalesce(translations.' + language + '.title, translations.bg.title), ' +
+            '"shortDescription": coalesce(translations.' + language + '.shortDescription, translations.bg.shortDescription), ' +
+            '"coverAlt": coalesce(translations.' + language + '.coverAlt, translations.bg.coverAlt)' +
+          '}}' +
+        '} | order(sharedTagCount desc, publishedAt desc)[0...3]{_id, slug, publishedAt, tags, cover, translations}'
+        const result = await querySanityData<any[]>(
+          'production',
+          relatedQuery,
+          { excludeId: post._id, tags: Array.isArray(post.tags) ? post.tags : [] },
+          'blog/article-related-v1/' + language + '/' + encodeURIComponent(post._id),
+          60,
+        )
+        if (Array.isArray(result)) relatedPosts = result
+      } catch {
+        // Related content is optional; an unavailable related query must not hide a valid article.
+      }
+
+      const metadata = getBlogArticleMetadata(post, language)
+      const rendered = renderBlogArticleHtml({ post, relatedPosts, language })
+      return transformHtmlResponse(await context.next(), (html) => {
+        const root = renderRoot(html, rendered.body)
+        const headed = setPageHead(root, {
+          language,
+          title: metadata.title,
+          description: metadata.description,
+          canonical: metadata.canonical,
+          alternates: metadata.alternates,
+          image: rendered.image,
+          noIndex: false,
+          structuredData: rendered.structuredData,
+          pageType: 'article',
+        })
+        const initialData = '<script id="florial-blog-article-data" type="application/json">' +
+          serializeBlogArticlePayload(post, relatedPosts, language) + '</script>'
+        return headed.replace(/<\/head>/i, initialData + '\n</head>')
+      }, 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
+    } catch {
+      // Do not turn a Sanity outage into a successful empty article or a false 404.
       return blogUnavailableResponse(language)
     }
   }
