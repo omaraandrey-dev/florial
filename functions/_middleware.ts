@@ -272,6 +272,31 @@ function unavailableResponse(language: string | null): Response {
 }
 
 
+function blogUnavailableResponse(language: string | null): Response {
+  const lang = language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg'
+  const copy = lang === 'ru'
+    ? { title: 'Блог временно недоступен', body: 'Не удалось загрузить опубликованные материалы. Пожалуйста, повторите попытку позже.', home: 'На главную' }
+    : lang === 'en'
+      ? { title: 'Blog temporarily unavailable', body: 'Published articles could not be loaded. Please try again shortly.', home: 'Go to homepage' }
+      : { title: 'Блогът временно не е достъпен', body: 'Публикуваните материали не могат да бъдат заредени. Моля, опитайте отново след малко.', home: 'Към началната страница' }
+  const html = '<!doctype html><html lang="' + lang + '"><head><meta charset="utf-8">' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1">' +
+    '<title>' + escapeHtml(copy.title) + ' | ' + SITE_NAME + '</title>' +
+    '<meta name="robots" content="noindex, nofollow"></head>' +
+    '<body><main><h1>' + escapeHtml(copy.title) + '</h1><p>' + escapeHtml(copy.body) + '</p>' +
+    '<a href="' + (lang === 'bg' ? '/' : '/?lang=' + lang) + '">' + escapeHtml(copy.home) + '</a></main></body></html>'
+  return new Response(html, {
+    status: 503,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
+      'Retry-After': '30',
+      'X-Robots-Tag': 'noindex, nofollow',
+      'X-Content-Type-Options': 'nosniff',
+    },
+  })
+}
+
 async function querySanityData<T>(
   dataset: string,
   query: string,
@@ -1278,7 +1303,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       }, 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
     } catch {
       // Never turn a Sanity outage into a successful empty blog index.
-      return unavailableResponse(language)
+      return blogUnavailableResponse(language)
     }
   }
 
