@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  checks: read
 
 jobs:
   plant-ssr-smoke:
@@ -43,8 +44,9 @@ jobs:
               if [ "$conclusion" != "success" ]; then echo "Cloudflare Preview failed: ${details_url}"; exit 1; fi
               deployment_id="$(printf '%s' "$details_url" | sed -nE 's#.*pages/view/florial/([0-9a-f-]+).*#\1#p')"
               if [ -z "$deployment_id" ]; then echo "Could not extract Preview deployment ID from ${details_url}"; exit 1; fi
-              echo "BASE_URL=https://${deployment_id}.florial.pages.dev" >> "$GITHUB_ENV"
-              echo "Using exact successful Preview deployment: https://${deployment_id}.florial.pages.dev"
+              deployment_short_id="${deployment_id:0:8}"
+              echo "BASE_URL=https://${deployment_short_id}.florial.pages.dev" >> "$GITHUB_ENV"
+              echo "Using exact successful Preview deployment: https://${deployment_short_id}.florial.pages.dev"
               exit 0
             fi
             echo "Waiting for Cloudflare Pages check (attempt ${attempt}/60; status=${status:-pending})"
