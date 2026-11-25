@@ -7,7 +7,7 @@
 **Branch:** `feat/ssr-services-directory-v1`  
 **Verified code head:** `a9cdcf97102aa640f90fc40f393e1d4947fb8a0e`  
 **Base main:** `cc2562194107cf0df2be05b1f13a6b9e10610bb9`  
-**Status:** Preview implementation verified; PR not merged; Production not released.
+**Status:** PR #535 merged; exact merge commit deployed successfully to Production. Canonical Production raw HTTP smoke remains pending.
 
 ## 1. Result
 
@@ -79,3 +79,14 @@ The initial response contains the localized page H1 and introduction, four speci
 - `.github/workflows/services-directory-ssr-smoke.yml`
 - `docs/roadmaps/SSR_CONTENT_V1_ROADMAP_2026-11-24.md`
 - `docs/audits/2026-11-25-services-directory-ssr-v1.md`
+
+
+## 7. Post-merge integration record — 2026-11-25
+
+- PR #535 was squash-merged into `main` at `eb5a8c7ca2a94884f44f367f791800ea35d0749b`.
+- Cloudflare Pages Production deployment `9f02e8e9-9064-4a87-9df9-b75cca365671` completed successfully from that exact merge SHA. The canonical domains are attached.
+- Latest PR-head Blog and Studio validation run `45553763682` passed; Services directory Preview smoke run `45553763725` passed; D1 validation run `45553568579` passed without applying a migration.
+- Owner reports personally checking the Preview and confirming that it works. This is owner acceptance; no independent Browser Use screenshot/trace is available.
+- The canonical Production route-level raw HTTP smoke for BG/RU/EN is **pending**. Do not infer raw-response correctness solely from the successful deployment.
+- Phase 3 (`/services/{slug}`) is next, but should begin only after the Production raw HTTP smoke is recorded.
+- Shared `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` remain untouched pending reconciliation of open, stale PR #409, which overlaps those files.
