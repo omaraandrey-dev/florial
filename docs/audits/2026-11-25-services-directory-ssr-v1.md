@@ -1,0 +1,81 @@
+# SSR Content v1 — Phase 2: services directory audit
+
+**Date:** 25.11.2026  
+**Route:** `/services`  
+**Locales:** BG / RU / EN  
+**PR:** [#535](https://github.com/omaraandrey-dev/florial/pull/535)  
+**Branch:** `feat/ssr-services-directory-v1`  
+**Verified code head:** `a9cdcf97102aa640f90fc40f393e1d4947fb8a0e`  
+**Base main:** `cc2562194107cf0df2be05b1f13a6b9e10610bb9`  
+**Status:** Preview implementation verified; PR not merged; Production not released.
+
+## 1. Result
+
+The `/services` route now returns its meaningful directory content in the initial HTTP HTML response. The SSR implementation is additive: the existing React page, filtering controls, detail routes and navigation remain in place.
+
+The initial response contains the localized page H1 and introduction, four specialist direction tiles, the published service cards, crawlable links, and structured data. The renderer uses the existing published Sanity content and the same service ordering helper as the client application.
+
+## 2. Data and rendering
+
+- Service query: dataset `production`, type `service`, active documents only (`isActive != false`), with localized `name` and `shortDescription`, slug, category/layout, sort order and image URL.
+- Role-photo query: dataset `production`, type `photo`, active documents only, restricted to the four existing slugs: `landshaften-arhitekt`, `inzhener-polivni-sistemi`, `gardinar`, `specialist-trevni-ploshti`.
+- Both queries use the middleware's published-perspective Sanity query/cache helper. They are read-only.
+- `getOrderedServiceEntries` from `src/lib/servicesOrder.ts` is reused, preserving Sanity `sortOrder`, deterministic tie-breaking and the legacy delivery card only when a Sanity delivery service does not exist.
+- Locale copy, titles, descriptions, canonical URLs and localized internal links are aligned with `ServicesListPage`.
+- Service and role images use HTTPS validation, escaped attributes, responsive Sanity CDN URLs, dimensions where known, and the same width/quality/loading policy as `getSanityImageProps`.
+- Structured data: `CollectionPage` with an `ItemList` matching the rendered card order, plus a localized `BreadcrumbList`.
+- Successful data responses use short edge caching. If either Sanity collection fails or returns an invalid shape, the route retains a meaningful static fallback and sets `Cache-Control: no-store`; it does not cache an empty directory as if it were valid.
+
+## 3. Verification evidence
+
+### GitHub Actions — exact code head `a9cdcf97102aa640f90fc40f393e1d4947fb8a0e`
+
+- Blog and Studio validation run `45553300013`: **success**.
+  - Application and Pages Functions type-check: success.
+  - Website lint: success, 94 warnings / 0 errors.
+  - Website tests: **501 passed, 0 failed**.
+  - Website build: success.
+  - Migration script syntax checks and read-only description migration dry-run: success.
+  - Studio dependency install, type-check and build: success.
+- D1 migration validation run `45553300016`: **success**. No migration was applied.
+- Services directory raw HTTP smoke run `45553300014`: **success**.
+  - BG, RU and EN fetched without executing JavaScript.
+  - Each locale returned HTTP 200 HTML with index/follow robots metadata and localized H1.
+  - Each locale contained 26 service detail links.
+  - `CollectionPage` and `BreadcrumbList` JSON-LD were present.
+  - HTML service-link order matched the JSON-LD ItemList order.
+  - RU/EN service URLs retained their language query parameter.
+
+### Cloudflare Pages Preview
+
+- Deployment ID: `6518ee68-7461-4dbc-a2b3-75d3c698018e`
+- Source commit: `a9cdcf97102aa640f90fc40f393e1d4947fb8a0e`
+- Status: **success** (queued, initialize, clone, build and deploy stages).
+- URL: https://6518ee68.florial.pages.dev
+- Branch alias: https://feat-ssr-services-directory.florial.pages.dev
+
+## 4. Scope and safety
+
+- No Sanity writes, schema changes, document publication changes or content edits.
+- No D1 schema/data changes or migration application.
+- No Cloudflare account settings, secrets, bindings, Production configuration or domain changes.
+- No Header, main menu, Footer, global routing or layout changes.
+- No changes to service detail routes.
+- Production was not changed by this PR.
+
+## 5. Remaining acceptance
+
+- Browser-level visual and post-hydration interaction review has not been recorded. The raw HTTP smoke proves first-response HTML only; it does not prove browser layout, client hydration or filter interaction.
+- PR #535 remains unmerged. Production deployment and Production raw HTTP smoke are therefore pending.
+- The shared `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` were not edited because PR #409 remains open on an obsolete base and overlaps those files. Reconcile that stale PR before changing shared documentation.
+- Phase 3 (`/services/{slug}`) must not start until phase 2 is accepted and closed.
+
+## 6. Changed files in the implementation PR
+
+- `functions/_lib/servicesDirectoryHtml.mjs`
+- `functions/_middleware.ts`
+- `tests/services-directory-html.test.mjs`
+- `scripts/smoke-services-directory-ssr.mjs`
+- `.github/workflows/services-directory-ssr-smoke.yml`
+- `docs/roadmaps/SSR_CONTENT_V1_ROADMAP_2026-11-24.md`
+- `docs/audits/2026-11-25-services-directory-ssr-v1.md`
