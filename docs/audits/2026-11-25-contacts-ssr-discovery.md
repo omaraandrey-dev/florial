@@ -209,3 +209,37 @@ Status:
 - **Verified in GitHub source:** corrected renderer and regression assertions are present on `develop`.
 - **Not yet verified:** CI/test execution and a fresh Preview deployment for the follow-up commits. The earlier 548/548 result belongs to the original PR head `43eaf03779392edfaca7df2a69e4653f3b32a4a8` and must not be attributed to the follow-up commits.
 - Owner visual acceptance and merge remain pending. Do not release until the new exact-SHA checks and updated Preview are verified and accepted.
+
+
+## 8. Owner acceptance, merge and Production release — 2026-11-25
+
+**Owner acceptance:** the owner visually checked the exact Preview contacts page and confirmed that it works. This was followed by explicit approval to merge PR #546.
+
+**Final PR head:** `1319e75169fd4639b102ff6f3b4181891edcdef5`  
+**Pull request:** [#546 — SSR contacts page in BG/RU/EN with confirmed opening hours](https://github.com/omaraandrey-dev/florial/pull/546)  
+**Merge method:** squash  
+**Merge commit / Production main HEAD:** `1b18d7ae7db06f8d656d539b28037889f99d8d94`
+
+### Exact final-head CI
+
+All 10 workflow runs associated with the final PR head completed with conclusion `success`. Blog and Studio validation reported 548/548 tests passed, plus application and Pages Functions type-check, lint, website build, Studio type-check and Studio build. D1 migration validation passed in read-only/dry-run mode; no migration was applied. The contacts-specific HTML heading regression assertion was included in this exact final head.
+
+### Cloudflare Pages Production deployment
+
+- Deployment ID: `b91055ec-3e33-4a7e-aa3c-8024c02b30fc`.
+- Environment: `production`.
+- Source branch: `main`.
+- Exact source commit: `1b18d7ae7db06f8d656d539b28037889f99d8d94`.
+- Build and deploy stages: `success`; deployment completed at `2026-11-25T10:14:33Z`.
+- Deployment URL: https://b91055ec.florial.pages.dev.
+- Production aliases reported by Cloudflare: https://florial-bg.com and https://www.florial-bg.com.
+
+**Verification boundary:** the exact Production deployment and successful build/deploy stages are confirmed through the live Cloudflare Pages deployment record. A separate post-deployment raw HTTP smoke of `/contacts` for BG/RU/EN has **not** been completed in this session. The owner accepted the Preview visually; this is not represented as Production browser acceptance. Production raw HTTP verification remains open and should be performed before declaring the contacts route independently smoke-tested in Production.
+
+### Branch synchronization
+
+- `develop` was synchronized with the merged Production `main` by a non-force merge commit: `30499dabd413590ceb3e975f1be760a37a6ea32a`.
+- The merge commit uses the same Git tree as both the final PR head and the Production merge commit; no source files were changed during synchronization.
+- PR #409 was not modified. No Sanity writes/schema changes, D1 changes/migrations, Cloudflare settings/secrets/DNS changes, Resend changes, or Header/menu/Footer/global bootstrap changes were made.
+
+**Next SSR phase:** Phase 9 — read-only discovery and then localized SSR for `/about`, without inventing company history, experience, qualifications, certificates or project claims.
