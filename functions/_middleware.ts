@@ -11,6 +11,7 @@ import { getBlogIndexMetadata, renderBlogIndexHtml, serializeBlogIndexPayload } 
 import { getBlogArticleMetadata, renderBlogArticleHtml, serializeBlogArticlePayload } from './_lib/blogArticleHtml.mjs'
 import { buildEquipmentProductStructuredData, renderEquipmentProductHtml } from './_lib/equipmentProductHtml.mjs'
 import { buildPlantProductStructuredData, renderPlantProductHtml, renderPortableText } from './_lib/plantProductHtml.mjs'
+import { renderContactsHtml } from './_lib/contactsHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -398,6 +399,33 @@ async function querySanityData<T>(
   }
 
   return body.result as T
+}
+
+async function fetchContactsHtml(language: string): Promise<{ html: string; imagesAvailable: boolean }> {
+  const query = `
+    *[_type == "photo" && (
+      lower(slug) in ["florial-nesebr", "florial-ravda"] ||
+      lower(slug.current) in ["florial-nesebr", "florial-ravda"]
+    )] {
+      "slugValue": coalesce(slug.current, slug),
+      "imageUrl": image.asset->url
+    }
+  `
+  const photos = await querySanityData<Array<{ slugValue?: string; imageUrl?: string }>>(
+    'production',
+    query,
+    {},
+    'sanity/production/contacts-location-photos-v1',
+    300,
+  )
+  if (!Array.isArray(photos)) throw new Error('Sanity contacts photo query is not an array')
+  const images: Record<string, string> = {}
+  for (const photo of photos) {
+    const slug = String(photo?.slugValue || '').toLowerCase()
+    if (slug === 'florial-nesebr') images.nesebr = photo.imageUrl || ''
+    if (slug === 'florial-ravda') images.ravda = photo.imageUrl || ''
+  }
+  return { html: renderContactsHtml(language, images), imagesAvailable: true }
 }
 
 async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string, onCategoryTree?: (categories: SeoCategoryNode[]) => void): Promise<SeoPlantProduct[]> {
@@ -1754,6 +1782,16 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         console.error('Florial homepage SSR data unavailable; serving the existing static fallback:', error)
         cacheControl = 'no-store'
       }
+    } else if (path === '/contacts') {
+      try {
+        const contacts = await fetchContactsHtml(language)
+        body = contacts.html
+        cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
+      } catch (error) {
+        console.error('Florial contacts SSR images unavailable; serving contact details without images:', error)
+        body = renderContactsHtml(language)
+        cacheControl = 'no-store'
+      }
     }
     return transformHtmlResponse(await context.next(), (html) => {
       const root = renderRoot(html, body)
@@ -1819,6 +1857,8 @@ async function handleRequest(context: PagesContext): Promise<Response> {
                 'https://schema.org/Wednesday',
                 'https://schema.org/Thursday',
                 'https://schema.org/Friday',
+                'https://schema.org/Saturday',
+                'https://schema.org/Sunday',
               ],
               opens: '09:00',
               closes: '17:00',
@@ -1841,6 +1881,20 @@ async function handleRequest(context: PagesContext): Promise<Response> {
               addressLocality: 'Равда',
               addressCountry: 'BG',
             },
+            openingHoursSpecification: [{
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: [
+                'https://schema.org/Monday',
+                'https://schema.org/Tuesday',
+                'https://schema.org/Wednesday',
+                'https://schema.org/Thursday',
+                'https://schema.org/Friday',
+                'https://schema.org/Saturday',
+                'https://schema.org/Sunday',
+              ],
+              opens: '09:00',
+              closes: '17:00',
+            }],
             parentOrganization: { '@id': SITE_URL + '/#organization' },
           },
         }],
