@@ -142,7 +142,7 @@ function plantProductImageText(productName, language, kind) {
 
 function formatPrice(price, language) {
   if (typeof price !== 'number' || !Number.isFinite(price) || price <= 0) return ''
-  return language === 'en' ? '€' + price.toFixed(2) : price.toFixed(2) + ' €'
+  return price.toFixed(2) + ' €'
 }
 
 function productUrl(product, language, siteUrl) {
