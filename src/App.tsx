@@ -319,7 +319,7 @@ class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryP
   }
 }
 
-export default function App() {
+export default function App({ onHomepageReady }: { onHomepageReady?: () => void } = {}) {
   const { t, language, localize } = useI18n()
   const [products, setProducts] = useState<Product[]>([])
   const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>([])
@@ -330,6 +330,11 @@ export default function App() {
   const [homeFeaturedPlants, setHomeFeaturedPlants] = useState<Product[]>([])
   const [homeFeaturedEquipment, setHomeFeaturedEquipment] = useState<Product[]>([])
   const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(null)
+  const [headerDataReady, setHeaderDataReady] = useState(false)
+  const [homeCategoriesAndHeroReady, setHomeCategoriesAndHeroReady] = useState(false)
+  const [homeFeaturedPlantsReady, setHomeFeaturedPlantsReady] = useState(false)
+  const [homeFeaturedEquipmentReady, setHomeFeaturedEquipmentReady] = useState(false)
+  const [homeBlogReady, setHomeBlogReady] = useState(false)
   const [loadingCategories, setLoadingCategories] = useState(true)
   const [loadingServices, setLoadingServices] = useState(() => { const path = window.location.pathname.replace(/\/+$/, '') || '/'; return path === '/services' || path.startsWith('/services/category/') })
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
@@ -373,6 +378,30 @@ export default function App() {
 
   const normalizedRoutePath = window.location.pathname.replace(/\/+$/, '') || '/'
   const isBlogRoute = normalizedRoutePath === '/blog' || normalizedRoutePath.startsWith('/blog/')
+  const isHomepageRoute = normalizedRoutePath === '/' || normalizedRoutePath === '/index.html'
+
+  useEffect(() => {
+    if (
+      isHomepageRoute &&
+      headerDataReady &&
+      !loadingCategories &&
+      homeCategoriesAndHeroReady &&
+      homeFeaturedPlantsReady &&
+      homeFeaturedEquipmentReady &&
+      homeBlogReady
+    ) {
+      onHomepageReady?.()
+    }
+  }, [
+    isHomepageRoute,
+    headerDataReady,
+    loadingCategories,
+    homeCategoriesAndHeroReady,
+    homeFeaturedPlantsReady,
+    homeFeaturedEquipmentReady,
+    homeBlogReady,
+    onHomepageReady,
+  ])
   const isIrrigationAssistantRoute = window.location.pathname.replace(/\/+$/, '') === '/irrigation-assistant'
   const isServicesListRoute = normalizedRoutePath === '/services' || normalizedRoutePath.startsWith('/services/category/')
   const serviceDirectionSlug = normalizedRoutePath.startsWith('/services/category/') ? decodeURIComponent(normalizedRoutePath.slice('/services/category/'.length)) : null
@@ -724,37 +753,42 @@ export default function App() {
       }
     `
 
-    sanityClient.fetch(headerCategoryQuery)
-      .then((data) => { if (!cancelled) setHeaderCategories(Array.isArray(data) ? data : []) })
-      .catch((error) => console.error('Header: не удалось загрузить категории оборудования:', error))
-    publicPlantsClient.fetch(headerPlantCategoryQuery)
-      .then((data) => { if (!cancelled) setHeaderPlantCategories(Array.isArray(data) ? data : []) })
-      .catch((error) => console.error('Header: не удалось загрузить категории растений:', error))
-    sanityClient.fetch(headerServiceQuery)
-      .then((data) => { if (!cancelled) setHeaderServices(Array.isArray(data) ? data : []) })
-      .catch((error) => console.error('Header: не удалось загрузить пункты услуг:', error))
-    sanityClient.fetch(headerSettingsQuery)
-      .then((data) => { if (!cancelled) setHeaderSiteSettings((previous) => ({ ...(previous || {}), ...(data || {}) })) })
-      .catch((error) => console.error('Header: не удалось загрузить название сайта:', error))
-    sanityClient.fetch(headerLogoQuery)
-      .then((data) => {
-        if (cancelled) return
-        setHeaderSiteSettings((previous) => ({
-          ...(previous || {}),
-          logoUrl: data?.logoUrl || null,
-          logoAlt: data?.logoAlt || null,
-          logoAltEn: data?.logoAltEn || null,
-          logoAltRu: data?.logoAltRu || null,
-          logoAssetTitle: data?.logoAssetTitle || null,
-          logoAssetAltText: data?.logoAssetAltText || null,
-          logoTitle: data?.title || null,
-          logoTitleEn: data?.titleEn || null,
-          logoTitleRu: data?.titleRu || null,
-          logoWidth: data?.logoWidth || null,
-          logoHeight: data?.logoHeight || null,
-        }))
-      })
-      .catch((error) => console.error('Header: не удалось загрузить логотип:', error))
+    const headerRequests = [
+      sanityClient.fetch(headerCategoryQuery)
+        .then((data) => { if (!cancelled) setHeaderCategories(Array.isArray(data) ? data : []) })
+        .catch((error) => console.error('Header: не удалось загрузить категории оборудования:', error)),
+      publicPlantsClient.fetch(headerPlantCategoryQuery)
+        .then((data) => { if (!cancelled) setHeaderPlantCategories(Array.isArray(data) ? data : []) })
+        .catch((error) => console.error('Header: не удалось загрузить категории растений:', error)),
+      sanityClient.fetch(headerServiceQuery)
+        .then((data) => { if (!cancelled) setHeaderServices(Array.isArray(data) ? data : []) })
+        .catch((error) => console.error('Header: не удалось загрузить пункты услуг:', error)),
+      sanityClient.fetch(headerSettingsQuery)
+        .then((data) => { if (!cancelled) setHeaderSiteSettings((previous) => ({ ...(previous || {}), ...(data || {}) })) })
+        .catch((error) => console.error('Header: не удалось загрузить название сайта:', error)),
+      sanityClient.fetch(headerLogoQuery)
+        .then((data) => {
+          if (cancelled) return
+          setHeaderSiteSettings((previous) => ({
+            ...(previous || {}),
+            logoUrl: data?.logoUrl || null,
+            logoAlt: data?.logoAlt || null,
+            logoAltEn: data?.logoAltEn || null,
+            logoAltRu: data?.logoAltRu || null,
+            logoAssetTitle: data?.logoAssetTitle || null,
+            logoAssetAltText: data?.logoAssetAltText || null,
+            logoTitle: data?.title || null,
+            logoTitleEn: data?.titleEn || null,
+            logoTitleRu: data?.titleRu || null,
+            logoWidth: data?.logoWidth || null,
+            logoHeight: data?.logoHeight || null,
+          }))
+        })
+        .catch((error) => console.error('Header: не удалось загрузить логотип:', error)),
+    ]
+    void Promise.allSettled(headerRequests).then(() => {
+      if (!cancelled) setHeaderDataReady(true)
+    })
 
     return () => { cancelled = true }
   }, [])
@@ -782,7 +816,7 @@ export default function App() {
       }
     `
 
-    publicPlantsClient.fetch(homepagePlantCategoriesQuery)
+    const plantCategoriesRequest = publicPlantsClient.fetch(homepagePlantCategoriesQuery)
       .then((data) => { if (!cancelled) setHomePlantCategories(Array.isArray(data) ? data : []) })
       .catch((error) => console.error('Homepage: не удалось загрузить категории растений:', error))
 
@@ -794,11 +828,14 @@ export default function App() {
         "imageUrl": image.asset->url
       }
     `
-    sanityClient.fetch(homepageHeroImageQuery)
+    const heroImageRequest = sanityClient.fetch(homepageHeroImageQuery)
       .then((data) => {
         if (!cancelled && typeof data?.imageUrl === 'string') setHomeHeroImageUrl(data.imageUrl)
       })
       .catch((error) => console.error('Homepage: не удалось загрузить фоновое изображение:', error))
+    void Promise.allSettled([plantCategoriesRequest, heroImageRequest]).then(() => {
+      if (!cancelled) setHomeCategoriesAndHeroReady(true)
+    })
 
     return () => { cancelled = true }
   }, [normalizedRoutePath])
@@ -1074,6 +1111,9 @@ export default function App() {
         console.error('Homepage: не удалось загрузить рекомендованные растения:', error)
         setHomeFeaturedPlants([])
       })
+      .finally(() => {
+        if (!cancelled) setHomeFeaturedPlantsReady(true)
+      })
     return () => { cancelled = true }
   }, [normalizedRoutePath])
 
@@ -1107,6 +1147,9 @@ export default function App() {
         if (cancelled) return
         console.error('Homepage: не удалось загрузить выбранное оборудование:', error)
         setHomeFeaturedEquipment([])
+      })
+      .finally(() => {
+        if (!cancelled) setHomeFeaturedEquipmentReady(true)
       })
     return () => { cancelled = true }
   }, [normalizedRoutePath])
@@ -1960,6 +2003,7 @@ export default function App() {
           heroImageUrl={homeHeroImageUrl}
           featuredPlants={homeFeaturedPlants}
           featuredEquipment={homeFeaturedEquipment}
+          onBlogReadinessChange={setHomeBlogReady}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
           onNavigateProduct={navigateToProduct}
