@@ -5,6 +5,8 @@ const COPY = {
     title: 'Блог и портфолио',
     intro: 'В блога на Florial ще откриете нашите реализирани проекти, идеи за градината и полезни практически материали за ландшафтен дизайн, автоматично напояване, рулонен тревен чим и растения. Представяме реални решения, етапи на работа и професионални съвети, които ще ви помогнат да планирате и оформите своето външно пространство.',
     directions: 'Разгледайте по направления',
+    filters: 'Филтри',
+    results: 'Публикации',
     latest: 'Последна публикация',
     readMore: 'Прочетете още',
     home: 'Начало',
@@ -14,6 +16,8 @@ const COPY = {
     title: 'Блог и портфолио',
     intro: 'Здесь собраны проекты Florial, идеи для сада и полезные материалы о ландшафтном дизайне, автоматическом поливе, рулонном газоне и растениях. Показываем реальные решения, этапы работ и практические советы, которые помогут спланировать и обустроить ваш участок.',
     directions: 'Выберите направление',
+    filters: 'Фильтры',
+    results: 'Публикации',
     latest: 'Новая публикация',
     readMore: 'Подробнее',
     home: 'Главная',
@@ -23,6 +27,8 @@ const COPY = {
     title: 'Blog and portfolio',
     intro: 'Explore Florial projects, garden inspiration and practical guides to landscape design, automatic irrigation, rolled turf and plants. Discover real-world solutions, project stages and useful advice to help you plan and improve your outdoor space.',
     directions: 'Explore by topic',
+    filters: 'Filters',
+    results: 'Publications',
     latest: 'Latest publication',
     readMore: 'Read more',
     home: 'Home',
@@ -309,6 +315,13 @@ export function renderBlogIndexHtml({ posts = [], language = 'bg' } = {}) {
     }] : []
   })
   const pageUrl = SITE_URL + localizedHref('/blog', lang)
+  const filterLabel = lang === 'ru' ? 'Фильтры публикаций' : lang === 'en' ? 'Publication filters' : 'Филтри на публикациите'
+  const emptyLabel = lang === 'ru' ? 'Пока нет опубликованных материалов.' : lang === 'en' ? 'There are no published posts yet.' : 'Все още няма публикувани материали.'
+  const filterBar = '<section aria-label="' + escapeHtml(filterLabel) + '" class="relative mb-7"><div class="flex items-center justify-between gap-3">' +
+    '<p class="text-sm text-slate-600">' + escapeHtml(copy.results) + ': <strong class="font-bold text-slate-900">' + list.length + '</strong></p>' +
+    '<button type="button" disabled aria-disabled="true" class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#D8DFCA] bg-white px-4 text-sm font-semibold text-slate-800 shadow-sm">' +
+    '<svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>' +
+    escapeHtml(copy.filters) + '</button></div></section>'
   const body = '<main data-florial-blog-index="v1" data-florial-blog-count="' + list.length + '" class="mx-auto min-h-[100svh] w-full max-w-7xl flex-grow px-4 py-8 md:px-6 md:py-12">' +
     '<nav class="mb-6 text-sm text-slate-500" aria-label="' + escapeHtml(lang === 'ru' ? 'Навигационная цепочка' : lang === 'en' ? 'Breadcrumb' : 'Навигационна пътека') + '">' +
     '<a href="' + escapeHtml(localizedHref('/', lang)) + '" class="text-[#647746] no-underline hover:underline">' + escapeHtml(copy.home) + '</a>' +
@@ -316,13 +329,10 @@ export function renderBlogIndexHtml({ posts = [], language = 'bg' } = {}) {
     '<header class="mb-10 max-w-4xl"><h1 class="text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl">' + escapeHtml(copy.title) + '</h1>' +
     '<p class="mt-4 text-base leading-7 text-slate-600 md:text-lg md:leading-8">' + escapeHtml(copy.intro) + '</p></header>' +
     (list.length ? '<section aria-labelledby="blog-directions-heading" class="mb-10"><div class="mb-4 flex flex-wrap items-end justify-between gap-3"><h2 id="blog-directions-heading" class="text-xl font-bold text-slate-900 md:text-2xl">' + escapeHtml(copy.directions) + '</h2></div>' +
-      '<div class="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">' + categoryCards + '</div></section>' : '') +
-    '<section aria-labelledby="blog-publications-heading" data-florial-blog-publications="true">' +
-    '<div class="mb-5 flex flex-wrap items-center justify-between gap-3"><h2 id="blog-publications-heading" class="text-xl font-bold text-slate-900 md:text-2xl">' + escapeHtml(copy.publications) + '</h2>' +
-    '<p class="text-sm text-slate-600">' + list.length + '</p></div>' +
-    (list.length ? '<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">' + postCards + '</div>' :
-      '<p class="py-12 text-slate-600">' + escapeHtml(lang === 'ru' ? 'Пока нет опубликованных материалов.' : lang === 'en' ? 'There are no published posts yet.' : 'Все още няма публикувани материали.') + '</p>') +
-    '</section></main>'
+      '<div class="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">' + categoryCards + '</div></section>' +
+      filterBar + '<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">' + postCards + '</div>' :
+      '<p class="py-12 text-slate-600">' + escapeHtml(emptyLabel) + '</p>') +
+    '</main>'
   return {
     body,
     image: list.length ? (safeImageUrl(list[0].cover?.asset?.url)?.toString() || undefined) : undefined,
