@@ -342,7 +342,13 @@ function renderMarkdown(content, language, imageGroups) {
 }
 
 function getHeadingTexts(content) {
-  if (typeof content === 'string') return content.split('\n').map((line) => line.trim().replace(/^#{1,6}\s*/, '')).filter(Boolean)
+  if (typeof content === 'string') {
+    return content.split('\n')
+      .map((line) => line.trim())
+      .filter((line) => /^#{2,3}\s/.test(line))
+      .map((line) => line.replace(/^#{2,3}\s*/, '').trim())
+      .filter(Boolean)
+  }
   if (!Array.isArray(content)) return []
   return content.filter((block) => block?._type === 'block' && ['h2', 'h3'].includes(block.style))
     .map((block) => (block.children || []).map((child) => child?.text || '').join('').trim()).filter(Boolean)
