@@ -139,6 +139,7 @@ test('BlogPage consumes same-locale SSR seed and keeps client-side filtering/sea
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
   const renderer = await readFile(new URL('../functions/_lib/blogIndexHtml.mjs', import.meta.url), 'utf8')
   assert.match(page, /readBlogSsrPayload/)
+  assert.match(page, /document\.getElementById\('florial-blog-ssr-data'\)\?\.remove\(\)/)
   assert.match(page, /ssrPayload\?\.language === language/)
   assert.match(page, /setLoaded\(true\)/)
   assert.match(page, /setSearchQuery/)
