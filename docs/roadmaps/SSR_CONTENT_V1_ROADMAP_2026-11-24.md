@@ -4,7 +4,7 @@
 **Базовый main при создании плана:** `f4e04913a2876bf863deef9fa1b7774b5c416a47`  
 **Базовый main для реализации Phase 1:** `07b99481571ca079a06eb5f6e44e9d903f9dc304`  
 **Рабочая ветка документации:** `develop`  
-**Статус:** этапы 1–9 выпущены; этап 10 прошёл полный Preview SSR/SEO regression для BG/RU/EN; Production regression ожидает согласованного merge PR #548.  
+**Статус:** этапы 1–10 выпущены и подтверждены Production raw first-response SSR/SEO regression для BG/RU/EN на merge commit `ef82ec07feed0d9f80dad68cee5a331585970217`.  
 **Цель:** обеспечить, чтобы поисковые роботы и другие клиенты, не исполняющие JavaScript, получали в первом HTTP HTML-ответе основное содержимое публичных страниц Florial, а не только SEO head и краткий резервный H1/абзац.
 
 ## 1. Принципы и границы
@@ -148,7 +148,7 @@ Read-only инвентаризация:
 - Exact Preview raw HTTP smoke прошёл для BG/RU/EN; владелец визуально принял Preview. После Production deployment выполнен отдельный raw HTML smoke: BG/RU/EN — 3/3 HTTP 200; локализованные карточки, изображения, адреса, карты, семь дней 09:00–17:00, GardenStore JSON-LD, canonical и `index, follow` подтверждены в первом HTML без JavaScript.
 - Часы обеих точек: ежедневно 09:00–17:00 по подтверждению владельца. Существующие адреса, телефоны и ссылки на карты сохранены; Sanity не изменялся.
 
-### Этап 9 — «О нас» `/about`: RELEASED; PRODUCTION SMOKE FOLLOW-UP PENDING
+### Этап 9 — «О нас» `/about`: RELEASED; PRODUCTION SMOKE PASS
 
 - Discovery завершён: текущая страница и её BG/RU/EN copy находятся в `src/pages/AboutPage.tsx`; published Sanity хранит 6 фотографий (4 роли + 2 центра) и 2 изображения категорий (`production` + `plants`), но отдельного About/page document нет.
 - Текущие видимые секции сохранены; старые поля copy, не отображаемые клиентской JSX, не добавляются в SSR. Исторический `about.docx` не используется как актуальный контент.
@@ -156,15 +156,16 @@ Read-only инвентаризация:
 - Добавлен `functions/_lib/aboutHtml.mjs`, опубликованные Sanity projections с bounded Cache API keys, безопасные responsive image URLs, HTML escaping, localized metadata и SSR marker. AboutPage JSON-LD ссылается на существующий Organization; React восстанавливает page-specific entity после client SEO cleanup, а GardenStore parentOrganization references сохраняются.
 - Добавлены `tests/about-ssr.test.mjs`, `scripts/smoke-about-ssr.mjs` и `.github/workflows/about-ssr-smoke.yml`: exact Preview raw HTTP smoke проверяет BG/RU/EN без выполнения JavaScript и учитывает короткую задержку edge propagation.
 - При неполных Sanity media данные текста всё равно выводятся с placeholders и `no-store`; полное edge caching разрешается только при наличии всех 6 фото и обеих category images.
-- Sanity не изменялся. PR #547 merged в `main` commit `23285148e20d799438c4cf6fec3de6600038608b`; Cloudflare Pages Production deployment `b6f6a959-08ec-4404-85bc-c83fe09aea2b` успешен. Первый Production raw smoke остановился на буквальной проверке email; Cloudflare `email_obfuscation` read-only confirmed `on`. Исправление smoke принимает literal или точно декодированный Cloudflare email. Исправленный About smoke прошёл BG/RU/EN на Preview; Production rerun ожидает PR #548. Подробности: `../audits/2026-11-25-about-ssr-discovery.md` и `../audits/2026-11-25-ssr-seo-regression-phase-10.md`.
+- Sanity не изменялся. PR #547 merged в `main` commit `23285148e20d799438c4cf6fec3de6600038608b`; после PR #548 повторный Production smoke `45617202832` прошёл BG/RU/EN (3/3) на первом HTTP-ответе, включая точную проверку email с учётом Cloudflare Email Obfuscation. Текущая Production версия из merge commit `ef82ec07feed0d9f80dad68cee5a331585970217`; deployment `0acd757f-a839-4398-a5f1-a50ad9e7dabd` успешен. Настройки Cloudflare не менялись. Подробности: `../audits/2026-11-25-about-ssr-discovery.md` и `../audits/2026-11-25-ssr-seo-regression-phase-10.md`.
 
-### Этап 10 — общая SEO/SSR регрессия: PREVIEW PASS; PRODUCTION PENDING
+### Этап 10 — общая SEO/SSR регрессия: RELEASED; PREVIEW + PRODUCTION PASS
 
-- PR #548 добавил общий runner и workflow для exact Preview / Production raw HTTP regression; точный commit `14dd0b3f2c2af426d6e707b4f2b92a19acf4f9fe`.
+- PR #548 squash-merged в `main` commit `ef82ec07feed0d9f80dad68cee5a331585970217`; Cloudflare Pages Production deployment `0acd757f-a839-4398-a5f1-a50ad9e7dabd` завершился `success` с точного SHA.
 - Full Preview regression run `45610530548` прошёл на deployment `151077b4-2ed2-44db-afa8-598fad20a959`: homepage, services, 25 service details, 19 blog cards/articles, 60 plants, 17 plant categories, 54 equipment categories, 275 equipment products, contacts, About — BG/RU/EN.
 - Дополнительно подтверждены `robots.txt`, `sitemap.xml` (1,384 unique URLs, localized alternates, no cart/search/Manager/API), а `/cart`, `/search`, `/withdrawal` имеют `noindex, nofollow` в BG/RU/EN.
-- CI: 557/557 tests, app/Pages Functions type-check, website build, Studio type-check/build; lint 0 errors / 102 warnings; D1 validation read-only, миграций не применяли.
-- Production regression и повторный Production smoke `/about` выполнить после согласованного merge PR #548. Отдельно остаются redirect-map audit, SSR-to-React hydration/handoff parity и Core Web Vitals. GSC noindex/canonical anomalies не считаются исправленными этим этапом.
+- Production workflow `45617202644` прошёл полный raw HTTP suite без JavaScript: homepage, 26 service links, 25 service details, 19 blog index cards/articles, 60 plants + 17 categories, 54 equipment categories, 275 equipment products, contacts, About; BG/RU/EN. `robots.txt`, sitemap 1,384 unique URLs и noindex cart/search/withdrawal — PASS. About email smoke `45617202832` — 3/3 locales PASS.
+- Production commit CI: 12/12 push-triggered workflows successful. Validation `45617203047`: 557/557 tests, app/Pages Functions type-check, website build, Studio type-check/build; lint 0 errors / 102 warnings. D1 validation `45617202671` — read-only, migrations not applied. Studio `npm ci` reported 24 dependency audit findings (14 moderate, 9 high, 1 critical); no dependency remediation was performed and this requires a separate review.
+- Production regression и About smoke закрыты. Отдельно остаются exhaustive redirect-map audit, SSR-to-React hydration/handoff parity и Core Web Vitals. GSC noindex/canonical anomalies не считаются исправленными этим этапом.
 - Полный evidence: `../audits/2026-11-25-ssr-seo-regression-phase-10.md`.
 
 ## 4. Межчатовый handoff
@@ -189,12 +190,12 @@ Read-only инвентаризация:
 - **Этап 6 — статьи и публикации проектов `/blog/{slug}`: MERGED TO MAIN.** PR #541 merged as `f5aa6f899090e859e9b4be1b313ea2056cb58d6c`. Exact Preview raw HTTP smoke passed 19 published articles × 3 locales (57 responses), and CI passed. Separate Production raw HTTP smoke evidence is not recorded here; verify before claiming full Production acceptance.
 - **Этап 7 — каталог растений и карточки растений: RELEASED + PRODUCTION SMOKE PASS.** PR #545 merged; Production deployment подтверждён. Exact Preview smoke и отдельный Production raw HTTP smoke прошли по 231/231 маршрутам в BG/RU/EN; отсутствующий товар возвращает 404 noindex. 543/543 tests, type-check, lint, website build и Studio build прошли; владелец визуально принял Preview. Подробности: `../audits/2026-11-25-plant-catalog-ssr-v1.md` и `../audits/2026-11-25-contacts-ssr-discovery.md`.
 - **Этап 8 — контакты `/contacts`: RELEASED; Production deployment SUCCESS.** PR #546 squash-merged в `main` commit `1b18d7ae7db06f8d656d539b28037889f99d8d94`; Cloudflare Pages Production deployment `b91055ec-3e33-4a7e-aa3c-8024c02b30fc` успешно завершён с точного SHA, домены `florial-bg.com` и `www.florial-bg.com` привязаны. Exact PR head `1319e75169fd4639b102ff6f3b4181891edcdef5`: 10 CI workflow runs successful; 548/548 tests, type-check, lint, website build, Studio type-check/build и D1 read-only validation прошли. Preview raw HTTP BG/RU/EN smoke и desktop/mobile QA пройдены; владелец подтвердил Preview. Production raw HTTP smoke контактов завершён: 3/3 BG/RU/EN first-response HTML routes прошли. Часы: ежедневно 09:00–17:00; телефоны/адреса сохранены. Подробности: `../audits/2026-11-25-contacts-ssr-discovery.md`.
-- **Этап 9 — «О нас» `/about`: RELEASED; PRODUCTION SMOKE FOLLOW-UP PENDING.** PR #547 merged; Production deployment succeeded. First raw smoke stopped at literal email assertion; revised literal/Cloudflare-obfuscated check passed BG/RU/EN on Preview. Production rerun is pending PR #548. Details: `../audits/2026-11-25-about-ssr-discovery.md`.
-- **Этап 10 — общая SEO/SSR регрессия: PREVIEW PASS; PRODUCTION PENDING.** Full Preview runner passed all public route groups and SEO surface checks in BG/RU/EN; 1,384 sitemap URLs. Production run awaits PR #548 merge. Details: `../audits/2026-11-25-ssr-seo-regression-phase-10.md`.
+- **Этап 9 — «О нас» `/about`: RELEASED; PRODUCTION SMOKE PASS.** PR #547 deployed; corrected first-response email assertion passed in Production BG/RU/EN (3/3) on PR #548 merge SHA; no Cloudflare settings changed. Details: `../audits/2026-11-25-about-ssr-discovery.md`.
+- **Этап 10 — общая SEO/SSR регрессия: RELEASED; PREVIEW + PRODUCTION PASS.** Full Production raw HTTP runner `45617202644` passed all public route groups and SEO surface checks in BG/RU/EN; sitemap 1,384 unique URLs; noindex routes 9/9. Production deployment `0acd757f-a839-4398-a5f1-a50ad9e7dabd` from merge commit `ef82ec07feed0d9f80dad68cee5a331585970217`. Details: `../audits/2026-11-25-ssr-seo-regression-phase-10.md`.
 
 ### Каталог поливочного оборудования
 
-- **SSR equipment category catalogue:** PR #531 is part of the main baseline before the current main; its v2 expansion PR #542 merged into `main` at `e8eb2f50e709948f2ccea0b95b0df2bc2cfedeec`. Audit `docs/audits/2026-11-25-equipment-catalog-ssr-v2.md` records Preview raw HTTP smoke for 54 categories × 3 locales (162 routes), 275 linked products and successful validation. The Production-specific smoke for PR #542 must be checked separately before claiming it.
+- **SSR equipment category catalogue:** PR #531 is part of the main baseline before the current main; its v2 expansion PR #542 merged into `main` at `e8eb2f50e709948f2ccea0b95b0df2bc2cfedeec`. Preview and Production raw HTTP smoke now confirmed for 54 categories × 3 locales (162 routes) in the full Phase 10 run; 275 linked products. Audit `docs/audits/2026-11-25-equipment-catalog-ssr-v2.md`.
 - **SSR equipment product detail: RELEASED.** PR #543 squash-merged into `main` at `7465914b61f859768b073d1f678f9d22161e9ba6`. Cloudflare Pages Production deployment `25504afc-2b42-4a90-9595-501c7fa08fe8` succeeded. Exact-main workflow `45576362238` passed type-check, lint, 535/535 tests, build and raw HTTP smoke for all 275 published equipment products in BG/RU/EN (825/825); missing/unpublished product returned 404 noindex. Owner visually accepted representative pages on desktop/mobile. Details: `docs/audits/2026-11-25-equipment-product-ssr-v1.md`.
 - **Inventory:** 275 active published equipment products; all 275 have BG/RU/EN names, short descriptions, localized SEO, positive EUR price and explicit stock status. Detailed inventory is in the product SSR audit. No Sanity writes were made.
 
@@ -206,8 +207,8 @@ PR #409 remains open by owner instruction and is not modified. Its diff overlaps
 
 1. **Phase 7 — каталог растений: RELEASED + PRODUCTION SMOKE PASS.** PR #545 merged; Production deployment успешен; отдельный Production raw HTTP smoke прошёл 231/231 маршрутов (180 products + 51 categories, BG/RU/EN), missing product 404/noindex. Owner visual acceptance подтверждена.
 2. **Phase 8 — `/contacts`: RELEASED.** PR #546 merged and exact-commit Production deployment succeeded; Preview and CI passed. Production raw HTTP smoke пройден для BG/RU/EN (3/3).
-3. **Phase 9 — `/about`: RELEASED; Production smoke follow-up.** Page is deployed; corrected raw HTML email assertion passed on Preview. Re-run against Production after PR #548 is merged.
-4. **Phase 10 — full SSR/SEO regression: Preview PASS.** Full raw first-response route suite, robots/sitemap and noindex checks passed on exact Preview. Obtain merge approval for PR #548, then repeat the same suite on Production.
+3. **Phase 9 — `/about`: RELEASED; Production smoke PASS.** Corrected raw first-response email assertion passed BG/RU/EN on Production.
+4. **Phase 10 — full SSR/SEO regression: RELEASED; Production PASS.** Full raw first-response suite, robots/sitemap and noindex checks passed on exact Production merge SHA. Continue with a separate SSR-to-React handoff/hydration audit.
 5. **Next technical phase:** separate SSR-to-React handoff/hydration audit; current bootstrap uses `createRoot`. Do not change global bootstrap until the mismatch and migration plan are reviewed.
 5. Перед каждым этапом сверять текущий `develop`, live Sanity и deployment. Preview не считать доказательством Production.
 
