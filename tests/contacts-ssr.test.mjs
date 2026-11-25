@@ -56,7 +56,7 @@ test('contacts middleware fetches only the two published location photos and emi
   assert.match(middleware, /async function fetchContactsHtml\(language: string\)/)
   assert.match(middleware, /sanity\/production\/contacts-location-photos-v1/)
   assert.match(middleware, /renderContactsHtml\(language, images\)/)
-  assert.match(middleware, /body = contacts\.html/)
+  assert.match(middleware, /body = await fetchContactsHtml\(language\)/)
   assert.match(middleware, /path === '\/contacts'/)
   assert.match(middleware, /'https:\/\/schema\.org\/Sunday'/)
 })
