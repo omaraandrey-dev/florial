@@ -4,9 +4,9 @@ const base = process.env.BASE_URL
 if (!base) throw new Error('BASE_URL must point to the exact Florial Preview or Production deployment')
 
 const routes = [
-  { language: 'bg', path: '/' },
-  { language: 'ru', path: '/?lang=ru' },
-  { language: 'en', path: '/?lang=en' },
+  { language: 'bg', path: '/', valueProposition: 'Предимствата на Florial', h1: 'Градински център Флориал' },
+  { language: 'ru', path: '/?lang=ru', valueProposition: 'Преимущества Florial', h1: 'Садовый центр Florial' },
+  { language: 'en', path: '/?lang=en', valueProposition: 'Why choose Florial', h1: 'Florial Garden Centre' },
 ]
 
 async function fetchInitialHtml(route) {
@@ -37,6 +37,8 @@ for (const route of routes) {
   assert.match(response.headers.get('cache-control') || '', /s-maxage=/i)
   assert.match(html, new RegExp('<html[^>]*lang="' + route.language + '"', 'i'))
   assert.match(html, /name="robots"[^>]*content="index, follow"/i)
+  assert.ok(html.includes(route.valueProposition), route.language + ': value proposition is missing from raw HTML')
+  assert.ok(html.includes(route.h1), route.language + ': localized H1 is missing from raw HTML')
   assert.equal((html.match(/data-florial-ssr-homepage="v1"/g) || []).length, 1)
   assert.equal((html.match(/<h1\b/gi) || []).length, 1)
   assert.match(html, /href="\/category\/rastenia(?:\?lang=(?:ru|en))?"/)
@@ -46,6 +48,8 @@ for (const route of routes) {
   assert.match(html, /href="\/product\//)
   assert.match(html, /data-florial-jsonld="organization"/)
   assert.match(html, /data-florial-jsonld="website"/)
+  assert.match(html, /"@type"\s*:\s*"OnlineStore"/)
+  assert.match(html, /"@type"\s*:\s*"WebSite"/)
   assert.match(html, /data-florial-jsonld="local-business-nessebar"/)
   assert.match(html, /data-florial-jsonld="local-business-ravda"/)
   assert.ok(Buffer.byteLength(html, 'utf8') < 350_000, route.language + ': homepage initial HTML exceeded 350 KB')
