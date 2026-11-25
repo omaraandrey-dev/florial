@@ -67,6 +67,7 @@ type SeoCategoryNode = {
   slugValue?: string
   name?: string
   sortOrder?: number
+  productCount?: number
   imageUrl?: string
   imageAlt?: string
   imageAltEn?: string
@@ -372,12 +373,12 @@ async function querySanityData<T>(
 }
 
 async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string, onCategoryTree?: (categories: SeoCategoryNode[]) => void): Promise<SeoPlantProduct[]> {
-  const categoryQuery = '*[_type == "category"]{_id,name,translations{ru{name},en{name}},"parentId":parent._ref,"slugValue":coalesce(slug.current,slug),sortOrder,"imageUrl":image.asset->url,imageAlt:image.alt,imageAltEn:image.altEn,imageAltRu:image.altRu,imageTitle:image.title,imageTitleEn:image.titleEn,imageTitleRu:image.titleRu}'
+  const categoryQuery = '*[_type == "category"] | order(sortOrder asc) {_id,name,translations{bg{name},ru{name},en{name}},"parentId":parent->_id,"slugValue":coalesce(slug.current,slug),sortOrder,"productCount":count(*[_type == "product" && isActive != false && defined(slug) && (category._ref == ^._id || ^._id in categories[]._ref)]),"imageUrl":image.asset->url,imageAlt:image.alt,imageAltEn:image.altEn,imageAltRu:image.altRu,imageTitle:image.title,imageTitleEn:image.titleEn,imageTitleRu:image.titleRu}'
   const categories = await querySanityData<SeoCategoryNode[]>(
     dataset,
     categoryQuery,
     {},
-    'sanity/' + dataset + '/category-tree-v3',
+    'sanity/' + dataset + '/category-tree-v4',
     300,
   )
   if (!Array.isArray(categories)) throw new Error('Sanity ' + dataset + ' category tree is not an array')
