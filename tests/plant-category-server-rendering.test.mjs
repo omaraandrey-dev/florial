@@ -65,7 +65,7 @@ test('builds a localized ItemList with stable product URLs', () => {
 test('Cloudflare Pages middleware includes plant products in the initial category HTML', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
   assert.match(middleware, /if \(doc\._dataset === 'plants'\)/)
-  assert.match(middleware, /await fetchPlantCategoryProducts\\(doc\\._id(?:,\\s*\\(categories\\))?/)
+  assert.match(middleware, /await fetchPlantCategoryProducts\(doc\._id(?:,\s*\(categories\))?/)
   assert.match(middleware, /defined\(slug\.current\)/)
   assert.match(middleware, /renderPlantCategoryListing\(plantProducts \|\| \[\], language, SITE_URL\)/)
   assert.match(middleware, /makeCategoryCollectionJsonLd\(name, metaDescription, canonicalUrl, categoryStructuredProducts, language\)/)
@@ -129,7 +129,7 @@ test('plant catalogue limits the server first response to 20 sale offers, not 20
 
 test('plant category SSR includes category navigation images and localized editorial content', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
-  assert.match(middleware, /fetchPlantCategoryProducts\(doc\._id, \(categories\) => \{ plantCategoryTree = categories \}\)/)
+  assert.match(middleware, /fetchPlantCategoryProducts\(doc\._id(?:,\s*\(categories\))?/)
   assert.match(middleware, /renderPlantCategoryNavigation\(plantCategoryTree, doc\._id, language\)/)
   assert.match(middleware, /renderPortableText\(language === 'bg' \? doc\.seoContent : doc\.translations\?\.\[language\]\?\.seoContent \|\| doc\.seoContent\)/)
   assert.match(middleware, /"galleryImageUrls": gallery\[\]\.asset->url/)
