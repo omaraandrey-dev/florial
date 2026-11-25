@@ -163,7 +163,7 @@ export function renderPlantCategoryListing(products, language = 'bg', siteUrl = 
       : 'В тази категория все още няма налични продукти.'
 
   if (!entries.length) {
-    return '<section aria-labelledby="florial-category-products"><h2 id="florial-category-products">' +
+    return '<section aria-labelledby="florial-category-products" data-florial-server-catalogue="plants"><h2 id="florial-category-products">' +
       heading + '</h2><p>' + empty + '</p></section>'
   }
 
