@@ -114,11 +114,13 @@
 ## 8. Правила следующего чата
 
 1. Получить свежие HEAD `develop` и `main`; `develop` — единая ветка развития, `main` — Production. Прочитать `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, `WORK_PROTOCOL.md`, `MASTER_SPEC.md`, `TECHNICAL_PASSPORT.md`, верх `CHANGELOG.md`, `OPEN_QUESTIONS.md` и этот индекс.
-2. Текущий SSR приоритет — этап 9 `/about`: PR #546 contacts SSR уже принят и выпущен. Сначала read-only изучить существующий источник описания компании, локализации, изображения/ссылки и текущий initial HTML; не придумывать стаж, квалификации, сертификаты или проекты. После `/about` выполнить этап 10 — общую SSR/SEO регрессию BG/RU/EN. Production raw HTML smoke `/contacts` завершён для BG/RU/EN (3/3). SEO этап 6 — Local SEO вести как отдельный поток, read-only и по отдельному поручению.
+2. Текущий SSR приоритет — этап 9 `/about`: discovery завершён, implementation на `develop`; shared localized copy/team/centre definitions, first-response HTML renderer, published Sanity photo/category projections, safe image fallback/cache policy и AboutPage JSON-LD добавлены. Exact-head CI, Preview raw HTML BG/RU/EN и owner visual acceptance pending; Production не изменён. Использовать текущую видимую страницу как источник, не возвращать старый контент из `about.docx` и не придумывать стаж, квалификации, сертификаты или проекты. После `/about` выполнить этап 10 — общую SSR/SEO регрессию BG/RU/EN. Production raw HTML smoke `/contacts` завершён для BG/RU/EN (3/3). SEO этап 6 — Local SEO вести как отдельный поток, read-only и по отдельному поручению.
 3. Не менять профили, внешние listings или сайт без отдельного согласования.
 4. Повторить desktop-only GSC анализ примерно 23.12.2026 на последних 28 финализированных днях; это не блокирует текущую работу.
 5. Повторно проверить сохранённые URL Inspection anomalies примерно через месяц; не менять код/Sanity без нового подтверждения.
 6. Не менять Production, Sanity, Merchant Center, D1, Cloudflare settings/secrets или Google настройки без требуемого отдельного разрешения.
+
+- 25.11.2026 — SSR этап 9 `/about` начат на `develop`: read-only Sanity discovery подтвердил 6 published photo docs в `production` и 2 category images в `production`/`plants`; отдельного About/page document нет. Текущие видимые BG/RU/EN тексты и team/centre definitions вынесены в общий модуль для React и SSR; добавлены localized About renderer, published Sanity projections, safe media fallbacks, SEO metadata parity и AboutPage JSON-LD. Automated CI/Preview/owner acceptance pending; Production не изменён. Подробности: [About SSR audit](../audits/2026-11-25-about-ssr-discovery.md).
 
 ## Журнал синхронизации
 
