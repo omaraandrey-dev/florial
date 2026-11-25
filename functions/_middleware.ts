@@ -517,8 +517,10 @@ async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{ html: str
     'florial-nesebr',
     'florial-ravda',
   ]
-  const availablePhotoSlugs = new Set(photos.filter((photo) => photo.imageUrl).map((photo) => String(photo.slugValue || '').toLowerCase()))
-  const availableCategorySlugs = new Set(categories.filter((category) => category.imageUrl).map((category) => String(category.slugValue || '').toLowerCase()))
+  const hasSafeSanityImage = (value?: string) =>
+    typeof value === 'string' && /^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/(?:production|plants)\//.test(value)
+  const availablePhotoSlugs = new Set(photos.filter((photo) => hasSafeSanityImage(photo.imageUrl)).map((photo) => String(photo.slugValue || '').toLowerCase()))
+  const availableCategorySlugs = new Set(categories.filter((category) => hasSafeSanityImage(category.imageUrl)).map((category) => String(category.slugValue || '').toLowerCase()))
   const complete =
     photosResult.status === 'fulfilled' && Array.isArray(photosResult.value) &&
     equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value) &&
