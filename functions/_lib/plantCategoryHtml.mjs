@@ -54,16 +54,6 @@ function availabilityPriority(product) {
   return 2
 }
 
-function getStartingPrice(product) {
-  const variantPrices = (product.saleVariants || [])
-    .map((variant) => variant?.priceEUR)
-    .filter((price) => typeof price === 'number' && Number.isFinite(price) && price > 0)
-  const prices = variantPrices.length
-    ? variantPrices
-    : [product.priceEUR].filter((price) => typeof price === 'number' && Number.isFinite(price) && price > 0)
-  return prices.length ? Math.min(...prices) : null
-}
-
 export function collectDescendantCategoryIds(rootId, categories) {
   const childrenByParent = new Map()
   for (const category of Array.isArray(categories) ? categories : []) {
@@ -142,7 +132,7 @@ function plantProductImageText(productName, language, kind) {
   return kind === 'title' ? 'Продажба на ' + productName + ' в ' + location : 'Купете ' + productName + ' в ' + location
 }
 
-function formatPrice(price, language) {
+function formatPrice(price, _language) {
   if (typeof price !== 'number' || !Number.isFinite(price) || price <= 0) return ''
   return price.toFixed(2) + ' €'
 }
