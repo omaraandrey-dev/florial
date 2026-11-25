@@ -1,3 +1,5 @@
+import { buildProductOffer } from './productJsonLd.mjs'
+
 const SITE_URL = 'https://florial-bg.com'
 const SANITY_IMAGE_PREFIX = '/images/bxvcy0qs/production/'
 
@@ -403,17 +405,7 @@ export function buildEquipmentProductStructuredData(product, categories, languag
   })
   const images = [product.imageUrl, ...(Array.isArray(product.galleryImages) ? product.galleryImages.map((item) => item?.url) : [])]
     .filter((value, index, all) => safeImageUrl(value) && all.indexOf(value) === index)
-  const offer = product.priceEUR > 0
-    ? {
-        '@type': 'Offer',
-        price: Number(product.priceEUR).toFixed(2),
-        priceCurrency: 'EUR',
-        url: canonicalUrl,
-        itemCondition: 'https://schema.org/NewCondition',
-        ...(product.stockStatus === 'inStock' ? { availability: 'https://schema.org/InStock' } : {}),
-        ...(product.stockStatus === 'outOfStock' ? { availability: 'https://schema.org/OutOfStock' } : {}),
-      }
-    : null
+  const offer = buildProductOffer({ ...product, _dataset: 'production' }, canonicalUrl)
   return [
     {
       '@context': 'https://schema.org',
