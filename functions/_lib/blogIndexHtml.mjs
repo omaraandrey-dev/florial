@@ -212,17 +212,17 @@ function renderDirection(direction, posts, language) {
         preferredWidth: 640,
         quality: 68,
         loading: 'lazy',
-        className: 'h-full w-full object-cover',
+        className: 'absolute inset-0 -z-20 h-full w-full object-cover transition duration-500 group-hover:scale-105',
       })
     : ''
-  return '<div data-florial-blog-direction="' + escapeHtml(direction.id) + '" class="group relative isolate min-h-40 overflow-hidden rounded-2xl border border-transparent bg-slate-900 shadow-sm md:min-h-52">' +
-    (image ? '<div aria-hidden="true" class="absolute inset-0 -z-20 h-full w-full overflow-hidden">' + image + '</div>' : '') +
-    '<div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/25 to-black/5"></div>' +
+  return '<button type="button" aria-pressed="false" data-florial-blog-direction="' + escapeHtml(direction.id) + '" class="group relative isolate min-h-40 overflow-hidden rounded-2xl border border-transparent bg-slate-900 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#647746] md:min-h-52">' +
+    (image ? image : '<span class="absolute inset-0 -z-20 bg-[#647746]" aria-hidden="true"></span>') +
+    '<span aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/25 to-black/5"></span>' +
     '<span class="absolute right-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-xs font-bold text-slate-800">' + matching.length + '</span>' +
-    '<div class="flex min-h-40 flex-col justify-end p-3 text-white md:min-h-52 md:p-5">' +
+    '<span class="flex min-h-40 flex-col justify-end p-3 text-white md:min-h-52 md:p-5">' +
     '<span class="text-sm font-bold leading-snug md:text-lg">' + escapeHtml(direction.label[language]) + '</span>' +
     '<span class="mt-1 hidden text-xs leading-5 text-white/85 md:block">' + escapeHtml(direction.description[language]) + '</span>' +
-    '</div></div>'
+    '</span></button>'
 }
 
 function renderPost(post, index, language, copy) {
