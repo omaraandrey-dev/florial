@@ -441,7 +441,6 @@ export function renderEquipmentProductHtml(product, categories, language) {
     : (Array.isArray(product.translations?.[language]?.formattedDescription) && product.translations[language].formattedDescription.length
       ? product.translations[language].formattedDescription
       : (product.translations?.[language]?.description || product.description))
-  const compatibilityTitle = language === 'ru' ? 'Совместимость' : language === 'en' ? 'Compatibility' : 'Съвместимост'
   const specs = renderSpecifications(product, language)
   const gallery = renderGallery(product, language, name)
   const catalog = categoryTrail(product, categories, language)
