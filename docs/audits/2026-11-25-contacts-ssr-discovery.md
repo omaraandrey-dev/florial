@@ -107,7 +107,7 @@ Safe SSR scope after business facts are resolved:
 - Add tests for all three locales, initial HTML, links, images, phone targets, JSON-LD parity, missing-image fallback and graceful Sanity query failure.
 - Do not modify Header, menu, Footer, global bootstrap, routing, Sanity documents/schema, D1 or Cloudflare settings.
 
-**Owner clarification required before schedule markup is implemented:** confirm the actual current opening hours for the Nessebar garden centre. Ravda's owner-confirmed schedule is daily 09:00–17:00, but the current component still shows a shared 09:00–18:00 Monday–Saturday schedule. No schedule correction is made by this audit.
+**Owner confirmation received 2026-11-25:** both customer-facing garden centres are open daily, 09:00–17:00. The owner clarified Nessebar hours as 09:00–17:00 every day; Ravda's earlier confirmation is the same. This confirmation authorizes the schedule to be shown consistently in the contacts page and the two GardenStore opening-hours properties. Phone assignments and addresses remain unchanged.
 
 ## 4. Safety and completion
 
@@ -117,3 +117,22 @@ Safe SSR scope after business facts are resolved:
 - No edits to PR #409 or files in its diff.
 - No changes to `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`, `docs/AI/CURRENT_STATE.md`, or `docs/AI/OPEN_QUESTIONS.md`.
 - This audit is a new, unique SSR document and does not overlap the protected PR #409 file set.
+
+
+## 5. Phase 8 implementation progress — code on develop
+
+After the owner confirmed daily opening hours of 09:00–17:00 for Nessebar (with Ravda already confirmed at the same schedule), implementation was started on the existing `develop` branch.
+
+Changes made:
+- Added `functions/_lib/contactsHtml.mjs` and `contactsHtml.d.mts`: localized BG/RU/EN initial HTML for the two garden-centre cards, existing map links, published location photos, opening hours and current phone links.
+- Updated `functions/_middleware.ts`: contacts route now queries only the two existing published photo documents in Sanity `production` through the existing bounded/cache-aware Sanity query helper; renders the complete contacts body in the first response; keeps a no-image fallback and `no-store` behavior if Sanity query fails.
+- Updated `src/pages/ContactsPage.tsx`: client view now also shows all seven days, 09:00–17:00, matching SSR; the previous Easter-closed row and 09:00–18:00 schedule were removed from this page.
+- Updated the two existing GardenStore JSON-LD entities in middleware to show Monday–Sunday, 09:00–17:00. Existing phone/address values were deliberately not changed because assignment/visibility mismatches remain unresolved.
+- Added `tests/contacts-ssr.test.mjs` for localized rendering, both map links, photo handling, safe image URL filtering, unchanged phone assignments, middleware wiring and client-hours parity.
+
+Safety:
+- Sanity was queried read-only; no documents, schemas or assets were written.
+- No Cloudflare settings, secrets, DNS, D1, Resend, Header, Footer, menu or global bootstrap changes.
+- No change to phone assignments or either location's existing address fields.
+- This implementation is not yet Production-released. CI and Preview verification remain pending.
+
