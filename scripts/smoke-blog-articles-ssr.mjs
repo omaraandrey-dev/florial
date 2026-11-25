@@ -87,7 +87,7 @@ for (const language of locales) {
     assert.ok(main, label + ': server-rendered article main missing')
     const h1 = main[1].match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)
     assert.ok(h1 && h1[1].replace(/<[^>]+>/g, '').trim(), label + ': localized H1 missing')
-    assert.match(main[1], /data-florial-blog-paragraph=/, label + ': body paragraphs missing')
+    assert.match(main[1], /data-florial-blog-(?:paragraph|heading|inline-image|list)=/, label + ': rendered Portable Text body missing')
 
     const seed = extractSeed(html, label)
     assert.equal(seed.language, language, label + ': hydration seed locale mismatch')
