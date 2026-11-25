@@ -1,6 +1,6 @@
 # Florial — единая схема веток разработки и Production
 
-**Обновлено:** 2026-11-25  
+**Обновлено:** 2026-11-25 (после PR #546)  
 **Репозиторий:** `omaraandrey-dev/florial`
 
 ## Постоянные ветки
@@ -41,7 +41,8 @@
 
 ## Состояние на 2026-11-25
 
-- `main` HEAD после PR #545: `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`.
-- `develop` синхронизирована с `main` merge-коммитом `c320d9195854ead8451506d26c4e72b1370b9019`.
-- PR #545 — SSR каталога растений — merged и Production deployment проверен.
+- `main` HEAD после PR #546: `1b18d7ae7db06f8d656d539b28037889f99d8d94`.
+- PR #546 — SSR `/contacts` — squash-merged; Cloudflare Pages Production deployment `b91055ec-3e33-4a7e-aa3c-8024c02b30fc` завершился успешно с точного merge SHA.
+- `develop` синхронизирована с Production `main` merge-коммитом `30499dabd413590ceb3e975f1be760a37a6ea32a` без force-push; tree совпадает с main.
+- Production raw HTTP smoke `/contacts` BG/RU/EN остаётся отдельной незавершённой проверкой.
 - PR #409 — оставлен владельцем без изменений.
