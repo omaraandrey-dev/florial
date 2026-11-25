@@ -9,7 +9,7 @@ import { getServicesDirectoryMetadata, renderServicesDirectoryHtml } from './_li
 import { buildServiceDetailStructuredData, getServiceDetailMetadata, renderServiceDetailHtml } from './_lib/serviceDetailHtml.mjs'
 import { getBlogIndexMetadata, renderBlogIndexHtml, serializeBlogIndexPayload } from './_lib/blogIndexHtml.mjs'
 import { getBlogArticleMetadata, renderBlogArticleHtml, serializeBlogArticlePayload } from './_lib/blogArticleHtml.mjs'
-import { buildEquipmentProductStructuredData, getEquipmentProductMetadata, renderEquipmentProductHtml } from './_lib/equipmentProductHtml.mjs'
+import { buildEquipmentProductStructuredData, renderEquipmentProductHtml } from './_lib/equipmentProductHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
