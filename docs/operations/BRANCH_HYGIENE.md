@@ -1,40 +1,47 @@
-# Florial — main branch authority and historical refs
+# Florial — единая схема веток разработки и Production
 
-Policy updated: 2026-11-18  
-Repository: `omaraandrey-dev/florial`  
-Main branch: `main`
+**Обновлено:** 2026-11-25  
+**Репозиторий:** `omaraandrey-dev/florial`
 
-## Authoritative branch
+## Постоянные ветки
 
-**`main` is the only main, authoritative and permanent branch of Florial.** GitHub code, project documentation and technical decisions are considered current only when present in the latest `main` HEAD.
+### `develop` — единая ветка развития сайта
+Вся разработка Florial ведётся последовательно в одной постоянной ветке: SSR, магазин, растения, поливочное оборудование, услуги, блог, SEO, Manager, checkout, интеграции и технические улучшения.
 
-Cloudflare Pages Production deploys from `main`. A non-main branch does not become a Production source merely because it exists or receives a push.
+Обычные отдельные ветки `feature/*`, `fix/*`, `docs/*` для новых задач не создавать. Перед началом задачи проверить HEAD `develop`, открытые изменения и рабочее дерево. Не перезаписывать незавершённую работу.
 
-## Other branches
+### `main` — Production
+`main` содержит только принятые и проверенные изменения. Cloudflare Pages Production публикуется из `main`.
 
-All non-main branches are classified as historical or auxiliary refs. The owner has decided that no further branch-by-branch inventory, comparison, recovery exercise or cleanup is required for ordinary project work.
+## Релизный поток
 
-- Do not inspect, compare, resume, merge or delete old branches as routine maintenance.
-- Do not use an old branch as the base for new work.
-- Start each new task from the current live `main` HEAD.
-- Return to a particular historical branch only when the owner explicitly names it and asks to recover or inspect it.
-- Existing historical refs may remain in GitHub indefinitely. Their presence alone is not an open task, a release blocker or evidence of unmerged work.
+1. Разработка и интеграция изменений выполняются в `develop`.
+2. Перед релизом выполняются type-check, lint, tests, build, применимые Studio/D1 проверки, Preview deployment и raw HTTP/functional smoke.
+3. Создаётся один PR `develop → main` с перечнем изменений и доказательствами exact-SHA.
+4. Merge выполняется после review и согласования владельца.
+5. Проверяются Production deployment, точный commit SHA и необходимые Production smoke tests.
+6. `develop` синхронизируется с новым `main` без force-push и потери новых коммитов.
 
-## New work and shared documentation
+Незавершённый код не переносить в Production ради упрощения ветвления. Не выполнять force-push в `main` или `develop`.
 
-1. Fetch the current `main` HEAD before creating a working branch.
-2. Create the working branch from that exact SHA.
-3. Keep shared documentation changes consolidated: `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`, `docs/AI/OPEN_QUESTIONS.md`, `AI_INSTRUCTIONS.md` and `docs/AI/WORK_PROTOCOL.md`.
-4. Before merge, check the exact PR diff, current base/head, mergeability and overlapping changes.
-5. After merge, verify the resulting `main` and update documentation as required.
+## Переход от прежней модели
 
-## Repository governance
+- Уже существующие task-specific PR/ветки, в том числе PR #543, являются переходными исключениями и завершаются по текущему согласованному плану.
+- До закрытия текущих переходных PR не создавать новые независимые рабочие ветки.
+- Старые ветки не удалять массово, не сравнивать и не восстанавливать без прямого запроса владельца.
+- После завершения текущих PR вся новая разработка ведётся только в `develop`; релиз — через PR в `main`.
 
-The GitHub metadata check on 2026-11-18 reported `main.protected=false` and no repository rulesets. This is separate from branch authority: `main` remains the sole source of truth regardless. The owner may configure branch protection in GitHub settings if desired; this is not a reason to inspect or clean historical refs.
+## Защита документации и PR #409
 
-## Status
+- Общие документы редактируются последовательно, одним потоком, с проверкой полного diff.
+- Открытый PR #409 не изменять: не менять его base/head, не закрывать, не комментировать и не переносить его изменения.
+- До отдельного решения владельца не редактировать файлы из diff PR #409: `CHANGELOG.md`, `docs/AI/CURRENT_STATE.md`, `docs/AI/OPEN_QUESTIONS.md`, `docs/TECHNICAL_PASSPORT.md`, Google Shopping audit и roadmap.
+- Уникальные инструкции, SSR roadmap и task-specific audits можно обновлять отдельно, не затрагивая перечисленные файлы.
+- После решения по PR #409 вручную сверить обе версии общих документов и только затем актуализировать их.
 
-- Main authority: established.
-- Non-main refs: historical/auxiliary; intentionally retained and ignored in routine work.
-- Branch-by-branch cleanup: not required by owner decision.
-- Production source: `main`.
+## Состояние на 2026-11-25
+
+- `main` HEAD: `e8eb2f50e709948f2ccea0b95b0df2bc2cfedeec`.
+- PR #543 — активная переходная задача по SSR отдельных товаров поливочного оборудования.
+- PR #409 — оставлен владельцем без изменений.
+- Создание постоянной ветки `develop` выполняется после интеграции этой документационной политики в `main`.
