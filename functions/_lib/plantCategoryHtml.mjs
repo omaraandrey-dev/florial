@@ -132,6 +132,14 @@ function availabilityLabel(product, language) {
   return status === 'inStock' ? 'В наличност' : status === 'outOfStock' ? 'Изчерпан' : 'По заявка'
 }
 
+function plantProductImageText(productName, language, kind) {
+  const locale = language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg'
+  const location = { bg: 'Несебър', ru: 'Несебре', en: 'Nessebar' }[locale]
+  if (locale === 'ru') return kind === 'title' ? 'Продажа ' + productName + ' в ' + location : 'Купить ' + productName + ' в ' + location
+  if (locale === 'en') return kind === 'title' ? productName + ' for sale in ' + location : 'Buy ' + productName + ' in ' + location
+  return kind === 'title' ? 'Продажба на ' + productName + ' в ' + location : 'Купете ' + productName + ' в ' + location
+}
+
 function formatPrice(price, language) {
   if (typeof price !== 'number' || !Number.isFinite(price) || price <= 0) return ''
   return language === 'en' ? '€' + price.toFixed(2) : price.toFixed(2) + ' €'
@@ -164,7 +172,7 @@ export function renderPlantCategoryListing(products, language = 'bg', siteUrl = 
     const price = typeof variant?.priceEUR === 'number' && variant.priceEUR > 0 ? variant.priceEUR : null
     const priceLabel = price === null
       ? (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване')
-      : (language === 'ru' ? 'Цена: ' : language === 'en' ? 'Price: ' : 'Цена: ') + formatPrice(price, language)
+      : formatPrice(price, language)
     const oldPrice = typeof variant?.oldPriceEUR === 'number' && typeof price === 'number' && variant.oldPriceEUR > price
       ? formatPrice(variant.oldPriceEUR, language)
       : ''
@@ -199,7 +207,7 @@ export function renderPlantCategoryListing(products, language = 'bg', siteUrl = 
       : ''
     const shortDescription = localizedValue(product, 'shortDescription', language)
     const winter = typeof product.plantCare?.minWinterTempC === 'number'
-      ? (language === 'en' ? 'Minimum winter temperature: ' : language === 'ru' ? 'Минимальная зимняя температура: ' : 'Минимална зимна температура: ') + product.plantCare.minWinterTempC + ' °C'
+      ? (language === 'en' ? 'Minimum winter temperature: ' : language === 'ru' ? 'Минимальная зимняя температура: ' : 'Минимална зимна температура: ') + (product.plantCare.minWinterTempC < 0 ? '−' : product.plantCare.minWinterTempC > 0 ? '+' : '') + Math.abs(product.plantCare.minWinterTempC) + ' °C'
       : ''
     return '<li><article style="height:100%;border:1px solid #e5e7eb;border-radius:12px;padding:12px">' + image +
       (winter ? '<p style="margin:0 0 6px;font-size:12px">❄ ' + escapeHtml(winter) + '</p>' : '') +
