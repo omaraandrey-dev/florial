@@ -160,7 +160,7 @@ Read-only инвентаризация перед кодом:
 ### Каталог поливочного оборудования
 
 - **SSR equipment category catalogue:** PR #531 is part of the main baseline before the current main; its v2 expansion PR #542 merged into `main` at `e8eb2f50e709948f2ccea0b95b0df2bc2cfedeec`. Audit `docs/audits/2026-11-25-equipment-catalog-ssr-v2.md` records Preview raw HTTP smoke for 54 categories × 3 locales (162 routes), 275 linked products and successful validation. The Production-specific smoke for PR #542 must be checked separately before claiming it.
-- **SSR equipment product detail:** PR #543 is OPEN, head `7f88bda05e2eec873e0eefb89af7fecb0f4a0a04`, base main `e8eb2f50e709948f2ccea0b95b0df2bc2cfedeec`. Implementation and roadmap are in `docs/roadmaps/EQUIPMENT_PRODUCT_DETAIL_SSR_V1.md` and `docs/audits/2026-11-25-equipment-product-ssr-v1.md` on the PR branch. Exact Preview/CI acceptance and owner visual review remain to be verified. No Production release is included.
+- **SSR equipment product detail: RELEASED.** PR #543 squash-merged into `main` at `7465914b61f859768b073d1f678f9d22161e9ba6`. Cloudflare Pages Production deployment `25504afc-2b42-4a90-9595-501c7fa08fe8` succeeded. Exact-main workflow `45576362238` passed type-check, lint, 535/535 tests, build and raw HTTP smoke for all 275 published equipment products in BG/RU/EN (825/825); missing/unpublished product returned 404 noindex. Owner visually accepted representative pages on desktop/mobile. Details: `docs/audits/2026-11-25-equipment-product-ssr-v1.md`.
 - **Inventory:** 275 active published equipment products; all 275 have BG/RU/EN names, short descriptions, localized SEO, positive EUR price and explicit stock status. Detailed inventory is in the product SSR audit. No Sanity writes were made.
 
 ### Общие документационные ограничения
@@ -169,12 +169,11 @@ PR #409 remains open by owner instruction and is not modified. Its diff overlaps
 
 ## 6. Следующие шаги
 
-1. Finish exact-head validation and Preview raw HTTP smoke for PR #543; verify every active equipment product in BG/RU/EN.
-2. Owner checks representative product pages on desktop/mobile, including a simple nozzle/sprinkler, controller, solenoid valve and kit; verify client startup and interaction.
-3. After acceptance, complete PR #543 integration and verify exact Production deployment plus all 275 × 3 raw HTTP product routes.
-4. Continue sequentially with contacts, About and the final full-route SSR/SEO regression.
-5. Before each stage, verify current source code, live Sanity data and current deployment. Never infer Production status from Preview evidence.
+1. **Phase 7 — `/contacts`: NEXT.** Start with read-only discovery of the current page component, middleware route handling, published Sanity/settings data, localized contact details, both garden-centre addresses, hours, phone numbers, map links and existing JSON-LD. Reconcile only facts already confirmed by the owner; do not modify NAP, hours or protected Sanity content.
+2. **Phase 8 — `/about`:** after contacts, inspect the existing source/content and render the factual localized company description in the first response without inventing history, credentials or service claims.
+3. **Phase 9 — full SSR/SEO regression:** revisit all public SSR routes in BG/RU/EN, raw HTML, canonical/hreflang/robots, JSON-LD, links, images, redirects and post-client-startup behavior.
+4. Before each stage, verify current `develop` source, live Sanity data and current deployment. Never infer Production status from Preview evidence.
 
 ## 7. Единая модель веток
 
-С 2026-11-25 принята единая модель: `develop` — единственная постоянная ветка развития всего сайта; `main` — Production. Все новые задачи вести последовательно в `develop`, релиз — через PR `develop → main`. Уже открытый PR #543 является переходным исключением. Точная инструкция — `docs/operations/BRANCH_HYGIENE.md`.
+С 2026-11-25 принята единая модель: `develop` — единственная постоянная ветка развития всего сайта; `main` — Production. Все новые задачи вести последовательно в `develop`, релиз — через PR `develop → main`. PR #543 — завершённое переходное исключение; дальнейшая разработка ведётся только в `develop`. Точная инструкция — `docs/operations/BRANCH_HYGIENE.md`.
