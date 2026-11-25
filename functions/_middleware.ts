@@ -499,7 +499,7 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
 }
 
 async function queryEquipmentProductDocument(slug: string): Promise<EquipmentProductDocument | null> {
-  const query = \`
+  const query = `
     *[
       _type == "product" &&
       isActive != false &&
@@ -552,7 +552,7 @@ async function queryEquipmentProductDocument(slug: string): Promise<EquipmentPro
         }
       }
     }
-  \`
+  `
   const result = await querySanityData<EquipmentProductDocument | null>(
     'production',
     query,
@@ -564,13 +564,13 @@ async function queryEquipmentProductDocument(slug: string): Promise<EquipmentPro
 }
 
 async function fetchEquipmentProductCategoryTree(): Promise<SeoCategoryNode[]> {
-  const query = \`
+  const query = `
     *[_type == "category"] {
       _id, name, translations { bg { name }, ru { name }, en { name } },
       "parentId": parent->_id,
       "slugValue": coalesce(slug.current, slug)
     }
-  \`
+  `
   const result = await querySanityData<SeoCategoryNode[]>(
     'production',
     query,
