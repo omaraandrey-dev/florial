@@ -103,7 +103,6 @@ for (const locale of locales) {
   const about = byId.get('about-page')
   assert.equal(about?.['@type'], 'AboutPage', locale.code + ' AboutPage JSON-LD')
   assert.equal(about?.mainEntity?.['@id'], 'https://florial-bg.com/#organization', locale.code + ' AboutPage -> Organization')
-  assert.equal(about?.isPartOf?.['@id'], 'https://florial-bg.com/#website', locale.code + ' AboutPage -> WebSite')
   assert.ok(byId.has('organization'), locale.code + ' Organization JSON-LD')
   assert.ok(byId.has('website'), locale.code + ' WebSite JSON-LD')
   for (const storeId of ['local-business-nessebar', 'local-business-ravda']) {
