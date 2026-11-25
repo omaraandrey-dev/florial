@@ -933,7 +933,7 @@ function renderResponsiveSanityImagePreload(imageUrl: string): string {
 }
 
 function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[], equipmentProducts?: SeoPlantProduct[], equipmentCategoryTree?: SeoCategoryNode[]): string {
-  // Category and service hero imagery is rendered responsively by the client app.
+  // Category hero imagery is rendered responsively by the client app; service detail pages use their dedicated SSR renderer.
   // Do not emit a second raw image into the initial HTML: it is replaced on hydration,
   // can trigger a duplicate/oversized download, and has no reserved responsive sizing.
   // Keep the product fallback image for product-page no-JS content.
