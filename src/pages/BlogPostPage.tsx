@@ -7,14 +7,55 @@ import {BlogContent} from '../components/BlogContent'
 import {BlogArticleLoadingState} from '../components/BlogArticleLoadingState'
 import {blogImageAlt, blogSlug, blogTranslation, fetchBlogPost, fetchRelatedBlogPosts, formatBlogDate, type BlogPost, type BlogPostCard} from '../lib/blog'
 
+type BlogArticleSsrPayload = {
+  slug: string
+  language: 'bg' | 'ru' | 'en'
+  post: BlogPost
+  relatedPosts: BlogPostCard[]
+}
+
+function readBlogArticleSsrPayload(): BlogArticleSsrPayload | null {
+  if (typeof document === 'undefined') return null
+  const element = document.getElementById('florial-blog-article-data')
+  if (!element) return null
+  try {
+    const payload = JSON.parse(element.textContent || '') as BlogArticleSsrPayload
+    if (
+      typeof payload.slug === 'string' &&
+      ['bg', 'ru', 'en'].includes(payload.language) &&
+      payload.post?._id &&
+      Array.isArray(payload.relatedPosts)
+    ) return payload
+  } catch {
+    // An invalid optional SSR seed must not prevent the client-side article request.
+  }
+  return null
+}
+
 export function BlogPostPage({slug}: {slug: string}) {
   const {t, language} = useI18n()
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [relatedPosts, setRelatedPosts] = useState<BlogPostCard[]>([])
-  const [loaded, setLoaded] = useState(false)
+  const [ssrPayload] = useState<BlogArticleSsrPayload | null>(() => readBlogArticleSsrPayload())
+  const hasInitialArticle = ssrPayload?.slug === slug && ssrPayload.language === language
+  const [post, setPost] = useState<BlogPost | null>(() => hasInitialArticle && ssrPayload ? ssrPayload.post : null)
+  const [relatedPosts, setRelatedPosts] = useState<BlogPostCard[]>(() => hasInitialArticle && ssrPayload ? ssrPayload.relatedPosts : [])
+  const [loaded, setLoaded] = useState(hasInitialArticle)
+
+  useEffect(() => {
+    document.getElementById('florial-blog-article-data')?.remove()
+  }, [])
+
   useEffect(() => {
     let active = true
-    setPost(null); setRelatedPosts([]); setLoaded(false)
+    if (ssrPayload?.slug === slug && ssrPayload.language === language) {
+      setPost(ssrPayload.post)
+      setRelatedPosts(ssrPayload.relatedPosts)
+      setLoaded(true)
+      return () => { active = false }
+    }
+
+    setPost(null)
+    setRelatedPosts([])
+    setLoaded(false)
     fetchBlogPost(slug, language)
       .then((result) => {
         if (!active) return
@@ -33,7 +74,7 @@ export function BlogPostPage({slug}: {slug: string}) {
         setLoaded(true)
       })
     return () => { active = false }
-  }, [slug, language])
+  }, [slug, language, ssrPayload])
   const content = post ? blogTranslation(post, language) : null
   useEffect(() => {
     if (!post || !content) return
