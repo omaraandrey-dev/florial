@@ -137,6 +137,7 @@ test('BlogPage consumes same-locale SSR seed and keeps client-side filtering/sea
   const { readFile } = await import('node:fs/promises')
   const page = await readFile(new URL('../src/pages/BlogPage.tsx', import.meta.url), 'utf8')
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
+  const renderer = await readFile(new URL('../functions/_lib/blogIndexHtml.mjs', import.meta.url), 'utf8')
   assert.match(page, /readBlogSsrPayload/)
   assert.match(page, /ssrPayload\?\.language === language/)
   assert.match(page, /setLoaded\(true\)/)
@@ -144,6 +145,14 @@ test('BlogPage consumes same-locale SSR seed and keeps client-side filtering/sea
   assert.match(page, /setSelectedCategory/)
   assert.match(page, /setSortOrder/)
   assert.match(page, /setStructuredData\('breadcrumbs'/)
+  const pageCategoryBlock = page.match(/const blogCategories: BlogCategory\[\] = \[([\s\S]*?)\n\]/)?.[1] || ''
+  const rendererCategoryBlock = renderer.match(/const DIRECTIONS = \[([\s\S]*?)\n\]/)?.[1] || ''
+  const categoryIds = (source) => [...source.matchAll(/id: '([^']+)'/g)].map((match) => match[1])
+  assert.deepEqual(categoryIds(rendererCategoryBlock), categoryIds(pageCategoryBlock))
+  const pageSlugs = page.match(/const reviewedBlogSlugs = new Set\(\[([\s\S]*?)\]\)/)?.[1] || ''
+  const rendererSlugs = renderer.match(/const REVIEWED_SLUGS = new Set\(\[([\s\S]*?)\]\)/)?.[1] || ''
+  const quotedValues = (source) => [...source.matchAll(/'([^']+)'/g)].map((match) => match[1])
+  assert.deepEqual(quotedValues(rendererSlugs), quotedValues(pageSlugs))
   assert.match(middleware, /blogUnavailableResponse/)
   assert.match(middleware, /'Retry-After': '30'/)
 })
