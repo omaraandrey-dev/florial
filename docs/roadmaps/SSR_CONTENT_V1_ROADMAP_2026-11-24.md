@@ -1,7 +1,8 @@
 # SSR Content v1 — дорожная карта серверной выдачи основных страниц Florial
 
 **Создано:** 24.11.2026  
-**Базовый main:** `f4e04913a2876bf863deef9fa1b7774b5c416a47`  
+**Базовый main при создании плана:** `f4e04913a2876bf863deef9fa1b7774b5c416a47`  
+**Базовый main для реализации Phase 1:** `07b99481571ca079a06eb5f6e44e9d903f9dc304`  
 **Рабочая ветка документации:** `docs/ssr-content-v1-roadmap`  
 **Статус:** план утверждён владельцем; этап 1 — главная страница — первый в очереди.  
 **Цель:** обеспечить, чтобы поисковые роботы и другие клиенты, не исполняющие JavaScript, получали в первом HTTP HTML-ответе основное содержимое публичных страниц Florial, а не только SEO head и краткий резервный H1/абзац.
@@ -31,6 +32,7 @@
 - Title, meta description, robots, canonical, hreflang и JSON-LD согласованы с содержимым и локалью.
 - JSON-LD отражает фактический контент и URL, не содержит выдуманных рейтингов, отзывов, цен, дат, адресов или услуг.
 - Ссылки ведут на существующие локализованные маршруты и сохраняют текущие правила навигации.
+- Корзина магазина обнаруживается через обычную crawlable-ссылку; сама `/cart` остаётся `noindex` и не должна индексировать персональное содержимое.
 - После hydration нет дублированных карточек/текста, скачков layout или повторной загрузки крупных изображений.
 - Проверены BG/RU/EN, desktop/mobile на уровне исходного HTML и доступных функциональных тестов.
 - Есть регрессионные тесты, защищающие SSR, locale parity, контентный порядок и отсутствие нежелательных изменений.
@@ -57,6 +59,7 @@ Read-only инвентаризация перед кодом:
 - Блок блога/портфолио с теми же закреплёнными публикациями и текущим правилом последней статьи.
 - Другие содержательные секции, которые фактически присутствуют на текущей главной странице и нужны для понимания тематики сайта.
 - Корректные image alt/title и JSON-LD для главной только там, где это соответствует фактическим сущностям и не дублирует/не противоречит существующей разметке.
+- Отдельно проверить обнаруживаемость корзины: `/cart` сохраняет `noindex`; скрытые ссылки не добавлять. Преобразование текущего cart button в обычную ссылку допускается только после отдельного согласования изменения Header.
 
 Ограничения:
 - Не менять текст/структуру/порядок секций без отдельного согласования владельца.
@@ -142,9 +145,13 @@ Read-only инвентаризация перед кодом:
 
 ## 5. Текущий статус
 
-- Этап 1 (главная): **IN PROGRESS — initial read-only technical discovery completed; implementation not yet started.** Findings: [Phase 1 homepage discovery audit](../audits/2026-11-24-ssr-content-v1-phase-1-homepage-discovery.md). Confirmed current middleware returns only a localized H1 and short paragraph for `/`; the full hero, category, product, service and blog teaser sections are loaded by client-side React queries. Exact client projections and selection rules are recorded in the audit.
-- Следующий шаг этапа 1: finish read-only inspection of the full homepage component and middleware data-access/caching patterns, then implement a bounded server data projection + dedicated renderer + raw HTTP smoke tests. Keep the client UI/hydration selection identical.
+- Этап 1 (главная): **IMPLEMENTATION VERIFIED — draft PR #533** ([PR](https://github.com/omaraandrey-dev/florial/pull/533), branch `feat/ssr-homepage-content-v1`). Code-bearing head `0276d4d99256a92c500487f94a501da57b36ca21`. The dedicated renderer covers hero/category image CTAs, the four value propositions, services, plant categories, featured plants, irrigation categories, featured equipment and blog teaser.
+- Selection parity: the SSR renderer mirrors `App.tsx` populated-category visibility and ancestor retention, excludes `plants-*` IDs and legacy `electromagnetic-valves`, then applies the existing root-category order/six-card limit. It reuses shared featured-equipment and service-order helpers, plant price/stock rules and pinned/latest blog ordering.
+- Image parity: initial HTML uses the same Sanity URL transformation and responsive candidate list as `getSanityImageProps` (src/srcset/sizes/width/height/loading priority). Product-card aspect ratios and responsive sizes are aligned to current React cards. Plant unknown-stock fallback and localized display-name fallback are covered by tests.
+- Homepage commercial identity: `OnlineStore` and `WebSite` JSON-LD are emitted on the homepage; existing Nessebar/Ravda `GardenStore` entities remain. Product/category links remain crawlable. The cart itself remains `noindex, nofollow`; a visible Header anchor is a separate owner-approval decision.
+- **Verification passed on code head `0276d4d99256a92c500487f94a501da57b36ca21`:** Preview deployment `5206776a-6a44-459e-9f5c-89a33f83dbff` succeeded. Raw first-response smoke run `45514703501` passed BG/RU/EN without JavaScript. Blog and Studio validation run `45514716263` passed app/Pages type-check, lint, 493/493 tests, website build, migration syntax and read-only dry-run, Studio type-check/build. D1 validation run `45514716029` passed. The raw smoke checked localized H1/value proposition, index/follow robots, crawlable category/service/blog links and OnlineStore/WebSite JSON-LD. No Production release is claimed.
+- **Architecture caveat:** `src/main.tsx` currently uses `createRoot`, so React replaces the initial server markup inside `#root`; this is first-response SSR, not React hydration. The client transition/CLS must be evaluated separately. Do not change the app bootstrap/global shell without owner approval.
+- **Cart discovery finding:** `Header.tsx` currently renders the cart control as a `<button>`, not an anchor with `href`; `/cart` is already correctly `noindex`. No Header change is included; a visible semantic anchor conversion awaits separate owner approval. No hidden link.
 - Этапы 2–9: **NOT STARTED**.
 - Sanity writes: **не выполнялись и не входят в общий scope**.
 - Production/Cloudflare settings, secrets, D1: **не изменялись**.
-- Baseline main at roadmap creation: `f4e04913a2876bf863deef9fa1b7774b5c416a47`. Documentation branch: `docs/ssr-content-v1-roadmap`.

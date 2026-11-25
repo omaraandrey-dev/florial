@@ -1,0 +1,33 @@
+name: Homepage SSR raw HTTP smoke
+
+on:
+  push:
+    branches:
+      - feat/ssr-homepage-content-v1
+      - main
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Exact Florial Pages Preview URL or Production URL to test
+        required: true
+        default: https://florial-bg.com
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  raw-http-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify first HTTP response without executing JavaScript
+        env:
+          BASE_URL: ${{ inputs.base_url || (github.ref_name == 'main' && 'https://florial-bg.com' || 'https://feat-ssr-homepage-content-v1.florial.pages.dev') }}
+        run: node scripts/smoke-homepage-ssr.mjs

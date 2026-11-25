@@ -1,3 +1,13 @@
+## 2026-11-25 — homepage first-response SSR (PR #533, implementation verified)
+
+- Branch: `feat/ssr-homepage-content-v1`; PR #533. Code-bearing head: `0276d4d99256a92c500487f94a501da57b36ca21`.
+- Cloudflare Pages middleware uses `functions/_lib/homepageHtml.mjs` and bounded parallel published-Sanity projections to render the homepage content in the first HTTP response for BG/RU/EN.
+- The renderer covers hero and category-image CTAs, value propositions, services, plant categories, featured plants, irrigation categories, featured equipment and pinned/latest blog teaser. It mirrors App/HomePage selection, shared service/featured-product helpers, plant price/stock/display-name rules and localized blog ordering.
+- Responsive Sanity image URLs are built to match `src/lib/sanityImage.ts:getSanityImageProps` (src/srcset/sizes/width/height/loading priority). Homepage JSON-LD adds `OnlineStore` and `WebSite`; existing local `GardenStore` entities remain. `/cart` stays `noindex, nofollow`.
+- A failed Sanity query or non-array collection uses the existing minimal static fallback with `Cache-Control: no-store`. Valid empty arrays are treated as source data and render empty sections, matching the client data contract.
+- **Important runtime boundary:** the client bootstrap still uses React `createRoot`, not `hydrateRoot`; it replaces initial markup inside `#root` on startup. This is raw first-response SSR, not React hydration. Client transition/CLS preservation is an open, separately approved task.
+- **Verified on code head `0276d4d99256a92c500487f94a501da57b36ca21`:** Preview deployment `5206776a-6a44-459e-9f5c-89a33f83dbff` succeeded. Raw first-response smoke run `45514703501` passed BG/RU/EN without JavaScript. Blog and Studio validation run `45514716263` passed app/Pages type-check, lint, 493/493 tests, website build, migration syntax and read-only dry-run, Studio type-check/build. D1 validation run `45514716029` passed. No Production release is claimed. No Sanity writes, D1 schema/data changes or Cloudflare settings/secrets changed.
+
 ## 2026-11-24 — equipment category server-rendered catalogue (SSR Catalog v1, PR #531)
 
 - Implementation: `functions/_middleware.ts` and `functions/_lib/plantCategoryHtml.mjs`; plan: `docs/roadmaps/SEO_EQUIPMENT_CATEGORY_SSR_V1.md`; evidence: `docs/audits/2026-11-24-equipment-category-ssr-v1.md`.
@@ -5,7 +15,7 @@
 - The all-irrigation root reproduces React's six-category round-robin and nozzle-series order; CollectionPage ItemList shares the same ordering. Plant SSR and React interactivity remain unchanged.
 - Exact code-head CI `331ffee5b548864c36497fafb788293569c4180a` passed: 483/483 tests, app/Pages Functions type-check, lint, Vite build, Studio type-check/build and D1 validation. No D1 migration was applied.
 - Cloudflare Pages Preview deployment `ba6a681a-2865-4c40-815e-27216bc510e5` succeeded from that exact SHA. Post-hydration category route smoke checks passed.
-- Raw initial-HTTP HTML verification remains open because available Firecrawl snapshots run after React hydration. PR #531 remains open; no Production deployment, Sanity writes, D1 data changes, or Cloudflare settings/secrets changes were made.
+- PR #531 merged into `main` as `39e756fe63993557ee7702dee4eaefc6c8111b14`; Cloudflare Pages Production deployment `d558f601-ebc0-495c-ac2a-a900214a60ca` succeeded from that exact merge commit. Production native-fetch raw first-response smoke run `45466953350` passed for BG/RU/EN with 20 equipment product links per locale and CollectionPage ItemList order parity. The separate Search Console noindex/canonical discrepancies remain open. No Sanity writes, D1 data changes, or Cloudflare settings/secrets changes were made.
 
 ## 2026-11-24 — irrigation assistant paused by owner
 

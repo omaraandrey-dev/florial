@@ -1,3 +1,23 @@
+## 2026-11-25 — SSR Content v1 Phase 1: homepage parity hardening (PR #533)
+
+- Expanded the first-response homepage HTML to include the full current section sequence: hero with plant/equipment category image CTAs, value-proposition advantages, services, plant categories, featured plants, irrigation categories, featured equipment and blog teaser.
+- Mirrored the client-side category visibility contract from `App.tsx`: populated categories plus ancestors, excludes the legacy `electromagnetic-valves` card and plant-category IDs from the irrigation grid, then applies the existing root-category order and six-card limit.
+- Matched the shared Sanity responsive-image URL algorithm, including `src`, `srcset`, `sizes`, intrinsic dimensions, preferred widths and loading priority. Matched plant display-name and unknown-stock fallback behavior.
+- Homepage structured data now identifies Florial as an `OnlineStore`, adds a localized `WebSite` node and retains the existing Nessebar/Ravda `GardenStore` entities. The cart remains `noindex, nofollow`; no Header link change is included.
+- Added regressions for populated-category ancestors, excluded categories, full localized homepage sections, responsive image output, OnlineStore/WebSite JSON-LD and unknown plant stock.
+- **Verified on code head `0276d4d99256a92c500487f94a501da57b36ca21`:** Preview deployment `5206776a-6a44-459e-9f5c-89a33f83dbff` succeeded. Raw first-response smoke run `45514703501` passed BG/RU/EN without JavaScript. Blog and Studio validation run `45514716263` passed app/Pages type-check, lint, 493/493 tests, website build, migration syntax and read-only dry-run, Studio type-check/build. D1 validation run `45514716029` passed. No Production release is claimed.
+- **Known SPA limitation:** the current client entry uses `createRoot`, not `hydrateRoot`; React replaces the initial `#root` HTML on startup. The server response is useful to crawlers that inspect the first HTTP response, but the client transition/CLS still needs a separate decision and verification. No global bootstrap change is included in this PR.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets or Production settings were made.
+
+## 2026-11-24 — SSR Content v1 Phase 1: homepage implementation started (PR #533)
+
+- Draft PR #533 adds a dedicated homepage initial-HTML renderer and bounded, parallel published-Sanity projections for BG/RU/EN.
+- The implementation mirrors existing category visibility/order, curated featured plants, irrigation-kit selection, service ordering and pinned/latest blog selection; the React client UI and route behavior are unchanged.
+- Sanity query failures retain the existing minimal static homepage fallback and set `Cache-Control: no-store`; failed/partial results are not edge-cached as an empty homepage.
+- Added homepage SSR unit/regression tests and a manual native-fetch raw HTTP smoke script/workflow. Exact-head CI and Preview verification are pending; no Production release is claimed.
+- Cart audit: Header cart is currently a button rather than a crawlable anchor; `/cart` correctly remains `noindex`. Header change is excluded pending separate owner approval.
+- No Sanity writes, D1 changes, Cloudflare settings/secrets or Production settings were made.
+
 ## 2026-11-24 — SSR Catalog v1: equipment category initial HTML (PR #531)
 
 - Added an equipment-specific initial HTML renderer using the existing published Sanity `production` category query.
