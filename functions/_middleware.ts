@@ -10,7 +10,7 @@ import { buildServiceDetailStructuredData, getServiceDetailMetadata, renderServi
 import { getBlogIndexMetadata, renderBlogIndexHtml, serializeBlogIndexPayload } from './_lib/blogIndexHtml.mjs'
 import { getBlogArticleMetadata, renderBlogArticleHtml, serializeBlogArticlePayload } from './_lib/blogArticleHtml.mjs'
 import { buildEquipmentProductStructuredData, renderEquipmentProductHtml } from './_lib/equipmentProductHtml.mjs'
-import { buildPlantProductStructuredData, renderPlantProductHtml } from './_lib/plantProductHtml.mjs'
+import { buildPlantProductStructuredData, renderPlantProductHtml, renderPortableText } from './_lib/plantProductHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -1204,6 +1204,7 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
     extra + categoryNavigation + plantCategoryNavigation +
     (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') +
+    (type === 'category' && doc._dataset === 'plants' ? renderPortableText(language === 'bg' ? doc.seoContent : doc.translations?.[language]?.seoContent || doc.seoContent) : '') +
     (isEquipmentCategory && Array.isArray(equipmentProducts) ? renderEquipmentCategoryListing(equipmentProducts, language, SITE_URL, { rootCatalog, categories: equipmentCategoryTree || [] }) : '') +
     categorySeoContent + categoryHelpBlock + '<p><a href="/">Florial</a></p></main>'
 }
