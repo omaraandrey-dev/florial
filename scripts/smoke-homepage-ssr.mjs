@@ -40,6 +40,14 @@ for (const route of routes) {
   assert.ok(html.includes(route.valueProposition), route.language + ': value proposition is missing from raw HTML')
   assert.ok(html.includes(route.h1), route.language + ': localized H1 is missing from raw HTML')
   assert.equal((html.match(/data-florial-ssr-homepage="v1"/g) || []).length, 1)
+  if (process.env.EXPECT_CLIENT_HANDOFF === '1') {
+    const serverRootIndex = html.indexOf('<div id="root">')
+    const serverContentIndex = html.indexOf('data-florial-ssr-homepage="v1"')
+    const hiddenClientRootIndex = html.indexOf('<div id="app-root" hidden></div>')
+    assert.ok(serverRootIndex >= 0 && serverRootIndex < serverContentIndex, route.language + ': SSR content is not inside #root')
+    assert.ok(hiddenClientRootIndex > serverContentIndex, route.language + ': hidden #app-root does not follow server HTML')
+    assert.equal((html.match(/id="app-root"/g) || []).length, 1, route.language + ': app root must be unique')
+  }
   assert.equal((html.match(/<h1\b/gi) || []).length, 1)
   assert.match(html, /href="\/category\/rastenia(?:\?lang=(?:ru|en))?"/)
   assert.match(html, /href="\/category\/vsichko-za-polivane(?:\?lang=(?:ru|en))?"/)
