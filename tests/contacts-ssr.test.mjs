@@ -15,7 +15,12 @@ test('renders both garden-centre cards, maps, photos and confirmed daily hours i
   assert.match(html, /Градински център Равда/)
   assert.match(html, /<h3 class="text-xl font-bold text-slate-900 mb-2">Градински център Несебър<\/h3>/)
   assert.match(html, /<h3 class="text-xl font-bold text-slate-900 mb-2">Градински център Равда<\/h3>/)
-  assert.doesNotMatch(html, /<h3\b[^>]*>[\s\S]*?<\/h2>/)
+  const locationCards = [...html.matchAll(/<article data-florial-contact-location="[a-z]+"[\s\S]*?<\/article>/g)].map(([card]) => card)
+  assert.equal(locationCards.length, 2)
+  for (const card of locationCards) {
+    assert.match(card, /<h3\b[^>]*>[^<]+<\/h3>/)
+    assert.doesNotMatch(card, /<\/h2>/)
+  }
   assert.match(html, /ул\. „Хан Крум“/)
   assert.match(html, /с\. Равда, България/)
   assert.match(html, /pK8qGHh9b1xoCc4P9/)
