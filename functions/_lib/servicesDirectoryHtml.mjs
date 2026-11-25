@@ -195,7 +195,7 @@ export function renderServicesDirectoryHtml({ entries = [], rolePhotos = [], lan
       url: SITE_URL + href('/services/' + encodeURIComponent(slug), lang),
     }]
   })
-  const body = '<main class="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">' +
+  const body = '<main data-florial-services-directory="true" class="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">' +
     '<nav aria-label="Breadcrumb" class="mb-6 flex flex-wrap items-center gap-2 text-sm text-slate-500">' +
     '<a href="' + escapeHtml(href('/', lang)) + '" class="no-underline">' + escapeHtml(copy.home) + '</a><span aria-hidden="true">/</span>' +
     '<span aria-current="page" class="font-medium text-slate-700">' + escapeHtml(copy.all) + '</span></nav>' +
