@@ -92,7 +92,7 @@ export function renderContactsHtml(language = 'bg', images = {}) {
       : '<span class="text-slate-400 text-sm font-medium">' + escapeHtml(copy.noImage) + '</span>'
     return '<article data-florial-contact-location="' + location.key + '" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">' +
       '<div><div class="h-52 bg-slate-100 relative overflow-hidden flex items-center justify-center">' + image + '</div>' +
-      '<div class="p-6"><h2 class="text-xl font-bold text-slate-900 mb-2">' + escapeHtml(location.names[lang]) + '</h2>' +
+      '<div class="p-6"><h3 class="text-xl font-bold text-slate-900 mb-2">' + escapeHtml(location.names[lang]) + '</h2>' +
       '<p class="text-slate-600 text-sm mb-4 leading-relaxed">' + escapeHtml(location.addresses[lang]) + '</p></div></div>' +
       '<div class="px-6 pb-6 pt-0"><a href="' + location.mapUrl + '" target="_blank" rel="noreferrer" class="w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold py-2.5 px-4 rounded-xl text-center text-sm transition border border-emerald-200 flex items-center justify-center gap-2">' +
       '🗺️ ' + escapeHtml(copy.map) + '</a></div></article>'
