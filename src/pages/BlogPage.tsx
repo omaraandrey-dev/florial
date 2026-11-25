@@ -196,12 +196,21 @@ export function BlogPage() {
       const url = new URL(localizedHref('/blog/' + encodeURIComponent(blogSlug(post)), language), window.location.origin).toString()
       return { '@type': 'ListItem', position: index + 1, name: content.title, url }
     })
+    const blogUrl = new URL(localizedHref('/blog', language), window.location.origin).toString()
     setStructuredData('collection-page', {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
       name: copy.title,
-      url: new URL(localizedHref('/blog', language), window.location.origin).toString(),
+      url: blogUrl,
       ...(items.length ? { mainEntity: { '@type': 'ItemList', numberOfItems: items.length, itemListElement: items } } : {}),
+    })
+    setStructuredData('breadcrumbs', {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: language === 'ru' ? 'Главная' : language === 'en' ? 'Home' : 'Начало', item: new URL(localizedHref('/', language), window.location.origin).toString() },
+        { '@type': 'ListItem', position: 2, name: copy.title, item: blogUrl },
+      ],
     })
   }, [posts, loaded, language, copy.title])
 
