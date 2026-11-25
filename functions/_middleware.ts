@@ -10,6 +10,7 @@ import { buildServiceDetailStructuredData, getServiceDetailMetadata, renderServi
 import { getBlogIndexMetadata, renderBlogIndexHtml, serializeBlogIndexPayload } from './_lib/blogIndexHtml.mjs'
 import { getBlogArticleMetadata, renderBlogArticleHtml, serializeBlogArticlePayload } from './_lib/blogArticleHtml.mjs'
 import { buildEquipmentProductStructuredData, renderEquipmentProductHtml } from './_lib/equipmentProductHtml.mjs'
+import { buildPlantProductStructuredData, renderPlantProductHtml } from './_lib/plantProductHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -498,6 +499,54 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
   return result
 }
 
+type PlantProductDocument = SeoDocument & {
+  scientificName?: string
+  vatIncluded?: boolean
+  mainImage?: { asset?: { url?: string; metadata?: { dimensions?: { width?: number; height?: number } } }; alt?: string; altEn?: string; altRu?: string }
+  gallery?: Array<{ _key?: string; asset?: { url?: string }; alt?: string; altEn?: string; altRu?: string }>
+  plantCare?: Record<string, any>
+  careGuide?: unknown[]
+  recommendedIrrigation?: { irrigationType?: string; productSlug?: string }
+  relatedContentBySlug?: Array<{ contentType?: string; slug?: string; label?: string }>
+  category?: { _id?: string; name?: string; slugValue?: string; translations?: Record<string, { name?: string } | undefined> }
+  saleVariants?: Array<{ _key?: string; name?: string; nameEn?: string; nameRu?: string; sku?: string; priceEUR?: number; oldPriceEUR?: number; stockStatus?: string; stockQuantity?: number; saleHeightCm?: number; containerVolumeL?: number }>
+}
+
+async function queryPlantProductDocument(slug: string): Promise<PlantProductDocument | null> {
+  const query = `
+    *[
+      _type == "product" &&
+      productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&
+      isActive != false &&
+      (coalesce(slug.current, slug) == $slug || _id == $slug)
+    ][0] {
+      _id, name, sku, productType, scientificName, shortDescription, description, careGuide,
+      plantCare, recommendedIrrigation, relatedContentBySlug,
+      priceEUR, oldPriceEUR, vatIncluded, stockStatus,
+      "slugValue": coalesce(slug.current, slug, _id),
+      "imageUrl": mainImage.asset->url,
+      mainImage { asset->{url, metadata{dimensions{width,height}}}, alt, altEn, altRu, hotspot, crop },
+      gallery[] { _key, asset->{url, metadata{dimensions{width,height}}}, alt, altEn, altRu, hotspot, crop },
+      saleVariants[] { _key, name, nameEn, nameRu, sku, priceEUR, oldPriceEUR, stockStatus, stockQuantity, saleHeightCm, containerVolumeL },
+      seo { h1, metaTitle, metaDescription, noIndex },
+      translations {
+        bg { name, shortDescription, description, careGuide, seo { h1, metaTitle, metaDescription, noIndex } },
+        ru { name, shortDescription, description, careGuide, seo { h1, metaTitle, metaDescription, noIndex } },
+        en { name, shortDescription, description, careGuide, seo { h1, metaTitle, metaDescription, noIndex } }
+      },
+      "category": category->{ _id, name, "slugValue": coalesce(slug.current, slug), translations { bg { name }, ru { name }, en { name } } }
+    }
+  `
+  const result = await querySanityData<PlantProductDocument | null>(
+    'plants',
+    query,
+    { slug },
+    'sanity/plants/plant-product-detail-v1/' + encodeURIComponent(slug),
+    60,
+  )
+  return result ? { ...result, _dataset: 'plants' } : null
+}
+
 async function queryEquipmentProductDocument(slug: string): Promise<EquipmentProductDocument | null> {
   const query = `
     *[
@@ -735,7 +784,7 @@ function setPageHead(
         ]
     html = html.replace(/<\/head>/i, resourceHints.join('\n') + '\n</head>')
   }
-  if ((options.pageType === 'article' || options.pageType === 'service' || options.pageType === 'equipment-product') && options.image) {
+  if ((options.pageType === 'article' || options.pageType === 'service' || options.pageType === 'equipment-product' || options.pageType === 'product') && options.image) {
     const preload = renderResponsiveSanityImagePreload(options.image, options.pageType === 'equipment-product' ? '(min-width: 768px) 50vw, 100vw' : undefined)
     if (preload && !/<link\b[^>]*rel=["']preload["'][^>]*as=["']image["']/i.test(html)) {
       html = html.replace(/<\/head>/i, preload + '\n</head>')
@@ -1830,7 +1879,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       } else if (route === 'category') {
         doc = await queryDocument('production', type, slug) || await queryDocument('plants', type, slug)
       } else if (type === 'product') {
-        doc = await queryEquipmentProductDocument(slug) || await queryDocument('plants', type, slug)
+        doc = await queryEquipmentProductDocument(slug) || await queryPlantProductDocument(slug)
       } else {
         doc = await queryDocument('production', type, slug) || await queryDocument('plants', type, slug)
       }
@@ -1923,6 +1972,10 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         const productStructuredData = buildEquipmentProductStructuredData(doc as EquipmentProductDocument, equipmentProductCategories, language, canonicalUrl)
         structuredData.push({ id: 'product', data: productStructuredData[0] })
         structuredData.push({ id: 'breadcrumbs', data: productStructuredData[1] })
+      } else if (type === 'product' && doc._dataset === 'plants') {
+        const productStructuredData = buildPlantProductStructuredData(doc as PlantProductDocument, language, canonicalUrl)
+        structuredData.push({ id: 'product', data: productStructuredData[0] })
+        structuredData.push({ id: 'breadcrumbs', data: productStructuredData[1] })
       } else if (type === 'product') {
         structuredData.push({ id: 'product', data: makeProductJsonLd(doc, name, metaDescription, canonicalUrl) })
       }
@@ -1934,7 +1987,9 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         ? renderServiceDetailHtml(doc as ServiceDetailDocument, language)
         : type === 'product' && doc._dataset === 'production'
           ? renderEquipmentProductHtml(doc as EquipmentProductDocument, equipmentProductCategories, language)
-          : documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined)
+          : type === 'product' && doc._dataset === 'plants'
+            ? renderPlantProductHtml(doc as PlantProductDocument, language, SITE_URL)
+            : documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {
@@ -1950,7 +2005,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         })
       }, type === 'category' && categoryProducts === null
         ? 'no-store'
-        : type === 'service' || (type === 'product' && doc._dataset === 'production')
+        : type === 'service' || (type === 'product' && (doc._dataset === 'production' || doc._dataset === 'plants'))
           ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
           : categoryProducts !== null
             ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'
