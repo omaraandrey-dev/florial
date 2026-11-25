@@ -41,7 +41,6 @@ const COPY = {
     noImage: 'Няма изображение',
     days: ['Понеделник', 'Вторник', 'Сряда', 'Четвъртък', 'Петък', 'Събота', 'Неделя'],
     hours: '09:00 – 17:00',
-    intro: 'Свържете се с нас за растения, оборудване за автоматично напояване и услуги по озеленяване в България.',
     languagePhone: 'ENG / UA / RU',
   },
   ru: {
@@ -53,7 +52,6 @@ const COPY = {
     noImage: 'Нет изображения',
     days: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
     hours: '09:00 – 17:00',
-    intro: 'Свяжитесь с нами по вопросам растений, оборудования для автоматического полива и услуг по озеленению в Болгарии.',
     languagePhone: 'ENG / UA / RU',
   },
   en: {
@@ -65,7 +63,6 @@ const COPY = {
     noImage: 'No image available',
     days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     hours: '09:00 – 17:00',
-    intro: 'Contact us about plants, automatic irrigation equipment and landscaping services in Bulgaria.',
     languagePhone: 'ENG / UA / RU',
   },
 }
@@ -115,7 +112,6 @@ export function renderContactsHtml(language = 'bg', images = {}) {
   return '<main data-florial-ssr="contacts" class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">' +
     '<a href="/" class="mb-6 inline-flex items-center text-sm font-semibold text-emerald-800 hover:text-emerald-600 transition">← ' + escapeHtml(copy.back) + '</a>' +
     '<h1 class="text-3xl font-extrabold text-slate-900 mb-6">' + escapeHtml(copy.title) + '</h1>' +
-    '<p class="sr-only">' + escapeHtml(copy.intro) + '</p>' +
     '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">' + cards + '</div>' +
     '<section class="bg-amber-50/70 border border-amber-200 rounded-2xl p-6 shadow-sm mb-6">' +
     '<h2 class="text-2xl font-bold text-slate-900 mb-4">' + escapeHtml(copy.opening) + '</h2>' +
