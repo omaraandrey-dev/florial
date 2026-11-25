@@ -20,9 +20,11 @@ function safeHref(value) {
 function localizedValue(product, key, language) {
   if (language !== 'bg') {
     const translated = product.translations?.[language]?.[key]
-    if (translated !== undefined && translated !== null && translated !== '') return translated
+    if (translated !== undefined && translated !== null && translated !== '' && (!Array.isArray(translated) || translated.length > 0)) return translated
   }
-  return product.translations?.bg?.[key] ?? product[key]
+  const bulgarian = product.translations?.bg?.[key]
+  if (bulgarian !== undefined && bulgarian !== null && bulgarian !== '' && (!Array.isArray(bulgarian) || bulgarian.length > 0)) return bulgarian
+  return product[key]
 }
 
 function localizedProductName(product, language) {
