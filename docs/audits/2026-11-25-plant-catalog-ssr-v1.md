@@ -3,6 +3,7 @@
 **Date:** 2026-11-25  
 **Development branch:** `develop`  
 **Code commit validated:** `f2731a635141608cb718e6b8fe2abcfd1dd446c3`  
+**Current develop HEAD after documentation-only follow-ups:** `80e2709faf0faeb5271c2251ae460981372672a5`  
 **Integration PR:** [#545 — feat(ssr): server-render the complete plant catalogue](https://github.com/omaraandrey-dev/florial/pull/545) (draft; not merged)  
 **Cloudflare Preview deployment:** `8edfaba7-a854-4d4d-ba2a-65891e371d50`  
 **Preview URL:** https://8edfaba7.florial.pages.dev  
@@ -154,7 +155,7 @@ PR #409 remains open and untouched. Shared documents overlapping PR #409 were no
 
 - PR #545 is draft and not merged.
 - Plant SSR is verified in Preview only; it is not released to Production.
-- Owner visual review of representative plant detail and category pages on desktop/mobile is still pending.
+- Owner visual review of representative plant detail and category pages on desktop/mobile is still pending. An attempted read-only Browser Use inspection could not start because the Browser Use service returned `insufficient_credits`; no visual review is claimed.
 - Check client handoff/hydration on representative plant pages for duplicate content, image reload and layout shift before merge.
 - Do not start contacts or about SSR until the plant SSR phase is accepted by the owner.
 - Do not edit Sanity product data, schema, D1 or Production configuration as part of this phase without separate approval.
