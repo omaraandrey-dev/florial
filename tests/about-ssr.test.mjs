@@ -144,7 +144,7 @@ test('About middleware uses published bounded Sanity queries, shared copy, safe 
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
   const page = await readFile(new URL('../src/pages/AboutPage.tsx', import.meta.url), 'utf8')
   const content = await readFile(new URL('../src/content/aboutPageContent.ts', import.meta.url), 'utf8')
-  assert.match(middleware, /async function fetchAboutHtml\(language: 'bg' \\| 'ru' \\| 'en'\)/)
+  assert.ok(middleware.includes("async function fetchAboutHtml(language: 'bg' | 'ru' | 'en')"))
   assert.match(middleware, /sanity\/production\/about-photos-v1/)
   assert.match(middleware, /sanity\/production\/about-equipment-category-v1/)
   assert.match(middleware, /sanity\/plants\/about-plant-category-v1/)
