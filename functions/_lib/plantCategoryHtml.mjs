@@ -198,7 +198,7 @@ export function renderPlantCategoryListing(products, language = 'bg', siteUrl = 
       }
     }
     const image = imageUrl
-      ? '<div style="height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f8fafc;border-radius:8px;margin-bottom:12px"><img src="' + escapeHtml(imageUrl) + '" alt="' + plantProductImageText(name, language, 'alt')) + '" title="' + escapeHtml(plantProductImageText(name, language, 'title')) + '" loading="' + (index < 2 ? 'eager' : 'lazy') + '" decoding="async" style="max-width:100%;max-height:100%;object-fit:contain" /></div>'
+      ? '<div style="height:160px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f8fafc;border-radius:8px;margin-bottom:12px"><img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(plantProductImageText(name, language, 'alt')) + '" title="' + escapeHtml(plantProductImageText(name, language, 'title')) + '" loading="' + (index < 2 ? 'eager' : 'lazy') + '" decoding="async" style="max-width:100%;max-height:100%;object-fit:contain" /></div>'
       : ''
     const size = [
       typeof variant?.saleHeightCm === 'number' && variant.saleHeightCm > 0 ? (language === 'en' ? 'Height ' : language === 'ru' ? 'Высота ' : 'Височина ') + variant.saleHeightCm + (language === 'en' ? ' cm' : ' см') : '',
