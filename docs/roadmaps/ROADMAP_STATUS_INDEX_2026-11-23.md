@@ -1,8 +1,8 @@
 # Florial — единый реестр дорожных карт и текущих приоритетов
 
 **Срез:** 25.11.2026  
-**Production main HEAD на момент обновления:** `7465914b61f859768b073d1f678f9d22161e9ba6`  
-**Единая ветка развития:** `develop` (создана от указанного main SHA; последующие документационные handoff-коммиты находятся в develop).  
+**Production main HEAD на момент обновления:** `1e56c12ed4bd73307ff24f7255bc3b6c16780ea4` (в main после PR #543 добавлены только два smoke/CI файла; детали инцидента — в plant SSR audit).  
+**Единая ветка развития:** `develop`; синхронизирована с текущим main merge-коммитом `0f30704138d49169481d06b37c1aa7f26c5a4c75`; актуальная реализация и handoff ведутся только в develop.  
 **Назначение:** единая точка сверки статусов между самостоятельными дорожными картами. Этот индекс не заменяет подробные планы; он устраняет противоречия в статусах и определяет ближайший рабочий поток. После каждого существенного этапа обновлять соответствующую дорожную карту и этот реестр.
 
 ## 1. Главный активный поток — SEO Florial (7 последовательных этапов)
@@ -61,7 +61,8 @@
 - **Статьи `/blog/{slug}`: MERGED TO MAIN.** PR #541 merged; Preview smoke прошёл 19 статей × 3 локали (57 ответов). Отдельный Production raw HTTP smoke требуется подтвердить.
 - **Каталог оборудования и категории:** PR #531 и расширение PR #542 находятся в текущем main baseline. Для PR #542 подтверждён Preview smoke 54 категории × 3 локали (162 ответа); отдельный Production smoke требуется подтвердить.
 - **Отдельные товары оборудования:** PR #543 MERGED в `main` коммитом `7465914b61f859768b073d1f678f9d22161e9ba6`. Cloudflare Production deployment `25504afc-2b42-4a90-9595-501c7fa08fe8` успешен. Exact-main workflow `45576362238` прошёл 535/535 tests, type-check, lint и build; Production raw HTTP smoke подтвердил все 275 активных товаров × BG/RU/EN (825/825), а отсутствующий/неопубликованный товар возвращает 404 noindex. Владелец визуально принял страницы на desktop/mobile. Подробности: [product SSR audit](../audits/2026-11-25-equipment-product-ssr-v1.md).
-- **Следом:** этап 7 SSR `/contacts`: read-only discovery существующих источников, структуры, локализаций и подтверждённых контактных данных; затем этап 8 `/about`; затем этап 9 — общая SSR/SEO регрессия BG/RU/EN.
+- **Каталог растений и карточки растений: CURRENT PRIORITY — Preview verified, not released.** В PR #545 (draft, `develop → main`) добавлены отдельный SSR renderer карточки растения, plant-only Sanity query, SSR категорий и корневого каталога с первыми 20 sale offers. Live Sanity inventory: 60 active published plants и 17 categories. Exact Preview deployment `8edfaba7-a854-4d4d-ba2a-65891e371d50` прошёл 180 plant detail routes + 51 category routes (231/231) в BG/RU/EN; 543/543 tests, type-check, lint, website build и Studio build прошли. Smoke: `45581140157`. Владелец ещё должен выполнить визуальную проверку desktop/mobile и проверить hydration/client handoff. Подробности: [plant SSR audit](../audits/2026-11-25-plant-catalog-ssr-v1.md).
+- **Следом после принятия растений:** этап 8 SSR `/contacts`; затем этап 9 `/about`; затем этап 10 — общая SSR/SEO регрессия BG/RU/EN.
 
 Не считать Preview-доказательства Production-релизом. Не менять Sanity-контент/схему, D1, Cloudflare settings/secrets или Production без соответствующего разрешения.
 
@@ -113,7 +114,7 @@
 ## 8. Правила следующего чата
 
 1. Получить свежие HEAD `develop` и `main`; `develop` — единая ветка развития, `main` — Production. Прочитать `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, `WORK_PROTOCOL.md`, `MASTER_SPEC.md`, `TECHNICAL_PASSPORT.md`, верх `CHANGELOG.md`, `OPEN_QUESTIONS.md` и этот индекс.
-2. Если владелец продолжает текущий SSR поток, сначала закрыть PR #543 по актуальному аудиту и визуальному подтверждению, затем двигаться по SSR roadmap. SEO этап 6 — Local SEO вести как отдельный поток, read-only и по отдельному поручению.
+2. Текущий SSR приоритет — PR #545: полный SSR каталога растений и карточек растений. Завершить Preview/hydration/визуальную проверку и получить отдельное разрешение владельца до merge. После принятия растений продолжить `/contacts`, затем `/about`, затем общую SSR/SEO регрессию. SEO этап 6 — Local SEO вести как отдельный поток, read-only и по отдельному поручению.
 3. Не менять профили, внешние listings или сайт без отдельного согласования.
 4. Повторить desktop-only GSC анализ примерно 23.12.2026 на последних 28 финализированных днях; это не блокирует текущую работу.
 5. Повторно проверить сохранённые URL Inspection anomalies примерно через месяц; не менять код/Sanity без нового подтверждения.
@@ -121,6 +122,8 @@
 
 ## Журнал синхронизации
 
+- 25.11.2026 — приоритет SSR изменён владельцем: сначала полный SSR каталога растений и всех карточек растений; контакты и «О нас» отложены. В PR #545 (draft) Preview deployment `8edfaba7-a854-4d4d-ba2a-65891e371d50` прошёл 180 product routes + 51 category routes (231/231) на BG/RU/EN; 543/543 tests и build/typecheck/lint/Studio build прошли. Аудит: [plant catalogue SSR v1](../audits/2026-11-25-plant-catalog-ssr-v1.md).
+- 25.11.2026 — операционная заметка: два test-only файла были по ошибке созданы в main (`e7324d7`, `1e56c12`), что вызвало успешный Production deployment `d57f00f9-2fbd-4d8c-b045-686498096c5d`; diff содержит только smoke script и workflow, приложение/Sanity/D1/Cloudflare config не менялись. `main` синхронизирован в `develop` merge-коммитом `0f30704138d49169481d06b37c1aa7f26c5a4c75`; исправленная версия smoke workflow находится в develop. Дополнительные изменения main не выполнялись.
 - 25.11.2026 — PR #543 принят владельцем, squash-merged в `main` (`7465914b61f859768b073d1f678f9d22161e9ba6`) и подтверждён в Production: 275 × 3 локали (825/825) raw HTTP pages; deployment `25504afc-2b42-4a90-9595-501c7fa08fe8`. `develop` синхронизирован с `main` merge-коммитом `04a615d3f8f19d7ab36a0ea0f3926aae5a14b762`. Следующий SSR этап — `/contacts`. PR #409 не изменялся; общие документы из его diff оставлены нетронутыми.
 
 - 23.11.2026 — объединены статусы SEO 7-step plan, Google Shopping, Manager Web Push и Performance в один реестр; добавлена live indexability audit запись из PR #487. Код, Sanity, Cloudflare, D1, Resend и Google settings не менялись.
