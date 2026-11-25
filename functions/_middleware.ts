@@ -1151,7 +1151,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
 
   if (path === '/services') {
     const metadata = getServicesDirectoryMetadata(language)
-    const serviceQuery = \`
+    const serviceQuery = `
       *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
         _id, name, shortDescription,
         translations { bg { name, shortDescription }, ru { name, shortDescription }, en { name, shortDescription } },
@@ -1162,8 +1162,8 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         "imageAltEn": coalesce(image.altEn, mainImage.altEn),
         "imageAltRu": coalesce(image.altRu, mainImage.altRu)
       }
-    \`
-    const serviceRolePhotosQuery = \`
+    `
+    const serviceRolePhotosQuery = `
       *[
         _type == "photo" &&
         isActive != false &&
@@ -1183,7 +1183,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         "imageAltEn": image.altEn,
         "imageAltRu": image.altRu
       }
-    \`
+    `
 
     try {
       const [services, rolePhotos] = await Promise.all([
