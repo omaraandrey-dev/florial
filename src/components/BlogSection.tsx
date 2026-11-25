@@ -11,6 +11,7 @@ export function BlogSection({ onReadinessChange }: { onReadinessChange?: (ready:
   useEffect(() => {
     let active = true
     onReadinessChange?.(false)
+    let succeeded = false
     setPosts([])
     setStatus('loading')
     const pinnedSlugs = ['podroben-landshaften-proekt-gradina', 'cena-sistema-avtomatichno-napoyavane-burgas']
@@ -22,6 +23,7 @@ export function BlogSection({ onReadinessChange }: { onReadinessChange?: (ready:
         const nextPosts = [...pinned, ...nextLatest]
         setPosts(nextPosts)
         setStatus(nextPosts.length ? 'ready' : 'empty')
+        succeeded = true
       })
       .catch((error) => {
         if (!active) return
@@ -29,7 +31,7 @@ export function BlogSection({ onReadinessChange }: { onReadinessChange?: (ready:
         setStatus('error')
       })
       .finally(() => {
-        if (active) onReadinessChange?.(true)
+        if (active && succeeded) onReadinessChange?.(true)
       })
     return () => { active = false }
   }, [language, onReadinessChange])
