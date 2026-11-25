@@ -1,9 +1,8 @@
 ## 2026-11-25 — SSR Content v1 Phase 1: homepage parity and verification update (PR #533)
 
-- **IN PROGRESS — implementation:** branch `feat/ssr-homepage-content-v1`, draft PR #533. The renderer now includes the full homepage content sequence and matches the client category-visibility, service-order, featured-product, plant-stock, blog-order and responsive-image contracts. Homepage JSON-LD includes `OnlineStore` and `WebSite`, plus the existing local `GardenStore` entities.
-- **CODE-BEARING HEAD:** `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6`.
-- **PENDING — exact-head CI:** the preceding head `fc21108f98de7c30b57ebe5190111002258281c6` passed type-check and lint; 492/493 tests passed. The single failure was a test assertion that searched the whole homepage for “Available on request” and accidentally matched an equipment card. The assertion is now scoped to the Magnolia plant card; the newer exact head still needs CI confirmation.
-- **PENDING — latest Preview:** Cloudflare Pages deployment `76d903af-80f2-414f-82d4-d6dd6717655f` succeeded for the previous code head `fc21108f98de7c30b57ebe5190111002258281c6`; deployment for `5a7bbbed5de907be947a16b9ae0fd47e4c30bec6` was queued at the time of this update. No raw homepage smoke or Production release is claimed yet.
+- **IMPLEMENTATION VERIFIED:** branch `feat/ssr-homepage-content-v1`, draft PR #533. The renderer includes the full homepage content sequence and matches the client category-visibility, service-order, featured-product, plant-stock, blog-order and responsive-image contracts. Homepage JSON-LD includes `OnlineStore` and `WebSite`, plus the existing local `GardenStore` entities.
+- **CODE-BEARING HEAD:** `0276d4d99256a92c500487f94a501da57b36ca21`.
+- **VERIFIED:** Preview deployment `5206776a-6a44-459e-9f5c-89a33f83dbff` succeeded. Raw first-response smoke run `45514703501` passed BG/RU/EN without JavaScript. Blog and Studio validation run `45514716263` passed app/Pages type-check, lint, 493/493 tests, website build, migration syntax and read-only dry-run, Studio type-check/build. D1 validation run `45514716029` passed. No Production release is claimed.
 - **OPEN — client startup/CLS:** `src/main.tsx` uses React `createRoot`, not `hydrateRoot`. It replaces server markup inside `#root` when the SPA starts. Raw first-response HTML is present for crawlers, but the browser may briefly replace that content while client queries load. A safe “keep SSR visible until client homepage data is ready” or true-hydration solution requires a scoped change to the app bootstrap/HomePage data readiness; do not change this global startup path without owner approval.
 - **OPEN — cart discoverability:** homepage now exposes `OnlineStore` and `WebSite` structured data and links to product/category pages. `/cart` remains correctly `noindex, nofollow`. `Header.tsx` still renders the cart control as a button, not a crawlable anchor; a visible semantic anchor conversion requires separate owner approval. No hidden link is proposed.
 - No Header, main menu, Footer, Sanity content, D1 schema/data, Cloudflare settings/secrets or Production settings were changed.
@@ -18,7 +17,7 @@
 - No Sanity writes, D1 data/schema changes, Cloudflare settings/secrets or Production settings were changed.
 
 
-## 2026-11-24 — SSR Content v1 Phase 1: homepage initial HTML (PR #533)
+## 2026-11-24 — SSR Content v1 Phase 1: homepage initial HTML (PR #533; historical snapshot superseded by 2026-11-25 update)
 
 - **IN PROGRESS — implementation:** draft PR https://github.com/omaraandrey-dev/florial/pull/533, branch `feat/ssr-homepage-content-v1`. Dedicated homepage renderer and bounded parallel Sanity projections are added for hero, categories, featured plants/equipment, services and blog teaser. Existing React UI and selection rules are intended to remain unchanged.
 - **PENDING — exact-head verification:** unit/regression tests, type-check, lint, website build, Pages Functions checks, Preview deployment and native-fetch raw HTML smoke for BG/RU/EN have not yet been confirmed. No Production release is claimed.
