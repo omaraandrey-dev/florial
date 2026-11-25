@@ -401,7 +401,7 @@ async function querySanityData<T>(
   return body.result as T
 }
 
-async function fetchContactsHtml(language: string): Promise<{ html: string; imagesAvailable: boolean }> {
+async function fetchContactsHtml(language: string): Promise<string> {
   const query = `
     *[_type == "photo" && (
       lower(slug) in ["florial-nesebr", "florial-ravda"] ||
@@ -425,7 +425,7 @@ async function fetchContactsHtml(language: string): Promise<{ html: string; imag
     if (slug === 'florial-nesebr') images.nesebr = photo.imageUrl || ''
     if (slug === 'florial-ravda') images.ravda = photo.imageUrl || ''
   }
-  return { html: renderContactsHtml(language, images), imagesAvailable: true }
+  return renderContactsHtml(language, images)
 }
 
 async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string, onCategoryTree?: (categories: SeoCategoryNode[]) => void): Promise<SeoPlantProduct[]> {
@@ -1784,8 +1784,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       }
     } else if (path === '/contacts') {
       try {
-        const contacts = await fetchContactsHtml(language)
-        body = contacts.html
+        body = await fetchContactsHtml(language)
         cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
       } catch (error) {
         console.error('Florial contacts SSR images unavailable; serving contact details without images:', error)
