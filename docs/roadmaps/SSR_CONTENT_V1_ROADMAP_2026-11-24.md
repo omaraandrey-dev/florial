@@ -4,7 +4,7 @@
 **Базовый main при создании плана:** `f4e04913a2876bf863deef9fa1b7774b5c416a47`  
 **Базовый main для реализации Phase 1:** `07b99481571ca079a06eb5f6e44e9d903f9dc304`  
 **Рабочая ветка документации:** `develop`  
-**Статус:** этапы 1–6 выполнены или закрыты по текущему плану; актуальный следующий приоритет владельца — полный SSR каталога растений и всех карточек растений.  
+**Статус:** этапы 1–7 приняты и выпущены; следующий этап — SSR `/contacts`.  
 **Цель:** обеспечить, чтобы поисковые роботы и другие клиенты, не исполняющие JavaScript, получали в первом HTTP HTML-ответе основное содержимое публичных страниц Florial, а не только SEO head и краткий резервный H1/абзац.
 
 ## 1. Принципы и границы
@@ -113,7 +113,7 @@ Read-only инвентаризация перед кодом:
 - Проверить BlogPosting либо подходящий тип Schema.org на фактических данных.
 - Сохранить текущие URL, ссылки и визуальный порядок после hydration.
 
-### Этап 7 — каталог растений и карточки растений (ТЕКУЩИЙ ПРИОРИТЕТ)
+### Этап 7 — каталог растений и карточки растений (RELEASED)
 
 **Цель:** обеспечить полноценный initial HTML для корневого каталога растений, всех опубликованных категорий и каждой активной опубликованной карточки растения на BG/RU/EN.
 
@@ -138,7 +138,7 @@ Read-only инвентаризация:
 - Exact-SHA type-check, lint, tests, build, Cloudflare Preview и raw HTTP smoke.
 - Production release — отдельный шаг после Preview проверки, визуального подтверждения владельца и явного разрешения на merge.
 
-**Текущий статус 25.11.2026:** Preview smoke прошёл 180 plant detail routes + 51 category routes (231/231); 543/543 tests, type-check, lint, website build и Studio build прошли. PR #545 остаётся draft, Production SSR не выпущен. Подробности: `../audits/2026-11-25-plant-catalog-ssr-v1.md`.
+**Статус 25.11.2026 — RELEASED:** PR #545 merged в `main` commit `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`; Cloudflare Pages Production deployment `5fba6345-f886-4eb8-a4b2-154efe326e04` успешен. Preview smoke прошёл 180 plant detail routes + 51 category routes (231/231); exact merge commit прошёл 543/543 tests, type-check, lint, website build и Studio build. Отдельный plant raw HTTP smoke на Production ещё не выполнялся. Подробности: `../audits/2026-11-25-plant-catalog-ssr-v1.md`.
 
 ### Этап 8 — контакты `/contacts`
 
@@ -197,8 +197,8 @@ PR #409 remains open by owner instruction and is not modified. Its diff overlaps
 
 ## 6. Следующие шаги
 
-1. **Phase 7 — каталог растений: CURRENT.** Продолжить по [plant catalogue SSR audit](../audits/2026-11-25-plant-catalog-ssr-v1.md): завершить визуальную проверку владельцем на desktop/mobile, проверить client handoff/hydration и закрыть замечания. PR #545 не сливать без отдельного разрешения.
-2. **Phase 8 — `/contacts`:** после принятия SSR растений начать read-only discovery текущего компонента, middleware, опубликованных данных/настроек, локализованных контактов, адресов двух садовых центров, часов, телефонов, карт и JSON-LD. Не менять NAP, часы или защищённый Sanity content без подтверждения.
+1. **Phase 7 — каталог растений: RELEASED.** PR #545 merged; Production deployment успешен. Отдельный Production plant raw HTTP smoke остаётся открытым пунктом в аудите; Preview 231/231 и owner visual acceptance подтверждены.
+2. **Phase 8 — `/contacts`: NEXT.** Начать read-only discovery текущего компонента, middleware, опубликованных данных/настроек, локализованных контактов, адресов двух садовых центров, часов, телефонов, карт и JSON-LD. Не менять NAP, часы или защищённый Sanity content без подтверждения.
 3. **Phase 9 — `/about`:** после контактов проверить существующий источник и вывести фактическое локализованное описание компании без выдуманной истории, квалификаций или услуг.
 4. **Phase 10 — full SSR/SEO regression:** пройти все публичные SSR-маршруты BG/RU/EN, raw HTML, canonical/hreflang/robots, JSON-LD, links, images, redirects и client handoff.
 5. Перед каждым этапом сверять текущий `develop`, live Sanity и deployment. Preview не считать доказательством Production.
