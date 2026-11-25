@@ -335,7 +335,7 @@ function availabilityText(status, language) {
 
 export function renderPlantProductHtml(product, language = 'bg', siteUrl = 'https://florial-bg.com') {
   const name = localizedProductName(product, language) || product.slugValue || product._id
-  const h1 = String((language === 'bg' ? product.seo?.h1 : product.translations?.[language]?.seo?.h1) || product.seo?.h1 || name)
+  const h1 = String((language === 'bg' ? product.seo?.h1 : product.translations?.[language]?.seo?.h1) || name)
   const scientificName = String(product.scientificName || '')
   const shortDescription = localizedValue(product, 'shortDescription', language)
   const description = localizedValue(product, 'description', language)
@@ -421,7 +421,7 @@ export function renderPlantProductHtml(product, language = 'bg', siteUrl = 'http
     (product.sku ? '<p>' + labels.sku + ': ' + escapeHtml(product.sku) + '</p>' : '') +
     (categoryName ? '<p>' + labels.category + ': <a href="' + escapeHtml(categoryUrl) + '">' + escapeHtml(categoryName) + '</a></p>' : '') +
     '</header>' + imagesHtml +
-    (variantRows ? '<section><h2>' + labels.variants + '</h2><ul style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;list-style:none;padding:0">' + variantRows + '</ul></section>' : '') +
+    (variantRows.length ? '<section><h2>' + labels.variants + '</h2><ul style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;list-style:none;padding:0">' + variantRows + '</ul></section>' : '') +
     (descriptionHtml ? '<section><h2>' + labels.details + '</h2>' + descriptionHtml + '</section>' : '') +
     (careHtml ? '<section><h2>' + labels.care + '</h2>' + careHtml + '</section>' : '') +
     characteristics + irrigationHtml + relatedHtml +
@@ -435,6 +435,7 @@ export function buildPlantProductStructuredData(product, language = 'bg', canoni
   const offers = (Array.isArray(product.saleVariants) ? product.saleVariants : [])
     .filter((variant) => typeof variant.priceEUR === 'number' && variant.priceEUR > 0)
   const prices = offers.map((variant) => variant.priceEUR)
+  const knownStatuses = offers.map((variant) => variant.stockStatus).filter((status) => ['inStock', 'onRequest', 'outOfStock'].includes(status))
   const aggregateOffer = prices.length
     ? {
         '@type': 'AggregateOffer',
@@ -442,11 +443,13 @@ export function buildPlantProductStructuredData(product, language = 'bg', canoni
         lowPrice: Math.min(...prices).toFixed(2),
         highPrice: Math.max(...prices).toFixed(2),
         offerCount: offers.length,
-        availability: offers.some((variant) => variant.stockStatus === 'inStock')
-          ? 'https://schema.org/InStock'
-          : offers.some((variant) => variant.stockStatus === 'onRequest')
-            ? 'https://schema.org/PreOrder'
-            : 'https://schema.org/OutOfStock',
+        ...(knownStatuses.length ? {
+          availability: knownStatuses.includes('inStock')
+            ? 'https://schema.org/InStock'
+            : knownStatuses.includes('onRequest')
+              ? 'https://schema.org/PreOrder'
+              : 'https://schema.org/OutOfStock',
+        } : {}),
       }
     : undefined
   const productData = {
@@ -471,7 +474,7 @@ export function buildPlantProductStructuredData(product, language = 'bg', canoni
       ...(product.category?.name ? [{
         '@type': 'ListItem',
         position: 3,
-        name: product.category.name,
+        name: localizedProductName(product.category, language) || product.category.name,
         item: product.category.slugValue ? 'https://florial-bg.com/category/' + encodeURIComponent(product.category.slugValue) : catalogUrl,
       }] : []),
       { '@type': 'ListItem', position: product.category?.name ? 4 : 3, name, item: canonicalUrl },
