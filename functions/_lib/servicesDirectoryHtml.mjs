@@ -73,9 +73,12 @@ function localize(item, field, language) {
   return typeof base === 'string' ? base.trim() : ''
 }
 
-function responsiveImage(value, alt, sizes, className = '') {
+function responsiveImage(value, alt, sizes, className = '', options = {}) {
   const imageUrl = safeImageUrl(value)
   if (!imageUrl) return ''
+  const preferredWidth = Number.isFinite(options.preferredWidth) ? options.preferredWidth : 640
+  const quality = Number.isFinite(options.quality) ? options.quality : 65
+  const loading = options.loading || 'lazy'
   let src = imageUrl
   let srcSet = ''
   let dimensions = ''
@@ -90,21 +93,22 @@ function responsiveImage(value, alt, sizes, className = '') {
         image.searchParams.set('w', String(Math.min(width, sourceWidth)))
         image.searchParams.set('fit', 'max')
         image.searchParams.set('auto', 'format')
-        image.searchParams.set('q', '68')
+        image.searchParams.set('q', String(Math.min(100, Math.max(1, Math.round(quality)))))
         return image.toString()
       }
       const candidates = [160, 240, 320, 480, 640, 720, 800, 960, 1200, 1600]
         .map((width) => Math.min(width, sourceWidth))
         .filter((width, index, all) => width > 0 && all.indexOf(width) === index)
         .sort((a, b) => a - b)
-      src = buildUrl(640)
+      src = buildUrl(preferredWidth)
       srcSet = candidates.map((width) => buildUrl(width) + ' ' + width + 'w').join(', ')
       dimensions = ' width="' + sourceWidth + '" height="' + sourceHeight + '"'
     }
   } catch {}
   return '<img src="' + escapeHtml(src) + '"' +
     (srcSet ? ' srcset="' + escapeHtml(srcSet) + '" sizes="' + escapeHtml(sizes) + '"' : '') +
-    dimensions + ' alt="' + escapeHtml(alt) + '" loading="lazy" decoding="async"' +
+    dimensions + ' alt="' + escapeHtml(alt) + '" loading="' + escapeHtml(loading) + '"' +
+    (options.fetchPriority ? ' fetchpriority="' + escapeHtml(options.fetchPriority) + '"' : '') + ' decoding="async"' +
     (className ? ' class="' + escapeHtml(className) + '"' : '') + ' />'
 }
 
@@ -115,7 +119,7 @@ function renderDirection(direction, index, photos, copy, language) {
     : language === 'en' ? photo?.imageAltEn || title
       : photo?.imageAlt || title
   const image = photo?.imageUrl
-    ? responsiveImage(photo.imageUrl, alt, '(min-width: 640px) 25vw, 25vw', 'h-full w-full object-cover')
+    ? responsiveImage(photo.imageUrl, alt, '(min-width: 640px) 160px, 25vw', 'h-full w-full object-cover', { preferredWidth: 320, quality: 65, loading: 'eager', fetchPriority: index === 0 ? 'high' : '' })
     : ''
   return '<div class="min-w-0 overflow-hidden rounded-xl border border-emerald-700 bg-white p-1.5 text-center shadow-sm sm:rounded-2xl sm:p-3">' +
     '<div class="block aspect-square overflow-hidden rounded-lg bg-[#E9EDDB] sm:rounded-xl">' +
