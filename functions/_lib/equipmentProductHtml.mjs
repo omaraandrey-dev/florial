@@ -173,8 +173,7 @@ function renderRichText(value, language) {
 
 function formatPrice(value, language) {
   if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0) return ''
-  const locale = language === 'ru' ? 'ru-RU' : language === 'en' ? 'en-GB' : 'bg-BG'
-  return new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(value)
+  return value.toFixed(2) + ' €'
 }
 
 function stockLabel(status, language) {
@@ -464,7 +463,7 @@ export function renderEquipmentProductHtml(product, categories, language) {
     (price ? '<strong data-florial-product-price="' + escapeHtml(Number(product.priceEUR).toFixed(2)) + '" class="text-2xl font-bold text-emerald-800">' + escapeHtml(price) + '</strong>' : '<strong class="text-xl font-bold text-slate-800">' + (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване') + '</strong>') +
     (oldPrice ? '<s class="text-base text-slate-400">' + escapeHtml(oldPrice) + '</s>' : '') +
     '</div>' +
-    '<p class="mb-3 text-xs text-slate-500">' + vatLabel + '</p>' +
+    (product.vatIncluded === true ? '<p class="mb-3 text-xs text-slate-500">' + vatLabel + '</p>' : '') +
     '<p data-florial-product-stock="' + escapeHtml(product.stockStatus || 'onRequest') + '" class="mb-2 inline-flex rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-800">' + escapeHtml(stock) + '</p>' +
     (typeof product.weightKg === 'number' && product.weightKg > 0 ? '<p class="mt-3 text-sm text-slate-500">' + (language === 'ru' ? 'Вес' : language === 'en' ? 'Weight' : 'Тегло') + ': ' + escapeHtml(String(product.weightKg)) + ' kg</p>' : '') +
     '</div></div>' +
