@@ -152,7 +152,7 @@ for (const language of LOCALES) {
     const breadcrumb = extractJsonLd(html, 'breadcrumbs', label)
     assert.equal(breadcrumb['@type'], 'BreadcrumbList', label + ': BreadcrumbList type mismatch')
     assert.ok(breadcrumb.itemListElement?.length >= 3, label + ': category breadcrumb trail incomplete')
-    assert.equal(breadcrumb.itemListElement.at(-1).item, new URL(path, BASE_URL).origin + '/product/' + encodeURIComponent(product.slug) + (language === 'bg' ? '' : '?lang=' + language), label + ': breadcrumb product URL mismatch')
+    assert.equal(breadcrumb.itemListElement.at(-1).item, SITE_URL + '/product/' + encodeURIComponent(product.slug) + (language === 'bg' ? '' : '?lang=' + language), label + ': breadcrumb product URL mismatch')
     assert.equal(response.status, 200, label + ': unexpected response status')
   })
   console.log('PASS ' + language + ': ' + products.length + ' product pages returned full first-response HTML, localized details, images, price/stock, technical data and Product/BreadcrumbList JSON-LD')
