@@ -923,7 +923,7 @@ function setPageHead(
   },
 ): string {
   let html = sourceHtml
-  if (options.pageType === 'product' || options.pageType === 'equipment-product' || options.pageType === 'blog' || options.pageType === 'article' || options.pageType === 'service') {
+  if (options.pageType === 'product' || options.pageType === 'equipment-product' || options.pageType === 'blog' || options.pageType === 'article' || options.pageType === 'service' || options.pageType === 'about') {
     const resourceHints = options.pageType === 'blog' || options.pageType === 'article'
       ? [
           '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
@@ -951,7 +951,7 @@ function setPageHead(
   html = setMetaTag(html, 'name', 'robots', options.noIndex ? 'noindex, nofollow' : 'index, follow')
   html = setMetaTag(html, 'property', 'og:title', options.title)
   html = setMetaTag(html, 'property', 'og:description', options.description)
-  html = setMetaTag(html, 'property', 'og:type', options.pageType === 'service' ? 'website' : options.pageType || 'website')
+  html = setMetaTag(html, 'property', 'og:type', options.pageType === 'service' || options.pageType === 'about' ? 'website' : options.pageType || 'website')
   html = setMetaTag(html, 'property', 'og:url', options.canonical)
   html = setMetaTag(html, 'property', 'og:locale', options.language === 'ru' ? 'ru_RU' : options.language === 'en' ? 'en_US' : 'bg_BG')
   html = setMetaTag(html, 'property', 'og:image', options.image || 'https://cdn.sanity.io/images/bxvcy0qs/production/4d6d94ce99f3e210ba0b649dda236ee7e0ce522c-1547x581.png')
@@ -1912,7 +1912,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         description: meta.description,
         canonical,
         alternates,
-        pageType: 'website',
+        pageType: path === '/about' ? 'about' : 'website',
         structuredData: [{
           id: 'organization',
           data: {
