@@ -18,6 +18,14 @@ function localizedProductName(product, language) {
   return String(product.name || product.seo?.h1 || '').trim()
 }
 
+function localizedValue(product, key, language) {
+  if (language !== 'bg') {
+    const translated = product.translations?.[language]?.[key]
+    if (translated !== undefined && translated !== null && translated !== '') return translated
+  }
+  return product.translations?.bg?.[key] ?? product[key]
+}
+
 function localizedEquipmentProductName(product, language) {
   const translated = product.translations?.[language]?.name
   if (typeof translated === 'string' && translated.trim()) return translated.trim()
@@ -111,8 +119,10 @@ export function buildPlantCategoryEntries(products, language = 'bg') {
 }
 
 function availabilityLabel(product, language) {
-  const status = getAvailability(product)
-  if (!status) return ''
+  const status = product._catalogVariant
+    ? (['inStock', 'onRequest', 'outOfStock'].includes(product._catalogVariant.stockStatus) ? product._catalogVariant.stockStatus : product.stockStatus)
+    : getAvailability(product)
+  if (!['inStock', 'onRequest', 'outOfStock'].includes(status)) return ''
   if (language === 'ru') {
     return status === 'inStock' ? 'В наличии' : status === 'outOfStock' ? 'Нет в наличии' : 'По запросу'
   }
