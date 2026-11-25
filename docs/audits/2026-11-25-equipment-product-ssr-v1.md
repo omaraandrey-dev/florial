@@ -1,7 +1,7 @@
 # Equipment product detail SSR v1 — implementation audit
 
 Date: 2026-11-25
-Status: implementation in PR #543; Preview validation in progress; Production unchanged.
+Status: implementation complete on Preview; exact-head automated validation and all-product raw HTTP smoke passed; owner visual acceptance pending; Production unchanged.
 
 ## Repository and release state
 
@@ -55,6 +55,16 @@ Dataset: \`production\`.
    - \`scripts/smoke-equipment-product-ssr.mjs\` discovers active published product slugs from Sanity and checks all BG/RU/EN raw HTTP pages.
    - \`.github/workflows/equipment-product-ssr-smoke.yml\` runs type-check, lint, tests, build, exact Preview deployment wait and all-product smoke.
 
+## Exact-head verification — 2026-11-25
+
+- Cloudflare Pages Preview deployment for exact head `aeb39da7bc8b28582a6d66888c1e12b4223817f8`: successful; deployment ID `09fb1058-b9fd-436a-a0e5-bfa7021cf220`; Preview alias https://feat-ssr-equipment-product-p.florial.pages.dev.
+- Product SSR validation run `45575255994`: success; type-check, lint, all 535/535 website tests and build passed. The product raw HTTP job discovered 275 active published products and passed all 275 BG + 275 RU + 275 EN pages (825 responses), including localized H1, metadata, price, stock, images, technical data, Product/BreadcrumbList JSON-LD and 404/noindex for a missing product.
+- Blog/Studio validation run `45575255995`: success; full app/Pages and Studio checks completed.
+- D1 validation run `45575255885`: success; no migration applied.
+- Regression raw HTTP workflows on the same head passed: equipment catalogue `45575255936`, services directory `45575255857`, service details `45575255971`, blog index `45575255951`, blog articles `45575255992`, and equipment SSR `45575256124`.
+- Two existing assertions in `tests/content-route-performance.test.mjs` initially failed because they expected the pre-equipment-product middleware condition and single-argument image-preload call. The assertions were updated to cover the new `equipment-product` page type and its responsive preload sizes. On the verified head all 535 tests pass.
+- No Production deployment or Production product smoke is claimed.
+
 ## Safety
 
 - No Sanity writes or schema changes.
@@ -65,9 +75,9 @@ Dataset: \`production\`.
 - No GTIN/MPN/ratings/reviews invented; \`onRequest\` does not get false Offer availability.
 - Shared \`CHANGELOG.md\`, Technical Passport and \`docs/AI/OPEN_QUESTIONS.md\` are intentionally unchanged while open PR #409 overlaps those shared files.
 
-## Next acceptance gates
+## Remaining acceptance gates
 
-1. Complete exact-head CI and Preview raw HTTP smoke.
-2. Fix any query, rendering, localization or structured-data mismatches found by tests.
-3. Owner checks representative Preview product pages on desktop and mobile.
-4. Only after owner acceptance, merge PR #543 and verify the exact Production deployment plus all 825 localized product routes (275 × BG/RU/EN).
+1. Owner visually checks representative product pages on desktop and mobile: a simple sprinkler/nozzle, controller, solenoid valve and kit; inspect gallery, technical details, related content, price/stock and language switching after client startup.
+2. After owner acceptance, merge PR #543 and verify the exact Production deployment plus all 825 localized product routes (275 × BG/RU/EN) on https://florial-bg.com.
+3. After the transition PR is complete, continue new site development only on the permanent `develop` branch; release through PR `develop → main`.
+
