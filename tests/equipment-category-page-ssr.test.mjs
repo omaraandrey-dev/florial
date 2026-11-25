@@ -9,7 +9,7 @@ import {
 
 const categories = [
   { _id: 'root', slugValue: 'vsichko-za-polivane', name: 'Всичко за поливане', productCount: 0 },
-  { _id: 'controllers', slugValue: 'controllers', parentId: 'root', name: 'Контролери', sortOrder: 10, productCount: 1, translations: { ru: { name: 'Контроллеры' }, en: { name: 'Controllers' } }, imageUrl: 'https://cdn.sanity.io/images/bxvcy0qs/production/controllers-800x800.jpg', imageAlt: 'Контролери за поливане', imageAltEn: 'Irrigation controllers' },
+  { _id: 'controllers', slugValue: 'controllers', parentId: 'root', name: 'Контролери', sortOrder: 10, productCount: 0, translations: { ru: { name: 'Контроллеры' }, en: { name: 'Controllers' } }, imageUrl: 'https://cdn.sanity.io/images/bxvcy0qs/production/controllers-800x800.jpg', imageAlt: 'Контролери за поливане', imageAltEn: 'Irrigation controllers' },
   { _id: 'kits', slugValue: 'gotovi-komplekti-za-polivane', parentId: 'root', name: 'Готови комплекти', sortOrder: 90, productCount: 1 },
   { _id: 'sprinklers', slugValue: 'sprinklers', parentId: 'root', name: 'Разпръсквачи', sortOrder: 11, productCount: 1 },
   { _id: 'controllers-indoor', slugValue: 'kontroleri-vatreshen-montazh', parentId: 'controllers', name: 'Контролери вътрешен монтаж', sortOrder: 2, productCount: 1, translations: { ru: { name: 'Контроллеры для помещений' } } },
@@ -30,7 +30,7 @@ test('root equipment navigation follows the established ten-category sales prior
   assert.match(html, /<h2[^>]*>Контролери<\/h2>/)
 })
 
-test('navigation mirrors the storefront visibility rules for empty categories and the excluded legacy valves category', () => {
+test('navigation keeps populated ancestors while hiding empty categories and the excluded legacy valves category', () => {
   const html = renderEquipmentCategoryNavigation(categories, 'root', 'bg', undefined, { rootCatalog: true })
   assert.match(html, /gotovi-komplekti-za-polivane/)
   assert.match(html, /controllers/)
