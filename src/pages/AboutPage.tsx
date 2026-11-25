@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useI18n } from '../lib/i18n'
-import { ABOUT_PAGE_CONTENT } from '../content/aboutPageContent'
+import { ABOUT_PAGE_CONTENT, ABOUT_PAGE_CENTRES, ABOUT_PAGE_TEAM } from '../content/aboutPageContent'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { getSanityImageProps } from '../lib/sanityImage'
@@ -127,12 +127,7 @@ export function AboutPage({ categories }: AboutPageProps) {
             {language === 'ru' ? 'Наша команда' : language === 'en' ? 'Our team' : 'Нашият екип'}
           </h2>
           <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
-            {[
-              { slug: 'landshaften-arhitekt', href: '/services/category/landshaften-arhitekt', title: { bg: 'Ландшафтен архитект', ru: 'Ландшафтный архитектор', en: 'Landscape architect' }, text: { bg: 'Проектиране и дизайн на градини', ru: 'Проектирование и дизайн садов', en: 'Garden design and planning' } },
-              { slug: 'gardinar', href: '/services/category/gardinar', title: { bg: 'Градинар', ru: 'Садовник', en: 'Gardener' }, text: { bg: 'Засаждане и грижа за растенията', ru: 'Посадка и уход за растениями', en: 'Planting and plant care' } },
-              { slug: 'inzhener-polivni-sistemi', href: '/services/category/polivni-sistemi', title: { bg: 'Специалист по поливни системи', ru: 'Специалист по системам полива', en: 'Irrigation specialist' }, text: { bg: 'Проектиране и монтаж на напояване', ru: 'Проектирование и монтаж полива', en: 'Irrigation design and installation' } },
-              { slug: 'specialist-trevni-ploshti', href: '/services/category/trevni-ploshti', title: { bg: 'Специалист по тревни площи', ru: 'Специалист по газонам', en: 'Lawn specialist' }, text: { bg: 'Изграждане и поддръжка на тревни площи', ru: 'Устройство и уход за газонами', en: 'Lawn installation and care' } },
-            ].map((member) => {
+            {ABOUT_PAGE_TEAM.map((member) => {
               const photo = rolePhotos.find((item) => item.slug === member.slug)
               const title = member.title[language]
               const alt = language === 'ru' ? photo?.imageAltRu : language === 'en' ? photo?.imageAltEn : photo?.imageAlt
@@ -156,10 +151,7 @@ export function AboutPage({ categories }: AboutPageProps) {
             {language === 'ru' ? 'Посетите садовый центр Florial' : language === 'en' ? 'Visit Florial Garden Centre' : 'Посетете градински център Florial'}
           </h2>
           <div className="grid gap-4 md:grid-cols-2">
-            {[
-              { key: 'nesebr', name: { bg: 'Градински център Несебър', ru: 'Садовый центр Несебр', en: 'Florial Garden Centre Nessebar' }, address: { bg: 'ул. „Хан Крум“, 8230 Несебър (до магазин Janet)', ru: 'ул. «Хан Крум», 8230 Несебр (рядом с магазином Janet)', en: 'ul. Khan Krum, 8230 Nessebar (next to Janet store)' }, map: 'https://maps.app.goo.gl/pK8qGHh9b1xoCc4P9' },
-              { key: 'ravda', name: { bg: 'Градински център Равда', ru: 'Садовый центр Равда', en: 'Florial Garden Centre Ravda' }, address: { bg: 'с. Равда, България', ru: 'с. Равда, Болгария', en: 'Ravda, Bulgaria' }, map: 'https://maps.app.goo.gl/3fiLaRgwSLDTH77U6' },
-            ].map((centre) => (
+            {ABOUT_PAGE_CENTRES.map((centre) => (
               <article key={centre.key} className="overflow-hidden rounded-2xl border border-[#E2E7D9] bg-[#F8F9F3]">
                 <div className="aspect-[16/9] overflow-hidden bg-[#E9EDDB]">
                   {centerImages[centre.key] ? <img {...getSanityImageProps(centerImages[centre.key], '(min-width: 768px) 50vw, 100vw', 900, 75)} alt={centre.name[language]} loading="lazy" className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-sm text-slate-500">{language === 'ru' ? 'Фото садового центра' : language === 'en' ? 'Garden centre photo' : 'Снимка на градинския център'}</div>}
