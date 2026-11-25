@@ -4,7 +4,7 @@
 **Базовый main при создании плана:** `f4e04913a2876bf863deef9fa1b7774b5c416a47`  
 **Базовый main для реализации Phase 1:** `07b99481571ca079a06eb5f6e44e9d903f9dc304`  
 **Рабочая ветка документации:** `develop`  
-**Статус:** этапы 1–7 приняты и выпущены; следующий этап — SSR `/contacts`.  
+**Статус:** этапы 1–8 приняты и выпущены; следующий этап — SSR `/about`.  
 **Цель:** обеспечить, чтобы поисковые роботы и другие клиенты, не исполняющие JavaScript, получали в первом HTTP HTML-ответе основное содержимое публичных страниц Florial, а не только SEO head и краткий резервный H1/абзац.
 
 ## 1. Принципы и границы
@@ -140,11 +140,13 @@ Read-only инвентаризация:
 
 **Статус 25.11.2026 — RELEASED:** PR #545 merged в `main` commit `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`; Cloudflare Pages Production deployment `5fba6345-f886-4eb8-a4b2-154efe326e04` успешен. Preview smoke прошёл 180 plant detail routes + 51 category routes (231/231); exact merge commit прошёл 543/543 tests, type-check, lint, website build и Studio build. Отдельный Production raw HTTP smoke завершён: 231/231 маршрут (180 plant details + 51 categories) в BG/RU/EN; отсутствующий товар возвращает 404 noindex. Подробности: `../audits/2026-11-25-contacts-ssr-discovery.md` и `../audits/2026-11-25-plant-catalog-ssr-v1.md`.
 
-### Этап 8 — контакты `/contacts`
+### Этап 8 — контакты `/contacts`: RELEASED
 
-- Вывести фактические опубликованные контактные сведения, адреса двух действующих садовых центров, телефоны, часы работы, ссылки на карты и способы связи.
-- Перед включением данных в SSR read-only сверить страницу, Sanity/код и подтверждённые владельцем сведения; расхождения вынести на согласование.
-- Согласовать GardenStore/LocalBusiness JSON-LD с реальными данными и видимым содержимым. Не исправлять NAP/часы без подтверждения владельца.
+- PR #546 squash-merged в `main` commit `1b18d7ae7db06f8d656d539b28037889f99d8d94`.
+- Cloudflare Pages Production deployment `b91055ec-3e33-4a7e-aa3c-8024c02b30fc` собран и опубликован успешно из точного merge commit; Production aliases включают `https://florial-bg.com` и `https://www.florial-bg.com`.
+- Exact-PR-head CI для `1319e75169fd4639b102ff6f3b4181891edcdef5`: 10 workflow runs successful; Blog/Studio validation — 548/548 tests, type-check, lint, website build, Studio type-check/build; D1 validation — read-only, без применения миграций.
+- Exact Preview raw HTTP smoke прошёл для BG/RU/EN; владелец визуально принял Preview. Production deployment подтверждён, но отдельный Production raw HTTP smoke для `/contacts` ещё не выполнен и не заявляется.
+- Часы обеих точек: ежедневно 09:00–17:00 по подтверждению владельца. Существующие адреса, телефоны и ссылки на карты сохранены; Sanity не изменялся.
 
 ### Этап 9 — «О нас» `/about`
 
@@ -181,7 +183,7 @@ Read-only инвентаризация:
 - **Этап 5 — портфолио: CLOSED AS COVERED BY BLOG.** No separate portfolio route/type exists. Project publications are blogPost documents in the combined blog index; inventory recorded in `docs/audits/2026-11-25-portfolio-route-inventory.md`.
 - **Этап 6 — статьи и публикации проектов `/blog/{slug}`: MERGED TO MAIN.** PR #541 merged as `f5aa6f899090e859e9b4be1b313ea2056cb58d6c`. Exact Preview raw HTTP smoke passed 19 published articles × 3 locales (57 responses), and CI passed. Separate Production raw HTTP smoke evidence is not recorded here; verify before claiming full Production acceptance.
 - **Этап 7 — каталог растений и карточки растений: RELEASED + PRODUCTION SMOKE PASS.** PR #545 merged; Production deployment подтверждён. Exact Preview smoke и отдельный Production raw HTTP smoke прошли по 231/231 маршрутам в BG/RU/EN; отсутствующий товар возвращает 404 noindex. 543/543 tests, type-check, lint, website build и Studio build прошли; владелец визуально принял Preview. Подробности: `../audits/2026-11-25-plant-catalog-ssr-v1.md` и `../audits/2026-11-25-contacts-ssr-discovery.md`.
-- **Этап 8 — контакты `/contacts`: PREVIEW VERIFIED; OWNER ACCEPTANCE / MERGE PENDING.** PR #546; exact head `43eaf03779392edfaca7df2a69e4653f3b32a4a8`. Cloudflare Preview deployment `95e04b33-8753-4a5d-8989-2f7fb83a90dd` успешен. Raw HTTP BG/RU/EN smoke прошёл; desktop/mobile browser QA пройдена; exact-SHA CI: 548/548 tests, type-check, lint, website build, Studio type-check/build и D1 read-only validation прошли. Владелец подтвердил daily 09:00–17:00 для обеих точек. Телефоны и адреса не изменялись. Production не обновлялся. Подробности: `../audits/2026-11-25-contacts-ssr-discovery.md`.
+- **Этап 8 — контакты `/contacts`: RELEASED; Production deployment SUCCESS.** PR #546 squash-merged в `main` commit `1b18d7ae7db06f8d656d539b28037889f99d8d94`; Cloudflare Pages Production deployment `b91055ec-3e33-4a7e-aa3c-8024c02b30fc` успешно завершён с точного SHA, домены `florial-bg.com` и `www.florial-bg.com` привязаны. Exact PR head `1319e75169fd4639b102ff6f3b4181891edcdef5`: 10 CI workflow runs successful; 548/548 tests, type-check, lint, website build, Studio type-check/build и D1 read-only validation прошли. Preview raw HTTP BG/RU/EN smoke и desktop/mobile QA пройдены; владелец подтвердил Preview. Отдельный Production raw HTTP smoke контактов пока не выполнен. Часы: ежедневно 09:00–17:00; телефоны/адреса сохранены. Подробности: `../audits/2026-11-25-contacts-ssr-discovery.md`.
 - **Этап 9 — «О нас» `/about`: NOT STARTED.**
 - **Этап 10 — общая SEO/SSR регрессия: NOT STARTED.** Must include all previously completed routes and the product/category SSR streams below.
 
@@ -198,8 +200,8 @@ PR #409 remains open by owner instruction and is not modified. Its diff overlaps
 ## 6. Следующие шаги
 
 1. **Phase 7 — каталог растений: RELEASED + PRODUCTION SMOKE PASS.** PR #545 merged; Production deployment успешен; отдельный Production raw HTTP smoke прошёл 231/231 маршрутов (180 products + 51 categories, BG/RU/EN), missing product 404/noindex. Owner visual acceptance подтверждена.
-2. **Phase 8 — `/contacts`: DISCOVERY COMPLETE; OWNER INPUT REQUIRED BEFORE IMPLEMENTATION.** Initial Production HTML contains only minimal fallback content; current client page and existing structured data have documented phone/address/hour mismatches. Confirm actual Nessebar hours before rendering the schedule; do not silently normalize NAP or JSON-LD. See `../audits/2026-11-25-contacts-ssr-discovery.md`.
-3. **Phase 9 — `/about`:** после контактов проверить существующий источник и вывести фактическое локализованное описание компании без выдуманной истории, квалификаций или услуг.
+2. **Phase 8 — `/contacts`: RELEASED.** PR #546 merged and exact-commit Production deployment succeeded; Preview and CI passed. Production raw HTTP smoke remains a verification follow-up.
+3. **Phase 9 — `/about`: NEXT.** Read-only inspect the existing Sanity/source content, identify the exact BG/RU/EN company description and image/link sources, then implement complete first-response HTML without inventing company history, qualifications or services.
 4. **Phase 10 — full SSR/SEO regression:** пройти все публичные SSR-маршруты BG/RU/EN, raw HTML, canonical/hreflang/robots, JSON-LD, links, images, redirects и client handoff.
 5. Перед каждым этапом сверять текущий `develop`, live Sanity и deployment. Preview не считать доказательством Production.
 
