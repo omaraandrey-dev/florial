@@ -117,3 +117,13 @@ Heading outline currently includes one H1, a hero H2, and H3/H4 for services, pl
 - No Production deployment or Production raw-response verification is claimed.
 - **Client startup caveat:** `src/main.tsx` uses `createRoot`, not `hydrateRoot`; React clears/replaces initial HTML inside `#root` on startup. This branch improves first-response HTML for crawlers, but no claim is made that the SSR DOM is hydrated or that the browser transition has zero CLS. A separate approved app-bootstrap/data-readiness change is needed to preserve the initial markup until client data is ready.
 - No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets or Production settings changed.
+
+## Post-merge release update — 2026-11-25
+
+This update supersedes the earlier historical statements above that PR #533 was still Draft/unmerged and that no Production release was claimed.
+
+- PR #533 was merged into `main` at `5772a3e567bd77e69854d647fca08a6f3ff732cd`.
+- The Cloudflare Pages Production deployment associated with that main commit completed successfully (GitHub check run: Cloudflare Pages, success).
+- Production raw HTTP smoke workflow run `45545838645` passed for BG/RU/EN without executing JavaScript.
+- Main-commit validation runs `45545838670` (Blog/Studio), `45545838619` (D1), and `45545838721` (equipment validation) completed successfully.
+- Client startup/CLS was not addressed by PR #533; its follow-up is PR #534, documented in `docs/audits/2026-11-25-homepage-ssr-client-handoff-v1.md`.
