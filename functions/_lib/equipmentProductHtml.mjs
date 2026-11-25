@@ -171,7 +171,7 @@ function renderRichText(value, language) {
   return output.join('')
 }
 
-function formatPrice(value, language) {
+function formatPrice(value) {
   if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0) return ''
   return value.toFixed(2) + ' €'
 }
@@ -326,7 +326,7 @@ function renderRelatedContent(product, language) {
   const items = (Array.isArray(product.relatedContent) ? product.relatedContent : []).filter((item) =>
     item && (item._type === 'service' ? item.isActive !== false : item._type === 'blogPost' && item.isPublished === true) &&
     textValue(item.slugValue)
-  ).slice(0, 4)
+  )
   if (!items.length) return ''
   const title = language === 'ru' ? 'Полезные материалы и услуги' : language === 'en' ? 'Useful resources and services' : 'Полезни материали и услуги'
   return '<section data-florial-product-related-content="true" data-florial-product-related-content-count="' + items.length + '" class="mb-10"><h2 class="mb-5 text-xl font-bold text-slate-900">' + title + '</h2><div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">' +
@@ -363,7 +363,7 @@ function renderRelatedProducts(product, language) {
         '<h3 class="mb-2 text-sm font-bold leading-snug text-slate-900">' + escapeHtml(name) + '</h3>' +
         (item.sku ? '<p class="mb-2 text-xs text-slate-400">SKU: ' + escapeHtml(item.sku) + '</p>' : '') +
         '</a><div class="mt-3 border-t border-slate-100 pt-3">' +
-        '<p class="mb-1 font-bold text-emerald-800">' + escapeHtml(formatPrice(item.priceEUR, language) || (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване')) + '</p>' +
+        '<p class="mb-1 font-bold text-emerald-800">' + escapeHtml(formatPrice(item.priceEUR) || (language === 'ru' ? 'Цена по запросу' : language === 'en' ? 'Price on request' : 'Цена по запитване')) + '</p>' +
         '<p class="mb-3 text-xs text-slate-500">' + vat + '</p>' +
         '<p class="text-xs text-slate-500">' + escapeHtml(stockLabel(item.stockStatus, language)) + '</p></div></article>'
     }).join('') + '</div></section>'
@@ -428,7 +428,7 @@ export function buildEquipmentProductStructuredData(product, categories, languag
 export function renderEquipmentProductHtml(product, categories, language) {
   const metadata = getEquipmentProductMetadata(product, language)
   const name = metadata.name
-  const price = formatPrice(product.priceEUR, language)
+  const price = formatPrice(product.priceEUR)
   const oldPrice = typeof product.oldPriceEUR === 'number' && product.oldPriceEUR > product.priceEUR
     ? formatPrice(product.oldPriceEUR, language)
     : ''
