@@ -10,6 +10,7 @@ const ROOT_ORDER = [
   'shahti', 'kapkovo-napoyavane', 'trabi-fitingi-aksesoari',
   'filtri-regulatori-nalyagane', 'drugi-komponenti-za-polivane',
 ]
+const PRODUCT_PRIORITY_ORDER = ['controllers', 'gotovi-komplekti-za-polivane', 'sprinklers', 'nozzles', 'klapani', 'shahti']
 
 function groqUrl(query, params = {}) {
   const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + SANITY_DATASET)
@@ -121,7 +122,7 @@ function expectedProductEntries(category, categories, products, language) {
   })
   if (category.slug !== 'vsichko-za-polivane') return sorted.slice(0, 20)
 
-  const priorityIds = ROOT_ORDER.slice(0, 6)
+  const priorityIds = PRODUCT_PRIORITY_ORDER
     .map((slug) => categories.find((item) => item.slug === slug)?._id)
     .filter(Boolean)
   const prioritySet = new Set(priorityIds)
