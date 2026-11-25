@@ -40,7 +40,7 @@ for (const locale of locales) {
   assert.match(html, new RegExp('<html[^>]*lang="' + locale.code + '"', 'i'), locale.code + ': html lang')
   assert.match(html, /data-florial-ssr="contacts"/, locale.code + ': contacts SSR marker')
   assert.equal((html.match(/<h1\b/g) || []).length, 1, locale.code + ': exactly one H1')
-  const h1Text = html.match(/<h1\\b[^>]*>([\\s\\S]*?)<\\/h1>/i)?.[1]
+  const h1Text = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]
     ?.replace(/&amp;/g, '&')
     ?.replace(/&#39;/g, "'")
   assert.equal(h1Text, locale.h1, locale.code + ': localized H1')
