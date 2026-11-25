@@ -147,10 +147,10 @@ Read-only инвентаризация перед кодом:
 
 - **Этап 1 — initial HTML главной: RELEASED.** PR #533 merged into `main` at `5772a3e567bd77e69854d647fca08a6f3ff732cd`. The main-commit Cloudflare Pages deployment and Production raw HTTP smoke workflow run `45545838645` succeeded; BG/RU/EN first-response HTML was verified without JavaScript.
 - **Follow-up — client startup handoff: IN REVIEW, PR #534.** Branch `fix/homepage-ssr-client-handoff-v1`. The React app mounts in a separate hidden `#app-root` for `/` and replaces the visible SSR body only after the homepage-critical client data groups have succeeded. On request failure the SSR body remains visible. This is a controlled DOM handoff, not `hydrateRoot`.
-- **Application code head:** `d13d3a3dc011d62942b478a4680368a6f6ce9df2`; latest Cloudflare Pages Preview deployment `8de74fc9-fc45-4aa6-b65c-a8afd7534439` succeeded for branch head `0003d527ec9a3cc0566fb4812f0bc8bf5e3683ef`.
-- **Raw HTTP handoff shell smoke:** run `45549538577` passed BG/RU/EN on branch head `0003d527ec9a3cc0566fb4812f0bc8bf5e3683ef`, including the explicit initial `#root`/hidden `#app-root` assertions. This check does not execute JavaScript.
+- **Application code head:** `d13d3a3dc011d62942b478a4680368a6f6ce9df2`; latest Cloudflare Pages Preview deployment `c32777bb-cf67-4f70-b07e-95b397234ec2` succeeded for branch head `d38f3d3c1ff1eadcc691909bd247893d7c653594`.
+- **Raw HTTP handoff shell smoke:** run `45549751539` passed BG/RU/EN on branch head `d38f3d3c1ff1eadcc691909bd247893d7c653594`, including the explicit initial `#root`/hidden `#app-root` assertions. This check does not execute JavaScript.
 - **D1 validation:** run `45549229317` passed; no migration was applied.
-- **Blog/Studio validation:** run `45549544434` passed on branch head `0003d527ec9a3cc0566fb4812f0bc8bf5e3683ef`: type-check, lint, 497/497 tests, website build, read-only migration dry-run, Studio type-check/build. D1 validation run `45549544458` also passed without applying a migration.
+- **Blog/Studio validation:** run `45549768602` passed on branch head `d38f3d3c1ff1eadcc691909bd247893d7c653594`: type-check, lint, 497/497 tests, website build, read-only migration dry-run, Studio type-check/build. D1 validation run `45549755454` also passed without applying a migration.
 - **Browser interaction/visual/CLS verification:** NOT COMPLETED. Browser automation could not start because the connected service reported insufficient credits. Do not treat raw HTTP smoke as browser verification.
 - **No Production release for PR #534.** PR remains open and unmerged. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets or Production settings were changed.
 - Этапы 2–9: **NOT STARTED**.
