@@ -1,4 +1,18 @@
 export type AboutLanguage = 'bg' | 'ru' | 'en'
+export interface AboutPageCopy {
+  readonly eyebrow: string
+  readonly title: string
+  readonly subtitle: string
+  readonly intro: string
+  readonly plantSalesTitle: string
+  readonly irrigationEquipmentTitle: string
+  readonly approachTitle: string
+  readonly steps: readonly string[]
+  readonly areasTitle: string
+  readonly areas: string
+  readonly cta: string
+  readonly ctaText: string
+}
 export interface AboutPhoto {
   slugValue?: string
   imageUrl?: string
@@ -28,4 +42,4 @@ export interface AboutRenderData {
   team?: readonly AboutTeamMember[]
   centres?: readonly AboutCentre[]
 }
-export function renderAboutHtml(copy: Record<string, any>, data?: AboutRenderData, language?: AboutLanguage): string
+export function renderAboutHtml(copy: AboutPageCopy, data?: AboutRenderData, language?: AboutLanguage): string
