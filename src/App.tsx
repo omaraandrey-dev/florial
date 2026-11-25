@@ -12,6 +12,7 @@ import { getSanityImageProps } from './lib/sanityImage'
 import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
 import { selectFeaturedEquipment } from './lib/homepageFeatured.mjs'
+import { isHomepageClientReady } from './lib/homepageHandoff.mjs'
 import { toPlainText } from './lib/richTextUtils.mjs'
 import { getAnalyticsConsent, trackEvent, trackGA4Event, trackPostHogEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
@@ -381,15 +382,15 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   const isHomepageRoute = normalizedRoutePath === '/' || normalizedRoutePath === '/index.html'
 
   useEffect(() => {
-    if (
-      isHomepageRoute &&
-      headerDataReady &&
-      !loadingCategories &&
-      homeCategoriesAndHeroReady &&
-      homeFeaturedPlantsReady &&
-      homeFeaturedEquipmentReady &&
-      homeBlogReady
-    ) {
+    if (isHomepageClientReady({
+      isHomepageRoute,
+      headerDataReady,
+      categoriesReady: !loadingCategories,
+      homeCategoriesAndHeroReady,
+      homeFeaturedPlantsReady,
+      homeFeaturedEquipmentReady,
+      homeBlogReady,
+    })) {
       onHomepageReady?.()
     }
   }, [
