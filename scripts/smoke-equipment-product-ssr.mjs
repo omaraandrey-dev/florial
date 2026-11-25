@@ -113,9 +113,9 @@ for (const language of LOCALES) {
     assert.match(html, /hreflang="en"/i, label + ': EN alternate missing')
     assert.match(html, /data-florial-ssr="equipment-product-v1"/i, label + ': full equipment product SSR marker missing')
 
-    const main = html.match(/<main\\b[^>]*data-florial-ssr="equipment-product-v1"[^>]*>([\\s\\S]*?)<\\/main>/i)
+    const main = html.match(/<main\b[^>]*data-florial-ssr="equipment-product-v1"[^>]*>([\s\S]*?)<\/main>/i)
     assert.ok(main, label + ': server-rendered product main missing')
-    const h1 = main[1].match(/<h1\\b[^>]*>([\\s\\S]*?)<\\/h1>/i)
+    const h1 = main[1].match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)
     assert.ok(h1, label + ': localized H1 missing')
     assert.ok(h1[1].includes(escapeHtml(expectedH1(product, language))), label + ': H1 differs from Sanity localized SEO H1')
     assert.match(main[1], /data-florial-product-breadcrumbs="true"/, label + ': product category breadcrumbs missing')
@@ -126,7 +126,7 @@ for (const language of LOCALES) {
     assert.match(main[1], new RegExp('data-florial-product-stock="' + (product.stockStatus || 'onRequest') + '"'), label + ': stock status differs from Sanity')
     if (product.sku) assert.ok(main[1].includes('SKU: ' + escapeHtml(product.sku)), label + ': SKU missing')
     if (product.specCount > 0) {
-      const specCount = Number(main[1].match(/data-florial-product-spec-count="(\\d+)"/)?.[1] || 0)
+      const specCount = Number(main[1].match(/data-florial-product-spec-count="(\d+)"/)?.[1] || 0)
       assert.equal(specCount, product.specCount, label + ': rendered technical specification count differs from Sanity')
     }
     if (product.hasDescription) assert.match(main[1], /data-florial-product-description="true"/, label + ': product description missing')
