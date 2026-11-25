@@ -8,12 +8,14 @@ import {
 } from '../functions/_lib/equipmentCategoryPageHtml.mjs'
 
 const categories = [
-  { _id: 'root', slugValue: 'vsichko-za-polivane', name: 'Всичко за поливане' },
-  { _id: 'controllers', slugValue: 'controllers', parentId: 'root', name: 'Контролери', sortOrder: 10, translations: { ru: { name: 'Контроллеры' }, en: { name: 'Controllers' } }, imageUrl: 'https://cdn.sanity.io/images/bxvcy0qs/production/controllers-800x800.jpg', imageAlt: 'Контролери за поливане', imageAltEn: 'Irrigation controllers' },
-  { _id: 'kits', slugValue: 'gotovi-komplekti-za-polivane', parentId: 'root', name: 'Готови комплекти', sortOrder: 90 },
-  { _id: 'sprinklers', slugValue: 'sprinklers', parentId: 'root', name: 'Разпръсквачи', sortOrder: 11 },
-  { _id: 'controllers-indoor', slugValue: 'kontroleri-vatreshen-montazh', parentId: 'controllers', name: 'Контролери вътрешен монтаж', sortOrder: 2, translations: { ru: { name: 'Контроллеры для помещений' } } },
-  { _id: 'controllers-outdoor', slugValue: 'kontroleri-vanshen-montazh', parentId: 'controllers', name: 'Контролери външен монтаж', sortOrder: 1 },
+  { _id: 'root', slugValue: 'vsichko-za-polivane', name: 'Всичко за поливане', productCount: 0 },
+  { _id: 'controllers', slugValue: 'controllers', parentId: 'root', name: 'Контролери', sortOrder: 10, productCount: 1, translations: { ru: { name: 'Контроллеры' }, en: { name: 'Controllers' } }, imageUrl: 'https://cdn.sanity.io/images/bxvcy0qs/production/controllers-800x800.jpg', imageAlt: 'Контролери за поливане', imageAltEn: 'Irrigation controllers' },
+  { _id: 'kits', slugValue: 'gotovi-komplekti-za-polivane', parentId: 'root', name: 'Готови комплекти', sortOrder: 90, productCount: 1 },
+  { _id: 'sprinklers', slugValue: 'sprinklers', parentId: 'root', name: 'Разпръсквачи', sortOrder: 11, productCount: 1 },
+  { _id: 'controllers-indoor', slugValue: 'kontroleri-vatreshen-montazh', parentId: 'controllers', name: 'Контролери вътрешен монтаж', sortOrder: 2, productCount: 1, translations: { ru: { name: 'Контроллеры для помещений' } } },
+  { _id: 'controllers-outdoor', slugValue: 'kontroleri-vanshen-montazh', parentId: 'controllers', name: 'Контролери външен монтаж', sortOrder: 1, productCount: 1 },
+  { _id: 'empty', slugValue: 'empty-category', parentId: 'root', name: 'Празна категория', sortOrder: 12, productCount: 0 },
+  { _id: 'legacy-valves', slugValue: 'electromagnetic-valves', parentId: 'root', name: 'Стара категория клапани', sortOrder: 13, productCount: 1 },
 ]
 
 test('root equipment navigation follows the established ten-category sales priority', () => {
@@ -26,6 +28,15 @@ test('root equipment navigation follows the established ten-category sales prior
   ])
   assert.match(html, /data-florial-category-subcategories="true"/)
   assert.match(html, /<h2[^>]*>Контролери<\/h2>/)
+})
+
+test('navigation mirrors the storefront visibility rules for empty categories and the excluded legacy valves category', () => {
+  const html = renderEquipmentCategoryNavigation(categories, 'root', 'bg', undefined, { rootCatalog: true })
+  assert.match(html, /gotovi-komplekti-za-polivane/)
+  assert.match(html, /controllers/)
+  assert.match(html, /sprinklers/)
+  assert.doesNotMatch(html, /empty-category/)
+  assert.doesNotMatch(html, /electromagnetic-valves/)
 })
 
 test('nested category navigation includes only direct children, never sibling or ancestor categories', () => {
