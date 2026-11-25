@@ -73,15 +73,41 @@ A read-only query for published `about` and `page` documents returned zero docum
 
 - **Live Sanity reads:** PASS — 6 photo documents and 2 category images found in their expected published datasets.
 - **Source and renderer review:** implementation committed on `develop`.
-- **Automated tests, type-check, lint and build:** pending GitHub Actions on the draft integration PR.
-- **Cloudflare Preview:** pending deployment; no Preview URL is claimed yet.
-- **Owner visual acceptance:** pending Preview.
-- **Production:** unchanged. No merge or Production deployment is authorized or performed in this phase.
+- **Automated tests, type-check, lint and build:** PASS on exact PR head `68caa35b43a78cff7a80f5b50b65350ebc277a08`; 13 workflow runs successful. Blog/Studio validation: 553/553 tests, application and Pages Functions type-check, lint (0 errors; 101 repository warnings), website build, Studio type-check/build. D1 migration validation passed; it ran validation scripts only and applied no migration.
+- **Cloudflare Preview:** PASS; exact Preview deployment `265cc17c-d7a8-4946-8836-0fa0fccb7647`, URL https://265cc17c.florial.pages.dev, source SHA matches PR head.
+- **Raw first-response HTML smoke:** PASS — `/about` BG/RU/EN 3/3 HTTP 200 without executing JavaScript; 8 Sanity images per locale, metadata/canonical/hreflang/indexability, company details, maps and AboutPage/Organization/GardenStore JSON-LD verified.
+- **Owner visual acceptance:** pending desktop/mobile review of Preview.
+- **Production:** unchanged. PR #547 remains draft/open; no merge or Production deployment is authorized or performed in this phase.
 
 ## 6. Next steps
 
-1. Run exact-head CI and inspect all workflow results.
-2. Verify the Preview raw first-response HTML for `/about` in BG/RU/EN, including the SSR marker, all visible sections, images, metadata, canonical/hreflang and AboutPage/Organization/GardenStore JSON-LD.
-3. Have the owner visually check desktop and mobile Preview.
-4. Only after explicit owner approval, merge the PR and verify the exact Production deployment and raw HTML smoke.
+1. Exact-head CI passed (13/13 workflow runs; 553/553 tests).
+2. Preview deployment and raw first-response HTML smoke passed for BG/RU/EN (3/3).
+3. **Next:** owner desktop/mobile visual acceptance of the Preview.
+4. Only after explicit owner approval, mark PR ready for review/merge, then verify exact Production deployment and raw HTML smoke.
 5. After About release, continue to phase 10: full SSR/SEO regression for public BG/RU/EN routes. The separate React hydration/handoff and Core Web Vitals work remains a later task.
+
+
+## 7. Exact-head CI and Preview verification — 2026-11-25
+
+**Draft PR:** [#547 — localized About page first-response HTML](https://github.com/omaraandrey-dev/florial/pull/547)  
+**Exact head:** `68caa35b43a78cff7a80f5b50b65350ebc277a08`  
+**PR state:** open, draft, mergeable; no merge performed.
+
+### GitHub Actions
+
+All 13 workflow runs associated with the exact head completed successfully, including Blog and Studio validation, all existing public SSR smoke workflows, the new About raw HTTP smoke, and D1 migration validation. The Blog/Studio validation job reported 553 tests passed, 0 failed; application and Pages Functions type-check passed; website build and Sanity Studio type-check/build passed. Repository lint completed with 0 errors and 101 warnings. D1 validation ran existing migration validation scripts only; no D1 migration was applied.
+
+### Cloudflare Pages Preview
+
+- Deployment: `265cc17c-d7a8-4946-8836-0fa0fccb7647`.
+- URL: https://265cc17c.florial.pages.dev.
+- Environment: `preview`.
+- Exact source SHA: `68caa35b43a78cff7a80f5b50b65350ebc277a08`.
+- Cloudflare build and deploy stages: success.
+
+### Raw HTTP smoke
+
+The dedicated workflow `About page SSR raw HTTP smoke` passed for all three locale routes. The test uses Node's HTTP `fetch` and inspects the response body before any browser JavaScript executes. For BG/RU/EN it confirmed HTTP 200, the SSR marker, one localized H1, SEO title/description, canonical, hreflang, `index, follow`, both garden-centre map links, legal and bank details, at least eight Florial Sanity images, responsive `srcset`, and JSON-LD relationships for AboutPage → Organization and both GardenStore → Organization entities.
+
+**Owner visual acceptance remains pending.** Production remains unchanged until explicit approval.
