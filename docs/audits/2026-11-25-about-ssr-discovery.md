@@ -57,6 +57,7 @@ A read-only query for published `about` and `page` documents returned zero docum
 - Server `title` and `description` now come from the same shared localized copy used by React. Canonical and BG/RU/EN hreflang URLs continue through the existing route helper.
 - Added an `AboutPage` JSON-LD entity linked to the existing `#organization` and `#website` IDs. Existing Organization/OnlineStore and both GardenStore entities, including their parent-organization references, are preserved.
 - Added `tests/about-ssr.test.mjs` for complete page structure, locale links, Sanity image rendering, HTML escaping, unsafe image rejection, shared content, metadata parity and structured-data references.
+- Added `scripts/smoke-about-ssr.mjs` and `.github/workflows/about-ssr-smoke.yml`. This dedicated CI job waits for the exact successful Cloudflare Pages Preview deployment, then uses Node `fetch` (no browser and no JavaScript execution) to verify BG/RU/EN first-response HTML. It retries brief 404/5xx responses during Pages edge propagation.
 
 ## 4. Explicit non-changes
 
