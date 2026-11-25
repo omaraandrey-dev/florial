@@ -4,6 +4,7 @@ import { collectDescendantCategoryIds, buildEquipmentCategoryEntries, renderPlan
 import { buildProductOffer, getServerProductPrice } from './_lib/productJsonLd.mjs'
 import { getOrderedServiceEntries } from '../src/lib/servicesOrder'
 import { renderHomepageHtml } from './_lib/homepageHtml.mjs'
+import { getServicesDirectoryMetadata, renderServicesDirectoryHtml } from './_lib/servicesDirectoryHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -1149,42 +1150,80 @@ async function handleRequest(context: PagesContext): Promise<Response> {
   }
 
   if (path === '/services') {
-    const meta = language === 'ru'
-      ? {
-          title: 'Услуги садового центра Florial — ландшафтный дизайн и автополив',
-          description: 'Ландшафтный дизайн, монтаж систем автоматического полива, озеленение и уход за садами в Несебре, Равде, Солнечном Береге и по побережью Болгарии.',
-          body: '<main><h1>Услуги садового центра Florial</h1><p>Ландшафтный дизайн, автоматический полив, озеленение и обслуживание садов в Болгарии.</p></main>',
-        }
-      : language === 'en'
-        ? {
-            title: 'Florial Garden Centre Services — Landscaping & Irrigation',
-            description: 'Landscape design, automatic irrigation installation, planting and garden maintenance in Nessebar, Ravda, Sunny Beach and along the Bulgarian coast.',
-            body: '<main><h1>Florial Garden Centre Services</h1><p>Landscape design, automatic irrigation, planting and garden maintenance in Bulgaria.</p></main>',
-          }
-        : {
-            title: 'Услуги на градински център Florial — озеленяване и напояване',
-            description: 'Ландшафтен дизайн, изграждане на системи за автоматично напояване, озеленяване и поддръжка на градини в Несебър, Равда, Слънчев бряг и по българското Черноморие.',
-            body: '<main><h1>Услуги на градински център Florial</h1><p>Ландшафтен дизайн, автоматично напояване, озеленяване и поддръжка на градини в България.</p></main>',
-          }
-    const canonical = localizedRouteUrl('/services', language)
-    const alternates = {
-      bg: SITE_URL + '/services',
-      ru: SITE_URL + '/services?lang=ru',
-      en: SITE_URL + '/services?lang=en',
-      'x-default': SITE_URL + '/services',
+    const metadata = getServicesDirectoryMetadata(language)
+    const serviceQuery = `
+      *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
+        _id, name, shortDescription,
+        translations { bg { name, shortDescription }, ru { name, shortDescription }, en { name, shortDescription } },
+        "slug": { "current": coalesce(slug.current, slug) },
+        sortOrder, serviceCategory, serviceLayout,
+        "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
+        "imageAlt": coalesce(image.alt, mainImage.alt),
+        "imageAltEn": coalesce(image.altEn, mainImage.altEn),
+        "imageAltRu": coalesce(image.altRu, mainImage.altRu)
+      }
+    `
+    const serviceRolePhotosQuery = `
+      *[
+        _type == "photo" &&
+        isActive != false &&
+        coalesce(slug.current, slug) in [
+          "landshaften-arhitekt",
+          "inzhener-polivni-sistemi",
+          "gardinar",
+          "specialist-trevni-ploshti"
+        ]
+      ] {
+        "slug": coalesce(slug.current, slug),
+        title,
+        titleEn,
+        titleRu,
+        "imageUrl": image.asset->url,
+        "imageAlt": image.alt,
+        "imageAltEn": image.altEn,
+        "imageAltRu": image.altRu
+      }
+    `
+
+    try {
+      const [services, rolePhotos] = await Promise.all([
+        querySanityData<any[]>('production', serviceQuery, {}, 'services/directory-services-v1', 60),
+        querySanityData<any[]>('production', serviceRolePhotosQuery, {}, 'services/directory-role-photos-v1', 300),
+      ])
+      if (!Array.isArray(services) || !Array.isArray(rolePhotos)) {
+        throw new Error('Services directory Sanity query returned an invalid collection')
+      }
+      const entries = getOrderedServiceEntries(services)
+      const rendered = renderServicesDirectoryHtml({ entries, rolePhotos, language })
+      return transformHtmlResponse(await context.next(), (html) => setPageHead(
+        renderRoot(html, rendered.body),
+        {
+          language,
+          title: metadata.title,
+          description: metadata.description,
+          canonical: metadata.canonical,
+          alternates: metadata.alternates,
+          pageType: 'website',
+          structuredData: [...metadata.structuredData, ...rendered.structuredData],
+        },
+      ), 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
+    } catch {
+      // Preserve a meaningful static fallback; never cache an empty directory after an upstream failure.
+      const fallbackBody = language === 'ru'
+        ? '<main><h1>Услуги садового центра Florial</h1><p>Ландшафтный дизайн, автоматический полив, озеленение и обслуживание садов в Болгарии.</p></main>'
+        : language === 'en'
+          ? '<main><h1>Florial Garden Centre Services</h1><p>Landscape design, automatic irrigation, planting and garden maintenance in Bulgaria.</p></main>'
+          : '<main><h1>Услуги на градински център Florial</h1><p>Ландшафтен дизайн, автоматично напояване, озеленяване и поддръжка на градини в България.</p></main>'
+      return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, fallbackBody), {
+        language,
+        title: metadata.title,
+        description: metadata.description,
+        canonical: metadata.canonical,
+        alternates: metadata.alternates,
+        pageType: 'website',
+        structuredData: metadata.structuredData,
+      }), 'no-store')
     }
-    return transformHtmlResponse(await context.next(), (html) => setPageHead(renderRoot(html, meta.body), {
-      language,
-      title: meta.title,
-      description: meta.description,
-      canonical,
-      alternates,
-      pageType: 'website',
-      structuredData: [{
-        id: 'collection-page',
-        data: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: meta.title, description: meta.description, url: canonical },
-      }],
-    }))
   }
 
   if (path === '/services/dostavka-poliv') {

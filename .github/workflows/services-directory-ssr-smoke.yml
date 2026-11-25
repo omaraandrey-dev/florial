@@ -1,0 +1,22 @@
+name: Services directory SSR Preview smoke
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  raw-http-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      PREVIEW_URL: https://6518ee68.florial.pages.dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify services directory initial HTML without JavaScript
+        run: node scripts/smoke-services-directory-ssr.mjs
