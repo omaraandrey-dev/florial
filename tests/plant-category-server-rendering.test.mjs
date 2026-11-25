@@ -78,3 +78,61 @@ test('plant catalogue failures do not become a false empty-category response', a
   assert.match(middleware, /if \(!Array\.isArray\(products\)\) throw new Error\('Sanity ' \+ dataset \+ ' category products is not an array'\)/)
   assert.match(middleware, /s-maxage=30, stale-while-revalidate=60/)
 })
+
+
+test('plant catalogue expands sale variants into the same first-page offers as the client', () => {
+  const products = [
+    {
+      _id: 'plant-a', slugValue: 'plant-a', name: 'Alpha plant',
+      imageUrl: 'https://cdn.sanity.io/images/bxvcy0qs/plants/main-800x600.jpg',
+      galleryImageUrls: ['https://cdn.sanity.io/images/bxvcy0qs/plants/gallery-800x600.jpg'],
+      plantCare: { minWinterTempC: -8 },
+      translations: { en: { name: 'Alpha plant', shortDescription: 'A plant summary.' } },
+      saleVariants: [
+        { _key: 'a-1', name: 'Small C5', nameEn: 'Small C5', priceEUR: 20, stockStatus: 'outOfStock', saleHeightCm: 40, containerVolumeL: 5 },
+        { _key: 'a-2', name: 'Large C20', nameEn: 'Large C20', priceEUR: 60, stockStatus: 'inStock', saleHeightCm: 100, containerVolumeL: 20 },
+      ],
+    },
+    {
+      _id: 'plant-b', slugValue: 'plant-b', name: 'Beta plant',
+      saleVariants: [{ _key: 'b-1', name: 'Medium C10', nameEn: 'Medium C10', priceEUR: 35, stockStatus: 'onRequest' }],
+    },
+  ]
+  const entries = buildPlantCategoryEntries(products, 'en')
+  assert.equal(entries.length, 3)
+  assert.deepEqual(entries.map((entry) => entry._catalogVariant?._key), ['a-2', 'b-1', 'a-1'])
+  const html = renderPlantCategoryListing(products, 'en')
+  assert.match(html, /data-florial-server-catalogue="plants"/)
+  assert.match(html, /A plant summary\./)
+  assert.match(html, /Large C20/)
+  assert.match(html, /Small C5/)
+  assert.match(html, /60\.00 €/)
+  assert.match(html, /100 cm/)
+  assert.match(html, /−8 °C/)
+  assert.match(html, /Buy Alpha plant in Nessebar/)
+  assert.match(html, /gallery-800x600/)
+})
+
+test('plant catalogue limits the server first response to 20 sale offers, not 20 source products', () => {
+  const products = Array.from({ length: 12 }, (_, index) => ({
+    _id: 'plant-' + index,
+    slugValue: 'plant-' + index,
+    name: 'Plant ' + String(index).padStart(2, '0'),
+    saleVariants: [
+      { _key: 'v1', name: 'Variant one', stockStatus: 'inStock', priceEUR: 10 },
+      { _key: 'v2', name: 'Variant two', stockStatus: 'inStock', priceEUR: 20 },
+    ],
+  }))
+  assert.equal(buildPlantCategoryEntries(products, 'bg').length, 20)
+  assert.match(renderPlantCategoryListing(products, 'bg'), /Показани продукти: 20/)
+})
+
+test('plant category SSR includes category navigation images and localized editorial content', async () => {
+  const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
+  assert.match(middleware, /fetchPlantCategoryProducts\(doc\._id, \(categories\) => \{ plantCategoryTree = categories \}\)/)
+  assert.match(middleware, /renderPlantCategoryNavigation\(plantCategoryTree, doc\._id, language\)/)
+  assert.match(middleware, /renderPortableText\(language === 'bg' \? doc\.seoContent : doc\.translations\?\.\[language\]\?\.seoContent \|\| doc\.seoContent\)/)
+  assert.match(middleware, /"galleryImageUrls": gallery\[\]\.asset->url/)
+  assert.match(middleware, /saleVariants\[\] \{ _key, name, nameEn, nameRu, sku, priceEUR, oldPriceEUR, stockStatus, stockQuantity, saleHeightCm, containerVolumeL \}/)
+  assert.match(middleware, /buildPlantCategoryEntries\(categoryProducts \|\| \[\], language\)/)
+})
