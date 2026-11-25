@@ -50,24 +50,6 @@ function safeHref(value, language) {
   }
 }
 
-function imageUrl(value, width = 960) {
-  if (typeof value !== 'string' || !value.trim()) return ''
-  try {
-    const source = new URL(value)
-    if (source.protocol !== 'https:') return ''
-    if (source.hostname !== 'cdn.sanity.io' || !/^\/images\/[^/]+\/[^/]+\//.test(source.pathname)) return source.toString()
-    const match = source.pathname.match(/-(\d+)x(\d+)\.[a-z0-9]+$/i)
-    const sourceWidth = match ? Number(match[1]) : 0
-    source.searchParams.set('w', String(sourceWidth ? Math.min(width, sourceWidth) : width))
-    source.searchParams.set('fit', 'max')
-    source.searchParams.set('auto', 'format')
-    source.searchParams.set('q', '72')
-    return source.toString()
-  } catch {
-    return ''
-  }
-}
-
 function responsiveImage(value, alt, sizes, className, loading = 'lazy', priority = false) {
   if (typeof value !== 'string' || !value.trim()) return ''
   let src = value
@@ -429,7 +411,7 @@ function renderSteps(items, language) {
 function renderServiceContentBlocks(blocks, language, slug) {
   if (slug === 'ozelenyavane' || slug === 'avtomatizirano-kapkovo-napoyavane' || slug === 'rulonna-treva') return ''
   const valid = (blocks || []).filter((block) =>
-    !/^__gallery:(intro|trenches|pipeline|equipment|automation|watering|lawn|flowerbeds)$/.test(block.title || '') &&
+    !/^__gallery:(intro|design|trenches|pipeline|equipment|automation|watering|testing|lawn|flowerbeds)$/.test(block.title || '') &&
     Boolean(block.imageUrl || block.title || block.text))
   if (!valid.length) return ''
   const title = language === 'ru' ? 'Дополнительная информация' : language === 'en' ? 'Additional information' : 'Допълнителна информация'
