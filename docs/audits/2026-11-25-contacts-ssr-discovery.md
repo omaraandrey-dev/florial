@@ -243,3 +243,28 @@ All 10 workflow runs associated with the final PR head completed with conclusion
 - PR #409 was not modified. No Sanity writes/schema changes, D1 changes/migrations, Cloudflare settings/secrets/DNS changes, Resend changes, or Header/menu/Footer/global bootstrap changes were made.
 
 **Next SSR phase:** Phase 9 — read-only discovery and then localized SSR for `/about`, without inventing company history, experience, qualifications, certificates or project claims.
+
+
+## 9. Post-deployment Production raw HTML smoke — PASS
+
+**Live check date:** 2026-11-25  
+**Production merge commit:** `1b18d7ae7db06f8d656d539b28037889f99d8d94`  
+**Cloudflare deployment:** `b91055ec-3e33-4a7e-aa3c-8024c02b30fc`  
+**Source:** fresh read-only fetch of the raw Production HTML for each URL (`maxAge=0`); no client-side JavaScript was relied upon.
+
+| Locale | URL | HTTP | `html lang` | Canonical | Result |
+|---|---|---:|---|---|---|
+| BG | `/contacts` | 200 | `bg` | `https://florial-bg.com/contacts` | PASS |
+| RU | `/contacts?lang=ru` | 200 | `ru` | `https://florial-bg.com/contacts?lang=ru` | PASS |
+| EN | `/contacts?lang=en` | 200 | `en` | `https://florial-bg.com/contacts?lang=en` | PASS |
+
+For all three first-response HTML documents, the following assertions passed:
+- Both localized garden-centre names and location cards are present.
+- Both existing Google Maps destinations are present.
+- Both location photographs are present with localized alt text.
+- Seven opening-hour rows are present, including Sunday, each showing 09:00–17:00.
+- Both GardenStore JSON-LD entities are present.
+- Both location headings are valid H3 elements; no malformed H3/H2 closing pair was found.
+- The route retains `robots=index, follow` and the correct locale-specific canonical.
+
+**Result: Production raw HTML smoke PASS — 3/3 locale routes.** This closes the post-deployment verification item recorded in section 8. The check is a live raw-HTML fetch, not a GitHub Actions run or a new visual browser QA session.
