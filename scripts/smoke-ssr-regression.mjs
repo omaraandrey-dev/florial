@@ -16,6 +16,7 @@ const scripts = [
   'scripts/smoke-equipment-product-ssr.mjs',
   'scripts/smoke-contacts-ssr.mjs',
   'scripts/smoke-about-ssr.mjs',
+  'scripts/smoke-seo-surface-ssr.mjs',
 ]
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)))

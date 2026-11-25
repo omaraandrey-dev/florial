@@ -10,6 +10,7 @@ on:
       - "src/content/**"
       - "src/pages/**"
       - "scripts/smoke-*-ssr.mjs"
+      - "scripts/smoke-ssr-regression.mjs"
       - "scripts/lib/cloudflare-email.mjs"
       - "tests/**ssr*.test.mjs"
       - ".github/workflows/ssr-seo-regression.yml"
