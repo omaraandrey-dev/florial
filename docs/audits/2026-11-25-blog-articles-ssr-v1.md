@@ -1,9 +1,10 @@
 # SSR Content v1 — Phase 6: individual articles and project publications
 
 **Date:** 2026-11-25  
-**Status:** implementation on feature branch; exact-SHA CI, Preview and raw HTTP smoke pending.  
+**Status:** IMPLEMENTED ON PREVIEW; exact-SHA CI and BG/RU/EN raw HTTP smoke passed; owner visual/hydration review pending; not released to Production.  
 **Base main:** 01405cfba21a42f2ca6d92753a8a4e07e08d19de  
-**Branch:** feat/ssr-blog-articles-v1
+**Branch:** feat/ssr-blog-articles-v1  
+**Verified code head:** f88b1f456a1df76da73ed05df3c80ac8c5962238
 
 ## 1. Objective
 
@@ -57,7 +58,27 @@ Added:
 - scripts/smoke-blog-articles-ssr.mjs — native-fetch first-response tests for every published article in BG/RU/EN without executing JavaScript, including the missing/unpublished 404 case.
 - .github/workflows/blog-articles-ssr-smoke.yml — waits for the exact Cloudflare Pages deployment before testing the Preview alias; on main push, runs against Production.
 
-**Pending:** exact-head tests/type-check/lint/build, Pages Preview deployment and BG/RU/EN raw HTTP smoke. No success is claimed until these checks complete.
+### Exact-SHA Preview evidence
+
+- Cloudflare Pages Preview deployment: 384879e6-739c-40cb-9feb-d0bed21bc4a7
+- Commit: f88b1f456a1df76da73ed05df3c80ac8c5962238
+- Deployment URL: https://384879e6.florial.pages.dev
+- Branch alias: https://feat-ssr-blog-articles-v1.florial.pages.dev
+- All Cloudflare stages (queued, initialize, clone, build, deploy) succeeded.
+
+### GitHub Actions
+
+- Blog article SSR raw HTTP smoke: run 45561362557 — success on exact code head.
+- Blog and Studio validation: run 45561362468 — success; application/Pages type-check, lint, 521/521 website tests, website build, read-only migration dry-run, Studio type-check and Studio build passed.
+- D1 migration validation: run 45561362407 — success; no migration applied.
+- Blog index regression smoke: run 45561362527 — success.
+- Services directory smoke: run 45561362465 — success.
+- Service detail smoke: run 45561362564 — success.
+- Equipment SSR smoke: run 45561362543 — success.
+
+The article smoke discovered all 19 published article URLs from the server-rendered /blog index and checked each route in BG/RU/EN without JavaScript: **57 successful article responses**. It verified HTML language, robots, canonical, all hreflang alternates, localized H1, Portable Text body block count against the hydration seed, cover/responsive images, related-card count/seed, BlogPosting JSON-LD and BreadcrumbList. The missing/unpublished slug returned HTTP 404 with noindex.
+
+**Pending:** owner visual/hydration review on desktop and mobile. No Production deployment or release is included in this PR.
 
 ## 5. Scope and safety
 
