@@ -212,6 +212,7 @@ function renderDirection(direction, posts, language) {
         preferredWidth: 640,
         quality: 68,
         loading: 'lazy',
+        className: 'h-full w-full object-cover',
       })
     : ''
   return '<div data-florial-blog-direction="' + escapeHtml(direction.id) + '" class="group relative isolate min-h-40 overflow-hidden rounded-2xl border border-transparent bg-slate-900 shadow-sm md:min-h-52">' +
