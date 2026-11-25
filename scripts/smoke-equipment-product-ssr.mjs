@@ -79,7 +79,7 @@ async function mapLimit(items, limit, worker) {
   await Promise.all(runners)
 }
 
-const products = await sanityFetch(\`
+const products = await sanityFetch(`
   *[_type == "product" && isActive != false && defined(slug.current)] | order(slug.current asc) {
     _id, name, "slug": slug.current, sku, priceEUR, stockStatus,
     seo { h1, noIndex },
@@ -96,7 +96,7 @@ const products = await sanityFetch(\`
     "hasCatalog": defined(catalogPDF.asset),
     "hasDescription": defined(description)
   }
-\`)
+`)
 assert.ok(Array.isArray(products) && products.length > 0, 'Sanity must expose published active equipment products')
 console.log('Discovered ' + products.length + ' active published irrigation equipment products in Sanity production')
 
