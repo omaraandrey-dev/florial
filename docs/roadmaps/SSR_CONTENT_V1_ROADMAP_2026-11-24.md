@@ -3,8 +3,8 @@
 **Создано:** 24.11.2026  
 **Базовый main при создании плана:** `f4e04913a2876bf863deef9fa1b7774b5c416a47`  
 **Базовый main для реализации Phase 1:** `07b99481571ca079a06eb5f6e44e9d903f9dc304`  
-**Рабочая ветка документации:** `docs/ssr-content-v1-roadmap`  
-**Статус:** план утверждён владельцем; этап 1 — главная страница — первый в очереди.  
+**Рабочая ветка документации:** `develop`  
+**Статус:** этапы 1–6 выполнены или закрыты по текущему плану; актуальный следующий приоритет владельца — полный SSR каталога растений и всех карточек растений.  
 **Цель:** обеспечить, чтобы поисковые роботы и другие клиенты, не исполняющие JavaScript, получали в первом HTTP HTML-ответе основное содержимое публичных страниц Florial, а не только SEO head и краткий резервный H1/абзац.
 
 ## 1. Принципы и границы
@@ -113,19 +113,46 @@ Read-only инвентаризация перед кодом:
 - Проверить BlogPosting либо подходящий тип Schema.org на фактических данных.
 - Сохранить текущие URL, ссылки и визуальный порядок после hydration.
 
-### Этап 7 — контакты `/contacts`
+### Этап 7 — каталог растений и карточки растений (ТЕКУЩИЙ ПРИОРИТЕТ)
+
+**Цель:** обеспечить полноценный initial HTML для корневого каталога растений, всех опубликованных категорий и каждой активной опубликованной карточки растения на BG/RU/EN.
+
+Read-only инвентаризация:
+- Опубликованный Sanity dataset `plants`, active product documents, slugs, category tree, локализации и реальные поля изображений/вариантов.
+- Сопоставить клиентский порядок каталога, доступность вариантов, пагинацию (20 предложений на страницу), выбор изображений и локализованные подписи.
+- Не менять опубликованные товары, цены, описания, фотографии, переводы или схему Sanity.
+
+Объём реализации:
+- Отдельный plant product GROQ projection и SSR renderer: H1, botanical name, summary, main image/gallery, sale variants, price/old price, stock, SKU, plant-care fields, Portable Text description/care guide, confirmed irrigation recommendations and related links.
+- Product + BreadcrumbList JSON-LD на фактических опубликованных данных; не придумывать цену, availability, ботанические характеристики или географическую пригодность.
+- SSR корневого каталога `/category/rastenia` и всех категорий/подкатегорий с реальными названиями, ссылками, изображениями, локализованным SEO content и CollectionPage/ItemList.
+- Первые 20 sale offers должны соответствовать клиентскому каталогу: порядок доступности, localized product name, порядок вариантов, цена, размер/высота/контейнер и stock status.
+- Сохранить клиентский React UI, фильтры, пагинацию и интерактивность; SSR не должен выводить другой состав/порядок каталога.
+
+Проверки и критерии закрытия:
+- Raw HTTP без JavaScript: все активные опубликованные растения × BG/RU/EN и все категории × BG/RU/EN.
+- H1, localized content, canonical, hreflang, robots, images, sale variants, price/stock, Product/BreadcrumbList/CollectionPage JSON-LD.
+- Missing/unpublished plant product возвращает 404 noindex.
+- Проверить root category first page (20 sale offers) и все category links.
+- Проверить клиентский handoff/hydration: нет дублирования карточек, повторной загрузки крупных изображений или недопустимого layout shift.
+- Exact-SHA type-check, lint, tests, build, Cloudflare Preview и raw HTTP smoke.
+- Production release — отдельный шаг после Preview проверки, визуального подтверждения владельца и явного разрешения на merge.
+
+**Текущий статус 25.11.2026:** Preview smoke прошёл 180 plant detail routes + 51 category routes (231/231); 543/543 tests, type-check, lint, website build и Studio build прошли. PR #545 остаётся draft, Production SSR не выпущен. Подробности: `../audits/2026-11-25-plant-catalog-ssr-v1.md`.
+
+### Этап 8 — контакты `/contacts`
 
 - Вывести фактические опубликованные контактные сведения, адреса двух действующих садовых центров, телефоны, часы работы, ссылки на карты и способы связи.
 - Перед включением данных в SSR read-only сверить страницу, Sanity/код и подтверждённые владельцем сведения; расхождения вынести на согласование.
 - Согласовать GardenStore/LocalBusiness JSON-LD с реальными данными и видимым содержимым. Не исправлять NAP/часы без подтверждения владельца.
 
-### Этап 8 — «О нас» `/about`
+### Этап 9 — «О нас» `/about`
 
 - Вывести полный существующий текст о компании, направлениях деятельности, опыте и релевантные изображения/ссылки.
 - Не придумывать стаж, географию, объём выполненных проектов или сертификаты.
 - Проверить локализации и корректность Organization/LocalBusiness связей.
 
-### Этап 9 — общая SEO/SSR регрессия
+### Этап 10 — общая SEO/SSR регрессия
 
 - Повторно пройти все маршруты этапов 1–8 на BG/RU/EN.
 - Проверить raw HTML, robots, canonical, hreflang, JSON-LD, внутренние ссылки, изображения, статусы и redirects.
@@ -154,8 +181,8 @@ Read-only инвентаризация перед кодом:
 - **Этап 5 — портфолио: CLOSED AS COVERED BY BLOG.** No separate portfolio route/type exists. Project publications are blogPost documents in the combined blog index; inventory recorded in `docs/audits/2026-11-25-portfolio-route-inventory.md`.
 - **Этап 6 — статьи и публикации проектов `/blog/{slug}`: MERGED TO MAIN.** PR #541 merged as `f5aa6f899090e859e9b4be1b313ea2056cb58d6c`. Exact Preview raw HTTP smoke passed 19 published articles × 3 locales (57 responses), and CI passed. Separate Production raw HTTP smoke evidence is not recorded here; verify before claiming full Production acceptance.
 - **Этап 7 — контакты `/contacts`: NOT STARTED.**
-- **Этап 8 — «О нас» `/about`: NOT STARTED.**
-- **Этап 9 — общая SEO/SSR регрессия: NOT STARTED.** Must include all previously completed routes and the product/category SSR streams below.
+- **Этап 9 — «О нас» `/about`: NOT STARTED.**
+- **Этап 10 — общая SEO/SSR регрессия: NOT STARTED.** Must include all previously completed routes and the product/category SSR streams below.
 
 ### Каталог поливочного оборудования
 
@@ -169,10 +196,11 @@ PR #409 remains open by owner instruction and is not modified. Its diff overlaps
 
 ## 6. Следующие шаги
 
-1. **Phase 7 — `/contacts`: NEXT.** Start with read-only discovery of the current page component, middleware route handling, published Sanity/settings data, localized contact details, both garden-centre addresses, hours, phone numbers, map links and existing JSON-LD. Reconcile only facts already confirmed by the owner; do not modify NAP, hours or protected Sanity content.
-2. **Phase 8 — `/about`:** after contacts, inspect the existing source/content and render the factual localized company description in the first response without inventing history, credentials or service claims.
-3. **Phase 9 — full SSR/SEO regression:** revisit all public SSR routes in BG/RU/EN, raw HTML, canonical/hreflang/robots, JSON-LD, links, images, redirects and post-client-startup behavior.
-4. Before each stage, verify current `develop` source, live Sanity data and current deployment. Never infer Production status from Preview evidence.
+1. **Phase 7 — каталог растений: CURRENT.** Продолжить по [plant catalogue SSR audit](../audits/2026-11-25-plant-catalog-ssr-v1.md): завершить визуальную проверку владельцем на desktop/mobile, проверить client handoff/hydration и закрыть замечания. PR #545 не сливать без отдельного разрешения.
+2. **Phase 8 — `/contacts`:** после принятия SSR растений начать read-only discovery текущего компонента, middleware, опубликованных данных/настроек, локализованных контактов, адресов двух садовых центров, часов, телефонов, карт и JSON-LD. Не менять NAP, часы или защищённый Sanity content без подтверждения.
+3. **Phase 9 — `/about`:** после контактов проверить существующий источник и вывести фактическое локализованное описание компании без выдуманной истории, квалификаций или услуг.
+4. **Phase 10 — full SSR/SEO regression:** пройти все публичные SSR-маршруты BG/RU/EN, raw HTML, canonical/hreflang/robots, JSON-LD, links, images, redirects и client handoff.
+5. Перед каждым этапом сверять текущий `develop`, live Sanity и deployment. Preview не считать доказательством Production.
 
 ## 7. Единая модель веток
 
