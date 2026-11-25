@@ -63,6 +63,22 @@ function localizedCategoryImageText(category, language, kind) {
   return kind === 'alt' ? localizedCategoryName(category, language) : ''
 }
 
+function getVisibleCategoryIds(categories) {
+  const byId = new Map((Array.isArray(categories) ? categories : []).map((category) => [category._id, category]))
+  const visibleIds = new Set()
+  for (const category of Array.isArray(categories) ? categories : []) {
+    if ((category?.productCount || 0) <= 0) continue
+    let current = category
+    const visited = new Set()
+    while (current && !visited.has(current._id)) {
+      visited.add(current._id)
+      visibleIds.add(current._id)
+      current = current.parentId ? byId.get(current.parentId) : undefined
+    }
+  }
+  return visibleIds
+}
+
 function sortCategoryChildren(children, rootCatalog, language) {
   return children.slice().sort((a, b) => {
     if (rootCatalog) {
@@ -81,9 +97,15 @@ function sortCategoryChildren(children, rootCatalog, language) {
 }
 
 export function renderEquipmentCategoryNavigation(categories, currentCategoryId, language = 'bg', siteUrl = 'https://florial-bg.com', options = {}) {
+  const categoryList = Array.isArray(categories) ? categories : []
+  const visibleIds = getVisibleCategoryIds(categoryList)
   const children = sortCategoryChildren(
-    (Array.isArray(categories) ? categories : []).filter((category) =>
-      category && category.parentId === currentCategoryId && category.slugValue
+    categoryList.filter((category) =>
+      category &&
+      category.parentId === currentCategoryId &&
+      category.slugValue &&
+      category.slugValue !== 'electromagnetic-valves' &&
+      visibleIds.has(category._id)
     ),
     options.rootCatalog === true,
     language,
