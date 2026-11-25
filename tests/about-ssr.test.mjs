@@ -37,7 +37,7 @@ test('About SSR renders the complete current page structure and owner-confirmed 
   assert.equal((html.match(/<h1\b/g) || []).length, 1)
   for (const text of [
     copy.eyebrow, copy.title, copy.subtitle, copy.intro,
-    'Продажа на растения', 'Професионално оборудване',
+    'Продажба на растения', 'Професионално оборудване',
     'Нашият екип', 'Градински център Несебър', 'Градински център Равда',
     '206978288', 'BG206978288', 'Десислав Бараков',
     'BG88STSA93000029605234', 'STSABGSF',
@@ -137,7 +137,7 @@ test('About middleware uses published bounded Sanity queries, shared copy, safe 
   assert.match(middleware, /sanity\/plants\/about-plant-category-v1/)
   assert.match(middleware, /querySanityData<AboutPhotoDocument\[]>\(/)
   assert.match(middleware, /querySanityData<AboutCategoryDocument\[]>\(/)
-  assert.match(middleware, /perspective=published/)
+  assert.match(middleware, /searchParams\.set\('perspective', 'published'\)/)
   assert.match(middleware, /renderAboutHtml\(copy, \{/)
   assert.match(middleware, /body = about\.html/)
   assert.match(middleware, /about\.complete[\s\S]*?no-store/)
