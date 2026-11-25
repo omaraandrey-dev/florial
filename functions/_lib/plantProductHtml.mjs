@@ -171,7 +171,7 @@ export function buildPlantCategoryItemList(products, language = 'bg', siteUrl = 
   }
 }
 
-function renderPortableText(value) {
+export function renderPortableText(value) {
   if (!Array.isArray(value) || value.length === 0) return ''
   const blocks = []
   let activeList = ''
