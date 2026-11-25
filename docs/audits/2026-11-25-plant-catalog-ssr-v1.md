@@ -97,7 +97,7 @@ All 231 routes passed. The smoke validated:
 - root `/category/rastenia` category navigation and first 20 sale offers;
 - a missing plant product returns HTTP 404 and noindex.
 
-**Plant smoke workflow run:** `45581140157` — success.
+**Plant smoke workflow run on exact PR head:** `45581984035` — success.
 
 ## 5. CI and build evidence
 
@@ -113,12 +113,23 @@ For the same validated code commit:
 - Existing equipment, services, blog and other raw HTTP regression checks on the same commit — passed.
 
 Relevant validation runs include:
-- Plant catalogue SSR smoke: `45581140157`.
-- Blog and Studio validation: `45581140634`.
-- Equipment product SSR validation: `45581140132`.
-- D1 migration validation: `45581140383`.
+- Plant catalogue SSR smoke: `45581984035`.
+- Blog and Studio validation: `45581984034`.
+- Equipment product SSR validation: `45581983904`.
+- D1 migration validation: `45581984179`.
 
 No Sanity writes or D1 migrations were performed.
+
+## 5A. Production release verification
+
+- PR #545 was merged into `main` by squash at `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`.
+- Cloudflare Pages Production deployment: `5fba6345-f886-4eb8-a4b2-154efe326e04`; exact commit `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`; build and deploy stages succeeded.
+- Custom domains `florial-bg.com` and `www.florial-bg.com` are both active in Cloudflare Pages.
+- Exact merge-commit workflow `45582913604`: 543/543 tests passed; application/Pages Functions type-check, lint, website build, Studio type-check and Studio build passed. D1 validation `45582913445` was read-only; no migration was applied.
+- Other exact-merge-commit raw HTTP regression workflows passed for homepage, services, service details, blog index/articles, equipment categories and equipment product pages.
+- **Plant-specific Production raw HTTP smoke was not separately run after merge.** The exhaustive plant smoke remains confirmed on exact Preview: 180 product + 51 category routes (231/231). Do not claim a separate 231-route Production raw HTTP verification.
+- Owner visually checked plant catalogue and product detail pages in Preview and confirmed that navigation and pages work.
+- Production deployment success and active domain status are verified; direct HTTP fetch from the current execution environment was unavailable, so no independent manual Production page fetch is claimed.
 
 ## 6. Files changed for plant SSR
 
