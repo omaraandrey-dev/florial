@@ -4,7 +4,7 @@
 **Базовый main при создании плана:** `f4e04913a2876bf863deef9fa1b7774b5c416a47`  
 **Базовый main для реализации Phase 1:** `07b99481571ca079a06eb5f6e44e9d903f9dc304`  
 **Рабочая ветка документации:** `develop`  
-**Статус:** этапы 1–8 приняты и выпущены; этап 9 `/about` реализуется на `develop`; exact-head CI и Preview ожидаются.  
+**Статус:** этапы 1–8 приняты и выпущены; этап 9 `/about` реализован и проверен на Preview; ожидается визуальная приёмка владельца.  
 **Цель:** обеспечить, чтобы поисковые роботы и другие клиенты, не исполняющие JavaScript, получали в первом HTTP HTML-ответе основное содержимое публичных страниц Florial, а не только SEO head и краткий резервный H1/абзац.
 
 ## 1. Принципы и границы
@@ -148,7 +148,7 @@ Read-only инвентаризация:
 - Exact Preview raw HTTP smoke прошёл для BG/RU/EN; владелец визуально принял Preview. После Production deployment выполнен отдельный raw HTML smoke: BG/RU/EN — 3/3 HTTP 200; локализованные карточки, изображения, адреса, карты, семь дней 09:00–17:00, GardenStore JSON-LD, canonical и `index, follow` подтверждены в первом HTML без JavaScript.
 - Часы обеих точек: ежедневно 09:00–17:00 по подтверждению владельца. Существующие адреса, телефоны и ссылки на карты сохранены; Sanity не изменялся.
 
-### Этап 9 — «О нас» `/about`: IMPLEMENTATION ON DEVELOP; CI/PREVIEW PENDING
+### Этап 9 — «О нас» `/about`: PREVIEW VERIFIED; OWNER VISUAL ACCEPTANCE PENDING
 
 - Discovery завершён: текущая страница и её BG/RU/EN copy находятся в `src/pages/AboutPage.tsx`; published Sanity хранит 6 фотографий (4 роли + 2 центра) и 2 изображения категорий (`production` + `plants`), но отдельного About/page document нет.
 - Текущие видимые секции сохранены; старые поля copy, не отображаемые клиентской JSX, не добавляются в SSR. Исторический `about.docx` не используется как актуальный контент.
@@ -156,7 +156,7 @@ Read-only инвентаризация:
 - Добавлен `functions/_lib/aboutHtml.mjs`, опубликованные Sanity projections с bounded Cache API keys, безопасные responsive image URLs, HTML escaping, localized metadata и SSR marker. AboutPage JSON-LD ссылается на существующий Organization; React восстанавливает page-specific entity после client SEO cleanup, а GardenStore parentOrganization references сохраняются.
 - Добавлены `tests/about-ssr.test.mjs`, `scripts/smoke-about-ssr.mjs` и `.github/workflows/about-ssr-smoke.yml`: exact Preview raw HTTP smoke проверяет BG/RU/EN без выполнения JavaScript и учитывает короткую задержку edge propagation.
 - При неполных Sanity media данные текста всё равно выводятся с placeholders и `no-store`; полное edge caching разрешается только при наличии всех 6 фото и обеих category images.
-- Sanity не изменялся. PR/CI/Preview и owner visual acceptance ещё pending. Подробности: `../audits/2026-11-25-about-ssr-discovery.md`.
+- Sanity не изменялся. Draft PR #547 открыт; exact-head CI — 13/13 workflows success, 553/553 tests; Cloudflare Preview deployment `265cc17c-d7a8-4946-8836-0fa0fccb7647` успешен; raw first-response HTML smoke BG/RU/EN — 3/3. Ожидается визуальная приёмка владельца на desktop/mobile; Production не изменён. Подробности: `../audits/2026-11-25-about-ssr-discovery.md`.
 
 ### Этап 10 — общая SEO/SSR регрессия
 
@@ -188,7 +188,7 @@ Read-only инвентаризация:
 - **Этап 6 — статьи и публикации проектов `/blog/{slug}`: MERGED TO MAIN.** PR #541 merged as `f5aa6f899090e859e9b4be1b313ea2056cb58d6c`. Exact Preview raw HTTP smoke passed 19 published articles × 3 locales (57 responses), and CI passed. Separate Production raw HTTP smoke evidence is not recorded here; verify before claiming full Production acceptance.
 - **Этап 7 — каталог растений и карточки растений: RELEASED + PRODUCTION SMOKE PASS.** PR #545 merged; Production deployment подтверждён. Exact Preview smoke и отдельный Production raw HTTP smoke прошли по 231/231 маршрутам в BG/RU/EN; отсутствующий товар возвращает 404 noindex. 543/543 tests, type-check, lint, website build и Studio build прошли; владелец визуально принял Preview. Подробности: `../audits/2026-11-25-plant-catalog-ssr-v1.md` и `../audits/2026-11-25-contacts-ssr-discovery.md`.
 - **Этап 8 — контакты `/contacts`: RELEASED; Production deployment SUCCESS.** PR #546 squash-merged в `main` commit `1b18d7ae7db06f8d656d539b28037889f99d8d94`; Cloudflare Pages Production deployment `b91055ec-3e33-4a7e-aa3c-8024c02b30fc` успешно завершён с точного SHA, домены `florial-bg.com` и `www.florial-bg.com` привязаны. Exact PR head `1319e75169fd4639b102ff6f3b4181891edcdef5`: 10 CI workflow runs successful; 548/548 tests, type-check, lint, website build, Studio type-check/build и D1 read-only validation прошли. Preview raw HTTP BG/RU/EN smoke и desktop/mobile QA пройдены; владелец подтвердил Preview. Production raw HTTP smoke контактов завершён: 3/3 BG/RU/EN first-response HTML routes прошли. Часы: ежедневно 09:00–17:00; телефоны/адреса сохранены. Подробности: `../audits/2026-11-25-contacts-ssr-discovery.md`.
-- **Этап 9 — «О нас» `/about`: IMPLEMENTATION ON DEVELOP; CI/PREVIEW/OWNER ACCEPTANCE PENDING.** Discovery и code implementation записаны в `../audits/2026-11-25-about-ssr-discovery.md`.
+- **Этап 9 — «О нас» `/about`: PREVIEW VERIFIED; OWNER VISUAL ACCEPTANCE PENDING.** PR #547 draft/open; 13/13 workflow runs success, 553/553 tests, Cloudflare Preview deployment and raw HTTP BG/RU/EN smoke 3/3 passed. Production remains unchanged. Details: `../audits/2026-11-25-about-ssr-discovery.md`.
 - **Этап 10 — общая SEO/SSR регрессия: NOT STARTED.** Must include all previously completed routes and the product/category SSR streams below.
 
 ### Каталог поливочного оборудования
@@ -205,7 +205,7 @@ PR #409 remains open by owner instruction and is not modified. Its diff overlaps
 
 1. **Phase 7 — каталог растений: RELEASED + PRODUCTION SMOKE PASS.** PR #545 merged; Production deployment успешен; отдельный Production raw HTTP smoke прошёл 231/231 маршрутов (180 products + 51 categories, BG/RU/EN), missing product 404/noindex. Owner visual acceptance подтверждена.
 2. **Phase 8 — `/contacts`: RELEASED.** PR #546 merged and exact-commit Production deployment succeeded; Preview and CI passed. Production raw HTTP smoke пройден для BG/RU/EN (3/3).
-3. **Phase 9 — `/about`: IN PROGRESS ON DEVELOP.** Shared BG/RU/EN copy, team/centre definitions, first-response renderer, published Sanity photo/category projections, safe fallbacks and AboutPage JSON-LD are implemented. Run exact-head CI, inspect Preview raw HTML BG/RU/EN and obtain owner desktop/mobile acceptance before any merge.
+3. **Phase 9 — `/about`: PREVIEW VERIFIED; OWNER VISUAL ACCEPTANCE NEXT.** Exact-head CI passed (13/13 workflows, 553/553 tests); raw first-response HTML smoke passed BG/RU/EN (3/3). Obtain owner desktop/mobile acceptance before requesting merge approval.
 4. **Phase 10 — full SSR/SEO regression:** пройти все публичные SSR-маршруты BG/RU/EN, raw HTML, canonical/hreflang/robots, JSON-LD, links, images, redirects и client handoff.
 5. Перед каждым этапом сверять текущий `develop`, live Sanity и deployment. Preview не считать доказательством Production.
 
