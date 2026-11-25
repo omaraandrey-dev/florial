@@ -180,7 +180,8 @@ Read-only инвентаризация:
 - **Этап 4 — индекс блога `/blog`: MERGED TO MAIN.** PR #540 merged as `01405cfba21a42f2ca6d92753a8a4e07e08d19de`; Preview smoke passed all 19 published cards in BG/RU/EN. Production-specific raw HTTP smoke is not separately recorded in the available release evidence — do not mark independently verified until checked.
 - **Этап 5 — портфолио: CLOSED AS COVERED BY BLOG.** No separate portfolio route/type exists. Project publications are blogPost documents in the combined blog index; inventory recorded in `docs/audits/2026-11-25-portfolio-route-inventory.md`.
 - **Этап 6 — статьи и публикации проектов `/blog/{slug}`: MERGED TO MAIN.** PR #541 merged as `f5aa6f899090e859e9b4be1b313ea2056cb58d6c`. Exact Preview raw HTTP smoke passed 19 published articles × 3 locales (57 responses), and CI passed. Separate Production raw HTTP smoke evidence is not recorded here; verify before claiming full Production acceptance.
-- **Этап 7 — контакты `/contacts`: NOT STARTED.**
+- **Этап 7 — каталог растений и карточки растений: PREVIEW VERIFIED / DRAFT PR #545.** 60 активных опубликованных растений и 17 категорий; 180 detail routes + 51 category routes прошли exact Preview raw HTTP smoke (231/231) на BG/RU/EN. 543/543 tests, type-check, lint, website build и Studio build прошли. Production release и визуальное подтверждение владельца ещё не выполнены. Подробности: `../audits/2026-11-25-plant-catalog-ssr-v1.md`.
+- **Этап 8 — контакты `/contacts`: NOT STARTED.**
 - **Этап 9 — «О нас» `/about`: NOT STARTED.**
 - **Этап 10 — общая SEO/SSR регрессия: NOT STARTED.** Must include all previously completed routes and the product/category SSR streams below.
 
