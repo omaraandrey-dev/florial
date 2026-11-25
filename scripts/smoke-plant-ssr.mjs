@@ -43,7 +43,7 @@ function escapeHtml(value) {
 }
 
 function productName(product, language) {
-  return product.translations?.[language]?.name || product.name || product.slug
+  return product.translations?.[language]?.name || product.translations?.bg?.name || product.name || product.slug
 }
 
 function productH1(product, language) {
