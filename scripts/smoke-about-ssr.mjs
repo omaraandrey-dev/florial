@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { containsEmailAddress } from './lib/cloudflare-email.mjs'
 
 const baseUrl = String(process.env.BASE_URL || '').replace(/\/+$/, '')
 assert.ok(baseUrl, 'BASE_URL must point to the Cloudflare Pages Preview or Production site')
@@ -89,7 +90,7 @@ for (const locale of locales) {
   assert.ok(html.includes('BG206978288'), locale.code + ' VAT number')
   assert.ok(html.includes('BG88STSA93000029605234'), locale.code + ' company IBAN')
   assert.ok(html.includes('STSABGSF'), locale.code + ' company BIC')
-  assert.ok(html.includes('barakov1971@abv.bg'), locale.code + ' company email')
+  assert.ok(containsEmailAddress(html, 'barakov1971@abv.bg'), locale.code + ' company email (plain or Cloudflare-obfuscated)')
   assert.ok(html.includes('href="' + locale.category + '"'), locale.code + ' plant-category link')
   assert.ok(html.includes(locale.map), locale.code + ' Nessebar map link')
   assert.ok(html.includes('3fiLaRgwSLDTH77U6'), locale.code + ' Ravda map link')
