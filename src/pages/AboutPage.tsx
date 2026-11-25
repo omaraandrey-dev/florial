@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { ABOUT_PAGE_CONTENT, ABOUT_PAGE_CENTRES, ABOUT_PAGE_TEAM } from '../content/aboutPageContent'
-import { applyPageSeo } from '../lib/seo'
+import { applyPageSeo, setStructuredData } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
 import { getSanityImageProps } from '../lib/sanityImage'
 import { sanityClient } from '../lib/sanity'
@@ -82,6 +82,18 @@ export function AboutPage({ categories }: AboutPageProps) {
       fallbackDescription: copy.seoDescription,
       language,
       alternates: { bg: base, ru: base + '?lang=ru', en: base + '?lang=en', 'x-default': base },
+    })
+    const canonical = base + (language === 'ru' || language === 'en' ? '?lang=' + language : '')
+    setStructuredData('about-page', {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      '@id': canonical + '#about',
+      url: canonical,
+      name: copy.seoTitle,
+      description: copy.seoDescription,
+      inLanguage: language,
+      about: { '@id': 'https://florial-bg.com/#organization' },
+      mainEntity: { '@id': 'https://florial-bg.com/#organization' },
     })
   }, [language, copy.seoTitle, copy.seoDescription])
 
