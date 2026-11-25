@@ -1,0 +1,119 @@
+# SSR Phase 7 Production smoke and Phase 8 Contacts discovery
+
+**Date:** 2026-11-25  
+**Production code commit:** `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`  
+**Development branch at discovery:** `develop` — `5589fbc3395bd019683d6989320793ecf31c0e36`  
+**Production domain:** https://florial-bg.com  
+**Mode:** read-only live HTTP and published Sanity queries; no source or service mutations.
+
+## 1. Plant SSR — Production verification completed
+
+The plant SSR implementation was deployed to Production by PR #545. This separate Production-specific raw HTTP check closes the remaining verification item from the plant SSR implementation audit.
+
+Published Sanity inventory queried at execution time:
+- 60 active published plant products in dataset `plants`.
+- 17 published plant categories in dataset `plants`.
+
+Raw HTTP results against `https://florial-bg.com`, without executing client JavaScript:
+
+| Route group | BG | RU | EN | Total |
+|---|---:|---:|---:|---:|
+| Plant product details | 60 | 60 | 60 | 180 |
+| Plant categories | 17 | 17 | 17 | 51 |
+| **Total** | **77** | **77** | **77** | **231** |
+
+All 231 routes passed the Production smoke:
+- HTTP 200 and HTML content type.
+- Correct `html lang` for each locale.
+- Plant product SSR marker and localized H1.
+- Product and BreadcrumbList JSON-LD markers on plant details.
+- Self-canonical URL for each localized route.
+- Plant category SSR marker, localized H1 and CollectionPage JSON-LD marker.
+- A non-existent plant product returned HTTP 404 and `noindex`.
+
+This was a live read-only HTTP execution, not a GitHub Actions run; no GitHub workflow run ID is associated with it. The smoke did not re-run the deeper variant-price, image, and care-content assertions already covered by the exact Preview workflow. Those Preview checks remain separately recorded in [plant catalogue SSR audit](2026-11-25-plant-catalog-ssr-v1.md).
+
+**Result: Production raw HTTP smoke PASS — 231/231 routes.** Phase 7's remaining Production verification is closed.
+
+## 2. Contacts page — current source and Production behavior
+
+### Source files checked
+
+- `src/pages/ContactsPage.tsx` — current main blob `3610b2c9eb04faefe250db726398f164f96d52c6`.
+- `functions/_middleware.ts` — current main blob `abdfc7c045d011160b5a86c0e909d53ea0d396e1`.
+- Current `develop` is 49 commits ahead of `main`, 0 behind; the ContactsPage component is byte-identical to main at discovery.
+
+### Current Production initial HTML
+
+Read-only requests to:
+- `https://florial-bg.com/contacts`
+- `https://florial-bg.com/contacts?lang=ru`
+- `https://florial-bg.com/contacts?lang=en`
+
+All three returned HTTP 200 HTML. Canonical and four hreflang links are present for each locale. The first-response `<main>` contains only a short localized H1 and introductory paragraph; it does **not** contain the garden-centre cards, addresses, maps, photographs, opening hours, or telephone links. These are currently supplied by the client-side `ContactsPage` after JavaScript starts.
+
+Existing initial-response structured data contains four entities:
+- `OnlineStore` organization.
+- `WebSite`.
+- Nessebar `GardenStore`.
+- Ravda `GardenStore`.
+
+The current middleware emits these entities on the contacts route. This audit does not propose changing their NAP fields or business facts.
+
+### Current ContactsPage content in source
+
+- Two location cards: Nessebar and Ravda.
+- Nessebar display address: ul. Khan Krum, 8230 Nessebar, next to Janet store.
+- Ravda display address: Ravda, Bulgaria (no street address in the visible card).
+- Existing Google Maps links:
+  - Nessebar: https://maps.app.goo.gl/pK8qGHh9b1xoCc4P9
+  - Ravda: https://maps.app.goo.gl/3fiLaRgwSLDTH77U6
+- Two published Sanity `photo` documents are present in dataset `production`:
+  - `Florial-nesebr`, document `d13f25ae-fb64-493d-850b-02fffc7f04a0`.
+  - `Florial-ravda`, document `162d050c-e444-4f95-83be-48bdd4236676`.
+  Both have an image asset URL. The existing component retrieves these images by slug at runtime.
+- Visible shared opening-hours block in `ContactsPage.tsx`: Monday–Saturday 09:00–18:00; Sunday is not listed; Resurrection/Easter is marked closed.
+- Visible telephone block:
+  - +359 876 777 902.
+  - +359 885 834 860, labelled ENG / UA / RU.
+  - +38 067 480 74 86 is shown only on RU/EN pages.
+- The component tracks clicks on the first two phone links; this behavior must be preserved if the markup is moved into SSR.
+
+### Existing data conflicts — do not silently normalize
+
+The earlier Local SEO read-only audit records owner confirmation that Ravda is an active customer-facing garden centre and its hours are daily 09:00–17:00. This conflicts with the shared ContactsPage block (Monday–Saturday 09:00–18:00, Sunday omitted).
+
+The current source's Nessebar schedule also conflicts with its existing GardenStore JSON-LD:
+- Visible ContactsPage: Monday–Saturday 09:00–18:00.
+- JSON-LD: Monday–Friday 09:00–17:00.
+- The actual current Nessebar hours, including Sunday/seasonality, remain unconfirmed in the referenced Local SEO audit.
+
+There is also a known NAP mismatch that must not be changed as part of an SSR-only task:
+- Visible main Bulgarian number: +359 876 777 902.
+- Nessebar GardenStore JSON-LD telephone: +359 885 834 860.
+- Ravda GardenStore JSON-LD telephone: +359 877 055 605; this number is not shown beside the Ravda card in the current component.
+
+The current page and JSON-LD values are documented as observed, not endorsed as correct. Do not alter phones, opening hours, addresses, maps, or existing structured-data values without a precise owner-approved content decision.
+
+## 3. Implementation boundary for Phase 8
+
+Safe SSR scope after business facts are resolved:
+- Render both existing location cards in the initial HTML.
+- Render existing localized address labels and existing map links without changing their destinations.
+- Query the two existing published `photo` documents read-only and render responsive image markup with meaningful localized alt text derived from the location name if no dedicated localized alt value is available.
+- Render the existing telephone links and locale-specific WhatsApp number, preserving click tracking after client handoff.
+- Render localized headings and page content in BG/RU/EN.
+- Preserve canonical/hreflang and the four existing structured-data entities; do not silently edit their NAP/hours.
+- Add tests for all three locales, initial HTML, links, images, phone targets, JSON-LD parity, missing-image fallback and graceful Sanity query failure.
+- Do not modify Header, menu, Footer, global bootstrap, routing, Sanity documents/schema, D1 or Cloudflare settings.
+
+**Owner clarification required before schedule markup is implemented:** confirm the actual current opening hours for the Nessebar garden centre. Ravda's owner-confirmed schedule is daily 09:00–17:00, but the current component still shows a shared 09:00–18:00 Monday–Saturday schedule. No schedule correction is made by this audit.
+
+## 4. Safety and completion
+
+- No Sanity writes or schema changes.
+- No Cloudflare configuration, secrets, DNS, Pages settings or Production changes.
+- No D1 or Resend changes.
+- No edits to PR #409 or files in its diff.
+- No changes to `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`, `docs/AI/CURRENT_STATE.md`, or `docs/AI/OPEN_QUESTIONS.md`.
+- This audit is a new, unique SSR document and does not overlap the protected PR #409 file set.
