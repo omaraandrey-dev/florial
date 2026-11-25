@@ -63,12 +63,14 @@ The initial response contains the localized page H1 and introduction, four speci
 - No changes to service detail routes.
 - Production was not changed by this PR.
 
-## 5. Remaining acceptance
+## 5. Remaining acceptance and release status
 
-- Browser-level visual and post-hydration interaction review has not been recorded. The raw HTTP smoke proves first-response HTML only; it does not prove browser layout, client hydration or filter interaction.
-- PR #535 remains unmerged. Production deployment and Production raw HTTP smoke are therefore pending.
-- The shared `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` were not edited because PR #409 remains open on an obsolete base and overlaps those files. Reconcile that stale PR before changing shared documentation.
-- Phase 3 (`/services/{slug}`) must not start until phase 2 is accepted and closed.
+- **Owner Preview acceptance:** The owner reports personally checking the Preview and confirming that it works. This is recorded as owner acceptance; an independent browser screenshot/trace is not available.
+- **Production deployment:** Complete. Cloudflare Pages deployment `9f02e8e9-9064-4a87-9df9-b75cca365671` succeeded from exact merge commit `eb5a8c7ca2a94884f44f367f791800ea35d0749b`.
+- **Production raw first-response smoke:** Pending for canonical `https://florial-bg.com/services` in BG/RU/EN. Preview smoke and deployment success do not substitute for this check.
+- **Browser-level Production visual/hydration check:** Not independently recorded. The owner accepted the Preview; Browser Use could not run because the connected service reported insufficient credits.
+- **Shared documentation:** `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md` and `docs/AI/OPEN_QUESTIONS.md` remain unchanged pending reconciliation of stale open PR #409, which overlaps those shared files. Do not overwrite its diff.
+- **Phase 3 gate:** Do not begin individual service pages `/services/{slug}` until the canonical Production raw HTTP smoke is recorded.
 
 ## 6. Changed files in the implementation PR
 
