@@ -18,7 +18,7 @@ function safeImageUrl(value) {
   const url = String(value || '').trim()
   try {
     const parsed = new URL(url)
-    return parsed.protocol === 'https:' && parsed.hostname === 'cdn.sanity.io' && /^\/images\/[^/]+\/[^/]+\//.test(parsed.pathname)
+    return parsed.protocol === 'https:' && parsed.hostname === 'cdn.sanity.io' && /^\/images\/bxvcy0qs\/(?:production|plants)\//.test(parsed.pathname)
       ? parsed.toString()
       : ''
   } catch {
