@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 
-const BASE_URL = (process.env.BASE_URL || 'https://feat-ssr-equipment-product-pages-v1.florial.pages.dev').replace(/\/+$/, '')
+const BASE_URL = (process.env.BASE_URL || 'https://feat-ssr-equipment-product-p.florial.pages.dev').replace(/\/+$/, '')
 const SANITY_PROJECT_ID = 'bxvcy0qs'
 const SITE_URL = 'https://florial-bg.com'
 const SANITY_DATASET = 'production'
