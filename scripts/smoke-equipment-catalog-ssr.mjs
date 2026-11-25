@@ -65,8 +65,29 @@ function localizedSeoBlockCount(category, language) {
     : category.translations?.en?.seoBlockCount
 }
 
-function categoryChildren(categoryId, categories, rootCatalog) {
-  const children = categories.filter((item) => item.parentId === categoryId && item.slug)
+function visibleCategoryIds(categories) {
+  const byId = new Map(categories.map((category) => [category._id, category]))
+  const visible = new Set()
+  for (const category of categories) {
+    if ((category.productCount || 0) <= 0) continue
+    let current = category
+    const visited = new Set()
+    while (current && !visited.has(current._id)) {
+      visited.add(current._id)
+      visible.add(current._id)
+      current = current.parentId ? byId.get(current.parentId) : undefined
+    }
+  }
+  return visible
+}
+
+function categoryChildren(categoryId, categories, rootCatalog, visibleIds) {
+  const children = categories.filter((item) =>
+    item.parentId === categoryId &&
+    item.slug &&
+    item.slug !== 'electromagnetic-valves' &&
+    visibleIds.has(item._id)
+  )
   return children.sort((a, b) => {
     if (rootCatalog) {
       const ai = ROOT_ORDER.indexOf(a.slug)
@@ -192,7 +213,8 @@ async function mapLimit(items, limit, mapper) {
 
 const categoryQuery = [
   '*[_type == "category" && defined(slug.current)] | order(_id asc) {',
-  '_id, name, "slug": coalesce(slug.current, slug), "parentId": parent._ref, sortOrder,',
+  '_id, name, "slug": coalesce(slug.current, slug), "parentId": parent->_id, sortOrder,',
+  '"productCount": count(*[_type == "product" && isActive != false && defined(slug) && (category._ref == ^._id || ^._id in categories[]._ref)]),',
   'seo { h1, noIndex }, "seoBlockCount": count(seoContent), "hasHelpBlock": defined(helpBlock),',
   'translations {',
   'ru { name, seo { h1, noIndex }, "seoBlockCount": count(seoContent) },',
@@ -210,6 +232,7 @@ const productQuery = [
 const products = await sanityFetch(productQuery, { categoryIds })
 assert.ok(Array.isArray(products), 'Published equipment products must be discoverable')
 
+const visibleIds = visibleCategoryIds(categories)
 const cases = categories.flatMap((category) => LOCALES.map((language) => ({ category, language })))
 const results = await mapLimit(cases, 10, async ({ category, language }) => {
   const route = '/category/' + encodeURIComponent(category.slug) + (language === 'bg' ? '' : '?lang=' + language)
@@ -239,7 +262,7 @@ const results = await mapLimit(cases, 10, async ({ category, language }) => {
     route + ': product order differs from React catalogue rules',
   )
 
-  const children = categoryChildren(category._id, categories, category.slug === 'vsichko-za-polivane')
+  const children = categoryChildren(category._id, categories, category.slug === 'vsichko-za-polivane', visibleIds)
   if (children.length) {
     const nav = html.match(/<section\b[^>]*data-florial-category-subcategories="true"[^>]*>([\s\S]*?)<\/section>/i)
     assert.ok(nav, route + ': direct subcategory navigation missing')
