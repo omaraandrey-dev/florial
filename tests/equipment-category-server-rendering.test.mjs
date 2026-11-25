@@ -122,6 +122,6 @@ test('middleware injects equipment listings only after a successful production c
   assert.match(middleware, /fetchCategoryProducts\('production', doc\._id, \(categories\) => \{ equipmentCategoryTree = categories \}\)/)
   assert.match(middleware, /"categoryId": category->_id/)
   assert.match(middleware, /"categoryIds": categories\[\]._ref/)
-  assert.match(middleware, /category-tree-v3/)
+  assert.match(middleware, /category-tree-v4/)
   assert.match(middleware, /category-products-v2/)
 })
