@@ -187,7 +187,7 @@ export function renderServicesDirectoryHtml({ entries = [], rolePhotos = [], lan
       url: SITE_URL + href('/services/dostavka-poliv', lang),
     }]
     const service = entry.service
-    const slug = service.slug?.current || (typeof service.slug === 'string' ? service.slug : '')
+    const slug = service.slug?.current || (typeof service.slug === 'string' ? service.slug : service._id)
     if (!slug) return []
     return [{
       '@type': 'ListItem', position: index + 1,
