@@ -53,7 +53,7 @@ No Header, main-menu or Footer component was changed. No routing, Sanity schema/
 - **Preview build:** Cloudflare Pages deployment `1f55f12e-a3ec-40be-936e-69887fd43155` succeeded for application code head `d13d3a3dc011d62942b478a4680368a6f6ce9df2`.
 - **Raw HTTP smoke:** workflow run `45549224568` passed on branch head `55c2a0f0a0cb3579af3db7de48e9dd7d8eacb42f`. BG/RU/EN were checked using native fetch without executing JavaScript. The optional handoff assertion was enabled and verified that server content is inside `#root` and the unique `#app-root` follows it in the initially hidden state.
 - **D1 validation:** workflow run `45549229317` succeeded; no migration was applied.
-- **Blog and Studio validation:** workflow run `45549229352` was still running when this audit was written. Update this record with its final result before merging.
+- **Blog and Studio validation:** workflow run `45549229352` succeeded on branch head `55c2a0f0a0cb3579af3db7de48e9dd7d8eacb42f`: application/Pages Functions type-check, lint, 497/497 tests, website build, migration syntax and read-only description migration dry-run, Studio type-check and Studio build all passed.
 - **Browser-level visual/interactivity verification:** not completed. The browser automation service returned `insufficient_credits`; no browser pass is claimed.
 - Earlier exact-head failures were corrected: the DOM hidden-attribute declaration was aligned with the TypeScript DOM type, and the existing homepage conversion test was updated to expect the new BlogSection readiness callback.
 
