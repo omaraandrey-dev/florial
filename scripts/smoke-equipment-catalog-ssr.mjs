@@ -158,7 +158,7 @@ function normalizedUrl(value) {
 
 async function fetchPage(route) {
   let lastError
-  for (let attempt = 1; attempt <= 5; attempt += 1) {
+  for (let attempt = 1; attempt <= 12; attempt += 1) {
     try {
       const response = await fetch(new URL(route, BASE_URL), {
         headers: { accept: 'text/html' },
@@ -171,7 +171,7 @@ async function fetchPage(route) {
     } catch (error) {
       lastError = error
     }
-    await new Promise((resolve) => setTimeout(resolve, attempt * 1500))
+    await new Promise((resolve) => setTimeout(resolve, 5000))
   }
   throw lastError || new Error('Failed to fetch ' + route)
 }
