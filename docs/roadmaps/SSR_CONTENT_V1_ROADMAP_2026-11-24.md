@@ -138,7 +138,7 @@ Read-only инвентаризация:
 - Exact-SHA type-check, lint, tests, build, Cloudflare Preview и raw HTTP smoke.
 - Production release — отдельный шаг после Preview проверки, визуального подтверждения владельца и явного разрешения на merge.
 
-**Статус 25.11.2026 — RELEASED:** PR #545 merged в `main` commit `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`; Cloudflare Pages Production deployment `5fba6345-f886-4eb8-a4b2-154efe326e04` успешен. Preview smoke прошёл 180 plant detail routes + 51 category routes (231/231); exact merge commit прошёл 543/543 tests, type-check, lint, website build и Studio build. Отдельный plant raw HTTP smoke на Production ещё не выполнялся. Подробности: `../audits/2026-11-25-plant-catalog-ssr-v1.md`.
+**Статус 25.11.2026 — RELEASED:** PR #545 merged в `main` commit `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`; Cloudflare Pages Production deployment `5fba6345-f886-4eb8-a4b2-154efe326e04` успешен. Preview smoke прошёл 180 plant detail routes + 51 category routes (231/231); exact merge commit прошёл 543/543 tests, type-check, lint, website build и Studio build. Отдельный Production raw HTTP smoke завершён: 231/231 маршрут (180 plant details + 51 categories) в BG/RU/EN; отсутствующий товар возвращает 404 noindex. Подробности: `../audits/2026-11-25-contacts-ssr-discovery.md` и `../audits/2026-11-25-plant-catalog-ssr-v1.md`.
 
 ### Этап 8 — контакты `/contacts`
 
@@ -180,8 +180,8 @@ Read-only инвентаризация:
 - **Этап 4 — индекс блога `/blog`: MERGED TO MAIN.** PR #540 merged as `01405cfba21a42f2ca6d92753a8a4e07e08d19de`; Preview smoke passed all 19 published cards in BG/RU/EN. Production-specific raw HTTP smoke is not separately recorded in the available release evidence — do not mark independently verified until checked.
 - **Этап 5 — портфолио: CLOSED AS COVERED BY BLOG.** No separate portfolio route/type exists. Project publications are blogPost documents in the combined blog index; inventory recorded in `docs/audits/2026-11-25-portfolio-route-inventory.md`.
 - **Этап 6 — статьи и публикации проектов `/blog/{slug}`: MERGED TO MAIN.** PR #541 merged as `f5aa6f899090e859e9b4be1b313ea2056cb58d6c`. Exact Preview raw HTTP smoke passed 19 published articles × 3 locales (57 responses), and CI passed. Separate Production raw HTTP smoke evidence is not recorded here; verify before claiming full Production acceptance.
-- **Этап 7 — каталог растений и карточки растений: PREVIEW VERIFIED / DRAFT PR #545.** 60 активных опубликованных растений и 17 категорий; 180 detail routes + 51 category routes прошли exact Preview raw HTTP smoke (231/231) на BG/RU/EN. 543/543 tests, type-check, lint, website build и Studio build прошли. Production release и визуальное подтверждение владельца ещё не выполнены. Подробности: `../audits/2026-11-25-plant-catalog-ssr-v1.md`.
-- **Этап 8 — контакты `/contacts`: NOT STARTED.**
+- **Этап 7 — каталог растений и карточки растений: RELEASED + PRODUCTION SMOKE PASS.** PR #545 merged; Production deployment подтверждён. Exact Preview smoke и отдельный Production raw HTTP smoke прошли по 231/231 маршрутам в BG/RU/EN; отсутствующий товар возвращает 404 noindex. 543/543 tests, type-check, lint, website build и Studio build прошли; владелец визуально принял Preview. Подробности: `../audits/2026-11-25-plant-catalog-ssr-v1.md` и `../audits/2026-11-25-contacts-ssr-discovery.md`.
+- **Этап 8 — контакты `/contacts`: READ-ONLY DISCOVERY COMPLETED; IMPLEMENTATION BLOCKED ON OWNER CONFIRMATION OF NESSEBAR HOURS.** Production raw HTML сейчас содержит только минимальные H1/intro; адреса, карты, фотографии, часы и телефоны появляются после JavaScript. Подробности и NAP/hour conflicts: `../audits/2026-11-25-contacts-ssr-discovery.md`.
 - **Этап 9 — «О нас» `/about`: NOT STARTED.**
 - **Этап 10 — общая SEO/SSR регрессия: NOT STARTED.** Must include all previously completed routes and the product/category SSR streams below.
 
@@ -197,8 +197,8 @@ PR #409 remains open by owner instruction and is not modified. Its diff overlaps
 
 ## 6. Следующие шаги
 
-1. **Phase 7 — каталог растений: RELEASED.** PR #545 merged; Production deployment успешен. Отдельный Production plant raw HTTP smoke остаётся открытым пунктом в аудите; Preview 231/231 и owner visual acceptance подтверждены.
-2. **Phase 8 — `/contacts`: NEXT.** Начать read-only discovery текущего компонента, middleware, опубликованных данных/настроек, локализованных контактов, адресов двух садовых центров, часов, телефонов, карт и JSON-LD. Не менять NAP, часы или защищённый Sanity content без подтверждения.
+1. **Phase 7 — каталог растений: RELEASED + PRODUCTION SMOKE PASS.** PR #545 merged; Production deployment успешен; отдельный Production raw HTTP smoke прошёл 231/231 маршрутов (180 products + 51 categories, BG/RU/EN), missing product 404/noindex. Owner visual acceptance подтверждена.
+2. **Phase 8 — `/contacts`: DISCOVERY COMPLETE; OWNER INPUT REQUIRED BEFORE IMPLEMENTATION.** Initial Production HTML contains only minimal fallback content; current client page and existing structured data have documented phone/address/hour mismatches. Confirm actual Nessebar hours before rendering the schedule; do not silently normalize NAP or JSON-LD. See `../audits/2026-11-25-contacts-ssr-discovery.md`.
 3. **Phase 9 — `/about`:** после контактов проверить существующий источник и вывести фактическое локализованное описание компании без выдуманной истории, квалификаций или услуг.
 4. **Phase 10 — full SSR/SEO regression:** пройти все публичные SSR-маршруты BG/RU/EN, raw HTML, canonical/hreflang/robots, JSON-LD, links, images, redirects и client handoff.
 5. Перед каждым этапом сверять текущий `develop`, live Sanity и deployment. Preview не считать доказательством Production.
