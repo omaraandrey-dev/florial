@@ -1,8 +1,8 @@
 # Florial — единый реестр дорожных карт и текущих приоритетов
 
 **Срез:** 25.11.2026  
-**Production main HEAD на момент обновления:** `2b008089e1134dc72bf3b3f592b5102fdd52b6b9` (PR #545 plant SSR release).  
-**Единая ветка развития:** `develop`; синхронизирована с Production `main` merge-коммитом `c320d9195854ead8451506d26c4e72b1370b9019`; новые задачи ведутся только в develop.  
+**Production main HEAD:** `1b18d7ae7db06f8d656d539b28037889f99d8d94` (PR #546 contacts SSR release).  
+**Единая ветка развития:** `develop`; синхронизирована с Production `main` merge-коммитом `30499dabd413590ceb3e975f1be760a37a6ea32a`; новые задачи ведутся только в develop.  
 **Назначение:** единая точка сверки статусов между самостоятельными дорожными картами. Этот индекс не заменяет подробные планы; он устраняет противоречия в статусах и определяет ближайший рабочий поток. После каждого существенного этапа обновлять соответствующую дорожную карту и этот реестр.
 
 ## 1. Главный активный поток — SEO Florial (7 последовательных этапов)
@@ -114,7 +114,7 @@
 ## 8. Правила следующего чата
 
 1. Получить свежие HEAD `develop` и `main`; `develop` — единая ветка развития, `main` — Production. Прочитать `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, `WORK_PROTOCOL.md`, `MASTER_SPEC.md`, `TECHNICAL_PASSPORT.md`, верх `CHANGELOG.md`, `OPEN_QUESTIONS.md` и этот индекс.
-2. Текущий SSR приоритет — PR #546: contacts SSR. Preview raw HTTP BG/RU/EN и desktop/mobile browser QA пройдены; exact-SHA CI passed. Получить owner acceptance и отдельное разрешение до merge. После принятия контактов продолжить `/about`, затем общую SSR/SEO регрессию. SEO этап 6 — Local SEO вести как отдельный поток, read-only и по отдельному поручению.
+2. Текущий SSR приоритет — этап 9 `/about`: PR #546 contacts SSR уже принят и выпущен. Сначала read-only изучить существующий источник описания компании, локализации, изображения/ссылки и текущий initial HTML; не придумывать стаж, квалификации, сертификаты или проекты. После `/about` выполнить этап 10 — общую SSR/SEO регрессию BG/RU/EN. Production raw HTTP smoke `/contacts` остаётся отдельной проверкой после релиза. SEO этап 6 — Local SEO вести как отдельный поток, read-only и по отдельному поручению.
 3. Не менять профили, внешние listings или сайт без отдельного согласования.
 4. Повторить desktop-only GSC анализ примерно 23.12.2026 на последних 28 финализированных днях; это не блокирует текущую работу.
 5. Повторно проверить сохранённые URL Inspection anomalies примерно через месяц; не менять код/Sanity без нового подтверждения.
@@ -135,4 +135,4 @@
 
 - 23.11.2026 — по отдельному разрешению владельца выполнена scoped performance remediation страницы /blog: PR #510 merged в main (f0913f3d379c718bc140d539e5b66beb7411a8f2), CI/Preview/Production успешны; BG/RU/EN Production HTML smoke пройден. Общая performance-оптимизация остальных страниц остаётся приостановленной. Для блога открыты только сопоставимый повторный PSI/Lighthouse и screenshot/interaction QA; численное улучшение пока не подтверждено. Аудит: docs/audits/2026-11-23-blog-performance-remediation.md.
 
-- 25.11.2026 — SSR этап 8: PR #546 добавил localized `/contacts` SSR и daily 09:00–17:00 в client view и двух GardenStore JSON-LD. Preview deployment `95e04b33-8753-4a5d-8989-2f7fb83a90dd` успешен; raw HTTP BG/RU/EN smoke, desktop/mobile browser QA и exact-SHA CI (548/548 tests) прошли. Owner acceptance/merge pending; Production не изменён. Подробности: [contacts SSR audit](../audits/2026-11-25-contacts-ssr-discovery.md).
+- 25.11.2026 — SSR этап 8: PR #546 squash-merged в `main` commit `1b18d7ae7db06f8d656d539b28037889f99d8d94`. Cloudflare Pages Production deployment `b91055ec-3e33-4a7e-aa3c-8024c02b30fc` успешно завершён с точного merge SHA; `florial-bg.com` и `www.florial-bg.com` подключены. Exact PR-head CI: 10 workflow runs successful, 548/548 tests, type-check, lint, website build, Studio checks/build и D1 read-only validation прошли; Preview raw HTTP BG/RU/EN и desktop/mobile QA прошли, владелец подтвердил Preview. Production raw HTTP smoke `/contacts` ещё не выполнен. `develop` синхронизирована с `main` merge-коммитом `30499dabd413590ceb3e975f1be760a37a6ea32a`. Следующий SSR этап — `/about` (этап 9). Подробности: [contacts SSR audit](../audits/2026-11-25-contacts-ssr-discovery.md).
