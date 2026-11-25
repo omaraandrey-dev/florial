@@ -28,7 +28,7 @@ async function fetchHtml(route) {
 }
 
 function parseJsonLd(html, id, language) {
-  const match = html.match(new RegExp('<script\\\\b[^>]*data-florial-jsonld="' + id + '"[^>]*>([\\\\s\\\\S]*?)<\\\\/script>', 'i'))
+  const match = html.match(new RegExp('<script\\b[^>]*data-florial-jsonld="' + id + '"[^>]*>([\\s\\S]*?)<\\/script>', 'i'))
   assert.ok(match, language + ': ' + id + ' JSON-LD missing')
   return JSON.parse(match[1])
 }
