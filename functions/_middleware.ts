@@ -722,7 +722,7 @@ function setPageHead(
   },
 ): string {
   let html = sourceHtml
-  if (options.pageType === 'product' || options.pageType === 'blog' || options.pageType === 'article' || options.pageType === 'service') {
+  if (options.pageType === 'product' || options.pageType === 'equipment-product' || options.pageType === 'blog' || options.pageType === 'article' || options.pageType === 'service') {
     const resourceHints = options.pageType === 'blog' || options.pageType === 'article'
       ? [
           '<link rel="preconnect" href="https://cdn.sanity.io" crossorigin />',
@@ -735,7 +735,7 @@ function setPageHead(
         ]
     html = html.replace(/<\/head>/i, resourceHints.join('\n') + '\n</head>')
   }
-  if ((options.pageType === 'article' || options.pageType === 'service') && options.image) {
+  if ((options.pageType === 'article' || options.pageType === 'service' || options.pageType === 'equipment-product') && options.image) {
     const preload = renderResponsiveSanityImagePreload(options.image)
     if (preload && !/<link\b[^>]*rel=["']preload["'][^>]*as=["']image["']/i.test(html)) {
       html = html.replace(/<\/head>/i, preload + '\n</head>')
@@ -1946,7 +1946,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           noIndex,
           alternates,
           structuredData,
-          pageType: type === 'product' ? 'product' : type === 'blogPost' ? 'article' : type === 'service' ? 'service' : 'website',
+          pageType: type === 'product' && doc._dataset === 'production' ? 'equipment-product' : type === 'product' ? 'product' : type === 'blogPost' ? 'article' : type === 'service' ? 'service' : 'website',
         })
       }, type === 'category' && categoryProducts === null
         ? 'no-store'
