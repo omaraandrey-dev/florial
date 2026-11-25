@@ -1,14 +1,15 @@
-# Plant catalogue SSR v1 — implementation and Preview audit
+# Plant catalogue SSR v1 — implementation, Preview and Production release audit
 
 **Date:** 2026-11-25  
 **Development branch:** `develop`  
-**Code commit validated:** `f2731a635141608cb718e6b8fe2abcfd1dd446c3`  
-**Current develop HEAD after documentation-only follow-ups:** `80e2709faf0faeb5271c2251ae460981372672a5`  
-**Integration PR:** [#545 — feat(ssr): server-render the complete plant catalogue](https://github.com/omaraandrey-dev/florial/pull/545) (draft; not merged)  
+**Code commit validated in Preview:** `f2731a635141608cb718e6b8fe2abcfd1dd446c3`  
+**Integration PR:** [#545 — feat(ssr): server-render the complete plant catalogue](https://github.com/omaraandrey-dev/florial/pull/545) — merged by squash.  
+**Production merge commit:** `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`  
+**Develop synchronization merge:** `c320d9195854ead8451506d26c4e72b1370b9019` (tree identical to Production main at sync time).  
 **Cloudflare Preview deployment:** `8edfaba7-a854-4d4d-ba2a-65891e371d50`  
 **Preview URL:** https://8edfaba7.florial.pages.dev  
 **Preview status:** successful build and deployment  
-**Production status:** NOT RELEASED for plant SSR.
+**Production status:** RELEASED; Cloudflare Pages deployment succeeded from the exact PR #545 merge commit.
 
 ## 1. Scope
 
@@ -147,15 +148,15 @@ Cloudflare nevertheless created a Production deployment because `main` advanced:
 
 This deployment did not contain plant SSR application-code changes. The accidental commits were not reverted automatically because further changes to `main` require the owner's explicit approval.
 
-To restore branch ancestry, `main` was merged into `develop` by merge commit `0f30704138d49169481d06b37c1aa7f26c5a4c75`; the smoke files were then corrected on `develop`. No additional changes were made to `main`. PR #545 remains a draft integration PR from `develop` to `main`.
+PR #545 subsequently merged the complete plant SSR implementation to `main` at `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`. `develop` was synchronized with the released main by merge commit `c320d9195854ead8451506d26c4e72b1370b9019`; the two trees were identical at synchronization. The accidental test-only files remain in the history and were not rewritten or force-removed.
 
 PR #409 remains open and untouched. Shared documents overlapping PR #409 were not modified.
 
 ## 8. Remaining work / acceptance boundary
 
-- PR #545 is draft and not merged.
-- Plant SSR is verified in Preview only; it is not released to Production.
-- Owner visual review of representative plant detail and category pages on desktop/mobile is still pending. An attempted read-only Browser Use inspection could not start because the Browser Use service returned `insufficient_credits`; no visual review is claimed.
-- Check client handoff/hydration on representative plant pages for duplicate content, image reload and layout shift before merge.
-- Do not start contacts or about SSR until the plant SSR phase is accepted by the owner.
+- PR #545 is merged; plant SSR is released to Production from exact merge commit `2b008089e1134dc72bf3b3f592b5102fdd52b6b9`.
+- Owner visually accepted the Preview catalogue and product pages. Production deployment succeeded and custom domains are active.
+- A separate 231-route plant raw HTTP smoke against Production remains unverified; Preview raw HTTP smoke passed 231/231.
+- Client startup still uses `createRoot`, not `hydrateRoot`; assess the SSR-to-client handoff and layout shift as a separate scoped task before changing the global bootstrap.
+- Next SSR roadmap stage is `/contacts`, followed by `/about` and the full SSR/SEO regression.
 - Do not edit Sanity product data, schema, D1 or Production configuration as part of this phase without separate approval.
