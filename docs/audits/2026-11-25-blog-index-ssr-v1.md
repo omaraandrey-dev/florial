@@ -1,10 +1,9 @@
 # SSR Content v1 — Phase 4: blog index /blog
 
 **Date:** 2026-11-25  
-**Status:** Preview implementation verified; exact-SHA CI and raw HTTP smoke passed; owner visual/hydration acceptance pending; not released to Production.  
+**Status:** RELEASED to Production; owner accepted desktop/mobile visual and hydration behavior; exact Production deployment and BG/RU/EN raw HTTP smoke passed.  
 **Base main:** 28afdf7e895d1b6dbf6d32302e4ffc7dd60b3dab  
-**Branch:** feat/ssr-blog-index-v1  
-**Verified code head:** 7527d28d68046d61d4ec0ffbc4084f19f80cf855
+**Merged main SHA:** 01405cfba21a42f2ca6d92753a8a4e07e08d19de
 
 ## 1. Objective
 
@@ -88,7 +87,18 @@ Added:
 
 The blog raw HTTP smoke waited for the exact Cloudflare Pages check to succeed before requesting the branch alias. It then passed BG/RU/EN and verified HTML language, robots, canonical, all hreflang alternates, four topic cards, all 19 article cards, matching card/ItemList order and the localized hydration seed. The run does not depend on JavaScript execution.
 
-**Pending:** owner visual/hydration acceptance on desktop and mobile. No Production deployment or release is included in this PR.
+**Owner acceptance:** On 2026-11-25, the owner confirmed that the blog index works correctly after checking the Preview. Desktop/mobile visual and hydration acceptance was granted.
+
+### Production release evidence
+
+- PR #540 squash-merged to main as 01405cfba21a42f2ca6d92753a8a4e07e08d19de.
+- Cloudflare Pages Production deployment: 4cde1b83-a672-422c-857f-47aa1cf70486; all stages succeeded from the exact merge SHA.
+- Blog index Production raw HTTP smoke: workflow run 45559999719 — success on the exact main SHA. BG/RU/EN, all 19 published article cards, four curated directions, locale metadata, CollectionPage/ItemList order and hydration seed passed.
+- Blog and Studio validation: run 45559999767 — success.
+- D1 migration validation: run 45559999685 — success; no migration applied.
+- Homepage, services directory, service detail and equipment SSR regression smoke runs on the same main SHA also passed.
+
+No Production data/schema/configuration writes were performed. Phase 4 is released; Phase 5 portfolio is documented as already covered by the combined blog/portfolio index in docs/audits/2026-11-25-portfolio-route-inventory.md. The next implementation phase is Phase 6, individual article/project publication pages.
 
 ## 5. Scope and safety
 
@@ -110,5 +120,5 @@ CHANGELOG.md, docs/TECHNICAL_PASSPORT.md and docs/AI/OPEN_QUESTIONS.md are not c
 
 ## 7. Next action
 
-1. Owner inspects the exact Preview on desktop and mobile, including images, article ordering, filters, search and sorting after hydration.
-2. After owner acceptance, merge PR #540 and verify the exact Cloudflare Production deployment plus the push-triggered Production raw HTTP smoke.
+1. Phase 5 inventory is closed: there is no separate portfolio route/type; project publications are part of the existing blogPost model and combined /blog index.
+2. Phase 6 implements first-response HTML for each /blog/{slug} article and project publication.
