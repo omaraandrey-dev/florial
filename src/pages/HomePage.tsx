@@ -18,6 +18,7 @@ interface HomePageProps {
   heroImageUrl: string | null
   featuredPlants: Product[]
   featuredEquipment: Product[]
+  onBlogReadinessChange?: (ready: boolean) => void
   onNavigateService: (slug?: string, id?: string) => void
   onNavigateCategory: (slug?: string, id?: string) => void
   onNavigateProduct: (slug: string) => void
@@ -31,6 +32,7 @@ export function HomePage({
   heroImageUrl,
   featuredPlants,
   featuredEquipment,
+  onBlogReadinessChange,
   onNavigateService,
   onNavigateCategory,
   onNavigateProduct,
@@ -446,7 +448,7 @@ export function HomePage({
           </section>
         )}
       </section>
-      <BlogSection />
+      <BlogSection onReadinessChange={onBlogReadinessChange} />
     </main>
   )
 }
