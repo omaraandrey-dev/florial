@@ -143,16 +143,38 @@ Read-only инвентаризация перед кодом:
 
 Новый чат обязан перечитать актуальные `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md`, эту дорожную карту, CHANGELOG, OPEN_QUESTIONS и текущий audit/handoff этапа, затем сверить актуальный `main` SHA. Не продолжать работу по одному лишь тексту предыдущего чата.
 
-## 5. Текущий статус
+## 5. Текущий статус — сверено 2026-11-25
 
-- **Этап 1 — главная страница /: RELEASED.** PR #533 and follow-up PR #534 are merged and deployed to Production; see the earlier audit/handoff.
-- **Этап 2 — общий каталог услуг /services: RELEASED.** PR #535 squash-merged as eb5a8c7ca2a94884f44f367f791800ea35d0749b; Cloudflare Production deployment 9f02e8e9-9064-4a87-9df9-b75cca365671 succeeded from that exact SHA. Owner visually accepted desktop/mobile. Production raw HTTP smoke on main merge 28afdf7e895d1b6dbf6d32302e4ffc7dd60b3dab, run 45557311571, passed.
-- **Этап 3 — individual service pages /services/{slug}: RELEASED.** Owner accepted desktop/mobile Preview on 2026-11-25. PR #539 squash-merged at 28afdf7e895d1b6dbf6d32302e4ffc7dd60b3dab. Cloudflare Production deployment ed0dbd75-6f4a-4f86-8410-e74ef85113b1 succeeded from the exact merge SHA. Production smoke run 45558115581, attempt 2 passed all 25 active Sanity detail routes in BG/RU/EN (75 detail responses), plus the legacy static delivery route in all three locales. See docs/audits/2026-11-25-service-details-ssr-v1.md.
-- **Этап 4 — индекс блога /blog: RELEASED.** Owner accepted desktop/mobile Preview on 2026-11-25. PR #540 squash-merged as 01405cfba21a42f2ca6d92753a8a4e07e08d19de. Cloudflare Production deployment 4cde1b83-a672-422c-857f-47aa1cf70486 succeeded from the exact merge SHA. Production raw HTTP smoke run 45559999719 passed BG/RU/EN, all 19 published cards, four topic directions, language metadata, card/ItemList order and the hydration seed. Blog/Studio validation run 45559999767 and D1 validation run 45559999685 passed; no D1 migration was applied. Audit: docs/audits/2026-11-25-blog-index-ssr-v1.md.
-- **Этап 5 — portfolio: CLOSED AS ALREADY COVERED BY PHASE 4.** Read-only source inspection found no /portfolio route or portfolio page component; src/pages/BlogPage.tsx already exposes the combined localized “Blog and portfolio” index with four curated project/topic directions. Live Sanity Production published perspective returned 27 blogPost docs (19 active published with publishedAt), and 0 documents of types portfolio, project and portfolioProject. All project publications are existing blogPost documents. No second index route or new type is needed and none was introduced. Inventory: docs/audits/2026-11-25-portfolio-route-inventory.md.
-- **Этап 6 — individual articles and project publications /blog/{slug}: IMPLEMENTED ON PREVIEW; EXACT-SHA CI PASS; OWNER VISUAL REVIEW PENDING.** PR #541, branch feat/ssr-blog-articles-v1, verified code head f88b1f456a1df76da73ed05df3c80ac8c5962238, based on main 01405cfba21a42f2ca6d92753a8a4e07e08d19de. Cloudflare Preview deployment 384879e6-739c-40cb-9feb-d0bed21bc4a7 succeeded from the exact code head. Blog article raw HTTP smoke run 45561362557 passed all 19 published article URLs in BG/RU/EN (57 detail responses) and confirmed missing/unpublished 404 noindex. Blog/Studio validation run 45561362468 passed 521/521 tests, app/Pages type-check, lint, website build, Studio type-check/build and read-only migration dry-run. D1 validation run 45561362407 passed; no migration applied. Blog index, services directory, service detail and equipment regression smoke runs 45561362527, 45561362465, 45561362564 and 45561362543 all passed.
-- **Этап 6 inventory:** 19 published blogPost documents; all have BG/RU/EN titles and non-empty localized/fallback bodies. Body projections include paragraphs/headings, inline images and gallery fields; current sampled published records have no YouTube embed blocks, but the renderer accepts only validated YouTube host/URL forms. No Sanity writes were made.
-- **Этап 6 audit:** docs/audits/2026-11-25-blog-articles-ssr-v1.md. Owner visual/hydration review on desktop/mobile remains pending. PR #541 is not merged and no Production release has occurred.
-- **Shared documentation:** CHANGELOG.md, docs/TECHNICAL_PASSPORT.md and docs/AI/OPEN_QUESTIONS.md remain untouched because open PR #409 still overlaps those files and is based on an older main. Reconcile PR #409 before editing the shared documents; do not overwrite its diff.
-- **Next step:** Owner reviews representative long and short Phase 6 article Preview pages on desktop/mobile, including cover/inline images, captions, body order, related cards and language switching after client startup. After acceptance, merge PR #541 and verify the exact Production deployment and push-triggered Production smoke.
+### Основные публичные страницы
 
+- **Этап 1 — главная `/`: RELEASED.** PR #533 merged at `5772a3e567bd77e69854d647fca08a6f3ff732cd`; PR #534 merged at `cc2562194107cf0df2be05b1f13a6b9e10610bb9`. Production release and raw HTTP smoke for homepage were recorded in PR #533. PR #534 adds a controlled client-root handoff; this is not React hydration and does not claim zero CLS.
+- **Этап 2 — каталог услуг `/services`: RELEASED.** PR #535 merged as `eb5a8c7ca2a94884f44f367f791800ea35d0749b`. Owner confirmed desktop/mobile behavior. Preview raw HTTP smoke passed BG/RU/EN.
+- **Этап 3 — страницы услуг `/services/{slug}`: RELEASED.** PR #539 merged as `28afdf7e895d1b6dbf6d32302e4ffc7dd60b3dab`. Production deployment and smoke passed 25 active service routes × 3 locales (75 responses), plus legacy delivery route.
+- **Этап 4 — индекс блога `/blog`: MERGED TO MAIN.** PR #540 merged as `01405cfba21a42f2ca6d92753a8a4e07e08d19de`; Preview smoke passed all 19 published cards in BG/RU/EN. Production-specific raw HTTP smoke is not separately recorded in the available release evidence — do not mark independently verified until checked.
+- **Этап 5 — портфолио: CLOSED AS COVERED BY BLOG.** No separate portfolio route/type exists. Project publications are blogPost documents in the combined blog index; inventory recorded in `docs/audits/2026-11-25-portfolio-route-inventory.md`.
+- **Этап 6 — статьи и публикации проектов `/blog/{slug}`: MERGED TO MAIN.** PR #541 merged as `f5aa6f899090e859e9b4be1b313ea2056cb58d6c`. Exact Preview raw HTTP smoke passed 19 published articles × 3 locales (57 responses), and CI passed. Separate Production raw HTTP smoke evidence is not recorded here; verify before claiming full Production acceptance.
+- **Этап 7 — контакты `/contacts`: NOT STARTED.**
+- **Этап 8 — «О нас» `/about`: NOT STARTED.**
+- **Этап 9 — общая SEO/SSR регрессия: NOT STARTED.** Must include all previously completed routes and the product/category SSR streams below.
+
+### Каталог поливочного оборудования
+
+- **SSR equipment category catalogue:** PR #531 is part of the main baseline before the current main; its v2 expansion PR #542 merged into `main` at `e8eb2f50e709948f2ccea0b95b0df2bc2cfedeec`. Audit `docs/audits/2026-11-25-equipment-catalog-ssr-v2.md` records Preview raw HTTP smoke for 54 categories × 3 locales (162 routes), 275 linked products and successful validation. The Production-specific smoke for PR #542 must be checked separately before claiming it.
+- **SSR equipment product detail:** PR #543 is OPEN, head `7f88bda05e2eec873e0eefb89af7fecb0f4a0a04`, base main `e8eb2f50e709948f2ccea0b95b0df2bc2cfedeec`. Implementation and roadmap are in `docs/roadmaps/EQUIPMENT_PRODUCT_DETAIL_SSR_V1.md` and `docs/audits/2026-11-25-equipment-product-ssr-v1.md` on the PR branch. Exact Preview/CI acceptance and owner visual review remain to be verified. No Production release is included.
+- **Inventory:** 275 active published equipment products; all 275 have BG/RU/EN names, short descriptions, localized SEO, positive EUR price and explicit stock status. Detailed inventory is in the product SSR audit. No Sanity writes were made.
+
+### Общие документационные ограничения
+
+PR #409 remains open by owner instruction and is not modified. Its diff overlaps `CHANGELOG.md`, `docs/AI/CURRENT_STATE.md`, `docs/AI/OPEN_QUESTIONS.md`, `docs/TECHNICAL_PASSPORT.md`, and two Google Shopping documents. Do not edit or overwrite these files until the owner separately resolves PR #409. This SSR roadmap and its unique audits are maintained independently; shared changelog/passport/open-question reconciliation remains explicitly pending.
+
+## 6. Следующие шаги
+
+1. Finish exact-head validation and Preview raw HTTP smoke for PR #543; verify every active equipment product in BG/RU/EN.
+2. Owner checks representative product pages on desktop/mobile, including a simple nozzle/sprinkler, controller, solenoid valve and kit; verify client startup and interaction.
+3. After acceptance, complete PR #543 integration and verify exact Production deployment plus all 275 × 3 raw HTTP product routes.
+4. Continue sequentially with contacts, About and the final full-route SSR/SEO regression.
+5. Before each stage, verify current source code, live Sanity data and current deployment. Never infer Production status from Preview evidence.
+
+## 7. Единая модель веток
+
+С 2026-11-25 принята единая модель: `develop` — единственная постоянная ветка развития всего сайта; `main` — Production. Все новые задачи вести последовательно в `develop`, релиз — через PR `develop → main`. Уже открытый PR #543 является переходным исключением. Точная инструкция — `docs/operations/BRANCH_HYGIENE.md`.
