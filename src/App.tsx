@@ -337,6 +337,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   const [homeFeaturedEquipmentReady, setHomeFeaturedEquipmentReady] = useState(false)
   const [homeBlogReady, setHomeBlogReady] = useState(false)
   const [loadingCategories, setLoadingCategories] = useState(true)
+  const [categoriesDataReady, setCategoriesDataReady] = useState(false)
   const [loadingServices, setLoadingServices] = useState(() => { const path = window.location.pathname.replace(/\/+$/, '') || '/'; return path === '/services' || path.startsWith('/services/category/') })
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
@@ -385,7 +386,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
     if (isHomepageClientReady({
       isHomepageRoute,
       headerDataReady,
-      categoriesReady: !loadingCategories,
+      categoriesReady: categoriesDataReady,
       homeCategoriesAndHeroReady,
       homeFeaturedPlantsReady,
       homeFeaturedEquipmentReady,
@@ -756,17 +757,26 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
 
     const headerRequests = [
       sanityClient.fetch(headerCategoryQuery)
-        .then((data) => { if (!cancelled) setHeaderCategories(Array.isArray(data) ? data : []) })
-        .catch((error) => console.error('Header: не удалось загрузить категории оборудования:', error)),
+        .then((data) => {
+          if (!Array.isArray(data)) throw new Error('Invalid equipment category response')
+          if (!cancelled) setHeaderCategories(data)
+        })
+        .catch((error) => { console.error('Header: не удалось загрузить категории оборудования:', error); throw error }),
       publicPlantsClient.fetch(headerPlantCategoryQuery)
-        .then((data) => { if (!cancelled) setHeaderPlantCategories(Array.isArray(data) ? data : []) })
-        .catch((error) => console.error('Header: не удалось загрузить категории растений:', error)),
+        .then((data) => {
+          if (!Array.isArray(data)) throw new Error('Invalid plant category response')
+          if (!cancelled) setHeaderPlantCategories(data)
+        })
+        .catch((error) => { console.error('Header: не удалось загрузить категории растений:', error); throw error }),
       sanityClient.fetch(headerServiceQuery)
-        .then((data) => { if (!cancelled) setHeaderServices(Array.isArray(data) ? data : []) })
-        .catch((error) => console.error('Header: не удалось загрузить пункты услуг:', error)),
+        .then((data) => {
+          if (!Array.isArray(data)) throw new Error('Invalid service response')
+          if (!cancelled) setHeaderServices(data)
+        })
+        .catch((error) => { console.error('Header: не удалось загрузить пункты услуг:', error); throw error }),
       sanityClient.fetch(headerSettingsQuery)
         .then((data) => { if (!cancelled) setHeaderSiteSettings((previous) => ({ ...(previous || {}), ...(data || {}) })) })
-        .catch((error) => console.error('Header: не удалось загрузить название сайта:', error)),
+        .catch((error) => { console.error('Header: не удалось загрузить название сайта:', error); throw error }),
       sanityClient.fetch(headerLogoQuery)
         .then((data) => {
           if (cancelled) return
@@ -785,10 +795,12 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
             logoHeight: data?.logoHeight || null,
           }))
         })
-        .catch((error) => console.error('Header: не удалось загрузить логотип:', error)),
+        .catch((error) => { console.error('Header: не удалось загрузить логотип:', error); throw error }),
     ]
-    void Promise.allSettled(headerRequests).then(() => {
-      if (!cancelled) setHeaderDataReady(true)
+    void Promise.allSettled(headerRequests).then((results) => {
+      if (!cancelled && results.every((result) => result.status === 'fulfilled')) {
+        setHeaderDataReady(true)
+      }
     })
 
     return () => { cancelled = true }
@@ -818,8 +830,10 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
     `
 
     const plantCategoriesRequest = publicPlantsClient.fetch(homepagePlantCategoriesQuery)
-      .then((data) => { if (!cancelled) setHomePlantCategories(Array.isArray(data) ? data : []) })
-      .catch((error) => console.error('Homepage: не удалось загрузить категории растений:', error))
+      .then((data) => {
+        if (!Array.isArray(data)) throw new Error('Invalid homepage plant category response')
+        if (!cancelled) setHomePlantCategories(data)
+      })
 
     // Resolve the hero from the Studio photo collection. Keep the existing CDN URL
     // as the immediate render fallback so the LCP image starts loading without waiting
@@ -833,9 +847,12 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
       .then((data) => {
         if (!cancelled && typeof data?.imageUrl === 'string') setHomeHeroImageUrl(data.imageUrl)
       })
-      .catch((error) => console.error('Homepage: не удалось загрузить фоновое изображение:', error))
-    void Promise.allSettled([plantCategoriesRequest, heroImageRequest]).then(() => {
-      if (!cancelled) setHomeCategoriesAndHeroReady(true)
+    void Promise.allSettled([plantCategoriesRequest, heroImageRequest]).then((results) => {
+      if (!cancelled && results.every((result) => result.status === 'fulfilled')) {
+        setHomeCategoriesAndHeroReady(true)
+      } else if (!cancelled) {
+        console.error('Homepage: данные категорий или фонового изображения не прошли проверку; сохраняем серверный HTML')
+      }
     })
 
     return () => { cancelled = true }
@@ -1063,6 +1080,10 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
         const equipmentCategories = categoryResult.status === 'fulfilled' && Array.isArray(categoryResult.value) ? categoryResult.value : []
         const plantsCategoryData = plantCategoryResult.status === 'fulfilled' && Array.isArray(plantCategoryResult.value) ? plantCategoryResult.value : []
         setCategories([...equipmentCategories, ...plantsCategoryData])
+        const categoriesSucceeded =
+          categoryResult.status === 'fulfilled' && Array.isArray(categoryResult.value) &&
+          plantCategoryResult.status === 'fulfilled' && Array.isArray(plantCategoryResult.value)
+        setCategoriesDataReady(categoriesSucceeded)
         if (categoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории оборудования:', categoryResult.reason)
         if (plantCategoryResult.status !== 'fulfilled') console.error('Sanity: не удалось загрузить категории растений:', plantCategoryResult.reason)
       }).finally(() => {
@@ -1106,14 +1127,17 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
         }
     `
     publicPlantsClient.fetch(featuredPlantsQuery)
-      .then((data: Product[]) => { if (!cancelled) setHomeFeaturedPlants(Array.isArray(data) ? data : []) })
+      .then((data: Product[]) => {
+        if (!Array.isArray(data)) throw new Error('Invalid featured plants response')
+        if (!cancelled) {
+          setHomeFeaturedPlants(data)
+          setHomeFeaturedPlantsReady(true)
+        }
+      })
       .catch((error) => {
         if (cancelled) return
-        console.error('Homepage: не удалось загрузить рекомендованные растения:', error)
+        console.error('Homepage: не удалось загрузить рекомендованные растения; сохраняем серверный HTML:', error)
         setHomeFeaturedPlants([])
-      })
-      .finally(() => {
-        if (!cancelled) setHomeFeaturedPlantsReady(true)
       })
     return () => { cancelled = true }
   }, [normalizedRoutePath])
@@ -1141,16 +1165,15 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
     `
     sanityClient.fetch(featuredEquipmentQuery)
       .then((data: Product[]) => {
+        if (!Array.isArray(data)) throw new Error('Invalid featured equipment response')
         if (cancelled) return
         setHomeFeaturedEquipment(selectFeaturedEquipment(data))
+        setHomeFeaturedEquipmentReady(true)
       })
       .catch((error) => {
         if (cancelled) return
-        console.error('Homepage: не удалось загрузить выбранное оборудование:', error)
+        console.error('Homepage: не удалось загрузить выбранное оборудование; сохраняем серверный HTML:', error)
         setHomeFeaturedEquipment([])
-      })
-      .finally(() => {
-        if (!cancelled) setHomeFeaturedEquipmentReady(true)
       })
     return () => { cancelled = true }
   }, [normalizedRoutePath])
