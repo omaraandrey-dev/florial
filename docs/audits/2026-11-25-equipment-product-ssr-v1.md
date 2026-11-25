@@ -1,7 +1,7 @@
 # Equipment product detail SSR v1 — implementation audit
 
 Date: 2026-11-25
-Status: implementation complete on Preview; exact-head automated validation and all-product raw HTTP smoke passed; owner visual acceptance pending; Production unchanged.
+Status: RELEASED to Production; owner visual acceptance completed; exact-commit CI, Preview and Production raw HTTP smoke passed.
 
 ## Repository and release state
 
@@ -11,7 +11,8 @@ Status: implementation complete on Preview; exact-head automated validation and 
 - PR: https://github.com/omaraandrey-dev/florial/pull/543
 - Current implementation commit at audit creation: \`f01ed43cc81b8459de25dcab8422c9afa8a21010\`
 - Preview alias: https://feat-ssr-equipment-product-p.florial.pages.dev
-- Production was not changed by this PR.
+- PR #543 was squash-merged to `main` as `7465914b61f859768b073d1f678f9d22161e9ba6` on 2026-11-25.
+- Permanent development branch `develop` was synchronized with this release by merge commit `04a615d3f8f19d7ab36a0ea0f3926aae5a14b762`.
 
 ## Existing behavior confirmed from main
 
@@ -63,7 +64,15 @@ Dataset: \`production\`.
 - D1 validation run `45575255885`: success; no migration applied.
 - Regression raw HTTP workflows on the same head passed: equipment catalogue `45575255936`, services directory `45575255857`, service details `45575255971`, blog index `45575255951`, blog articles `45575255992`, and equipment SSR `45575256124`.
 - Two existing assertions in `tests/content-route-performance.test.mjs` initially failed because they expected the pre-equipment-product middleware condition and single-argument image-preload call. The assertions were updated to cover the new `equipment-product` page type and its responsive preload sizes. On the verified head all 535 tests pass.
-- No Production deployment or Production product smoke is claimed.
+## Production release verification — 2026-11-25
+
+- Cloudflare Pages Production deployment `25504afc-2b42-4a90-9595-501c7fa08fe8` completed successfully from exact `main` commit `7465914b61f859768b073d1f678f9d22161e9ba6`; canonical aliases `https://florial-bg.com` and `https://www.florial-bg.com` are attached.
+- Production workflow `45576362238` completed successfully on the exact merge commit. Validation job passed type-check, lint (101 warnings, 0 errors), all 535/535 website tests and production build.
+- Production raw HTTP smoke job discovered 275 active published irrigation equipment products in Sanity `production` and passed all 825 first-response pages without JavaScript: BG 275/275, RU 275/275, EN 275/275. It verified localized details, images, price/stock, technical data and Product/BreadcrumbList JSON-LD. Missing/unpublished product returned 404 noindex.
+- Regression workflows on the exact Production commit passed: equipment catalogue `45576362312`, services directory `45576362186`, service details `45576362283`, homepage `45576362337`, blog index `45576362240`, blog articles `45576362523`, and equipment SSR Preview smoke `45576362292`.
+- Blog/Studio validation `45576362273` and D1 migration validation `45576362280` completed successfully. No D1 migration was applied.
+- Owner visually reviewed representative equipment products on desktop/mobile and confirmed that they work. Automated visual review is not claimed; owner acceptance is the visual gate.
+- No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets/DNS changes, orders or emails were performed.
 
 ## Safety
 
@@ -75,9 +84,10 @@ Dataset: \`production\`.
 - No GTIN/MPN/ratings/reviews invented; \`onRequest\` does not get false Offer availability.
 - Shared \`CHANGELOG.md\`, Technical Passport and \`docs/AI/OPEN_QUESTIONS.md\` are intentionally unchanged while open PR #409 overlaps those shared files.
 
-## Remaining acceptance gates
+## Close-out and next stage
 
-1. Owner visually checks representative product pages on desktop and mobile: a simple sprinkler/nozzle, controller, solenoid valve and kit; inspect gallery, technical details, related content, price/stock and language switching after client startup.
-2. After owner acceptance, merge PR #543 and verify the exact Production deployment plus all 825 localized product routes (275 × BG/RU/EN) on https://florial-bg.com.
-3. After the transition PR is complete, continue new site development only on the permanent `develop` branch; release through PR `develop → main`.
+- PR #543 is merged and released; all 275 published equipment products × 3 locales (825 routes) passed Production raw HTTP verification.
+- `develop` is synchronized with the released `main`; all future development proceeds only on `develop`.
+- Next SSR roadmap stage: read-only discovery and implementation planning for `/contacts`, then `/about`, followed by the full cross-route BG/RU/EN regression.
+- Shared `CHANGELOG.md`, Technical Passport and `docs/AI/OPEN_QUESTIONS.md` remain untouched while PR #409 is open and overlaps those files. Reconcile them only after a separate owner decision on PR #409.
 

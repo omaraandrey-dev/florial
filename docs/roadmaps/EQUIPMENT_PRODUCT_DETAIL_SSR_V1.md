@@ -58,15 +58,22 @@ Status: complete on exact head `aeb39da7bc8b28582a6d66888c1e12b4223817f8`.
 - No Production deployment or Production raw HTTP smoke is claimed.
 
 ### Phase 4 — owner Preview acceptance and Production release
-Status: awaiting owner visual acceptance.
-- Owner checks representative equipment pages on desktop/mobile, including a simple sprinkler/nozzle, controller, solenoid valve and kit. Automated visual review is not recorded; raw HTTP smoke does not replace visual acceptance.
-- After explicit acceptance, merge PR #543.
-- Verify exact Cloudflare Pages Production deployment and rerun the full 275 × 3 raw HTTP smoke on https://florial-bg.com.
-- Record release evidence and reconcile shared docs after open PR #409 is resolved.
+Status: COMPLETE — owner accepted the Preview on desktop/mobile; PR #543 merged and Production verified.
+- Owner reviewed representative irrigation equipment products and confirmed that they work.
+- PR #543 squash-merged to `main` as `7465914b61f859768b073d1f678f9d22161e9ba6`.
+- Cloudflare Pages Production deployment `25504afc-2b42-4a90-9595-501c7fa08fe8` succeeded from the exact merge commit.
+- Production raw HTTP smoke run `45576362238` passed all 275 active published products × BG/RU/EN (825 pages); missing/unpublished product returned 404 noindex.
+- Exact merge commit validation passed 535/535 tests, type-check, lint (101 warnings, 0 errors) and build. Blog/Studio and D1 validation passed; no migration was applied.
+- Permanent `develop` was synchronized with `main` using merge commit `04a615d3f8f19d7ab36a0ea0f3926aae5a14b762`.
+- Shared docs remain untouched while PR #409 is open; reconcile them only after separate owner direction.
 
-## Current verified implementation head
+## Release commits and evidence
 
-`aeb39da7bc8b28582a6d66888c1e12b4223817f8` — see `docs/audits/2026-11-25-equipment-product-ssr-v1.md` for exact CI, Preview and smoke evidence.
+- Code-bearing PR head: `aeb39da7bc8b28582a6d66888c1e12b4223817f8`.
+- Final PR head (audit/roadmap documentation included): `02d21e982a1e8db241d2f1f558ededdb2416a1b2`.
+- Production merge commit: `7465914b61f859768b073d1f678f9d22161e9ba6`.
+- `develop` sync merge commit: `04a615d3f8f19d7ab36a0ea0f3926aae5a14b762`.
+- See `docs/audits/2026-11-25-equipment-product-ssr-v1.md` for exact CI, Preview and Production evidence.
 
 ## Boundaries
 

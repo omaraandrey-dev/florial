@@ -76,7 +76,7 @@ test('server middleware emits Product, Service, BlogPosting and CollectionPage s
   assert.match(middleware, /makeCategoryCollectionJsonLd\(name, metaDescription, canonicalUrl, categoryStructuredProducts, language\)/)
   assert.match(middleware, /buildEquipmentCategoryEntries\(categoryProducts \|\| \[\], language, equipmentCategoryOptions\)/)
   assert.match(middleware, /seo\?\.noIndex === true \|\| categorySeo\?\.noIndex === true/)
-  assert.match(middleware, /fetchPlantCategoryProducts\(doc\._id\)/)
+  assert.match(middleware, /fetchPlantCategoryProducts\(doc\._id(?:,\s*\(categories\))?/)
   assert.match(middleware, /fetchCategoryProducts\('production', doc\._id, \(categories\) => \{ equipmentCategoryTree = categories \}\)/)
   assert.match(middleware, /"categoryId": category->_id/)
   assert.match(middleware, /"categoryIds": categories\[\]._ref/)
