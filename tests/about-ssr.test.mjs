@@ -160,7 +160,7 @@ test('About middleware uses published bounded Sanity queries, shared copy, safe 
   assert.match(middleware, /team: ABOUT_PAGE_TEAM/)
   assert.match(middleware, /centres: ABOUT_PAGE_CENTRES/)
   assert.match(middleware, /mainEntity: \{ '@id': SITE_URL \+ '\/#organization' \}/)
-  assert.match(page, /import \{ ABOUT_PAGE_CONTENT, ABOUT_PAGE_CENTRES, ABOUT_PAGE_TEAM \} from '\.\.\/content\/aboutPageContent'/))
+  assert.match(page, /import \{ ABOUT_PAGE_CONTENT, ABOUT_PAGE_CENTRES, ABOUT_PAGE_TEAM \} from '\.\.\/content\/aboutPageContent'/)
   assert.match(page, /const copy = ABOUT_PAGE_CONTENT\[/)
   assert.match(page, /ABOUT_PAGE_TEAM\.map/)
   assert.match(page, /ABOUT_PAGE_CENTRES\.map/)
