@@ -6,6 +6,7 @@ import { getOrderedServiceEntries } from '../src/lib/servicesOrder'
 import { renderHomepageHtml } from './_lib/homepageHtml.mjs'
 import { getServicesDirectoryMetadata, renderServicesDirectoryHtml } from './_lib/servicesDirectoryHtml.mjs'
 import { buildServiceDetailStructuredData, getServiceDetailMetadata, renderServiceDetailHtml } from './_lib/serviceDetailHtml.mjs'
+import { getBlogIndexMetadata, renderBlogIndexHtml, serializeBlogIndexPayload } from './_lib/blogIndexHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -270,6 +271,31 @@ function unavailableResponse(language: string | null): Response {
   })
 }
 
+
+function blogUnavailableResponse(language: string | null): Response {
+  const lang = language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg'
+  const copy = lang === 'ru'
+    ? { title: 'Блог временно недоступен', body: 'Не удалось загрузить опубликованные материалы. Пожалуйста, повторите попытку позже.', home: 'На главную' }
+    : lang === 'en'
+      ? { title: 'Blog temporarily unavailable', body: 'Published articles could not be loaded. Please try again shortly.', home: 'Go to homepage' }
+      : { title: 'Блогът временно не е достъпен', body: 'Публикуваните материали не могат да бъдат заредени. Моля, опитайте отново след малко.', home: 'Към началната страница' }
+  const html = '<!doctype html><html lang="' + lang + '"><head><meta charset="utf-8">' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1">' +
+    '<title>' + escapeHtml(copy.title) + ' | ' + SITE_NAME + '</title>' +
+    '<meta name="robots" content="noindex, nofollow"></head>' +
+    '<body><main><h1>' + escapeHtml(copy.title) + '</h1><p>' + escapeHtml(copy.body) + '</p>' +
+    '<a href="' + (lang === 'bg' ? '/' : '/?lang=' + lang) + '">' + escapeHtml(copy.home) + '</a></main></body></html>'
+  return new Response(html, {
+    status: 503,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
+      'Retry-After': '30',
+      'X-Robots-Tag': 'noindex, nofollow',
+      'X-Content-Type-Options': 'nosniff',
+    },
+  })
+}
 
 async function querySanityData<T>(
   dataset: string,
@@ -1239,21 +1265,46 @@ async function handleRequest(context: PagesContext): Promise<Response> {
   }
 
   if (path === '/blog') {
-    const meta = language === 'ru'
-      ? {title: 'Блог Florial — сад, растения и автоматический полив', description: 'Новости садового центра Florial, выполненные работы, растения и решения для автоматического полива в Болгарии.'}
-      : language === 'en'
-        ? {title: 'Florial Blog — Gardens, Plants & Irrigation', description: 'Florial Garden Centre news, recent projects, plants and automatic irrigation solutions in Bulgaria.'}
-        : {title: 'Блог Florial — градини, растения и автоматично напояване', description: 'Новини от градински център Florial, текущи проекти, растения и решения за автоматично напояване в България.'}
-    const canonical = localizedRouteUrl('/blog', language)
-    return transformHtmlResponse(await context.next(), (html) => setPageHead(html, {
-      language, title: meta.title, description: meta.description, canonical,
-      alternates: {'bg': localizedRouteUrl('/blog', 'bg'), 'ru': localizedRouteUrl('/blog', 'ru'), 'en': localizedRouteUrl('/blog', 'en'), 'x-default': localizedRouteUrl('/blog', 'bg')},
-      pageType: 'blog',
-      structuredData: [{
-        id: 'collection-page',
-        data: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: meta.title, description: meta.description, url: canonical },
-      }],
-    }))
+    const metadata = getBlogIndexMetadata(language)
+    const blogIndexQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc) {' +
+      '_id, slug, publishedAt, tags, ' +
+      '"cover": {"asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption}, ' +
+      '"translations": {"' + language + '": {' +
+        '"title": coalesce(translations.' + language + '.title, translations.bg.title), ' +
+        '"shortDescription": coalesce(translations.' + language + '.shortDescription, translations.bg.shortDescription), ' +
+        '"coverAlt": coalesce(translations.' + language + '.coverAlt, translations.bg.coverAlt)' +
+      '}}' +
+    '}'
+    try {
+      const posts = await querySanityData<any[]>(
+        'production',
+        blogIndexQuery,
+        {},
+        'blog/index-v1/' + language,
+        60,
+      )
+      if (!Array.isArray(posts)) throw new Error('Blog index Sanity query returned an invalid collection')
+      const rendered = renderBlogIndexHtml({ posts, language })
+      return transformHtmlResponse(await context.next(), (html) => {
+        const root = renderRoot(html, rendered.body)
+        const headed = setPageHead(root, {
+          language,
+          title: metadata.title,
+          description: metadata.description,
+          canonical: metadata.canonical,
+          alternates: metadata.alternates,
+          image: rendered.image,
+          pageType: 'blog',
+          structuredData: rendered.structuredData,
+        })
+        const initialData = '<script id="florial-blog-ssr-data" type="application/json">' +
+          serializeBlogIndexPayload(posts, language) + '</script>'
+        return headed.replace(/<\/head>/i, initialData + '\n</head>')
+      }, 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
+    } catch {
+      // Never turn a Sanity outage into a successful empty blog index.
+      return blogUnavailableResponse(language)
+    }
   }
 
   if (path === '/services') {

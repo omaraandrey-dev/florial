@@ -13,6 +13,25 @@ type BlogCategory = {
   description: {bg: string; ru: string; en: string}
 }
 
+type BlogSsrPayload = {
+  language: 'bg' | 'ru' | 'en'
+  posts: BlogPostCard[]
+}
+
+function readBlogSsrPayload(): BlogSsrPayload | null {
+  if (typeof document === 'undefined') return null
+  const element = document.getElementById('florial-blog-ssr-data')
+  if (!element) return null
+  const raw = element.textContent || ''
+  try {
+    const payload = JSON.parse(raw) as BlogSsrPayload
+    if (['bg', 'ru', 'en'].includes(payload.language) && Array.isArray(payload.posts)) return payload
+  } catch {
+    // An invalid optional SSR seed must not prevent the client-side blog request.
+  }
+  return null
+}
+
 const blogCategories: BlogCategory[] = [
   {
     id: 'landscape',
@@ -109,14 +128,21 @@ function matchesBlogCategory(post: BlogPostCard, category: BlogCategory) {
 
 export function BlogPage() {
   const {t, language} = useI18n()
-  const [posts, setPosts] = useState<BlogPostCard[]>([])
-  const [loaded, setLoaded] = useState(false)
+  const [ssrPayload] = useState<BlogSsrPayload | null>(() => readBlogSsrPayload())
+  const hasInitialPosts = ssrPayload?.language === language
+  const initialPosts = hasInitialPosts && ssrPayload ? ssrPayload.posts : []
+  const [posts, setPosts] = useState<BlogPostCard[]>(() => initialPosts)
+  const [loaded, setLoaded] = useState(hasInitialPosts)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedTag, setSelectedTag] = useState<string | null>(null)
   const [selectedYear, setSelectedYear] = useState('all')
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest')
   const [searchQuery, setSearchQuery] = useState('')
+
+  useEffect(() => {
+    document.getElementById('florial-blog-ssr-data')?.remove()
+  }, [])
 
   const copy = {
     title: language === 'ru' ? 'Блог и портфолио' : language === 'en' ? 'Blog and portfolio' : 'Блог и портфолио',
@@ -147,8 +173,8 @@ export function BlogPage() {
 
   useEffect(() => {
     applyPageSeo({
-      fallbackTitle: language === 'ru' ? 'Блог и портфолио Florial — сад и проекты' : language === 'en' ? 'Florial Blog & Portfolio — Gardens and Projects' : 'Блог и портфолио Florial — градини и проекти',
-      fallbackDescription: language === 'ru' ? 'Реализованные проекты Florial, идеи для сада, растения, озеленение и решения для автоматического полива в Болгарии.' : language === 'en' ? 'Florial garden projects, ideas, plants, landscaping and automatic irrigation solutions in Bulgaria.' : 'Реализирани проекти на Florial, идеи за градината, растения, озеленяване и решения за автоматично напояване в България.',
+      fallbackTitle: language === 'ru' ? 'Блог Florial — сад, растения и автоматический полив' : language === 'en' ? 'Florial Blog — Gardens, Plants & Irrigation' : 'Блог Florial — градини, растения и автоматично напояване',
+      fallbackDescription: language === 'ru' ? 'Новости садового центра Florial, выполненные работы, растения и решения для автоматического полива в Болгарии.' : language === 'en' ? 'Florial Garden Centre news, recent projects, plants and automatic irrigation solutions in Bulgaria.' : 'Новини от градински център Florial, текущи проекти, растения и решения за автоматично напояване в България.',
       language,
       alternates: {bg:'https://florial-bg.com/blog',ru:'https://florial-bg.com/blog?lang=ru',en:'https://florial-bg.com/blog?lang=en','x-default':'https://florial-bg.com/blog'},
     })
@@ -156,10 +182,15 @@ export function BlogPage() {
 
   useEffect(() => {
     let active = true
+    if (ssrPayload?.language === language) {
+      setPosts(ssrPayload.posts)
+      setLoaded(true)
+      return () => { active = false }
+    }
     setLoaded(false)
     fetchBlogPosts(undefined, language).then((result) => { if (active) setPosts(result) }).catch((error) => console.error('Florial blog could not load:', error)).finally(() => { if (active) setLoaded(true) })
     return () => { active = false }
-  }, [language])
+  }, [language, ssrPayload])
 
   useEffect(() => {
     if (!loaded) return
@@ -168,12 +199,21 @@ export function BlogPage() {
       const url = new URL(localizedHref('/blog/' + encodeURIComponent(blogSlug(post)), language), window.location.origin).toString()
       return { '@type': 'ListItem', position: index + 1, name: content.title, url }
     })
+    const blogUrl = new URL(localizedHref('/blog', language), window.location.origin).toString()
     setStructuredData('collection-page', {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
       name: copy.title,
-      url: new URL(localizedHref('/blog', language), window.location.origin).toString(),
+      url: blogUrl,
       ...(items.length ? { mainEntity: { '@type': 'ItemList', numberOfItems: items.length, itemListElement: items } } : {}),
+    })
+    setStructuredData('breadcrumbs', {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: language === 'ru' ? 'Главная' : language === 'en' ? 'Home' : 'Начало', item: new URL(localizedHref('/', language), window.location.origin).toString() },
+        { '@type': 'ListItem', position: 2, name: copy.title, item: blogUrl },
+      ],
     })
   }, [posts, loaded, language, copy.title])
 
