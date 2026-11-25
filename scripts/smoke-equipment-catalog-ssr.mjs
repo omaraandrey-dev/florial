@@ -205,7 +205,7 @@ const categoryIds = categories.map((category) => category._id)
 const productQuery = [
   '*[_type == "product" && isActive != false && defined(slug.current) && references($categoryIds)] {',
   '_id, name, sku, "slug": slug.current, "categoryId": category->_id, "categoryIds": categories[]._ref,',
-  'translations { ru { name }, en { name } } }',
+  'translations { bg { name }, ru { name }, en { name } } }',
 ].join('\n')
 const products = await sanityFetch(productQuery, { categoryIds })
 assert.ok(Array.isArray(products), 'Published equipment products must be discoverable')
