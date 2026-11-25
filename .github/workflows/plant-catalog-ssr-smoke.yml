@@ -33,10 +33,11 @@ jobs:
       - name: Wait for the exact Cloudflare Preview deployment
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          PREVIEW_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
           for attempt in $(seq 1 60); do
-            checks="$(curl -fsSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_TOKEN}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/check-runs")"
+            checks="$(curl -fsSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_TOKEN}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${PREVIEW_SHA}/check-runs")"
             status="$(printf '%s' "$checks" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .status // empty')"
             conclusion="$(printf '%s' "$checks" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .conclusion // empty')"
             details_url="$(printf '%s' "$checks" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .details_url // empty')"
