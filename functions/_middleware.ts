@@ -1,6 +1,6 @@
 import { resolveCategorySeo } from '../src/lib/categorySeo'
 import { getBlogServiceRedirectPath } from '../src/lib/blogServiceRedirects.mjs'
-import { collectDescendantCategoryIds, buildEquipmentCategoryEntries, renderPlantCategoryListing, renderEquipmentCategoryListing } from './_lib/plantCategoryHtml.mjs'
+import { collectDescendantCategoryIds, buildPlantCategoryEntries, buildEquipmentCategoryEntries, renderPlantCategoryListing, renderEquipmentCategoryListing } from './_lib/plantCategoryHtml.mjs'
 import { renderEquipmentCategoryNavigation, renderEquipmentCategorySeoContent, renderEquipmentCategoryHelpBlock } from './_lib/equipmentCategoryPageHtml.mjs'
 import { buildProductOffer, getServerProductPrice } from './_lib/productJsonLd.mjs'
 import { getOrderedServiceEntries } from '../src/lib/servicesOrder'
@@ -10,6 +10,7 @@ import { buildServiceDetailStructuredData, getServiceDetailMetadata, renderServi
 import { getBlogIndexMetadata, renderBlogIndexHtml, serializeBlogIndexPayload } from './_lib/blogIndexHtml.mjs'
 import { getBlogArticleMetadata, renderBlogArticleHtml, serializeBlogArticlePayload } from './_lib/blogArticleHtml.mjs'
 import { buildEquipmentProductStructuredData, renderEquipmentProductHtml } from './_lib/equipmentProductHtml.mjs'
+import { buildPlantProductStructuredData, renderPlantProductHtml, renderPortableText } from './_lib/plantProductHtml.mjs'
 
 const SITE_NAME = 'Florial'
 const SITE_URL = 'https://florial-bg.com'
@@ -27,18 +28,25 @@ type SeoPlantProduct = {
   name?: string
   sku?: string
   imageUrl?: string
+  galleryImageUrls?: string[]
+  plantCare?: { minWinterTempC?: number }
+  _catalogVariant?: { name?: string; nameEn?: string; nameRu?: string; priceEUR?: number; oldPriceEUR?: number; stockStatus?: string; saleHeightCm?: number; containerVolumeL?: number }
   categoryId?: string
   categoryIds?: string[]
   slugValue?: string
   priceEUR?: number
   stockStatus?: string
-  translations?: Record<string, { name?: string; seo?: { h1?: string } } | undefined>
+  translations?: Record<string, { name?: string; shortDescription?: string; seo?: { h1?: string } } | undefined>
   seo?: { h1?: string }
   saleVariants?: Array<{
+    _key?: string
     name?: string
     nameEn?: string
     nameRu?: string
+    sku?: string
     priceEUR?: number
+    oldPriceEUR?: number
+    stockQuantity?: number
     stockStatus?: string
     saleHeightCm?: number
     containerVolumeL?: number
@@ -393,7 +401,7 @@ async function querySanityData<T>(
 }
 
 async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryId: string, onCategoryTree?: (categories: SeoCategoryNode[]) => void): Promise<SeoPlantProduct[]> {
-  const categoryQuery = '*[_type == "category"] | order(sortOrder asc) {_id,name,translations{bg{name},ru{name},en{name}},"parentId":parent->_id,"slugValue":coalesce(slug.current,slug),sortOrder,"productCount":count(*[_type == "product" && isActive != false && defined(slug) && (category._ref == ^._id || ^._id in categories[]._ref)]),"imageUrl":image.asset->url,"imageAlt":image.alt,"imageAltEn":image.altEn,"imageAltRu":image.altRu,"imageTitle":image.title,"imageTitleEn":image.titleEn,"imageTitleRu":image.titleRu}'
+  const categoryQuery = '*[_type == "category"] | order(sortOrder asc) {_id,name,translations{bg{name},ru{name},en{name}},"parentId":parent->_id,"slugValue":coalesce(slug.current,slug),sortOrder,"productCount":count(*[_type == "product" && isActive != false && defined(slug) && (category._ref == ^._id || ^._id in categories[]._ref)]),"imageUrl":coalesce(image.asset->url,externalImageUrl),"imageAlt":image.alt,"imageAltEn":image.altEn,"imageAltRu":image.altRu,"imageTitle":image.title,"imageTitleEn":image.titleEn,"imageTitleRu":image.titleRu}'
   const categories = await querySanityData<SeoCategoryNode[]>(
     dataset,
     categoryQuery,
@@ -418,16 +426,18 @@ async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryI
     ] | order(sortOrder asc) {
       _id,
       name,
-      translations { bg { name }, ru { name, seo { h1 } }, en { name, seo { h1 } } },
+      translations { bg { name, shortDescription }, ru { name, shortDescription, seo { h1 } }, en { name, shortDescription, seo { h1 } } },
       seo { h1 },
       "slugValue": slug.current,
       "categoryId": category->_id,
       "categoryIds": categories[]._ref,
       sku,
-      "imageUrl": coalesce(mainImage.asset->url, image.asset->url, imageUrl, externalImageUrl),
+      "imageUrl": mainImage.asset->url,
+      "galleryImageUrls": gallery[].asset->url,
+      plantCare { minWinterTempC },
       priceEUR,
       stockStatus,
-      saleVariants[] { name, nameEn, nameRu, priceEUR, stockStatus, saleHeightCm, containerVolumeL }
+      saleVariants[] { _key, name, nameEn, nameRu, sku, priceEUR, oldPriceEUR, stockStatus, stockQuantity, saleHeightCm, containerVolumeL }
     }
   `
   const products = await querySanityData<SeoPlantProduct[]>(
@@ -441,8 +451,8 @@ async function fetchCategoryProducts(dataset: 'production' | 'plants', categoryI
   return products
 }
 
-async function fetchPlantCategoryProducts(categoryId: string): Promise<SeoPlantProduct[]> {
-  return fetchCategoryProducts('plants', categoryId)
+async function fetchPlantCategoryProducts(categoryId: string, onCategoryTree?: (categories: SeoCategoryNode[]) => void): Promise<SeoPlantProduct[]> {
+  return fetchCategoryProducts('plants', categoryId, onCategoryTree)
 }
 
 async function queryDocument(dataset: string, type: string, slug: string): Promise<SeoDocument | null> {
@@ -496,6 +506,54 @@ async function queryDocument(dataset: string, type: string, slug: string): Promi
   }
 
   return result
+}
+
+type PlantProductDocument = SeoDocument & {
+  scientificName?: string
+  vatIncluded?: boolean
+  mainImage?: { asset?: { url?: string; metadata?: { dimensions?: { width?: number; height?: number } } }; alt?: string; altEn?: string; altRu?: string }
+  gallery?: Array<{ _key?: string; asset?: { url?: string }; alt?: string; altEn?: string; altRu?: string }>
+  plantCare?: Record<string, any>
+  careGuide?: unknown[]
+  recommendedIrrigation?: { irrigationType?: string; productSlug?: string }
+  relatedContentBySlug?: Array<{ contentType?: string; slug?: string; label?: string }>
+  category?: { _id?: string; name?: string; slugValue?: string; translations?: Record<string, { name?: string } | undefined> }
+  saleVariants?: Array<{ _key?: string; name?: string; nameEn?: string; nameRu?: string; sku?: string; priceEUR?: number; oldPriceEUR?: number; stockStatus?: string; stockQuantity?: number; saleHeightCm?: number; containerVolumeL?: number }>
+}
+
+async function queryPlantProductDocument(slug: string): Promise<PlantProductDocument | null> {
+  const query = `
+    *[
+      _type == "product" &&
+      productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&
+      isActive != false &&
+      (coalesce(slug.current, slug) == $slug || _id == $slug)
+    ][0] {
+      _id, name, sku, productType, scientificName, shortDescription, description, careGuide,
+      plantCare, recommendedIrrigation, relatedContentBySlug,
+      priceEUR, oldPriceEUR, vatIncluded, stockStatus,
+      "slugValue": coalesce(slug.current, slug, _id),
+      "imageUrl": mainImage.asset->url,
+      mainImage { asset->{url, metadata{dimensions{width,height}}}, alt, altEn, altRu, hotspot, crop },
+      gallery[] { _key, asset->{url, metadata{dimensions{width,height}}}, alt, altEn, altRu, hotspot, crop },
+      saleVariants[] { _key, name, nameEn, nameRu, sku, priceEUR, oldPriceEUR, stockStatus, stockQuantity, saleHeightCm, containerVolumeL },
+      seo { h1, metaTitle, metaDescription, noIndex },
+      translations {
+        bg { name, shortDescription, description, careGuide, seo { h1, metaTitle, metaDescription, noIndex } },
+        ru { name, shortDescription, description, careGuide, seo { h1, metaTitle, metaDescription, noIndex } },
+        en { name, shortDescription, description, careGuide, seo { h1, metaTitle, metaDescription, noIndex } }
+      },
+      "category": category->{ _id, name, "slugValue": coalesce(slug.current, slug), translations { bg { name }, ru { name }, en { name } } }
+    }
+  `
+  const result = await querySanityData<PlantProductDocument | null>(
+    'plants',
+    query,
+    { slug },
+    'sanity/plants/plant-product-detail-v1/' + encodeURIComponent(slug),
+    60,
+  )
+  return result ? { ...result, _dataset: 'plants' } : null
 }
 
 async function queryEquipmentProductDocument(slug: string): Promise<EquipmentProductDocument | null> {
@@ -735,7 +793,7 @@ function setPageHead(
         ]
     html = html.replace(/<\/head>/i, resourceHints.join('\n') + '\n</head>')
   }
-  if ((options.pageType === 'article' || options.pageType === 'service' || options.pageType === 'equipment-product') && options.image) {
+  if ((options.pageType === 'article' || options.pageType === 'service' || options.pageType === 'equipment-product' || options.pageType === 'product') && options.image) {
     const preload = renderResponsiveSanityImagePreload(options.image, options.pageType === 'equipment-product' ? '(min-width: 768px) 50vw, 100vw' : undefined)
     if (preload && !/<link\b[^>]*rel=["']preload["'][^>]*as=["']image["']/i.test(html)) {
       html = html.replace(/<\/head>/i, preload + '\n</head>')
@@ -1081,7 +1139,26 @@ function renderResponsiveSanityImagePreload(imageUrl: string, sizes = '(min-widt
   }
 }
 
-function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[], equipmentProducts?: SeoPlantProduct[], equipmentCategoryTree?: SeoCategoryNode[]): string {
+function renderPlantCategoryNavigation(categories: SeoCategoryNode[], currentId: string, language: string): string {
+  const children = (Array.isArray(categories) ? categories : [])
+    .filter((category) => category.parentId === currentId && category.slugValue)
+    .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999) || String(a.name || '').localeCompare(String(b.name || ''), language))
+  if (!children.length) return ''
+  const heading = language === 'ru' ? 'Категории растений' : language === 'en' ? 'Plant categories' : 'Категории растения'
+  const cards = children.map((category) => {
+    const name = category.translations?.[language]?.name || category.name || category.slugValue || ''
+    const alt = language === 'ru' ? category.imageAltRu : language === 'en' ? category.imageAltEn : category.imageAlt
+    const image = category.imageUrl
+      ? '<img src="' + escapeHtml(category.imageUrl) + '" alt="' + escapeHtml(alt || name) + '" loading="lazy" decoding="async" style="width:100%;height:112px;object-fit:cover;border-radius:8px" />'
+      : ''
+    const url = SITE_URL + '/category/' + encodeURIComponent(category.slugValue!)
+    return '<li><a href="' + escapeHtml(url) + '" style="display:block;border:1px solid #e5e7eb;border-radius:12px;padding:10px;text-decoration:none;color:inherit">' +
+      image + '<h2 style="font-size:15px;margin:8px 0 0">' + escapeHtml(name) + '</h2></a></li>'
+  }).join('')
+  return '<section data-florial-server-category-navigation="plants" style="margin:24px 0"><h2>' + heading + '</h2><ul style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;list-style:none;padding:0">' + cards + '</ul></section>'
+}
+
+function documentBody(doc: SeoDocument, type: string, name: string, description: string, language: 'bg' | 'ru' | 'en', h1 = name, plantProducts?: SeoPlantProduct[], equipmentProducts?: SeoPlantProduct[], equipmentCategoryTree?: SeoCategoryNode[], plantCategoryTree?: SeoCategoryNode[]): string {
   // Category hero imagery is rendered responsively by the client app; service detail pages use their dedicated SSR renderer.
   // Do not emit a second raw image into the initial HTML: it is replaced on hydration,
   // can trigger a duplicate/oversized download, and has no reserved responsive sizing.
@@ -1110,6 +1187,9 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
     : 'max-width:1100px;margin:0 auto;padding:24px;color:#263323;font-family:Arial,sans-serif'
   const isEquipmentCategory = type === 'category' && doc._dataset === 'production'
   const rootCatalog = doc.slugValue === 'vsichko-za-polivane'
+  const plantCategoryNavigation = type === 'category' && doc._dataset === 'plants' && Array.isArray(plantCategoryTree)
+    ? renderPlantCategoryNavigation(plantCategoryTree, doc._id, language)
+    : ''
   const categoryNavigation = isEquipmentCategory && Array.isArray(equipmentCategoryTree)
     ? renderEquipmentCategoryNavigation(equipmentCategoryTree, doc._id, language, SITE_URL, { rootCatalog })
     : ''
@@ -1122,8 +1202,9 @@ function documentBody(doc: SeoDocument, type: string, name: string, description:
   return '<main style="' + mainStyle + '">' +
     '<h1>' + escapeHtml(h1) + '</h1>' + image +
     (description ? '<p style="line-height:1.7">' + escapeHtml(description) + '</p>' : '') +
-    extra + categoryNavigation +
+    extra + categoryNavigation + plantCategoryNavigation +
     (type === 'category' && doc._dataset === 'plants' ? renderPlantCategoryListing(plantProducts || [], language, SITE_URL) : '') +
+    (type === 'category' && doc._dataset === 'plants' ? renderPortableText(language === 'bg' ? doc.seoContent : doc.translations?.[language]?.seoContent || doc.seoContent) : '') +
     (isEquipmentCategory && Array.isArray(equipmentProducts) ? renderEquipmentCategoryListing(equipmentProducts, language, SITE_URL, { rootCatalog, categories: equipmentCategoryTree || [] }) : '') +
     categorySeoContent + categoryHelpBlock + '<p><a href="/">Florial</a></p></main>'
 }
@@ -1199,7 +1280,7 @@ function makeCategoryCollectionJsonLd(name: string, description: string, url: st
     .map((product, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      name: product.translations?.[language]?.name || product.name || product.slugValue,
+      name: (product.translations?.[language]?.name || product.name || product.slugValue) + (product._catalogVariant?.name ? ' — ' + (language === 'ru' ? product._catalogVariant.nameRu || product._catalogVariant.name : language === 'en' ? product._catalogVariant.nameEn || product._catalogVariant.name : product._catalogVariant.name) : ''),
       url: SITE_URL + '/product/' + encodeURIComponent(product.slugValue!) + (language === 'ru' || language === 'en' ? '?lang=' + language : ''),
     }))
   return {
@@ -1830,7 +1911,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       } else if (route === 'category') {
         doc = await queryDocument('production', type, slug) || await queryDocument('plants', type, slug)
       } else if (type === 'product') {
-        doc = await queryEquipmentProductDocument(slug) || await queryDocument('plants', type, slug)
+        doc = await queryEquipmentProductDocument(slug) || await queryPlantProductDocument(slug)
       } else {
         doc = await queryDocument('production', type, slug) || await queryDocument('plants', type, slug)
       }
@@ -1840,6 +1921,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       // Plant category listings are also rendered into the initial HTML; React remains interactive.
       let categoryProducts: SeoPlantProduct[] | null = null
       let equipmentCategoryTree: SeoCategoryNode[] | undefined
+      let plantCategoryTree: SeoCategoryNode[] | undefined
       let equipmentProductCategories: SeoCategoryNode[] = []
       if (type === 'product' && doc._dataset === 'production') {
         try {
@@ -1852,7 +1934,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       if (type === 'category') {
         if (doc._dataset === 'plants') {
           // Preserve the existing fail-closed behavior for plant category SSR.
-          categoryProducts = await fetchPlantCategoryProducts(doc._id)
+          categoryProducts = await fetchPlantCategoryProducts(doc._id, (categories) => { plantCategoryTree = categories })
         } else {
           // Equipment categories use the same fetched catalogue for CollectionPage data and initial HTML.
           // React remains responsible for the interactive catalogue; a temporary query failure must not turn a valid category page into 503.
@@ -1906,7 +1988,9 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       }
       const categoryStructuredProducts = doc._dataset === 'production' && categoryProducts !== null
         ? buildEquipmentCategoryEntries(categoryProducts || [], language, equipmentCategoryOptions)
-        : categoryProducts || []
+        : doc._dataset === 'plants' && categoryProducts !== null
+          ? buildPlantCategoryEntries(categoryProducts || [], language)
+          : categoryProducts || []
 
       const structuredData: Array<{ id: string; data: Record<string, unknown> }> = type === 'service'
         ? buildServiceDetailStructuredData(doc as ServiceDetailDocument, language)
@@ -1923,6 +2007,10 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         const productStructuredData = buildEquipmentProductStructuredData(doc as EquipmentProductDocument, equipmentProductCategories, language, canonicalUrl)
         structuredData.push({ id: 'product', data: productStructuredData[0] })
         structuredData.push({ id: 'breadcrumbs', data: productStructuredData[1] })
+      } else if (type === 'product' && doc._dataset === 'plants') {
+        const productStructuredData = buildPlantProductStructuredData(doc as PlantProductDocument, language, canonicalUrl)
+        structuredData.push({ id: 'product', data: productStructuredData[0] })
+        structuredData.push({ id: 'breadcrumbs', data: productStructuredData[1] })
       } else if (type === 'product') {
         structuredData.push({ id: 'product', data: makeProductJsonLd(doc, name, metaDescription, canonicalUrl) })
       }
@@ -1934,7 +2022,9 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         ? renderServiceDetailHtml(doc as ServiceDetailDocument, language)
         : type === 'product' && doc._dataset === 'production'
           ? renderEquipmentProductHtml(doc as EquipmentProductDocument, equipmentProductCategories, language)
-          : documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined)
+          : type === 'product' && doc._dataset === 'plants'
+            ? renderPlantProductHtml(doc as PlantProductDocument, language, SITE_URL)
+            : documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined, doc._dataset === 'plants' && categoryProducts !== null ? plantCategoryTree : undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
         return setPageHead(root, {
@@ -1950,7 +2040,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         })
       }, type === 'category' && categoryProducts === null
         ? 'no-store'
-        : type === 'service' || (type === 'product' && doc._dataset === 'production')
+        : type === 'service' || (type === 'product' && (doc._dataset === 'production' || doc._dataset === 'plants'))
           ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
           : categoryProducts !== null
             ? 'public, max-age=0, s-maxage=30, stale-while-revalidate=60'

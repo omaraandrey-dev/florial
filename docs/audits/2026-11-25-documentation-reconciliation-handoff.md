@@ -28,7 +28,7 @@ These shared records require a later reconciliation after the owner decides what
 
 ## Branch migration
 
-The permanent `develop` branch is to be created from the latest `main` after this documentation policy is merged. Existing PR #543 is a transition exception and should be completed without opening additional feature branches. Future work proceeds only on `develop`; releases go through a single `develop → main` PR.
+The permanent `develop` branch was created from the post-PR-#544 Production `main` SHA `a96e65ba6e40e387740ea4e52ca05855e9b4e48a`. The initial `develop` HEAD matches that SHA. Existing PR #543 is a transition exception and should be completed without opening additional feature branches. Future work proceeds only on `develop`; releases go through a single `develop → main` PR.
 
 ## Verification boundary
 
