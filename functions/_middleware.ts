@@ -1274,7 +1274,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         })
         const initialData = '<script id="florial-blog-ssr-data" type="application/json">' +
           serializeBlogIndexPayload(posts, language) + '</script>'
-        return headed.replace(/<\\/head>/i, initialData + '\\n</head>')
+        return headed.replace(/<\/head>/i, initialData + '\n</head>')
       }, 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
     } catch {
       // Never turn a Sanity outage into a successful empty blog index.
