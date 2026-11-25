@@ -1,9 +1,10 @@
 # SSR Content v1 — Phase 4: blog index /blog
 
 **Date:** 2026-11-25  
-**Status:** implementation on feature branch; exact-SHA CI, Preview and raw HTTP smoke pending.  
+**Status:** Preview implementation verified; exact-SHA CI and raw HTTP smoke passed; owner visual/hydration acceptance pending; not released to Production.  
 **Base main:** 28afdf7e895d1b6dbf6d32302e4ffc7dd60b3dab  
-**Branch:** feat/ssr-blog-index-v1
+**Branch:** feat/ssr-blog-index-v1  
+**Verified code head:** 7527d28d68046d61d4ec0ffbc4084f19f80cf855
 
 ## 1. Objective
 
@@ -68,7 +69,26 @@ Added:
 - scripts/smoke-blog-index-ssr.mjs — native Node fetch against BG/RU/EN first responses, with no JavaScript execution; checks card count/order against JSON-LD and hydration seed.
 - .github/workflows/blog-index-ssr-smoke.yml — runs on PR Preview and on main push against Production.
 
-**Pending:** exact-head CI, Cloudflare Pages Preview deployment, and BG/RU/EN raw HTTP smoke. No test or deployment success is claimed until those results are available.
+### Exact-SHA Preview evidence
+
+- Cloudflare Pages Preview deployment: d037a5bc-6e26-4665-8410-904ddd9a2f36
+- Commit: 7527d28d68046d61d4ec0ffbc4084f19f80cf855
+- Deployment URL: https://d037a5bc.florial.pages.dev
+- Branch alias: https://feat-ssr-blog-index-v1.florial.pages.dev
+- All Cloudflare Preview stages completed successfully.
+
+### GitHub Actions
+
+- Blog index raw HTTP smoke: run 45559157579 — success on exact code head 7527d28d68046d61d4ec0ffbc4084f19f80cf855.
+- Blog and Studio validation: run 45559157619 — success; application/Pages type-check, lint, website tests, website build, Studio type-check and Studio build passed.
+- D1 migration validation: run 45559157631 — success; no migration was applied.
+- Services directory smoke: run 45559157624 — success.
+- Service detail smoke: run 45559157642 — success.
+- Equipment SSR smoke: run 45559157449 — success.
+
+The blog raw HTTP smoke waited for the exact Cloudflare Pages check to succeed before requesting the branch alias. It then passed BG/RU/EN and verified HTML language, robots, canonical, all hreflang alternates, four topic cards, all 19 article cards, matching card/ItemList order and the localized hydration seed. The run does not depend on JavaScript execution.
+
+**Pending:** owner visual/hydration acceptance on desktop and mobile. No Production deployment or release is included in this PR.
 
 ## 5. Scope and safety
 
@@ -90,7 +110,5 @@ CHANGELOG.md, docs/TECHNICAL_PASSPORT.md and docs/AI/OPEN_QUESTIONS.md are not c
 
 ## 7. Next action
 
-1. Open/validate the PR and wait for exact-head CI and Preview deployment.
-2. Inspect the raw Preview HTML smoke for all three locales.
-3. Ask the owner to inspect /blog on desktop and mobile, including images, article ordering and filter behavior after hydration.
-4. Only after owner acceptance, merge and verify the exact Cloudflare Production deployment plus the push-triggered Production raw HTTP smoke.
+1. Owner inspects the exact Preview on desktop and mobile, including images, article ordering, filters, search and sorting after hydration.
+2. After owner acceptance, merge PR #540 and verify the exact Cloudflare Production deployment plus the push-triggered Production raw HTTP smoke.
