@@ -141,6 +141,8 @@ test('middleware requests category SEO/help fields and emits all equipment categ
   assert.match(middleware, /renderEquipmentCategoryHelpBlock/)
   assert.match(middleware, /seoContent,helpBlock,translations/)
   assert.match(middleware, /category-tree-v4/)
+  assert.match(middleware, /\"imageAlt\":image\\.alt/)
+  assert.match(middleware, /\"imageTitle\":image\\.title/)
   assert.match(middleware, /\"productCount\":count\(\*\[_type == \"product\"/)
   assert.match(middleware, /category-document-v2/)
   assert.match(middleware, /category-products-v2/)
