@@ -194,3 +194,18 @@ This is browser QA of Preview, not an owner acceptance.
 - No Sanity writes/schema changes, D1 changes/migrations, Cloudflare configuration/secrets/DNS changes, Resend changes, Header/Footer/menu/global bootstrap changes.
 - PR #409 remains open and untouched.
 - Owner acceptance of the Preview and explicit merge approval remain the only release gate for this phase.
+
+
+## 7. Follow-up HTML correctness fix — 2026-11-25
+
+During release-readiness review after the initial PR #546 verification, a malformed heading close was found in `functions/_lib/contactsHtml.mjs`: each location heading opened with `<h3>` but closed with `</h2>`.
+
+Correction on the existing `develop` branch:
+- Renderer fix commit: `c7533b1017e4eec224dd77af4cb2c450ec10e20c`.
+- Regression-test commit: `e2286b0a144df654273b5b3e64fab14359c14ed8`.
+- Added assertions for both exact location-card heading elements and a guard against an `<h3>` closed by `</h2>`.
+
+Status:
+- **Verified in GitHub source:** corrected renderer and regression assertions are present on `develop`.
+- **Not yet verified:** CI/test execution and a fresh Preview deployment for the follow-up commits. The earlier 548/548 result belongs to the original PR head `43eaf03779392edfaca7df2a69e4653f3b32a4a8` and must not be attributed to the follow-up commits.
+- Owner visual acceptance and merge remain pending. Do not release until the new exact-SHA checks and updated Preview are verified and accepted.
