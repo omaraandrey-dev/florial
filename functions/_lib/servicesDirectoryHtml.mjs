@@ -85,24 +85,25 @@ function responsiveImage(value, alt, sizes, className = '', options = {}) {
   try {
     const source = new URL(imageUrl)
     const match = source.pathname.match(/-(\d+)x(\d+)\.[a-z0-9]+$/i)
-    if (source.hostname === 'cdn.sanity.io' && match) {
-      const sourceWidth = Number(match[1])
-      const sourceHeight = Number(match[2])
+    if (source.protocol === 'https:' && source.hostname === 'cdn.sanity.io' &&
+      /^\/images\/[^/]+\/[^/]+\//.test(source.pathname)) {
+      const sourceWidth = match ? Number(match[1]) : undefined
+      const sourceHeight = match ? Number(match[2]) : undefined
       const buildUrl = (width) => {
         const image = new URL(source)
-        image.searchParams.set('w', String(Math.min(width, sourceWidth)))
+        image.searchParams.set('w', String(sourceWidth ? Math.min(width, sourceWidth) : width))
         image.searchParams.set('fit', 'max')
         image.searchParams.set('auto', 'format')
         image.searchParams.set('q', String(Math.min(100, Math.max(1, Math.round(quality)))))
         return image.toString()
       }
       const candidates = [160, 240, 320, 480, 640, 720, 800, 960, 1200, 1600]
-        .map((width) => Math.min(width, sourceWidth))
+        .map((width) => sourceWidth ? Math.min(width, sourceWidth) : width)
         .filter((width, index, all) => width > 0 && all.indexOf(width) === index)
         .sort((a, b) => a - b)
-      src = buildUrl(preferredWidth)
+      src = buildUrl(sourceWidth ? Math.min(preferredWidth, sourceWidth) : preferredWidth)
       srcSet = candidates.map((width) => buildUrl(width) + ' ' + width + 'w').join(', ')
-      dimensions = ' width="' + sourceWidth + '" height="' + sourceHeight + '"'
+      if (sourceWidth && sourceHeight) dimensions = ' width="' + sourceWidth + '" height="' + sourceHeight + '"'
     }
   } catch {}
   return '<img src="' + escapeHtml(src) + '"' +
