@@ -70,7 +70,7 @@ function responsiveImage(value, alt, sizes, className, loading = 'lazy', priorit
       image.searchParams.set('w', String(Math.min(width, sourceWidth)))
       image.searchParams.set('fit', 'max')
       image.searchParams.set('auto', 'format')
-      image.searchParams.set('q', '75')
+      image.searchParams.set('q', priority ? '68' : '75')
       return image.toString()
     }
     src = build(Math.min(960, sourceWidth))
