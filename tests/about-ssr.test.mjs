@@ -30,9 +30,20 @@ const categories = [
   { slugValue: 'rastenia', imageUrl: 'https://cdn.sanity.io/images/bxvcy0qs/plants/rastenia-1200x896.jpg' },
   { slugValue: 'vsichko-za-polivane', imageUrl: 'https://cdn.sanity.io/images/bxvcy0qs/production/irrigation-category-1254x1254.png' },
 ]
+const team = [
+  { slug: 'landshaften-arhitekt', href: '/services/category/landshaften-arhitekt', title: { bg: 'Ландшафтен архитект', ru: 'Ландшафтный архитектор', en: 'Landscape architect' }, text: { bg: 'Проектиране и дизайн на градини', ru: 'Проектирование и дизайн садов', en: 'Garden design and planning' } },
+  { slug: 'gardinar', href: '/services/category/gardinar', title: { bg: 'Градинар', ru: 'Садовник', en: 'Gardener' }, text: { bg: 'Засаждане и грижа за растенията', ru: 'Посадка и уход за растениями', en: 'Planting and plant care' } },
+  { slug: 'inzhener-polivni-sistemi', href: '/services/category/polivni-sistemi', title: { bg: 'Специалист по поливни системи', ru: 'Специалист по системам полива', en: 'Irrigation specialist' }, text: { bg: 'Проектиране и монтаж на напояване', ru: 'Проектирование и монтаж полива', en: 'Irrigation design and installation' } },
+  { slug: 'specialist-trevni-ploshti', href: '/services/category/trevni-ploshti', title: { bg: 'Специалист по тревни площи', ru: 'Специалист по газонам', en: 'Lawn specialist' }, text: { bg: 'Изграждане и поддръжка на тревни площи', ru: 'Устройство и уход за газонами', en: 'Lawn installation and care' } },
+]
+const centres = [
+  { key: 'nesebr', name: { bg: 'Градински център Несебър', ru: 'Садовый центр Несебр', en: 'Florial Garden Centre Nessebar' }, address: { bg: 'ул. „Хан Крум“, 8230 Несебър (до магазин Janet)', ru: 'ул. «Хан Крум», 8230 Несебр (рядом с магазином Janet)', en: 'ul. Khan Krum, 8230 Nessebar (next to Janet store)' }, map: 'https://maps.app.goo.gl/pK8qGHh9b1xoCc4P9' },
+  { key: 'ravda', name: { bg: 'Градински център Равда', ru: 'Садовый центр Равда', en: 'Florial Garden Centre Ravda' }, address: { bg: 'с. Равда, България', ru: 'с. Равда, Болгария', en: 'Ravda, Bulgaria' }, map: 'https://maps.app.goo.gl/3fiLaRgwSLDTH77U6' },
+]
+const renderData = { photos, categories, team, centres }
 
 test('About SSR renders the complete current page structure and owner-confirmed company details', () => {
-  const html = renderAboutHtml(copy, { photos, categories }, 'bg')
+  const html = renderAboutHtml(copy, renderData, 'bg')
   assert.match(html, /data-florial-ssr="about"/)
   assert.equal((html.match(/<h1\b/g) || []).length, 1)
   for (const text of [
@@ -72,7 +83,7 @@ test('About SSR localizes visible labels, role descriptions, metadata copy and i
     areasTitle: 'Работаем на побережье Болгарии',
     cta: 'Обсудить проект',
     ctaText: 'Расскажите о вашем саде.',
-  }, { photos, categories }, 'ru')
+  }, renderData, 'ru')
   assert.match(ru, /Садовый центр Florial в Несебре/)
   assert.match(ru, /Что мы предлагаем/)
   assert.match(ru, /Наша команда/)
@@ -95,7 +106,7 @@ test('About SSR localizes visible labels, role descriptions, metadata copy and i
     areasTitle: 'Serving Bulgaria’s Black Sea coast',
     cta: 'Discuss your project',
     ctaText: 'Tell us about your garden.',
-  }, { photos, categories }, 'en')
+  }, renderData, 'en')
   assert.match(en, /Florial Garden Centre in Nessebar/)
   assert.match(en, /What we offer/)
   assert.match(en, /Our team/)
@@ -114,6 +125,8 @@ test('About SSR escapes text and rejects non-Sanity image URLs', () => {
     plantSalesTitle: '<img src=x onerror=alert(1)>',
   }, {
     photos: [{ slugValue: 'landshaften-arhitekt', imageUrl: 'javascript:alert(1)', imageAlt: '<svg onload=alert(1)>' }],
+    team,
+    centres,
     categories: [
       { slugValue: 'rastenia', imageUrl: 'https://example.com/not-sanity.jpg' },
       { slugValue: 'vsichko-za-polivane', imageUrl: 'javascript:alert(1)' },
@@ -142,6 +155,8 @@ test('About middleware uses published bounded Sanity queries, shared copy, safe 
   assert.match(middleware, /body = about\.html/)
   assert.match(middleware, /about\.complete[\s\S]*?no-store/)
   assert.match(middleware, /'@type': 'AboutPage'/)
+  assert.match(middleware, /team: ABOUT_PAGE_TEAM/)
+  assert.match(middleware, /centres: ABOUT_PAGE_CENTRES/)
   assert.match(middleware, /mainEntity: \{ '@id': SITE_URL \+ '\/#organization' \}/)
   assert.match(page, /import \{ ABOUT_PAGE_CONTENT \} from '\.\.\/content\/aboutPageContent'/)
   assert.match(page, /const copy = ABOUT_PAGE_CONTENT\[/)
