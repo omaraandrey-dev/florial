@@ -150,7 +150,7 @@ Read-only инвентаризация перед кодом:
 - **Application code head on Preview:** `d13d3a3dc011d62942b478a4680368a6f6ce9df2`; Cloudflare Pages Preview deployment `1f55f12e-a3ec-40be-936e-69887fd43155` succeeded.
 - **Raw HTTP handoff shell smoke:** run `45549224568` passed BG/RU/EN on branch head `55c2a0f0a0cb3579af3db7de48e9dd7d8eacb42f`, including the explicit initial `#root`/hidden `#app-root` assertions. This check does not execute JavaScript.
 - **D1 validation:** run `45549229317` passed; no migration was applied.
-- **Blog/Studio validation:** run `45549229352` was still running when this status was written; confirm its final result before merge.
+- **Blog/Studio validation:** run `45549229352` passed on branch head `55c2a0f0a0cb3579af3db7de48e9dd7d8eacb42f`: type-check, lint, 497/497 tests, website build, read-only migration dry-run, Studio type-check/build. D1 validation run `45549229317` also passed without applying a migration.
 - **Browser interaction/visual/CLS verification:** NOT COMPLETED. Browser automation could not start because the connected service reported insufficient credits. Do not treat raw HTTP smoke as browser verification.
 - **No Production release for PR #534.** PR remains open and unmerged. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets or Production settings were changed.
 - Этапы 2–9: **NOT STARTED**.
