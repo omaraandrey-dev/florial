@@ -109,3 +109,45 @@ export const ABOUT_PAGE_CONTENT = {
     seoDescription: 'Florial Garden Centre in Nessebar offers landscape planning, planting, landscaping, rolled turf and automatic irrigation design, installation and maintenance since 2000.'
   }
 } as const
+
+export const ABOUT_PAGE_TEAM = [
+  {
+    slug: 'landshaften-arhitekt',
+    href: '/services/category/landshaften-arhitekt',
+    title: { bg: 'Ландшафтен архитект', ru: 'Ландшафтный архитектор', en: 'Landscape architect' },
+    text: { bg: 'Проектиране и дизайн на градини', ru: 'Проектирование и дизайн садов', en: 'Garden design and planning' },
+  },
+  {
+    slug: 'gardinar',
+    href: '/services/category/gardinar',
+    title: { bg: 'Градинар', ru: 'Садовник', en: 'Gardener' },
+    text: { bg: 'Засаждане и грижа за растенията', ru: 'Посадка и уход за растениями', en: 'Planting and plant care' },
+  },
+  {
+    slug: 'inzhener-polivni-sistemi',
+    href: '/services/category/polivni-sistemi',
+    title: { bg: 'Специалист по поливни системи', ru: 'Специалист по системам полива', en: 'Irrigation specialist' },
+    text: { bg: 'Проектиране и монтаж на напояване', ru: 'Проектирование и монтаж полива', en: 'Irrigation design and installation' },
+  },
+  {
+    slug: 'specialist-trevni-ploshti',
+    href: '/services/category/trevni-ploshti',
+    title: { bg: 'Специалист по тревни площи', ru: 'Специалист по газонам', en: 'Lawn specialist' },
+    text: { bg: 'Изграждане и поддръжка на тревни площи', ru: 'Устройство и уход за газонами', en: 'Lawn installation and care' },
+  },
+] as const
+
+export const ABOUT_PAGE_CENTRES = [
+  {
+    key: 'nesebr',
+    name: { bg: 'Градински център Несебър', ru: 'Садовый центр Несебр', en: 'Florial Garden Centre Nessebar' },
+    address: { bg: 'ул. „Хан Крум“, 8230 Несебър (до магазин Janet)', ru: 'ул. «Хан Крум», 8230 Несебр (рядом с магазином Janet)', en: 'ul. Khan Krum, 8230 Nessebar (next to Janet store)' },
+    map: 'https://maps.app.goo.gl/pK8qGHh9b1xoCc4P9',
+  },
+  {
+    key: 'ravda',
+    name: { bg: 'Градински център Равда', ru: 'Садовый центр Равда', en: 'Florial Garden Centre Ravda' },
+    address: { bg: 'с. Равда, България', ru: 'с. Равда, Болгария', en: 'Ravda, Bulgaria' },
+    map: 'https://maps.app.goo.gl/3fiLaRgwSLDTH77U6',
+  },
+] as const
