@@ -134,5 +134,63 @@ Safety:
 - Sanity was queried read-only; no documents, schemas or assets were written.
 - No Cloudflare settings, secrets, DNS, D1, Resend, Header, Footer, menu or global bootstrap changes.
 - No change to phone assignments or either location's existing address fields.
-- This implementation is not yet Production-released. CI and Preview verification remain pending.
+- This implementation is not yet Production-released. CI, Preview raw HTTP and desktop/mobile browser verification are complete; owner acceptance and merge remain pending.
 
+
+
+## 6. Verification results — PR #546
+
+**Exact code head:** `43eaf03779392edfaca7df2a69e4653f3b32a4a8`  
+**Pull request:** [#546 — SSR contacts page in BG/RU/EN with confirmed opening hours](https://github.com/omaraandrey-dev/florial/pull/546)  
+**Preview deployment:** `95e04b33-8753-4a5d-8989-2f7fb83a90dd`  
+**Preview URL:** https://95e04b33.florial.pages.dev/contacts
+
+### Cloudflare Pages Preview
+
+The exact Preview deployment was built and deployed successfully from the exact code head above. Queued, initialize, clone, build and deploy stages all report success.
+
+### Exact-SHA CI
+
+All checks on PR head `43eaf03779392edfaca7df2a69e4653f3b32a4a8` completed successfully.
+
+- Blog and Studio validation: run `45586637851` — type-check, lint, **548/548 tests**, website build, Studio type-check and Studio build all passed.
+- D1 migration validation: run `45586637845` — passed; read-only migration validation/dry-run only, no migration applied.
+- Equipment product SSR validation: run `45586637808` — passed.
+- Equipment category SSR: run `45586637718` — passed.
+- Plant catalogue SSR: run `45586637884` — passed.
+- Services directory SSR: run `45586637936` — passed.
+- Service detail SSR: run `45586638044` — passed.
+- Blog index SSR: run `45586637735` — passed.
+- Blog article SSR: run `45586637772` — passed.
+- Equipment SSR Preview smoke: run `45586637847` — passed.
+- Cloudflare Pages check: passed.
+
+All 12 reported commit checks concluded successfully.
+
+### Contacts raw HTTP first-response smoke
+
+Read-only requests against the exact Preview URL, without relying on client-rendered DOM, passed for BG/RU/EN:
+
+- HTTP 200 and HTML response for all three locales.
+- Correct `html lang`, localized canonical, and contacts SSR marker.
+- Both location cards, both existing Google Maps URLs, and exactly two location images from the published Sanity assets.
+- Seven daily opening-hour rows, each 09:00–17:00.
+- Both GardenStore JSON-LD entities present, each with Monday–Sunday, 09:00–17:00.
+- Existing telephone links preserved.
+- Initial HTML size: BG 9,506 bytes; RU 9,634 bytes; EN 9,660 bytes.
+
+### Browser QA
+
+The fully rendered Preview was inspected in a remote browser:
+- Desktop: both cards, images, addresses, maps, hours and phone block visible; no duplicate content or broken layout observed.
+- Mobile 390 px viewport: cards stack vertically; both images/map links remain visible; seven hours rows are readable; phone links are visible and accessible.
+
+This is browser QA of Preview, not an owner acceptance.
+
+### Release boundary
+
+- PR #546 remains open and mergeable; no merge performed.
+- No Production deployment was triggered by this work.
+- No Sanity writes/schema changes, D1 changes/migrations, Cloudflare configuration/secrets/DNS changes, Resend changes, Header/Footer/menu/global bootstrap changes.
+- PR #409 remains open and untouched.
+- Owner acceptance of the Preview and explicit merge approval remain the only release gate for this phase.
