@@ -49,7 +49,7 @@ for (const locale of locales) {
   }
   const headingText = (value) => value
     .replace(/<[^>]*>/g, ' ')
-    .replace(/&(#x[0-9a-f]+|#\\d+|amp|lt|gt|quot);/gi, (_, entity) => {
+    .replace(/&(#x[0-9a-f]+|#\d+|amp|lt|gt|quot);/gi, (_, entity) => {
       if (entity[0] === '#') {
         const numeric = entity[1].toLowerCase() === 'x'
           ? Number.parseInt(entity.slice(2), 16)
@@ -59,10 +59,10 @@ for (const locale of locales) {
       return ({ amp: '&', lt: '<', gt: '>', quot: '"' })[entity.toLowerCase()] || ''
     })
     .replace(/&#39;/g, "'")
-    .replace(/\\s+/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim()
     .normalize('NFC')
-  const locationHeadings = [...html.matchAll(/<h3\\b[^>]*>([\\s\\S]*?)<\\/h3>/gi)]
+  const locationHeadings = [...html.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/gi)]
     .map((match) => headingText(match[1]))
   assert.ok(locationHeadings.includes(locale.nesebar.normalize('NFC')), locale.code + ': Nessebar garden centre; found headings: ' + JSON.stringify(locationHeadings))
   assert.ok(locationHeadings.includes(locale.ravda.normalize('NFC')), locale.code + ': Ravda garden centre; found headings: ' + JSON.stringify(locationHeadings))
