@@ -70,7 +70,8 @@ test('irrigation product continues to use its published root price and stock sta
 test('server middleware emits Product, Service, BlogPosting and CollectionPage schemas', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
   assert.match(middleware, /makeProductJsonLd\(doc, name, metaDescription, canonicalUrl\)/)
-  assert.match(middleware, /makeServiceJsonLd\(doc, name, metaDescription, canonicalUrl\)/)
+  assert.match(middleware, /buildServiceDetailStructuredData\(doc as ServiceDetailDocument, language\)/)
+  assert.match(middleware, /makeServiceJsonLd\(\s*\{ serviceCategory: 'delivery' \}/)
   assert.match(middleware, /makeBlogPostingJsonLd\(doc, name, metaDescription, canonicalUrl, language\)/)
   assert.match(middleware, /makeCategoryCollectionJsonLd\(name, metaDescription, canonicalUrl, categoryStructuredProducts, language\)/)
   assert.match(middleware, /buildEquipmentCategoryEntries\(categoryProducts \|\| \[\], language, equipmentCategoryOptions\)/)

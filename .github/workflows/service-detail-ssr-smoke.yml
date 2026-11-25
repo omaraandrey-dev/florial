@@ -1,0 +1,24 @@
+name: Service detail SSR Preview and Production smoke
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  raw-http-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PREVIEW_URL: ${{ github.event_name == 'push' && 'https://florial-bg.com' || 'https://feat-ssr-service-details-v1.florial.pages.dev' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify every active service detail route in BG/RU/EN without JavaScript
+        run: node scripts/smoke-service-details-ssr.mjs
