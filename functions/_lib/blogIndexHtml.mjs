@@ -208,7 +208,7 @@ function localizedHref(path, language) {
   return path + (language === 'bg' ? '' : '?lang=' + language)
 }
 
-function renderDirection(direction, posts, language) {
+function renderDirection(direction, posts, language, index) {
   const matching = posts.filter((post) => matchesDirection(post, direction))
   const imagePost = matching.find((post) => safeImageUrl(post.cover?.asset?.url))
   const image = imagePost
@@ -217,7 +217,8 @@ function renderDirection(direction, posts, language) {
         sizes: '(min-width: 1280px) 308px, (min-width: 1024px) 23vw, (min-width: 640px) 46vw, 45vw',
         preferredWidth: 640,
         quality: 68,
-        loading: 'lazy',
+        loading: index === 0 ? 'eager' : 'lazy',
+        fetchPriority: index === 0 ? 'high' : undefined,
         className: 'absolute inset-0 -z-20 h-full w-full object-cover transition duration-500 group-hover:scale-105',
       })
     : ''
@@ -302,7 +303,7 @@ export function renderBlogIndexHtml({ posts = [], language = 'bg' } = {}) {
   const lang = language === 'ru' || language === 'en' ? language : 'bg'
   const copy = COPY[lang]
   const list = Array.isArray(posts) ? posts : []
-  const categoryCards = DIRECTIONS.map((direction) => renderDirection(direction, list, lang)).join('')
+  const categoryCards = DIRECTIONS.map((direction, index) => renderDirection(direction, list, lang, index)).join('')
   const postCards = list.map((post, index) => renderPost(post, index, lang, copy)).filter(Boolean).join('')
   const articleItems = list.flatMap((post, index) => {
     const slug = slugOf(post)
