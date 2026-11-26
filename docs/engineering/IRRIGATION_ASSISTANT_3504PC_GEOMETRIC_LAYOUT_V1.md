@@ -110,6 +110,14 @@ The integration test suite must verify:
 PR #530 is merged and its exact merge commit was deployed successfully to Cloudflare Pages Production. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or email tests were part of this work. A separate rendered-PDF visual review remains outstanding. Hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance are not evaluated.
 
 
+## Continuous geometric planning radii — owner-approved clarification (2026-11-26)
+
+The selected geometric radius is a continuous positive number, not a whole-metre catalogue. The solver must use the exact minimum of the current planning-stage ceiling and the local geometric safe-clearance limit. For example, a 17 × 17 m five-head candidate may use 8.5 m; a 17.2 × 17.2 m candidate may use 8.6 m. Do not round or snap these values to 8 m.
+
+This is a geometric planning parameter only. It does not assert that a particular 3504-PC nozzle/pressure combination produces that field throw. Manufacturer-supported flow, pressure and nozzle-performance data must remain separate and must never be interpolated or invented by this change.
+
+Regression acceptance: 17 × 17 m and 17.2 × 17.2 m each produce the five inward side-midpoint + centre candidate only when sampled coverage, sector containment and mutual Head-to-Head all pass. The expected geometric radii are respectively 8.5 m and 8.6 m.
+
 ## 8. Rectangular non-sprinkler areas — coordinate and display contract
 
 - X and Y are measured from the lawn's lower-left corner. Both coordinates must be finite and non-negative; X=0, Y=0 and the combined origin (0, 0) are all valid.
