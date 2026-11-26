@@ -371,3 +371,50 @@ for (const size of [17, 20]) {
     assert.equal(new Set(sideCounts).size, 1)
   })
 }
+
+
+test('nearby circular R-VAN heads can be replaced by a newly positioned 3504-PC rotor', () => {
+  const clustered = [
+    { id: 'rv-a', position: { x: 4, y: 4 } },
+    { id: 'rv-b', position: { x: 6, y: 4 } },
+    { id: 'rv-c', position: { x: 4, y: 6 } },
+    { id: 'rv-d', position: { x: 6, y: 6 } },
+  ].map(({ id, position }) => ({
+    id,
+    position,
+    arcDeg: 360,
+    directionDeg: null,
+    radiusM: 3,
+    performanceModel: 'R-VAN18',
+    pattern: 'circular',
+    calculationRegionId: 'zone-a',
+  }))
+  const fixed = {
+    id: 'rv-fixed',
+    position: { x: 5, y: 5 },
+    arcDeg: 360,
+    directionDeg: null,
+    radiusM: 9,
+    performanceModel: 'R-VAN24',
+    pattern: 'circular',
+    calculationRegionId: 'zone-a',
+  }
+  const baseline = [...clustered, fixed]
+  const result = optimizeGlobalSprinklerSet({
+    sprinklers: baseline,
+    geometry: squareGeometry(10),
+    parts: [{ id: 'zone-a', layout: { sprinklers: baseline } }],
+    oversprayCheck: () => true,
+    maxSectorVariants: 0,
+  })
+
+  assert.equal(result.status, 'completed')
+  assert.ok(result.reconfiguration.replacedRvanGroups.length > 0)
+  assert.ok(result.sprinklers.some((head) =>
+    head.performanceModel === '3504-PC' &&
+    head.id.startsWith('global-v2-rvan-replacement-')))
+  assert.ok(result.sprinklers.filter((head) =>
+    String(head.performanceModel).startsWith('R-VAN')).length < baseline.length)
+  assert.equal(result.coverage.uncoveredPoints, 0)
+  assert.equal(result.headToHead.passed, true)
+})
