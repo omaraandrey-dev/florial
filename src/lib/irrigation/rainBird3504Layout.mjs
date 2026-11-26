@@ -615,6 +615,7 @@ export function generateRainBird3504Layout(geometry, {
   // and interior grid candidates. No alternative pattern may bypass the
   // already tested true polygon corners.
   // Expand a shared-position grid only after the true corner seed is insufficient.
+  const completeLayouts = []
   for (const stageRadiusM of RADIUS_STAGES_M) {
     const grid = buildGrid(bounds, stageRadiusM)
     if (!grid || grid.heads.length > MAX_ROTORS) continue
