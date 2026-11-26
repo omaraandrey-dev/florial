@@ -43,7 +43,7 @@ function rotor(id, x, y, options = {}) {
   }
 }
 
-test('global removal reduces redundant 3504-PC heads and never removes the fixed R-VAN head', () => {
+test('global optimization preserves symmetric rotor groups and fixed R-VAN and strip heads', () => {
   const rotors = [
     rotor('r1', 2, 2),
     rotor('r2', 8, 2),
@@ -81,8 +81,8 @@ test('global removal reduces redundant 3504-PC heads and never removes the fixed
   })
 
   assert.equal(result.status, 'completed')
-  assert.ok(result.removedHeadIds.length >= 2)
-  assert.equal(result.sprinklers.filter((head) => head.performanceModel === '3504-PC').length, 1)
+  assert.equal(result.removedHeadIds.length, 0)
+  assert.equal(result.sprinklers.filter((head) => head.performanceModel === '3504-PC').length, 4)
   assert.equal(result.sprinklers.find((head) => head.id === 'fixed-rvan'), fixedRvan)
   assert.equal(result.sprinklers.find((head) => head.id === 'fixed-strip'), fixedStrip)
   assert.equal(result.coverage.uncoveredPoints, 0)
