@@ -11,7 +11,7 @@
 - If four corners are insufficient, subdivide the rectangle into square/rectangular cells. Every cell has four corner positions.
 - A coordinate shared by two or more cells is one physical rotor position, not multiple duplicated heads.
 - Adjacent Head-to-Head is checked in both directions against the actual sector of each rotor, not by distance alone.
-- The base planning stage is 8 m. 9 m and 10 m are allowed when they materially reduce unnecessary heads and still pass all geometry/Head-to-Head checks. Local safe reach may be reduced to 7 m, 6 m or 5 m.
+- The base planning stage is 8 m. 9 m is the only larger alternative and is allowed when it materially reduces unnecessary heads while passing all geometry/Head-to-Head checks. A 10 m planning radius is excluded. Only after the 8 m and 9 m stages fail full coverage and Head-to-Head does the solver expand the shared-cell grid at 7 m, 6 m or 5 m. Where safe clearance allows, the four base corner rotors remain at 8 m and the smaller radii are used for added grid heads before any R-VAN fallback.
 - Sector orientation and radius are validated against the calculation rectangle before a rotor is accepted.
 
 These are Florial planning rules, not Rain Bird manufacturer-certified throw distances for every arc/nozzle/pressure. The UI and project documentation must keep that distinction explicit.
@@ -31,7 +31,7 @@ Implementation: `src/lib/irrigation/rainBird3504Layout.mjs`.
 
 Create one 90° rotor at each true rectangle corner, with the sector bisector directed into the rectangle. Choose the largest permitted local radius not exceeding the current stage or the safe rectangle clearance.
 
-Try stages in the order 8 m, 9 m, 10 m, then 7 m, 6 m and 5 m. The first corner-only set that passes complete sampled coverage and mutual Head-to-Head is accepted without adding intermediate heads.
+Try the 8 m baseline first, then the 9 m alternative. If neither complete corner-only/grid candidate passes coverage and mutual Head-to-Head, expand the shared-cell grid at 7 m, 6 m and 5 m in that order to add more rotor positions. Never test a 10 m stage.
 
 ### Phase C — shared cell grid
 
@@ -41,7 +41,7 @@ For each node:
 - a rectangle vertex receives a 90° sector bisected toward the interior;
 - a boundary node receives a 180° sector directed inward;
 - an interior node receives a 360° sector;
-- its radius is capped by the actual local clearance and selected from 10/9/8/7/6/5 m.
+- its radius is capped by the actual local clearance and selected from 9/8/7/6/5 m; 7/6/5 m stages are considered only after the 8/9 m baseline attempts fail.
 
 The grid is rejected if any node lacks a safe rotor radius, any sampled target remains uncovered, any sector leaves the calculation rectangle, or any horizontally/vertically adjacent grid pair fails mutual Head-to-Head.
 
@@ -64,9 +64,9 @@ Each 3504-PC head is explicitly tagged:
 - `performanceModel: '3504-PC'`;
 - `pattern: 'rotor'`;
 - `source: 'vertex' | 'edge' | 'interior'`;
-- `radiusM: 5 | 6 | 7 | 8 | 9 | 10`.
+- `radiusM: 5 | 6 | 7 | 8 | 9`.
 
-The project snapshot validator accepts and preserves the rotor pattern. The BOM validates that a 3504-PC head is a rotor with a 5–10 m planning radius, adds SKU `Y34001`, and does not add an 1804 spray body to that rotor. The assistant's layout details show the planning radius beside the 3504-PC arc. The customer-facing equipment-set summary uses generic sprinkler/nozzle wording and does not incorrectly claim that every layout contains 1804 spray bodies.
+The project snapshot validator accepts and preserves the rotor pattern. The BOM validates that a 3504-PC head is a rotor with a 5–9 m planning radius, adds SKU `Y34001`, and does not add an 1804 spray body to that rotor. The assistant's layout details show the planning radius beside the 3504-PC arc. The customer-facing equipment-set summary uses generic sprinkler/nozzle wording and does not incorrectly claim that every layout contains 1804 spray bodies.
 
 The four-corner and shared-cell diagnostics are included in the solver result so regression tests can verify cell count, four corner positions per cell and unique shared-node count.
 
@@ -74,9 +74,9 @@ The four-corner and shared-cell diagnostics are included in the solver result so
 
 The integration test suite must verify:
 - 8×8 m: exactly four 8 m corner rotors, no intermediate heads;
-- 10×10 m: four 10 m corner rotors are chosen before adding intermediate heads;
+- 10×10 m: four 8 m corner rotors are chosen before adding intermediate heads;
 - 38×16 m: 5×2 cells, 10 cells, 18 unique rotor positions, complete coverage and mutual Head-to-Head;
-- 20×10 m: 10 m grid stage avoids an unnecessary extra row while retaining mutual Head-to-Head;
+- 20×10 m: no 10 m throw is used; after 8/9/7/6 m candidates fail the complete checks, the 5 m shared-cell grid passes with 15 rotors;
 - 20×15 m: local clearances reduce selected radii while preserving adjacent Head-to-Head;
 - the 3504-PC solver keeps all geometric corner positions unshifted;
 - a 7.5 cm seam offset applies only to the matching R-VAN fallback corner candidate;
@@ -108,3 +108,12 @@ The integration test suite must verify:
 ## 7. Release boundary
 
 PR #530 is merged and its exact merge commit was deployed successfully to Cloudflare Pages Production. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or email tests were part of this work. A separate rendered-PDF visual review remains outstanding. Hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance are not evaluated.
+
+
+## 8. Rectangular non-sprinkler areas — coordinate and display contract
+
+- X and Y are measured from the lawn's lower-left corner. Both coordinates must be finite and non-negative; X=0, Y=0 and the combined origin (0, 0) are all valid.
+- Width and length must each be strictly greater than zero. The rectangle must remain within the lawn boundary and must not overlap another exclusion.
+- Supported area kinds in the customer assistant and persisted project are pool, building/gazebo, paved area and drip-irrigated area. A drip-irrigated area is excluded from sprinkler coverage but is explicitly identified as served by drip irrigation; it is not described as an area receiving no irrigation at all.
+- The drip-irrigated area uses a distinct green/teal fill with parallel dripline strokes and emitter dots in both the browser diagrams and the preliminary project PDF.
+- Customer-facing labels are localized in Bulgarian, Russian and English. Bulgarian uses „Зона с настилка“ for a paved area and „Зона с капково напояване“ for a drip-irrigated area.

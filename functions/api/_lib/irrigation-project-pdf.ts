@@ -4,7 +4,7 @@ import fontkit from '@pdf-lib/fontkit'
 
 type ProjectPoint = { x: number; y: number }
 type IrrigationProject = {
-  geometry: { shape: string; dimensionsM: { length: number | null; width: number | null; cutoutWidth: number | null; cutoutDepth: number | null; cutoutCorner: string }; areaM2: number; perimeterM: number; normalized: { regions: Array<{ boundary: { vertices: ProjectPoint[] }; exclusions?: Array<{ id: string; polygon: { vertices: ProjectPoint[] } }> }> } }
+  geometry: { shape: string; dimensionsM: { length: number | null; width: number | null; cutoutWidth: number | null; cutoutDepth: number | null; cutoutCorner: string }; areaM2: number; perimeterM: number; normalized: { regions: Array<{ boundary: { vertices: ProjectPoint[] }; exclusions?: Array<{ id: string; kind?: string; polygon: { vertices: ProjectPoint[] } }> }> } }
   operatingScenario: { manufacturer: string; family: string; model: string; pressureBar: number | null; actualNozzlePressureVerified: false }
   layout: { model: string; engineVersion: string; algorithm: string; sprinklers: Array<{ id: string; position: ProjectPoint; radiusM: number | null; arcDeg: number | null; performanceModel: string; pattern?: string; stripWidthM?: number | null; stripLengthM?: number | null; stripDirection?: string | null; stripAxis?: string | null; source: string }> }
   zones: Array<{ id: string; zoneNumber: number; zoneType: string; sprinklerIds: string[] }>
@@ -115,17 +115,53 @@ export const createIrrigationProjectPdf = async (
     const exclusionVertices = exclusion.polygon.vertices
     const xs = exclusionVertices.map((point) => point.x)
     const ys = exclusionVertices.map((point) => point.y)
-    const bottomLeft = mapPoint({ x: Math.min(...xs), y: Math.min(...ys) })
-    const topRight = mapPoint({ x: Math.max(...xs), y: Math.max(...ys) })
+    const minX = Math.min(...xs), maxX = Math.max(...xs)
+    const minY = Math.min(...ys), maxY = Math.max(...ys)
+    const bottomLeft = mapPoint({ x: minX, y: minY })
+    const topRight = mapPoint({ x: maxX, y: maxY })
+    const topLeft = mapPoint({ x: minX, y: maxY })
+    const bottomRight = mapPoint({ x: maxX, y: minY })
+    const colors = exclusion.kind === 'pool'
+      ? { fill: rgb(0.55, 0.83, 0.97), border: rgb(0.02, 0.41, 0.65), detail: rgb(0.02, 0.48, 0.72) }
+      : exclusion.kind === 'building'
+        ? { fill: rgb(0.98, 0.76, 0.76), border: rgb(0.72, 0.11, 0.11), detail: rgb(0.62, 0.08, 0.08) }
+        : exclusion.kind === 'drip'
+          ? { fill: rgb(0.65, 0.93, 0.82), border: rgb(0.02, 0.47, 0.36), detail: rgb(0.02, 0.55, 0.42) }
+          : { fill: rgb(0.82, 0.84, 0.87), border: rgb(0.42, 0.48, 0.56), detail: rgb(0.52, 0.56, 0.61) }
     page.drawRectangle({
       x: bottomLeft.x,
       y: bottomLeft.y,
       width: topRight.x - bottomLeft.x,
       height: topRight.y - bottomLeft.y,
-      color: rgb(0.86, 0.89, 0.93),
-      borderColor: rgb(0.42, 0.48, 0.56),
+      color: colors.fill,
+      borderColor: colors.border,
       borderWidth: 0.65,
     })
+    if (exclusion.kind === 'building') {
+      page.drawLine({ start: bottomLeft, end: topRight, color: colors.detail, thickness: 0.9 })
+      page.drawLine({ start: topLeft, end: bottomRight, color: colors.detail, thickness: 0.9 })
+    } else if (exclusion.kind === 'pool') {
+      for (const level of [0.35, 0.65]) {
+        const wave = [0.15, 0.38, 0.62, 0.85].map((fraction, index) =>
+          mapPoint({
+            x: minX + (maxX - minX) * fraction,
+            y: minY + (maxY - minY) * (level + (index % 2 ? 0.045 : -0.045)),
+          }))
+        for (let index = 0; index < wave.length - 1; index += 1) {
+          page.drawLine({ start: wave[index], end: wave[index + 1], color: colors.detail, thickness: 0.9 })
+        }
+      }
+    } else if (exclusion.kind === 'drip') {
+      for (const level of [0.3, 0.5, 0.7]) {
+        const start = mapPoint({ x: minX + (maxX - minX) * 0.12, y: minY + (maxY - minY) * level })
+        const end = mapPoint({ x: maxX - (maxX - minX) * 0.12, y: minY + (maxY - minY) * level })
+        page.drawLine({ start, end, color: colors.detail, thickness: 1 })
+      }
+      for (const fraction of [0.25, 0.5, 0.75]) {
+        const emitter = mapPoint({ x: minX + (maxX - minX) * fraction, y: minY + (maxY - minY) * 0.5 })
+        page.drawCircle({ x: emitter.x, y: emitter.y, size: 1.5, color: colors.detail, borderColor: rgb(1, 1, 1), borderWidth: 0.35 })
+      }
+    }
     const points = exclusionVertices.map(mapPoint)
     for (let index = 0; index < points.length; index += 1) {
       page.drawLine({
@@ -204,11 +240,15 @@ export const createIrrigationProjectPdf = async (
       const points = exclusion.polygon.vertices
       const xs = points.map((point) => point.x)
       const ys = points.map((point) => point.y)
-      return (exclusion.id || 'exclusion') + ': ' +
+      const kindLabel = exclusion.kind === 'pool' ? 'Басейн' :
+        exclusion.kind === 'building' ? 'Къща / беседка' :
+          exclusion.kind === 'patio' ? 'Зона с настилка' :
+            exclusion.kind === 'drip' ? 'Зона с капково напояване' : 'Зона без дъждуване'
+      return kindLabel + ' (' + (exclusion.id || 'exclusion') + '): ' +
         (Math.max(...xs) - Math.min(...xs)).toFixed(1) + ' × ' +
         (Math.max(...ys) - Math.min(...ys)).toFixed(1) + ' m'
     })
-    write('Неполиваеми правоъгълници: ' + exclusionLabels.join('; '), { size: 7 })
+    write('Зони без дъждуване: ' + exclusionLabels.join('; '), { size: 7 })
   }
   write('Изчислено по контура: площ ' + project.geometry.areaM2.toFixed(2) + ' m² · периметър ' + project.geometry.perimeterM.toFixed(2) + ' m')
   write('Модел: ' + project.operatingScenario.manufacturer + ' ' + project.operatingScenario.family + ' ' + project.operatingScenario.model)

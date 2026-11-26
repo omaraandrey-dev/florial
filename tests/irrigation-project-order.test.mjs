@@ -72,6 +72,7 @@ test('preserves validated rectangular non-irrigated areas in the persisted proje
   const project = snapshot()
   project.geometry.normalized.regions[0].exclusions = [{
     id: 'pool',
+    kind: 'pool',
     polygon: { vertices: [
       { x: 8, y: 1 }, { x: 12, y: 1 }, { x: 12, y: 4 }, { x: 8, y: 4 }, { x: 8, y: 1 },
     ] },
@@ -79,6 +80,23 @@ test('preserves validated rectangular non-irrigated areas in the persisted proje
   const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
   assert.equal(result.valid, true)
   assert.deepEqual(result.snapshot.geometry.normalized.regions[0].exclusions[0].polygon.vertices, project.geometry.normalized.regions[0].exclusions[0].polygon.vertices.slice(0, 4))
+  assert.equal(result.snapshot.geometry.normalized.regions[0].exclusions[0].kind, 'pool')
+})
+
+test('persists rectangular exclusions at X=0, Y=0 and the (0,0) origin, including drip areas', () => {
+  for (const [x, y, kind] of [[0, 1, 'patio'], [1, 0, 'pool'], [0, 0, 'drip']]) {
+    const project = snapshot()
+    project.geometry.normalized.regions[0].exclusions = [{
+      id: 'edge-area',
+      kind,
+      polygon: { vertices: [
+        { x, y }, { x: x + 4, y }, { x: x + 4, y: y + 2 }, { x, y: y + 2 }, { x, y },
+      ] },
+    }]
+    const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
+    assert.equal(result.valid, true)
+    assert.equal(result.snapshot.geometry.normalized.regions[0].exclusions[0].kind, kind)
+  }
 })
 
 test('rejects malformed or out-of-bound non-irrigated rectangles', () => {
@@ -257,10 +275,15 @@ test('irrigation project PDF contains the drawing, zone assignment, BOM and expl
   assert.match(pdf, /Ведомост на материалите/)
   assert.match(pdf, /Въведени от клиента/)
   assert.match(pdf, /buildLawnDimensionAnnotations\(vertices, exclusions\)/)
-  assert.match(pdf, /Неполиваеми правоъгълници/)
+  assert.match(pdf, /Зони без дъждуване/)
   assert.match(pdf, /annotation\.lengthM\.toFixed\(1\)/)
   assert.match(pdf, /exclusionVertices\.map\(mapPoint\)/)
-  assert.match(pdf, /color: rgb\(0\.86, 0\.89, 0\.93\)/)
+  assert.match(pdf, /exclusion\.kind === 'pool'/)
+  assert.match(pdf, /exclusion\.kind === 'building'/)
+  assert.match(pdf, /exclusion\.kind === 'patio'/)
+  assert.match(pdf, /exclusion\.kind === 'drip'/)
+  assert.match(pdf, /Зона с капково напояване/)
+  assert.match(pdf, /color: colors\.fill/)
   assert.match(pdf, /планировъчен R=/)
   assert.match(pdf, /геометрична планировъчна стойност на Florial/)
   const assistantPage = await readFile(new URL('../src/pages/IrrigationAssistantPage.tsx', import.meta.url), 'utf8')
@@ -380,6 +403,14 @@ test('accepts a single 3504-PC rotor without inventing a head-to-head neighbour'
   assert.equal(result.valid, true)
   assert.equal(result.snapshot.layout.sprinklers[0].performanceModel, '3504-PC')
   assert.equal(result.snapshot.layout.headToHeadApplicable, false)
+
+  project.layout.sprinklers[0].radiusM = 10
+  const rejected = validateIrrigationProjectSnapshot({
+    ...project,
+    orderItems: [{ sku: 'Y34001', qty: 1 }, { sku: 'A46010', qty: 2 }],
+  })
+  assert.equal(rejected.valid, false)
+  assert.equal(rejected.reason, 'invalid_project_sprinkler')
 })
 
 test('persists the explicit rotor pattern and corner-first layout identity for 3504-PC', () => {

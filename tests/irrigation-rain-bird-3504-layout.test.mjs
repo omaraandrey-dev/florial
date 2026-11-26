@@ -49,13 +49,15 @@ test('8x8 square starts and finishes with exactly four corner rotors', () => {
   )
 })
 
-test('10x10 square expands corner reach to 10m before adding intermediate heads', () => {
+test('10x10 square uses the preferred 8m corner radius without extending to 10m', () => {
   const result = generateRainBird3504Layout(geometry(10, 10))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.layoutStrategy, 'four-corners-first')
-  assert.equal(result.planningRadiusM, 10)
-  assert.equal(result.sprinklers.length, 4)
-  assert.ok(result.sprinklers.every((head) => head.radiusM === 10))
+  assert.equal(result.layoutStrategy, 'corner-first-shared-cell-grid')
+  assert.equal(result.planningRadiusM, 8)
+  assert.equal(result.sprinklers.length, 9)
+  assert.equal(result.sprinklers.filter((head) => head.radiusM === 8).length, 4)
+  assert.ok(result.sprinklers.some((head) => head.radiusM === 5))
+  assert.ok(result.sprinklers.every((head) => head.radiusM !== 10))
   assert.equal(result.coverage?.uncoveredPoints, 0)
   assert.equal(result.headToHead?.passed, true)
 })
@@ -78,12 +80,15 @@ test('38x16 rectangle uses a shared corner grid with four positions per cell and
   assert.ok(result.headToHead.checks.length >= 22)
 })
 
-test('20x10 rectangle may extend to 10m when that avoids an unnecessary extra rotor row', () => {
+test('20x10 rectangle expands to a 5m supplemental grid only after larger stages fail', () => {
   const result = generateRainBird3504Layout(geometry(20, 10))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.planningRadiusM, 10)
-  assert.equal(result.grid?.cells, 2)
-  assert.equal(result.sprinklers.length, 6)
+  assert.equal(result.planningRadiusM, 8)
+  assert.equal(result.supplementalRadiusM, 5)
+  assert.equal(result.grid?.cells, 8)
+  assert.equal(result.sprinklers.length, 15)
+  assert.equal(result.sprinklers.filter((head) => head.radiusM === 8 && head.source === 'vertex').length, 4)
+  assert.ok(result.sprinklers.filter((head) => head.source !== 'vertex').every((head) => head.radiusM === 5))
   assert.equal(result.coverage?.uncoveredPoints, 0)
   assert.equal(result.headToHead?.passed, true)
 })
@@ -91,11 +96,15 @@ test('20x10 rectangle may extend to 10m when that avoids an unnecessary extra ro
 test('local clearances reduce rotor radii without breaking adjacent head-to-head links', () => {
   const result = generateRainBird3504Layout(geometry(18, 14))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.planningRadiusM, 7)
+  assert.equal(result.planningRadiusM, 8)
+  assert.equal(result.supplementalRadiusM, 7)
+  assert.equal(result.sprinklers.filter((head) => head.radiusM === 8 && head.source === 'vertex').length, 4)
   assert.equal(result.coverage?.uncoveredPoints, 0)
   assert.equal(result.headToHead?.passed, true)
-  assert.ok(result.sprinklers.every((head) => [5, 6, 7].includes(head.radiusM)))
+  assert.ok(result.sprinklers.every((head) => [5, 6, 7, 8].includes(head.radiusM)))
+  assert.ok(result.sprinklers.filter((head) => head.source !== 'vertex').every((head) => [5, 6, 7].includes(head.radiusM)))
   assert.ok(result.sprinklers.some((head) => head.radiusM === 7))
+  assert.ok(result.sprinklers.every((head) => head.radiusM !== 10))
 })
 
 test('3504-PC corner-first placement keeps rotor positions on the true rectangle corners', () => {

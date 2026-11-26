@@ -62,7 +62,7 @@ export function buildIrrigationBillOfMaterials(layout, zones) {
     if (baseModel === '3504-PC') {
       if (sprinkler.pattern !== 'rotor' ||
           !Number.isFinite(sprinkler.radiusM) ||
-          sprinkler.radiusM < 5 || sprinkler.radiusM > 10) {
+          sprinkler.radiusM < 5 || sprinkler.radiusM > 9) {
         return Object.freeze({
           valid: false,
           reason: 'invalid_3504_pc_head_definition',
