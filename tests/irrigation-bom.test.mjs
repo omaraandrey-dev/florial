@@ -155,6 +155,6 @@ test('rejects a 3504-PC rotor without the rotor pattern or a valid planning radi
     ...base, sprinklers: [{ ...base.sprinklers[0], pattern: 'circular' }],
   }, zones).reason, 'invalid_3504_pc_head_definition')
   assert.equal(buildIrrigationBillOfMaterials({
-    ...base, sprinklers: [{ ...base.sprinklers[0], radiusM: 11 }],
+    ...base, sprinklers: [{ ...base.sprinklers[0], radiusM: 10 }],
   }, zones).reason, 'invalid_3504_pc_head_definition')
 })
