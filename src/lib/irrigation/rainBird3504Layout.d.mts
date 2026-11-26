@@ -3,8 +3,8 @@ export interface RainBird3504LayoutResult {
   readonly status: string
   readonly family?: '3500'
   readonly model?: '3504-PC'
-  readonly planningRadiusM?: 8 | 9 | null
-  readonly supplementalRadiusM?: 5 | 6 | 7 | null
+  readonly planningRadiusM?: number | null
+  readonly supplementalRadiusM?: number | null
   readonly layoutStrategy?: 'four-corners-first' | 'corner-first-shared-cell-grid'
   readonly grid?: Readonly<{
     columns: number
@@ -19,7 +19,7 @@ export interface RainBird3504LayoutResult {
     arcDeg: 90 | 180 | 360
     directionDeg: number | null
     source: 'vertex' | 'edge' | 'interior'
-    radiusM: 5 | 6 | 7 | 8 | 9 | 10
+    radiusM: number
     pressureBar: null
     flowLpm: null
     precipitationSquareMmH: null
