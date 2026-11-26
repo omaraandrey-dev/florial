@@ -1583,6 +1583,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
 
   let allHeads = [...rotorHeads, ...rvanHeads]
   const stripParts = []
+  const stripWarnings = []
   const decomposition = decomposeOrthogonalRegion(region, validation.regions[0].netAreaM2)
   if (decomposition?.length) {
     const stripRegions = mergeDirectionalStripParts(decomposition.filter((part) =>
@@ -1619,7 +1620,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
           [...stripParts, part],
         )
         if (!stripBoundaryCheck.passed) {
-          warnings.push(Object.freeze({
+          stripWarnings.push(Object.freeze({
             code: 'strip_pattern_rejected_due_to_boundary_overspray',
             path: 'layout.sprinklers',
             stripId: part.id,
@@ -1675,6 +1676,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     : 'coverage_incomplete'
 
   const warnings = [
+    ...stripWarnings,
     ...(rotorAttempt.warnings ?? []),
     ...(rvanLayout.warnings ?? []),
     Object.freeze({ code: 'whole_polygon_rotor_pass_runs_before_rvan', path: 'layout.sprinklers' }),
