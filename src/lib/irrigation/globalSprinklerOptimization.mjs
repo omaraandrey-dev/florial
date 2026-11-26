@@ -664,10 +664,6 @@ function replacementPositions(group, targets) {
   const unique = new Map()
   for (const point of positions) {
     if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) continue
-    if (!pointIsTarget(point, { boundary: { vertices: [] }, exclusions: [] })) {
-      // Geometry membership is checked by the actual target list below.
-      if (!targets.some((target) => distance(target, point) <= COORDINATE_TOLERANCE)) continue
-    }
     const key = Math.round(point.x / 0.25) + ':' + Math.round(point.y / 0.25)
     unique.set(key, point)
   }
