@@ -1328,6 +1328,62 @@ function stripOptions(shortSideM) {
  */
 
 
+
+function uncoveredStripRuns(strip, previousHeads, sampleStepM) {
+  const horizontal = strip.widthM >= strip.heightM
+  const axisStart = horizontal ? strip.minX : strip.minY
+  const axisEnd = horizontal ? strip.maxX : strip.maxY
+  const crossStart = horizontal ? strip.minY : strip.minX
+  const crossEnd = horizontal ? strip.maxY : strip.maxX
+  const axisCount = Math.max(1, Math.ceil((axisEnd - axisStart) / sampleStepM))
+  const crossCount = Math.max(1, Math.ceil((crossEnd - crossStart) / sampleStepM))
+  const uncovered = []
+  for (let axisIndex = 0; axisIndex < axisCount; axisIndex += 1) {
+    const axis = axisStart + (axisIndex + 0.5) * (axisEnd - axisStart) / axisCount
+    let hasUncovered = false
+    for (let crossIndex = 0; crossIndex < crossCount; crossIndex += 1) {
+      const cross = crossStart + (crossIndex + 0.5) * (crossEnd - crossStart) / crossCount
+      const point = horizontal ? { x: axis, y: cross } : { x: cross, y: axis }
+      if (!previousHeads.some((head) => sprinklerCoversPoint(head, point))) {
+        hasUncovered = true
+        break
+      }
+    }
+    uncovered.push(hasUncovered)
+  }
+
+  const runs = []
+  let runStart = null
+  for (let index = 0; index <= uncovered.length; index += 1) {
+    if (index < uncovered.length && uncovered[index]) {
+      if (runStart === null) runStart = index
+      continue
+    }
+    if (runStart === null) continue
+    const start = Math.max(axisStart, axisStart + runStart * (axisEnd - axisStart) / axisCount)
+    const end = Math.min(axisEnd, axisStart + index * (axisEnd - axisStart) / axisCount)
+    if (end > start + 1e-8) {
+      const minX = horizontal ? start : strip.minX
+      const maxX = horizontal ? end : strip.maxX
+      const minY = horizontal ? strip.minY : start
+      const maxY = horizontal ? strip.maxY : end
+      const widthM = maxX - minX
+      const heightM = maxY - minY
+      runs.push(Object.freeze({
+        ...strip,
+        id: strip.id + '-residual-' + String(runs.length + 1).padStart(2, '0'),
+        minX, maxX, minY, maxY,
+        widthM, heightM,
+        shortSideM: Math.min(widthM, heightM),
+        lengthM: Math.max(widthM, heightM),
+        areaM2: widthM * heightM,
+      }))
+    }
+    runStart = null
+  }
+  return runs
+}
+
 function mergeDirectionalStripParts(parts) {
   const merged = []
   for (const part of parts) {
@@ -1507,25 +1563,32 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     const stripRegions = mergeDirectionalStripParts(decomposition.filter((part) =>
       SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8)))
     for (const strip of stripRegions) {
-      const previousCoverage = rectangleCoverageByPreviousHeads(strip, allHeads, sampleStepM)
-      if (previousCoverage.uncoveredPoints === 0) continue
-      const stripGeometry = rectangleGeometry('strip-' + strip.id, strip)
-      const stripLayout = buildRvanStripLayout(stripGeometry, strip.shortSideM)
-      if (!stripLayout) continue
-      const prefix = 'z' + (stripParts.length + 1) + '-'
-      const part = Object.freeze({
-        ...strip,
-        id: 'strip-' + strip.id,
-        isStrip: true,
-        previousCoverage,
-        layout: stripLayout,
-      })
-      stripParts.push(part)
-      allHeads.push(...stripLayout.sprinklers.map((head) => Object.freeze({
-        ...head,
-        id: prefix + head.id,
-        calculationRegionId: region.id,
-      })))
+      const residualRuns = uncoveredStripRuns(strip, allHeads, sampleStepM)
+      for (const residual of residualRuns) {
+        const previousCoverage = rectangleCoverageByPreviousHeads(residual, allHeads, sampleStepM)
+        if (previousCoverage.uncoveredPoints === 0) continue
+        const connectedEnd = inferConnectedStripEnd(residual, decomposition)
+        const stripGeometry = rectangleGeometry('strip-' + residual.id, residual)
+        const stripLayout = connectedEnd
+          ? buildConnectedRvanStripLayout(stripGeometry, residual.shortSideM, connectedEnd)
+          : buildRvanStripLayout(stripGeometry, residual.shortSideM)
+        if (!stripLayout) continue
+        const prefix = 'z' + (stripParts.length + 1) + '-'
+        const part = Object.freeze({
+          ...residual,
+          id: 'strip-' + residual.id,
+          isStrip: true,
+          connectedEnd,
+          previousCoverage,
+          layout: stripLayout,
+        })
+        stripParts.push(part)
+        allHeads.push(...stripLayout.sprinklers.map((head) => Object.freeze({
+          ...head,
+          id: prefix + head.id,
+          calculationRegionId: region.id,
+        })))
+      }
     }
   }
 
