@@ -3,6 +3,7 @@ import { evaluateHeadToHeadSpacing, sprinklersMutuallyReach } from './lawnSprink
 
 const ENGINE_VERSION = '2.0.0'
 const EPSILON = 1e-8
+const BASE_RADIUS_STAGES_M = Object.freeze([8, 9])
 const RADIUS_STAGES_M = Object.freeze([8, 9, 7, 6, 5])
 const ALLOWED_RADII_M = Object.freeze([9, 8, 7, 6, 5])
 const MAX_TARGETS = 30000
@@ -290,7 +291,14 @@ function buildGrid(bounds, stageRadiusM) {
   for (let row = 0; row < ys.length; row += 1) {
     for (let column = 0; column < xs.length; column += 1) {
       const point = { x: xs[column], y: ys[row] }
-      const head = makeHead(point, bounds, stageRadiusM, index)
+      const isCorner = (row === 0 || row === ys.length - 1) &&
+        (column === 0 || column === xs.length - 1)
+      const baseCorner = stageRadiusM < 8 && isCorner
+        ? makeHead(point, bounds, 8, index)
+        : null
+      const head = baseCorner?.radiusM === 8
+        ? baseCorner
+        : makeHead(point, bounds, stageRadiusM, index)
       if (!head) return null
       heads.push(Object.freeze({ ...head, gridKey: row + ':' + column }))
       index += 1
@@ -347,7 +355,7 @@ export function generateRainBird3504Layout(geometry, {
   const prior = Array.isArray(initialSprinklers) ? initialSprinklers : []
 
   // Phase 1: all four true rectangle corners, before any interior or side rows.
-  for (const stageRadiusM of RADIUS_STAGES_M) {
+  for (const stageRadiusM of BASE_RADIUS_STAGES_M) {
     const heads = buildCornerOnly(bounds, stageRadiusM)
     if (!heads) continue
     const coverage = evaluateCoverage(heads, targets, prior)
@@ -413,7 +421,8 @@ export function generateRainBird3504Layout(geometry, {
   return result('layout_generated', {
     family: '3500',
     model: '3504-PC',
-    planningRadiusM: selected.stageRadiusM,
+    planningRadiusM: selected.stageRadiusM < 8 ? 8 : selected.stageRadiusM,
+    supplementalRadiusM: selected.stageRadiusM < 8 ? selected.stageRadiusM : null,
     layoutStrategy: 'corner-first-shared-cell-grid',
     grid: Object.freeze({
       columns: selected.grid.xs.length - 1,
