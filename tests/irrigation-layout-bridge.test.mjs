@@ -124,6 +124,52 @@ test('each rectangle uses a complete 3504-PC layout or falls back wholly to the 
   }
 })
 
+test('20x20 square keeps a four-way symmetric 3504-PC layout after global optimization', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(20, 20))
+  assertGlobalLayoutStatus(result, JSON.stringify({
+    coverage: result.layout?.coverage,
+    headToHead: result.layout?.headToHead,
+    optimization: result.layout?.globalOptimization,
+  }))
+  const heads = result.layout.sprinklers
+  assert.ok(heads.length > 0)
+  assert.ok(heads.every((head) => head.performanceModel === '3504-PC'))
+  assert.equal(result.layout.coverage.uncoveredPoints, 0)
+  assert.equal(result.layout.headToHead.passed, true)
+  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
+
+  const sideCounts = [
+    heads.filter((head) => Math.abs(head.position.y - 20) < 1e-6).length,
+    heads.filter((head) => Math.abs(head.position.y) < 1e-6).length,
+    heads.filter((head) => Math.abs(head.position.x) < 1e-6).length,
+    heads.filter((head) => Math.abs(head.position.x - 20) < 1e-6).length,
+  ]
+  assert.equal(new Set(sideCounts).size, 1, 'all four sides must retain equal sprinkler counts')
+
+  const transforms = [
+    { point: (p) => ({ x: 20 - p.x, y: p.y }), angle: (d) => 180 - d },
+    { point: (p) => ({ x: p.x, y: 20 - p.y }), angle: (d) => -d },
+    { point: (p) => ({ x: 20 - p.x, y: 20 - p.y }), angle: (d) => d + 180 },
+    { point: (p) => ({ x: 20 - p.y, y: p.x }), angle: (d) => d + 90 },
+    { point: (p) => ({ x: p.y, y: 20 - p.x }), angle: (d) => d - 90 },
+    { point: (p) => ({ x: p.y, y: p.x }), angle: (d) => 90 - d },
+    { point: (p) => ({ x: 20 - p.y, y: 20 - p.x }), angle: (d) => 270 - d },
+  ]
+  const normalize = (value) => ((value % 360) + 360) % 360
+  for (const head of heads) {
+    for (const transform of transforms) {
+      const position = transform.point(head.position)
+      const match = heads.find((candidate) =>
+        Math.hypot(candidate.position.x - position.x, candidate.position.y - position.y) < 1e-6 &&
+        Math.abs(candidate.radiusM - head.radiusM) < 1e-6 &&
+        candidate.arcDeg === head.arcDeg &&
+        (head.arcDeg === 360 ||
+          Math.abs(((normalize(candidate.directionDeg) - normalize(transform.angle(head.directionDeg)) + 540) % 360) - 180) < 1e-5))
+      assert.ok(match, 'missing symmetric counterpart for ' + head.id + ' at ' + JSON.stringify(position))
+    }
+  }
+})
+
 test('38x16 rectangle is covered by 3504-PC rotors without redundant R-VAN heads', () => {
   const snapshot = snapshotFor(38, 16)
   const rotorAttempt = generateRainBird3504Layout(snapshot.geometry.normalized)
