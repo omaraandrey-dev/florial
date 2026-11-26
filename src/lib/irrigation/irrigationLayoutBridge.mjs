@@ -1327,6 +1327,47 @@ function stripOptions(shortSideM) {
  * No customer water-source, pressure or flow inputs are requested or used.
  */
 
+
+function mergeDirectionalStripParts(parts) {
+  const merged = []
+  for (const part of parts) {
+    if (!(part.lengthM > part.shortSideM + 1e-8)) continue
+    const horizontal = part.widthM >= part.heightM
+    const match = merged.find((entry) => {
+      if (entry.horizontal !== horizontal ||
+          Math.abs(entry.shortSideM - part.shortSideM) > 1e-8) return false
+      if (horizontal) {
+        return Math.abs(entry.minY - part.minY) <= 1e-8 &&
+          Math.abs(entry.maxY - part.maxY) <= 1e-8 &&
+          (Math.abs(entry.maxX - part.minX) <= 1e-8 || Math.abs(part.maxX - entry.minX) <= 1e-8)
+      }
+      return Math.abs(entry.minX - part.minX) <= 1e-8 &&
+        Math.abs(entry.maxX - part.maxX) <= 1e-8 &&
+        (Math.abs(entry.maxY - part.minY) <= 1e-8 || Math.abs(part.maxY - entry.minY) <= 1e-8)
+    })
+    if (!match) {
+      merged.push({
+        ...part,
+        horizontal,
+      })
+      continue
+    }
+    match.minX = Math.min(match.minX, part.minX)
+    match.maxX = Math.max(match.maxX, part.maxX)
+    match.minY = Math.min(match.minY, part.minY)
+    match.maxY = Math.max(match.maxY, part.maxY)
+    match.widthM = match.maxX - match.minX
+    match.heightM = match.maxY - match.minY
+    match.shortSideM = Math.min(match.widthM, match.heightM)
+    match.lengthM = Math.max(match.widthM, match.heightM)
+    match.areaM2 = match.widthM * match.heightM
+  }
+  return merged.map((part, index) => Object.freeze({
+    ...part,
+    id: 'merged-strip-' + String(index + 1).padStart(3, '0'),
+  }))
+}
+
 function perimeterMetadataForPosition(position, vertices) {
   const points = vertices.length > 1 &&
     Math.hypot(vertices[0].x - vertices[vertices.length - 1].x,
@@ -1463,23 +1504,19 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const stripParts = []
   const decomposition = decomposeOrthogonalRegion(region, validation.regions[0].netAreaM2)
   if (decomposition?.length) {
-    const stripRegions = decomposition.filter((part) =>
-      SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8))
+    const stripRegions = mergeDirectionalStripParts(decomposition.filter((part) =>
+      SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8)))
     for (const strip of stripRegions) {
       const previousCoverage = rectangleCoverageByPreviousHeads(strip, allHeads, sampleStepM)
       if (previousCoverage.uncoveredPoints === 0) continue
-      const connectedEnd = inferConnectedStripEnd(strip, decomposition)
       const stripGeometry = rectangleGeometry('strip-' + strip.id, strip)
-      const stripLayout = connectedEnd
-        ? buildConnectedRvanStripLayout(stripGeometry, strip.shortSideM, connectedEnd)
-        : buildRvanStripLayout(stripGeometry, strip.shortSideM)
+      const stripLayout = buildRvanStripLayout(stripGeometry, strip.shortSideM)
       if (!stripLayout) continue
       const prefix = 'z' + (stripParts.length + 1) + '-'
       const part = Object.freeze({
         ...strip,
         id: 'strip-' + strip.id,
         isStrip: true,
-        connectedEnd,
         previousCoverage,
         layout: stripLayout,
       })
