@@ -347,22 +347,28 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     if (!normal) continue
 
     if (preventOverspray && family === 'R-VAN') {
-      const safeMaximumRadiusM = Math.min(spacingRadiusM, length / 2)
+      const safeMaximumRadiusM = Math.min(6, spacingRadiusM, length / 2)
       if (safeMaximumRadiusM < 3 - EPSILON) continue
-      const divisions = Math.max(1, Math.ceil(length / safeMaximumRadiusM))
-      const edgeSpacingM = length / divisions
-      const edgeNozzle = nozzleForRadius(edgeSpacingM)
-      if (!edgeNozzle || edgeNozzle.radiusM > safeMaximumRadiusM + EPSILON) continue
-      const headCount = divisions - 1
-      for (let part = 0; part < headCount; part += 1) {
-        const offsetM = headCount === 1
-          ? length / 2
-          : edgeNozzle.radiusM + (length - 2 * edgeNozzle.radiusM) * part / (headCount - 1)
-        const ratio = offsetM / length
-        add({
-          x: a.x + (b.x - a.x) * ratio,
-          y: a.y + (b.y - a.y) * ratio,
-        }, 180, normal, 'edge', perimeterOffsets[index] + offsetM, edgeNozzle)
+      // An L-shape edge can be locally blocked by its concave notch even when
+      // the bounding rectangle is clear. Generate a descending set of exact
+      // R-VAN planning radii; the polygon-footprint gate below keeps only
+      // sectors that really fit the irrigated outline.
+      const radiusStages = [6, 5.5, 5, 4.5, 4, 3]
+      const addedRadii = new Set()
+      for (const stageRadiusM of radiusStages) {
+        if (stageRadiusM > safeMaximumRadiusM + EPSILON) continue
+        const edgeNozzle = selectRvanModelForMaximumRadius(stageRadiusM)
+        if (!edgeNozzle || addedRadii.has(edgeNozzle.radiusM)) continue
+        addedRadii.add(edgeNozzle.radiusM)
+        const divisions = Math.max(1, Math.ceil(length / edgeNozzle.radiusM))
+        for (let part = 1; part < divisions; part += 1) {
+          const offsetM = length * part / divisions
+          const ratio = offsetM / length
+          add({
+            x: a.x + (b.x - a.x) * ratio,
+            y: a.y + (b.y - a.y) * ratio,
+          }, 180, normal, 'edge', perimeterOffsets[index] + offsetM, edgeNozzle)
+        }
       }
       continue
     }
