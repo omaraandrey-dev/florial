@@ -2,6 +2,7 @@ import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout, sprinklersMutua
 import { decomposeOrthogonalRegion } from './orthogonalRectangleDecomposition.mjs'
 import { validateLawnGeometry } from './lawnGeometry.mjs'
 import { generateRainBird3504Layout } from './rainBird3504Layout.mjs'
+import { optimizeGlobalSprinklerSet } from './globalSprinklerOptimization.mjs'
 import {
   findRainBirdRvanPerformancePoint,
   RAIN_BIRD_RVAN_DATASET,
@@ -493,7 +494,7 @@ function rectangleRotorLayout(rectGeometry, part, sampleStepM) {
   return Object.freeze({
     ...candidate,
     engineVersion: '0.7.0',
-    algorithm: 'area-ascending-per-rectangle-3504pc-first-rvan-fallback-v1',
+    algorithm: 'area-descending-per-rectangle-3504pc-first-rvan-fallback-global-minimization-v1',
     status: 'coverage_complete_sampled',
     coverageScope: 'sampled_geometry_only',
     family: '3500',
@@ -529,8 +530,8 @@ function inwardSeamOffset(bounds, seam, offsetM = 0.075) {
 
 function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, sampleStepM, shortSideM, initialHeads = []) {
   const orderedParts = parts.slice().sort((a, b) =>
-    (a.shortSideM * a.lengthM) - (b.shortSideM * b.lengthM) ||
-    a.shortSideM - b.shortSideM || a.lengthM - b.lengthM ||
+    (b.shortSideM * b.lengthM) - (a.shortSideM * a.lengthM) ||
+    b.shortSideM - a.shortSideM || b.lengthM - a.lengthM ||
     a.minY - b.minY || a.minX - b.minX)
   const stripParts = orderedParts.filter((part) => SUPPORTED_STRIP_WIDTHS_M.some((width) =>
     Math.abs(part.shortSideM - width) <= 1e-8))
@@ -612,10 +613,10 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     previouslyPlacedHeads.push(...part.layout.sprinklers)
   }
 
-  const allHeads = initialHeads.slice()
+  let allHeads = initialHeads.slice()
   const circularHeads = initialHeads.filter((head) => head.pattern !== 'strip')
   const sampledCoverage = { sampledPoints: 0, coveredPoints: 0, uncoveredPoints: 0 }
-  const modelSet = new Set(initialHeads.map((head) => head.performanceModel))
+  let modelSet = new Set(initialHeads.map((head) => head.performanceModel))
   const layoutWarnings = []
   let circularCoverageComplete = true
   for (let index = 0; index < prepared.length; index += 1) {
@@ -636,7 +637,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       warning.code !== 'overspray_not_evaluated'))
   }
 
-  const oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, geometry)
+  let oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, geometry)
   const localHeadToHeadChecks = prepared.filter((part) => !part.isStrip && part.layout.sprinklers.length > 1)
     .flatMap((part) => evaluateHeadToHeadSpacing(part.layout.sprinklers))
   const crossRegionChecks = []
@@ -660,10 +661,67 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       }
     }
   }
-  const headToHeadChecks = [...localHeadToHeadChecks, ...crossRegionChecks]
-  const headToHeadPassed = headToHeadChecks.length
+  let headToHeadChecks = [...localHeadToHeadChecks, ...crossRegionChecks]
+  let headToHeadPassed = headToHeadChecks.length
     ? headToHeadChecks.every((entry) => entry.passed)
     : null
+
+  const globalOptimization = optimizeGlobalSprinklerSet({
+    sprinklers: allHeads,
+    geometry,
+    parts: prepared,
+    sampleStepM,
+    oversprayCheck: (heads) => evaluateCompositeOverspray(heads, prepared, geometry),
+  })
+  if (globalOptimization.status === 'completed') {
+    allHeads = [...globalOptimization.sprinklers]
+    oversprayPassed = globalOptimization.oversprayPassed
+    sampledCoverage.sampledPoints = globalOptimization.coverage.sampledPoints
+    sampledCoverage.coveredPoints = globalOptimization.coverage.coveredPoints
+    sampledCoverage.uncoveredPoints = globalOptimization.coverage.uncoveredPoints
+    circularCoverageComplete = globalOptimization.coverage.uncoveredPoints === 0
+    headToHeadChecks = [...(globalOptimization.headToHead?.checks ?? [])]
+    headToHeadPassed = globalOptimization.headToHead?.passed ?? null
+  } else if (globalOptimization.status === 'baseline_failed' ||
+      globalOptimization.status === 'final_validation_failed') {
+    sampledCoverage.sampledPoints = globalOptimization.coverage?.sampledPoints ?? sampledCoverage.sampledPoints
+    sampledCoverage.coveredPoints = globalOptimization.coverage?.coveredPoints ?? sampledCoverage.coveredPoints
+    sampledCoverage.uncoveredPoints = globalOptimization.coverage?.uncoveredPoints ?? sampledCoverage.uncoveredPoints
+    circularCoverageComplete = globalOptimization.coverage
+      ? globalOptimization.coverage.uncoveredPoints === 0
+      : circularCoverageComplete
+    oversprayPassed = globalOptimization.oversprayPassed ?? oversprayPassed
+    headToHeadChecks = [...(globalOptimization.headToHead?.checks ?? headToHeadChecks)]
+    headToHeadPassed = globalOptimization.headToHead?.passed ?? headToHeadPassed
+  }
+
+  const finalCircularHeads = allHeads.filter((head) => head.pattern !== 'strip')
+  modelSet = new Set(allHeads.map((head) => head.performanceModel))
+  if (globalOptimization.status === 'skipped_target_limit') {
+    layoutWarnings.push({ code: 'global_head_minimization_skipped_target_limit', path: 'layout.globalOptimization' })
+  } else if (globalOptimization.status === 'baseline_failed' ||
+      globalOptimization.status === 'final_validation_failed') {
+    layoutWarnings.push({ code: 'global_head_minimization_baseline_validation_failed', path: 'layout.globalOptimization' })
+  } else {
+    layoutWarnings.push({ code: 'global_head_minimization_completed', path: 'layout.globalOptimization' })
+  }
+  if (globalOptimization.sectorVariantLimitReached) {
+    layoutWarnings.push({ code: 'global_sector_optimization_variant_limit_reached', path: 'layout.globalOptimization' })
+  }
+  if (globalOptimization.removedHeadIds?.length) {
+    layoutWarnings.push({
+      code: 'global_head_minimization_removed_3504pc_heads',
+      path: 'layout.sprinklers',
+      count: globalOptimization.removedHeadIds.length,
+    })
+  }
+  if (globalOptimization.consolidatedGroups?.length) {
+    layoutWarnings.push({
+      code: 'global_sector_optimization_consolidated_same_position_rotors',
+      path: 'layout.sprinklers',
+      count: globalOptimization.consolidatedGroups.length,
+    })
+  }
 
   const coveragePercent = sampledCoverage.sampledPoints
     ? (sampledCoverage.coveredPoints / sampledCoverage.sampledPoints) * 100
@@ -675,7 +733,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const warnings = [
     ...layoutWarnings,
     { code: 'orthogonal_lawn_split_into_non_overlapping_rectangular_calculation_zones', path: 'geometry' },
-    { code: 'rectangles_processed_in_ascending_area_order', path: 'geometry.calculationRegions' },
+    { code: 'rectangles_processed_in_descending_area_order', path: 'geometry.calculationRegions' },
     { code: 'each_rectangle_tries_3504pc_before_rvan_fallback', path: 'layout.sprinklers' },
     { code: 'adjacent_strip_and_rectangle_heads_may_be_offset_by_0_075m', path: 'layout.sprinklers' },
     { code: 'spray_footprints_checked_against_original_lawn_and_exclusions_with_spatial_sampling', path: 'layout.overspray' },
@@ -691,7 +749,21 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     status: !oversprayPassed || !circularCoverageComplete || headToHeadPassed === false
       ? 'coverage_incomplete'
       : (circularHeads.length ? 'coverage_complete_sampled' : 'strip_pattern_placement_ready'),
-    coverageScope,
+    coverageScope: globalOptimization.status === 'skipped_target_limit'
+      ? 'per_rectangle_sampled_global_optimization_skipped'
+      : (hasStrip ? 'decomposed_rectangular_zones_global_sampled' : 'global_sampled_geometry'),
+    globalOptimization: Object.freeze({
+      status: globalOptimization.status,
+      targetCount: globalOptimization.targetCount,
+      baseline: globalOptimization.baseline ?? null,
+      optimized: globalOptimization.optimized ?? null,
+      removedHeadIds: globalOptimization.removedHeadIds,
+      consolidatedGroups: globalOptimization.consolidatedGroups,
+      sectorEdits: globalOptimization.sectorEdits,
+      sectorVariants: globalOptimization.sectorVariants,
+      sectorVariantLimitReached: globalOptimization.sectorVariantLimitReached,
+      failure: globalOptimization.failure ?? null,
+    }),
     family: selectedModels.includes('3504-PC') ? (selectedModels.some((model) => model.startsWith('R-VAN')) ? 'mixed' : '3500') : 'R-VAN',
     model: selectedModels.join(' / '),
     pressureBar: selectedModels.includes('3504-PC') && !selectedModels.some((model) => model.startsWith('R-VAN')) ? null : pressureBar,
@@ -706,8 +778,12 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       coveredPoints: sampledCoverage.coveredPoints,
       uncoveredPoints: sampledCoverage.uncoveredPoints,
       coveragePercent,
-      uncoveredSamples: Object.freeze(prepared.flatMap((part) =>
-        part.isStrip ? [] : (part.layout.coverage?.uncoveredSamples ?? [])).slice(0, 100)),
+      uncoveredSamples: globalOptimization.coverage?.uncoveredSamples ??
+        Object.freeze(prepared.flatMap((part) =>
+          part.isStrip ? [] : (part.layout.coverage?.uncoveredSamples ?? [])).slice(0, 100)),
+      validationScope: globalOptimization.status === 'skipped_target_limit'
+        ? 'per_rectangle_only_global_check_skipped'
+        : 'global_sampled_geometry',
     }),
     sprinklers: Object.freeze(allHeads),
     headToHead: Object.freeze({
@@ -748,7 +824,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       model: layout.model,
       pressureBar: selectedModels.includes('3504-PC') && !selectedModels.some((model) => model.startsWith('R-VAN')) ? null : pressureBar,
       pressureBasis: selectedModels.includes('3504-PC') ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: 'process rectangles from smallest area to largest; use 8 m as the 3504-PC baseline and 9 m only as an alternative; only after 8 m and 9 m fail, expand the rotor grid at 7/6/5 m to add further heads; never use 10 m; try all rotor expansion stages before the local R-VAN fallback; 1 m/2 m strips retain their directional R-VAN pattern',
+      modelSelectionBasis: 'process calculation rectangles from largest area to smallest; complete the existing 3504-PC-first or unchanged R-VAN fallback layout for every rectangle; then run bounded global 3504-PC head minimization against the full lawn sample grid; preserve coverage, mutual Head-to-Head and spray-boundary checks; 1 m/2 m strips retain their directional R-VAN pattern',
       layoutRadiusM: null,
       sourceUrl: selectedModels.includes('3504-PC') ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
