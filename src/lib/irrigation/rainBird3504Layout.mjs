@@ -3,8 +3,8 @@ import { evaluateHeadToHeadSpacing, sprinklersMutuallyReach } from './lawnSprink
 
 const ENGINE_VERSION = '2.0.0'
 const EPSILON = 1e-8
-const RADIUS_STAGES_M = Object.freeze([8, 9, 10, 7, 6, 5])
-const ALLOWED_RADII_M = Object.freeze([10, 9, 8, 7, 6, 5])
+const RADIUS_STAGES_M = Object.freeze([8, 9])
+const ALLOWED_RADII_M = Object.freeze([9, 8, 7, 6, 5])
 const MAX_TARGETS = 30000
 const MAX_ROTORS = 150
 
@@ -120,15 +120,15 @@ function classifyPosition(x, y, bounds) {
 function maximumSafeRadius(x, y, bounds, source) {
   const width = bounds.maxX - bounds.minX
   const height = bounds.maxY - bounds.minY
-  if (source === 'vertex') return Math.min(10, width, height)
+  if (source === 'vertex') return Math.min(9, width, height)
   if (source === 'edge') {
     const onHorizontalEdge = Math.abs(y - bounds.minY) <= EPSILON ||
       Math.abs(y - bounds.maxY) <= EPSILON
     return onHorizontalEdge
-      ? Math.min(10, width, x - bounds.minX, bounds.maxX - x)
-      : Math.min(10, height, y - bounds.minY, bounds.maxY - y)
+      ? Math.min(9, width, x - bounds.minX, bounds.maxX - x)
+      : Math.min(9, height, y - bounds.minY, bounds.maxY - y)
   }
-  return Math.min(10, x - bounds.minX, bounds.maxX - x, y - bounds.minY, bounds.maxY - y)
+  return Math.min(9, x - bounds.minX, bounds.maxX - x, y - bounds.minY, bounds.maxY - y)
 }
 
 function selectSafeRadius(stageRadiusM, safeMaximumM) {
@@ -322,9 +322,9 @@ function result(status, extra = {}) {
  * always tested first; only when they cannot satisfy sampled coverage and
  * mutual Head-to-Head does the solver add complete rows/columns of cell corners.
  *
- * The 8 m planning stage is preferred. 9/10 m stages are considered only as
- * a lower-head-count alternative or when the corner-only set needs more reach.
- * Local edge/interior clearances can reduce a rotor to 7/6/5 m.
+ * The 8 m planning stage is preferred; 9 m is the only larger alternative.
+ * Local clearances may reduce individual additional/grid rotors to 7/6/5 m.
+ * A 10 m planning radius is never considered.
  */
 export function generateRainBird3504Layout(geometry, {
   sampleStepM = 0.5,
