@@ -437,7 +437,17 @@ test('dense final coverage validation reports its point cap without implying it 
 
 
 test('asymmetric global search relocates a rotor before removing a seam-bridging head', () => {
-  const geometry = squareGeometry(14)
+  const geometry = {
+    status: 'confirmed',
+    regions: [{
+      id: 'lawn-1',
+      boundary: { vertices: [
+        { x: 0, y: 0 }, { x: 14, y: 0 },
+        { x: 14, y: 10 }, { x: 0, y: 10 },
+      ] },
+      exclusions: [],
+    }],
+  }
   geometry.regions[0].exclusions = [{
     id: 'small-bed',
     polygon: { vertices: [
