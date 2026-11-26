@@ -637,7 +637,7 @@ test('two narrow connected arms keep separate strip geometry and unique sprinkle
 
 
 
-test('2x2 square is not misclassified as a 2m strip; the remaining 1m strip stays horizontal', () => {
+test('2x2 square is not misclassified as a 2m strip; reject any 1m pattern that oversprays', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(18, 2, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 1, cutoutCorner: 'top-right',
   }))
@@ -648,9 +648,8 @@ test('2x2 square is not misclassified as a 2m strip; the remaining 1m strip stay
   const verticalTwoMetreHeads = result.layout?.sprinklers?.filter((head) =>
     head.stripWidthM === 2 && head.stripAxis === 'vertical') ?? []
   assert.equal(verticalTwoMetreHeads.length, 0)
-  const horizontalHeads = result.layout?.sprinklers?.filter((head) => head.stripWidthM === 1) ?? []
-  assert.ok(horizontalHeads.length > 0)
-  assert.ok(horizontalHeads.every((head) => head.stripAxis === 'horizontal' && head.position.y === 0))
+  assert.ok(result.layout?.warnings.some((warning) =>
+    warning.code === 'strip_pattern_rejected_due_to_boundary_overspray'))
 })
 
 
@@ -725,10 +724,12 @@ test('16x16 rectangle keeps all corners before perimeter and interior rotor posi
   const result = buildPreliminaryLawnLayout(snapshotFor(16, 16))
   assert.equal(result.status, 'layout_generated')
   const heads = result.layout.sprinklers.filter((head) => head.performanceModel === '3504-PC')
-  assert.equal(heads.length, 8)
+  assert.equal(heads.length, 5)
   assert.equal(heads.filter((head) => head.source === 'vertex').length, 4)
-  assert.ok(heads.filter((head) => head.source === 'edge').length >= 3)
   assert.equal(heads.filter((head) => head.source === 'interior').length, 1)
+  assert.equal(heads.filter((head) => head.source === 'edge').length, 0)
+  assert.equal(result.layout.headToHead.checks.length, heads.length)
+  assert.ok(result.layout.headToHead.checks.every((check) => check.passed))
   assert.ok(heads.every((head) => head.radiusM >= 6 && head.radiusM <= 9))
   assert.equal(result.layout.coverage.uncoveredPoints, 0)
   assert.equal(result.layout.headToHead.passed, true)
