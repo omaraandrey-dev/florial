@@ -435,7 +435,7 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
 
   for (const head of sprinklers) {
     if (head.pattern === 'strip') {
-      const part = stripPartByHeadId.get(head.id)
+      const part = stripPartByHeadId.get(head.id) ?? head.stripBounds
       if (!part) return false
       const bounds = part
       const horizontal = head.stripAxis === 'horizontal'
@@ -480,6 +480,75 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
     }
   }
   return true
+}
+
+ 
+function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
+  const isStrip = layout.sprinklers.some((head) => head.pattern === 'strip')
+  const part = { id: regionId, isStrip, layout }
+  const heads = layout.sprinklers.map((head) => Object.freeze({
+    ...head,
+    calculationRegionId: regionId,
+  }))
+  const optimization = optimizeGlobalSprinklerSet({
+    sprinklers: heads,
+    geometry,
+    parts: [part],
+    sampleStepM,
+    oversprayCheck: (candidateHeads) => evaluateCompositeOverspray(candidateHeads, [part], geometry),
+  })
+  const finalHeads = optimization.status === 'completed'
+    ? optimization.sprinklers
+    : heads
+  const warnings = [...(layout.warnings ?? [])]
+  if (optimization.status === 'skipped_target_limit') {
+    warnings.push(Object.freeze({ code: 'global_head_minimization_skipped_target_limit', path: 'layout.globalOptimization' }))
+  } else if (optimization.status === 'baseline_failed' ||
+      optimization.status === 'final_validation_failed') {
+    warnings.push(Object.freeze({ code: 'global_head_minimization_baseline_validation_failed', path: 'layout.globalOptimization' }))
+  } else {
+    warnings.push(Object.freeze({ code: 'global_head_minimization_completed', path: 'layout.globalOptimization' }))
+  }
+  if (optimization.sectorVariantLimitReached) {
+    warnings.push(Object.freeze({ code: 'global_sector_optimization_variant_limit_reached', path: 'layout.globalOptimization' }))
+  }
+  const globalFailed = optimization.status === 'baseline_failed' ||
+    optimization.status === 'final_validation_failed'
+  const coverage = optimization.coverage
+    ? Object.freeze({ ...optimization.coverage, validationScope: 'global_sampled_geometry' })
+    : Object.freeze({
+      ...(layout.coverage ?? {}),
+      validationScope: 'per_rectangle_only_global_check_skipped',
+    })
+  const overspray = optimization.status === 'completed'
+    ? 'sampled_inside_boundary'
+    : (optimization.status === 'baseline_failed' || optimization.status === 'final_validation_failed')
+      ? (optimization.oversprayPassed ? 'sampled_inside_boundary' : 'sampled_outside_boundary')
+      : (layout.overspray ?? 'not_evaluated')
+  return Object.freeze({
+    ...layout,
+    status: globalFailed ? 'coverage_incomplete' : layout.status,
+    sprinklers: Object.freeze(finalHeads),
+    coverage,
+    headToHead: optimization.headToHead ?? layout.headToHead,
+    overspray,
+    coverageScope: optimization.status === 'skipped_target_limit'
+      ? 'per_rectangle_sampled_global_optimization_skipped'
+      : 'global_sampled_geometry',
+    globalOptimization: Object.freeze({
+      status: optimization.status,
+      targetCount: optimization.targetCount,
+      baseline: optimization.baseline ?? null,
+      optimized: optimization.optimized ?? null,
+      removedHeadIds: optimization.removedHeadIds,
+      consolidatedGroups: optimization.consolidatedGroups,
+      sectorEdits: optimization.sectorEdits,
+      sectorVariants: optimization.sectorVariants,
+      sectorVariantLimitReached: optimization.sectorVariantLimitReached,
+      failure: optimization.failure ?? null,
+    }),
+    warnings: Object.freeze(warnings),
+  })
 }
 
 function rectangleRotorLayout(rectGeometry, part, sampleStepM) {
