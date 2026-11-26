@@ -17,11 +17,11 @@ The next rectangle may receive new heads only for the remaining uncovered sample
 2. Sort rectangles by descending area, retaining the existing deterministic tie-breaks.
 3. Before placing heads in a rectangle, sample it and calculate coverage from every head already placed in earlier rectangles.
 4. If previous heads cover all rectangle samples, add no duplicate heads for that rectangle.
-5. Otherwise, try the existing 3504-PC rectangle solver first, passing all previously placed heads as `initialSprinklers`. If the rotor solver cannot produce a complete valid layout, retain the existing R-VAN fallback and pass prior circular heads to its existing shared-coverage interface.
+5. Otherwise, try the existing 3504-PC rectangle solver first, passing all previously placed heads as `initialSprinklers`. If the rotor solver cannot produce a complete valid layout, retain the existing R-VAN fallback and pass all previously placed heads (including supported directional strip patterns) to its existing shared-coverage interface.
 6. Maximize each new 3504-PC sector against the original full lawn boundary and exclusions, not the artificial rectangle boundary. Preserve the current sector bisector and increase the arc in one-degree increments while every newly added angular slice remains inside the original irrigated geometry.
 7. Add the resulting heads to the shared set before processing the next rectangle.
 
-Directional LCS/RCS/SST strip patterns remain directional and are not converted into circular rotors. R-VAN performance points are only used for manufacturer dataset-supported arcs; the algorithm does not invent hydraulic performance values for arbitrary nozzle angles.
+Directional LCS/RCS/SST strip patterns remain directional and are not converted into circular rotors. A strip rectangle is skipped only when previously placed heads already cover all of its sampled points. R-VAN performance points are only used for manufacturer dataset-supported arcs; the algorithm does not invent hydraulic performance values for arbitrary nozzle angles.
 
 ## 3. Final whole-layout pass
 
