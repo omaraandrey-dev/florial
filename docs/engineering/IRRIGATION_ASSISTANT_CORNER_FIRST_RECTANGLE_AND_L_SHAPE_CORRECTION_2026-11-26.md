@@ -16,13 +16,14 @@ The 8 m values are geometric planning radii used by the existing solver. They ar
 
 ## L-shaped lawns
 
-For a supported orthogonal L-shaped lawn that does not contain a dedicated 1 m or 2 m narrow arm, retain the original L polygon and route it through the whole-polygon R-VAN solver. That solver:
+For an orthogonal L-shaped lawn without a dedicated narrow strip arm, first attempt the whole-polygon R-VAN solver while retaining the original L outline. That solver:
 1. seeds useful geometric vertices (including the reflex corner);
 2. examines uncovered perimeter samples and adds edge heads, preferring mutual Head-to-Head links to already placed heads;
 3. adds interior heads only for samples still uncovered;
-4. runs the explicit Head-to-Head spacing repair and final sampled coverage validation.
+4. closes perimeter Head-to-Head gaps before adding interior heads;
+5. runs sampled coverage and boundary-sector checks.
 
-Previously, the bridge decomposed every six-vertex L-shape into two rectangles. This bypassed the whole-polygon corner-first L-shape strategy for ordinary L-shapes. Decomposition remains enabled when at least one arm has the supported 1 m / 2 m width and requires the dedicated directional strip nozzle layout (RCS/LCS/SST).
+The current whole-polygon attempt does not yet pass the complete validation set for every ordinary L-shape. If sampled coverage, Head-to-Head or boundary validation fails, the bridge does not publish an incomplete result: it falls back to the existing largest-area-first rectangular-zone solver and attaches `cornerFirstAttempt` diagnostics plus warning `l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used`. This is a deliberate safety fallback, not proof that the requested whole-polygon L-shape algorithm is complete. Decomposition also remains the primary path for arms with supported 1 m / 2 m widths requiring dedicated directional strip nozzles (RCS/LCS/SST).
 
 ## Validation contract
 
@@ -31,7 +32,7 @@ A generated layout is accepted only when sampled coverage is complete, Head-to-H
 ## Changed implementation and tests
 
 - `src/lib/irrigation/irrigationLayoutBridge.mjs`: restrict L-shape decomposition to layouts containing a supported narrow strip arm; keep other L-shapes intact for the corner-first polygon solver.
-- `tests/irrigation-layout-bridge.test.mjs`: assert exact 20 × 20 side coordinates `[0, 8, 12, 20]` on every side; add a non-strip L-shape regression for full-polygon corner-first progression, complete sampled coverage, Head-to-Head and boundary validation.
+- `tests/irrigation-layout-bridge.test.mjs`: assert exact 20 × 20 side coordinates `[0, 8, 12, 20]` on every side; add a non-strip L-shape regression confirming the whole-polygon corner-first attempt is recorded and that an incomplete attempt safely falls back to a validated rectangular layout.
 
 ## Release boundary
 
