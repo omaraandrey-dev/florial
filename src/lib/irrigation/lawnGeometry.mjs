@@ -314,6 +314,12 @@ function validateExclusions(region, regionPath, ids, errors) {
 
     const polygon = normalizeRing(exclusion.polygon, path + '.polygon', errors)
     if (!polygon) return
+    const minX = Math.min(...polygon.openVertices.map((point) => point.x))
+    const minY = Math.min(...polygon.openVertices.map((point) => point.y))
+    if (Math.abs(minX) <= EPSILON && Math.abs(minY) <= EPSILON) {
+      errors.push(issue(ERROR.INVALID_EXCLUSION, path + '.polygon.origin'))
+      return
+    }
 
     // Boundary contact is valid for an exclusion that starts at X=0 or Y=0.
     // Every segment is checked between boundary intersections so it cannot cross outside.
