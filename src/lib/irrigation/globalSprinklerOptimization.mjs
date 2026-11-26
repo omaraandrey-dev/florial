@@ -289,6 +289,8 @@ function coordinateKey(head) {
     Math.round(head.position.y / COORDINATE_TOLERANCE)
 }
 
+// Score 270-degree orientations against the complete global target map first;
+// the accepted candidate must still pass the shared overspray and Head-to-Head gates.
 function candidateDirections(targets, position, radiusM, arcDeg) {
   if (arcDeg === 360) return [null]
   const candidates = []
