@@ -766,6 +766,8 @@ test('mixed rotor and R-VAN Head-to-Head is evaluated as one whole-polygon relat
   assert.equal(result.layout.headToHead.passed, true)
   assert.equal(result.layout.hydraulicFeasibility, 'owner_confirmed_compatible')
   assert.equal(result.layout.hydraulicCompatibilityBasis, 'owner_confirmed')
+  assert.equal(result.hydraulicFeasibility, 'owner_confirmed_compatible')
+  assert.equal(result.precipitationIntensityCompatibility, 'owner_confirmed_similar')
   assert.ok(result.layout.headToHead.checks.some((check) => {
     const a = heads.find((head) => head.id === check.sprinklerId)
     const b = heads.find((head) => head.id === check.headToHeadNeighborId)
