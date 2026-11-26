@@ -484,8 +484,13 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
 
  
 function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
-  const globalSectorTargets = buildIrrigatedTargets(geometry, sampleStepM)
-  const sectorExpansion = maximizeRotorSectors(layout.sprinklers, [], geometry, globalSectorTargets)
+  const isCornerFirstLShape = layout.geometry?.shape === 'l-shape'
+  const globalSectorTargets = isCornerFirstLShape ? null : buildIrrigatedTargets(geometry, sampleStepM)
+  // Do not globally reorient or minimize a corner-first L-shape result: the
+  // polygon solver has already selected its sectors against the full outline.
+  const sectorExpansion = isCornerFirstLShape
+    ? Object.freeze({ sprinklers: layout.sprinklers, edits: Object.freeze([]) })
+    : maximizeRotorSectors(layout.sprinklers, [], geometry, globalSectorTargets)
   const sectorAdjustedLayout = Object.freeze({
     ...layout,
     sprinklers: sectorExpansion.sprinklers,
@@ -498,19 +503,33 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
     ...head,
     calculationRegionId: regionId,
   }))
-  const optimization = optimizeGlobalSprinklerSet({
-    sprinklers: heads,
-    geometry,
-    parts: [part],
-    sampleStepM,
-    oversprayCheck: (candidateHeads) => newlyOpenedFullCircleClearancePassed(candidateHeads, heads) &&
-      evaluateCompositeOverspray(candidateHeads, [part], geometry),
-  })
+  const optimization = isCornerFirstLShape
+    ? Object.freeze({
+      status: 'skipped_l_shape_corner_first',
+      coverage: null,
+      headToHead: layout.headToHead,
+      oversprayPassed: true,
+      removedHeadIds: Object.freeze([]),
+      consolidatedGroups: Object.freeze([]),
+      sectorEdits: Object.freeze([]),
+      sectorVariants: Object.freeze([]),
+      sectorVariantLimitReached: false,
+    })
+    : optimizeGlobalSprinklerSet({
+      sprinklers: heads,
+      geometry,
+      parts: [part],
+      sampleStepM,
+      oversprayCheck: (candidateHeads) => newlyOpenedFullCircleClearancePassed(candidateHeads, heads) &&
+        evaluateCompositeOverspray(candidateHeads, [part], geometry),
+    })
   const finalHeads = optimization.status === 'completed'
     ? optimization.sprinklers
     : heads
   const warnings = [...(sectorAdjustedLayout.warnings ?? [])]
-  if (optimization.status === 'skipped_target_limit') {
+  if (optimization.status === 'skipped_l_shape_corner_first') {
+    warnings.push(Object.freeze({ code: 'global_head_minimization_skipped_to_preserve_corner_first_l_shape_order', path: 'layout.globalOptimization' }))
+  } else if (optimization.status === 'skipped_target_limit') {
     warnings.push(Object.freeze({ code: 'global_head_minimization_skipped_target_limit', path: 'layout.globalOptimization' }))
   } else if (optimization.status === 'baseline_failed' ||
       optimization.status === 'final_validation_failed') {
@@ -527,10 +546,12 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
     ? Object.freeze({ ...optimization.coverage, validationScope: 'global_sampled_geometry' })
     : Object.freeze({
       ...(layout.coverage ?? {}),
-      validationScope: 'per_rectangle_only_global_check_skipped',
+      validationScope: isCornerFirstLShape ? 'whole_l_shape_solver_sampled_geometry' : 'per_rectangle_only_global_check_skipped',
     })
-  const overspray = optimization.status === 'completed'
+  const overspray = isCornerFirstLShape
     ? 'sampled_inside_boundary'
+    : optimization.status === 'completed'
+      ? 'sampled_inside_boundary'
     : (optimization.status === 'baseline_failed' || optimization.status === 'final_validation_failed')
       ? (optimization.oversprayPassed ? 'sampled_inside_boundary' : 'sampled_outside_boundary')
       : (layout.overspray ?? 'not_evaluated')
@@ -545,8 +566,10 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
       minimumDistanceM: 6,
     }),
     overspray,
-    coverageScope: optimization.status === 'skipped_target_limit'
-      ? 'per_rectangle_sampled_global_optimization_skipped'
+    coverageScope: optimization.status === 'skipped_l_shape_corner_first'
+      ? 'whole_l_shape_solver_sampled_geometry'
+      : optimization.status === 'skipped_target_limit'
+        ? 'per_rectangle_sampled_global_optimization_skipped'
       : (onlyStrip ? 'owner_defined_strip_pattern_global_sampled' : 'global_sampled_geometry'),
     sectorOptimization: Object.freeze({
       strategy: 'maximum-safe-3504pc-arc-before-final-removal',
