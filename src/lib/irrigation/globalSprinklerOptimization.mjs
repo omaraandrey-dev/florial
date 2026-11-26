@@ -479,6 +479,15 @@ export function optimizeGlobalSprinklerSet({
     return Object.freeze({
       status: sampled.status,
       sprinklers: Object.freeze(originalHeads),
+      baseline: Object.freeze({
+        sprinklerCount: originalHeads.length,
+        rotorCount: originalHeads.filter(isRotor).length,
+        sprinklers: Object.freeze(originalHeads),
+      }),
+      optimized: Object.freeze({
+        sprinklerCount: originalHeads.length,
+        rotorCount: originalHeads.filter(isRotor).length,
+      }),
       targetCount: null,
       removedHeadIds: Object.freeze([]),
       consolidatedGroups: Object.freeze([]),
@@ -508,6 +517,15 @@ export function optimizeGlobalSprinklerSet({
     return Object.freeze({
       status: 'baseline_failed',
       sprinklers: Object.freeze(originalHeads),
+      baseline: Object.freeze({
+        sprinklerCount: originalHeads.length,
+        rotorCount: originalHeads.filter(isRotor).length,
+        sprinklers: Object.freeze(originalHeads),
+      }),
+      optimized: Object.freeze({
+        sprinklerCount: originalHeads.length,
+        rotorCount: originalHeads.filter(isRotor).length,
+      }),
       targetCount: targets.length,
       removedHeadIds: Object.freeze([]),
       consolidatedGroups: Object.freeze([]),
@@ -559,6 +577,7 @@ export function optimizeGlobalSprinklerSet({
     baseline: Object.freeze({
       sprinklerCount: originalHeads.length,
       rotorCount: originalHeads.filter(isRotor).length,
+      sprinklers: Object.freeze(originalHeads),
     }),
     optimized: Object.freeze({
       sprinklerCount: finalValid ? sectorPass.heads.length : originalHeads.length,
