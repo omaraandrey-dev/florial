@@ -725,9 +725,12 @@ test('16x16 rectangle keeps all corners before perimeter and interior rotor posi
   assert.equal(result.status, 'layout_generated')
   const heads = result.layout.sprinklers.filter((head) => head.performanceModel === '3504-PC')
   assert.equal(heads.length, 5)
-  assert.equal(heads.filter((head) => head.source === 'vertex').length, 4)
-  assert.equal(heads.filter((head) => head.source === 'interior').length, 1)
-  assert.equal(heads.filter((head) => head.source === 'edge').length, 0)
+  for (const [x, y] of [[0, 0], [16, 0], [16, 16], [0, 16]]) {
+    assert.ok(heads.some((head) => Math.abs(head.position.x - x) < 1e-8 &&
+      Math.abs(head.position.y - y) < 1e-8), 'each true corner must remain in the final layout')
+  }
+  assert.ok(heads.some((head) => Math.abs(head.position.x - 8) < 1e-8 &&
+    Math.abs(head.position.y - 8) < 1e-8), 'the interior position must remain after perimeter optimization')
   assert.equal(result.layout.headToHead.checks.length, heads.length)
   assert.ok(result.layout.headToHead.checks.every((check) => check.passed))
   assert.ok(heads.every((head) => head.radiusM >= 6 && head.radiusM <= 9))
