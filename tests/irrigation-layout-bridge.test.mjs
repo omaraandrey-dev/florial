@@ -658,3 +658,24 @@ test('decomposed rectangles expose previous-head coverage and sequential sector 
     'sequential-shared-coverage-and-maximum-safe-3504pc-arc')
   assert.equal(result.layout.fullCircleRotorSpacing.minimumDistanceM, 6)
 })
+
+
+test('shared-seam 3504-PC sector can open to a non-standard maximum angle', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+    shape: 'l-shape',
+    cutoutWidth: 14,
+    cutoutDepth: 7,
+    cutoutCorner: 'top-right',
+  }))
+  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
+  const edits = result.layout.sectorOptimization.rectangles.flatMap((part) => part.sectorEdits)
+  const nonStandard = edits.find((edit) =>
+    edit.toArcDeg > 180 && edit.toArcDeg < 360 && edit.toArcDeg % 90 !== 0)
+  assert.ok(nonStandard, JSON.stringify({
+    algorithm: result.layout.algorithm,
+    sectorOptimization: result.layout.sectorOptimization,
+    sprinklers: result.layout.sprinklers.map((head) => ({
+      id: head.id, position: head.position, arcDeg: head.arcDeg, directionDeg: head.directionDeg,
+    })),
+  }))
+})
