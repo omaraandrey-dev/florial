@@ -1668,7 +1668,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     Object.freeze({ code: 'mixed_rotor_rvan_head_to_head_is_fully_mutual', path: 'layout.headToHead' }),
     Object.freeze({ code: 'global_sampled_coverage_and_overspray_are_rechecked_after_all_three_passes', path: 'layout.coverage' }),
     Object.freeze({ code: 'sampled_coverage_is_not_a_continuous_mathematical_proof', path: 'layout.coverage' }),
-    Object.freeze({ code: 'hydraulic_pressure_flow_and_precipitation_are_not_calculated_by_geometry_solver', path: 'hydraulics' }),
+    Object.freeze({ code: 'site_specific_pressure_flow_losses_are_not_calculated_by_geometry_solver', path: 'hydraulics' }),
   ]
   if (!rotorHeads.length) warnings.push(Object.freeze({
     code: 'no_3504pc_rotors_passed_the_whole_polygon_6m_safe_radius_gate',
@@ -1779,7 +1779,8 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
       sprinklerCount: part.layout.sprinklers.length,
     }))]),
     warnings: Object.freeze(warnings),
-    hydraulicFeasibility: 'not_evaluated',
+    hydraulicFeasibility: hasRotor && hasRvan ? 'owner_confirmed_compatible' : 'not_evaluated',
+    hydraulicCompatibilityBasis: hasRotor && hasRvan ? 'owner_confirmed' : 'not_applicable',
     precipitationUniformity: 'not_evaluated',
     bodyCompatibility: 'not_evaluated',
     overspray: oversprayPassed ? 'sampled_inside_boundary' : 'sampled_outside_boundary',
@@ -1800,7 +1801,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
       model,
       pressureBar: hasRvan ? pressureBar : null,
       pressureBasis: hasRotor && hasRvan
-        ? 'R-VAN manufacturer reference pressure; rotor hydraulic data is not calculated in this geometric planner'
+        ? 'owner-confirmed rotor/R-VAN compatibility; site-specific pressure and flow calculations remain outside this geometric planner'
         : hasRotor
           ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated'
           : 'Rain Bird manufacturer recommended R-VAN nozzle operating point; site pressure is not measured',
