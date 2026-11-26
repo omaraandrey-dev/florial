@@ -267,3 +267,107 @@ test('an incomplete global baseline is preserved and is not optimized', () => {
   assert.ok(result.coverage.uncoveredPoints > 0)
   assert.deepEqual(result.removedHeadIds, [])
 })
+
+
+function squareGridSeed(size) {
+  const axis = size === 16 ? [0, 8, 16] : size === 17 ? [0, 8, 9, 17] : [0, 8, 12, 20]
+  const heads = []
+  for (let row = 0; row < axis.length; row += 1) {
+    for (let column = 0; column < axis.length; column += 1) {
+      const x = axis[column]
+      const y = axis[row]
+      const left = column === 0
+      const right = column === axis.length - 1
+      const bottom = row === 0
+      const top = row === axis.length - 1
+      let arcDeg = 360
+      let directionDeg = null
+      if ((left || right) && (bottom || top)) {
+        arcDeg = 90
+        directionDeg = left ? (bottom ? 45 : 315) : (bottom ? 135 : 225)
+      } else if (bottom || top) {
+        arcDeg = 180
+        directionDeg = bottom ? 90 : 270
+      } else if (left || right) {
+        arcDeg = 180
+        directionDeg = left ? 0 : 180
+      }
+      heads.push({
+        id: `grid-${row}-${column}`,
+        position: { x, y },
+        arcDeg,
+        directionDeg,
+        radiusM: 8,
+        performanceModel: '3504-PC',
+        pattern: 'rotor',
+        calculationRegionId: 'zone-a',
+      })
+    }
+  }
+  return heads
+}
+
+test('16x16 square is globally reconfigured to four side-midpoint rotors and one centre rotor', () => {
+  const baseline = squareGridSeed(16)
+  const result = optimizeGlobalSprinklerSet({
+    sprinklers: baseline,
+    geometry: squareGeometry(16),
+    parts: [{ id: 'zone-a', layout: { sprinklers: baseline } }],
+    oversprayCheck: () => true,
+    maxSectorVariants: 0,
+  })
+
+  assert.equal(result.status, 'completed')
+  assert.equal(result.reconfiguration.seed, 'whole-rectangle-five-head-balanced-layout')
+  assert.equal(result.sprinklers.length, 5)
+  assert.equal(result.coverage.uncoveredPoints, 0)
+  assert.equal(result.headToHead.passed, true)
+  const expected = [
+    { x: 8, y: 0, arcDeg: 180, directionDeg: 90 },
+    { x: 16, y: 8, arcDeg: 180, directionDeg: 180 },
+    { x: 8, y: 16, arcDeg: 180, directionDeg: 270 },
+    { x: 0, y: 8, arcDeg: 180, directionDeg: 0 },
+    { x: 8, y: 8, arcDeg: 360, directionDeg: null },
+  ]
+  for (const item of expected) {
+    assert.ok(result.sprinklers.some((head) =>
+      head.position.x === item.x && head.position.y === item.y &&
+      head.arcDeg === item.arcDeg && head.directionDeg === item.directionDeg))
+  }
+  assert.equal(result.sprinklers.some((head) =>
+    (head.position.x === 0 || head.position.x === 16) &&
+    (head.position.y === 0 || head.position.y === 16)), false)
+})
+
+for (const size of [17, 20]) {
+  test(`${size}x${size} square optimization preserves reflection symmetry and equal side counts`, () => {
+    const baseline = squareGridSeed(size)
+    const result = optimizeGlobalSprinklerSet({
+      sprinklers: baseline,
+      geometry: squareGeometry(size),
+      parts: [{ id: 'zone-a', layout: { sprinklers: baseline } }],
+      oversprayCheck: () => true,
+      maxSectorVariants: 0,
+    })
+
+    assert.equal(result.status, 'completed')
+    assert.equal(result.coverage.uncoveredPoints, 0)
+    assert.equal(result.headToHead.passed, true)
+    const positions = result.sprinklers.map((head) => head.position)
+    for (const point of positions) {
+      assert.ok(positions.some((other) =>
+        Math.abs(other.x - (size - point.x)) < 1e-6 &&
+        Math.abs(other.y - point.y) < 1e-6))
+      assert.ok(positions.some((other) =>
+        Math.abs(other.x - point.x) < 1e-6 &&
+        Math.abs(other.y - (size - point.y)) < 1e-6))
+    }
+    const sideCounts = [
+      positions.filter((point) => Math.abs(point.y) < 1e-6).length,
+      positions.filter((point) => Math.abs(point.x - size) < 1e-6).length,
+      positions.filter((point) => Math.abs(point.y - size) < 1e-6).length,
+      positions.filter((point) => Math.abs(point.x) < 1e-6).length,
+    ]
+    assert.equal(new Set(sideCounts).size, 1)
+  })
+}
