@@ -1334,7 +1334,12 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const lShapeParts = validation.regions[0].shape === 'l-shape' && !(region.exclusions?.length)
     ? decomposeOrthogonalLShape(vertices)
     : null
-  if (lShapeParts) {
+  const hasSupportedNarrowLShapeArm = Boolean(lShapeParts?.some((part) =>
+    SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8)))
+  // Keep the whole L polygon intact for the corner-first uncovered-area solver.
+  // Decomposition is reserved for L-shapes that contain a manufacturer-defined
+  // 1 m / 2 m strip arm and therefore require the dedicated directional nozzle pattern.
+  if (lShapeParts && hasSupportedNarrowLShapeArm) {
     const partsWithStripEnds = lShapeParts.map((part) => ({
       ...part,
       connectedEnd: SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8)
