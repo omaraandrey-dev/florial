@@ -193,6 +193,48 @@ test('subtracts contained exclusions from net irrigable area', () => {
   assert.equal(result.computedPerimeterM, 44)
 })
 
+test('accepts exclusions whose X or Y coordinate is zero along the lawn boundary', () => {
+  for (const exclusion of [
+    { x: 0, y: 1, width: 2, height: 2 },
+    { x: 2, y: 0, width: 2, height: 2 },
+  ]) {
+    const result = validateLawnGeometry(geometry(rectangle, {
+      regions: [{
+        id: 'lawn-1',
+        boundary: { vertices: rectangle },
+        exclusions: [{
+          id: 'edge-exclusion',
+          polygon: { vertices: [
+            { x: exclusion.x, y: exclusion.y },
+            { x: exclusion.x + exclusion.width, y: exclusion.y },
+            { x: exclusion.x + exclusion.width, y: exclusion.y + exclusion.height },
+            { x: exclusion.x, y: exclusion.y + exclusion.height },
+          ] },
+        }],
+      }],
+    }))
+    assert.equal(result.valid, true)
+    assert.equal(result.status, 'accepted')
+    assert.equal(result.regions[0].netAreaM2, 46)
+  }
+})
+
+test('rejects zero-area rectangular exclusions', () => {
+  const result = validateLawnGeometry(geometry(rectangle, {
+    regions: [{
+      id: 'lawn-1',
+      boundary: { vertices: rectangle },
+      exclusions: [{
+        id: 'zero-width',
+        polygon: { vertices: [
+          { x: 2, y: 1 }, { x: 2, y: 1 }, { x: 2, y: 3 }, { x: 2, y: 3 },
+        ] },
+      }],
+    }],
+  }))
+  assert.equal(result.valid, false)
+})
+
 test('rejects an exclusion outside or crossing the lawn boundary', () => {
   const result = validateLawnGeometry(geometry(rectangle, {
     regions: [{
