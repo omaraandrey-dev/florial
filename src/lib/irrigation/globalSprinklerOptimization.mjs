@@ -248,6 +248,7 @@ function isRotor(head) {
 function tryRemoveRotor(heads, counts, coverageById, candidate, {
   oversprayCheck,
   baselineRegionSizes,
+  symmetryTransforms,
   excludedId = null,
 } = {}) {
   if (candidate.id === excludedId) return null
@@ -256,7 +257,8 @@ function tryRemoveRotor(heads, counts, coverageById, candidate, {
   for (const index of coverageById.get(candidate.id) ?? []) nextCounts[index] -= 1
   if (!allTargetsCovered(nextCounts)) return null
   const headToHead = buildHeadToHead(nextHeads, baselineRegionSizes)
-  if (!headToHead.passed || !oversprayCheck(nextHeads)) return null
+  if (!headToHead.passed || !oversprayCheck(nextHeads) ||
+      !preservesGeometrySymmetry(nextHeads, symmetryTransforms)) return null
   return { heads: nextHeads, counts: nextCounts, headToHead }
 }
 
