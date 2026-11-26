@@ -619,3 +619,42 @@ test('unsupported narrow widths do not fall back to circular sprinklers', () => 
   ].includes(result.status))
   assert.equal(result.layout, undefined)
 })
+
+
+test('16x16 m rectangle selects the five-head side-midpoint and centre rotor pattern', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(16, 16))
+  assert.equal(result.status, 'layout_generated')
+  const heads = result.layout.sprinklers.filter((head) => head.performanceModel === '3504-PC')
+  assert.equal(heads.length, 5)
+  const expected = [
+    [8, 0, 180], [16, 8, 180], [8, 16, 180], [0, 8, 180], [8, 8, 360],
+  ]
+  for (const [x, y, arc] of expected) {
+    assert.ok(heads.some((head) =>
+      Math.abs(head.position.x - x) < 1e-8 &&
+      Math.abs(head.position.y - y) < 1e-8 &&
+      head.arcDeg === arc), 'missing expected rotor at ' + x + ',' + y + ' with arc ' + arc)
+  }
+  assert.equal(result.layout.fullCircleRotorSpacing.passed, true)
+  const centre = heads.find((head) => head.arcDeg === 360)
+  for (const other of heads.filter((head) => head.id !== centre.id)) {
+    const separation = Math.hypot(
+      centre.position.x - other.position.x,
+      centre.position.y - other.position.y,
+    )
+    assert.ok(separation >= 6, 'a rotor is too close to the 360-degree centre rotor')
+  }
+})
+
+test('decomposed rectangles expose previous-head coverage and sequential sector optimization', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(28, 20, {
+    exclusions: [{ id: 'pool', x: 12, y: 8, width: 4, height: 4 }],
+  }))
+  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
+  assert.ok(result.layout.calculationRegions.length > 1)
+  assert.ok(result.layout.calculationRegions.every((part) =>
+    part.previousCoverage && part.previousCoverage.sampledPoints > 0))
+  assert.equal(result.layout.sectorOptimization.strategy,
+    'sequential-shared-coverage-and-maximum-safe-3504pc-arc')
+  assert.equal(result.layout.fullCircleRotorSpacing.minimumDistanceM, 6)
+})
