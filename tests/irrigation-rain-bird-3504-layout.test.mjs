@@ -49,17 +49,10 @@ test('8x8 square starts and finishes with exactly four corner rotors', () => {
   )
 })
 
-test('10x10 square uses the preferred 8m corner radius without extending to 10m', () => {
+test('10x10 square does not force rotors below the approved 6m minimum', () => {
   const result = generateRainBird3504Layout(geometry(10, 10))
-  assert.equal(result.status, 'layout_generated')
-  assert.equal(result.layoutStrategy, 'corner-first-shared-cell-grid')
-  assert.equal(result.planningRadiusM, 8)
-  assert.equal(result.sprinklers.length, 9)
-  assert.equal(result.sprinklers.filter((head) => head.radiusM === 8).length, 4)
-  assert.ok(result.sprinklers.some((head) => head.radiusM === 5))
-  assert.ok(result.sprinklers.every((head) => head.radiusM !== 10))
-  assert.equal(result.coverage?.uncoveredPoints, 0)
-  assert.equal(result.headToHead?.passed, true)
+  assert.equal(result.status, 'no_complete_rotor_layout')
+  assert.equal(result.sprinklers.length, 0)
 })
 
 test('38x16 rectangle uses a shared corner grid with four positions per cell and no duplicated shared corners', () => {
@@ -80,17 +73,10 @@ test('38x16 rectangle uses a shared corner grid with four positions per cell and
   assert.ok(result.headToHead.checks.length >= 22)
 })
 
-test('20x10 rectangle expands to a 5m supplemental grid only after larger stages fail', () => {
+test('20x10 rectangle does not introduce a 5m rotor stage below the approved minimum', () => {
   const result = generateRainBird3504Layout(geometry(20, 10))
-  assert.equal(result.status, 'layout_generated')
-  assert.equal(result.planningRadiusM, 8)
-  assert.equal(result.supplementalRadiusM, 5)
-  assert.equal(result.grid?.cells, 8)
-  assert.equal(result.sprinklers.length, 15)
-  assert.equal(result.sprinklers.filter((head) => head.radiusM === 8 && head.source === 'vertex').length, 4)
-  assert.ok(result.sprinklers.filter((head) => head.source !== 'vertex').every((head) => head.radiusM === 5))
-  assert.equal(result.coverage?.uncoveredPoints, 0)
-  assert.equal(result.headToHead?.passed, true)
+  assert.equal(result.status, 'no_complete_rotor_layout')
+  assert.equal(result.sprinklers.length, 0)
 })
 
 test('local clearances reduce rotor radii without breaking adjacent head-to-head links', () => {
@@ -101,8 +87,8 @@ test('local clearances reduce rotor radii without breaking adjacent head-to-head
   assert.equal(result.sprinklers.filter((head) => head.radiusM === 8 && head.source === 'vertex').length, 4)
   assert.equal(result.coverage?.uncoveredPoints, 0)
   assert.equal(result.headToHead?.passed, true)
-  assert.ok(result.sprinklers.every((head) => [5, 6, 7, 8].includes(head.radiusM)))
-  assert.ok(result.sprinklers.filter((head) => head.source !== 'vertex').every((head) => [5, 6, 7].includes(head.radiusM)))
+  assert.ok(result.sprinklers.every((head) => [6, 7, 8].includes(head.radiusM)))
+  assert.ok(result.sprinklers.filter((head) => head.source !== 'vertex').every((head) => [6, 7].includes(head.radiusM)))
   assert.ok(result.sprinklers.some((head) => head.radiusM === 7))
   assert.ok(result.sprinklers.every((head) => head.radiusM !== 10))
 })
@@ -126,47 +112,38 @@ test('3504-PC rejects unsupported exclusions and invalid geometry without manufa
   ])).status, 'invalid_geometry')
 })
 
-test('16x16 square retains the accepted five-head layout with 8m radii', () => {
+test('16x16 square keeps true corners first, then perimeter and interior rotor positions', () => {
   const result = generateRainBird3504Layout(geometry(16, 16))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.layoutStrategy, 'four-side-midpoints-and-center')
-  assert.equal(result.sprinklers.length, 5)
+  assert.equal(result.layoutStrategy, 'corner-first-shared-cell-grid')
+  assert.equal(result.sprinklers.length, 9)
   assert.equal(result.coverage?.uncoveredPoints, 0)
   assert.equal(result.headToHead?.passed, true)
-  assert.ok(result.sprinklers.every((head) => head.radiusM === 8))
+  assert.ok(result.sprinklers.every((head) => head.radiusM >= 6 && head.radiusM <= 9))
+  assert.equal(result.sprinklers.filter((head) => head.source === 'vertex').length, 4)
+  assert.equal(result.sprinklers.filter((head) => head.source === 'edge').length, 4)
+  assert.equal(result.sprinklers.filter((head) => head.source === 'interior').length, 1)
 })
 
-test('17x17 square selects five inward rotors with the exact 8.5m geometric radius', () => {
+test('17x17 square keeps the corner-first grid and fractional rotor radii', () => {
   const result = generateRainBird3504Layout(geometry(17, 17))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.layoutStrategy, 'four-side-midpoints-and-center')
-  assert.equal(result.sprinklers.length, 5)
+  assert.equal(result.layoutStrategy, 'corner-first-shared-cell-grid')
+  assert.equal(result.sprinklers.length, 9)
   assert.equal(result.coverage?.uncoveredPoints, 0)
   assert.equal(result.coverage?.coveragePercent, 100)
   assert.equal(result.headToHead?.passed, true)
-  assert.deepEqual(
-    result.sprinklers.map((head) => head.arcDeg).sort((a, b) => a - b),
-    [180, 180, 180, 180, 360],
-  )
-  assert.ok(result.sprinklers.every((head) => Math.abs(head.radiusM - 8.5) < 1e-9))
-  assert.deepEqual(
-    result.sprinklers.filter((head) => head.arcDeg === 180)
-      .map((head) => [head.position.x, head.position.y, head.directionDeg]).sort((a, b) =>
-        a[0] - b[0] || a[1] - b[1]),
-    [[0, 8.5, 0], [8.5, 0, 90], [8.5, 17, 270], [17, 8.5, 180]],
-  )
-  const center = result.sprinklers.find((head) => head.arcDeg === 360)
-  assert.deepEqual(center?.position, { x: 8.5, y: 8.5 })
-  assert.ok(result.sprinklers.every((head) =>
-    head.position.x >= 0 && head.position.x <= 17 &&
-    head.position.y >= 0 && head.position.y <= 17))
+  assert.ok(result.sprinklers.every((head) => head.radiusM >= 6 && head.radiusM <= 9))
+  assert.equal(result.sprinklers.filter((head) => head.source === 'vertex').length, 4)
+  assert.equal(result.sprinklers.filter((head) => head.source === 'edge').length, 4)
+  assert.equal(result.sprinklers.filter((head) => head.source === 'interior').length, 1)
 })
 
 test('fractional dimensions produce an unrounded continuous rotor radius', () => {
   const result = generateRainBird3504Layout(geometry(17.2, 17.2))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.layoutStrategy, 'four-side-midpoints-and-center')
-  assert.equal(result.sprinklers.length, 5)
+  assert.equal(result.layoutStrategy, 'corner-first-shared-cell-grid')
+  assert.equal(result.sprinklers.length, 9)
   assert.equal(result.coverage?.uncoveredPoints, 0)
   assert.equal(result.headToHead?.passed, true)
   assert.ok(result.sprinklers.every((head) => Math.abs(head.radiusM - 8.6) < 1e-9))

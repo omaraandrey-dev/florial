@@ -265,7 +265,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     Math.max(...vertices.map((point) => point.x)) - Math.min(...vertices.map((point) => point.x)),
     Math.max(...vertices.map((point) => point.y)) - Math.min(...vertices.map((point) => point.y)),
   )
-  const maximumRvanRadiusM = Math.min(6, boundsShortSideM + 0.5)
+  const maximumRvanRadiusM = Math.min(6, boundsShortSideM)
   const nozzleForRadius = (requiredRadiusM) => {
     if (family !== 'R-VAN') return { model, radiusM }
     const selected = selectRvanModelForRequiredRadius(requiredRadiusM)
