@@ -643,16 +643,13 @@ export function evaluateHeadToHeadSpacing(selected) {
       const nextPasses = perimeterNextGapM <= Math.min(sprinkler.radiusM, next.radiusM) + EPSILON &&
         sectorsMutuallyReach(sprinkler, next)
       perimeterSpacingPassed = previousPasses && nextPasses
-      passed = perimeterSpacingPassed
-      headToHeadNeighbor = nextPasses ? next : previousPasses ? previous : null
-      headToHeadDistanceM = headToHeadNeighbor
-        ? distance(sprinkler.position, headToHeadNeighbor.position)
-        : Number.POSITIVE_INFINITY
+      // The required Head-to-Head relationship may be supplied by any
+      // mutually reaching head, including a different family. The immediate
+      // perimeter-neighbour result remains a separate distribution diagnostic.
+      passed = headToHeadNeighbor !== null
     } else if (perimeterIndex >= 0) {
       perimeterSpacingPassed = false
-      passed = false
-      headToHeadNeighbor = null
-      headToHeadDistanceM = Number.POSITIVE_INFINITY
+      passed = headToHeadNeighbor !== null
     }
 
     return Object.freeze({
@@ -895,6 +892,8 @@ export function generateLawnSprinklerLayout({
     .filter((candidate) => !excluded.some((point) => point &&
       Number.isFinite(point.x) && Number.isFinite(point.y) &&
       distance(candidate.position, point) <= EPSILON))
+    .filter((candidate) => !priorHeads.some((head) =>
+      distance(candidate.position, head.position) <= EPSILON))
   if (!candidates || candidates.length > MAX_CANDIDATES) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
