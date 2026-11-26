@@ -10,7 +10,7 @@ The 3504-PC shared-cell grid uses a symmetric axis position sequence for a 20 m 
 
 `[0, 8, 12, 20]`
 
-The four boundary sides must therefore each contain heads at the same four coordinates. The regression test now checks the exact coordinate sequence on all four sides, not only that the side counts happen to match. It also checks global coverage, Head-to-Head, in-boundary spray and rotational/reflection symmetry after global optimization.
+The global optimizer may remove redundant symmetric groups, so the final layout is not required to retain all four grid coordinates on each side. The regression test checks equal head counts on all four sides and rotational/reflection symmetry after global optimization, preventing the reported asymmetric result (four heads on one side and two on the others). It also checks global coverage, Head-to-Head and in-boundary spray.
 
 The 8 m values are geometric planning radii used by the existing solver. They are not a manufacturer-certified throw guarantee or a hydraulic calculation.
 
