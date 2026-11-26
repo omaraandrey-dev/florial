@@ -261,9 +261,17 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     perimeterLengthM += length
   }
 
-  const nozzleForRadius = (requiredRadiusM) => family === 'R-VAN'
-    ? selectRvanModelForRequiredRadius(requiredRadiusM)
-    : { model, radiusM }
+  const boundsShortSideM = Math.min(
+    Math.max(...vertices.map((point) => point.x)) - Math.min(...vertices.map((point) => point.x)),
+    Math.max(...vertices.map((point) => point.y)) - Math.min(...vertices.map((point) => point.y)),
+  )
+  const maximumRvanRadiusM = Math.min(6, boundsShortSideM + 0.5)
+  const nozzleForRadius = (requiredRadiusM) => {
+    if (family !== 'R-VAN') return { model, radiusM }
+    const selected = selectRvanModelForRequiredRadius(requiredRadiusM)
+    if (selected.radiusM <= maximumRvanRadiusM + EPSILON) return selected
+    return selectRvanModelForMaximumRadius(maximumRvanRadiusM) ?? selected
+  }
 
   const add = (
     position,
@@ -313,10 +321,6 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     // On a 3 m-wide rectangular lawn, corner heads serve the local corner
     // and connect through perimeter heads along the long edges. Do not size
     // them against the distant global centroid: that over-selects R-VAN24.
-    const boundsShortSideM = Math.min(
-      Math.max(...vertices.map((point) => point.x)) - Math.min(...vertices.map((point) => point.x)),
-      Math.max(...vertices.map((point) => point.y)) - Math.min(...vertices.map((point) => point.y)),
-    )
     const rectangleCornerReachLimitM = vertices.length === 4 && boundsShortSideM <= 5 + EPSILON
       ? boundsShortSideM
       : null

@@ -545,7 +545,7 @@ export function generateRainBird3504PolygonLayout(geometry, {
  *
  * The 8 m planning stage is preferred; 9 m is the only larger alternative.
  * Only after both stages fail does the solver expand the shared-cell grid at
- * 7/6/5 m to add further rotor positions before any R-VAN fallback. 10 m is excluded.
+ * 7/6 m to add further rotor positions before any R-VAN fallback. 10 m and 5 m are excluded.
  */
 export function generateRainBird3504Layout(geometry, {
   sampleStepM = 0.5,

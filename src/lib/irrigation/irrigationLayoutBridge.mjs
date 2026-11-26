@@ -1454,9 +1454,9 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     attachWholePolygonHeadMetadata(head, region.id, vertices))
 
   const globalTargets = buildIrrigatedTargets(geometry, sampleStepM)
-  const expandedRotors = rotorHeads.length
+  const expandedRotors = rotorHeads.length && rectangularWithoutExclusions
     ? maximizeRotorSectors(rotorHeads, rvanHeads, geometry, globalTargets)
-    : Object.freeze({ sprinklers: Object.freeze([]), edits: Object.freeze([]) })
+    : Object.freeze({ sprinklers: Object.freeze(rotorHeads), edits: Object.freeze([]) })
   rotorHeads = [...expandedRotors.sprinklers]
 
   let allHeads = [...rotorHeads, ...rvanHeads]
