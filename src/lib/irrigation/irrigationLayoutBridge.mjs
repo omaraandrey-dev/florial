@@ -1329,6 +1329,31 @@ function stripOptions(shortSideM) {
 
 
 
+
+function residualStripConnectedEnd(strip, residual, previousHeads, sampleStepM) {
+  const horizontal = strip.widthM >= strip.heightM
+  const cross = horizontal
+    ? (residual.minY + residual.maxY) / 2
+    : (residual.minX + residual.maxX) / 2
+  const probe = Math.min(0.25, sampleStepM / 2)
+  if (horizontal) {
+    const leftConnected = residual.minX > strip.minX + 1e-8 &&
+      previousHeads.some((head) => sprinklerCoversPoint(head, { x: residual.minX - probe, y: cross }))
+    const rightConnected = residual.maxX < strip.maxX - 1e-8 &&
+      previousHeads.some((head) => sprinklerCoversPoint(head, { x: residual.maxX + probe, y: cross }))
+    if (leftConnected) return 'left'
+    if (rightConnected) return 'right'
+  } else {
+    const topConnected = residual.minY > strip.minY + 1e-8 &&
+      previousHeads.some((head) => sprinklerCoversPoint(head, { x: cross, y: residual.minY - probe }))
+    const bottomConnected = residual.maxY < strip.maxY - 1e-8 &&
+      previousHeads.some((head) => sprinklerCoversPoint(head, { x: cross, y: residual.maxY + probe }))
+    if (topConnected) return 'top'
+    if (bottomConnected) return 'bottom'
+  }
+  return null
+}
+
 function uncoveredStripRuns(strip, previousHeads, sampleStepM) {
   const horizontal = strip.widthM >= strip.heightM
   const axisStart = horizontal ? strip.minX : strip.minY
@@ -1567,7 +1592,8 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
       for (const residual of residualRuns) {
         const previousCoverage = rectangleCoverageByPreviousHeads(residual, allHeads, sampleStepM)
         if (previousCoverage.uncoveredPoints === 0) continue
-        const connectedEnd = inferConnectedStripEnd(residual, decomposition)
+        const connectedEnd = residualStripConnectedEnd(strip, residual, allHeads, sampleStepM) ??
+          inferConnectedStripEnd(residual, decomposition)
         const stripGeometry = rectangleGeometry('strip-' + residual.id, residual)
         const stripLayout = connectedEnd
           ? buildConnectedRvanStripLayout(stripGeometry, residual.shortSideM, connectedEnd)
