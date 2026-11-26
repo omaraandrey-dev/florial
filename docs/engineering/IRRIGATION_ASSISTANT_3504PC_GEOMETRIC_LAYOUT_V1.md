@@ -11,7 +11,7 @@
 - If four corners are insufficient, subdivide the rectangle into square/rectangular cells. Every cell has four corner positions.
 - A coordinate shared by two or more cells is one physical rotor position, not multiple duplicated heads.
 - Adjacent Head-to-Head is checked in both directions against the actual sector of each rotor, not by distance alone.
-- The base planning stage is 8 m. 9 m is the only larger alternative and is allowed when it materially reduces unnecessary heads while passing all geometry/Head-to-Head checks. A 10 m planning radius is excluded. Local individual rotor positions may be reduced to 7 m, 6 m or 5 m only where safe clearance requires it; the solver does not use 7/6/5 m as a smaller global planning stage.
+- The base planning stage is 8 m. 9 m is the only larger alternative and is allowed when it materially reduces unnecessary heads while passing all geometry/Head-to-Head checks. A 10 m planning radius is excluded. Only after the 8 m and 9 m stages fail full coverage and Head-to-Head does the solver expand the shared-cell grid at 7 m, 6 m or 5 m, adding further rotor positions before any R-VAN fallback.
 - Sector orientation and radius are validated against the calculation rectangle before a rotor is accepted.
 
 These are Florial planning rules, not Rain Bird manufacturer-certified throw distances for every arc/nozzle/pressure. The UI and project documentation must keep that distinction explicit.
@@ -31,7 +31,7 @@ Implementation: `src/lib/irrigation/rainBird3504Layout.mjs`.
 
 Create one 90° rotor at each true rectangle corner, with the sector bisector directed into the rectangle. Choose the largest permitted local radius not exceeding the current stage or the safe rectangle clearance.
 
-Try the 8 m baseline first, then the 9 m alternative. The first corner-only set that passes complete sampled coverage and mutual Head-to-Head is accepted without adding intermediate heads. Never test a 10 m stage.
+Try the 8 m baseline first, then the 9 m alternative. If neither complete corner-only/grid candidate passes coverage and mutual Head-to-Head, expand the shared-cell grid at 7 m, 6 m and 5 m in that order to add more rotor positions. Never test a 10 m stage.
 
 ### Phase C — shared cell grid
 
@@ -41,7 +41,7 @@ For each node:
 - a rectangle vertex receives a 90° sector bisected toward the interior;
 - a boundary node receives a 180° sector directed inward;
 - an interior node receives a 360° sector;
-- its radius is capped by the actual local clearance and selected from 9/8/7/6/5 m; 7/6/5 m are local safe-clearance reductions, not global stages.
+- its radius is capped by the actual local clearance and selected from 9/8/7/6/5 m; 7/6/5 m stages are considered only after the 8/9 m baseline attempts fail.
 
 The grid is rejected if any node lacks a safe rotor radius, any sampled target remains uncovered, any sector leaves the calculation rectangle, or any horizontally/vertically adjacent grid pair fails mutual Head-to-Head.
 
