@@ -779,7 +779,17 @@ function maximizeRotorSectors(sprinklers, otherHeads, geometry, globalTargets = 
 
     let best = currentHead
     let bestDirectionDelta = 0
-    if (globalTargets && uncoveredTargets.length) {
+    if (!globalTargets) {
+      // Keep the safe fixed-direction expansion available when the global
+      // target mesh is above its deterministic cap.
+      for (let arcDeg = Math.floor(best.arcDeg + 1e-8) + 1; arcDeg <= 360; arcDeg += 1) {
+        if (!sectorExpansionFits(best, best.arcDeg, arcDeg, geometry)) break
+        const candidate = Object.freeze({ ...best, arcDeg })
+        const candidateHeads = [...others, candidate]
+        if (arcDeg === 360 && !fullCircleRotorClearancePassed(candidateHeads)) break
+        best = candidate
+      }
+    } else if (uncoveredTargets.length) {
       const directionOffsets = [-90, -75, -60, -45, -30, -15, 0, 15, 30, 45, 60, 75, 90]
       for (const offset of directionOffsets) {
         const directionDeg = (currentHead.directionDeg + offset + 360) % 360
