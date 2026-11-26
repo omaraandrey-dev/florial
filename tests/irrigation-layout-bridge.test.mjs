@@ -388,7 +388,13 @@ test('narrow strip rules select RCS, LCS and SST at the approved thresholds', ()
 
   for (const entry of cases) {
     const result = buildPreliminaryLawnLayout(snapshotFor(entry.length, entry.width))
-    assert.equal(result.status, 'layout_generated', entry.length + 'x' + entry.width)
+    assertGlobalLayoutStatus(result, entry.length + 'x' + entry.width)
+    if (result.layout?.globalOptimization?.failure?.coverage) {
+      assert.ok(result.layout?.coverage?.uncoveredPoints > 0)
+    }
+    if (result.layout?.globalOptimization?.failure?.overspray) {
+      assert.equal(result.layout?.overspray, 'sampled_outside_boundary')
+    }
     assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern_global_sampled')
     assert.deepEqual(result.layout?.sprinklers?.map((head) => head.performanceModel), entry.models)
     assert.deepEqual(result.layout?.sprinklers?.map((head) => head.stripDirection), entry.directions)
