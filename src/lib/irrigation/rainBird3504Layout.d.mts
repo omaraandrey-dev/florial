@@ -3,7 +3,7 @@ export interface RainBird3504LayoutResult {
   readonly status: string
   readonly family?: '3500'
   readonly model?: '3504-PC'
-  readonly planningRadiusM?: 5 | 6 | 7 | 8 | 9 | 10 | null
+  readonly planningRadiusM?: 5 | 6 | 7 | 8 | 9 | null
   readonly layoutStrategy?: 'four-corners-first' | 'corner-first-shared-cell-grid'
   readonly grid?: Readonly<{
     columns: number
