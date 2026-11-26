@@ -533,10 +533,13 @@ function selectCornerFirstPerimeter(perimeterCandidates, initiallyUncovered, pri
   const edges = perimeterCandidates.filter((candidate) => candidate.source === 'edge')
   const selected = []
 
-  // Seed the actual polygon vertices first, including the reflex corner of an L.
+  // Seed every actual polygon vertex first, including the reflex corner.
+  // A corner must not be skipped merely because a different candidate happens
+  // to cover the coarse initial mesh there; the finer whole-layout validation
+  // may expose a boundary gap immediately beside that vertex.
   for (const candidate of corners) {
-    const gain = candidate.covered.reduce((sum, index) => sum + Number(uncovered.has(index)), 0)
-    if (gain <= 0 || selected.length >= MAX_SELECTED_SPRINKLERS) continue
+    if (selected.length >= MAX_SELECTED_SPRINKLERS) break
+    if (priorHeads.some((head) => sprinklerCoversPoint(head, candidate.position))) continue
     selected.push(candidate)
     for (const index of candidate.covered) uncovered.delete(index)
   }
