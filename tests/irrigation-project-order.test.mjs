@@ -380,6 +380,14 @@ test('accepts a single 3504-PC rotor without inventing a head-to-head neighbour'
   assert.equal(result.valid, true)
   assert.equal(result.snapshot.layout.sprinklers[0].performanceModel, '3504-PC')
   assert.equal(result.snapshot.layout.headToHeadApplicable, false)
+
+  project.layout.sprinklers[0].radiusM = 10
+  const rejected = validateIrrigationProjectSnapshot({
+    ...project,
+    orderItems: [{ sku: 'Y34001', qty: 1 }, { sku: 'A46010', qty: 2 }],
+  })
+  assert.equal(rejected.valid, false)
+  assert.equal(rejected.reason, 'invalid_project_sprinkler')
 })
 
 test('persists the explicit rotor pattern and corner-first layout identity for 3504-PC', () => {
