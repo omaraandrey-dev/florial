@@ -33,7 +33,7 @@ function coordinateKey(point) {
 test('8x8 square starts and finishes with exactly four corner rotors', () => {
   const result = generateRainBird3504Layout(geometry(8, 8))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.layoutStrategy, 'corner-first-shared-cell-grid')
+  assert.equal(result.layoutStrategy, 'four-corners-first')
   assert.equal(result.planningRadiusM, 8)
   assert.equal(result.sprinklers.length, 4)
   assert.equal(result.grid?.cornerPositionsPerCell, 4)
@@ -52,7 +52,7 @@ test('8x8 square starts and finishes with exactly four corner rotors', () => {
 test('10x10 square uses the preferred 8m corner radius without extending to 10m', () => {
   const result = generateRainBird3504Layout(geometry(10, 10))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.layoutStrategy, 'four-corners-first')
+  assert.equal(result.layoutStrategy, 'corner-first-shared-cell-grid')
   assert.equal(result.planningRadiusM, 8)
   assert.equal(result.sprinklers.length, 4)
   assert.ok(result.sprinklers.every((head) => head.radiusM === 8))
