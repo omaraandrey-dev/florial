@@ -724,7 +724,7 @@ function rectangleRotorLayout(rectGeometry, part, sampleStepM, initialSprinklers
   return Object.freeze({
     ...candidate,
     engineVersion: '0.7.0',
-    algorithm: 'area-descending-per-rectangle-3504pc-first-rvan-fallback-global-minimization-v1',
+    algorithm: 'area-descending-sequential-shared-coverage-3504pc-first-rvan-fallback-max-safe-arc-v2',
     status: 'coverage_complete_sampled',
     coverageScope: 'sampled_geometry_only',
     family: '3500',
@@ -1126,7 +1126,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       model: layout.model,
       pressureBar: selectedModels.includes('3504-PC') && !selectedModels.some((model) => model.startsWith('R-VAN')) ? null : pressureBar,
       pressureBasis: selectedModels.includes('3504-PC') ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: 'process calculation rectangles from largest area to smallest; complete the existing 3504-PC-first or unchanged R-VAN fallback layout for every rectangle; then run bounded global 3504-PC head minimization against the full lawn sample grid; preserve coverage, mutual Head-to-Head and spray-boundary checks; 1 m/2 m strips retain their directional R-VAN pattern',
+      modelSelectionBasis: 'process calculation rectangles from largest area to smallest; include already-placed sprinkler coverage before adding heads; expand each new 3504-PC rotor arc as far as the original lawn geometry permits; repeat a final whole-layout arc pass and remove redundant heads only after global coverage, Head-to-Head, overspray and 6 m full-circle rotor clearance checks; 1 m/2 m strips retain their directional R-VAN pattern',
       layoutRadiusM: null,
       sourceUrl: selectedModels.includes('3504-PC') ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
