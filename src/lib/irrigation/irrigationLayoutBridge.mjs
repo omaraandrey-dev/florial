@@ -1796,6 +1796,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     warnings: Object.freeze(warnings),
     hydraulicFeasibility: hasRotor && hasRvan ? 'owner_confirmed_compatible' : 'not_evaluated',
     hydraulicCompatibilityBasis: hasRotor && hasRvan ? 'owner_confirmed' : 'not_applicable',
+    precipitationIntensityCompatibility: hasRotor && hasRvan ? 'owner_confirmed_similar' : 'not_evaluated',
     precipitationUniformity: 'not_evaluated',
     bodyCompatibility: 'not_evaluated',
     overspray: oversprayPassed ? 'sampled_inside_boundary' : 'sampled_outside_boundary',
@@ -1806,6 +1807,9 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const resultStatus = layoutStatus === 'coverage_complete_sampled' ||
     layoutStatus === 'strip_pattern_placement_ready' ? 'layout_generated' : 'layout_incomplete'
   return result(resultStatus, {
+    hydraulicFeasibility: hasRotor && hasRvan ? 'owner_confirmed_compatible' : 'not_evaluated',
+    hydraulicCompatibilityBasis: hasRotor && hasRvan ? 'owner_confirmed' : 'not_applicable',
+    precipitationIntensityCompatibility: hasRotor && hasRvan ? 'owner_confirmed_similar' : 'not_evaluated',
     shortSideM,
     manufacturer: 'Rain Bird',
     family,
