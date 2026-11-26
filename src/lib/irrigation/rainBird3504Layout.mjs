@@ -454,7 +454,6 @@ export function generateRainBird3504Layout(geometry, {
     if (!grid || grid.heads.length > MAX_ROTORS) continue
     const coverage = evaluateCoverage(grid.heads, targets, prior)
     if (coverage.uncoveredPoints !== 0) continue
-    if (!fullCircleRotorClearancePassed([...prior, ...grid.heads])) continue
     const spacing = evaluateGridHeadToHead(grid.heads, grid)
     if (!spacing.passed) continue
     const diagnostic = evaluateHeadToHeadSpacing(grid.heads)
