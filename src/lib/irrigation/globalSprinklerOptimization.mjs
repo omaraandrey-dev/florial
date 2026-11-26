@@ -622,6 +622,136 @@ function buildBalancedRectangleCandidate(originalHeads, geometry, targets, optio
   return { heads, counts, coverageById, headToHead }
 }
 
+function rvanReplacementGroups(heads) {
+  const candidates = heads.filter((head) =>
+    head.pattern !== 'strip' &&
+    typeof head.performanceModel === 'string' &&
+    head.performanceModel.startsWith('R-VAN') &&
+    Number.isFinite(head.radiusM))
+    .sort(geometricHeadOrder)
+  const groups = new Map()
+  for (const seed of candidates) {
+    const nearby = candidates
+      .filter((head) => head.id !== seed.id && distance(head.position, seed.position) <= 18 + EPSILON)
+      .sort((a, b) => distance(a.position, seed.position) - distance(b.position, seed.position) ||
+        geometricHeadOrder(a, b))
+    for (let size = Math.min(5, nearby.length + 1); size >= 2; size -= 1) {
+      const group = [seed, ...nearby.slice(0, size - 1)].sort(geometricHeadOrder)
+      const key = group.map((head) => head.id).sort().join('|')
+      groups.set(key, group)
+    }
+  }
+  return [...groups.values()].sort((a, b) =>
+    b.length - a.length || geometricHeadOrder(a[0], b[0]))
+}
+
+function replacementPositions(group, targets) {
+  const xs = group.map((head) => head.position.x)
+  const ys = group.map((head) => head.position.y)
+  const center = {
+    x: xs.reduce((sum, value) => sum + value, 0) / xs.length,
+    y: ys.reduce((sum, value) => sum + value, 0) / ys.length,
+  }
+  const positions = [
+    center,
+    { x: (Math.min(...xs) + Math.max(...xs)) / 2, y: (Math.min(...ys) + Math.max(...ys)) / 2 },
+    ...group.map((head) => head.position),
+  ]
+  for (const offset of [-1, 0, 1]) {
+    positions.push({ x: center.x + offset, y: center.y })
+    positions.push({ x: center.x, y: center.y + offset })
+  }
+  const unique = new Map()
+  for (const point of positions) {
+    if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) continue
+    if (!pointIsTarget(point, { boundary: { vertices: [] }, exclusions: [] })) {
+      // Geometry membership is checked by the actual target list below.
+      if (!targets.some((target) => distance(target, point) <= COORDINATE_TOLERANCE)) continue
+    }
+    const key = Math.round(point.x / 0.25) + ':' + Math.round(point.y / 0.25)
+    unique.set(key, point)
+  }
+  return [...unique.values()].sort((a, b) =>
+    distance(a, center) - distance(b, center) || a.y - b.y || a.x - b.x)
+}
+
+function runRvanGroupReplacementPass(state, options) {
+  let { heads, counts, coverageById } = state
+  const replacedGroups = []
+  let evaluated = 0
+  const maxVariants = options.maxReconfigurationVariants ?? 1600
+  const groups = rvanReplacementGroups(heads)
+
+  for (const group of groups) {
+    if (!group.every((head) => heads.some((entry) => entry.id === head.id))) continue
+    const groupIds = new Set(group.map((head) => head.id))
+    const regionIds = [...new Set(group.flatMap(regionIdsForHead))]
+    const positions = replacementPositions(group, options.targets)
+    let accepted = null
+
+    for (const position of positions) {
+      if (!pointIsTarget(position, options.geometry.regions[0])) continue
+      for (const radiusM of [9, 8, 7, 6, 5]) {
+        for (const arcDeg of [360, 270, 180, 90]) {
+          const directions = arcDeg === 360 ? [null] : [0, 45, 90, 135, 180, 225, 270, 315]
+          for (const directionDeg of directions) {
+            if (evaluated >= maxVariants) break
+            evaluated += 1
+            const replacement = Object.freeze({
+              id: 'global-v2-rvan-replacement-' + String(evaluated).padStart(4, '0'),
+              position: Object.freeze({ ...position }),
+              arcDeg,
+              directionDeg,
+              radiusM,
+              performanceModel: '3504-PC',
+              pattern: 'rotor',
+              calculationRegionId: regionIds[0] ?? '__global__',
+              calculationRegionIds: Object.freeze(regionIds.length ? regionIds : ['__global__']),
+              planningRadiusSource: 'global-v2-circular-rvan-group-replacement',
+            })
+            const nextHeads = [
+              ...heads.filter((head) => !groupIds.has(head.id)),
+              replacement,
+            ]
+            const replacementCoverage = coverageForHead(replacement, options.targets)
+            const nextCounts = adjustedCounts(counts,
+              group.map((head) => coverageById.get(head.id) ?? []), replacementCoverage)
+            if (!allTargetsCovered(nextCounts)) continue
+            const headToHead = buildHeadToHead(nextHeads, options.baselineRegionSizes)
+            if (!headToHead.passed || !options.oversprayCheck(nextHeads)) continue
+            accepted = { replacement, nextHeads, nextCounts, replacementCoverage }
+            break
+          }
+          if (accepted || evaluated >= maxVariants) break
+        }
+        if (accepted || evaluated >= maxVariants) break
+      }
+      if (accepted || evaluated >= maxVariants) break
+    }
+
+    if (accepted) {
+      heads = accepted.nextHeads
+      counts = accepted.nextCounts
+      for (const head of group) coverageById.delete(head.id)
+      coverageById.set(accepted.replacement.id, accepted.replacementCoverage)
+      replacedGroups.push(Object.freeze({
+        removedHeadIds: Object.freeze(group.map((head) => head.id)),
+        replacementHeadId: accepted.replacement.id,
+        position: accepted.replacement.position,
+        radiusM: accepted.replacement.radiusM,
+        arcDeg: accepted.replacement.arcDeg,
+      }))
+    }
+    if (evaluated >= maxVariants) break
+  }
+  return {
+    heads, counts, coverageById,
+    replacedGroups,
+    reconfigurationVariants: evaluated,
+    reconfigurationVariantLimitReached: evaluated >= maxVariants,
+  }
+}
+
 export function optimizeGlobalSprinklerSet({
   sprinklers,
   geometry,
@@ -671,6 +801,8 @@ export function optimizeGlobalSprinklerSet({
     baselineRegionSizes,
     regionIds: [...baselineRegionSizes.keys()],
     symmetryTransforms: rectangleSymmetryTransforms(geometry),
+    geometry,
+    maxReconfigurationVariants: 1600,
     maxSectorVariants: Math.min(MAX_SECTOR_VARIANTS, Math.max(0, maxSectorVariants)),
   }
 
@@ -740,7 +872,8 @@ export function optimizeGlobalSprinklerSet({
     })
   }
 
-  const firstPass = runRemovalPass(seed, options)
+  const replacementPass = runRvanGroupReplacementPass(seed, options)
+  const firstPass = runRemovalPass(replacementPass, options)
   const sectorPass = runSectorOptimization(firstPass, options)
   const finalCounts = sectorPass.counts
   const finalHeadToHead = buildHeadToHead(sectorPass.heads, baselineRegionSizes)
@@ -754,7 +887,8 @@ export function optimizeGlobalSprinklerSet({
     sprinklers: Object.freeze(finalHeads),
     targetCount: targets.length,
     removedHeadIds: Object.freeze(finalValid
-      ? [...seedRemovedIds, ...firstPass.removedHeadIds, ...sectorPass.removedHeadIds]
+      ? [...seedRemovedIds, ...replacementPass.replacedGroups.flatMap((group) => group.removedHeadIds),
+        ...firstPass.removedHeadIds, ...sectorPass.removedHeadIds]
       : []),
     consolidatedGroups: Object.freeze(finalValid ? sectorPass.consolidatedGroups : []),
     sectorEdits: Object.freeze(finalValid ? sectorPass.sectorEdits : []),
@@ -763,6 +897,9 @@ export function optimizeGlobalSprinklerSet({
     reconfiguration: Object.freeze({
       seed: seedName,
       replacedBaselineHeadCount: seedRemovedIds.length,
+      replacedRvanGroups: Object.freeze(replacementPass.replacedGroups),
+      reconfigurationVariants: replacementPass.reconfigurationVariants,
+      reconfigurationVariantLimitReached: replacementPass.reconfigurationVariantLimitReached,
     }),
     coverage: finalValid ? finalCoverage : coverageSummary(seed.counts, targets),
     headToHead: Object.freeze({
