@@ -1529,7 +1529,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const model = selectedModels.join(' / ')
   const hasStrip = allHeads.some((head) => head.pattern === 'strip')
   const layoutStatus = coverageComplete && oversprayPassed && headToHeadPassed !== false &&
-    fullCircleSpacingPassed && !optimizationFailed && !optimizationSkipped
+    !optimizationFailed && !optimizationSkipped
     ? (finalCircularHeads.length ? 'coverage_complete_sampled' : 'strip_pattern_placement_ready')
     : 'coverage_incomplete'
 
@@ -1585,7 +1585,9 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     engineVersion: '0.8.0',
     algorithm: 'whole-polygon-sequential-3504pc-rvan-strip-v1',
     status: layoutStatus,
-    coverageScope: optimizationSkipped ? 'global_validation_skipped_target_limit' : 'whole_polygon_global_sampled_geometry',
+    coverageScope: optimizationSkipped
+      ? 'global_validation_skipped_target_limit'
+      : (finalCircularHeads.length ? 'global_sampled_geometry' : 'owner_defined_strip_pattern_global_sampled'),
     family,
     model,
     pressureBar: hasRvan ? pressureBar : null,

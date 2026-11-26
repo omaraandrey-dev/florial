@@ -611,23 +611,10 @@ export function generateRainBird3504Layout(geometry, {
     })
   }
 
-  // Phase 2: test the owner's five-head side-midpoint + centre pattern.
-  const completeLayouts = []
-  for (const stageRadiusM of BASE_RADIUS_STAGES_M) {
-    const balanced = buildSideMidpointCenterCandidate(bounds, stageRadiusM, targets, prior)
-    if (!balanced) continue
-    const radiusPenalty = Math.abs(stageRadiusM - 8) * 1.5
-    completeLayouts.push({
-      stageRadiusM,
-      heads: balanced.heads,
-      coverage: balanced.coverage,
-      spacing: { passed: true, checks: balanced.spacing },
-      layoutStrategy: 'four-side-midpoints-and-center',
-      score: balanced.heads.length + radiusPenalty,
-    })
-  }
-
-  // Phase 3: generate complete shared-cell grids as the established fallback.
+  // Phase 2: continue the same corner-first search with shared perimeter
+  // and interior grid candidates. No alternative pattern may bypass the
+  // already tested true polygon corners.
+  // Expand a shared-position grid only after the true corner seed is insufficient.
   for (const stageRadiusM of RADIUS_STAGES_M) {
     const grid = buildGrid(bounds, stageRadiusM)
     if (!grid || grid.heads.length > MAX_ROTORS) continue
@@ -663,20 +650,13 @@ export function generateRainBird3504Layout(geometry, {
   })
 
   const sprinklers = Object.freeze(selected.heads.map(({ gridKey, ...head }) => head))
-  const isBalanced = selected.layoutStrategy === 'four-side-midpoints-and-center'
   return result('layout_generated', {
     family: '3500',
     model: '3504-PC',
     planningRadiusM: selected.stageRadiusM < 8 ? 8 : selected.stageRadiusM,
     supplementalRadiusM: selected.stageRadiusM < 8 ? selected.stageRadiusM : null,
     layoutStrategy: selected.layoutStrategy,
-    grid: Object.freeze(isBalanced ? {
-      columns: 2,
-      rows: 2,
-      cells: 4,
-      cornerPositionsPerCell: 4,
-      uniqueCornerPositions: 5,
-    } : {
+    grid: Object.freeze({
       columns: selected.grid.xs.length - 1,
       rows: selected.grid.ys.length - 1,
       cells: selected.grid.cells,
