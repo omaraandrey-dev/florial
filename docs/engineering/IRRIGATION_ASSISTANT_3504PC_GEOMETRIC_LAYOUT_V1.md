@@ -116,4 +116,4 @@ PR #530 is merged and its exact merge commit was deployed successfully to Cloudf
 - Width and length must each be strictly greater than zero. The rectangle must remain within the lawn boundary and must not overlap another exclusion.
 - Supported area kinds in the customer assistant and persisted project are pool, building/gazebo, paved area and drip-irrigated area. A drip-irrigated area is excluded from sprinkler coverage but is explicitly identified as served by drip irrigation; it is not described as an area receiving no irrigation at all.
 - The drip-irrigated area uses a distinct green/teal fill with parallel dripline strokes and emitter dots in both the browser diagrams and the preliminary project PDF.
-- Customer-facing labels are localized in Bulgarian, Russian and English. Bulgarian uses „Площадка с настилка“ for a paved area and „Зона с капково напояване“ for a drip-irrigated area.
+- Customer-facing labels are localized in Bulgarian, Russian and English. Bulgarian uses „Зона с настилка“ for a paved area and „Зона с капково напояване“ for a drip-irrigated area.

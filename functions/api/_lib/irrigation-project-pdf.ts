@@ -242,7 +242,7 @@ export const createIrrigationProjectPdf = async (
       const ys = points.map((point) => point.y)
       const kindLabel = exclusion.kind === 'pool' ? 'Басейн' :
         exclusion.kind === 'building' ? 'Къща / беседка' :
-          exclusion.kind === 'patio' ? 'Площадка с настилка' :
+          exclusion.kind === 'patio' ? 'Зона с настилка' :
             exclusion.kind === 'drip' ? 'Зона с капково напояване' : 'Зона без дъждуване'
       return kindLabel + ' (' + (exclusion.id || 'exclusion') + '): ' +
         (Math.max(...xs) - Math.min(...xs)).toFixed(1) + ' × ' +
