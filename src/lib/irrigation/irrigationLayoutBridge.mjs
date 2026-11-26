@@ -694,6 +694,8 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   }
 
   modelSet = new Set(allHeads.map((head) => head.performanceModel))
+  const circularHeads = allHeads.filter((head) => head.pattern !== 'strip')
+  const hasStrip = stripParts.length > 0
   if (globalOptimization.status === 'skipped_target_limit') {
     layoutWarnings.push({ code: 'global_head_minimization_skipped_target_limit', path: 'layout.globalOptimization' })
   } else if (globalOptimization.status === 'baseline_failed' ||
@@ -738,8 +740,9 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const selectedModels = [...modelSet].sort()
   const layout = Object.freeze({
     engineVersion: '0.7.0',
-    algorithm: 'area-ascending-per-rectangle-3504pc-first-rvan-fallback-v1',
-    status: !oversprayPassed || !circularCoverageComplete || headToHeadPassed === false
+    algorithm: 'area-descending-per-rectangle-3504pc-first-rvan-fallback-global-minimization-v1',
+    status: !oversprayPassed || !circularCoverageComplete || headToHeadPassed === false ||
+      globalOptimization.status === 'baseline_failed' || globalOptimization.status === 'final_validation_failed'
       ? 'coverage_incomplete'
       : (circularHeads.length ? 'coverage_complete_sampled' : 'strip_pattern_placement_ready'),
     coverageScope: globalOptimization.status === 'skipped_target_limit'
