@@ -266,12 +266,9 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     Math.max(...vertices.map((point) => point.y)) - Math.min(...vertices.map((point) => point.y)),
   )
   const maximumRvanRadiusM = Math.min(6, boundsShortSideM)
-  const nozzleForRadius = (requiredRadiusM) => {
-    if (family !== 'R-VAN') return { model, radiusM }
-    const selected = selectRvanModelForRequiredRadius(requiredRadiusM)
-    if (selected.radiusM <= maximumRvanRadiusM + EPSILON) return selected
-    return selectRvanModelForMaximumRadius(maximumRvanRadiusM) ?? selected
-  }
+  const nozzleForRadius = (requiredRadiusM) => family === 'R-VAN'
+    ? selectRvanModelForRequiredRadius(Math.min(requiredRadiusM, maximumRvanRadiusM))
+    : { model, radiusM }
 
   const add = (
     position,
@@ -321,12 +318,12 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     // On a 3 m-wide rectangular lawn, corner heads serve the local corner
     // and connect through perimeter heads along the long edges. Do not size
     // them against the distant global centroid: that over-selects R-VAN24.
-    const rectangleCornerReachLimitM = vertices.length === 4 && boundsShortSideM <= 5 + EPSILON
-      ? boundsShortSideM
-      : null
-    const cornerRequiredRadiusM = rectangleCornerReachLimitM
-      ? Math.min(distance(current, center), rectangleCornerReachLimitM)
-      : distance(current, center)
+    const localCornerReachLimitM = Math.min(
+      6,
+      distance(previous, current),
+      distance(current, next),
+    )
+    const cornerRequiredRadiusM = Math.min(distance(current, center), localCornerReachLimitM)
     const nozzle = family === 'R-VAN'
       ? nozzleForRadius(cornerRequiredRadiusM)
       : { model, radiusM: performanceFor(family, model, pressureBar, arcDeg)?.radiusM ?? radiusM }
