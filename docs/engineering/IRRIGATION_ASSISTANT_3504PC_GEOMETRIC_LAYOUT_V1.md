@@ -11,7 +11,7 @@
 - If four corners are insufficient, subdivide the rectangle into square/rectangular cells. Every cell has four corner positions.
 - A coordinate shared by two or more cells is one physical rotor position, not multiple duplicated heads.
 - Adjacent Head-to-Head is checked in both directions against the actual sector of each rotor, not by distance alone.
-- The base planning stage is 8 m. 9 m is the only larger alternative and is allowed when it materially reduces unnecessary heads while passing all geometry/Head-to-Head checks. A 10 m planning radius is excluded. Only after the 8 m and 9 m stages fail full coverage and Head-to-Head does the solver expand the shared-cell grid at 7 m, 6 m or 5 m. Where safe clearance allows, the four base corner rotors remain at 8 m and the smaller radii are used for added grid heads before any R-VAN fallback.
+- The base planning stage is 8 m. 9 m is the only larger alternative and is allowed when it materially reduces unnecessary heads while passing all geometry/Head-to-Head checks. A 10 m planning radius is excluded. Only after the 8 m and 9 m stages fail full coverage and Head-to-Head does the solver expand the shared-cell grid at 7 m, 6 m or 5 m. Where safe clearance allows, the four base corner rotors remain at 8 m and smaller grid pitch stages are used for added heads before any R-VAN fallback. The selected per-head geometric radius is continuous and is capped by the local safe clearance; it is not snapped to whole metres.
 - Sector orientation and radius are validated against the calculation rectangle before a rotor is accepted.
 
 These are Florial planning rules, not Rain Bird manufacturer-certified throw distances for every arc/nozzle/pressure. The UI and project documentation must keep that distinction explicit.
@@ -41,7 +41,7 @@ For each node:
 - a rectangle vertex receives a 90° sector bisected toward the interior;
 - a boundary node receives a 180° sector directed inward;
 - an interior node receives a 360° sector;
-- its radius is capped by the actual local clearance and selected from 9/8/7/6/5 m; 7/6/5 m stages are considered only after the 8/9 m baseline attempts fail.
+- its radius is capped by the actual local clearance and set to the exact minimum of the current stage ceiling and its local safe clearance. Fractional values such as 8.5 m are valid. The 7/6/5 m values are grid pitch/stage ceilings, not an allowed-radius enumeration.
 
 The grid is rejected if any node lacks a safe rotor radius, any sampled target remains uncovered, any sector leaves the calculation rectangle, or any horizontally/vertically adjacent grid pair fails mutual Head-to-Head.
 
@@ -64,7 +64,7 @@ Each 3504-PC head is explicitly tagged:
 - `performanceModel: '3504-PC'`;
 - `pattern: 'rotor'`;
 - `source: 'vertex' | 'edge' | 'interior'`;
-- `radiusM: 5 | 6 | 7 | 8 | 9`.
+- `radiusM: number` (finite, positive geometric planning radius).
 
 The project snapshot validator accepts and preserves the rotor pattern. The BOM validates that a 3504-PC head is a rotor with a 5–9 m planning radius, adds SKU `Y34001`, and does not add an 1804 spray body to that rotor. The assistant's layout details show the planning radius beside the 3504-PC arc. The customer-facing equipment-set summary uses generic sprinkler/nozzle wording and does not incorrectly claim that every layout contains 1804 spray bodies.
 
