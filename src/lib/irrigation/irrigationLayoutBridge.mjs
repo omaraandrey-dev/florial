@@ -1006,21 +1006,22 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   if (SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)) {
     const layout = buildRvanStripLayout(geometry, shortSideM)
     if (layout) {
-      const zones = buildIrrigationZones(layout.sprinklers, geometry)
-      const pipeNetwork = buildPerimeterPipeNetwork(geometry, layout.sprinklers, zones)
-      return result('layout_generated', {
+      const finalLayout = finalizeSingleRegionLayout(layout, geometry, sampleStepM, 'strip-001')
+      const zones = buildIrrigationZones(finalLayout.sprinklers, geometry)
+      const pipeNetwork = buildPerimeterPipeNetwork(geometry, finalLayout.sprinklers, zones)
+      return result(finalLayout.status === 'strip_pattern_placement_ready' ? 'layout_generated' : 'layout_incomplete', {
         engine: Object.freeze({
           name: 'Florial deterministic lawn layout',
-          version: layout.engineVersion,
-          algorithm: layout.algorithm,
+          version: finalLayout.engineVersion,
+          algorithm: finalLayout.algorithm,
         }),
         operatingScenario: Object.freeze({
           manufacturer: 'Rain Bird',
           family: 'R-VAN',
-          model: layout.model,
+          model: finalLayout.model,
           pressureBar: RECOMMENDED_NOZZLE_PRESSURE_BAR,
           pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
-          modelSelectionBasis: 'owner_defined_LCS_RCS_SST_strip_width_throw_spacing_and_direction_rules',
+          modelSelectionBasis: 'owner_defined_LCS_RCS_SST_strip_width_throw_spacing_and_direction_rules; global sampled geometry validation follows strip placement',
           layoutRadiusM: null,
           sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
           actualNozzlePressureVerified: false,
@@ -1028,16 +1029,17 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
         }),
         geometry: Object.freeze({
           shape: 'rectangle',
-          areaM2: layout.geometry.areaM2,
+          areaM2: finalLayout.geometry.areaM2,
           shortSideM,
           dimensionsAreApproximate: true,
         }),
         projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
         zones,
         pipeNetwork,
-        layout,
+        layout: finalLayout,
+        overspray: finalLayout.overspray,
         warnings: Object.freeze([
-          ...layout.warnings,
+          ...finalLayout.warnings,
           Object.freeze({ code: 'approximate_customer_dimensions', path: 'geometry' }),
         ]),
       })
@@ -1096,46 +1098,46 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     })
   }
 
-  const zones = buildIrrigationZones(layout.sprinklers, geometry)
-  const pipeNetwork = buildPerimeterPipeNetwork(geometry, layout.sprinklers, zones)
+  const finalLayout = finalizeSingleRegionLayout(layout, geometry, sampleStepM, 'rect-001')
+  const zones = buildIrrigationZones(finalLayout.sprinklers, geometry)
+  const pipeNetwork = buildPerimeterPipeNetwork(geometry, finalLayout.sprinklers, zones)
 
-  return result(layout.status === 'coverage_complete_sampled' ? 'layout_generated' : 'layout_incomplete', {
+  return result(finalLayout.status === 'coverage_complete_sampled' ? 'layout_generated' : 'layout_incomplete', {
     engine: Object.freeze({
       name: 'Florial deterministic lawn layout',
-      version: layout.engineVersion,
-      algorithm: layout.algorithm ?? null,
+      version: finalLayout.engineVersion,
+      algorithm: finalLayout.algorithm ?? null,
     }),
     operatingScenario: Object.freeze({
       manufacturer: 'Rain Bird',
-      family: layout.family ?? 'R-VAN',
-      model: layout.model ?? model,
-      pressureBar: layout.family === '3500' ? null : pressureBar,
-      pressureBasis: layout.family === '3500' ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: layout.family === '3500'
-        ? 'the complete rectangle is served by 3504-PC using the 8 m baseline or 9 m alternative, with local 7/6/5 m radii only where safe clearance requires; 10 m is excluded; R-VAN is not added to the same rectangle'
-        : 'R-VAN fallback uses the unchanged local model/radius selection; radius independent of arc',
+      family: finalLayout.family ?? 'R-VAN',
+      model: finalLayout.model ?? model,
+      pressureBar: finalLayout.family === '3500' ? null : pressureBar,
+      pressureBasis: finalLayout.family === '3500' ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
+      modelSelectionBasis: finalLayout.family === '3500'
+        ? 'the complete rectangle uses the unchanged 3504-PC corner-first/shared-cell placement; global sampled minimization follows the complete primary layout'
+        : 'R-VAN fallback uses the unchanged local model/radius selection; global validation follows the complete primary layout',
       layoutRadiusM: null,
-      sourceUrl: layout.family === '3500' ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
+      sourceUrl: finalLayout.family === '3500' ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
     }),
     geometry: Object.freeze({
-      shape: layout.geometry?.shape ?? null,
-      areaM2: layout.geometry?.areaM2 ?? snapshot.geometry.areaM2,
+      shape: finalLayout.geometry?.shape ?? null,
+      areaM2: finalLayout.geometry?.areaM2 ?? snapshot.geometry.areaM2,
       shortSideM,
       dimensionsAreApproximate: true,
     }),
     projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
     zones,
     pipeNetwork,
-    layout,
-    overspray: layout.overspray ?? 'not_evaluated',
+    layout: finalLayout,
+    overspray: finalLayout.overspray ?? 'not_evaluated',
     warnings: Object.freeze([
-      ...layout.warnings,
+      ...finalLayout.warnings,
       Object.freeze({ code: 'approximate_customer_dimensions', path: 'geometry' }),
-      ...(layout.family === '3500' ? [] : [
+      ...(finalLayout.family === '3500' ? [] : [
         Object.freeze({ code: 'manufacturer_nozzle_pressure_is_reference_not_measured_site_pressure', path: 'operatingScenario.pressureBar' }),
-        Object.freeze({ code: 'overspray_not_evaluated', path: 'layout.overspray' }),
       ]),
       Object.freeze({ code: 'hydraulic_calculation_not_performed', path: 'hydraulics' }),
       Object.freeze({ code: 'sampled_coverage_is_not_continuous_proof', path: 'layout.coverage' }),
