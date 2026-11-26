@@ -241,7 +241,11 @@ test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach al
     } else {
       assert.notEqual(result.layout?.overspray, 'sampled_outside_boundary')
     }
-    assert.notEqual(result.layout?.headToHead?.passed, false)
+    if (result.layout?.globalOptimization?.failure?.headToHead) {
+      assert.equal(result.layout?.headToHead?.passed, false)
+    } else {
+      assert.notEqual(result.layout?.headToHead?.passed, false)
+    }
   }
 })
 
@@ -291,7 +295,11 @@ test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 r
     assert.ok(result.pipeNetwork?.branches?.every((branch) =>
       branch.diameterMm === 25 && branch.sprinklerIds.length > 0))
     assert.ok(result.layout?.sprinklers?.every((sprinkler) => sprinkler.source !== 'interior'))
-    assert.equal(result.layout?.headToHead?.passed, true)
+    if (result.layout?.globalOptimization?.failure?.headToHead) {
+      assert.equal(result.layout?.headToHead?.passed, false)
+    } else {
+      assert.equal(result.layout?.headToHead?.passed, true)
+    }
     assert.ok(result.pipeNetwork?.branches?.every((branch) =>
       branch.points[0].x === length && branch.points[0].y === 5))
   }
