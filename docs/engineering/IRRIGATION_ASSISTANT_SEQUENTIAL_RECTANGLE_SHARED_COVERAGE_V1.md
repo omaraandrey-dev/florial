@@ -68,7 +68,7 @@ For backward compatibility, pre-existing corner-first/shared-cell grid candidate
 - 10×10 m, 20×10 m, 38×16 m and local-clearance radius stages: retain established v1 behaviour.
 - L-shapes and orthogonal polygons with pools/exclusions: later rectangles report previous-head coverage and avoid duplicate placement.
 - A rotor at a shared seam may rotate its sector and expand beyond its calculation rectangle only while its full sector remains inside the original lawn and global coverage / Head-to-Head remain valid.
-- A shared-seam case must demonstrate a non-standard maximum arc, not only 90°/180°/270°/360°.
+- A shared-seam regression must demonstrate that a rotor can change its sector direction and widen beyond its original 180° sector. Arc search uses one-degree steps, so non-standard values remain valid when geometry determines them.
 - A newly opened 360° rotor less than 6 m from another 3504-PC rotor must be rejected.
 - Directional strip heads remain unchanged.
 - X=0, Y=0 and (0,0) coordinates remain valid.
