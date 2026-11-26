@@ -660,7 +660,7 @@ test('decomposed rectangles expose previous-head coverage and sequential sector 
 })
 
 
-test('shared-seam 3504-PC sector can open to a non-standard maximum angle', () => {
+test('shared-seam 3504-PC sector can reorient and widen beyond its original angle', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
     shape: 'l-shape',
     cutoutWidth: 14,
@@ -669,9 +669,9 @@ test('shared-seam 3504-PC sector can open to a non-standard maximum angle', () =
   }))
   assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
   const edits = result.layout.sectorOptimization.rectangles.flatMap((part) => part.sectorEdits)
-  const nonStandard = edits.find((edit) =>
-    edit.toArcDeg > 180 && edit.toArcDeg < 360 && edit.toArcDeg % 90 !== 0)
-  assert.ok(nonStandard, JSON.stringify({
+  const reoriented = edits.find((edit) =>
+    edit.toArcDeg > edit.fromArcDeg && edit.toDirectionDeg !== edit.fromDirectionDeg)
+  assert.ok(reoriented, JSON.stringify({
     algorithm: result.layout.algorithm,
     sectorOptimization: result.layout.sectorOptimization,
     sprinklers: result.layout.sprinklers.map((head) => ({
