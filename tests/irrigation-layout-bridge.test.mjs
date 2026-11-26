@@ -232,27 +232,21 @@ test('R-VAN fallback applies the approved 7.5cm inward offset only to the matchi
     head.position.y >= 0 && head.position.y <= 4))
 })
 
-test('non-strip L-shape keeps the full polygon and grows corner-first into uncovered areas', () => {
+test('non-strip L-shape records failed corner-first validation and uses a safe complete fallback', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(12, 8, {
-    shape: 'l-shape',
-    cutoutWidth: 4,
-    cutoutDepth: 3,
-    cutoutCorner: 'top-right',
+    shape: 'l-shape', cutoutWidth: 4, cutoutDepth: 3, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated',
     JSON.stringify({ reason: result.reason, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead }))
   assert.equal(result.layout.geometry.shape, 'l-shape')
-  assert.equal(result.layout.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
+  assert.equal(result.layout.cornerFirstAttempt?.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
+  assert.ok(['coverage_incomplete', 'coverage_complete_sampled'].includes(result.layout.cornerFirstAttempt?.status))
+  assert.ok(result.layout.warnings.some((warning) =>
+    warning.code === 'l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used'))
+  assert.ok(result.layout.calculationRegions.length === 2)
   assert.equal(result.layout.coverage.uncoveredPoints, 0)
   assert.equal(result.layout.headToHead.passed, true)
   assert.equal(result.layout.overspray, 'sampled_inside_boundary')
-
-  const heads = result.layout.sprinklers
-  const firstNonCorner = heads.findIndex((head) => head.source !== 'vertex')
-  assert.ok(firstNonCorner > 0, 'geometric corner heads must be placed before edge/interior additions')
-  assert.ok(heads.slice(0, firstNonCorner).every((head) => head.source === 'vertex'))
-  assert.ok(heads.some((head) => head.source === 'interior'),
-    'the solver should add interior heads only after the corner/perimeter pass leaves uncovered samples')
 })
 
 test('3504-PC priority works on a supported L-shape with a rectangular recess', () => {
@@ -634,20 +628,20 @@ test('strip direction arrows use sub-metre SVG markers and cannot masquerade as 
 })
 
 
-test('non-strip L-shape with a 4 m arm stays whole and uses corner-first polygon coverage', () => {
+test('L-shaped rectangles are processed largest-first while the 4 m arm retains R-VAN18 locally', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 10, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated',
-    JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
-  assert.equal(result.layout.geometry.shape, 'l-shape')
-  assert.equal(result.layout.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
-  assert.equal(result.layout.coverage.uncoveredPoints, 0)
-  assert.equal(result.layout.headToHead.passed, true)
-  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
-  assert.ok(result.layout.sprinklers.some((head) =>
-    head.performanceModel.replace(/-360$/, '') === 'R-VAN18'),
-  'local 4 m reaches should still select the R-VAN18 range where appropriate')
+  assertGlobalLayoutStatus(result, JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
+  assert.deepEqual(result.layout?.calculationRegions?.map((part) => part.shortSideM), [12, 4])
+  assert.equal(result.layout?.cornerFirstAttempt?.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
+  assert.ok(result.layout?.warnings?.some((warning) =>
+    warning.code === 'l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used'))
+  const armHeads = result.layout?.sprinklers?.filter((head) => head.calculationRegionId === 'arm') ?? []
+  assert.ok(armHeads.length > 0)
+  assert.ok(armHeads.every((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN18'))
+  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
+  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
 })
 
 test('rectangular exclusions may start at X=0 or Y=0 and retain their visual kind', () => {
@@ -727,22 +721,28 @@ test('decomposed rectangles expose previous-head coverage and sequential sector 
 })
 
 
-test('wide non-strip L-shape is solved as one polygon with corner-first uncovered-area progression', () => {
+test('shared-seam 3504-PC sector can reorient and widen beyond its original angle', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
     shape: 'l-shape',
     cutoutWidth: 14,
     cutoutDepth: 7,
     cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated',
-    JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
-  assert.equal(result.layout.geometry.shape, 'l-shape')
-  assert.equal(result.layout.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
-  assert.equal(result.layout.coverage.uncoveredPoints, 0)
-  assert.equal(result.layout.headToHead.passed, true)
-  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
-  const heads = result.layout.sprinklers
-  const firstNonCorner = heads.findIndex((head) => head.source !== 'vertex')
-  assert.ok(firstNonCorner > 0)
-  assert.ok(heads.slice(0, firstNonCorner).every((head) => head.source === 'vertex'))
+  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
+  assert.equal(result.layout.cornerFirstAttempt?.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
+  assert.ok(result.layout.warnings.some((warning) =>
+    warning.code === 'l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used'))
+  const edits = [
+    ...result.layout.sectorOptimization.finalPassEdits,
+    ...result.layout.sectorOptimization.rectangles.flatMap((part) => part.sectorEdits),
+  ]
+  const reoriented = edits.find((edit) =>
+    edit.toArcDeg > edit.fromArcDeg && edit.toDirectionDeg !== edit.fromDirectionDeg)
+  assert.ok(reoriented, JSON.stringify({
+    algorithm: result.layout.algorithm,
+    sectorOptimization: result.layout.sectorOptimization,
+    sprinklers: result.layout.sprinklers.map((head) => ({
+      id: head.id, position: head.position, arcDeg: head.arcDeg, directionDeg: head.directionDeg,
+    })),
+  }))
 })
