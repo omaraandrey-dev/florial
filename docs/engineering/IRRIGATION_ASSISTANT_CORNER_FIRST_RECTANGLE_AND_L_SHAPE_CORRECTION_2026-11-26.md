@@ -23,7 +23,7 @@ For an orthogonal L-shaped lawn without a dedicated narrow strip arm, first atte
 4. closes perimeter Head-to-Head gaps before adding interior heads;
 5. runs sampled coverage and boundary-sector checks.
 
-The current whole-polygon attempt does not yet pass the complete validation set for every ordinary L-shape. If sampled coverage, Head-to-Head or boundary validation fails, the bridge does not publish an incomplete result: it falls back to the existing largest-area-first rectangular-zone solver and attaches `cornerFirstAttempt` diagnostics plus warning `l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used`. This is a deliberate safety fallback, not proof that the requested whole-polygon L-shape algorithm is complete. Decomposition also remains the primary path for arms with supported 1 m / 2 m widths requiring dedicated directional strip nozzles (RCS/LCS/SST).
+The current whole-polygon attempt does not yet pass the complete validation set for every ordinary L-shape. If sampled coverage, Head-to-Head or boundary validation fails, the bridge tries the existing largest-area-first rectangular-zone solver and attaches `cornerFirstAttempt` diagnostics plus warning `l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used`. The fallback is returned as generated only if its own whole-layout coverage, Head-to-Head and boundary checks pass; otherwise the result remains `layout_incomplete`. This is a deliberate safety fallback, not proof that the requested whole-polygon L-shape algorithm is complete. Decomposition also remains the primary path for arms with supported 1 m / 2 m widths requiring dedicated directional strip nozzles (RCS/LCS/SST).
 
 ## Validation contract
 
