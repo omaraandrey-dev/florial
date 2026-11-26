@@ -784,6 +784,7 @@ function maximizeRotorSectors(sprinklers, otherHeads, geometry, globalTargets = 
       for (const offset of directionOffsets) {
         const directionDeg = (currentHead.directionDeg + offset + 360) % 360
         const template = Object.freeze({ ...currentHead, directionDeg, arcDeg: 0 })
+        if (!newSectorEdgeFits(template, 0, geometry)) continue
         let safeArc = 0
         for (let arcDeg = 1; arcDeg <= 360; arcDeg += 1) {
           if (!sectorExpansionFits(template, safeArc, arcDeg, geometry)) break
