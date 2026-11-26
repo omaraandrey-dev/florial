@@ -546,7 +546,15 @@ function selectCornerFirstPerimeter(perimeterCandidates, initiallyUncovered, pri
 
   const edgePass = selectGreedyConnected(edges, uncovered, selected, priorHeads)
   selected.push(...edgePass.selected)
-  return { selected, uncovered: edgePass.uncovered }
+
+  // Close perimeter Head-to-Head gaps before moving into the lawn interior.
+  // This is a geometric walk along the polygon boundary, not a global reorder.
+  const perimeterConnected = enforceHeadToHeadSpacing(selected, perimeterCandidates)
+  const remainingUncovered = new Set(initiallyUncovered)
+  for (const head of perimeterConnected) {
+    for (const targetIndex of head.covered ?? []) remainingUncovered.delete(targetIndex)
+  }
+  return { selected: perimeterConnected, uncovered: remainingUncovered }
 }
 
 function positiveModulo(value, modulus) {
