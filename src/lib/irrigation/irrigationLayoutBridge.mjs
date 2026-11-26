@@ -539,6 +539,10 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
     sprinklers: Object.freeze(finalHeads),
     coverage,
     headToHead: onlyStrip ? layout.headToHead : (optimization.headToHead ?? layout.headToHead),
+    fullCircleRotorSpacing: Object.freeze({
+      passed: fullCircleRotorClearancePassed(finalHeads),
+      minimumDistanceM: 6,
+    }),
     overspray,
     coverageScope: optimization.status === 'skipped_target_limit'
       ? 'per_rectangle_sampled_global_optimization_skipped'
@@ -596,8 +600,10 @@ function sprinklerCoversPoint(head, point) {
 }
 
 function rectangleCoverageByPreviousHeads(part, heads, sampleStepM) {
-  const columns = Math.max(1, Math.ceil(part.lengthM / sampleStepM))
-  const rows = Math.max(1, Math.ceil(part.shortSideM / sampleStepM))
+  const width = part.maxX - part.minX
+  const height = part.maxY - part.minY
+  const columns = Math.max(1, Math.ceil(width / sampleStepM))
+  const rows = Math.max(1, Math.ceil(height / sampleStepM))
   let coveredPoints = 0
   const contributing = new Set()
   for (let row = 0; row <= rows; row += 1) {
@@ -689,7 +695,7 @@ function maximizeRotorSectors(sprinklers, otherHeads, geometry) {
     const currentHead = current.find((head) => head.id === original.id)
     if (!currentHead) continue
     let best = currentHead
-    for (let arcDeg = Math.ceil(best.arcDeg + 1e-8) + 1; arcDeg <= 360; arcDeg += 1) {
+    for (let arcDeg = Math.floor(best.arcDeg + 1e-8) + 1; arcDeg <= 360; arcDeg += 1) {
       const candidate = Object.freeze({ ...best, arcDeg })
       const combined = [
         ...otherHeads.filter((head) => head.id !== candidate.id),
@@ -810,6 +816,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
           warnings: Object.freeze([{ code: 'connected_strip_pattern_not_available', path: 'geometry' }]),
         })
       }
+      part.previousCoverage = rectangleCoverageByPreviousHeads(part, previouslyPlacedHeads, sampleStepM)
       previouslyPlacedHeads.push(...part.layout.sprinklers.map((head) => Object.freeze({
         ...head, id: part.id + '-' + head.id,
       })))
@@ -1028,7 +1035,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const selectedModels = [...modelSet].sort()
   const layout = Object.freeze({
     engineVersion: '0.7.0',
-    algorithm: 'area-descending-per-rectangle-3504pc-first-rvan-fallback-global-minimization-v1',
+    algorithm: 'area-descending-sequential-shared-coverage-3504pc-first-rvan-fallback-max-safe-arc-v2',
     status: !oversprayPassed || !circularCoverageComplete || headToHeadPassed === false ||
       globalOptimization.status === 'baseline_failed' || globalOptimization.status === 'final_validation_failed'
       ? 'coverage_incomplete'
