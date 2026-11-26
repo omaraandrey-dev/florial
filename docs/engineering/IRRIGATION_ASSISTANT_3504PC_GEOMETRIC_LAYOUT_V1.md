@@ -76,7 +76,7 @@ The integration test suite must verify:
 - 8×8 m: exactly four 8 m corner rotors, no intermediate heads;
 - 10×10 m: four 8 m corner rotors are chosen before adding intermediate heads;
 - 38×16 m: 5×2 cells, 10 cells, 18 unique rotor positions, complete coverage and mutual Head-to-Head;
-- 20×10 m: the 8 m baseline adds a shared-cell row rather than extending rotor throw to 10 m;
+- 20×10 m: no 10 m throw is used; after 8/9/7/6 m candidates fail the complete checks, the 5 m shared-cell grid passes with 15 rotors;
 - 20×15 m: local clearances reduce selected radii while preserving adjacent Head-to-Head;
 - the 3504-PC solver keeps all geometric corner positions unshifted;
 - a 7.5 cm seam offset applies only to the matching R-VAN fallback corner candidate;
