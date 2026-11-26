@@ -406,8 +406,7 @@ function pointInIrrigatedGeometry(point, geometry) {
   const region = geometry?.regions?.[0]
   if (!region || !pointInPolygon(point, region.boundary.vertices)) return false
   return !(region.exclusions ?? []).some((exclusion) =>
-    pointInPolygon(point, exclusion.polygon.vertices) &&
-    !pointOnRingBoundary(point, exclusion.polygon.vertices))
+    pointInPolygon(point, exclusion.polygon.vertices))
 }
 
 function sampleRectangleInsideGeometry(bounds, geometry, stepM = 0.2) {
