@@ -1,3 +1,5 @@
+> **Superseded for the current owner-approved algorithm (2026-11-27):** this document records the earlier rectangle-stage / shared-cell implementation. The active design is [IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md](IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md). Keep this file as historical context; do not use its rectangle decomposition or radius stages as the current algorithm.
+
 # Rain Bird 3504-PC geometric layout — corner-first shared-cell algorithm
 
 **Status:** merged into `main` at `ac29eafb5e4e1af4706c05e28e9de9fe31743336`; Cloudflare Pages Production deployment `3304a92b-4284-4293-88a4-8d5605d5c437` succeeded from that exact merge commit. Exact PR-head CI passed 475/475 tests and all listed checks. Preview functional calculations passed for 8×8, 10×10, 38×16 and two L-shaped cases. Screenshots were reviewed for 8×8, 38×16 and 28×14; rendered-PDF visual review remains pending.  
