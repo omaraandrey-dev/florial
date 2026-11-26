@@ -76,7 +76,7 @@ test('Florial selects R-VAN heads from local reach on narrow rectangles and repo
         (baseModel === 'R-VAN18' && [4, 4.5, 5, 5.5].includes(head.radiusM)) ||
         (baseModel === 'R-VAN24' && head.radiusM === 6)
     }))
-    assert.equal(result.layout?.coverageScope, 'sampled_geometry_only')
+    assert.equal(result.layout?.coverageScope, 'global_sampled_geometry')
     assert.equal(result.layout?.hydraulicFeasibility, 'not_evaluated')
     assert.equal(result.pipeNetwork?.connectionPoint?.x, length)
     assert.equal(result.pipeNetwork?.connectionPoint?.y, width)
@@ -224,7 +224,7 @@ test('rectangular non-irrigated exclusion is covered by complete per-rectangle l
 test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach allowance', () => {
   for (const [length, width, expectedRadius] of [[10, 4, 4], [18, 4, 4], [10, 5, 5], [18, 5, 5]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
-    assert.equal(result.status, 'layout_generated', length + 'x' + width)
+    assertGlobalLayoutStatus(result, length + 'x' + width)
     const heads = result.layout?.sprinklers ?? []
     assert.ok(heads.length > 0)
     assert.ok(heads.every((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN18'),
@@ -239,7 +239,7 @@ test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach al
 test('3x18 narrow rectangle keeps every head at R-VAN14 instead of sizing corners to the global centroid', () => {
   for (const [length, width] of [[18, 3], [3, 18]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
-    assert.equal(result.status, 'layout_generated', length + 'x' + width)
+    assertGlobalLayoutStatus(result, length + 'x' + width)
     assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
     assert.equal(result.layout?.headToHead?.passed, true)
     const heads = result.layout?.sprinklers ?? []
@@ -506,7 +506,7 @@ test('two narrow connected arms keep separate strip geometry and unique sprinkle
     shape: 'l-shape', cutoutWidth: 26, cutoutDepth: 12, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated')
-  assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
+  assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern_global_sampled')
   assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
   assert.ok(result.layout?.sprinklers?.every((head) => head.pattern === 'strip'))
   assert.equal(new Set(result.layout?.sprinklers?.map((head) => head.id)).size, result.layout?.sprinklers?.length)
@@ -520,7 +520,7 @@ test('square 2m connected arm keeps its vertical strip axis from the shared edge
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 1, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_incomplete')
-  assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
+  assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern_global_sampled')
   assert.equal(result.layout?.overspray, 'sampled_outside_boundary')
   const verticalHeads = result.layout?.sprinklers?.filter((head) => head.stripWidthM === 2) ?? []
   assert.ok(verticalHeads.length > 0)
@@ -543,7 +543,7 @@ test('L-shaped rectangles are processed largest-first while the 4 m arm retains 
   const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 10, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
+  assertGlobalLayoutStatus(result, JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
   assert.deepEqual(result.layout?.calculationRegions?.map((part) => part.shortSideM), [12, 4])
   const armHeads = result.layout?.sprinklers?.filter((head) => head.calculationRegionId === 'arm') ?? []
   assert.ok(armHeads.length > 0)
@@ -568,10 +568,10 @@ test('rectangular lawn with a non-irrigated rectangular exclusion is decomposed 
   const result = buildPreliminaryLawnLayout(snapshotFor(20, 12, {
     exclusions: [{ id: 'pool', x: 8, y: 4, width: 4, height: 4 }],
   }))
-  assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
+  assertGlobalLayoutStatus(result, JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
   assert.ok(result.layout?.calculationRegions?.length >= 2)
   assert.deepEqual(
-    result.layout?.calculationRegions?.map((part) => part.shortSideM),
+    result.layout?.calculationRegions?.map((part) => part.areaM2),
     [...(result.layout?.calculationRegions?.map((part) => part.areaM2) ?? [])].sort((a, b) => b - a),
   )
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
