@@ -748,7 +748,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       model: layout.model,
       pressureBar: selectedModels.includes('3504-PC') && !selectedModels.some((model) => model.startsWith('R-VAN')) ? null : pressureBar,
       pressureBasis: selectedModels.includes('3504-PC') ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: 'process rectangles from smallest area to largest; try 3504-PC at 10/9/8 m first for each rectangle; if the rectangle is not fully served, use the unchanged local R-VAN fallback; 1 m/2 m strips retain their directional R-VAN pattern',
+      modelSelectionBasis: 'process rectangles from smallest area to largest; use 8 m as the 3504-PC baseline and 9 m only as an alternative; local 7/6/5 m radii are limited to individual positions where safe clearance requires them; never use 10 m; try a complete rotor layout before the local R-VAN fallback; 1 m/2 m strips retain their directional R-VAN pattern',
       layoutRadiusM: null,
       sourceUrl: selectedModels.includes('3504-PC') ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
@@ -971,7 +971,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
       pressureBar: layout.family === '3500' ? null : pressureBar,
       pressureBasis: layout.family === '3500' ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
       modelSelectionBasis: layout.family === '3500'
-        ? 'the complete rectangle is served by 3504-PC at the largest usable 10/9/8 m planning radius; R-VAN is not added to the same rectangle'
+        ? 'the complete rectangle is served by 3504-PC using the 8 m baseline or 9 m alternative, with local 7/6/5 m radii only where safe clearance requires; 10 m is excluded; R-VAN is not added to the same rectangle'
         : 'R-VAN fallback uses the unchanged local model/radius selection; radius independent of arc',
       layoutRadiusM: null,
       sourceUrl: layout.family === '3500' ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
