@@ -484,7 +484,8 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
 
  
 function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
-  const sectorExpansion = maximizeRotorSectors(layout.sprinklers, [], geometry)
+  const globalSectorTargets = buildIrrigatedTargets(geometry, sampleStepM)
+  const sectorExpansion = maximizeRotorSectors(layout.sprinklers, [], geometry, globalSectorTargets)
   const sectorAdjustedLayout = Object.freeze({
     ...layout,
     sprinklers: sectorExpansion.sprinklers,
@@ -650,6 +651,45 @@ function buildPreviouslyCoveredRectangleLayout(coverage) {
   })
 }
 
+function buildIrrigatedTargets(geometry, sampleStepM) {
+  const vertices = geometry?.regions?.[0]?.boundary?.vertices
+  if (!Array.isArray(vertices) || vertices.length < 4) return null
+  const minX = Math.min(...vertices.map((point) => point.x))
+  const maxX = Math.max(...vertices.map((point) => point.x))
+  const minY = Math.min(...vertices.map((point) => point.y))
+  const maxY = Math.max(...vertices.map((point) => point.y))
+  const columns = Math.max(1, Math.ceil((maxX - minX) / sampleStepM))
+  const rows = Math.max(1, Math.ceil((maxY - minY) / sampleStepM))
+  if ((columns + 1) * (rows + 1) > 30000) return null
+  const targets = []
+  const seen = new Set()
+  const add = (point) => {
+    if (!pointInIrrigatedGeometry(point, geometry)) return true
+    const key = point.x.toFixed(6) + ':' + point.y.toFixed(6)
+    if (seen.has(key)) return true
+    seen.add(key)
+    targets.push(Object.freeze({ x: point.x, y: point.y }))
+    return targets.length <= 30000
+  }
+  for (let row = 0; row <= rows; row += 1) {
+    const y = minY + (maxY - minY) * row / rows
+    for (let column = 0; column <= columns; column += 1) {
+      const x = minX + (maxX - minX) * column / columns
+      if (!add({ x, y })) return null
+    }
+  }
+  for (let index = 0; index < vertices.length; index += 1) {
+    const a = vertices[index]
+    const b = vertices[(index + 1) % vertices.length]
+    const divisions = Math.max(1, Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / sampleStepM))
+    for (let part = 0; part <= divisions; part += 1) {
+      const ratio = part / divisions
+      if (!add({ x: a.x + (b.x - a.x) * ratio, y: a.y + (b.y - a.y) * ratio })) return null
+    }
+  }
+  return Object.freeze(targets)
+}
+
 function fullCircleRotorClearancePassed(heads, minimumDistanceM = 6) {
   const rotors = heads.filter((head) =>
     head.pattern === 'rotor' && head.performanceModel === '3504-PC')
@@ -683,7 +723,7 @@ function newlyOpenedFullCircleClearancePassed(candidateHeads, originalHeads, min
 
 function newSectorEdgeFits(head, directionOffsetDeg, geometry) {
   const angle = ((head.directionDeg + directionOffsetDeg) * Math.PI) / 180
-  for (let distanceM = 0; distanceM <= head.radiusM + 1e-8; distanceM += 0.1) {
+  for (let distanceM = 0; distanceM <= head.radiusM + 1e-8; distanceM += 0.2) {
     const point = {
       x: head.position.x + Math.cos(angle) * Math.min(distanceM, head.radiusM),
       y: head.position.y + Math.sin(angle) * Math.min(distanceM, head.radiusM),
@@ -703,7 +743,21 @@ function sectorExpansionFits(head, currentArcDeg, nextArcDeg, geometry) {
   return true
 }
 
-function maximizeRotorSectors(sprinklers, otherHeads, geometry) {
+function headToHeadRelationshipsRemainValid(beforeHeads, candidate) {
+  const afterHeads = beforeHeads.map((head) => head.id === candidate.id ? candidate : head)
+  for (const head of beforeHeads) {
+    const hadNeighbor = beforeHeads.some((other) =>
+      other.id !== head.id && sprinklersMutuallyReach(head, other))
+    if (!hadNeighbor) continue
+    const updated = afterHeads.find((other) => other.id === head.id)
+    const stillHasNeighbor = afterHeads.some((other) =>
+      other.id !== updated.id && sprinklersMutuallyReach(updated, other))
+    if (!stillHasNeighbor) return false
+  }
+  return true
+}
+
+function maximizeRotorSectors(sprinklers, otherHeads, geometry, globalTargets = null) {
   let current = sprinklers.slice()
   const edits = []
   for (const original of sprinklers) {
@@ -712,25 +766,57 @@ function maximizeRotorSectors(sprinklers, otherHeads, geometry) {
         original.arcDeg >= 360) continue
     const currentHead = current.find((head) => head.id === original.id)
     if (!currentHead) continue
+
+    const combinedBefore = [
+      ...otherHeads.filter((head) => head.id !== currentHead.id),
+      ...current.filter((head) => head.id !== currentHead.id),
+      currentHead,
+    ]
+    const others = combinedBefore.filter((head) => head.id !== currentHead.id)
+    const uncoveredTargets = globalTargets
+      ? globalTargets.filter((point) => !others.some((head) => sprinklerCoversPoint(head, point)))
+      : []
+
     let best = currentHead
-    for (let arcDeg = Math.floor(best.arcDeg + 1e-8) + 1; arcDeg <= 360; arcDeg += 1) {
-      const candidate = Object.freeze({ ...best, arcDeg })
-      const combined = [
-        ...otherHeads.filter((head) => head.id !== candidate.id),
-        ...current.filter((head) => head.id !== candidate.id),
-        candidate,
-      ]
-      if (arcDeg === 360 && !fullCircleRotorClearancePassed(combined)) break
-      if (!sectorExpansionFits(best, best.arcDeg, arcDeg, geometry)) break
-      best = candidate
+    let bestDirectionDelta = 0
+    if (globalTargets && uncoveredTargets.length) {
+      const directionOffsets = [-90, -75, -60, -45, -30, -15, 0, 15, 30, 45, 60, 75, 90]
+      for (const offset of directionOffsets) {
+        const directionDeg = (currentHead.directionDeg + offset + 360) % 360
+        const template = Object.freeze({ ...currentHead, directionDeg, arcDeg: 0 })
+        let safeArc = 0
+        for (let arcDeg = 1; arcDeg <= 360; arcDeg += 1) {
+          if (!sectorExpansionFits(template, safeArc, arcDeg, geometry)) break
+          safeArc = arcDeg
+        }
+        if (safeArc <= currentHead.arcDeg || safeArc < best.arcDeg) continue
+        const candidate = Object.freeze({
+          ...currentHead,
+          arcDeg: safeArc,
+          directionDeg: safeArc === 360 ? null : directionDeg,
+        })
+        const candidateHeads = combinedBefore.map((head) =>
+          head.id === candidate.id ? candidate : head)
+        if (safeArc === 360 && !fullCircleRotorClearancePassed(candidateHeads)) continue
+        if (!uncoveredTargets.every((point) => sprinklerCoversPoint(candidate, point))) continue
+        if (!headToHeadRelationshipsRemainValid(combinedBefore, candidate)) continue
+        const directionDelta = Math.abs(((directionDeg - currentHead.directionDeg + 540) % 360) - 180)
+        if (safeArc > best.arcDeg ||
+            (safeArc === best.arcDeg && directionDelta < bestDirectionDelta)) {
+          best = candidate
+          bestDirectionDelta = directionDelta
+        }
+      }
     }
+
     if (best.arcDeg > currentHead.arcDeg) {
       current = current.map((head) => head.id === best.id ? best : head)
       edits.push(Object.freeze({
         sprinklerId: best.id,
         fromArcDeg: currentHead.arcDeg,
         toArcDeg: best.arcDeg,
-        directionDeg: best.directionDeg,
+        fromDirectionDeg: currentHead.directionDeg,
+        toDirectionDeg: best.directionDeg,
       }))
     }
   }
@@ -824,6 +910,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     }
   }
 
+  const globalSectorTargets = buildIrrigatedTargets(geometry, sampleStepM)
   const previouslyPlacedHeads = initialHeads.slice()
   for (const part of prepared) {
     if (part.isStrip) {
@@ -878,7 +965,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       })
     }
     if (part.layout.sprinklers.length) {
-      const expanded = maximizeRotorSectors(part.layout.sprinklers, previouslyPlacedHeads, geometry)
+      const expanded = maximizeRotorSectors(part.layout.sprinklers, previouslyPlacedHeads, geometry, globalSectorTargets)
       part.layout = Object.freeze({
         ...part.layout,
         sprinklers: expanded.sprinklers,
@@ -901,7 +988,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const finalSectorEdits = []
   for (const head of finalWorkingHeads.slice()) {
     const others = finalWorkingHeads.filter((entry) => entry.id !== head.id)
-    const expanded = maximizeRotorSectors([head], others, geometry)
+    const expanded = maximizeRotorSectors([head], others, geometry, globalSectorTargets)
     const next = expanded.sprinklers[0]
     if (!next || next.arcDeg === head.arcDeg) continue
     finalWorkingHeads = finalWorkingHeads.map((entry) => entry.id === head.id ? next : entry)
