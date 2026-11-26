@@ -5,7 +5,6 @@ const ENGINE_VERSION = '2.0.0'
 const EPSILON = 1e-8
 const BASE_RADIUS_STAGES_M = Object.freeze([8, 9])
 const RADIUS_STAGES_M = Object.freeze([8, 9, 7, 6, 5])
-const ALLOWED_RADII_M = Object.freeze([9, 8, 7, 6, 5])
 const MAX_TARGETS = 30000
 const MAX_ROTORS = 150
 
@@ -133,8 +132,12 @@ function maximumSafeRadius(x, y, bounds, source) {
 }
 
 function selectSafeRadius(stageRadiusM, safeMaximumM) {
-  return ALLOWED_RADII_M.find((radius) =>
-    radius <= stageRadiusM + EPSILON && radius <= safeMaximumM + EPSILON) ?? null
+  if (!Number.isFinite(stageRadiusM) || stageRadiusM <= 0 ||
+      !Number.isFinite(safeMaximumM) || safeMaximumM <= 0) return null
+  // Planning radius is continuous: retain the exact geometric clearance
+  // instead of snapping it to a catalogue of whole-metre values.
+  const radiusM = Math.min(stageRadiusM, safeMaximumM)
+  return radiusM > EPSILON ? radiusM : null
 }
 
 function sectorFitsRectangle(head, bounds) {
