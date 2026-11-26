@@ -1,4 +1,4 @@
-> **Owner resumption notice (2026-11-26):** The owner has resumed a limited irrigation-assistant task on `develop`: rectangular/L-shaped layout quality and continuous fractional geometric radii. Preserve the restored pre-v2 baseline and all coverage/Head-to-Head/overspray gates. Do not merge PR #551 or deploy Production without separate approval. The 24.11 pause is superseded only within this task scope.
+> **Owner resumption notice (2026-11-26):** The owner has resumed a limited irrigation-assistant task on `develop`: rectangular/L-shaped layout quality, continuous fractional geometric radii, symmetry-preserving minimization for symmetric rectangles (including 20 × 20 m), and corner-first uncovered-area Head-to-Head progression for whole-polygon L-shapes. Preserve the restored pre-v2 baseline and all coverage/Head-to-Head/overspray gates. Do not merge PR #551 or deploy Production without separate approval. The 24.11 pause is superseded only within this task scope.
 
 # Florial — START HERE
 
