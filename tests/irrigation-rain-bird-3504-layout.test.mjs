@@ -80,7 +80,7 @@ test('38x16 rectangle uses a shared corner grid with four positions per cell and
   assert.ok(result.headToHead.checks.length >= 22)
 })
 
-test('20x10 rectangle keeps the 8m baseline and adds the required shared-cell rotor row', () => {
+test('20x10 rectangle expands to a 5m supplemental grid only after larger stages fail', () => {
   const result = generateRainBird3504Layout(geometry(20, 10))
   assert.equal(result.status, 'layout_generated')
   assert.equal(result.planningRadiusM, 5)
