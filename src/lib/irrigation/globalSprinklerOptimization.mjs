@@ -267,18 +267,27 @@ function runRemovalPass(state, options) {
 
   while (true) {
     const candidates = heads.filter((head) => isRotor(head) && !failed.has(head.id))
-      .map((head) => ({ head, unique: uniqueContribution(head, counts, coverageById) }))
+      .map((head) => {
+        const group = symmetricRotorOrbit(heads, head, options.symmetryTransforms)
+        return group ? {
+          head,
+          group,
+          unique: group.reduce((sum, entry) =>
+            sum + uniqueContribution(entry, counts, coverageById), 0) / group.length,
+        } : null
+      })
+      .filter(Boolean)
       .sort((a, b) => a.unique - b.unique || a.head.id.localeCompare(b.head.id))
-    const next = candidates[0]?.head
+    const next = candidates[0]
     if (!next) break
-    const accepted = tryRemoveRotor(heads, counts, coverageById, next, options)
+    const accepted = tryRemoveRotorGroup(heads, counts, coverageById, next.group, options)
     if (!accepted) {
-      failed.add(next.id)
+      next.group.forEach((head) => failed.add(head.id))
       continue
     }
     heads = accepted.heads
     counts = accepted.counts
-    removedHeadIds.push(next.id)
+    removedHeadIds.push(...next.group.map((head) => head.id))
   }
 
   return { heads, counts, coverageById, removedHeadIds }
@@ -287,6 +296,102 @@ function runRemovalPass(state, options) {
 function coordinateKey(head) {
   return Math.round(head.position.x / COORDINATE_TOLERANCE) + ':' +
     Math.round(head.position.y / COORDINATE_TOLERANCE)
+}
+
+function geometrySymmetryTransforms(geometry) {
+  const region = geometry?.regions?.length === 1 ? geometry.regions[0] : null
+  const vertices = region?.boundary?.vertices
+  if (!region || !Array.isArray(vertices) || region.exclusions?.length) return []
+  const points = vertices.filter((point, index) =>
+    index < vertices.length - 1 || distance(point, vertices[0]) > EPSILON)
+  if (points.length !== 4) return []
+  const xs = points.map((point) => point.x)
+  const ys = points.map((point) => point.y)
+  const minX = Math.min(...xs), maxX = Math.max(...xs)
+  const minY = Math.min(...ys), maxY = Math.max(...ys)
+  const cx = (minX + maxX) / 2
+  const cy = (minY + maxY) / 2
+  const width = maxX - minX
+  const height = maxY - minY
+  const corners = [
+    { x: minX, y: minY }, { x: maxX, y: minY },
+    { x: maxX, y: maxY }, { x: minX, y: maxY },
+  ]
+  if (corners.some((corner) => !points.some((point) => distance(point, corner) <= COORDINATE_TOLERANCE))) return []
+
+  const candidates = [
+    { name: 'identity', point: (p) => ({ x: p.x, y: p.y }) },
+    { name: 'reflect-vertical', point: (p) => ({ x: 2 * cx - p.x, y: p.y }) },
+    { name: 'reflect-horizontal', point: (p) => ({ x: p.x, y: 2 * cy - p.y }) },
+    { name: 'rotate-180', point: (p) => ({ x: 2 * cx - p.x, y: 2 * cy - p.y }) },
+  ]
+  if (Math.abs(width - height) <= COORDINATE_TOLERANCE) {
+    candidates.push(
+      { name: 'rotate-90', point: (p) => ({ x: cx - (p.y - cy), y: cy + (p.x - cx) }) },
+      { name: 'rotate-270', point: (p) => ({ x: cx + (p.y - cy), y: cy - (p.x - cx) }) },
+      { name: 'reflect-diagonal', point: (p) => ({ x: cx + (p.y - cy), y: cy + (p.x - cx) }) },
+      { name: 'reflect-antidiagonal', point: (p) => ({ x: cx - (p.y - cy), y: cy - (p.x - cx) }) },
+    )
+  }
+  const pointKeys = new Set(points.map((point) => coordinateKey({ position: point })))
+  return candidates.filter((transform) => points.every((point) =>
+    pointKeys.has(coordinateKey({ position: transform.point(point) }))))
+}
+
+function transformedDirection(directionDeg, position, transform) {
+  if (!Number.isFinite(directionDeg)) return null
+  const radians = directionDeg * Math.PI / 180
+  const origin = transform.point(position)
+  const endpoint = transform.point({
+    x: position.x + Math.cos(radians),
+    y: position.y + Math.sin(radians),
+  })
+  return normalizeDegrees(Math.atan2(endpoint.y - origin.y, endpoint.x - origin.x) * 180 / Math.PI)
+}
+
+function matchesTransformedHead(source, candidate, transform) {
+  if (!isRotor(candidate) ||
+      distance(transform.point(source.position), candidate.position) > COORDINATE_TOLERANCE ||
+      Math.abs(source.radiusM - candidate.radiusM) > COORDINATE_TOLERANCE ||
+      source.arcDeg !== candidate.arcDeg ||
+      source.performanceModel !== candidate.performanceModel) return false
+  if (source.arcDeg === 360) return true
+  const expectedDirection = transformedDirection(source.directionDeg, source.position, transform)
+  const actualDirection = normalizeDegrees(candidate.directionDeg ?? 0)
+  return Math.abs(((actualDirection - expectedDirection + 540) % 360) - 180) <= 1e-5
+}
+
+function preservesGeometrySymmetry(heads, transforms) {
+  if (!transforms || transforms.length <= 1) return true
+  const rotors = heads.filter(isRotor)
+  return rotors.every((head) => transforms.every((transform) =>
+    rotors.some((candidate) => matchesTransformedHead(head, candidate, transform))))
+}
+
+function symmetricRotorOrbit(heads, source, transforms) {
+  if (!transforms || transforms.length <= 1) return [source]
+  const rotors = heads.filter(isRotor)
+  const orbit = []
+  for (const transform of transforms) {
+    const match = rotors.find((candidate) => matchesTransformedHead(source, candidate, transform))
+    if (!match) return null
+    if (!orbit.some((entry) => entry.id === match.id)) orbit.push(match)
+  }
+  return orbit
+}
+
+function tryRemoveRotorGroup(heads, counts, coverageById, group, options) {
+  const removeIds = new Set(group.map((head) => head.id))
+  const nextHeads = heads.filter((head) => !removeIds.has(head.id))
+  const nextCounts = counts.slice()
+  for (const head of group) {
+    for (const index of coverageById.get(head.id) ?? []) nextCounts[index] -= 1
+  }
+  if (!allTargetsCovered(nextCounts)) return null
+  const headToHead = buildHeadToHead(nextHeads, options.baselineRegionSizes)
+  if (!headToHead.passed || !options.oversprayCheck(nextHeads) ||
+      !preservesGeometrySymmetry(nextHeads, options.symmetryTransforms)) return null
+  return { heads: nextHeads, counts: nextCounts, headToHead }
 }
 
 // Score 270-degree orientations against the complete global target map first;
@@ -371,7 +476,8 @@ function runSectorOptimization(state, options) {
           const replacementCoverage = coverageForHead(replacement, options.targets)
           const nextCounts = adjustedCounts(counts,
             group.map((head) => coverageById.get(head.id) ?? []), replacementCoverage)
-          if (!allTargetsCovered(nextCounts)) continue
+          if (!allTargetsCovered(nextCounts) ||
+              !preservesGeometrySymmetry(nextHeads, options.symmetryTransforms)) continue
           const headToHead = buildHeadToHead(nextHeads, options.baselineRegionSizes)
           if (!headToHead.passed || !options.oversprayCheck(nextHeads)) continue
           accepted = { replacement, nextHeads, nextCounts, replacementCoverage, headToHead, arcDeg }
@@ -417,7 +523,8 @@ function runSectorOptimization(state, options) {
           const oldCoverage = coverageById.get(head.id) ?? []
           const replacementCoverage = coverageForHead(replacement, options.targets)
           const nextCounts = adjustedCounts(counts, [oldCoverage], replacementCoverage)
-          if (!allTargetsCovered(nextCounts)) continue
+          if (!allTargetsCovered(nextCounts) ||
+              !preservesGeometrySymmetry(nextHeads, options.symmetryTransforms)) continue
           const headToHead = buildHeadToHead(nextHeads, options.baselineRegionSizes)
           if (!headToHead.passed || !options.oversprayCheck(nextHeads)) continue
 
@@ -545,10 +652,15 @@ export function optimizeGlobalSprinklerSet({
     })
   }
 
+  const geometrySymmetries = geometrySymmetryTransforms(geometry)
+  const symmetryTransforms = preservesGeometrySymmetry(originalHeads, geometrySymmetries)
+    ? geometrySymmetries
+    : geometrySymmetries.slice(0, 1)
   const options = {
     targets,
     oversprayCheck,
     baselineRegionSizes,
+    symmetryTransforms,
     maxSectorVariants: Math.min(MAX_SECTOR_VARIANTS, Math.max(0, maxSectorVariants)),
   }
   const firstPass = runRemovalPass({ heads: originalHeads, counts, coverageById }, options)
