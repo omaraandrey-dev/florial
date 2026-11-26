@@ -434,3 +434,35 @@ test('dense final coverage validation reports its point cap without implying it 
   assert.equal(result.denserValidation.status, 'skipped_target_limit')
   assert.equal(result.denserValidation.coverage, null)
 })
+
+
+test('asymmetric global search relocates a rotor before removing a seam-bridging head', () => {
+  const geometry = squareGeometry(14)
+  geometry.regions[0].exclusions = [{
+    id: 'small-bed',
+    polygon: { vertices: [
+      { x: 12, y: 8 }, { x: 13, y: 8 },
+      { x: 13, y: 9 }, { x: 12, y: 9 },
+    ] },
+  }]
+  const baseline = [
+    rotor('left', 3, 5, { radiusM: 7 }),
+    rotor('middle', 7, 5, { radiusM: 7 }),
+    rotor('right', 11, 5, { radiusM: 7 }),
+  ]
+  const result = optimizeGlobalSprinklerSet({
+    sprinklers: baseline,
+    geometry,
+    parts: [{ id: 'zone-a', layout: { sprinklers: baseline } }],
+    oversprayCheck: () => true,
+    maxSectorVariants: 0,
+  })
+
+  assert.equal(result.status, 'completed')
+  assert.equal(result.sprinklers.length, 2)
+  assert.equal(result.coverage.uncoveredPoints, 0)
+  assert.equal(result.headToHead.passed, true)
+  assert.equal(result.reconfiguration.relocatedHeads.length, 1)
+  assert.equal(result.removedHeadIds.length, 1)
+  assert.equal(result.removedHeadIds[0], 'middle')
+})
