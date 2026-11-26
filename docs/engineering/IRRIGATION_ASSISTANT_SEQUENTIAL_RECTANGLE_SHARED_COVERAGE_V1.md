@@ -73,7 +73,19 @@ For backward compatibility, pre-existing corner-first/shared-cell grid candidate
 - Directional strip heads remain unchanged.
 - X=0, Y=0 and (0,0) coordinates remain valid.
 
-## 8. Engineering limits
+## 8. Symmetry-preserving minimization for symmetric rectangles
+
+A square or rectangle with no exclusions has geometric reflection symmetry. For a symmetric initial 3504-PC layout, the global minimizer must preserve the same symmetry while removing redundant heads or changing sectors. It evaluates a complete symmetry orbit (mirrored/rotated heads) as one removal operation; the whole group is accepted only when global sampled coverage, mutual Head-to-Head, and composite overspray all continue to pass. Sector changes are accepted only when the resulting layout remains symmetric.
+
+For a 20 × 20 m square, the solver must not independently remove a head from only one side and leave the opposite side or adjacent sides with a different pattern. The four sides must retain equal head counts and the complete position/sector set must be invariant under the square's reflections and quarter-turn rotations. If the starting layout is not symmetric, this additional constraint is not imposed; existing validation remains authoritative.
+
+## 9. L-shaped polygon placement — corner-first progression
+
+For an L-shaped polygon handled by the whole-polygon circular layout solver, seed useful heads at the actual polygon vertices first, including the reflex corner. Then inspect the still-uncovered samples and add edge heads in order of coverage gain, preferring candidates that mutually reach already placed heads. Add interior heads only for samples that remain uncovered after the perimeter pass. The final Head-to-Head repair and validation remain mandatory; a layout is not accepted merely because its sample coverage is complete.
+
+This is a deterministic corner-first progression, not a global relocation or group-replacement optimizer. It does not change the separately approved 1 m / 2 m connected LCS/RCS/SST strip pattern or the rectangle decomposition used for those narrow arms.
+
+## 10. Engineering limits
 
 This is deterministic sampled geometric planning, not a continuous-coverage proof or hydraulic design. No water pressure, flow, nozzle precipitation, DU/CU, pipe sizing or hydraulic compatibility is inferred from geometry. Manufacturer-supported R-VAN performance points remain discrete.
 
