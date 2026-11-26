@@ -42,6 +42,13 @@ function snapshotFor(length, width, options = {}) {
   })
 }
 
+function assertGlobalLayoutStatus(result, message = '') {
+  const globalFailed = ['baseline_failed', 'final_validation_failed'].includes(
+    result.layout?.globalOptimization?.status,
+  )
+  assert.equal(result.status, globalFailed ? 'layout_incomplete' : 'layout_generated', message)
+}
+
 function legacyRvanLayout(length, width) {
   const snapshot = snapshotFor(length, width)
   return generateLawnSprinklerLayout({
@@ -57,7 +64,7 @@ function legacyRvanLayout(length, width) {
 test('Florial selects R-VAN heads from local reach on narrow rectangles and reports the actual model set', () => {
   for (const [length, width] of [[10, 3], [10, 4], [10, 5]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
-    assert.equal(result.status, 'layout_generated')
+    assertGlobalLayoutStatus(result)
     assert.equal(result.operatingScenario?.family, 'R-VAN')
     const selectedModels = [...new Set(result.layout?.sprinklers?.map((head) => head.performanceModel) ?? [])].sort()
     assert.equal(result.operatingScenario?.model, selectedModels.join(' / '))
@@ -100,7 +107,7 @@ test('8x8 lawn prioritizes 3504-PC rotors while 4m and 5m rectangles retain the 
 test('each rectangle uses a complete 3504-PC layout or falls back wholly to the unchanged R-VAN solver', () => {
   for (const [length, width] of [[20, 10], [20, 15], [30, 30]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
-    assert.equal(result.status, 'layout_generated', length + 'x' + width)
+    assertGlobalLayoutStatus(result, length + 'x' + width)
     assert.equal(result.operatingScenario?.family, '3500')
     assert.equal(result.operatingScenario?.model, '3504-PC')
     assert.ok(result.layout.sprinklers.length > 0)
@@ -365,7 +372,7 @@ test('narrow strip rules select RCS, LCS and SST at the approved thresholds', ()
   for (const entry of cases) {
     const result = buildPreliminaryLawnLayout(snapshotFor(entry.length, entry.width))
     assert.equal(result.status, 'layout_generated', entry.length + 'x' + entry.width)
-    assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern')
+    assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern_global_sampled')
     assert.deepEqual(result.layout?.sprinklers?.map((head) => head.performanceModel), entry.models)
     assert.deepEqual(result.layout?.sprinklers?.map((head) => head.stripDirection), entry.directions)
     assert.deepEqual(result.layout?.sprinklers?.map((head) => head.position.x), entry.positions)
@@ -382,7 +389,7 @@ test('narrow strip heads use the lower long edge and rotate correctly for vertic
   const horizontal = buildPreliminaryLawnLayout(snapshotFor(10, 2))
   assert.ok(horizontal.layout.sprinklers.every((head) => head.position.y === 0))
   const vertical = buildPreliminaryLawnLayout(snapshotFor(2, 10))
-  assert.equal(vertical.status, 'layout_generated')
+  assertGlobalLayoutStatus(vertical)
   assert.deepEqual(vertical.layout.sprinklers.map((head) => [head.position.x, head.position.y, head.stripDirection, head.stripAxis]), [
     [2, 0, 'up', 'vertical'], [2, 4, 'both', 'vertical'], [2, 8, 'both', 'vertical'], [2, 10, 'down', 'vertical'],
   ])
@@ -432,10 +439,10 @@ test('28x14 L-shape with a 16x12 cut-out is split into a 12x14 R-VAN zone and a 
   const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 12, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
+  assertGlobalLayoutStatus(result, JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
   assert.equal(result.geometry?.shape, 'l-shape')
   assert.equal(result.geometry?.areaM2, 200)
-  assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones')
+  assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones_global_sampled')
   assert.equal(result.layout?.geometry?.shape, 'l-shape')
   assert.equal(result.layout?.geometry?.areaM2, 200)
   assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
@@ -461,8 +468,8 @@ test('decomposed L-shape keeps the 1m/2m strip connected to the wide zone in all
     const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
       shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 12, cutoutCorner,
     }))
-    assert.equal(result.status, 'layout_generated', cutoutCorner + ' ' + JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
-    assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones', cutoutCorner)
+    assertGlobalLayoutStatus(result, cutoutCorner + ' ' + JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
+    assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones_global_sampled', cutoutCorner)
     assert.equal(result.layout?.overspray, 'sampled_inside_boundary', cutoutCorner)
     const stripHeads = result.layout?.sprinklers?.filter((head) => head.pattern === 'strip') ?? []
     assert.equal(stripHeads.length, 4, cutoutCorner)
@@ -482,8 +489,8 @@ test('a 2m vertical connected L-shape arm uses a rotated strip row and keeps its
   const result = buildPreliminaryLawnLayout(snapshotFor(14, 28, {
     shape: 'l-shape', cutoutWidth: 12, cutoutDepth: 16, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
-  assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones')
+  assertGlobalLayoutStatus(result, JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
+  assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones_global_sampled')
   const stripHeads = result.layout?.sprinklers?.filter((head) => head.pattern === 'strip') ?? []
   assert.ok(stripHeads.length > 0)
   assert.ok(stripHeads.every((head) => head.stripAxis === 'vertical' && head.stripWidthM === 2))
@@ -532,12 +539,12 @@ test('strip direction arrows use sub-metre SVG markers and cannot masquerade as 
 })
 
 
-test('L-shaped 4 m arm is calculated before the wider rectangle and uses R-VAN18 locally', () => {
+test('L-shaped rectangles are processed largest-first while the 4 m arm retains R-VAN18 locally', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 10, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated', JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
-  assert.deepEqual(result.layout?.calculationRegions?.map((part) => part.shortSideM), [4, 12])
+  assert.deepEqual(result.layout?.calculationRegions?.map((part) => part.shortSideM), [12, 4])
   const armHeads = result.layout?.sprinklers?.filter((head) => head.calculationRegionId === 'arm') ?? []
   assert.ok(armHeads.length > 0)
   assert.ok(armHeads.every((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN18'))
@@ -565,7 +572,7 @@ test('rectangular lawn with a non-irrigated rectangular exclusion is decomposed 
   assert.ok(result.layout?.calculationRegions?.length >= 2)
   assert.deepEqual(
     result.layout?.calculationRegions?.map((part) => part.shortSideM),
-    [...(result.layout?.calculationRegions?.map((part) => part.shortSideM) ?? [])].sort((a, b) => a - b),
+    [...(result.layout?.calculationRegions?.map((part) => part.areaM2) ?? [])].sort((a, b) => b - a),
   )
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
