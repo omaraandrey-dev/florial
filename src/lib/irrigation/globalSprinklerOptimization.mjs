@@ -667,10 +667,10 @@ function rvanReplacementGroups(heads) {
   const groups = new Map()
   for (const seed of candidates) {
     const nearby = candidates
-      .filter((head) => head.id !== seed.id && distance(head.position, seed.position) <= 18 + EPSILON)
+      .filter((head) => head.id !== seed.id && distance(head.position, seed.position) <= 10 + EPSILON)
       .sort((a, b) => distance(a.position, seed.position) - distance(b.position, seed.position) ||
         geometricHeadOrder(a, b))
-    for (let size = Math.min(5, nearby.length + 1); size >= 2; size -= 1) {
+    for (let size = Math.min(4, nearby.length + 1); size >= 3; size -= 1) {
       const group = [seed, ...nearby.slice(0, size - 1)].sort(geometricHeadOrder)
       const key = group.map((head) => head.id).sort().join('|')
       groups.set(key, group)
@@ -692,10 +692,6 @@ function replacementPositions(group) {
     { x: (Math.min(...xs) + Math.max(...xs)) / 2, y: (Math.min(...ys) + Math.max(...ys)) / 2 },
     ...group.map((head) => head.position),
   ]
-  for (const offset of [-1, 0, 1]) {
-    positions.push({ x: center.x + offset, y: center.y })
-    positions.push({ x: center.x, y: center.y + offset })
-  }
   const unique = new Map()
   for (const point of positions) {
     if (!Number.isFinite(point.x) || !Number.isFinite(point.y)) continue
@@ -710,7 +706,7 @@ function runRvanGroupReplacementPass(state, options) {
   let { heads, counts, coverageById } = state
   const replacedGroups = []
   let evaluated = 0
-  const maxVariants = options.maxReconfigurationVariants ?? 1600
+  const maxVariants = options.maxReconfigurationVariants ?? 160
   const groups = rvanReplacementGroups(heads)
 
   for (const group of groups) {
@@ -723,8 +719,8 @@ function runRvanGroupReplacementPass(state, options) {
     for (const position of positions) {
       if (!pointIsTarget(position, options.geometry.regions[0])) continue
       for (const radiusM of [9, 8, 7, 6, 5]) {
-        for (const arcDeg of [360, 270, 180, 90]) {
-          const directions = arcDeg === 360 ? [null] : [0, 45, 90, 135, 180, 225, 270, 315]
+        for (const arcDeg of [360, 180, 270]) {
+          const directions = arcDeg === 360 ? [null] : [0, 90, 180, 270]
           for (const directionDeg of directions) {
             if (evaluated >= maxVariants) break
             evaluated += 1
@@ -833,7 +829,7 @@ export function optimizeGlobalSprinklerSet({
     regionIds: [...baselineRegionSizes.keys()],
     symmetryTransforms: rectangleSymmetryTransforms(geometry),
     geometry,
-    maxReconfigurationVariants: 1600,
+    maxReconfigurationVariants: 160,
     maxSectorVariants: Math.min(MAX_SECTOR_VARIANTS, Math.max(0, maxSectorVariants)),
   }
 
