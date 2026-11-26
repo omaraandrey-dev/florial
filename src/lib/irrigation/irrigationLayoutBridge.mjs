@@ -1,7 +1,10 @@
 import { evaluateHeadToHeadSpacing, generateLawnSprinklerLayout, sprinklersMutuallyReach } from './lawnSprinklerLayout.mjs'
 import { decomposeOrthogonalRegion } from './orthogonalRectangleDecomposition.mjs'
 import { validateLawnGeometry } from './lawnGeometry.mjs'
-import { generateRainBird3504Layout } from './rainBird3504Layout.mjs'
+import {
+  generateRainBird3504Layout,
+  generateRainBird3504PolygonLayout,
+} from './rainBird3504Layout.mjs'
 import { optimizeGlobalSprinklerSet } from './globalSprinklerOptimization.mjs'
 import {
   findRainBirdRvanPerformancePoint,
@@ -1323,254 +1326,380 @@ function stripOptions(shortSideM) {
  * R-VAN solver and attaches Florial's fixed pipe/zone project standards.
  * No customer water-source, pressure or flow inputs are requested or used.
  */
+
+function perimeterMetadataForPosition(position, vertices) {
+  const points = vertices.length > 1 &&
+    Math.hypot(vertices[0].x - vertices[vertices.length - 1].x,
+      vertices[0].y - vertices[vertices.length - 1].y) <= 1e-8
+    ? vertices.slice(0, -1)
+    : vertices
+  let perimeterLengthM = 0
+  for (let index = 0; index < points.length; index += 1) {
+    const a = points[index]
+    const b = points[(index + 1) % points.length]
+    perimeterLengthM += Math.hypot(b.x - a.x, b.y - a.y)
+  }
+  let offsetM = 0
+  for (let index = 0; index < points.length; index += 1) {
+    const a = points[index]
+    const b = points[(index + 1) % points.length]
+    const dx = b.x - a.x
+    const dy = b.y - a.y
+    const length = Math.hypot(dx, dy)
+    const cross = dx * (position.y - a.y) - dy * (position.x - a.x)
+    const dot = (position.x - a.x) * dx + (position.y - a.y) * dy
+    if (Math.abs(cross) <= 1e-6 && dot >= -1e-6 && dot <= length * length + 1e-6) {
+      return Object.freeze({
+        perimeterOffsetM: offsetM + Math.max(0, Math.min(length, dot / Math.max(length, 1e-12))),
+        perimeterLengthM,
+      })
+    }
+    offsetM += length
+  }
+  return null
+}
+
+function attachWholePolygonHeadMetadata(head, regionId, vertices) {
+  const perimeter = head.source === 'interior'
+    ? null
+    : perimeterMetadataForPosition(head.position, vertices)
+  return Object.freeze({
+    ...head,
+    calculationRegionId: regionId,
+    ...(perimeter ?? {}),
+  })
+}
+
+function calculateSampledCoverage(targets, heads) {
+  if (!targets) return null
+  let coveredPoints = 0
+  const uncoveredSamples = []
+  for (const point of targets) {
+    if (heads.some((head) => sprinklerCoversPoint(head, point))) coveredPoints += 1
+    else if (uncoveredSamples.length < 100) uncoveredSamples.push(point)
+  }
+  const uncoveredPoints = targets.length - coveredPoints
+  return Object.freeze({
+    sampledPoints: targets.length,
+    coveredPoints,
+    uncoveredPoints,
+    coveragePercent: targets.length ? coveredPoints / targets.length * 100 : null,
+    uncoveredSamples: Object.freeze(uncoveredSamples),
+  })
+}
+
+/**
+ * Sequential whole-polygon family-priority layout:
+ * 1) all 3504-PC rotors on the complete polygon;
+ * 2) R-VAN only for the residual uncovered samples;
+ * 3) exact 1 m / 2 m directional strip patterns for any remaining strip areas;
+ * 4) one global coverage, mixed-type Head-to-Head, overspray and rotor-removal pass.
+ */
 export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {}) {
   if (!snapshot || snapshot.schemaVersion !== 2 ||
       snapshot.projectType !== 'automatic_lawn_irrigation') {
     return result('invalid_intake_snapshot')
   }
-
   if (snapshot.geometry?.status !== 'preliminary_geometry_available' ||
       snapshot.geometry?.normalized?.status !== 'confirmed') {
     return result('needs_valid_geometry')
+  }
+  if (!Number.isFinite(sampleStepM) || sampleStepM <= 0) {
+    return result('invalid_layout_options', { reason: 'sample_step_must_be_positive' })
   }
 
   const geometry = snapshot.geometry.normalized
   if (!Array.isArray(geometry.regions) || geometry.regions.length !== 1) {
     return result('geometry_not_supported', { reason: 'single_region_only' })
   }
-
   const region = geometry.regions[0]
-  if (!Array.isArray(region.boundary?.vertices) || region.boundary.vertices.length < 4) {
+  const vertices = region.boundary?.vertices
+  if (!Array.isArray(vertices) || vertices.length < 4) {
     return result('geometry_not_supported', { reason: 'invalid_or_missing_boundary' })
   }
-  const vertices = region.boundary.vertices
   const validation = validateLawnGeometry(geometry)
   if (!validation.valid || !validation.supported || validation.regions.length !== 1) {
-    return result('geometry_not_supported', { reason: 'normalized_geometry_failed_validation_or_orthogonal_support' })
+    return result('geometry_not_supported', {
+      reason: 'normalized_geometry_failed_validation_or_orthogonal_support',
+      errors: validation.errors,
+      warnings: validation.warnings,
+    })
   }
+
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
-
-  // Rotor selection is performed independently inside each calculation rectangle.
-
-  const lShapeParts = validation.regions[0].shape === 'l-shape' && !(region.exclusions?.length)
-    ? decomposeOrthogonalLShape(vertices)
-    : null
-  const hasSupportedNarrowLShapeArm = Boolean(lShapeParts?.some((part) =>
-    SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8)))
-  // Keep the whole L polygon intact for the corner-first uncovered-area solver.
-  // Decomposition is reserved for L-shapes that contain a manufacturer-defined
-  // 1 m / 2 m strip arm and therefore require the dedicated directional nozzle pattern.
-  if (lShapeParts && hasSupportedNarrowLShapeArm) {
-    const partsWithStripEnds = lShapeParts.map((part) => ({
-      ...part,
-      connectedEnd: SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8)
-        ? part.connectedEnd
-        : null,
-    }))
-    return buildDecomposedLShapeLayout(
-      geometry, validation, partsWithStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
-      sampleStepM, Math.min(...lShapeParts.map((part) => part.shortSideM)), [],
-    )
-  }
-
-  if (region.exclusions?.length || validation.regions[0].shape === 'orthogonal-polygon') {
-    const parts = decomposeOrthogonalRegion(region, validation.regions[0].netAreaM2)
-    if (!parts?.length) {
-      return result('layout_incomplete', {
-        reason: 'orthogonal_rectangle_decomposition_failed_area_or_overlap_check',
-        warnings: Object.freeze([{ code: 'orthogonal_rectangle_decomposition_failed', path: 'geometry' }]),
-      })
-    }
-    const withStripEnds = parts.map((part) => ({
-      ...part,
-      connectedEnd: SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8)
-        ? inferConnectedStripEnd(part, parts)
-        : null,
-    }))
-    return buildDecomposedLShapeLayout(
-      geometry, validation, withStripEnds, RECOMMENDED_NOZZLE_PRESSURE_BAR,
-      sampleStepM, Math.min(...parts.map((part) => part.shortSideM)), [],
-    )
-  }
-
-  if (SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)) {
-    const layout = buildRvanStripLayout(geometry, shortSideM)
-    if (layout) {
-      const finalLayout = finalizeSingleRegionLayout(layout, geometry, sampleStepM, 'strip-001')
-      const zones = buildIrrigationZones(finalLayout.sprinklers, geometry)
-      const pipeNetwork = buildPerimeterPipeNetwork(geometry, finalLayout.sprinklers, zones)
-      return result(finalLayout.status === 'strip_pattern_placement_ready' ? 'layout_generated' : 'layout_incomplete', {
-        engine: Object.freeze({
-          name: 'Florial deterministic lawn layout',
-          version: finalLayout.engineVersion,
-          algorithm: finalLayout.algorithm,
-        }),
-        operatingScenario: Object.freeze({
-          manufacturer: 'Rain Bird',
-          family: 'R-VAN',
-          model: finalLayout.model,
-          pressureBar: RECOMMENDED_NOZZLE_PRESSURE_BAR,
-          pressureBasis: 'Rain Bird manufacturer recommended nozzle operating point',
-          modelSelectionBasis: 'owner_defined_LCS_RCS_SST_strip_width_throw_spacing_and_direction_rules; global sampled geometry validation follows strip placement',
-          layoutRadiusM: null,
-          sourceUrl: RAIN_BIRD_RVAN_DATASET.source.url,
-          actualNozzlePressureVerified: false,
-          customerSourceMeasurementsUsedAsNozzlePressure: false,
-        }),
-        geometry: Object.freeze({
-          shape: 'rectangle',
-          areaM2: finalLayout.geometry.areaM2,
-          shortSideM,
-          dimensionsAreApproximate: true,
-        }),
-        projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
-        zones,
-        pipeNetwork,
-        layout: finalLayout,
-        overspray: finalLayout.overspray,
-        warnings: Object.freeze([
-          ...finalLayout.warnings,
-          Object.freeze({ code: 'approximate_customer_dimensions', path: 'geometry' }),
-        ]),
-      })
-    }
-  }
-
-  if (shortSideM < 2.4) {
-    const options = stripOptions(shortSideM)
-    return result(options.length
-      ? 'strip_nozzle_layout_requires_exact_pattern_engine'
-      : 'strip_width_not_supported_by_exact_manufacturer_point', {
-      shortSideM,
-      manufacturer: 'Rain Bird',
-      family: 'R-VAN',
-      stripNozzleOptions: options,
-      manufacturerPressureBar: RECOMMENDED_NOZZLE_PRESSURE_BAR,
-      reason: 'No circular spray substitute is allowed for a narrow strip; exact pattern placement and orientation must be validated.',
-      projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
-    })
-  }
+  const rectangularWithoutExclusions = validation.regions[0].shape === 'rectangle' &&
+    !(region.exclusions?.length)
+  const rotorAttempt = rectangularWithoutExclusions
+    ? generateRainBird3504Layout(geometry, { sampleStepM })
+    : generateRainBird3504PolygonLayout(geometry, { sampleStepM })
+  let rotorHeads = (rotorAttempt.sprinklers ?? []).map((head) =>
+    attachWholePolygonHeadMetadata(head, region.id, vertices))
 
   const selectedRvan = selectRvanModel(shortSideM)
-  const { model, radiusM } = selectedRvan
-  if (!model) {
-    return result('requires_engineer_review', {
-      shortSideM,
-      reason: 'geometry_exceeds_verified_rvan_layout_envelope',
-    })
-  }
-
   const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
-  const bounds = {
-    minX: Math.min(...xs), maxX: Math.max(...xs),
-    minY: Math.min(...ys), maxY: Math.max(...ys),
-  }
-  const rectangleDimensions = rectangleSize(bounds)
-  const rotorLayout = rectangleRotorLayout(geometry, rectangleDimensions, sampleStepM)
-  const createRvanLayout = () => generateLawnSprinklerLayout({
+  const rvanLayout = generateLawnSprinklerLayout({
     geometry,
     family: 'R-VAN',
-    model,
+    model: selectedRvan.model,
     pressureBar,
     sampleStepM,
-    radiusM,
-    sprayBoundaryGeometry: validation.regions[0].shape === 'l-shape' ? geometry : null,
+    radiusM: selectedRvan.radiusM,
+    preventOverspray: true,
+    initialSprinklers: rotorHeads,
+    sprayBoundaryGeometry: geometry,
   })
-  const rvanLayout = rotorLayout ? null : createRvanLayout()
-  const layout = rotorLayout ?? rvanLayout
-  if (layout.status !== 'coverage_complete_sampled' && layout.status !== 'coverage_incomplete') {
-    return result('layout_incomplete', {
-      shortSideM,
-      manufacturer: 'Rain Bird',
-      family: layout.family ?? 'R-VAN',
-      model: layout.model ?? model,
-      layout,
-      projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
-    })
+  const rvanHeads = (rvanLayout.sprinklers ?? []).map((head) =>
+    attachWholePolygonHeadMetadata(head, region.id, vertices))
+
+  const globalTargets = buildIrrigatedTargets(geometry, sampleStepM)
+  const expandedRotors = rotorHeads.length
+    ? maximizeRotorSectors(rotorHeads, rvanHeads, geometry, globalTargets)
+    : Object.freeze({ sprinklers: Object.freeze([]), edits: Object.freeze([]) })
+  rotorHeads = [...expandedRotors.sprinklers]
+
+  let allHeads = [...rotorHeads, ...rvanHeads]
+  const stripParts = []
+  const decomposition = decomposeOrthogonalRegion(region, validation.regions[0].netAreaM2)
+  if (decomposition?.length) {
+    const stripRegions = decomposition.filter((part) =>
+      SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(part.shortSideM - width) <= 1e-8))
+    for (const strip of stripRegions) {
+      const previousCoverage = rectangleCoverageByPreviousHeads(strip, allHeads, sampleStepM)
+      if (previousCoverage.uncoveredPoints === 0) continue
+      const connectedEnd = inferConnectedStripEnd(strip, decomposition)
+      const stripGeometry = rectangleGeometry('strip-' + strip.id, strip)
+      const stripLayout = connectedEnd
+        ? buildConnectedRvanStripLayout(stripGeometry, strip.shortSideM, connectedEnd)
+        : buildRvanStripLayout(stripGeometry, strip.shortSideM)
+      if (!stripLayout) continue
+      const prefix = 'z' + (stripParts.length + 1) + '-'
+      const part = Object.freeze({
+        ...strip,
+        id: 'strip-' + strip.id,
+        isStrip: true,
+        connectedEnd,
+        previousCoverage,
+        layout: stripLayout,
+      })
+      stripParts.push(part)
+      allHeads.push(...stripLayout.sprinklers.map((head) => Object.freeze({
+        ...head,
+        id: prefix + head.id,
+        calculationRegionId: region.id,
+      })))
+    }
   }
 
-  const finalLayout = finalizeSingleRegionLayout(layout, geometry, sampleStepM, 'rect-001')
-  const cornerFirstLShapeFailed = validation.regions[0].shape === 'l-shape' && (
-    finalLayout.status !== 'coverage_complete_sampled' ||
-    finalLayout.coverage?.uncoveredPoints !== 0 ||
-    finalLayout.headToHead?.passed === false ||
-    finalLayout.overspray !== 'sampled_inside_boundary'
-  )
-  if (cornerFirstLShapeFailed && lShapeParts) {
-    // Never return an incomplete whole-polygon attempt as a finished design.
-    // Fall back to the existing validated rectangle strategy and preserve the
-    // failed corner-first diagnostics so the limitation remains visible.
-    const fallback = buildDecomposedLShapeLayout(
-      geometry, validation,
-      lShapeParts.map((part) => ({ ...part, connectedEnd: null })),
-      RECOMMENDED_NOZZLE_PRESSURE_BAR, sampleStepM,
-      Math.min(...lShapeParts.map((part) => part.shortSideM)), [],
-    )
-    const fallbackWarning = Object.freeze({
-      code: 'l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used',
-      path: 'layout',
-    })
-    const attempt = Object.freeze({
-      algorithm: finalLayout.algorithm,
-      status: finalLayout.status,
-      coverage: finalLayout.coverage,
-      headToHead: finalLayout.headToHead,
-      overspray: finalLayout.overspray,
-    })
-    return Object.freeze({
-      ...fallback,
-      layout: fallback.layout ? Object.freeze({
-        ...fallback.layout,
-        cornerFirstAttempt: attempt,
-        warnings: Object.freeze([...(fallback.layout.warnings ?? []), fallbackWarning]),
-      }) : fallback.layout,
-      warnings: Object.freeze([...(fallback.warnings ?? []), fallbackWarning]),
-    })
+  const circularHeads = allHeads.filter((head) => head.pattern !== 'strip')
+  const globalOptimization = optimizeGlobalSprinklerSet({
+    sprinklers: allHeads,
+    geometry,
+    parts: stripParts,
+    sampleStepM,
+    oversprayCheck: (candidateHeads) =>
+      newlyOpenedFullCircleClearancePassed(candidateHeads, allHeads) &&
+      evaluateCompositeOverspray(candidateHeads, stripParts, geometry),
+  })
+  if (globalOptimization.status === 'completed') {
+    allHeads = [...globalOptimization.sprinklers]
   }
-  const zones = buildIrrigationZones(finalLayout.sprinklers, geometry)
-  const pipeNetwork = buildPerimeterPipeNetwork(geometry, finalLayout.sprinklers, zones)
 
-  return result(finalLayout.status === 'coverage_complete_sampled' ? 'layout_generated' : 'layout_incomplete', {
-    engine: Object.freeze({
-      name: 'Florial deterministic lawn layout',
-      version: finalLayout.engineVersion,
-      algorithm: finalLayout.algorithm ?? null,
+  const finalCircularHeads = allHeads.filter((head) => head.pattern !== 'strip')
+  const finalCoverage = globalOptimization.coverage ??
+    calculateSampledCoverage(globalTargets, allHeads)
+  const headToHeadChecks = finalCircularHeads.length > 1
+    ? (globalOptimization.headToHead?.checks?.length
+      ? globalOptimization.headToHead.checks
+      : evaluateHeadToHeadSpacing(finalCircularHeads))
+    : []
+  const headToHeadPassed = finalCircularHeads.length > 1
+    ? headToHeadChecks.every((entry) => entry.passed)
+    : null
+  const fullCircleSpacingPassed = fullCircleRotorClearancePassed(allHeads)
+  const oversprayPassed = evaluateCompositeOverspray(allHeads, stripParts, geometry)
+  const optimizationFailed = ['baseline_failed', 'final_validation_failed'].includes(globalOptimization.status)
+  const optimizationSkipped = globalOptimization.status === 'skipped_target_limit'
+  const coverageComplete = finalCoverage?.uncoveredPoints === 0
+  const selectedModels = [...new Set(allHeads.map((head) => head.performanceModel))].sort()
+  const hasRotor = selectedModels.includes('3504-PC')
+  const hasRvan = selectedModels.some((model) => model.startsWith('R-VAN'))
+  const family = hasRotor ? (hasRvan ? 'mixed' : '3500') : 'R-VAN'
+  const model = selectedModels.join(' / ')
+  const hasStrip = allHeads.some((head) => head.pattern === 'strip')
+  const layoutStatus = coverageComplete && oversprayPassed && headToHeadPassed !== false &&
+    fullCircleSpacingPassed && !optimizationFailed && !optimizationSkipped
+    ? (finalCircularHeads.length ? 'coverage_complete_sampled' : 'strip_pattern_placement_ready')
+    : 'coverage_incomplete'
+
+  const warnings = [
+    ...(rotorAttempt.warnings ?? []),
+    ...(rvanLayout.warnings ?? []),
+    Object.freeze({ code: 'whole_polygon_rotor_pass_runs_before_rvan', path: 'layout.sprinklers' }),
+    Object.freeze({ code: 'rvan_pass_receives_only_residual_uncovered_samples_after_rotors', path: 'layout.sprinklers' }),
+    Object.freeze({ code: 'one_and_two_metre_strip_patterns_run_after_rotors_and_rvan', path: 'layout.sprinklers' }),
+    Object.freeze({ code: 'mixed_rotor_rvan_head_to_head_is_fully_mutual', path: 'layout.headToHead' }),
+    Object.freeze({ code: 'global_sampled_coverage_and_overspray_are_rechecked_after_all_three_passes', path: 'layout.coverage' }),
+    Object.freeze({ code: 'sampled_coverage_is_not_a_continuous_mathematical_proof', path: 'layout.coverage' }),
+    Object.freeze({ code: 'hydraulic_pressure_flow_and_precipitation_are_not_calculated_by_geometry_solver', path: 'hydraulics' }),
+  ]
+  if (!rotorHeads.length) warnings.push(Object.freeze({
+    code: 'no_3504pc_rotors_passed_the_whole_polygon_6m_safe_radius_gate',
+    path: 'layout.sprinklers',
+  }))
+  if (!rvanHeads.length) warnings.push(Object.freeze({
+    code: 'rvan_added_no_new_heads_after_rotor_coverage',
+    path: 'layout.sprinklers',
+  }))
+  if (shortSideM < 2.4 && !hasStrip) warnings.push(Object.freeze({
+    code: 'narrow_area_has_no_exact_one_or_two_metre_strip_pattern',
+    path: 'geometry',
+  }))
+  if (optimizationSkipped) warnings.push(Object.freeze({
+    code: 'global_validation_and_minimization_skipped_target_limit',
+    path: 'layout.globalOptimization',
+  }))
+  if (optimizationFailed) warnings.push(Object.freeze({
+    code: 'global_baseline_validation_failed',
+    path: 'layout.globalOptimization',
+  }))
+  if (headToHeadPassed === false) warnings.push(Object.freeze({
+    code: 'head_to_head_spacing_check_failed',
+    path: 'layout.headToHead',
+  }))
+  if (!fullCircleSpacingPassed) warnings.push(Object.freeze({
+    code: 'full_circle_3504_rotors_must_be_at_least_6m_apart',
+    path: 'layout.sprinklers',
+  }))
+  if (!oversprayPassed) warnings.push(Object.freeze({
+    code: 'sampled_spray_footprint_exceeds_lawn_boundary_or_exclusion',
+    path: 'layout.overspray',
+  }))
+  if (!coverageComplete) warnings.push(Object.freeze({
+    code: 'whole_polygon_layout_has_uncovered_samples',
+    path: 'layout.coverage',
+  }))
+
+  const layout = Object.freeze({
+    engineVersion: '0.8.0',
+    algorithm: 'whole-polygon-sequential-3504pc-rvan-strip-v1',
+    status: layoutStatus,
+    coverageScope: optimizationSkipped ? 'global_validation_skipped_target_limit' : 'whole_polygon_global_sampled_geometry',
+    family,
+    model,
+    pressureBar: hasRvan ? pressureBar : null,
+    sampleStepM,
+    geometry: Object.freeze({
+      regionId: region.id,
+      shape: validation.regions[0].shape,
+      areaM2: validation.regions[0].netAreaM2,
     }),
+    coverage: finalCoverage ? Object.freeze({
+      ...finalCoverage,
+      validationScope: optimizationSkipped ? 'not_fully_verified_target_limit' : 'whole_polygon_global_sampled_geometry',
+    }) : Object.freeze({
+      sampledPoints: 0,
+      coveredPoints: 0,
+      uncoveredPoints: null,
+      coveragePercent: null,
+      uncoveredSamples: Object.freeze([]),
+      validationScope: 'not_verified_target_limit',
+    }),
+    sprinklers: Object.freeze(allHeads),
+    headToHead: Object.freeze({
+      passed: headToHeadPassed,
+      applicable: finalCircularHeads.length > 1,
+      checks: Object.freeze(headToHeadChecks),
+    }),
+    fullCircleRotorSpacing: Object.freeze({
+      passed: fullCircleSpacingPassed,
+      minimumDistanceM: 6,
+    }),
+    sectorOptimization: Object.freeze({
+      strategy: 'whole-polygon-maximum-safe-3504pc-sector-expansion',
+      minimumFullCircleRotorSeparationM: 6,
+      edits: expandedRotors.edits,
+    }),
+    globalOptimization: Object.freeze({
+      status: globalOptimization.status,
+      targetCount: globalOptimization.targetCount,
+      baseline: globalOptimization.baseline ?? null,
+      optimized: globalOptimization.optimized ?? null,
+      removedHeadIds: globalOptimization.removedHeadIds ?? Object.freeze([]),
+      consolidatedGroups: globalOptimization.consolidatedGroups ?? Object.freeze([]),
+      sectorEdits: globalOptimization.sectorEdits ?? Object.freeze([]),
+      sectorVariants: globalOptimization.sectorVariants ?? 0,
+      sectorVariantLimitReached: globalOptimization.sectorVariantLimitReached ?? false,
+      failure: globalOptimization.failure ?? null,
+    }),
+    calculationRegions: Object.freeze([Object.freeze({
+      id: region.id,
+      shape: validation.regions[0].shape,
+      pattern: 'whole-polygon',
+      family,
+      areaM2: validation.regions[0].netAreaM2,
+      sprinklerCount: allHeads.length,
+    }), ...stripParts.map((part) => Object.freeze({
+      id: part.id,
+      shape: 'rectangle',
+      pattern: 'directional-strip',
+      family: 'R-VAN',
+      widthM: part.shortSideM,
+      lengthM: part.lengthM,
+      previousCoverage: part.previousCoverage,
+      sprinklerCount: part.layout.sprinklers.length,
+    }))]),
+    warnings: Object.freeze(warnings),
+    hydraulicFeasibility: 'not_evaluated',
+    precipitationUniformity: 'not_evaluated',
+    bodyCompatibility: 'not_evaluated',
+    overspray: oversprayPassed ? 'sampled_inside_boundary' : 'sampled_outside_boundary',
+  })
+
+  const zones = buildIrrigationZones(allHeads, geometry)
+  const pipeNetwork = buildPerimeterPipeNetwork(geometry, allHeads, zones)
+  const resultStatus = layoutStatus === 'coverage_complete_sampled' ||
+    layoutStatus === 'strip_pattern_placement_ready' ? 'layout_generated' : 'layout_incomplete'
+  return result(resultStatus, {
+    shortSideM,
+    manufacturer: 'Rain Bird',
+    family,
+    model,
     operatingScenario: Object.freeze({
       manufacturer: 'Rain Bird',
-      family: finalLayout.family ?? 'R-VAN',
-      model: finalLayout.model ?? model,
-      pressureBar: finalLayout.family === '3500' ? null : pressureBar,
-      pressureBasis: finalLayout.family === '3500' ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: finalLayout.family === '3500'
-        ? 'the complete rectangle uses the unchanged 3504-PC corner-first/shared-cell placement; global sampled minimization follows the complete primary layout'
-        : 'R-VAN fallback uses the unchanged local model/radius selection; global validation follows the complete primary layout',
+      family,
+      model,
+      pressureBar: hasRvan ? pressureBar : null,
+      pressureBasis: hasRotor && hasRvan
+        ? 'R-VAN manufacturer reference pressure; rotor hydraulic data is not calculated in this geometric planner'
+        : hasRotor
+          ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated'
+          : 'Rain Bird manufacturer recommended R-VAN nozzle operating point; site pressure is not measured',
+      modelSelectionBasis: 'first place Rain Bird 3504-PC rotors over the complete polygon; then place R-VAN heads only for residual uncovered areas; finally apply exact 1m/2m directional strip patterns; verify combined rotor/R-VAN Head-to-Head, whole-polygon coverage and overspray; minimize redundant rotors only after all global checks',
       layoutRadiusM: null,
-      sourceUrl: finalLayout.family === '3500' ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
+      sourceUrl: hasRotor
+        ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers'
+        : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
       customerSourceMeasurementsUsedAsNozzlePressure: false,
     }),
     geometry: Object.freeze({
-      shape: finalLayout.geometry?.shape ?? null,
-      areaM2: finalLayout.geometry?.areaM2 ?? snapshot.geometry.areaM2,
+      shape: validation.regions[0].shape,
+      areaM2: validation.regions[0].netAreaM2,
       shortSideM,
       dimensionsAreApproximate: true,
+    }),
+    engine: Object.freeze({
+      name: 'Florial whole-polygon sequential sprinkler layout',
+      version: layout.engineVersion,
+      algorithm: layout.algorithm,
     }),
     projectStandard: FLORIAL_IRRIGATION_PROJECT_STANDARD,
     zones,
     pipeNetwork,
-    layout: finalLayout,
-    overspray: finalLayout.overspray ?? 'not_evaluated',
-    warnings: Object.freeze([
-      ...finalLayout.warnings,
-      Object.freeze({ code: 'approximate_customer_dimensions', path: 'geometry' }),
-      ...(finalLayout.family === '3500' ? [] : [
-        Object.freeze({ code: 'manufacturer_nozzle_pressure_is_reference_not_measured_site_pressure', path: 'operatingScenario.pressureBar' }),
-      ]),
-      Object.freeze({ code: 'hydraulic_calculation_not_performed', path: 'hydraulics' }),
-      Object.freeze({ code: 'sampled_coverage_is_not_continuous_proof', path: 'layout.coverage' }),
-    ]),
+    layout,
+    overspray: layout.overspray,
+    warnings,
   })
 }

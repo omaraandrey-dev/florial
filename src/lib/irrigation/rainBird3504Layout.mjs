@@ -1,10 +1,15 @@
 import { validateLawnGeometry } from './lawnGeometry.mjs'
-import { evaluateHeadToHeadSpacing, sprinklersMutuallyReach } from './lawnSprinklerLayout.mjs'
+import {
+  evaluateHeadToHeadSpacing,
+  generateLawnSprinklerLayout,
+  sprinklersMutuallyReach,
+} from './lawnSprinklerLayout.mjs'
+import { RAIN_BIRD_RVAN_DATASET } from './rainBirdRvanPerformanceData.mjs'
 
 const ENGINE_VERSION = '2.0.0'
 const EPSILON = 1e-8
 const BASE_RADIUS_STAGES_M = Object.freeze([8, 9])
-const RADIUS_STAGES_M = Object.freeze([8, 9, 7, 6, 5])
+const RADIUS_STAGES_M = Object.freeze([8, 9, 7, 6])
 const MAX_TARGETS = 30000
 const MAX_ROTORS = 150
 
@@ -137,7 +142,7 @@ function selectSafeRadius(stageRadiusM, safeMaximumM) {
   // Planning radius is continuous: retain the exact geometric clearance
   // instead of snapping it to a catalogue of whole-metre values.
   const radiusM = Math.min(stageRadiusM, safeMaximumM)
-  return radiusM > EPSILON ? radiusM : null
+  return radiusM >= 6 - EPSILON ? radiusM : null
 }
 
 function sectorFitsRectangle(head, bounds) {
@@ -359,6 +364,177 @@ function result(status, extra = {}) {
   })
 }
 
+
+function polygonPointInRing(point, vertices) {
+  let inside = false
+  for (let index = 0; index < vertices.length; index += 1) {
+    const a = vertices[index]
+    const b = vertices[(index + 1) % vertices.length]
+    const crossValue = (b.x - a.x) * (point.y - a.y) - (b.y - a.y) * (point.x - a.x)
+    const within = point.x >= Math.min(a.x, b.x) - EPSILON &&
+      point.x <= Math.max(a.x, b.x) + EPSILON &&
+      point.y >= Math.min(a.y, b.y) - EPSILON &&
+      point.y <= Math.max(a.y, b.y) + EPSILON
+    if (Math.abs(crossValue) <= EPSILON && within) return 0
+    if ((a.y > point.y) !== (b.y > point.y)) {
+      const x = a.x + ((point.y - a.y) * (b.x - a.x)) / (b.y - a.y)
+      if (point.x < x) inside = !inside
+    }
+  }
+  return inside ? 1 : -1
+}
+
+function rotorSectorFitsGeometry(head, radiusM, geometry) {
+  const region = geometry?.regions?.[0]
+  const vertices = region?.boundary?.vertices
+  if (!Array.isArray(vertices)) return false
+  const arc = head.arcDeg ?? 360
+  const start = arc === 360 ? 0 : (head.directionDeg ?? 0) - arc / 2
+  for (let angleOffset = 0; angleOffset <= arc + EPSILON; angleOffset += 1) {
+    const angle = (start + Math.min(angleOffset, arc)) * Math.PI / 180
+    for (let distanceM = 0; distanceM <= radiusM + EPSILON; distanceM += 0.2) {
+      const point = {
+        x: head.position.x + Math.cos(angle) * Math.min(distanceM, radiusM),
+        y: head.position.y + Math.sin(angle) * Math.min(distanceM, radiusM),
+      }
+      if (polygonPointInRing(point, vertices) < 0 ||
+          (region.exclusions ?? []).some((entry) =>
+            polygonPointInRing(point, entry.polygon.vertices) > 0)) return false
+    }
+  }
+  return true
+}
+
+function maximumPolygonRotorRadius(head, geometry) {
+  if (!rotorSectorFitsGeometry(head, 6, geometry)) return null
+  if (rotorSectorFitsGeometry(head, 9, geometry)) return 9
+  let low = 6
+  let high = 9
+  for (let iteration = 0; iteration < 16; iteration += 1) {
+    const middle = (low + high) / 2
+    if (rotorSectorFitsGeometry(head, middle, geometry)) low = middle
+    else high = middle
+  }
+  return Math.floor((low + 1e-8) * 100) / 100
+}
+
+/**
+ * Whole-polygon 3504-PC pass for L-shaped and other supported orthogonal
+ * regions. It uses the same corner-first/perimeter/interior candidate
+ * progression as R-VAN, then assigns each accepted rotor its own continuous
+ * 6–9 m geometric radius against the original polygon and exclusions.
+ * R-VAN manufacturer values are not copied to the rotor output.
+ */
+export function generateRainBird3504PolygonLayout(geometry, {
+  sampleStepM = 0.5,
+} = {}) {
+  const validation = validateLawnGeometry(geometry)
+  if (!validation.valid || !validation.supported || validation.regions.length !== 1 ||
+      geometry?.status !== 'confirmed' || !Number.isFinite(sampleStepM) || sampleStepM <= 0) {
+    return result('invalid_geometry')
+  }
+
+  const candidateLayout = generateLawnSprinklerLayout({
+    geometry,
+    family: 'R-VAN',
+    model: 'R-VAN24',
+    pressureBar: RAIN_BIRD_RVAN_DATASET.source.recommendedOperatingPressureBar,
+    sampleStepM,
+    radiusM: 6,
+    preventOverspray: true,
+    sprayBoundaryGeometry: geometry,
+  })
+  if (!['coverage_complete_sampled', 'coverage_incomplete'].includes(candidateLayout.status) ||
+      !candidateLayout.sprinklers.length) {
+    return result('no_complete_rotor_layout', {
+      candidateStatus: candidateLayout.status,
+      candidateWarnings: candidateLayout.warnings ?? [],
+      coverage: candidateLayout.coverage ?? null,
+    })
+  }
+
+  const converted = candidateLayout.sprinklers.map((candidate, index) => {
+    const template = {
+      position: candidate.position,
+      arcDeg: candidate.arcDeg,
+      directionDeg: candidate.directionDeg,
+    }
+    const radiusM = maximumPolygonRotorRadius(template, geometry)
+    if (!radiusM || radiusM < 6 - EPSILON) return null
+    return Object.freeze({
+      id: 'rotor-3504-polygon-' + String(index + 1).padStart(4, '0'),
+      position: Object.freeze({ x: candidate.position.x, y: candidate.position.y }),
+      arcDeg: candidate.arcDeg,
+      directionDeg: candidate.arcDeg === 360 ? null : candidate.directionDeg,
+      source: candidate.source,
+      radiusM,
+      pressureBar: null,
+      flowLpm: null,
+      precipitationSquareMmH: null,
+      precipitationTriangularMmH: null,
+      performanceModel: '3504-PC',
+      pattern: 'rotor',
+      planningRadiusSource: 'owner-approved-continuous-6-to-9m-whole-polygon',
+      ...(Number.isFinite(candidate.perimeterOffsetM) ? {
+        perimeterOffsetM: candidate.perimeterOffsetM,
+        perimeterLengthM: candidate.perimeterLengthM,
+      } : {}),
+    })
+  }).filter(Boolean)
+
+  const conflicts = new Set()
+  for (const head of converted.filter((entry) => entry.arcDeg === 360)) {
+    for (const other of converted) {
+      if (other.id !== head.id && distance(head.position, other.position) < 6 - EPSILON) {
+        conflicts.add(head.id)
+      }
+    }
+  }
+  const sprinklers = Object.freeze(converted.filter((head) => !conflicts.has(head.id)))
+  const checks = sprinklers.length > 1 ? evaluateHeadToHeadSpacing(sprinklers) : []
+  const headToHeadPassed = checks.length ? checks.every((entry) => entry.passed) : null
+  const completeConversion = sprinklers.length === candidateLayout.sprinklers.length
+  const warnings = [
+    ...(candidateLayout.warnings ?? []),
+    Object.freeze({ code: '3504pc_whole_polygon_corner_first_perimeter_interior', path: 'layout.sprinklers' }),
+    Object.freeze({ code: '3504pc_individual_continuous_safe_geometric_radius_6_to_9m', path: 'layout.sprinklers.radiusM' }),
+    Object.freeze({ code: '3504pc_radius_is_not_manufacturer_throw_or_hydraulic_performance', path: 'layout.sprinklers.radiusM' }),
+  ]
+  if (!completeConversion) warnings.push(Object.freeze({
+    code: '3504pc_candidates_below_6m_safe_clearance_or_full_circle_spacing_left_for_rvan',
+    path: 'layout.sprinklers',
+  }))
+  if (headToHeadPassed === false) warnings.push(Object.freeze({
+    code: 'head_to_head_spacing_check_failed',
+    path: 'layout.headToHead',
+  }))
+
+  return result(completeConversion && candidateLayout.status === 'coverage_complete_sampled' && headToHeadPassed !== false
+    ? 'layout_generated'
+    : 'layout_incomplete', {
+    family: '3500',
+    model: '3504-PC',
+    planningRadiusM: sprinklers.length
+      ? Math.max(...sprinklers.map((head) => head.radiusM))
+      : null,
+    layoutStrategy: 'whole-polygon-corner-first-perimeter-interior',
+    sprinklers,
+    coverage: completeConversion ? candidateLayout.coverage : null,
+    headToHead: Object.freeze({
+      passed: headToHeadPassed,
+      applicable: checks.length > 0,
+      checks: Object.freeze(checks),
+    }),
+    candidateStats: Object.freeze({
+      candidatePositions: candidateLayout.sprinklers.length,
+      selectedRotors: sprinklers.length,
+      rejectedForSafeRadiusOrFullCircleSpacing: candidateLayout.sprinklers.length - sprinklers.length,
+    }),
+    warnings: Object.freeze(warnings),
+    geometry: candidateLayout.geometry,
+  })
+}
+
 /**
  * Corner-first Rain Bird 3504-PC layout for one rectangular calculation zone.
  *
@@ -405,7 +581,7 @@ export function generateRainBird3504Layout(geometry, {
       ]),
     })
   }
-  if (Math.min(width, height) < 5 - EPSILON) return result('no_usable_rotor_candidates')
+  if (Math.min(width, height) < 6 - EPSILON) return result('no_usable_rotor_candidates')
 
   // Phase 1: all four true rectangle corners, before any interior or side rows.
   for (const stageRadiusM of BASE_RADIUS_STAGES_M) {

@@ -16,7 +16,7 @@ export interface RainBird3504LayoutResult {
   readonly sprinklers: ReadonlyArray<Readonly<{
     id: string
     position: Readonly<{ x: number; y: number }>
-    arcDeg: 90 | 180 | 360
+    arcDeg: 90 | 180 | 270 | 360
     directionDeg: number | null
     source: 'vertex' | 'edge' | 'interior'
     radiusM: number
@@ -45,4 +45,9 @@ export function generateRainBird3504Layout(
     sampleStepM?: number
     initialSprinklers?: ReadonlyArray<Readonly<Record<string, any>>>
   },
+): RainBird3504LayoutResult
+
+export function generateRainBird3504PolygonLayout(
+  geometry: Readonly<Record<string, any>>,
+  options?: { sampleStepM?: number },
 ): RainBird3504LayoutResult

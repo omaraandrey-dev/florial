@@ -137,7 +137,9 @@ function addTarget(targets, seen, point) {
   targets.push(Object.freeze({ x: point.x, y: point.y }))
 }
 
-function buildTargetSamples(vertices, stepM) {
+function buildTargetSamples(vertices, stepM, geometry = null) {
+  const isTarget = (point) => !(geometry?.regions?.[0]?.exclusions ?? []).some((exclusion) =>
+    pointInRing(point, exclusion.polygon.vertices) >= 0)
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const minX = Math.min(...xs)
@@ -154,7 +156,8 @@ function buildTargetSamples(vertices, stepM) {
     const y = Math.min(maxY, minY + row * stepM)
     for (let column = 0; column <= columns; column += 1) {
       const x = Math.min(maxX, minX + column * stepM)
-      if (pointInRing({ x, y }, vertices) >= 0) addTarget(targets, seen, { x, y })
+      const point = { x, y }
+      if (pointInRing(point, vertices) >= 0 && isTarget(point)) addTarget(targets, seen, point)
     }
   }
 
@@ -167,10 +170,11 @@ function buildTargetSamples(vertices, stepM) {
     const divisions = Math.max(1, Math.ceil(length / stepM))
     for (let part = 0; part <= divisions; part += 1) {
       const ratio = part / divisions
-      addTarget(targets, seen, {
+      const point = {
         x: a.x + (b.x - a.x) * ratio,
         y: a.y + (b.y - a.y) * ratio,
-      })
+      }
+      if (isTarget(point)) addTarget(targets, seen, point)
     }
   }
   return targets
@@ -796,21 +800,12 @@ export function generateLawnSprinklerLayout({
     })
   }
   if (!validation.supported || validation.regions.length !== 1 ||
-      !['rectangle', 'l-shape'].includes(validation.regions[0].shape)) {
+      !['rectangle', 'l-shape', 'orthogonal-polygon'].includes(validation.regions[0].shape)) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
       status: 'geometry_not_supported',
       errors: Object.freeze([]),
       warnings: Object.freeze([{ code: 'single_rectangle_or_l_shape_only', path: 'geometry.regions' }]),
-      sprinklers: Object.freeze([]),
-    })
-  }
-  if (geometry.regions[0].exclusions?.length) {
-    return Object.freeze({
-      engineVersion: ENGINE_VERSION,
-      status: 'geometry_not_supported',
-      errors: Object.freeze([]),
-      warnings: Object.freeze([{ code: 'exclusions_not_yet_supported_by_layout_solver', path: 'geometry.regions[0].exclusions' }]),
       sprinklers: Object.freeze([]),
     })
   }
@@ -855,7 +850,7 @@ export function generateLawnSprinklerLayout({
     return Object.freeze({ engineVersion: ENGINE_VERSION, status: 'invalid_operating_input', errors: Object.freeze([{ code: 'invalid_layout_radius', path: 'radiusM' }]), warnings: Object.freeze([]), sprinklers: Object.freeze([]) })
   }
 
-  const targets = buildTargetSamples(vertices, sampleStepM)
+  const targets = buildTargetSamples(vertices, sampleStepM, geometry)
   if (!targets) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
@@ -890,7 +885,10 @@ export function generateLawnSprinklerLayout({
       }
     })
     .filter((candidate) => !preventOverspray || candidateSectorFitsBounds(candidate, candidateBounds))
-    .filter((candidate) => !sprayBoundaryGeometry || candidateSectorFitsGeometry(candidate, sprayBoundaryGeometry))
+    .filter((candidate) => {
+      const boundary = sprayBoundaryGeometry ?? (geometry.regions[0].exclusions?.length ? geometry : null)
+      return !boundary || candidateSectorFitsGeometry(candidate, boundary)
+    })
     .filter((candidate) => !excluded.some((point) => point &&
       Number.isFinite(point.x) && Number.isFinite(point.y) &&
       distance(candidate.position, point) <= EPSILON))
@@ -911,27 +909,21 @@ export function generateLawnSprinklerLayout({
   for (let index = 0; index < targets.length; index += 1) {
     if (!priorHeads.some((head) => sprinklerCoversPoint(head, targets[index]))) initiallyUncovered.add(index)
   }
-  const isLShape = validation.regions[0].shape === 'l-shape'
-  const perimeterPass = isLShape
-    ? selectCornerFirstPerimeter(perimeterCandidates, initiallyUncovered, priorHeads)
-    : selectGreedy(perimeterCandidates, targets.length, initiallyUncovered)
+  const perimeterPass = selectCornerFirstPerimeter(perimeterCandidates, initiallyUncovered, priorHeads)
   let coverageSelection = perimeterPass.selected
   let uncovered = perimeterPass.uncovered
 
-  // On L-shapes, corners are seeded first; edge and interior additions then
-  // advance through the uncovered samples while preferring mutual Head-to-Head
-  // links to the already installed heads.
+  // Every supported polygon follows the same corner → perimeter → interior
+  // progression, with previously installed heads retained as valid neighbours.
   if (uncovered.size > 0 && interiorCandidates.length > 0) {
-    const interiorPass = isLShape
-      ? selectGreedyConnected(interiorCandidates, uncovered, coverageSelection, priorHeads)
-      : selectGreedy(interiorCandidates, targets.length, uncovered)
+    const interiorPass = selectGreedyConnected(interiorCandidates, uncovered, coverageSelection, priorHeads)
     coverageSelection = coverageSelection.concat(interiorPass.selected)
     uncovered = interiorPass.uncovered
   }
 
   const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
-  const checks = evaluateHeadToHeadSpacing(sprinklers)
+  const checks = evaluateHeadToHeadSpacing([...priorHeads, ...sprinklers])
   const allHeadToHead = checks.every((entry) => entry.passed)
   const selectedModels = [...new Set(sprinklers.map((head) => head.performanceModel))].sort()
   const resultModel = family === 'R-VAN' ? selectedModels.join(' / ') : model
@@ -948,9 +940,7 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: isLShape
-      ? 'l-shape-corner-first-uncovered-head-to-head-v1'
-      : 'perimeter-first-mixed-rvan-spacing-aware-set-cover-v5',
+    algorithm: 'whole-polygon-corner-first-uncovered-head-to-head-v2',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
