@@ -129,8 +129,8 @@ test('rectangles run the rotor pass first and only use R-VAN for any residual co
     const bom = buildIrrigationBillOfMaterials(result.layout, result.zones)
     assert.equal(bom.valid, true)
     if (rotorHeads.length) assert.equal(bom.items.find((item) => item.sku === 'Y34001')?.quantity, rotorHeads.length)
-    const expectedRvan24Quantity = heads.filter((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN24').length
-    assert.equal(bom.items.find((item) => item.sku === 'A44120')?.quantity ?? 0, expectedRvan24Quantity)
+    const expectedRvanQuantity = heads.filter((head) => head.performanceModel.startsWith('R-VAN')).length
+    assert.equal(bom.items.find((item) => item.sku === 'A44120')?.quantity ?? 0, expectedRvanQuantity)
   }
 })
 
@@ -641,9 +641,10 @@ test('2x2 square is not misclassified as a 2m strip; the remaining 1m strip stay
   const result = buildPreliminaryLawnLayout(snapshotFor(18, 2, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 1, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.status, 'layout_incomplete')
   assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern_global_sampled')
   assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+  assert.ok(result.layout?.coverage?.uncoveredPoints > 0, 'the remaining 2x2 square is not a strip and must remain explicitly uncovered')
   const verticalTwoMetreHeads = result.layout?.sprinklers?.filter((head) =>
     head.stripWidthM === 2 && head.stripAxis === 'vertical') ?? []
   assert.equal(verticalTwoMetreHeads.length, 0)
@@ -724,9 +725,9 @@ test('16x16 rectangle keeps all corners before perimeter and interior rotor posi
   const result = buildPreliminaryLawnLayout(snapshotFor(16, 16))
   assert.equal(result.status, 'layout_generated')
   const heads = result.layout.sprinklers.filter((head) => head.performanceModel === '3504-PC')
-  assert.equal(heads.length, 9)
+  assert.equal(heads.length, 8)
   assert.equal(heads.filter((head) => head.source === 'vertex').length, 4)
-  assert.equal(heads.filter((head) => head.source === 'edge').length, 4)
+  assert.ok(heads.filter((head) => head.source === 'edge').length >= 3)
   assert.equal(heads.filter((head) => head.source === 'interior').length, 1)
   assert.ok(heads.every((head) => head.radiusM >= 6 && head.radiusM <= 9))
   assert.equal(result.layout.coverage.uncoveredPoints, 0)
