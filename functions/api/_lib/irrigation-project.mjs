@@ -127,6 +127,7 @@ export function validateIrrigationProjectSnapshot(input) {
         !cleanLabel(sprinkler.performanceModel, 60) ||
         (sprinkler.pattern !== undefined && !['circular', 'strip', 'rotor'].includes(sprinkler.pattern)) ||
         (sprinkler.pattern === 'rotor' && (sprinkler.performanceModel !== '3504-PC' || !finite(sprinkler.radiusM, 5, 9))) ||
+        (sprinkler.performanceModel === '3504-PC' && !finite(sprinkler.radiusM, 5, 9)) ||
         (sprinkler.pattern === 'strip' &&
           (!['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'].includes(sprinkler.performanceModel) ||
             ![1, 2].includes(sprinkler.stripWidthM) ||
