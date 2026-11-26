@@ -614,7 +614,6 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   }
 
   let allHeads = initialHeads.slice()
-  const circularHeads = initialHeads.filter((head) => head.pattern !== 'strip')
   const sampledCoverage = { sampledPoints: 0, coveredPoints: 0, uncoveredPoints: 0 }
   let modelSet = new Set(initialHeads.map((head) => head.performanceModel))
   const layoutWarnings = []
@@ -625,7 +624,6 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       const prefixed = Object.freeze({ ...head, id: 'z' + (index + 1) + '-' + head.id, calculationRegionId: part.id })
       allHeads.push(prefixed)
       modelSet.add(prefixed.performanceModel)
-      if (prefixed.pattern !== 'strip') circularHeads.push(prefixed)
     }
     if (!part.isStrip) {
       sampledCoverage.sampledPoints += part.layout.coverage?.sampledPoints ?? 0
@@ -725,7 +723,6 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   const coveragePercent = sampledCoverage.sampledPoints
     ? (sampledCoverage.coveredPoints / sampledCoverage.sampledPoints) * 100
     : null
-  const hasStrip = stripParts.length > 0
   const warnings = [
     ...layoutWarnings,
     { code: 'orthogonal_lawn_split_into_non_overlapping_rectangular_calculation_zones', path: 'geometry' },
