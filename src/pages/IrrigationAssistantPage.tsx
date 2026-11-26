@@ -506,7 +506,11 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     setter(value)
   }
 
-  function updateNonIrrigatedArea(id: number, field: keyof Omit<NonIrrigatedAreaInput, 'id'>, value: string) {
+  function updateNonIrrigatedArea<K extends keyof Omit<NonIrrigatedAreaInput, 'id'>>(
+    id: number,
+    field: K,
+    value: NonIrrigatedAreaInput[K],
+  ) {
     setNonIrrigatedAreas((current) => current.map((area) =>
       area.id === id ? { ...area, [field]: value } : area))
   }
