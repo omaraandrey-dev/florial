@@ -861,6 +861,7 @@ export function generateLawnSprinklerLayout({
     })
   }
 
+  const priorHeads = Array.isArray(initialSprinklers) ? initialSprinklers : []
   const excluded = Array.isArray(excludedCandidatePositions) ? excludedCandidatePositions : []
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
@@ -906,7 +907,6 @@ export function generateLawnSprinklerLayout({
   const evaluated = evaluateCandidates(candidates, targets)
   const perimeterCandidates = evaluated.filter((candidate) => candidate.source !== 'interior')
   const interiorCandidates = evaluated.filter((candidate) => candidate.source === 'interior')
-  const priorHeads = Array.isArray(initialSprinklers) ? initialSprinklers : []
   const initiallyUncovered = new Set()
   for (let index = 0; index < targets.length; index += 1) {
     if (!priorHeads.some((head) => sprinklerCoversPoint(head, targets[index]))) initiallyUncovered.add(index)
