@@ -260,25 +260,83 @@ function tryRemoveRotor(heads, counts, coverageById, candidate, {
   return { heads: nextHeads, counts: nextCounts, headToHead }
 }
 
+function geometricHeadOrder(a, b) {
+  return a.position.y - b.position.y || a.position.x - b.position.x ||
+    String(a.performanceModel).localeCompare(String(b.performanceModel))
+}
+
+function tryRemoveRotorGroup(heads, counts, coverageById, group, options) {
+  const removeIds = new Set(group.map((head) => head.id))
+  const nextHeads = heads.filter((head) => !removeIds.has(head.id))
+  const nextCounts = counts.slice()
+  for (const head of group) {
+    for (const index of coverageById.get(head.id) ?? []) nextCounts[index] -= 1
+  }
+  if (!allTargetsCovered(nextCounts)) return null
+  const headToHead = buildHeadToHead(nextHeads, options.baselineRegionSizes)
+  if (!headToHead.passed || !options.oversprayCheck(nextHeads)) return null
+  return { heads: nextHeads, counts: nextCounts, headToHead }
+}
+
+function symmetricOrbit(head, heads, transforms) {
+  if (!transforms?.length) return [head]
+  const found = new Map([[head.id, head]])
+  for (const transform of transforms) {
+    const point = transform(head.position)
+    const match = heads.find((candidate) =>
+      candidate.pattern === head.pattern &&
+      candidate.performanceModel === head.performanceModel &&
+      Math.abs(candidate.position.x - point.x) <= COORDINATE_TOLERANCE &&
+      Math.abs(candidate.position.y - point.y) <= COORDINATE_TOLERANCE)
+    if (!match) return null
+    found.set(match.id, match)
+  }
+  return [...found.values()].sort(geometricHeadOrder)
+}
+
 function runRemovalPass(state, options) {
   let { heads, counts, coverageById } = state
   const removedHeadIds = []
   const failed = new Set()
 
   while (true) {
-    const candidates = heads.filter((head) => isRotor(head) && !failed.has(head.id))
-      .map((head) => ({ head, unique: uniqueContribution(head, counts, coverageById) }))
-      .sort((a, b) => a.unique - b.unique || a.head.id.localeCompare(b.head.id))
-    const next = candidates[0]?.head
-    if (!next) break
-    const accepted = tryRemoveRotor(heads, counts, coverageById, next, options)
-    if (!accepted) {
-      failed.add(next.id)
-      continue
+    const groups = []
+    const seen = new Set()
+    for (const head of heads.filter(isRotor).sort(geometricHeadOrder)) {
+      if (seen.has(head.id)) continue
+      const group = symmetricOrbit(head, heads, options.symmetryTransforms)
+      if (!group) {
+        seen.add(head.id)
+        continue
+      }
+      group.forEach((entry) => seen.add(entry.id))
+      const key = group.map((entry) => entry.id).sort().join('|')
+      if (failed.has(key)) continue
+      const unique = group.reduce((sum, entry) =>
+        sum + uniqueContribution(entry, counts, coverageById), 0)
+      groups.push({ group, key, unique })
     }
+    groups.sort((a, b) => a.unique - b.unique ||
+      geometricHeadOrder(a.group[0], b.group[0]) ||
+      a.group.length - b.group.length)
+
+    let accepted = null
+    for (const candidate of groups) {
+      const result = candidate.group.length === 1
+        ? tryRemoveRotor(heads, counts, coverageById, candidate.group[0], options)
+        : tryRemoveRotorGroup(heads, counts, coverageById, candidate.group, options)
+      if (result) {
+        accepted = { ...result, group: candidate.group }
+        break
+      }
+      failed.add(candidate.key)
+    }
+    if (!accepted) break
+
     heads = accepted.heads
     counts = accepted.counts
-    removedHeadIds.push(next.id)
+    removedHeadIds.push(...accepted.group.map((entry) => entry.id))
+    for (const entry of accepted.group) coverageById.delete(entry.id)
   }
 
   return { heads, counts, coverageById, removedHeadIds }
@@ -466,6 +524,104 @@ function runSectorOptimization(state, options) {
   }
 }
 
+function rectangleBoundsForGlobal(geometry) {
+  const region = geometry?.regions?.[0]
+  const vertices = region?.boundary?.vertices
+  if (!region || geometry.regions.length !== 1 || region.exclusions?.length ||
+      !Array.isArray(vertices) || vertices.length !== 4) return null
+  const bounds = {
+    minX: Math.min(...vertices.map((point) => point.x)),
+    minY: Math.min(...vertices.map((point) => point.y)),
+    maxX: Math.max(...vertices.map((point) => point.x)),
+    maxY: Math.max(...vertices.map((point) => point.y)),
+  }
+  const corners = [
+    { x: bounds.minX, y: bounds.minY }, { x: bounds.maxX, y: bounds.minY },
+    { x: bounds.maxX, y: bounds.maxY }, { x: bounds.minX, y: bounds.maxY },
+  ]
+  const axisAligned = vertices.every((point, index) => {
+    const next = vertices[(index + 1) % vertices.length]
+    return Math.abs(point.x - next.x) <= EPSILON || Math.abs(point.y - next.y) <= EPSILON
+  })
+  return axisAligned && corners.every((corner) => vertices.some((point) =>
+    distance(point, corner) <= EPSILON)) ? bounds : null
+}
+
+function rectangleSymmetryTransforms(geometry) {
+  const bounds = rectangleBoundsForGlobal(geometry)
+  if (!bounds) return []
+  const cx = (bounds.minX + bounds.maxX) / 2
+  const cy = (bounds.minY + bounds.maxY) / 2
+  const transforms = [
+    (point) => ({ x: 2 * cx - point.x, y: point.y }),
+    (point) => ({ x: point.x, y: 2 * cy - point.y }),
+    (point) => ({ x: 2 * cx - point.x, y: 2 * cy - point.y }),
+  ]
+  if (Math.abs((bounds.maxX - bounds.minX) - (bounds.maxY - bounds.minY)) <= COORDINATE_TOLERANCE) {
+    transforms.push(
+      (point) => ({ x: cx + (point.y - cy), y: cy + (point.x - cx) }),
+      (point) => ({ x: cx - (point.y - cy), y: cy - (point.x - cx) }),
+      (point) => ({ x: cx + (point.y - cy), y: cy - (point.x - cx) }),
+      (point) => ({ x: cx - (point.y - cy), y: cy + (point.x - cx) }),
+    )
+  }
+  return transforms
+}
+
+function largestAllowedPlanningRadius(maximum) {
+  return [9, 8, 7, 6, 5].find((radius) => radius <= maximum + EPSILON) ?? null
+}
+
+// Whole-rectangle alternative: four inward-facing side-midpoint rotors and one
+// full-circle centre rotor. It is a candidate, never an assumed solution;
+// sampled coverage, Head-to-Head and the caller's complete overspray check gate it.
+function buildBalancedRectangleCandidate(originalHeads, geometry, targets, options) {
+  const bounds = rectangleBoundsForGlobal(geometry)
+  if (!bounds) return null
+  const width = bounds.maxX - bounds.minX
+  const height = bounds.maxY - bounds.minY
+  const regionIds = [...new Set([
+    ...(originalHeads ?? []).flatMap(regionIdsForHead),
+    ...(options.regionIds ?? []),
+  ])]
+  const calculationRegionId = regionIds[0] ?? '__global__'
+  const templates = [
+    { key: 'bottom', x: (bounds.minX + bounds.maxX) / 2, y: bounds.minY,
+      arcDeg: 180, directionDeg: 90, safe: Math.min(width / 2, height) },
+    { key: 'right', x: bounds.maxX, y: (bounds.minY + bounds.maxY) / 2,
+      arcDeg: 180, directionDeg: 180, safe: Math.min(height / 2, width) },
+    { key: 'top', x: (bounds.minX + bounds.maxX) / 2, y: bounds.maxY,
+      arcDeg: 180, directionDeg: 270, safe: Math.min(width / 2, height) },
+    { key: 'left', x: bounds.minX, y: (bounds.minY + bounds.maxY) / 2,
+      arcDeg: 180, directionDeg: 0, safe: Math.min(height / 2, width) },
+    { key: 'center', x: (bounds.minX + bounds.maxX) / 2, y: (bounds.minY + bounds.maxY) / 2,
+      arcDeg: 360, directionDeg: null, safe: Math.min(width, height) / 2 },
+  ]
+  const heads = []
+  for (const entry of templates) {
+    const radiusM = largestAllowedPlanningRadius(entry.safe)
+    if (!radiusM) return null
+    heads.push(Object.freeze({
+      id: 'global-v2-balanced-' + entry.key,
+      position: Object.freeze({ x: entry.x, y: entry.y }),
+      arcDeg: entry.arcDeg,
+      directionDeg: entry.directionDeg,
+      radiusM,
+      performanceModel: '3504-PC',
+      pattern: 'rotor',
+      calculationRegionId,
+      calculationRegionIds: Object.freeze(regionIds.length ? regionIds : [calculationRegionId]),
+      planningRadiusSource: 'global-v2-whole-rectangle-balanced-candidate',
+    }))
+  }
+  const coverageById = new Map(heads.map((head) => [head.id, coverageForHead(head, targets)]))
+  const counts = countCoverage(heads, coverageById, targets.length)
+  if (!allTargetsCovered(counts)) return null
+  const headToHead = buildHeadToHead(heads, options.baselineRegionSizes)
+  if (!headToHead.passed || !options.oversprayCheck(heads)) return null
+  return { heads, counts, coverageById, headToHead }
+}
+
 export function optimizeGlobalSprinklerSet({
   sprinklers,
   geometry,
@@ -503,19 +659,55 @@ export function optimizeGlobalSprinklerSet({
   }
 
   const targets = sampled.targets
-  const coverageById = new Map(originalHeads.map((head) => [head.id, coverageForHead(head, targets)]))
-  const counts = countCoverage(originalHeads, coverageById, targets.length)
   const baselineRegionSizes = new Map()
   for (const part of parts ?? []) {
-    const count = (part.layout?.sprinklers ?? []).filter((head) => head.pattern !== 'strip' && Number.isFinite(head.radiusM)).length
+    const count = (part.layout?.sprinklers ?? []).filter((head) =>
+      head.pattern !== 'strip' && Number.isFinite(head.radiusM)).length
     baselineRegionSizes.set(part.id, count)
   }
-  const baselineHeadToHead = buildHeadToHead(originalHeads, baselineRegionSizes)
-  const baselineOverspray = Boolean(oversprayCheck(originalHeads))
-  const baselineCoveragePassed = allTargetsCovered(counts)
-  const baselineCoverage = coverageSummary(counts, targets)
+  const options = {
+    targets,
+    oversprayCheck,
+    baselineRegionSizes,
+    regionIds: [...baselineRegionSizes.keys()],
+    symmetryTransforms: rectangleSymmetryTransforms(geometry),
+    maxSectorVariants: Math.min(MAX_SECTOR_VARIANTS, Math.max(0, maxSectorVariants)),
+  }
 
-  if (!baselineCoveragePassed || !baselineHeadToHead.passed || !baselineOverspray) {
+  const originalCoverageById = new Map(originalHeads.map((head) =>
+    [head.id, coverageForHead(head, targets)]))
+  const originalCounts = countCoverage(originalHeads, originalCoverageById, targets.length)
+  const originalHeadToHead = buildHeadToHead(originalHeads, baselineRegionSizes)
+  const originalOverspray = Boolean(oversprayCheck(originalHeads))
+  const originalCoveragePassed = allTargetsCovered(originalCounts)
+  const originalValid = originalCoveragePassed && originalHeadToHead.passed && originalOverspray
+  const originalCoverage = coverageSummary(originalCounts, targets)
+
+  let seed = {
+    heads: originalHeads,
+    counts: originalCounts,
+    coverageById: originalCoverageById,
+    headToHead: originalHeadToHead,
+  }
+  let seedName = 'existing-decomposed-layout'
+  let seedRemovedIds = []
+
+  const balancedCandidate = buildBalancedRectangleCandidate(originalHeads, geometry, targets, options)
+  if (balancedCandidate && (!originalValid ||
+      balancedCandidate.heads.length < originalHeads.length)) {
+    seed = balancedCandidate
+    seedName = 'whole-rectangle-five-head-balanced-layout'
+    const retained = new Set(seed.heads.map((head) => head.id))
+    seedRemovedIds = originalHeads.filter((head) => !retained.has(head.id)).map((head) => head.id)
+  }
+
+  if (!originalValid && seed === null) {
+    // Kept for defensive clarity; a missing baseline and missing alternative
+    // must never be reported as a completed optimization.
+  }
+  const seedValid = allTargetsCovered(seed.counts) &&
+    seed.headToHead.passed && Boolean(oversprayCheck(seed.heads))
+  if (!seedValid) {
     return Object.freeze({
       status: 'baseline_failed',
       sprinklers: Object.freeze(originalHeads),
@@ -534,56 +726,58 @@ export function optimizeGlobalSprinklerSet({
       sectorEdits: Object.freeze([]),
       sectorVariants: 0,
       sectorVariantLimitReached: false,
-      coverage: baselineCoverage,
-      headToHead: Object.freeze({ passed: baselineHeadToHead.passed, checks: Object.freeze(baselineHeadToHead.checks) }),
-      oversprayPassed: baselineOverspray,
+      coverage: originalCoverage,
+      headToHead: Object.freeze({
+        passed: originalHeadToHead.passed,
+        checks: Object.freeze(originalHeadToHead.checks),
+      }),
+      oversprayPassed: originalOverspray,
       failure: Object.freeze({
-        coverage: !baselineCoveragePassed,
-        headToHead: !baselineHeadToHead.passed,
-        overspray: !baselineOverspray,
+        coverage: !originalCoveragePassed,
+        headToHead: !originalHeadToHead.passed,
+        overspray: !originalOverspray,
       }),
     })
   }
 
-  const options = {
-    targets,
-    oversprayCheck,
-    baselineRegionSizes,
-    maxSectorVariants: Math.min(MAX_SECTOR_VARIANTS, Math.max(0, maxSectorVariants)),
-  }
-  const firstPass = runRemovalPass({ heads: originalHeads, counts, coverageById }, options)
+  const firstPass = runRemovalPass(seed, options)
   const sectorPass = runSectorOptimization(firstPass, options)
   const finalCounts = sectorPass.counts
   const finalHeadToHead = buildHeadToHead(sectorPass.heads, baselineRegionSizes)
   const finalOverspray = Boolean(oversprayCheck(sectorPass.heads))
   const finalCoverage = coverageSummary(finalCounts, targets)
   const finalValid = allTargetsCovered(finalCounts) && finalHeadToHead.passed && finalOverspray
+  const finalHeads = finalValid ? sectorPass.heads : seed.heads
 
   return Object.freeze({
     status: finalValid ? 'completed' : 'final_validation_failed',
-    sprinklers: Object.freeze(finalValid ? sectorPass.heads : originalHeads),
+    sprinklers: Object.freeze(finalHeads),
     targetCount: targets.length,
     removedHeadIds: Object.freeze(finalValid
-      ? [...firstPass.removedHeadIds, ...sectorPass.removedHeadIds]
+      ? [...seedRemovedIds, ...firstPass.removedHeadIds, ...sectorPass.removedHeadIds]
       : []),
     consolidatedGroups: Object.freeze(finalValid ? sectorPass.consolidatedGroups : []),
     sectorEdits: Object.freeze(finalValid ? sectorPass.sectorEdits : []),
     sectorVariants: sectorPass.sectorVariants,
     sectorVariantLimitReached: sectorPass.sectorVariantLimitReached,
-    coverage: finalValid ? finalCoverage : baselineCoverage,
-    headToHead: Object.freeze({
-      passed: finalValid ? finalHeadToHead.passed : baselineHeadToHead.passed,
-      checks: Object.freeze(finalValid ? finalHeadToHead.checks : baselineHeadToHead.checks),
+    reconfiguration: Object.freeze({
+      seed: seedName,
+      replacedBaselineHeadCount: seedRemovedIds.length,
     }),
-    oversprayPassed: finalValid ? finalOverspray : baselineOverspray,
+    coverage: finalValid ? finalCoverage : coverageSummary(seed.counts, targets),
+    headToHead: Object.freeze({
+      passed: finalValid ? finalHeadToHead.passed : seed.headToHead.passed,
+      checks: Object.freeze(finalValid ? finalHeadToHead.checks : seed.headToHead.checks),
+    }),
+    oversprayPassed: finalValid ? finalOverspray : Boolean(oversprayCheck(seed.heads)),
     baseline: Object.freeze({
       sprinklerCount: originalHeads.length,
       rotorCount: originalHeads.filter(isRotor).length,
       sprinklers: Object.freeze(originalHeads),
     }),
     optimized: Object.freeze({
-      sprinklerCount: finalValid ? sectorPass.heads.length : originalHeads.length,
-      rotorCount: finalValid ? sectorPass.heads.filter(isRotor).length : originalHeads.filter(isRotor).length,
+      sprinklerCount: finalHeads.length,
+      rotorCount: finalHeads.filter(isRotor).length,
     }),
   })
 }
