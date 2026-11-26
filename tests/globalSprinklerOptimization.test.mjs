@@ -60,7 +60,19 @@ test('global removal reduces redundant 3504-PC heads and never removes the fixed
     pattern: 'circular',
     calculationRegionId: 'zone-a',
   }
-  const baseline = [...rotors, fixedRvan]
+  const fixedStrip = {
+    id: 'fixed-strip',
+    position: { x: 0, y: 0 },
+    stripBounds: { minX: 0, maxX: 1, minY: 0, maxY: 10 },
+    stripAxis: 'vertical',
+    stripDirection: 'both',
+    stripLengthM: 10,
+    performanceModel: 'R-VAN-SST',
+    pattern: 'strip',
+    radiusM: null,
+    calculationRegionId: 'zone-a',
+  }
+  const baseline = [...rotors, fixedRvan, fixedStrip]
   const result = optimizeGlobalSprinklerSet({
     sprinklers: baseline,
     geometry: squareGeometry(),
@@ -72,6 +84,7 @@ test('global removal reduces redundant 3504-PC heads and never removes the fixed
   assert.ok(result.removedHeadIds.length >= 2)
   assert.equal(result.sprinklers.filter((head) => head.performanceModel === '3504-PC').length, 1)
   assert.equal(result.sprinklers.find((head) => head.id === 'fixed-rvan'), fixedRvan)
+  assert.equal(result.sprinklers.find((head) => head.id === 'fixed-strip'), fixedStrip)
   assert.equal(result.coverage.uncoveredPoints, 0)
   assert.equal(result.headToHead.passed, true)
 })
