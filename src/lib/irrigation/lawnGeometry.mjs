@@ -224,6 +224,48 @@ function ringsIntersect(first, second) {
   return false
 }
 
+function segmentLeavesRing(start, end, ringVertices) {
+  const dx = end.x - start.x
+  const dy = end.y - start.y
+  const lengthSquared = dx * dx + dy * dy
+  const parameters = [0, 1]
+  for (let index = 0; index < ringVertices.length; index += 1) {
+    const a = ringVertices[index]
+    const b = ringVertices[(index + 1) % ringVertices.length]
+    const sx = b.x - a.x
+    const sy = b.y - a.y
+    const denominator = dx * sy - dy * sx
+    const qx = a.x - start.x
+    const qy = a.y - start.y
+    if (Math.abs(denominator) > EPSILON) {
+      const t = (qx * sy - qy * sx) / denominator
+      const u = (qx * dy - qy * dx) / denominator
+      if (t >= -EPSILON && t <= 1 + EPSILON && u >= -EPSILON && u <= 1 + EPSILON) {
+        parameters.push(Math.max(0, Math.min(1, t)))
+      }
+    } else if (Math.abs(qx * dy - qy * dx) <= EPSILON && lengthSquared > EPSILON) {
+      const first = (qx * dx + qy * dy) / lengthSquared
+      const second = ((b.x - start.x) * dx + (b.y - start.y) * dy) / lengthSquared
+      if (first >= -EPSILON && first <= 1 + EPSILON) parameters.push(Math.max(0, Math.min(1, first)))
+      if (second >= -EPSILON && second <= 1 + EPSILON) parameters.push(Math.max(0, Math.min(1, second)))
+    }
+  }
+  parameters.sort((a, b) => a - b)
+  const unique = parameters.filter((value, index) => index === 0 || value - parameters[index - 1] > EPSILON)
+  for (let index = 0; index < unique.length - 1; index += 1) {
+    const t = (unique[index] + unique[index + 1]) / 2
+    const point = { x: start.x + dx * t, y: start.y + dy * t }
+    if (pointInRing(point, ringVertices) < 0) return true
+  }
+  return false
+}
+
+function ringLeavesBoundary(inner, outer) {
+  return inner.openVertices.some((point, index) =>
+    pointInRing(point, outer.openVertices) < 0 ||
+    segmentLeavesRing(point, inner.openVertices[(index + 1) % inner.openVertices.length], outer.openVertices))
+}
+
 function classifySupportedShape(ring) {
   const points = ring.openVertices
   const orthogonal = points.every((point, index) => {
@@ -273,8 +315,9 @@ function validateExclusions(region, regionPath, ids, errors) {
     const polygon = normalizeRing(exclusion.polygon, path + '.polygon', errors)
     if (!polygon) return
 
-    const fullyInside = polygon.openVertices.every((point) => pointInRing(point, region.boundary.openVertices) === 1)
-    if (!fullyInside || ringsIntersect(polygon, region.boundary)) {
+    // Boundary contact is valid for an exclusion that starts at X=0 or Y=0.
+    // Every segment is checked between boundary intersections so it cannot cross outside.
+    if (ringLeavesBoundary(polygon, region.boundary)) {
       errors.push(issue(ERROR.EXCLUSION_OUTSIDE_REGION, path))
       return
     }
