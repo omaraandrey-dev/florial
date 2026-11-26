@@ -70,7 +70,9 @@ function inwardNormal(a, b, orientation) {
 function sectorContains(point, center, directionDeg, arcDeg, radiusM) {
   const dx = point.x - center.x
   const dy = point.y - center.y
-  if (Math.hypot(dx, dy) > radiusM + EPSILON) return false
+  const distanceM = Math.hypot(dx, dy)
+  if (distanceM <= EPSILON) return true
+  if (distanceM > radiusM + EPSILON) return false
   if (arcDeg === 360) return true
   const angle = normalizeDegrees(Math.atan2(dy, dx) * 180 / Math.PI)
   const difference = Math.abs(((angle - directionDeg + 540) % 360) - 180)
@@ -352,7 +354,7 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     if (!normal) continue
 
     if (preventOverspray && family === 'R-VAN') {
-      const safeMaximumRadiusM = Math.min(6, spacingRadiusM, length / 2)
+      const safeMaximumRadiusM = Math.min(6, maximumRvanRadiusM, spacingRadiusM, length / 2)
       if (safeMaximumRadiusM < 3 - EPSILON) continue
       // An L-shape edge can be locally blocked by its concave notch even when
       // the bounding rectangle is clear. Generate a descending set of exact
