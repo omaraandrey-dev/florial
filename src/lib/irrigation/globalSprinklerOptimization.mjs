@@ -302,8 +302,16 @@ function runRemovalPass(state, options) {
   while (true) {
     const groups = []
     const seen = new Set()
-    for (const head of heads.filter(isRotor).sort(geometricHeadOrder)) {
+    const rotorHeads = heads.filter(isRotor).sort(geometricHeadOrder)
+    for (const head of rotorHeads) {
       if (seen.has(head.id)) continue
+      // Same-coordinate rotor pairs are handled by sector consolidation, not
+      // by deleting one half before the shared-position candidate is evaluated.
+      if (rotorHeads.some((other) => other.id !== head.id &&
+          coordinateKey(other) === coordinateKey(head))) {
+        seen.add(head.id)
+        continue
+      }
       const group = symmetricOrbit(head, heads, options.symmetryTransforms)
       if (!group) {
         seen.add(head.id)
@@ -579,6 +587,7 @@ function largestAllowedPlanningRadius(maximum) {
 // full-circle centre rotor. It is a candidate, never an assumed solution;
 // sampled coverage, Head-to-Head and the caller's complete overspray check gate it.
 function buildBalancedRectangleCandidate(originalHeads, geometry, targets, options) {
+  if (originalHeads.some((head) => head.pattern === 'strip')) return null
   const bounds = rectangleBoundsForGlobal(geometry)
   if (!bounds) return null
   const width = bounds.maxX - bounds.minX
