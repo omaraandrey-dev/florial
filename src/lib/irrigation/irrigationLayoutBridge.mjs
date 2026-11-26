@@ -799,7 +799,9 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
           warnings: Object.freeze([{ code: 'connected_strip_pattern_not_available', path: 'geometry' }]),
         })
       }
-      previouslyPlacedHeads.push(...part.layout.sprinklers)
+      previouslyPlacedHeads.push(...part.layout.sprinklers.map((head) => Object.freeze({
+        ...head, id: part.id + '-' + head.id,
+      })))
       continue
     }
 
@@ -843,27 +845,38 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         sectorOptimization: expanded,
       })
     }
-    previouslyPlacedHeads.push(...part.layout.sprinklers)
+    previouslyPlacedHeads.push(...part.layout.sprinklers.map((head) => Object.freeze({
+      ...head, id: part.id + '-' + head.id,
+    })))
   }
 
-  // Final whole-layout pass: every 3504-PC sector is reconsidered against the
-  // original lawn and all heads from every processed rectangle.
-  const allUnprefixedHeads = [
+  // Final whole-layout pass: optimize every head against the complete set,
+  // using globally unique working IDs while retaining local IDs in each part.
+  let finalWorkingHeads = [
     ...initialHeads,
-    ...prepared.flatMap((part) => part.layout.sprinklers),
+    ...prepared.flatMap((part, index) => part.layout.sprinklers.map((head) => Object.freeze({
+      ...head, id: 'z' + (index + 1) + '-' + head.id,
+    }))),
   ]
   const finalSectorEdits = []
-  for (const part of prepared) {
-    if (!part.layout.sprinklers.length) continue
-    const partIds = new Set(part.layout.sprinklers.map((head) => head.id))
-    const others = allUnprefixedHeads.filter((head) => !partIds.has(head.id))
-    const expanded = maximizeRotorSectors(part.layout.sprinklers, others, geometry)
-    part.layout = Object.freeze({
-      ...part.layout,
-      sprinklers: expanded.sprinklers,
-      finalSectorOptimization: expanded,
-    })
+  for (const head of finalWorkingHeads.slice()) {
+    const others = finalWorkingHeads.filter((entry) => entry.id !== head.id)
+    const expanded = maximizeRotorSectors([head], others, geometry)
+    const next = expanded.sprinklers[0]
+    if (!next || next.arcDeg === head.arcDeg) continue
+    finalWorkingHeads = finalWorkingHeads.map((entry) => entry.id === head.id ? next : entry)
     finalSectorEdits.push(...expanded.edits)
+  }
+  for (let index = 0; index < prepared.length; index += 1) {
+    const prefix = 'z' + (index + 1) + '-'
+    const updated = finalWorkingHeads.filter((head) => head.id.startsWith(prefix))
+      .map((head) => Object.freeze({ ...head, id: head.id.slice(prefix.length) }))
+    prepared[index].layout = Object.freeze({
+      ...prepared[index].layout,
+      sprinklers: Object.freeze(updated),
+      finalSectorOptimization: Object.freeze({ edits: Object.freeze(finalSectorEdits.filter((edit) =>
+        edit.sprinklerId.startsWith(prefix))) }),
+    })
   }
 
   let allHeads = initialHeads.slice()
