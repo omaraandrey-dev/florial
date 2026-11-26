@@ -312,6 +312,40 @@ function buildGrid(bounds, stageRadiusM) {
   }
 }
 
+
+function fullCircleRotorClearancePassed(heads, minimumDistanceM = 6) {
+  const rotors = heads.filter((head) =>
+    head.pattern === 'rotor' && head.performanceModel === '3504-PC')
+  for (const fullCircle of rotors.filter((head) => head.arcDeg === 360)) {
+    for (const other of rotors) {
+      if (other.id === fullCircle.id) continue
+      if (distance(fullCircle.position, other.position) < minimumDistanceM - EPSILON) return false
+    }
+  }
+  return true
+}
+
+function buildSideMidpointCenterCandidate(bounds, stageRadiusM, targets, prior) {
+  const centerX = (bounds.minX + bounds.maxX) / 2
+  const centerY = (bounds.minY + bounds.maxY) / 2
+  const points = [
+    { x: centerX, y: bounds.minY },
+    { x: bounds.maxX, y: centerY },
+    { x: centerX, y: bounds.maxY },
+    { x: bounds.minX, y: centerY },
+    { x: centerX, y: centerY },
+  ]
+  const heads = points.map((point, index) => makeHead(point, bounds, stageRadiusM, index + 1))
+  if (heads.some((head) => !head)) return null
+  if (!fullCircleRotorClearancePassed([...prior, ...heads])) return null
+  if (heads.some((head) => !sectorFitsRectangle(head, bounds))) return null
+  const coverage = evaluateCoverage(heads, targets, prior)
+  if (coverage.uncoveredPoints !== 0) return null
+  const spacing = evaluateHeadToHeadSpacing(heads)
+  if (spacing.some((entry) => !entry.passed)) return null
+  return { heads, coverage, spacing }
+}
+
 function result(status, extra = {}) {
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
@@ -347,12 +381,28 @@ export function generateRainBird3504Layout(geometry, {
   }
   const width = bounds.maxX - bounds.minX
   const height = bounds.maxY - bounds.minY
-  if (width <= 0 || height <= 0 || Math.min(width, height) < 5 - EPSILON) {
-    return result('no_usable_rotor_candidates')
-  }
+  if (width <= 0 || height <= 0) return result('no_usable_rotor_candidates')
   const targets = buildTargets(bounds, sampleStepM)
   if (!targets) return result('sampling_limit_exceeded')
   const prior = Array.isArray(initialSprinklers) ? initialSprinklers : []
+  const priorCoverage = evaluateCoverage([], targets, prior)
+  if (priorCoverage.uncoveredPoints === 0) {
+    return result('layout_generated', {
+      family: 'shared',
+      model: 'covered-by-previous-sprinklers',
+      planningRadiusM: null,
+      layoutStrategy: 'covered-by-previous-rectangles',
+      grid: Object.freeze({ columns: 0, rows: 0, cells: 0, uniqueCornerPositions: 0 }),
+      sprinklers: Object.freeze([]),
+      coverage: priorCoverage,
+      headToHead: Object.freeze({ passed: true, applicable: false, checks: Object.freeze([]) }),
+      candidateStats: Object.freeze({ candidatePositions: 0, selectedRotors: 0, priorHeads: prior.length }),
+      warnings: Object.freeze([
+        Object.freeze({ code: 'rectangle_already_covered_by_previous_sprinklers', path: 'layout.sprinklers' }),
+      ]),
+    })
+  }
+  if (Math.min(width, height) < 5 - EPSILON) return result('no_usable_rotor_candidates')
 
   // Phase 1: all four true rectangle corners, before any interior or side rows.
   for (const stageRadiusM of BASE_RADIUS_STAGES_M) {
@@ -382,14 +432,29 @@ export function generateRainBird3504Layout(geometry, {
     })
   }
 
-  // Phase 2: generate complete cell grids; each cell contributes four corners,
-  // while shared coordinates are stored once in the global grid.
+  // Phase 2: test the owner's five-head side-midpoint + centre pattern.
   const completeLayouts = []
+  for (const stageRadiusM of BASE_RADIUS_STAGES_M) {
+    const balanced = buildSideMidpointCenterCandidate(bounds, stageRadiusM, targets, prior)
+    if (!balanced) continue
+    const radiusPenalty = Math.abs(stageRadiusM - 8) * 1.5
+    completeLayouts.push({
+      stageRadiusM,
+      heads: balanced.heads,
+      coverage: balanced.coverage,
+      spacing: { passed: true, checks: balanced.spacing },
+      layoutStrategy: 'four-side-midpoints-and-center',
+      score: balanced.heads.length + radiusPenalty,
+    })
+  }
+
+  // Phase 3: generate complete shared-cell grids as the established fallback.
   for (const stageRadiusM of RADIUS_STAGES_M) {
     const grid = buildGrid(bounds, stageRadiusM)
     if (!grid || grid.heads.length > MAX_ROTORS) continue
     const coverage = evaluateCoverage(grid.heads, targets, prior)
     if (coverage.uncoveredPoints !== 0) continue
+    if (!fullCircleRotorClearancePassed([...prior, ...grid.heads])) continue
     const spacing = evaluateGridHeadToHead(grid.heads, grid)
     if (!spacing.passed) continue
     const diagnostic = evaluateHeadToHeadSpacing(grid.heads)
@@ -398,8 +463,10 @@ export function generateRainBird3504Layout(geometry, {
     completeLayouts.push({
       stageRadiusM,
       grid,
+      heads: grid.heads,
       coverage,
       spacing,
+      layoutStrategy: 'corner-first-shared-cell-grid',
       score: grid.heads.length + radiusPenalty,
     })
   }
@@ -417,14 +484,21 @@ export function generateRainBird3504Layout(geometry, {
     }),
   })
 
-  const sprinklers = Object.freeze(selected.grid.heads.map(({ gridKey, ...head }) => head))
+  const sprinklers = Object.freeze(selected.heads.map(({ gridKey, ...head }) => head))
+  const isBalanced = selected.layoutStrategy === 'four-side-midpoints-and-center'
   return result('layout_generated', {
     family: '3500',
     model: '3504-PC',
     planningRadiusM: selected.stageRadiusM < 8 ? 8 : selected.stageRadiusM,
     supplementalRadiusM: selected.stageRadiusM < 8 ? selected.stageRadiusM : null,
-    layoutStrategy: 'corner-first-shared-cell-grid',
-    grid: Object.freeze({
+    layoutStrategy: selected.layoutStrategy,
+    grid: Object.freeze(isBalanced ? {
+      columns: 2,
+      rows: 2,
+      cells: 4,
+      cornerPositionsPerCell: 4,
+      uniqueCornerPositions: 5,
+    } : {
       columns: selected.grid.xs.length - 1,
       rows: selected.grid.ys.length - 1,
       cells: selected.grid.cells,
@@ -435,7 +509,7 @@ export function generateRainBird3504Layout(geometry, {
     coverage: selected.coverage,
     headToHead: Object.freeze({ passed: true, applicable: true, checks: selected.spacing.checks }),
     candidateStats: Object.freeze({
-      candidatePositions: selected.grid.heads.length,
+      candidatePositions: selected.heads.length,
       selectedRotors: sprinklers.length,
     }),
     warnings: Object.freeze([
