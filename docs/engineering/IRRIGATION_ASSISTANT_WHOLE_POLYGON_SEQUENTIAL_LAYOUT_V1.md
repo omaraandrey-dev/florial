@@ -76,7 +76,9 @@ After all three passes, evaluate the combined head set:
 
 A location covered by both a rotor and R-VAN is not an error by itself. Cross-family overlap may be the exact Head-to-Head connection required by the layout.
 
-Only after the global checks pass may redundant rotor heads be removed. Preserve symmetry and even distribution where the polygon shape permits them; do not minimize head count at the cost of materially worse coverage or Head-to-Head.
+True polygon-vertex rotor heads are protected during global redundancy removal; they are the mandatory first placement layer. Perimeter and interior rotor heads may be removed only when the full combined checks remain valid.
+
+Only after the global checks pass may redundant non-corner rotor heads be removed. Preserve symmetry and even distribution where the polygon shape permits them; do not minimize head count at the cost of materially worse coverage or Head-to-Head.
 
 If a complete layout cannot be found, return an explicit incomplete result with uncovered samples and diagnostics. Never present an incomplete sampled result as a complete project.
 
