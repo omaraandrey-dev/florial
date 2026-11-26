@@ -58,6 +58,7 @@ For a simple rectangle without exclusions, the rectangle rotor solver may be use
 - Use the approved fixed strip patterns and intervals; small overlap is acceptable, dry gaps are not.
 - Determine residual longitudinal runs from the combined rotor + R-VAN coverage map.
 - If a residual run connects to already covered territory at one end, use the connected-strip pattern at that end; otherwise use the normal two-ended strip pattern.
+- Validate each proposed strip pattern against the original polygon before accepting it. Reject a pattern that would overspray and report the remaining uncovered samples rather than keeping an invalid head.
 - Do not classify a square area (for example 2 m × 2 m) as a strip merely because its short side is 2 m.
 - Strip patterns are validated against the original polygon and exclusions.
 
@@ -68,7 +69,7 @@ After all three passes, evaluate the combined head set:
 - sampled coverage of the whole irrigated polygon;
 - uncovered target samples;
 - overspray outside the outer boundary or into exclusions;
-- mutual Head-to-Head for all circular heads, including cross-family rotor↔R-VAN pairs;
+- mutual Head-to-Head for all circular heads, including cross-family rotor↔R-VAN pairs. A head passes when it has at least one mutually reachable neighbour; the immediate perimeter predecessor/successor spacing remains a separate distribution diagnostic and must not invalidate an otherwise valid cross-family Head-to-Head link;
 - 3504-PC full-circle clearance diagnostic;
 - strip interval/pattern coverage;
 - redundant rotor heads and possible rotor-sector adjustments.
@@ -81,7 +82,7 @@ If a complete layout cannot be found, return an explicit incomplete result with 
 
 ## 7. Hydraulic boundary
 
-The owner confirms that Rain Bird 3504-PC rotors and R-VAN heads can be combined on the same territory and that their practical precipitation intensity and compatibility are acceptable for this planner.
+The owner confirms that Rain Bird 3504-PC rotors and R-VAN heads can be combined on the same territory and that their practical precipitation intensity and compatibility are acceptable for this planner. Mixed-family results expose `hydraulicFeasibility: owner_confirmed_compatible`, `hydraulicCompatibilityBasis: owner_confirmed`, and `precipitationIntensityCompatibility: owner_confirmed_similar`; site-specific pressure/flow losses and numerical precipitation-uniformity certification remain outside the geometry solver.
 
 This confirmation does not turn the geometric solver into a hydraulic calculator. Site-specific pipe sizing, pressure losses, flow balancing, valve grouping, and precipitation-uniformity certification remain outside this geometric layout task unless separately authorized.
 
