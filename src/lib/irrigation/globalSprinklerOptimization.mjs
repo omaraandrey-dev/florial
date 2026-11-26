@@ -702,6 +702,110 @@ function replacementPositions(group) {
     distance(a, center) - distance(b, center) || a.y - b.y || a.x - b.x)
 }
 
+function buildRelocationCandidatePositions(head, heads, options) {
+  const points = []
+  const stride = Math.max(1, Math.ceil(options.targets.length / 100))
+  for (let index = 0; index < options.targets.length; index += stride) {
+    points.push(options.targets[index])
+  }
+  for (const other of heads) points.push(other.position)
+  for (const offset of [-1, -0.5, 0.5, 1]) {
+    points.push({ x: head.position.x + offset, y: head.position.y })
+    points.push({ x: head.position.x - offset, y: head.position.y })
+    points.push({ x: head.position.x, y: head.position.y + offset })
+    points.push({ x: head.position.x, y: head.position.y - offset })
+  }
+  const unique = new Map()
+  for (const point of points) {
+    if (!point || !Number.isFinite(point.x) || !Number.isFinite(point.y) ||
+        !pointIsTarget(point, options.geometry.regions[0])) continue
+    const key = Math.round(point.x / 0.25) + ':' + Math.round(point.y / 0.25)
+    unique.set(key, { x: point.x, y: point.y })
+  }
+  return [...unique.values()]
+    .filter((point) => distance(point, head.position) > COORDINATE_TOLERANCE)
+    .sort((a, b) => distance(a, head.position) - distance(b, head.position) ||
+      a.y - b.y || a.x - b.x)
+    .slice(0, 60)
+}
+
+function runRotorRelocationPass(state, options) {
+  let { heads, counts, coverageById } = state
+  const relocatedHeads = []
+  const removedHeadIds = []
+  let relocationVariants = 0
+  const maxVariants = options.maxRelocationVariants ?? 300
+
+  // Symmetric rectangles are handled by whole-shape seed and orbit moves.
+  // Individual relocations are reserved for asymmetric geometry.
+  if (options.symmetryTransforms?.length) {
+    return { heads, counts, coverageById, relocatedHeads, removedHeadIds,
+      relocationVariants, relocationVariantLimitReached: false }
+  }
+
+  let acceptedMove = true
+  while (acceptedMove && relocationVariants < maxVariants) {
+    acceptedMove = false
+    const rotors = heads.filter(isRotor).sort(geometricHeadOrder)
+    for (const head of rotors) {
+      if (!heads.some((entry) => entry.id === head.id)) continue
+      const positions = buildRelocationCandidatePositions(head, heads, options)
+      for (const position of positions) {
+        if (relocationVariants >= maxVariants) break
+        relocationVariants += 1
+        const moved = Object.freeze({
+          ...head,
+          position: Object.freeze({ ...position }),
+        })
+        const nextHeads = heads.map((entry) => entry.id === head.id ? moved : entry)
+        const nextCoverage = coverageForHead(moved, options.targets)
+        const nextCounts = adjustedCounts(counts,
+          [coverageById.get(head.id) ?? []], nextCoverage)
+        if (!allTargetsCovered(nextCounts)) continue
+        const headToHead = buildHeadToHead(nextHeads, options.baselineRegionSizes)
+        if (!headToHead.passed || !options.oversprayCheck(nextHeads)) continue
+
+        const nextCoverageById = new Map(coverageById)
+        nextCoverageById.set(head.id, nextCoverage)
+        const removable = nextHeads.filter((entry) =>
+          isRotor(entry) && entry.id !== head.id)
+          .map((entry) => ({
+            head: entry,
+            unique: uniqueContribution(entry, nextCounts, nextCoverageById),
+          }))
+          .sort((a, b) => a.unique - b.unique || geometricHeadOrder(a.head, b.head))
+
+        for (const candidate of removable) {
+          const removed = tryRemoveRotor(nextHeads, nextCounts,
+            nextCoverageById, candidate.head, options)
+          if (!removed) continue
+          heads = removed.heads
+          counts = removed.counts
+          coverageById = nextCoverageById
+          coverageById.delete(candidate.head.id)
+          relocatedHeads.push(Object.freeze({
+            sprinklerId: head.id,
+            from: head.position,
+            to: moved.position,
+            removedHeadId: candidate.head.id,
+          }))
+          removedHeadIds.push(candidate.head.id)
+          acceptedMove = true
+          break
+        }
+        if (acceptedMove || relocationVariants >= maxVariants) break
+      }
+      if (acceptedMove || relocationVariants >= maxVariants) break
+    }
+  }
+
+  return {
+    heads, counts, coverageById, relocatedHeads, removedHeadIds,
+    relocationVariants,
+    relocationVariantLimitReached: relocationVariants >= maxVariants,
+  }
+}
+
 function runRvanGroupReplacementPass(state, options) {
   let { heads, counts, coverageById } = state
   const replacedGroups = []
@@ -839,6 +943,7 @@ export function optimizeGlobalSprinklerSet({
     symmetryTransforms: rectangleSymmetryTransforms(geometry),
     geometry,
     maxReconfigurationVariants: 160,
+    maxRelocationVariants: 300,
     maxSectorVariants: Math.min(MAX_SECTOR_VARIANTS, Math.max(0, maxSectorVariants)),
   }
 
@@ -909,7 +1014,8 @@ export function optimizeGlobalSprinklerSet({
   }
 
   const replacementPass = runRvanGroupReplacementPass(seed, options)
-  const firstPass = runRemovalPass(replacementPass, options)
+  const relocationPass = runRotorRelocationPass(replacementPass, options)
+  const firstPass = runRemovalPass(relocationPass, options)
   const sectorPass = runSectorOptimization(firstPass, options)
   const finalCounts = sectorPass.counts
   const finalHeadToHead = buildHeadToHead(sectorPass.heads, baselineRegionSizes)
@@ -945,7 +1051,7 @@ export function optimizeGlobalSprinklerSet({
     targetCount: targets.length,
     removedHeadIds: Object.freeze(candidateAccepted
       ? [...seedRemovedIds, ...replacementPass.replacedGroups.flatMap((group) => group.removedHeadIds),
-        ...firstPass.removedHeadIds, ...sectorPass.removedHeadIds]
+        ...relocationPass.removedHeadIds, ...firstPass.removedHeadIds, ...sectorPass.removedHeadIds]
       : []),
     consolidatedGroups: Object.freeze(finalValid ? sectorPass.consolidatedGroups : []),
     sectorEdits: Object.freeze(finalValid ? sectorPass.sectorEdits : []),
@@ -958,6 +1064,9 @@ export function optimizeGlobalSprinklerSet({
       candidateAccepted,
       fallbackToOriginal,
       replacedRvanGroups: Object.freeze(replacementPass.replacedGroups),
+      relocatedHeads: Object.freeze(relocationPass.relocatedHeads),
+      relocationVariants: relocationPass.relocationVariants,
+      relocationVariantLimitReached: relocationPass.relocationVariantLimitReached,
       reconfigurationVariants: replacementPass.reconfigurationVariants,
       reconfigurationVariantLimitReached: replacementPass.reconfigurationVariantLimitReached,
     }),
