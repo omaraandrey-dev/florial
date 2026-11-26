@@ -11,7 +11,7 @@
 - If four corners are insufficient, subdivide the rectangle into square/rectangular cells. Every cell has four corner positions.
 - A coordinate shared by two or more cells is one physical rotor position, not multiple duplicated heads.
 - Adjacent Head-to-Head is checked in both directions against the actual sector of each rotor, not by distance alone.
-- The base planning stage is 8 m. 9 m is the only larger alternative and is allowed when it materially reduces unnecessary heads while passing all geometry/Head-to-Head checks. A 10 m planning radius is excluded. Only after the 8 m and 9 m stages fail full coverage and Head-to-Head does the solver expand the shared-cell grid at 7 m, 6 m or 5 m, adding further rotor positions before any R-VAN fallback.
+- The base planning stage is 8 m. 9 m is the only larger alternative and is allowed when it materially reduces unnecessary heads while passing all geometry/Head-to-Head checks. A 10 m planning radius is excluded. Only after the 8 m and 9 m stages fail full coverage and Head-to-Head does the solver expand the shared-cell grid at 7 m, 6 m or 5 m. Where safe clearance allows, the four base corner rotors remain at 8 m and the smaller radii are used for added grid heads before any R-VAN fallback.
 - Sector orientation and radius are validated against the calculation rectangle before a rotor is accepted.
 
 These are Florial planning rules, not Rain Bird manufacturer-certified throw distances for every arc/nozzle/pressure. The UI and project documentation must keep that distinction explicit.
