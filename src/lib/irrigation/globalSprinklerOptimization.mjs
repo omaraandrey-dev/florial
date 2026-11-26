@@ -486,7 +486,7 @@ function runSectorOptimization(state, options) {
   }
 
   // A single-head sector change is retained only when it enables another removal.
-  if (!sectorVariantLimitReached) {
+  if (!sectorVariantLimitReached && !options.symmetryTransforms?.length) {
     const singles = heads.filter(isRotor).slice()
     for (const head of singles) {
       if (!heads.some((entry) => entry.id === head.id)) continue
