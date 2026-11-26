@@ -16,7 +16,7 @@ function snapshotFor(length, width, options = {}) {
   const vertices = buildLawnBoundary({ shape, length, width, cutoutWidth: options.cutoutWidth, cutoutDepth: options.cutoutDepth, cutoutCorner: options.cutoutCorner })
   const exclusions = (options.exclusions ?? []).map((entry) => ({
     id: entry.id,
-    kind: 'other',
+    kind: entry.kind ?? 'other',
     polygon: { vertices: [
       { x: entry.x, y: entry.y },
       { x: entry.x + entry.width, y: entry.y },
@@ -543,6 +543,21 @@ test('L-shaped 4 m arm is calculated before the wider rectangle and uses R-VAN18
   assert.ok(armHeads.every((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN18'))
   assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
   assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+})
+
+test('rectangular exclusions may start at X=0 or Y=0 and retain their visual kind', () => {
+  for (const exclusion of [
+    { id: 'pool-x0', kind: 'pool', x: 0, y: 4, width: 4, height: 4 },
+    { id: 'patio-y0', kind: 'patio', x: 4, y: 0, width: 4, height: 4 },
+  ]) {
+    const snapshot = snapshotFor(20, 12, { exclusions: [exclusion] })
+    assert.equal(snapshot.geometry.normalized.regions[0].exclusions[0].kind, exclusion.kind)
+    const result = buildPreliminaryLawnLayout(snapshot)
+    assert.equal(result.status, 'layout_generated', JSON.stringify({
+      exclusion, reason: result.reason, warnings: result.layout?.warnings,
+    }))
+    assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+  }
 })
 
 test('rectangular lawn with a non-irrigated rectangular exclusion is decomposed and checked against the hole', () => {
