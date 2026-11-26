@@ -695,7 +695,6 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     headToHeadPassed = globalOptimization.headToHead?.passed ?? headToHeadPassed
   }
 
-  const finalCircularHeads = allHeads.filter((head) => head.pattern !== 'strip')
   modelSet = new Set(allHeads.map((head) => head.performanceModel))
   if (globalOptimization.status === 'skipped_target_limit') {
     layoutWarnings.push({ code: 'global_head_minimization_skipped_target_limit', path: 'layout.globalOptimization' })
@@ -727,9 +726,6 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     ? (sampledCoverage.coveredPoints / sampledCoverage.sampledPoints) * 100
     : null
   const hasStrip = stripParts.length > 0
-  const coverageScope = hasStrip
-    ? (circularHeads.length ? 'decomposed_rectangular_zones' : 'owner_defined_strip_pattern')
-    : 'sampled_geometry_only'
   const warnings = [
     ...layoutWarnings,
     { code: 'orthogonal_lawn_split_into_non_overlapping_rectangular_calculation_zones', path: 'geometry' },
