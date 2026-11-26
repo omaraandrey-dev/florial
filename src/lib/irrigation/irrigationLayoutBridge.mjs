@@ -765,6 +765,10 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
 
   modelSet = new Set(allHeads.map((head) => head.performanceModel))
   const circularHeads = allHeads.filter((head) => head.pattern !== 'strip')
+  if (circularHeads.length === 0) {
+    headToHeadChecks = []
+    headToHeadPassed = null
+  }
   const hasStrip = stripParts.length > 0
   if (globalOptimization.status === 'skipped_target_limit') {
     layoutWarnings.push({ code: 'global_head_minimization_skipped_target_limit', path: 'layout.globalOptimization' })
