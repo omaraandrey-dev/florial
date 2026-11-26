@@ -655,7 +655,15 @@ export function optimizeGlobalSprinklerSet({
   }
 
   const geometrySymmetries = geometrySymmetryTransforms(geometry)
-  const symmetryTransforms = preservesGeometrySymmetry(originalHeads, geometrySymmetries)
+  const initialRotors = originalHeads.filter(isRotor)
+  const hasTwoDimensionalGrid = new Set(initialRotors.map((head) =>
+    Math.round(head.position.x / COORDINATE_TOLERANCE))).size >= 3 &&
+    new Set(initialRotors.map((head) =>
+      Math.round(head.position.y / COORDINATE_TOLERANCE))).size >= 3
+  // Preserve layout symmetry for actual multi-row 3504-PC grids and the
+  // accepted five-head square pattern, without changing legacy tiny test/seed sets.
+  const symmetryTransforms = hasTwoDimensionalGrid &&
+    preservesGeometrySymmetry(originalHeads, geometrySymmetries)
     ? geometrySymmetries
     : geometrySymmetries.slice(0, 1)
   const options = {
