@@ -485,6 +485,7 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
  
 function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
   const isStrip = layout.sprinklers.some((head) => head.pattern === 'strip')
+  const onlyStrip = isStrip && layout.sprinklers.every((head) => head.pattern === 'strip')
   const part = { id: regionId, isStrip, layout }
   const heads = layout.sprinklers.map((head) => Object.freeze({
     ...head,
@@ -530,11 +531,11 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
     status: globalFailed ? 'coverage_incomplete' : layout.status,
     sprinklers: Object.freeze(finalHeads),
     coverage,
-    headToHead: optimization.headToHead ?? layout.headToHead,
+    headToHead: onlyStrip ? layout.headToHead : (optimization.headToHead ?? layout.headToHead),
     overspray,
     coverageScope: optimization.status === 'skipped_target_limit'
       ? 'per_rectangle_sampled_global_optimization_skipped'
-      : 'global_sampled_geometry',
+      : (onlyStrip ? 'owner_defined_strip_pattern_global_sampled' : 'global_sampled_geometry'),
     globalOptimization: Object.freeze({
       status: optimization.status,
       targetCount: optimization.targetCount,
@@ -816,7 +817,9 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       : (circularHeads.length ? 'coverage_complete_sampled' : 'strip_pattern_placement_ready'),
     coverageScope: globalOptimization.status === 'skipped_target_limit'
       ? 'per_rectangle_sampled_global_optimization_skipped'
-      : (hasStrip ? 'decomposed_rectangular_zones_global_sampled' : 'global_sampled_geometry'),
+      : (hasStrip
+        ? (circularHeads.length ? 'decomposed_rectangular_zones_global_sampled' : 'owner_defined_strip_pattern_global_sampled')
+        : 'global_sampled_geometry'),
     globalOptimization: Object.freeze({
       status: globalOptimization.status,
       targetCount: globalOptimization.targetCount,
