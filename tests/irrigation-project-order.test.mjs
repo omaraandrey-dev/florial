@@ -83,32 +83,20 @@ test('preserves validated rectangular non-irrigated areas in the persisted proje
   assert.equal(result.snapshot.geometry.normalized.regions[0].exclusions[0].kind, 'pool')
 })
 
-test('persists edge exclusions at X=0 or Y=0 but rejects the (0,0) origin', () => {
-  for (const [x, y] of [[0, 1], [1, 0]]) {
+test('persists rectangular exclusions at X=0, Y=0 and the (0,0) origin, including drip areas', () => {
+  for (const [x, y, kind] of [[0, 1, 'patio'], [1, 0, 'pool'], [0, 0, 'drip']]) {
     const project = snapshot()
     project.geometry.normalized.regions[0].exclusions = [{
       id: 'edge-area',
-      kind: 'patio',
+      kind,
       polygon: { vertices: [
         { x, y }, { x: x + 4, y }, { x: x + 4, y: y + 2 }, { x, y: y + 2 }, { x, y },
       ] },
     }]
     const result = validateIrrigationProjectSnapshot({ ...project, orderItems })
     assert.equal(result.valid, true)
-    assert.equal(result.snapshot.geometry.normalized.regions[0].exclusions[0].kind, 'patio')
+    assert.equal(result.snapshot.geometry.normalized.regions[0].exclusions[0].kind, kind)
   }
-
-  const origin = snapshot()
-  origin.geometry.normalized.regions[0].exclusions = [{
-    id: 'origin-area',
-    kind: 'pool',
-    polygon: { vertices: [
-      { x: 0, y: 0 }, { x: 4, y: 0 }, { x: 4, y: 2 }, { x: 0, y: 2 }, { x: 0, y: 0 },
-    ] },
-  }]
-  const rejected = validateIrrigationProjectSnapshot({ ...origin, orderItems })
-  assert.equal(rejected.valid, false)
-  assert.equal(rejected.reason, 'invalid_project_geometry')
 })
 
 test('rejects malformed or out-of-bound non-irrigated rectangles', () => {

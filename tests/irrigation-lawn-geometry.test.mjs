@@ -193,10 +193,11 @@ test('subtracts contained exclusions from net irrigable area', () => {
   assert.equal(result.computedPerimeterM, 44)
 })
 
-test('accepts exclusions whose X or Y coordinate is zero along the lawn boundary', () => {
+test('accepts exclusions with X=0, Y=0, or both coordinates at the origin', () => {
   for (const exclusion of [
     { x: 0, y: 1, width: 2, height: 2 },
     { x: 2, y: 0, width: 2, height: 2 },
+    { x: 0, y: 0, width: 2, height: 2 },
   ]) {
     const result = validateLawnGeometry(geometry(rectangle, {
       regions: [{
@@ -204,6 +205,7 @@ test('accepts exclusions whose X or Y coordinate is zero along the lawn boundary
         boundary: { vertices: rectangle },
         exclusions: [{
           id: 'edge-exclusion',
+          kind: 'drip',
           polygon: { vertices: [
             { x: exclusion.x, y: exclusion.y },
             { x: exclusion.x + exclusion.width, y: exclusion.y },
@@ -216,24 +218,8 @@ test('accepts exclusions whose X or Y coordinate is zero along the lawn boundary
     assert.equal(result.valid, true)
     assert.equal(result.status, 'accepted')
     assert.equal(result.regions[0].netAreaM2, 46)
+    assert.equal(result.normalizedGeometry.regions[0].exclusions[0].kind, 'drip')
   }
-})
-
-test('rejects an exclusion whose X and Y coordinates are both zero', () => {
-  const result = validateLawnGeometry(geometry(rectangle, {
-    regions: [{
-      id: 'lawn-1',
-      boundary: { vertices: rectangle },
-      exclusions: [{
-        id: 'origin-exclusion',
-        polygon: { vertices: [
-          { x: 0, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 0, y: 2 },
-        ] },
-      }],
-    }],
-  }))
-  assert.equal(result.valid, false)
-  assert.ok(result.errors.some((entry) => entry.path === 'regions[0].exclusions[0].polygon.origin'))
 })
 
 test('rejects zero-area rectangular exclusions', () => {

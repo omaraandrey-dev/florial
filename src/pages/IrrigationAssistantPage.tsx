@@ -20,7 +20,7 @@ interface IrrigationAssistantPageProps {
   onSetIrrigationProject: (project: IrrigationProjectSnapshot) => void
 }
 
-type NonIrrigatedAreaKind = 'pool' | 'building' | 'patio'
+type NonIrrigatedAreaKind = 'pool' | 'building' | 'patio' | 'drip'
 
 type NonIrrigatedAreaInput = {
   id: number
@@ -34,7 +34,8 @@ type NonIrrigatedAreaInput = {
 function exclusionColors(kind: string) {
   if (kind === 'pool') return { fill: '#7dd3fc', stroke: '#0369a1', detail: '#0284c7' }
   if (kind === 'building') return { fill: '#fecaca', stroke: '#b91c1c', detail: '#991b1b' }
-  return { fill: '#d1d5db', stroke: '#6b7280', detail: '#9ca3af' }
+  if (kind === 'drip') return { fill: '#a7f3d0', stroke: '#047857', detail: '#059669' }
+  return { fill: '#d1d5db', stroke: '#6b7280', detail: '#6b7280' }
 }
 
 function sprinklerNozzleColor(model: string | null | undefined) {
@@ -125,7 +126,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       length: 'Общая длина, м', width: 'Общая ширина, м', cutoutWidth: 'Ширина выреза, м', cutoutDepth: 'Глубина выреза, м',
       cutoutCorner: 'В каком углу находится вырез?', cornerTopLeft: 'Сверху слева', cornerTopRight: 'Сверху справа', cornerBottomLeft: 'Снизу слева', cornerBottomRight: 'Снизу справа',
       geometryHint: 'Укажите примерные размеры. Для Г-образной формы задайте общие габариты и размеры отсутствующей прямоугольной части.',
-      nonIrrigatedTitle: 'Дополнительные неполиваемые участки', nonIrrigatedHint: 'Добавьте прямоугольные зоны внутри газона, которые не нужно поливать. X и Y отсчитываются от левого нижнего угла участка. Координаты X и Y не могут быть отрицательными или одновременно равняться нулю; одна из координат может быть нулевой. Ширина и длина должны быть больше нуля.', excludedKind: 'Тип участка', pool: 'Бассейн', building: 'Дом / беседка', patio: 'Площадка', invalidExclusion: 'Проверьте вырез: X и Y должны быть неотрицательными, ширина и длина — больше нуля.', excludedX: 'X, м', excludedY: 'Y, м', excludedWidth: 'Ширина, м', excludedHeight: 'Длина, м', addExcluded: 'Добавить неполиваемый участок', removeExcluded: 'Удалить',
+      nonIrrigatedTitle: 'Дополнительные зоны без полива дождевателями', nonIrrigatedHint: 'Добавьте прямоугольные зоны, которые не должны поливаться дождевателями. X и Y отсчитываются от левого нижнего угла газона; каждая координата может быть равна нулю. Ширина и длина должны быть больше нуля. Для зоны капельного полива выберите соответствующий тип.', excludedKind: 'Тип зоны', pool: 'Бассейн', building: 'Дом / беседка', patio: 'Площадка с твёрдым покрытием', drip: 'Зона капельного полива', invalidExclusion: 'Проверьте зону: X и Y должны быть неотрицательными, ширина и длина — больше нуля.', excludedX: 'X, м', excludedY: 'Y, м', excludedWidth: 'Ширина, м', excludedHeight: 'Длина, м', addExcluded: 'Добавить зону', removeExcluded: 'Удалить',
       geometryPreview: 'Предварительная схема по приблизительным размерам', calculatedArea: 'Площадь по контуру', perimeter: 'Периметр контура',
       geometryInvalid: 'Проверьте размеры. Все значения должны быть больше нуля, а вырез — меньше общей длины и ширины.',
       geometryNotConfirmed: 'Подтвердите контур, чтобы продолжить.', geometryAccepted: 'Контур подтверждён вами. Это подтверждение исходных размеров, не инженерная проверка.',
@@ -164,7 +165,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       length: 'Overall length, m', width: 'Overall width, m', cutoutWidth: 'Cut-out width, m', cutoutDepth: 'Cut-out depth, m',
       cutoutCorner: 'Which corner contains the cut-out?', cornerTopLeft: 'Top left', cornerTopRight: 'Top right', cornerBottomLeft: 'Bottom left', cornerBottomRight: 'Bottom right',
       geometryHint: 'Enter approximate dimensions. For an L-shape, enter the overall dimensions and the dimensions of the missing rectangular corner.',
-      nonIrrigatedTitle: 'Additional non-irrigated areas', nonIrrigatedHint: 'Add rectangular areas inside the lawn that must not be watered. X and Y are measured from the lower-left corner. X and Y cannot be negative or both be zero; either coordinate may individually be zero. Width and length must be greater than zero.', excludedKind: 'Area type', pool: 'Swimming pool', building: 'House / gazebo', patio: 'Paved area', invalidExclusion: 'Check the cut-out: X and Y must be non-negative, and width and length must be greater than zero.', excludedX: 'X, m', excludedY: 'Y, m', excludedWidth: 'Width, m', excludedHeight: 'Length, m', addExcluded: 'Add non-irrigated area', removeExcluded: 'Remove',
+      nonIrrigatedTitle: 'Additional areas not watered by sprinklers', nonIrrigatedHint: 'Add rectangular areas that should not be watered by sprinklers. X and Y are measured from the lower-left corner of the lawn; either coordinate may be zero, including both together. Width and length must be greater than zero. Select the drip-irrigated area type for a zone served by drip irrigation.', excludedKind: 'Area type', pool: 'Swimming pool', building: 'House / gazebo', patio: 'Paved area', drip: 'Drip-irrigated area', invalidExclusion: 'Check the area: X and Y must be non-negative, and width and length must be greater than zero.', excludedX: 'X, m', excludedY: 'Y, m', excludedWidth: 'Width, m', excludedHeight: 'Length, m', addExcluded: 'Add area', removeExcluded: 'Remove',
       geometryPreview: 'Preliminary outline from approximate dimensions', calculatedArea: 'Area from outline', perimeter: 'Outline perimeter',
       confirmGeometry: 'I confirm these dimensions were measured on site and the outline matches the actual lawn.',
       geometryInvalid: 'Check the dimensions. All values must be greater than zero and the cut-out must be smaller than the overall length and width.',
@@ -204,7 +205,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       length: 'Обща дължина, м', width: 'Обща ширина, м', cutoutWidth: 'Ширина на изреза, м', cutoutDepth: 'Дълбочина на изреза, м',
       cutoutCorner: 'В кой ъгъл е изрезът?', cornerTopLeft: 'Горе вляво', cornerTopRight: 'Горе вдясно', cornerBottomLeft: 'Долу вляво', cornerBottomRight: 'Долу вдясно',
       geometryHint: 'Въведете приблизителните размери. За Г-образна форма задайте общите габарити и размерите на липсващата правоъгълна част.',
-      nonIrrigatedTitle: 'Допълнителни неполивани зони', nonIrrigatedHint: 'Добавете правоъгълни зони в тревната площ, които не трябва да се напояват. X и Y се измерват от долния ляв ъгъл. X и Y не могат да бъдат отрицателни или едновременно нула; едната координата може да бъде нула. Ширината и дължината трябва да са по-големи от нула.', excludedKind: 'Вид на зоната', pool: 'Басейн', building: 'Къща / беседка', patio: 'Площадка', invalidExclusion: 'Проверете изреза: X и Y трябва да са неотрицателни, а ширината и дължината — по-големи от нула.', excludedX: 'X, м', excludedY: 'Y, м', excludedWidth: 'Ширина, м', excludedHeight: 'Дължина, м', addExcluded: 'Добави неполивана зона', removeExcluded: 'Премахни',
+      nonIrrigatedTitle: 'Допълнителни зони без дъждуване', nonIrrigatedHint: 'Добавете правоъгълни зони, които не трябва да се поливат с разпръсквачи. X и Y се измерват от долния ляв ъгъл на тревната площ; всяка от координатите може да бъде 0, включително и двете едновременно. Ширината и дължината трябва да са по-големи от 0. За зона с капково напояване изберете съответния вид.', excludedKind: 'Вид на зоната', pool: 'Басейн', building: 'Къща / беседка', patio: 'Площадка с настилка', drip: 'Зона с капково напояване', invalidExclusion: 'Проверете зоната: X и Y трябва да са неотрицателни, а ширината и дължината — по-големи от 0.', excludedX: 'X, м', excludedY: 'Y, м', excludedWidth: 'Ширина, м', excludedHeight: 'Дължина, м', addExcluded: 'Добави зона', removeExcluded: 'Премахни',
       geometryPreview: 'Предварителен контур според приблизителните размери', calculatedArea: 'Площ по контура', perimeter: 'Периметър на контура',
       confirmGeometry: 'Потвърждавам, че размерите са измерени на място и контурът съответства на реалната тревна площ.',
       geometryInvalid: 'Проверете размерите. Всички стойности трябва да са положителни, а изрезът — по-малък от общата дължина и ширина.',
@@ -252,7 +253,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       value.trim() === '' ? Number.NaN : Number(value.replace(',', '.')))
     return !Number.isFinite(x) || !Number.isFinite(y) || x < 0 || y < 0 ||
       !Number.isFinite(areaWidth) || !Number.isFinite(areaHeight) ||
-      areaWidth <= 0 || areaHeight <= 0 || (x === 0 && y === 0)
+      areaWidth <= 0 || areaHeight <= 0
   })
 
   const geometryValidation = useMemo(() => {
@@ -623,8 +624,8 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       </div>
                       <div className="mb-3">
                         <p className="mb-2 text-xs font-semibold text-slate-700">{copy.excludedKind}</p>
-                        <div className="grid grid-cols-3 gap-2">
-                          {(['pool', 'building', 'patio'] as const).map((kind) => (
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                          {(['pool', 'building', 'patio', 'drip'] as const).map((kind) => (
                             <button key={kind} type="button" aria-pressed={area.kind === kind}
                               onClick={() => updateNonIrrigatedArea(area.id, 'kind', kind)}
                               className={'rounded-lg border px-2 py-2 text-xs font-semibold transition ' + (area.kind === kind ? 'border-emerald-700 bg-emerald-50 text-emerald-900' : 'border-slate-300 bg-white text-slate-700 hover:border-emerald-600')}>
@@ -657,6 +658,10 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                               <polygon points={vertices.map((point) => point.x + ',' + point.y).join(' ')} fill={colors.fill} stroke={colors.stroke} strokeWidth="0.12" />
                               {exclusion.kind === 'building' && <path d={'M ' + minX + ' ' + minY + ' L ' + maxX + ' ' + maxY + ' M ' + minX + ' ' + maxY + ' L ' + maxX + ' ' + minY} fill="none" stroke={colors.detail} strokeWidth="0.08" />}
                               {exclusion.kind === 'pool' && <path d={'M ' + (minX + (maxX - minX) * 0.15) + ' ' + (minY + (maxY - minY) * 0.35) + ' Q ' + (minX + (maxX - minX) * 0.5) + ' ' + (minY + (maxY - minY) * 0.55) + ' ' + (maxX - (maxX - minX) * 0.15) + ' ' + (minY + (maxY - minY) * 0.35) + ' M ' + (minX + (maxX - minX) * 0.15) + ' ' + (minY + (maxY - minY) * 0.7) + ' Q ' + (minX + (maxX - minX) * 0.5) + ' ' + (minY + (maxY - minY) * 0.9) + ' ' + (maxX - (maxX - minX) * 0.15) + ' ' + (minY + (maxY - minY) * 0.7)} fill="none" stroke={colors.detail} strokeWidth="0.08" />}
+                              {exclusion.kind === 'drip' && <g stroke={colors.detail} strokeWidth="0.09" strokeLinecap="round">
+                                {[0.3, 0.5, 0.7].map((fraction) => <line key={'drip-line-' + fraction} x1={minX + (maxX - minX) * 0.12} y1={minY + (maxY - minY) * fraction} x2={maxX - (maxX - minX) * 0.12} y2={minY + (maxY - minY) * fraction} />)}
+                                {[0.25, 0.5, 0.75].map((fraction) => <circle key={'drip-emitter-' + fraction} cx={minX + (maxX - minX) * fraction} cy={minY + (maxY - minY) * 0.5} r={Math.max(0.035, Math.min(maxX - minX, maxY - minY) * 0.025)} fill={colors.detail} stroke="white" strokeWidth="0.025" />)}
+                              </g>}
                             </g>
                           })}
                         </g>

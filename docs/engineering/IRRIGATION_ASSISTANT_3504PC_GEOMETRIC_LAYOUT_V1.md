@@ -108,3 +108,12 @@ The integration test suite must verify:
 ## 7. Release boundary
 
 PR #530 is merged and its exact merge commit was deployed successfully to Cloudflare Pages Production. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or email tests were part of this work. A separate rendered-PDF visual review remains outstanding. Hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance are not evaluated.
+
+
+## 8. Rectangular non-sprinkler areas — coordinate and display contract
+
+- X and Y are measured from the lawn's lower-left corner. Both coordinates must be finite and non-negative; X=0, Y=0 and the combined origin (0, 0) are all valid.
+- Width and length must each be strictly greater than zero. The rectangle must remain within the lawn boundary and must not overlap another exclusion.
+- Supported area kinds in the customer assistant and persisted project are pool, building/gazebo, paved area and drip-irrigated area. A drip-irrigated area is excluded from sprinkler coverage but is explicitly identified as served by drip irrigation; it is not described as an area receiving no irrigation at all.
+- The drip-irrigated area uses a distinct green/teal fill with parallel dripline strokes and emitter dots in both the browser diagrams and the preliminary project PDF.
+- Customer-facing labels are localized in Bulgarian, Russian and English. Bulgarian uses „Площадка с настилка“ for a paved area and „Зона с капково напояване“ for a drip-irrigated area.

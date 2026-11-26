@@ -125,7 +125,9 @@ export const createIrrigationProjectPdf = async (
       ? { fill: rgb(0.55, 0.83, 0.97), border: rgb(0.02, 0.41, 0.65), detail: rgb(0.02, 0.48, 0.72) }
       : exclusion.kind === 'building'
         ? { fill: rgb(0.98, 0.76, 0.76), border: rgb(0.72, 0.11, 0.11), detail: rgb(0.62, 0.08, 0.08) }
-        : { fill: rgb(0.82, 0.84, 0.87), border: rgb(0.42, 0.48, 0.56), detail: rgb(0.52, 0.56, 0.61) }
+        : exclusion.kind === 'drip'
+          ? { fill: rgb(0.65, 0.93, 0.82), border: rgb(0.02, 0.47, 0.36), detail: rgb(0.02, 0.55, 0.42) }
+          : { fill: rgb(0.82, 0.84, 0.87), border: rgb(0.42, 0.48, 0.56), detail: rgb(0.52, 0.56, 0.61) }
     page.drawRectangle({
       x: bottomLeft.x,
       y: bottomLeft.y,
@@ -148,6 +150,16 @@ export const createIrrigationProjectPdf = async (
         for (let index = 0; index < wave.length - 1; index += 1) {
           page.drawLine({ start: wave[index], end: wave[index + 1], color: colors.detail, thickness: 0.9 })
         }
+      }
+    } else if (exclusion.kind === 'drip') {
+      for (const level of [0.3, 0.5, 0.7]) {
+        const start = mapPoint({ x: minX + (maxX - minX) * 0.12, y: minY + (maxY - minY) * level })
+        const end = mapPoint({ x: maxX - (maxX - minX) * 0.12, y: minY + (maxY - minY) * level })
+        page.drawLine({ start, end, color: colors.detail, thickness: 1 })
+      }
+      for (const fraction of [0.25, 0.5, 0.75]) {
+        const emitter = mapPoint({ x: minX + (maxX - minX) * fraction, y: minY + (maxY - minY) * 0.5 })
+        page.drawCircle({ x: emitter.x, y: emitter.y, size: 1.5, color: colors.detail, borderColor: rgb(1, 1, 1), borderWidth: 0.35 })
       }
     }
     const points = exclusionVertices.map(mapPoint)
@@ -228,14 +240,15 @@ export const createIrrigationProjectPdf = async (
       const points = exclusion.polygon.vertices
       const xs = points.map((point) => point.x)
       const ys = points.map((point) => point.y)
-      const kindLabel = exclusion.kind === 'pool' ? 'Бассейн' :
-        exclusion.kind === 'building' ? 'Дом / беседка' :
-          exclusion.kind === 'patio' ? 'Площадка' : 'Неполиваемая зона'
+      const kindLabel = exclusion.kind === 'pool' ? 'Басейн' :
+        exclusion.kind === 'building' ? 'Къща / беседка' :
+          exclusion.kind === 'patio' ? 'Площадка с настилка' :
+            exclusion.kind === 'drip' ? 'Зона с капково напояване' : 'Зона без дъждуване'
       return kindLabel + ' (' + (exclusion.id || 'exclusion') + '): ' +
         (Math.max(...xs) - Math.min(...xs)).toFixed(1) + ' × ' +
         (Math.max(...ys) - Math.min(...ys)).toFixed(1) + ' m'
     })
-    write('Неполиваеми правоъгълници: ' + exclusionLabels.join('; '), { size: 7 })
+    write('Зони без дъждуване: ' + exclusionLabels.join('; '), { size: 7 })
   }
   write('Изчислено по контура: площ ' + project.geometry.areaM2.toFixed(2) + ' m² · периметър ' + project.geometry.perimeterM.toFixed(2) + ' m')
   write('Модел: ' + project.operatingScenario.manufacturer + ' ' + project.operatingScenario.family + ' ' + project.operatingScenario.model)
