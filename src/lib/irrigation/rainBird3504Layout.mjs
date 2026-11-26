@@ -3,7 +3,7 @@ import { evaluateHeadToHeadSpacing, sprinklersMutuallyReach } from './lawnSprink
 
 const ENGINE_VERSION = '2.0.0'
 const EPSILON = 1e-8
-const RADIUS_STAGES_M = Object.freeze([8, 9])
+const RADIUS_STAGES_M = Object.freeze([8, 9, 7, 6, 5])
 const ALLOWED_RADII_M = Object.freeze([9, 8, 7, 6, 5])
 const MAX_TARGETS = 30000
 const MAX_ROTORS = 150
@@ -323,8 +323,8 @@ function result(status, extra = {}) {
  * mutual Head-to-Head does the solver add complete rows/columns of cell corners.
  *
  * The 8 m planning stage is preferred; 9 m is the only larger alternative.
- * Local clearances may reduce individual additional/grid rotors to 7/6/5 m.
- * A 10 m planning radius is never considered.
+ * Only after both stages fail does the solver expand the shared-cell grid at
+ * 7/6/5 m to add further rotor positions before any R-VAN fallback. 10 m is excluded.
  */
 export function generateRainBird3504Layout(geometry, {
   sampleStepM = 0.5,
