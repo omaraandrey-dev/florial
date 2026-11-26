@@ -526,9 +526,12 @@ function runSectorOptimization(state, options) {
 
 function rectangleBoundsForGlobal(geometry) {
   const region = geometry?.regions?.[0]
-  const vertices = region?.boundary?.vertices
+  const rawVertices = region?.boundary?.vertices
   if (!region || geometry.regions.length !== 1 || region.exclusions?.length ||
-      !Array.isArray(vertices) || vertices.length !== 4) return null
+      !Array.isArray(rawVertices) || rawVertices.length < 4) return null
+  const vertices = rawVertices.filter((point, index) =>
+    index < rawVertices.length - 1 || distance(point, rawVertices[0]) > EPSILON)
+  if (vertices.length !== 4) return null
   const bounds = {
     minX: Math.min(...vertices.map((point) => point.x)),
     minY: Math.min(...vertices.map((point) => point.y)),
@@ -645,7 +648,7 @@ function rvanReplacementGroups(heads) {
     b.length - a.length || geometricHeadOrder(a[0], b[0]))
 }
 
-function replacementPositions(group, targets) {
+function replacementPositions(group) {
   const xs = group.map((head) => head.position.x)
   const ys = group.map((head) => head.position.y)
   const center = {
@@ -682,7 +685,7 @@ function runRvanGroupReplacementPass(state, options) {
     if (!group.every((head) => heads.some((entry) => entry.id === head.id))) continue
     const groupIds = new Set(group.map((head) => head.id))
     const regionIds = [...new Set(group.flatMap(regionIdsForHead))]
-    const positions = replacementPositions(group, options.targets)
+    const positions = replacementPositions(group)
     let accepted = null
 
     for (const position of positions) {
