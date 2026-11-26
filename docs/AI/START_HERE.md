@@ -1,4 +1,4 @@
-> **Owner pause notice (2026-11-24):** Irrigation-design assistant development is paused. Do not make changes or continue open follow-ups unless the owner explicitly resumes work. Read the current handoff in [CURRENT_STATE.md](CURRENT_STATE.md) and the top entry in [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md). The accepted PR #530 algorithm is frozen; see the latest [CHANGELOG](../../CHANGELOG.md).
+> **Owner resumption notice (2026-11-26):** The owner has resumed a limited irrigation-assistant task on `develop`: rectangular/L-shaped layout quality and continuous fractional geometric radii. Preserve the restored pre-v2 baseline and all coverage/Head-to-Head/overspray gates. Do not merge PR #551 or deploy Production without separate approval. The 24.11 pause is superseded only within this task scope.
 
 # Florial — START HERE
 
