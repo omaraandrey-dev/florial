@@ -748,7 +748,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       model: layout.model,
       pressureBar: selectedModels.includes('3504-PC') && !selectedModels.some((model) => model.startsWith('R-VAN')) ? null : pressureBar,
       pressureBasis: selectedModels.includes('3504-PC') ? '3504-PC geometric planning only; nozzle pressure and flow are not calculated' : 'Rain Bird manufacturer recommended nozzle operating point',
-      modelSelectionBasis: 'process rectangles from smallest area to largest; use 8 m as the 3504-PC baseline and 9 m only as an alternative; local 7/6/5 m radii are limited to individual positions where safe clearance requires them; never use 10 m; try a complete rotor layout before the local R-VAN fallback; 1 m/2 m strips retain their directional R-VAN pattern',
+      modelSelectionBasis: 'process rectangles from smallest area to largest; use 8 m as the 3504-PC baseline and 9 m only as an alternative; only after 8 m and 9 m fail, expand the rotor grid at 7/6/5 m to add further heads; never use 10 m; try all rotor expansion stages before the local R-VAN fallback; 1 m/2 m strips retain their directional R-VAN pattern',
       layoutRadiusM: null,
       sourceUrl: selectedModels.includes('3504-PC') ? 'https://www.rainbird.com/products/3500-series-professional-grade-rotor-sprinklers' : RAIN_BIRD_RVAN_DATASET.source.url,
       actualNozzlePressureVerified: false,
