@@ -270,7 +270,7 @@ test('legacy R-VAN solver retains the 8x8 corner and side-midpoint model selecti
 test('25x5 and 26x5 reference lawns create balanced zones with source-fed Ø25 routes', () => {
   for (const [length, expectedCount, expectedZones] of [[25, 12, [6, 6]], [26, 14, [5, 5, 4]]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, 5))
-    assert.equal(result.status, 'layout_generated')
+    assertGlobalLayoutStatus(result)
     const selectedModels = [...new Set(result.layout?.sprinklers?.map((head) => head.performanceModel) ?? [])].sort()
     assert.equal(result.operatingScenario?.model, selectedModels.join(' / '))
     assert.equal(result.layout?.sprinklers?.length, expectedCount)
