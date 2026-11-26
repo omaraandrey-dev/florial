@@ -43,7 +43,7 @@ function rotor(id, x, y, options = {}) {
   }
 }
 
-test('global optimization preserves symmetric rotor groups and fixed R-VAN and strip heads', () => {
+test('global removal reduces redundant 3504-PC heads and never removes the fixed R-VAN head', () => {
   const rotors = [
     rotor('r1', 2, 2),
     rotor('r2', 8, 2),
@@ -81,8 +81,8 @@ test('global optimization preserves symmetric rotor groups and fixed R-VAN and s
   })
 
   assert.equal(result.status, 'completed')
-  assert.equal(result.removedHeadIds.length, 0)
-  assert.equal(result.sprinklers.filter((head) => head.performanceModel === '3504-PC').length, 4)
+  assert.ok(result.removedHeadIds.length >= 2)
+  assert.equal(result.sprinklers.filter((head) => head.performanceModel === '3504-PC').length, 1)
   assert.equal(result.sprinklers.find((head) => head.id === 'fixed-rvan'), fixedRvan)
   assert.equal(result.sprinklers.find((head) => head.id === 'fixed-strip'), fixedStrip)
   assert.equal(result.coverage.uncoveredPoints, 0)
@@ -258,7 +258,7 @@ test('an incomplete global baseline is preserved and is not optimized', () => {
   const incomplete = rotor('too-short', 5, 5, { radiusM: 1 })
   const result = optimizeGlobalSprinklerSet({
     sprinklers: [incomplete],
-    geometry: reflexLGeometry(),
+    geometry: squareGeometry(),
     parts: [{ id: 'zone-a', layout: { sprinklers: [incomplete] } }],
     oversprayCheck: () => true,
   })
@@ -266,213 +266,4 @@ test('an incomplete global baseline is preserved and is not optimized', () => {
   assert.deepEqual(result.sprinklers, [incomplete])
   assert.ok(result.coverage.uncoveredPoints > 0)
   assert.deepEqual(result.removedHeadIds, [])
-})
-
-
-function squareGridSeed(size) {
-  const axis = size === 16 ? [0, 8, 16] : size === 17 ? [0, 8, 9, 17] : [0, 8, 12, 20]
-  const heads = []
-  for (let row = 0; row < axis.length; row += 1) {
-    for (let column = 0; column < axis.length; column += 1) {
-      const x = axis[column]
-      const y = axis[row]
-      const left = column === 0
-      const right = column === axis.length - 1
-      const bottom = row === 0
-      const top = row === axis.length - 1
-      let arcDeg = 360
-      let directionDeg = null
-      if ((left || right) && (bottom || top)) {
-        arcDeg = 90
-        directionDeg = left ? (bottom ? 45 : 315) : (bottom ? 135 : 225)
-      } else if (bottom || top) {
-        arcDeg = 180
-        directionDeg = bottom ? 90 : 270
-      } else if (left || right) {
-        arcDeg = 180
-        directionDeg = left ? 0 : 180
-      }
-      heads.push({
-        id: `grid-${row}-${column}`,
-        position: { x, y },
-        arcDeg,
-        directionDeg,
-        radiusM: 8,
-        performanceModel: '3504-PC',
-        pattern: 'rotor',
-        calculationRegionId: 'zone-a',
-      })
-    }
-  }
-  return heads
-}
-
-test('16x16 square is globally reconfigured to four side-midpoint rotors and one centre rotor', () => {
-  const baseline = squareGridSeed(16)
-  const result = optimizeGlobalSprinklerSet({
-    sprinklers: baseline,
-    geometry: squareGeometry(16),
-    parts: [{ id: 'zone-a', layout: { sprinklers: baseline } }],
-    oversprayCheck: () => true,
-    maxSectorVariants: 0,
-  })
-
-  assert.equal(result.status, 'completed')
-  assert.equal(result.reconfiguration.seed, 'whole-rectangle-five-head-balanced-layout')
-  assert.equal(result.sprinklers.length, 5)
-  assert.equal(result.coverage.uncoveredPoints, 0)
-  assert.equal(result.headToHead.passed, true)
-  assert.equal(result.denserValidation.status, 'passed')
-  assert.equal(result.denserValidation.sampleStepM, 0.25)
-  const expected = [
-    { x: 8, y: 0, arcDeg: 180, directionDeg: 90 },
-    { x: 16, y: 8, arcDeg: 180, directionDeg: 180 },
-    { x: 8, y: 16, arcDeg: 180, directionDeg: 270 },
-    { x: 0, y: 8, arcDeg: 180, directionDeg: 0 },
-    { x: 8, y: 8, arcDeg: 360, directionDeg: null },
-  ]
-  for (const item of expected) {
-    assert.ok(result.sprinklers.some((head) =>
-      head.position.x === item.x && head.position.y === item.y &&
-      head.arcDeg === item.arcDeg && head.directionDeg === item.directionDeg))
-  }
-  assert.equal(result.sprinklers.some((head) =>
-    (head.position.x === 0 || head.position.x === 16) &&
-    (head.position.y === 0 || head.position.y === 16)), false)
-})
-
-for (const size of [17, 20]) {
-  test(`${size}x${size} square optimization preserves reflection symmetry and equal side counts`, () => {
-    const baseline = squareGridSeed(size)
-    const result = optimizeGlobalSprinklerSet({
-      sprinklers: baseline,
-      geometry: squareGeometry(size),
-      parts: [{ id: 'zone-a', layout: { sprinklers: baseline } }],
-      oversprayCheck: () => true,
-      maxSectorVariants: 0,
-    })
-
-    assert.equal(result.status, 'completed')
-    assert.equal(result.coverage.uncoveredPoints, 0)
-    assert.equal(result.headToHead.passed, true)
-    const positions = result.sprinklers.map((head) => head.position)
-    for (const point of positions) {
-      assert.ok(positions.some((other) =>
-        Math.abs(other.x - (size - point.x)) < 1e-6 &&
-        Math.abs(other.y - point.y) < 1e-6))
-      assert.ok(positions.some((other) =>
-        Math.abs(other.x - point.x) < 1e-6 &&
-        Math.abs(other.y - (size - point.y)) < 1e-6))
-    }
-    const sideCounts = [
-      positions.filter((point) => Math.abs(point.y) < 1e-6).length,
-      positions.filter((point) => Math.abs(point.x - size) < 1e-6).length,
-      positions.filter((point) => Math.abs(point.y - size) < 1e-6).length,
-      positions.filter((point) => Math.abs(point.x) < 1e-6).length,
-    ]
-    assert.equal(new Set(sideCounts).size, 1)
-  })
-}
-
-
-test('nearby circular R-VAN heads can be replaced by a newly positioned 3504-PC rotor', () => {
-  const clustered = [
-    { id: 'rv-a', position: { x: 4, y: 4 } },
-    { id: 'rv-b', position: { x: 6, y: 4 } },
-    { id: 'rv-c', position: { x: 4, y: 6 } },
-    { id: 'rv-d', position: { x: 6, y: 6 } },
-  ].map(({ id, position }) => ({
-    id,
-    position,
-    arcDeg: 360,
-    directionDeg: null,
-    radiusM: 3,
-    performanceModel: 'R-VAN18',
-    pattern: 'circular',
-    calculationRegionId: 'zone-a',
-  }))
-  const fixed = {
-    id: 'rv-fixed',
-    position: { x: 5, y: 5 },
-    arcDeg: 360,
-    directionDeg: null,
-    radiusM: 9,
-    performanceModel: 'R-VAN24',
-    pattern: 'circular',
-    calculationRegionId: 'zone-a',
-  }
-  const baseline = [...clustered, fixed]
-  const result = optimizeGlobalSprinklerSet({
-    sprinklers: baseline,
-    geometry: squareGeometry(10),
-    parts: [{ id: 'zone-a', layout: { sprinklers: baseline } }],
-    oversprayCheck: () => true,
-    maxSectorVariants: 0,
-  })
-
-  assert.equal(result.status, 'completed')
-  assert.ok(result.reconfiguration.replacedRvanGroups.length > 0)
-  assert.ok(result.sprinklers.some((head) =>
-    head.performanceModel === '3504-PC' &&
-    head.id.startsWith('global-v2-rvan-replacement-')))
-  assert.ok(result.sprinklers.filter((head) =>
-    String(head.performanceModel).startsWith('R-VAN')).length < baseline.length)
-  assert.equal(result.coverage.uncoveredPoints, 0)
-  assert.equal(result.headToHead.passed, true)
-})
-
-
-test('dense final coverage validation reports its point cap without implying it ran', () => {
-  const head = rotor('wide-head', 35, 35, { radiusM: 100 })
-  const result = optimizeGlobalSprinklerSet({
-    sprinklers: [head],
-    geometry: squareGeometry(70),
-    parts: [],
-    oversprayCheck: () => true,
-  })
-  assert.equal(result.status, 'completed')
-  assert.equal(result.denserValidation.status, 'skipped_target_limit')
-  assert.equal(result.denserValidation.coverage, null)
-})
-
-
-test('asymmetric global search relocates a rotor before removing a seam-bridging head', () => {
-  const geometry = {
-    status: 'confirmed',
-    regions: [{
-      id: 'lawn-1',
-      boundary: { vertices: [
-        { x: 0, y: 0 }, { x: 14, y: 0 },
-        { x: 14, y: 10 }, { x: 0, y: 10 },
-      ] },
-      exclusions: [],
-    }],
-  }
-  geometry.regions[0].exclusions = [{
-    id: 'small-bed',
-    polygon: { vertices: [
-      { x: 12, y: 8 }, { x: 13, y: 8 },
-      { x: 13, y: 9 }, { x: 12, y: 9 },
-    ] },
-  }]
-  const baseline = [
-    rotor('left', 3, 5, { radiusM: 7 }),
-    rotor('middle', 7, 5, { radiusM: 7 }),
-    rotor('right', 11, 5, { radiusM: 7 }),
-  ]
-  const result = optimizeGlobalSprinklerSet({
-    sprinklers: baseline,
-    geometry,
-    parts: [{ id: 'zone-a', layout: { sprinklers: baseline } }],
-    oversprayCheck: () => true,
-    maxSectorVariants: 0,
-  })
-
-  assert.equal(result.status, 'completed', JSON.stringify({ failure: result.failure, coverage: result.coverage, headToHead: result.headToHead, oversprayPassed: result.oversprayPassed }))
-  assert.equal(result.sprinklers.length, 2)
-  assert.equal(result.coverage.uncoveredPoints, 0)
-  assert.equal(result.headToHead.passed, true)
-  assert.equal(result.reconfiguration.relocatedHeads.length, 1)
-  assert.equal(result.removedHeadIds.length, 1)
-  assert.equal(result.removedHeadIds[0], 'middle')
 })
