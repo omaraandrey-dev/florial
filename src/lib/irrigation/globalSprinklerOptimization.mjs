@@ -3,6 +3,7 @@ import { evaluateHeadToHeadSpacing, sprinklersMutuallyReach } from './lawnSprink
 const EPSILON = 1e-8
 const COORDINATE_TOLERANCE = 1e-6
 const MAX_GLOBAL_TARGETS = 30000
+const MAX_DENSE_VALIDATION_TARGETS = 30000
 const MAX_SECTOR_VARIANTS = 500
 
 function distance(a, b) {
@@ -172,6 +173,28 @@ function coverageSummary(counts, targets) {
     uncoveredPoints: targets.length - coveredPoints,
     coveragePercent: targets.length ? coveredPoints / targets.length * 100 : null,
     uncoveredSamples: Object.freeze(uncoveredSamples),
+  })
+}
+
+function validateDenseCoverage(heads, geometry) {
+  const sampled = buildGlobalTargets(geometry, 0.25, MAX_DENSE_VALIDATION_TARGETS)
+  if (sampled.status !== 'ready') {
+    return Object.freeze({
+      status: sampled.status === 'skipped_target_limit' ? 'skipped_target_limit' : 'not_run',
+      sampleStepM: 0.25,
+      targetCount: null,
+      coverage: null,
+    })
+  }
+  const coverageById = new Map(heads.map((head) =>
+    [head.id, coverageForHead(head, sampled.targets)]))
+  const counts = countCoverage(heads, coverageById, sampled.targets.length)
+  const coverage = coverageSummary(counts, sampled.targets)
+  return Object.freeze({
+    status: coverage.uncoveredPoints === 0 ? 'passed' : 'failed',
+    sampleStepM: 0.25,
+    targetCount: sampled.targets.length,
+    coverage,
   })
 }
 
@@ -887,7 +910,9 @@ export function optimizeGlobalSprinklerSet({
   const finalHeadToHead = buildHeadToHead(sectorPass.heads, baselineRegionSizes)
   const finalOverspray = Boolean(oversprayCheck(sectorPass.heads))
   const finalCoverage = coverageSummary(finalCounts, targets)
-  const finalValid = allTargetsCovered(finalCounts) && finalHeadToHead.passed && finalOverspray
+  const denserValidation = validateDenseCoverage(sectorPass.heads, geometry)
+  const finalValid = allTargetsCovered(finalCounts) && finalHeadToHead.passed &&
+    finalOverspray && denserValidation.status !== 'failed'
   const finalHeads = finalValid ? sectorPass.heads : seed.heads
 
   return Object.freeze({
@@ -902,6 +927,7 @@ export function optimizeGlobalSprinklerSet({
     sectorEdits: Object.freeze(finalValid ? sectorPass.sectorEdits : []),
     sectorVariants: sectorPass.sectorVariants,
     sectorVariantLimitReached: sectorPass.sectorVariantLimitReached,
+    denserValidation,
     reconfiguration: Object.freeze({
       seed: seedName,
       replacedBaselineHeadCount: seedRemovedIds.length,
