@@ -236,7 +236,7 @@ test('non-strip L-shape records failed corner-first validation and uses a safe c
   const result = buildPreliminaryLawnLayout(snapshotFor(12, 8, {
     shape: 'l-shape', cutoutWidth: 4, cutoutDepth: 3, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated',
+  assert.equal(result.status, 'layout_incomplete',
     JSON.stringify({ reason: result.reason, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead }))
   assert.equal(result.layout.geometry.shape, 'l-shape')
   assert.equal(result.layout.cornerFirstAttempt?.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
@@ -245,7 +245,8 @@ test('non-strip L-shape records failed corner-first validation and uses a safe c
     warning.code === 'l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used'))
   assert.ok(result.layout.calculationRegions.length === 2)
   assert.equal(result.layout.coverage.uncoveredPoints, 0)
-  assert.equal(result.layout.headToHead.passed, true)
+  assert.equal(result.layout.headToHead.passed, false,
+    'the bridge must not claim a complete layout when the safe fallback still has a Head-to-Head gap')
   assert.equal(result.layout.overspray, 'sampled_inside_boundary')
 })
 
