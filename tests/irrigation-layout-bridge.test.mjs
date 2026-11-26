@@ -104,22 +104,31 @@ test('8x8 lawn prioritizes 3504-PC rotors while 4m and 5m rectangles retain the 
   assert.equal(bom.items.find((item) => item.sku === 'A44120'), undefined)
 })
 
-test('each rectangle uses a complete 3504-PC layout or falls back wholly to the unchanged R-VAN solver', () => {
+test('rectangles run the rotor pass first and only use R-VAN for any residual coverage', () => {
   for (const [length, width] of [[20, 10], [20, 15], [30, 30]]) {
     const result = buildPreliminaryLawnLayout(snapshotFor(length, width))
     assertGlobalLayoutStatus(result, length + 'x' + width)
-    assert.equal(result.operatingScenario?.family, '3500')
-    assert.equal(result.operatingScenario?.model, '3504-PC')
-    assert.ok(result.layout.sprinklers.length > 0)
-    assert.ok(result.layout.sprinklers.every((head) => head.performanceModel === '3504-PC'))
+    assert.ok(['3500', 'R-VAN', 'mixed'].includes(result.operatingScenario?.family))
+    assert.equal(result.layout.algorithm, 'whole-polygon-sequential-3504pc-rvan-strip-v1')
+    assert.equal(result.layout.calculationRegions[0].pattern, 'whole-polygon')
+    const heads = result.layout.sprinklers
+    const rotorHeads = heads.filter((head) => head.performanceModel === '3504-PC')
+    const rvanHeads = heads.filter((head) => head.performanceModel.startsWith('R-VAN') && head.pattern !== 'strip')
+    assert.ok(heads.length > 0)
     assert.equal(result.layout.coverage.uncoveredPoints, 0)
     assert.equal(result.layout.headToHead.passed, true)
     assert.equal(result.layout.overspray, 'sampled_inside_boundary')
     assert.equal(result.overspray, 'sampled_inside_boundary')
+    assert.ok(rotorHeads.every((head) => head.radiusM >= 6 && head.radiusM <= 9))
+    if (rotorHeads.length && rvanHeads.length) {
+      const lastRotor = Math.max(...heads.map((head, index) => head.performanceModel === '3504-PC' ? index : -1))
+      const firstRvan = heads.findIndex((head) => head.performanceModel.startsWith('R-VAN') && head.pattern !== 'strip')
+      assert.ok(firstRvan > lastRotor)
+    }
     assert.ok(result.zones.every((zone) => zone.sprinklerCount <= 6))
     const bom = buildIrrigationBillOfMaterials(result.layout, result.zones)
     assert.equal(bom.valid, true)
-    assert.equal(bom.items.find((item) => item.sku === 'Y34001')?.quantity, result.layout.sprinklers.length)
+    if (rotorHeads.length) assert.equal(bom.items.find((item) => item.sku === 'Y34001')?.quantity, rotorHeads.length)
     assert.equal(bom.items.find((item) => item.sku === 'A44120'), undefined)
   }
 })
@@ -619,7 +628,8 @@ test('two narrow connected arms keep separate strip geometry and unique sprinkle
   assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
   assert.ok(result.layout?.sprinklers?.every((head) => head.pattern === 'strip'))
   assert.equal(new Set(result.layout?.sprinklers?.map((head) => head.id)).size, result.layout?.sprinklers?.length)
-  assert.ok(result.layout?.calculationRegions?.every((region) => region.pattern === 'strip'))
+  assert.equal(result.layout?.calculationRegions?.[0]?.pattern, 'whole-polygon')
+  assert.ok(result.layout?.calculationRegions?.slice(1).every((region) => region.pattern === 'directional-strip'))
 })
 
 
