@@ -1492,6 +1492,43 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   }
 
   const finalLayout = finalizeSingleRegionLayout(layout, geometry, sampleStepM, 'rect-001')
+  const cornerFirstLShapeFailed = validation.regions[0].shape === 'l-shape' && (
+    finalLayout.status !== 'coverage_complete_sampled' ||
+    finalLayout.coverage?.uncoveredPoints !== 0 ||
+    finalLayout.headToHead?.passed === false ||
+    finalLayout.overspray !== 'sampled_inside_boundary'
+  )
+  if (cornerFirstLShapeFailed && lShapeParts) {
+    // Never return an incomplete whole-polygon attempt as a finished design.
+    // Fall back to the existing validated rectangle strategy and preserve the
+    // failed corner-first diagnostics so the limitation remains visible.
+    const fallback = buildDecomposedLShapeLayout(
+      geometry, validation,
+      lShapeParts.map((part) => ({ ...part, connectedEnd: null })),
+      RECOMMENDED_NOZZLE_PRESSURE_BAR, sampleStepM,
+      Math.min(...lShapeParts.map((part) => part.shortSideM)), [],
+    )
+    const fallbackWarning = Object.freeze({
+      code: 'l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used',
+      path: 'layout',
+    })
+    const attempt = Object.freeze({
+      algorithm: finalLayout.algorithm,
+      status: finalLayout.status,
+      coverage: finalLayout.coverage,
+      headToHead: finalLayout.headToHead,
+      overspray: finalLayout.overspray,
+    })
+    return Object.freeze({
+      ...fallback,
+      layout: fallback.layout ? Object.freeze({
+        ...fallback.layout,
+        cornerFirstAttempt: attempt,
+        warnings: Object.freeze([...(fallback.layout.warnings ?? []), fallbackWarning]),
+      }) : fallback.layout,
+      warnings: Object.freeze([...(fallback.warnings ?? []), fallbackWarning]),
+    })
+  }
   const zones = buildIrrigationZones(finalLayout.sprinklers, geometry)
   const pipeNetwork = buildPerimeterPipeNetwork(geometry, finalLayout.sprinklers, zones)
 
