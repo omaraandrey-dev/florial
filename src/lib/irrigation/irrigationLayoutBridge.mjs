@@ -1453,7 +1453,6 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     pressureBar,
     sampleStepM,
     radiusM,
-    preventOverspray: validation.regions[0].shape === 'l-shape',
     sprayBoundaryGeometry: validation.regions[0].shape === 'l-shape' ? geometry : null,
   })
   const rvanLayout = rotorLayout ? null : createRvanLayout()
