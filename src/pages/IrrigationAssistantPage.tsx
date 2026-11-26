@@ -611,6 +611,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       <option value="top-left">{copy.cornerTopLeft}</option><option value="top-right">{copy.cornerTopRight}</option><option value="bottom-left">{copy.cornerBottomLeft}</option><option value="bottom-right">{copy.cornerBottomRight}</option>
                     </select></label>
                   </div>}
+                  {false && (
                   <div className="mt-5 rounded-xl border border-slate-200 p-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <h3 className="text-sm font-bold text-slate-800">{copy.nonIrrigatedTitle}</h3>
@@ -642,6 +643,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
                       </div>
                     </div>)}
                   </div>
+                  )}
                   {boundaryVertices && geometryValidation?.valid && <div className="mt-5 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-4">
                     <h3 className="mb-3 text-sm font-bold text-emerald-950">{copy.geometryPreview}</h3>
                     <div className="rounded-xl border border-emerald-100 bg-white p-3">
