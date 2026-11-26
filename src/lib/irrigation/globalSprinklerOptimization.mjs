@@ -268,7 +268,8 @@ function runRemovalPass(state, options) {
   const failed = new Set()
 
   while (true) {
-    const candidates = heads.filter((head) => isRotor(head) && !failed.has(head.id))
+    const candidates = heads.filter((head) =>
+      isRotor(head) && !['vertex', 'corner'].includes(head.source) && !failed.has(head.id))
       .map((head) => {
         const group = symmetricRotorOrbit(heads, head, options.symmetryTransforms)
         return group ? {
