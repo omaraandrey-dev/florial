@@ -491,6 +491,55 @@ function selectGreedy(candidates, targetCount, initiallyUncovered = null) {
   return { selected, uncovered }
 }
 
+function selectGreedyConnected(candidates, initiallyUncovered, selectedInput, priorHeads = []) {
+  const uncovered = new Set(initiallyUncovered)
+  const selected = selectedInput.slice()
+  const available = candidates.slice()
+
+  while (uncovered.size > 0 && selected.length < MAX_SELECTED_SPRINKLERS) {
+    const scored = available.map((candidate) => {
+      let gain = 0
+      for (const targetIndex of candidate.covered) if (uncovered.has(targetIndex)) gain += 1
+      const connected = [...priorHeads, ...selected].some((head) =>
+        sectorsMutuallyReach(candidate, head))
+      return { candidate, gain, connected }
+    }).filter((entry) => entry.gain > 0)
+    if (!scored.length) break
+
+    // Prefer candidates that are Head-to-Head connected to the corner seed.
+    // If a remaining uncovered pocket is separated by a gap, retain the best
+    // coverage candidate and let the explicit spacing-repair pass bridge it.
+    scored.sort((a, b) =>
+      Number(b.connected) - Number(a.connected) ||
+      b.gain - a.gain ||
+      a.candidate.id.localeCompare(b.candidate.id))
+    const chosen = scored[0].candidate
+    available.splice(available.findIndex((entry) => entry.id === chosen.id), 1)
+    selected.push(chosen)
+    for (const targetIndex of chosen.covered) uncovered.delete(targetIndex)
+  }
+  return { selected: selected.slice(selectedInput.length), uncovered }
+}
+
+function selectCornerFirstPerimeter(perimeterCandidates, initiallyUncovered, priorHeads = []) {
+  const uncovered = new Set(initiallyUncovered)
+  const corners = perimeterCandidates.filter((candidate) => candidate.source === 'vertex')
+  const edges = perimeterCandidates.filter((candidate) => candidate.source === 'edge')
+  const selected = []
+
+  // Seed the actual polygon vertices first, including the reflex corner of an L.
+  for (const candidate of corners) {
+    const gain = candidate.covered.reduce((sum, index) => sum + Number(uncovered.has(index)), 0)
+    if (gain <= 0 || selected.length >= MAX_SELECTED_SPRINKLERS) continue
+    selected.push(candidate)
+    for (const index of candidate.covered) uncovered.delete(index)
+  }
+
+  const edgePass = selectGreedyConnected(edges, uncovered, selected, priorHeads)
+  selected.push(...edgePass.selected)
+  return { selected, uncovered: edgePass.uncovered }
+}
+
 function positiveModulo(value, modulus) {
   return ((value % modulus) + modulus) % modulus
 }
@@ -845,14 +894,20 @@ export function generateLawnSprinklerLayout({
   for (let index = 0; index < targets.length; index += 1) {
     if (!priorHeads.some((head) => sprinklerCoversPoint(head, targets[index]))) initiallyUncovered.add(index)
   }
-  const perimeterPass = selectGreedy(perimeterCandidates, targets.length, initiallyUncovered)
+  const isLShape = validation.regions[0].shape === 'l-shape'
+  const perimeterPass = isLShape
+    ? selectCornerFirstPerimeter(perimeterCandidates, initiallyUncovered, priorHeads)
+    : selectGreedy(perimeterCandidates, targets.length, initiallyUncovered)
   let coverageSelection = perimeterPass.selected
   let uncovered = perimeterPass.uncovered
 
-  // Keep the perimeter-first pattern: add interior heads only for points
-  // that remain uncovered after all useful perimeter candidates are selected.
+  // On L-shapes, corners are seeded first; edge and interior additions then
+  // advance through the uncovered samples while preferring mutual Head-to-Head
+  // links to the already installed heads.
   if (uncovered.size > 0 && interiorCandidates.length > 0) {
-    const interiorPass = selectGreedy(interiorCandidates, targets.length, uncovered)
+    const interiorPass = isLShape
+      ? selectGreedyConnected(interiorCandidates, uncovered, coverageSelection, priorHeads)
+      : selectGreedy(interiorCandidates, targets.length, uncovered)
     coverageSelection = coverageSelection.concat(interiorPass.selected)
     uncovered = interiorPass.uncovered
   }
@@ -876,7 +931,9 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'perimeter-first-mixed-rvan-spacing-aware-set-cover-v5',
+    algorithm: isLShape
+      ? 'l-shape-corner-first-uncovered-head-to-head-v1'
+      : 'perimeter-first-mixed-rvan-spacing-aware-set-cover-v5',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,
