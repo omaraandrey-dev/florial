@@ -468,7 +468,7 @@ test('asymmetric global search relocates a rotor before removing a seam-bridging
     maxSectorVariants: 0,
   })
 
-  assert.equal(result.status, 'completed')
+  assert.equal(result.status, 'completed', JSON.stringify({ failure: result.failure, coverage: result.coverage, headToHead: result.headToHead, oversprayPassed: result.oversprayPassed }))
   assert.equal(result.sprinklers.length, 2)
   assert.equal(result.coverage.uncoveredPoints, 0)
   assert.equal(result.headToHead.passed, true)
