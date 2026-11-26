@@ -43,7 +43,9 @@ function sanitizeRectangularExclusions(rawExclusions, boundary) {
       xs[1] + ':' + ys[0], xs[1] + ':' + ys[1],
     ])
     const actual = new Set(points.map((point) => point.x + ':' + point.y))
-    if (actual.size !== 4 || [...expected].some((key) => !actual.has(key))) return null
+    const minX = Math.min(...xs), minY = Math.min(...ys)
+    if (actual.size !== 4 || [...expected].some((key) => !actual.has(key)) ||
+        minX < 0 || minY < 0 || (minX === 0 && minY === 0)) return null
     for (let edge = 0; edge < points.length; edge += 1) {
       const a = points[edge]
       const b = points[(edge + 1) % points.length]
@@ -58,6 +60,7 @@ function sanitizeRectangularExclusions(rawExclusions, boundary) {
     if (!pointInRing(center, boundary)) return null
     result.push({
       id: cleanLabel(entry.id, 80) || 'exclusion-' + (index + 1),
+      kind: ['pool', 'building', 'patio'].includes(entry.kind) ? entry.kind : 'other',
       polygon: { vertices: points },
     })
   }
