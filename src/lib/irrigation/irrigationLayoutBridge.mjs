@@ -496,7 +496,8 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
     geometry,
     parts: [part],
     sampleStepM,
-    oversprayCheck: (candidateHeads) => evaluateCompositeOverspray(candidateHeads, [part], geometry),
+    oversprayCheck: (candidateHeads) => fullCircleRotorClearancePassed(candidateHeads) &&
+      evaluateCompositeOverspray(candidateHeads, [part], geometry),
   })
   const finalHeads = optimization.status === 'completed'
     ? optimization.sprinklers
@@ -552,11 +553,159 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
   })
 }
 
-function rectangleRotorLayout(rectGeometry, part, sampleStepM) {
+
+function sprinklerCoversPoint(head, point) {
+  if (head.pattern === 'strip' && head.stripBounds) {
+    const bounds = head.stripBounds
+    if (point.x < bounds.minX - 1e-8 || point.x > bounds.maxX + 1e-8 ||
+        point.y < bounds.minY - 1e-8 || point.y > bounds.maxY + 1e-8) return false
+    if (head.stripAxis === 'horizontal') {
+      if (head.stripDirection === 'left') return point.x <= head.position.x + 1e-8 &&
+        point.x >= head.position.x - head.stripLengthM - 1e-8
+      if (head.stripDirection === 'right') return point.x >= head.position.x - 1e-8 &&
+        point.x <= head.position.x + head.stripLengthM + 1e-8
+      return true
+    }
+    if (head.stripDirection === 'up') return point.y >= head.position.y - 1e-8 &&
+      point.y <= head.position.y + head.stripLengthM + 1e-8
+    if (head.stripDirection === 'down') return point.y <= head.position.y + 1e-8 &&
+      point.y >= head.position.y - head.stripLengthM - 1e-8
+    return true
+  }
+  if (!Number.isFinite(head.radiusM)) return false
+  const dx = point.x - head.position.x
+  const dy = point.y - head.position.y
+  if (Math.hypot(dx, dy) > head.radiusM + 1e-8) return false
+  const arc = head.arcDeg ?? 360
+  if (arc >= 360) return true
+  const angle = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360
+  const direction = ((head.directionDeg ?? 0) % 360 + 360) % 360
+  const difference = Math.abs(((angle - direction + 540) % 360) - 180)
+  return difference <= arc / 2 + 1e-8
+}
+
+function rectangleCoverageByPreviousHeads(part, heads, sampleStepM) {
+  const columns = Math.max(1, Math.ceil(part.lengthM / sampleStepM))
+  const rows = Math.max(1, Math.ceil(part.shortSideM / sampleStepM))
+  let coveredPoints = 0
+  const contributing = new Set()
+  for (let row = 0; row <= rows; row += 1) {
+    const y = part.minY + (part.maxY - part.minY) * row / rows
+    for (let column = 0; column <= columns; column += 1) {
+      const x = part.minX + (part.maxX - part.minX) * column / columns
+      const point = { x, y }
+      const covering = heads.filter((head) => sprinklerCoversPoint(head, point))
+      if (covering.length) {
+        coveredPoints += 1
+        covering.forEach((head) => contributing.add(head.id))
+      }
+    }
+  }
+  const sampledPoints = (columns + 1) * (rows + 1)
+  return Object.freeze({
+    sampledPoints,
+    coveredPoints,
+    uncoveredPoints: sampledPoints - coveredPoints,
+    coveragePercent: sampledPoints ? coveredPoints / sampledPoints * 100 : 0,
+    headIds: Object.freeze([...contributing].sort()),
+  })
+}
+
+function buildPreviouslyCoveredRectangleLayout(coverage) {
+  return Object.freeze({
+    engineVersion: '0.7.0',
+    status: 'coverage_complete_sampled',
+    family: 'shared',
+    model: 'covered-by-previous-sprinklers',
+    algorithm: 'sequential-largest-rectangle-shared-coverage-v1',
+    sprinklers: Object.freeze([]),
+    coverage: Object.freeze({
+      sampledPoints: coverage.sampledPoints,
+      coveredPoints: coverage.coveredPoints,
+      uncoveredPoints: 0,
+      coveragePercent: 100,
+      uncoveredSamples: Object.freeze([]),
+    }),
+    headToHead: Object.freeze({ passed: true, applicable: false, checks: Object.freeze([]) }),
+    warnings: Object.freeze([
+      Object.freeze({ code: 'rectangle_already_covered_by_previous_sprinklers', path: 'layout.sprinklers' }),
+    ]),
+  })
+}
+
+function fullCircleRotorClearancePassed(heads, minimumDistanceM = 6) {
+  const rotors = heads.filter((head) =>
+    head.pattern === 'rotor' && head.performanceModel === '3504-PC')
+  for (const fullCircle of rotors.filter((head) => head.arcDeg === 360)) {
+    for (const other of rotors) {
+      if (other.id === fullCircle.id) continue
+      if (Math.hypot(fullCircle.position.x - other.position.x,
+        fullCircle.position.y - other.position.y) < minimumDistanceM - 1e-8) return false
+    }
+  }
+  return true
+}
+
+function newSectorEdgeFits(head, directionOffsetDeg, geometry) {
+  const angle = ((head.directionDeg + directionOffsetDeg) * Math.PI) / 180
+  for (let distanceM = 0; distanceM <= head.radiusM + 1e-8; distanceM += 0.1) {
+    const point = {
+      x: head.position.x + Math.cos(angle) * Math.min(distanceM, head.radiusM),
+      y: head.position.y + Math.sin(angle) * Math.min(distanceM, head.radiusM),
+    }
+    if (!pointInIrrigatedGeometry(point, geometry)) return false
+  }
+  return true
+}
+
+function sectorExpansionFits(head, currentArcDeg, nextArcDeg, geometry) {
+  const from = currentArcDeg / 2
+  const to = nextArcDeg / 2
+  for (let offset = from + 0.25; offset <= to + 1e-8; offset += 0.25) {
+    if (!newSectorEdgeFits(head, offset, geometry) ||
+        !newSectorEdgeFits(head, -offset, geometry)) return false
+  }
+  return true
+}
+
+function maximizeRotorSectors(sprinklers, otherHeads, geometry) {
+  let current = sprinklers.slice()
+  const edits = []
+  for (const original of sprinklers) {
+    if (original.performanceModel !== '3504-PC' || original.pattern !== 'rotor' ||
+        !Number.isFinite(original.directionDeg) || !Number.isFinite(original.arcDeg) ||
+        original.arcDeg >= 360) continue
+    const currentHead = current.find((head) => head.id === original.id)
+    if (!currentHead) continue
+    let best = currentHead
+    for (let arcDeg = Math.ceil(best.arcDeg + 1e-8) + 1; arcDeg <= 360; arcDeg += 1) {
+      const candidate = Object.freeze({ ...best, arcDeg })
+      const combined = [
+        ...otherHeads.filter((head) => head.id !== candidate.id),
+        ...current.filter((head) => head.id !== candidate.id),
+        candidate,
+      ]
+      if (arcDeg === 360 && !fullCircleRotorClearancePassed(combined)) break
+      if (!sectorExpansionFits(best, best.arcDeg, arcDeg, geometry)) break
+      best = candidate
+    }
+    if (best.arcDeg > currentHead.arcDeg) {
+      current = current.map((head) => head.id === best.id ? best : head)
+      edits.push(Object.freeze({
+        sprinklerId: best.id,
+        fromArcDeg: currentHead.arcDeg,
+        toArcDeg: best.arcDeg,
+        directionDeg: best.directionDeg,
+      }))
+    }
+  }
+  return Object.freeze({ sprinklers: Object.freeze(current), edits: Object.freeze(edits) })
+}
+
+function rectangleRotorLayout(rectGeometry, part, sampleStepM, initialSprinklers = []) {
   if (part.shortSideM < 6 - 1e-8) return null
-  const candidate = generateRainBird3504Layout(rectGeometry, { sampleStepM })
-  if (candidate.status !== 'layout_generated' || candidate.coverage?.uncoveredPoints !== 0 ||
-      !candidate.sprinklers.length) return null
+  const candidate = generateRainBird3504Layout(rectGeometry, { sampleStepM, initialSprinklers })
+  if (candidate.status !== 'layout_generated' || candidate.coverage?.uncoveredPoints !== 0) return null
   const checks = candidate.sprinklers.length > 1
     ? evaluateHeadToHeadSpacing(candidate.sprinklers)
     : []
@@ -654,23 +803,29 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       continue
     }
 
-    const rotorLayout = rectangleRotorLayout(part.rectGeometry, part, sampleStepM)
-    if (rotorLayout) {
-      part.layout = rotorLayout
+    const previousCoverage = rectangleCoverageByPreviousHeads(part, previouslyPlacedHeads, sampleStepM)
+    part.previousCoverage = previousCoverage
+    if (previousCoverage.uncoveredPoints === 0) {
+      part.layout = buildPreviouslyCoveredRectangleLayout(previousCoverage)
     } else {
-      const selected = selectRvanModel(part.shortSideM)
-      part.layout = generateLawnSprinklerLayout({
-        geometry: part.rectGeometry,
-        family: 'R-VAN',
-        model: selected.model,
-        pressureBar,
-        sampleStepM,
-        radiusM: selected.radiusM,
-        preventOverspray: true,
-        candidatePositionOffsets: part.candidatePositionOffsets,
-        initialSprinklers: previouslyPlacedHeads.filter((head) => head.pattern !== 'strip'),
-        sprayBoundaryGeometry: geometry,
-      })
+      const rotorLayout = rectangleRotorLayout(part.rectGeometry, part, sampleStepM, previouslyPlacedHeads)
+      if (rotorLayout) {
+        part.layout = rotorLayout
+      } else {
+        const selected = selectRvanModel(part.shortSideM)
+        part.layout = generateLawnSprinklerLayout({
+          geometry: part.rectGeometry,
+          family: 'R-VAN',
+          model: selected.model,
+          pressureBar,
+          sampleStepM,
+          radiusM: selected.radiusM,
+          preventOverspray: true,
+          candidatePositionOffsets: part.candidatePositionOffsets,
+          initialSprinklers: previouslyPlacedHeads.filter((head) => head.pattern !== 'strip'),
+          sprayBoundaryGeometry: geometry,
+        })
+      }
     }
     if (!['coverage_complete_sampled', 'coverage_incomplete'].includes(part.layout.status)) {
       return result('layout_incomplete', {
@@ -680,7 +835,35 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         warnings: Object.freeze([{ code: 'rectangular_zone_layout_not_available', path: 'geometry' }]),
       })
     }
+    if (part.layout.sprinklers.length) {
+      const expanded = maximizeRotorSectors(part.layout.sprinklers, previouslyPlacedHeads, geometry)
+      part.layout = Object.freeze({
+        ...part.layout,
+        sprinklers: expanded.sprinklers,
+        sectorOptimization: expanded,
+      })
+    }
     previouslyPlacedHeads.push(...part.layout.sprinklers)
+  }
+
+  // Final whole-layout pass: every 3504-PC sector is reconsidered against the
+  // original lawn and all heads from every processed rectangle.
+  const allUnprefixedHeads = [
+    ...initialHeads,
+    ...prepared.flatMap((part) => part.layout.sprinklers),
+  ]
+  const finalSectorEdits = []
+  for (const part of prepared) {
+    if (!part.layout.sprinklers.length) continue
+    const partIds = new Set(part.layout.sprinklers.map((head) => head.id))
+    const others = allUnprefixedHeads.filter((head) => !partIds.has(head.id))
+    const expanded = maximizeRotorSectors(part.layout.sprinklers, others, geometry)
+    part.layout = Object.freeze({
+      ...part.layout,
+      sprinklers: expanded.sprinklers,
+      finalSectorOptimization: expanded,
+    })
+    finalSectorEdits.push(...expanded.edits)
   }
 
   let allHeads = initialHeads.slice()
@@ -705,7 +888,9 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       warning.code !== 'overspray_not_evaluated'))
   }
 
-  let oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, geometry)
+  const fullCircleSpacingPassed = fullCircleRotorClearancePassed(allHeads)
+  let oversprayPassed = fullCircleSpacingPassed &&
+    evaluateCompositeOverspray(allHeads, prepared, geometry)
   const localHeadToHeadChecks = prepared.filter((part) => !part.isStrip && part.layout.sprinklers.length > 1)
     .flatMap((part) => evaluateHeadToHeadSpacing(part.layout.sprinklers))
   const crossRegionChecks = []
@@ -739,7 +924,8 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     geometry,
     parts: prepared,
     sampleStepM,
-    oversprayCheck: (heads) => evaluateCompositeOverspray(heads, prepared, geometry),
+    oversprayCheck: (heads) => fullCircleRotorClearancePassed(heads) &&
+      evaluateCompositeOverspray(heads, prepared, geometry),
   })
   if (globalOptimization.status === 'completed') {
     allHeads = [...globalOptimization.sprinklers]
@@ -807,6 +993,10 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     { code: 'adjacent_strip_and_rectangle_heads_may_be_offset_by_0_075m', path: 'layout.sprinklers' },
     { code: 'spray_footprints_checked_against_original_lawn_and_exclusions_with_spatial_sampling', path: 'layout.overspray' },
   ]
+  if (!fullCircleSpacingPassed) warnings.push({
+    code: 'full_circle_3504_rotors_must_be_at_least_6m_apart',
+    path: 'layout.sprinklers',
+  })
   if (!oversprayPassed) warnings.push({ code: 'sampled_spray_footprint_exceeds_lawn_boundary', path: 'layout.overspray' })
   if (!circularCoverageComplete) warnings.push({ code: 'one_or_more_rectangular_zones_have_uncovered_sample_points', path: 'layout.coverage' })
   if (headToHeadPassed === false) warnings.push({ code: 'head_to_head_spacing_check_failed', path: 'layout.headToHead' })
@@ -824,6 +1014,20 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       : (hasStrip
         ? (circularHeads.length ? 'decomposed_rectangular_zones_global_sampled' : 'owner_defined_strip_pattern_global_sampled')
         : 'global_sampled_geometry'),
+    sectorOptimization: Object.freeze({
+      strategy: 'sequential-shared-coverage-and-maximum-safe-3504pc-arc',
+      minimumFullCircleRotorSeparationM: 6,
+      finalPassEdits: Object.freeze(finalSectorEdits),
+      rectangles: Object.freeze(prepared.map((part) => Object.freeze({
+        id: part.id,
+        previousCoverage: part.previousCoverage ?? null,
+        sectorEdits: part.layout.sectorOptimization?.edits ?? [],
+      }))),
+    }),
+    fullCircleRotorSpacing: Object.freeze({
+      passed: fullCircleSpacingPassed,
+      minimumDistanceM: 6,
+    }),
     globalOptimization: Object.freeze({
       status: globalOptimization.status,
       targetCount: globalOptimization.targetCount,
@@ -878,6 +1082,8 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       pattern: part.isStrip ? 'strip' : 'circular',
       family: part.isStrip ? 'R-VAN' : part.layout.family,
       seamOffsets: Object.freeze(part.candidatePositionOffsets),
+      previousCoverage: part.previousCoverage ?? null,
+      sprinklerCount: part.layout.sprinklers.length,
     }))),
   })
 
