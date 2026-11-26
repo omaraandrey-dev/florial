@@ -18,7 +18,7 @@ The next rectangle may receive new heads only for the remaining uncovered sample
 3. Before placing heads in a rectangle, sample it and calculate coverage from every head already placed in earlier rectangles.
 4. If previous heads cover all rectangle samples, add no duplicate heads for that rectangle.
 5. Otherwise, try the existing 3504-PC rectangle solver first, passing all previously placed heads as `initialSprinklers`. If the rotor solver cannot produce a complete valid layout, retain the existing R-VAN fallback and pass all previously placed heads (including supported directional strip patterns) to its existing shared-coverage interface.
-6. Maximize each new 3504-PC sector against the original full lawn boundary and exclusions, not the artificial rectangle boundary. Preserve the current sector bisector and increase the arc in one-degree increments while every newly added angular slice remains inside the original irrigated geometry.
+6. Maximize each new 3504-PC sector against the original full lawn boundary and exclusions, not the artificial rectangle boundary. Search larger arcs in one-degree increments and nearby sector directions; accept a candidate only when all previously uncovered global samples remain covered, the existing Head-to-Head relationships remain valid, and the complete sector stays inside the original irrigated geometry.
 7. Add the resulting heads to the shared set before processing the next rectangle.
 
 Directional LCS/RCS/SST strip patterns remain directional and are not converted into circular rotors. A strip rectangle is skipped only when previously placed heads already cover all of its sampled points. R-VAN performance points are only used for manufacturer dataset-supported arcs; the algorithm does not invent hydraulic performance values for arbitrary nozzle angles.
@@ -67,7 +67,8 @@ For backward compatibility, pre-existing corner-first/shared-cell grid candidate
 - 17×17 m and 20×20 m: retain the restored shared-cell behaviour and symmetry regressions.
 - 10×10 m, 20×10 m, 38×16 m and local-clearance radius stages: retain established v1 behaviour.
 - L-shapes and orthogonal polygons with pools/exclusions: later rectangles report previous-head coverage and avoid duplicate placement.
-- A rotor at a shared seam may expand beyond its calculation rectangle only while its full sector remains inside the original lawn.
+- A rotor at a shared seam may rotate its sector and expand beyond its calculation rectangle only while its full sector remains inside the original lawn and global coverage / Head-to-Head remain valid.
+- A shared-seam case must demonstrate a non-standard maximum arc, not only 90°/180°/270°/360°.
 - A newly opened 360° rotor less than 6 m from another 3504-PC rotor must be rejected.
 - Directional strip heads remain unchanged.
 - X=0, Y=0 and (0,0) coordinates remain valid.
