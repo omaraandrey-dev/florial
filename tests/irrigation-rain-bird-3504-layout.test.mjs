@@ -139,6 +139,14 @@ test('17x17 square selects five inward rotors with the exact 8.5m geometric radi
     [180, 180, 180, 180, 360],
   )
   assert.ok(result.sprinklers.every((head) => Math.abs(head.radiusM - 8.5) < 1e-9))
+  assert.deepEqual(
+    result.sprinklers.filter((head) => head.arcDeg === 180)
+      .map((head) => [head.position.x, head.position.y, head.directionDeg]).sort((a, b) =>
+        a[0] - b[0] || a[1] - b[1]),
+    [[0, 8.5, 0], [8.5, 0, 90], [8.5, 17, 270], [17, 8.5, 180]],
+  )
+  const center = result.sprinklers.find((head) => head.arcDeg === 360)
+  assert.deepEqual(center?.position, { x: 8.5, y: 8.5 })
   assert.ok(result.sprinklers.every((head) =>
     head.position.x >= 0 && head.position.x <= 17 &&
     head.position.y >= 0 && head.position.y <= 17))
