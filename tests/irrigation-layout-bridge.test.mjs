@@ -134,14 +134,14 @@ test('38x16 rectangle is covered by 3504-PC rotors without redundant R-VAN heads
   assert.ok(result.zones.every((zone) => zone.sprinklerCount <= 6))
 })
 
-test('rectangle decomposition is processed by ascending area and a shared strip seam gets a 7.5cm inward offset', () => {
+test('rectangle decomposition is processed by descending area and a shared strip seam keeps the 7.5cm inward offset', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(18, 14, {
     shape: 'l-shape', cutoutWidth: 6, cutoutDepth: 12, cutoutCorner: 'top-right',
   }))
   assert.equal(result.status, 'layout_generated',
     JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, h2h: result.layout?.headToHead, overspray: result.layout?.overspray, heads: result.layout?.sprinklers }))
   const areas = result.layout.calculationRegions.map((part) => part.areaM2)
-  assert.deepEqual(areas, areas.slice().sort((a, b) => a - b))
+  assert.deepEqual(areas, areas.slice().sort((a, b) => b - a))
   const stripSeamHead = result.layout.sprinklers.find((head) =>
     head.pattern === 'strip' && Math.abs(head.position.x - 12) < 1e-6 && Math.abs(head.position.y) < 1e-6)
   assert.ok(stripSeamHead, 'connected strip head should remain at the shared seam')
