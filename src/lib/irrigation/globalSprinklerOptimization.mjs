@@ -707,6 +707,15 @@ function runRvanGroupReplacementPass(state, options) {
   const replacedGroups = []
   let evaluated = 0
   const maxVariants = options.maxReconfigurationVariants ?? 160
+  // Mixed strip layouts keep their directional heads and are not sent through
+  // the circular-head replacement search.
+  if (heads.some((head) => head.pattern === 'strip')) {
+    return {
+      heads, counts, coverageById, replacedGroups,
+      reconfigurationVariants: 0,
+      reconfigurationVariantLimitReached: false,
+    }
+  }
   const groups = rvanReplacementGroups(heads)
 
   for (const group of groups) {
