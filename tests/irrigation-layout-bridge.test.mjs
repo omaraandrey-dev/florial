@@ -668,7 +668,10 @@ test('shared-seam 3504-PC sector can reorient and widen beyond its original angl
     cutoutCorner: 'top-right',
   }))
   assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
-  const edits = result.layout.sectorOptimization.rectangles.flatMap((part) => part.sectorEdits)
+  const edits = [
+    ...result.layout.sectorOptimization.finalPassEdits,
+    ...result.layout.sectorOptimization.rectangles.flatMap((part) => part.sectorEdits),
+  ]
   const reoriented = edits.find((edit) =>
     edit.toArcDeg > edit.fromArcDeg && edit.toDirectionDeg !== edit.fromDirectionDeg)
   assert.ok(reoriented, JSON.stringify({
