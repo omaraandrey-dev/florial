@@ -1608,12 +1608,27 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
           previousCoverage,
           layout: stripLayout,
         })
-        stripParts.push(part)
-        allHeads.push(...stripLayout.sprinklers.map((head) => Object.freeze({
+        const candidateHeads = stripLayout.sprinklers.map((head) => Object.freeze({
           ...head,
           id: prefix + head.id,
           calculationRegionId: region.id,
-        })))
+        }))
+        const stripBoundaryCheck = evaluateCompositeOverspray(
+          [...allHeads, ...candidateHeads],
+          geometry,
+          [...stripParts, part],
+        )
+        if (!stripBoundaryCheck.passed) {
+          warnings.push(Object.freeze({
+            code: 'strip_pattern_rejected_due_to_boundary_overspray',
+            path: 'layout.sprinklers',
+            stripId: part.id,
+            outsideSamples: stripBoundaryCheck.outsideSamples,
+          }))
+          continue
+        }
+        stripParts.push(part)
+        allHeads.push(...candidateHeads)
       }
     }
   }
