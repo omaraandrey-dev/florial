@@ -15,7 +15,9 @@ export interface IrrigationLayoutBridgeSnapshot {
 }
 export interface PreliminaryLawnLayoutResult {
   readonly status: string
-  readonly hydraulicFeasibility: 'not_evaluated'
+  readonly hydraulicFeasibility: 'not_evaluated' | 'owner_confirmed_compatible'
+  readonly hydraulicCompatibilityBasis: 'not_applicable' | 'owner_confirmed'
+  readonly precipitationIntensityCompatibility: 'not_evaluated' | 'owner_confirmed_similar'
   readonly precipitationUniformity: 'not_evaluated'
   readonly bodyCompatibility: 'not_evaluated'
   readonly overspray: 'not_evaluated' | 'sampled_inside_boundary' | 'sampled_outside_boundary'
