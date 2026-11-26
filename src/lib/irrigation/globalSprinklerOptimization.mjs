@@ -911,15 +911,34 @@ export function optimizeGlobalSprinklerSet({
   const finalOverspray = Boolean(oversprayCheck(sectorPass.heads))
   const finalCoverage = coverageSummary(finalCounts, targets)
   const denserValidation = validateDenseCoverage(sectorPass.heads, geometry)
-  const finalValid = allTargetsCovered(finalCounts) && finalHeadToHead.passed &&
-    finalOverspray && denserValidation.status !== 'failed'
-  const finalHeads = finalValid ? sectorPass.heads : seed.heads
+  const sameHeadSet = sectorPass.heads.length === originalHeads.length &&
+    sectorPass.heads.every((head) => {
+      const original = originalHeads.find((entry) => entry.id === head.id)
+      return original &&
+        Math.abs(original.position.x - head.position.x) <= COORDINATE_TOLERANCE &&
+        Math.abs(original.position.y - head.position.y) <= COORDINATE_TOLERANCE &&
+        original.arcDeg === head.arcDeg &&
+        original.directionDeg === head.directionDeg &&
+        original.radiusM === head.radiusM &&
+        original.performanceModel === head.performanceModel
+    })
+  const candidateValid = allTargetsCovered(finalCounts) &&
+    finalHeadToHead.passed && finalOverspray
+  const candidateAccepted = candidateValid && (sameHeadSet || denserValidation.status !== 'failed')
+  const fallbackToOriginal = !candidateAccepted && originalValid
+  const finalValid = candidateAccepted || fallbackToOriginal
+  const finalHeads = candidateAccepted ? sectorPass.heads
+    : fallbackToOriginal ? originalHeads : seed.heads
+  const finalHeadToHeadResult = fallbackToOriginal ? originalHeadToHead : finalHeadToHead
+  const finalOversprayResult = fallbackToOriginal ? originalOverspray : finalOverspray
+  const finalCoverageResult = fallbackToOriginal ? originalCoverage
+    : candidateAccepted ? finalCoverage : coverageSummary(seed.counts, targets)
 
   return Object.freeze({
     status: finalValid ? 'completed' : 'final_validation_failed',
     sprinklers: Object.freeze(finalHeads),
     targetCount: targets.length,
-    removedHeadIds: Object.freeze(finalValid
+    removedHeadIds: Object.freeze(candidateAccepted
       ? [...seedRemovedIds, ...replacementPass.replacedGroups.flatMap((group) => group.removedHeadIds),
         ...firstPass.removedHeadIds, ...sectorPass.removedHeadIds]
       : []),
@@ -931,16 +950,18 @@ export function optimizeGlobalSprinklerSet({
     reconfiguration: Object.freeze({
       seed: seedName,
       replacedBaselineHeadCount: seedRemovedIds.length,
+      candidateAccepted,
+      fallbackToOriginal,
       replacedRvanGroups: Object.freeze(replacementPass.replacedGroups),
       reconfigurationVariants: replacementPass.reconfigurationVariants,
       reconfigurationVariantLimitReached: replacementPass.reconfigurationVariantLimitReached,
     }),
-    coverage: finalValid ? finalCoverage : coverageSummary(seed.counts, targets),
+    coverage: finalCoverageResult,
     headToHead: Object.freeze({
-      passed: finalValid ? finalHeadToHead.passed : seed.headToHead.passed,
-      checks: Object.freeze(finalValid ? finalHeadToHead.checks : seed.headToHead.checks),
+      passed: finalHeadToHeadResult.passed,
+      checks: Object.freeze(finalHeadToHeadResult.checks),
     }),
-    oversprayPassed: finalValid ? finalOverspray : Boolean(oversprayCheck(seed.heads)),
+    oversprayPassed: finalOversprayResult,
     baseline: Object.freeze({
       sprinklerCount: originalHeads.length,
       rotorCount: originalHeads.filter(isRotor).length,
