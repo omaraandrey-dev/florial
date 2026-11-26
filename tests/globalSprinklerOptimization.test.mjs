@@ -322,6 +322,8 @@ test('16x16 square is globally reconfigured to four side-midpoint rotors and one
   assert.equal(result.sprinklers.length, 5)
   assert.equal(result.coverage.uncoveredPoints, 0)
   assert.equal(result.headToHead.passed, true)
+  assert.equal(result.denserValidation.status, 'passed')
+  assert.equal(result.denserValidation.sampleStepM, 0.25)
   const expected = [
     { x: 8, y: 0, arcDeg: 180, directionDeg: 90 },
     { x: 16, y: 8, arcDeg: 180, directionDeg: 180 },
@@ -417,4 +419,18 @@ test('nearby circular R-VAN heads can be replaced by a newly positioned 3504-PC 
     String(head.performanceModel).startsWith('R-VAN')).length < baseline.length)
   assert.equal(result.coverage.uncoveredPoints, 0)
   assert.equal(result.headToHead.passed, true)
+})
+
+
+test('dense final coverage validation reports its point cap without implying it ran', () => {
+  const head = rotor('wide-head', 35, 35, { radiusM: 100 })
+  const result = optimizeGlobalSprinklerSet({
+    sprinklers: [head],
+    geometry: squareGeometry(70),
+    parts: [],
+    oversprayCheck: () => true,
+  })
+  assert.equal(result.status, 'completed')
+  assert.equal(result.denserValidation.status, 'skipped_target_limit')
+  assert.equal(result.denserValidation.coverage, null)
 })
