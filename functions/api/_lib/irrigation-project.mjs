@@ -123,7 +123,7 @@ export function validateIrrigationProjectSnapshot(input) {
         !(sprinkler.pattern === 'strip' ? sprinkler.arcDeg === null : [90, 180, 270, 360].includes(sprinkler.arcDeg)) ||
         !cleanLabel(sprinkler.performanceModel, 60) ||
         (sprinkler.pattern !== undefined && !['circular', 'strip', 'rotor'].includes(sprinkler.pattern)) ||
-        (sprinkler.pattern === 'rotor' && (sprinkler.performanceModel !== '3504-PC' || !finite(sprinkler.radiusM, 5, 10))) ||
+        (sprinkler.pattern === 'rotor' && (sprinkler.performanceModel !== '3504-PC' || !finite(sprinkler.radiusM, 5, 9))) ||
         (sprinkler.pattern === 'strip' &&
           (!['R-VAN-LCS', 'R-VAN-RCS', 'R-VAN-SST'].includes(sprinkler.performanceModel) ||
             ![1, 2].includes(sprinkler.stripWidthM) ||
