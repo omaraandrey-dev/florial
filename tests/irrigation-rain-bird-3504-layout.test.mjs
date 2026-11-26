@@ -126,6 +126,16 @@ test('3504-PC rejects unsupported exclusions and invalid geometry without manufa
   ])).status, 'invalid_geometry')
 })
 
+test('16x16 square retains the accepted five-head layout with 8m radii', () => {
+  const result = generateRainBird3504Layout(geometry(16, 16))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.layoutStrategy, 'four-side-midpoints-and-center')
+  assert.equal(result.sprinklers.length, 5)
+  assert.equal(result.coverage?.uncoveredPoints, 0)
+  assert.equal(result.headToHead?.passed, true)
+  assert.ok(result.sprinklers.every((head) => head.radiusM === 8))
+})
+
 test('17x17 square selects five inward rotors with the exact 8.5m geometric radius', () => {
   const result = generateRainBird3504Layout(geometry(17, 17))
   assert.equal(result.status, 'layout_generated')
