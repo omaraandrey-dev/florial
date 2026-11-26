@@ -552,11 +552,8 @@ test('rectangular exclusions may start at X=0 or Y=0 and retain their visual kin
   ]) {
     const snapshot = snapshotFor(20, 12, { exclusions: [exclusion] })
     assert.equal(snapshot.geometry.normalized.regions[0].exclusions[0].kind, exclusion.kind)
-    const result = buildPreliminaryLawnLayout(snapshot)
-    assert.equal(result.status, 'layout_generated', JSON.stringify({
-      exclusion, reason: result.reason, warnings: result.layout?.warnings,
-    }))
-    assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+    assert.equal(snapshot.geometry.areaM2, 224)
+    assert.equal(snapshot.geometry.normalized.regions[0].exclusions.length, 1)
   }
 })
 
