@@ -726,7 +726,7 @@ function buildRelocationCandidatePositions(head, heads, options) {
     .filter((point) => distance(point, head.position) > COORDINATE_TOLERANCE)
     .sort((a, b) => distance(a, head.position) - distance(b, head.position) ||
       a.y - b.y || a.x - b.x)
-    .slice(0, 60)
+    .slice(0, 40)
 }
 
 function runRotorRelocationPass(state, options) {
@@ -734,7 +734,7 @@ function runRotorRelocationPass(state, options) {
   const relocatedHeads = []
   const removedHeadIds = []
   let relocationVariants = 0
-  const maxVariants = options.maxRelocationVariants ?? 300
+  const maxVariants = options.maxRelocationVariants ?? 120
 
   // Symmetric rectangles are handled by whole-shape seed and orbit moves.
   // Individual relocations are reserved for asymmetric geometry.
@@ -943,7 +943,7 @@ export function optimizeGlobalSprinklerSet({
     symmetryTransforms: rectangleSymmetryTransforms(geometry),
     geometry,
     maxReconfigurationVariants: 160,
-    maxRelocationVariants: 300,
+    maxRelocationVariants: 120,
     maxSectorVariants: Math.min(MAX_SECTOR_VARIANTS, Math.max(0, maxSectorVariants)),
   }
 
