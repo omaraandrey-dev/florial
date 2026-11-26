@@ -144,7 +144,19 @@ test('20x20 square keeps a four-way symmetric 3504-PC layout after global optimi
     heads.filter((head) => Math.abs(head.position.x) < 1e-6).length,
     heads.filter((head) => Math.abs(head.position.x - 20) < 1e-6).length,
   ]
-  assert.equal(new Set(sideCounts).size, 1, 'all four sides must retain equal sprinkler counts')
+  assert.deepEqual(sideCounts, [4, 4, 4, 4],
+    '20x20 must retain four evenly spaced heads on each side, not a denser top edge')
+  const expectedSideCoordinates = [0, 8, 12, 20]
+  const actualSideCoordinates = [
+    heads.filter((head) => Math.abs(head.position.y - 20) < 1e-6).map((head) => head.position.x).sort((a, b) => a - b),
+    heads.filter((head) => Math.abs(head.position.y) < 1e-6).map((head) => head.position.x).sort((a, b) => a - b),
+    heads.filter((head) => Math.abs(head.position.x) < 1e-6).map((head) => head.position.y).sort((a, b) => a - b),
+    heads.filter((head) => Math.abs(head.position.x - 20) < 1e-6).map((head) => head.position.y).sort((a, b) => a - b),
+  ]
+  for (const coordinates of actualSideCoordinates) {
+    assert.deepEqual(coordinates, expectedSideCoordinates,
+      'each edge must use the same symmetric 0, 8, 12, 20 metre positions')
+  }
 
   const transforms = [
     { point: (p) => ({ x: 20 - p.x, y: p.y }), angle: (d) => 180 - d },
@@ -227,6 +239,29 @@ test('R-VAN fallback applies the approved 7.5cm inward offset only to the matchi
   assert.ok(layout.sprinklers.every((head) =>
     head.position.x >= 0 && head.position.x <= 4 &&
     head.position.y >= 0 && head.position.y <= 4))
+})
+
+test('non-strip L-shape keeps the full polygon and grows corner-first into uncovered areas', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(12, 8, {
+    shape: 'l-shape',
+    cutoutWidth: 4,
+    cutoutDepth: 3,
+    cutoutCorner: 'top-right',
+  }))
+  assert.equal(result.status, 'layout_generated',
+    JSON.stringify({ reason: result.reason, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead }))
+  assert.equal(result.layout.geometry.shape, 'l-shape')
+  assert.equal(result.layout.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
+  assert.equal(result.layout.coverage.uncoveredPoints, 0)
+  assert.equal(result.layout.headToHead.passed, true)
+  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
+
+  const heads = result.layout.sprinklers
+  const firstNonCorner = heads.findIndex((head) => head.source !== 'vertex')
+  assert.ok(firstNonCorner > 0, 'geometric corner heads must be placed before edge/interior additions')
+  assert.ok(heads.slice(0, firstNonCorner).every((head) => head.source === 'vertex'))
+  assert.ok(heads.some((head) => head.source === 'interior'),
+    'the solver should add interior heads only after the corner/perimeter pass leaves uncovered samples')
 })
 
 test('3504-PC priority works on a supported L-shape with a rectangular recess', () => {
