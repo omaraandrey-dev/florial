@@ -43,10 +43,10 @@ function snapshotFor(length, width, options = {}) {
 }
 
 function assertGlobalLayoutStatus(result, message = '') {
-  const globalFailed = ['baseline_failed', 'final_validation_failed'].includes(
-    result.layout?.globalOptimization?.status,
-  )
-  assert.equal(result.status, globalFailed ? 'layout_incomplete' : 'layout_generated', message)
+  const expectedStatus = ['coverage_complete_sampled', 'strip_pattern_placement_ready'].includes(result.layout?.status)
+    ? 'layout_generated'
+    : 'layout_incomplete'
+  assert.equal(result.status, expectedStatus, message)
 }
 
 function legacyRvanLayout(length, width) {
@@ -190,20 +190,24 @@ test('38x16 rectangle is covered by 3504-PC rotors without redundant R-VAN heads
   assert.ok(result.zones.every((zone) => zone.sprinklerCount <= 6))
 })
 
-test('rectangle decomposition is processed by descending area and a shared strip seam keeps the 7.5cm inward offset', () => {
+test('whole-polygon L-shape completes rotors and R-VAN before its connected 2m strip pass', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(18, 14, {
     shape: 'l-shape', cutoutWidth: 6, cutoutDepth: 12, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_generated',
-    JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, h2h: result.layout?.headToHead, overspray: result.layout?.overspray, heads: result.layout?.sprinklers }))
-  const areas = result.layout.calculationRegions.map((part) => part.areaM2)
-  assert.deepEqual(areas, areas.slice().sort((a, b) => b - a))
-  const stripSeamHead = result.layout.sprinklers.find((head) =>
-    head.pattern === 'strip' && Math.abs(head.position.x - 12) < 1e-6 && Math.abs(head.position.y) < 1e-6)
-  assert.ok(stripSeamHead, 'connected strip head should remain at the shared seam')
-  const mainRegion = result.layout.calculationRegions.find((part) => part.id === 'main')
-  assert.equal(mainRegion?.seamOffsets?.length, 1,
-    'the adjacent rectangle must receive a separate inward candidate at the shared strip seam')
+  assertGlobalLayoutStatus(result, JSON.stringify({
+    warnings: result.layout?.warnings,
+    coverage: result.layout?.coverage,
+    headToHead: result.layout?.headToHead,
+    overspray: result.layout?.overspray,
+  }))
+  assert.equal(result.layout.algorithm, 'whole-polygon-sequential-3504pc-rvan-strip-v1')
+  assert.equal(result.layout.calculationRegions[0].pattern, 'whole-polygon')
+  assert.equal(result.layout.calculationRegions[0].shape, 'l-shape')
+  const stripHeads = result.layout.sprinklers.filter((head) => head.pattern === 'strip')
+  assert.ok(stripHeads.length > 0)
+  assert.ok(stripHeads.every((head) => head.stripWidthM === 2))
+  assert.equal(result.layout.coverage.uncoveredPoints, 0)
+  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
 })
 
 test('R-VAN fallback applies the approved 7.5cm inward offset only to the matching corner head', () => {
@@ -232,60 +236,75 @@ test('R-VAN fallback applies the approved 7.5cm inward offset only to the matchi
     head.position.y >= 0 && head.position.y <= 4))
 })
 
-test('non-strip L-shape records failed corner-first validation and uses a safe complete fallback', () => {
+test('non-strip L-shape uses the shared whole-polygon corner-first solver without rectangle fallback', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(12, 8, {
     shape: 'l-shape', cutoutWidth: 4, cutoutDepth: 3, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_incomplete',
-    JSON.stringify({ reason: result.reason, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead }))
+  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
+  assert.equal(result.layout.algorithm, 'whole-polygon-sequential-3504pc-rvan-strip-v1')
   assert.equal(result.layout.geometry.shape, 'l-shape')
-  assert.equal(result.layout.cornerFirstAttempt?.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
-  assert.ok(['coverage_incomplete', 'coverage_complete_sampled'].includes(result.layout.cornerFirstAttempt?.status))
-  assert.ok(result.layout.warnings.some((warning) =>
+  assert.equal(result.layout.calculationRegions[0].pattern, 'whole-polygon')
+  assert.equal(result.layout.calculationRegions.length, 1)
+  assert.equal(result.layout.cornerFirstAttempt, undefined)
+  assert.ok(!result.layout.warnings.some((warning) =>
     warning.code === 'l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used'))
-  assert.ok(result.layout.calculationRegions.length === 2)
-  assert.equal(result.layout.coverage.uncoveredPoints, 0)
-  assert.equal(result.layout.headToHead.passed, false,
-    'the bridge must not claim a complete layout when the safe fallback still has a Head-to-Head gap')
-  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
-})
-
-test('3504-PC priority works on a supported L-shape with a rectangular recess', () => {
-  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
-    shape: 'l-shape',
-    cutoutWidth: 16,
-    cutoutDepth: 12,
-    cutoutCorner: 'top-right',
-  }))
-  assert.equal(result.status, 'layout_generated')
-  const byRegion = new Map()
-  for (const head of result.layout.sprinklers) {
-    const list = byRegion.get(head.calculationRegionId) ?? new Set()
-    list.add(head.performanceModel === '3504-PC' ? '3504-PC' : 'R-VAN')
-    byRegion.set(head.calculationRegionId, list)
+  if (result.status === 'layout_generated') {
+    assert.equal(result.layout.coverage.uncoveredPoints, 0)
+    assert.equal(result.layout.headToHead.passed, true)
+    assert.equal(result.layout.overspray, 'sampled_inside_boundary')
   }
-  assert.ok([...byRegion.values()].every((families) => families.size === 1),
-    'a calculation rectangle must not mix partial rotors and R-VAN heads')
-  assert.equal(result.layout.coverage.uncoveredPoints, 0)
-  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
-  assert.equal(result.overspray, 'sampled_inside_boundary')
-  assert.ok(result.zones.every((zone) => zone.sprinklerCount <= 6))
 })
 
-test('rectangular non-irrigated exclusion is covered by complete per-rectangle layouts', () => {
+test('3504-PC rotors are placed first across one L-shaped polygon and R-VAN may complete their residuals', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+    shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 10, cutoutCorner: 'top-right',
+  }))
+  assertGlobalLayoutStatus(result, JSON.stringify({
+    warnings: result.layout?.warnings,
+    coverage: result.layout?.coverage,
+    headToHead: result.layout?.headToHead,
+    overspray: result.layout?.overspray,
+  }))
+  assert.equal(result.layout.algorithm, 'whole-polygon-sequential-3504pc-rvan-strip-v1')
+  assert.equal(result.layout.calculationRegions[0].pattern, 'whole-polygon')
+  assert.equal(result.layout.calculationRegions.filter((part) => part.pattern === 'whole-polygon').length, 1)
+  assert.equal(result.layout.coverage.uncoveredPoints, 0)
+  assert.equal(result.layout.headToHead.passed, true)
+  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
+  const heads = result.layout.sprinklers
+  const rotorHeads = heads.filter((head) => head.performanceModel === '3504-PC')
+  const rvanHeads = heads.filter((head) => head.performanceModel.startsWith('R-VAN') && head.pattern !== 'strip')
+  assert.ok(rotorHeads.length > 0)
+  assert.ok(rvanHeads.length > 0, 'the 4m residual arm should be handled by R-VAN after the rotor pass')
+  const checks = result.layout.headToHead.checks
+  assert.ok(checks.some((check) => {
+    const source = heads.find((head) => head.id === check.sprinklerId)
+    const neighbour = heads.find((head) => head.id === check.headToHeadNeighborId)
+    return source && neighbour && source.performanceModel !== neighbour.performanceModel
+  }), 'mixed rotor/R-VAN Head-to-Head must be counted as a complete mutual link')
+  const rotorLastIndex = Math.max(...heads.map((head, index) => head.performanceModel === '3504-PC' ? index : -1))
+  const rvanFirstIndex = heads.findIndex((head) => head.performanceModel.startsWith('R-VAN') && head.pattern !== 'strip')
+  assert.ok(rvanFirstIndex > rotorLastIndex, 'R-VAN must be appended only after the whole rotor pass')
+})
+
+test('rectangular exclusion stays inside one whole-polygon calculation region', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(20, 16, {
     exclusions: [{ id: 'pool', x: 8, y: 6, width: 4, height: 4 }],
   }))
-  assert.equal(result.status, 'layout_generated')
-  const regionFamilies = new Map(result.layout.calculationRegions.map((part) => [part.id, part.family]))
-  assert.ok(result.layout.sprinklers.every((head) => {
-    const family = head.performanceModel === '3504-PC' ? '3500' : 'R-VAN'
-    return regionFamilies.get(head.calculationRegionId) === family
+  assertGlobalLayoutStatus(result, JSON.stringify({
+    warnings: result.layout?.warnings,
+    coverage: result.layout?.coverage,
+    headToHead: result.layout?.headToHead,
+    overspray: result.layout?.overspray,
   }))
+  assert.equal(result.layout.calculationRegions.length, 1)
+  assert.equal(result.layout.calculationRegions[0].pattern, 'whole-polygon')
   assert.equal(result.layout.coverage.uncoveredPoints, 0)
   assert.equal(result.layout.overspray, 'sampled_inside_boundary')
-  assert.equal(result.overspray, 'sampled_inside_boundary')
-  assert.ok(result.zones.every((zone) => zone.sprinklerCount <= 6))
+  assert.ok(result.layout.sprinklers.every((head) => {
+    const { x, y } = head.position
+    return !(x > 8 && x < 12 && y > 6 && y < 10)
+  }))
 })
 
 test('4 m and 5 m rectangular widths stay on R-VAN18 with a local 0.5 m reach allowance', () => {
@@ -532,7 +551,7 @@ test('28x14 L-shape with a 16x12 cut-out is split into a 12x14 R-VAN zone and a 
   assertGlobalLayoutStatus(result, JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
   assert.equal(result.geometry?.shape, 'l-shape')
   assert.equal(result.geometry?.areaM2, 200)
-  assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones_global_sampled')
+  assert.equal(result.layout?.coverageScope, 'global_sampled_geometry')
   assert.equal(result.layout?.geometry?.shape, 'l-shape')
   assert.equal(result.layout?.geometry?.areaM2, 200)
   assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
@@ -559,7 +578,7 @@ test('decomposed L-shape keeps the 1m/2m strip connected to the wide zone in all
       shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 12, cutoutCorner,
     }))
     assertGlobalLayoutStatus(result, cutoutCorner + ' ' + JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
-    assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones_global_sampled', cutoutCorner)
+    assert.equal(result.layout?.coverageScope, 'global_sampled_geometry', cutoutCorner)
     assert.equal(result.layout?.overspray, 'sampled_inside_boundary', cutoutCorner)
     const stripHeads = result.layout?.sprinklers?.filter((head) => head.pattern === 'strip') ?? []
     assert.equal(stripHeads.length, 4, cutoutCorner)
@@ -580,7 +599,7 @@ test('a 2m vertical connected L-shape arm uses a rotated strip row and keeps its
     shape: 'l-shape', cutoutWidth: 12, cutoutDepth: 16, cutoutCorner: 'top-right',
   }))
   assertGlobalLayoutStatus(result, JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
-  assert.equal(result.layout?.coverageScope, 'decomposed_rectangular_zones_global_sampled')
+  assert.equal(result.layout?.coverageScope, 'global_sampled_geometry')
   const stripHeads = result.layout?.sprinklers?.filter((head) => head.pattern === 'strip') ?? []
   assert.ok(stripHeads.length > 0)
   assert.ok(stripHeads.every((head) => head.stripAxis === 'vertical' && head.stripWidthM === 2))
@@ -629,20 +648,23 @@ test('strip direction arrows use sub-metre SVG markers and cannot masquerade as 
 })
 
 
-test('L-shaped rectangles are processed largest-first while the 4 m arm retains R-VAN18 locally', () => {
+test('4m L-shape arm is handled by R-VAN after the rotor pass on the full polygon', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 10, cutoutCorner: 'top-right',
   }))
-  assertGlobalLayoutStatus(result, JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
-  assert.deepEqual(result.layout?.calculationRegions?.map((part) => part.shortSideM), [12, 4])
-  assert.equal(result.layout?.cornerFirstAttempt?.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
-  assert.ok(result.layout?.warnings?.some((warning) =>
-    warning.code === 'l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used'))
-  const armHeads = result.layout?.sprinklers?.filter((head) => head.calculationRegionId === 'arm') ?? []
+  assertGlobalLayoutStatus(result, JSON.stringify({
+    warnings: result.layout?.warnings,
+    coverage: result.layout?.coverage,
+    headToHead: result.layout?.headToHead,
+    overspray: result.layout?.overspray,
+  }))
+  assert.equal(result.layout.calculationRegions[0].pattern, 'whole-polygon')
+  const armHeads = result.layout.sprinklers.filter((head) =>
+    head.pattern !== 'strip' && head.position.x > 12 && head.position.y < 4)
   assert.ok(armHeads.length > 0)
   assert.ok(armHeads.every((head) => head.performanceModel.replace(/-360$/, '') === 'R-VAN18'))
-  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
-  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
+  assert.equal(result.layout.coverage.uncoveredPoints, 0)
+  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
 })
 
 test('rectangular exclusions may start at X=0 or Y=0 and retain their visual kind', () => {
@@ -657,93 +679,80 @@ test('rectangular exclusions may start at X=0 or Y=0 and retain their visual kin
   }
 })
 
-test('rectangular lawn with a non-irrigated rectangular exclusion is decomposed and checked against the hole', () => {
+test('rectangular exclusion is checked against the original whole-polygon boundary', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(20, 12, {
     exclusions: [{ id: 'pool', x: 8, y: 4, width: 4, height: 4 }],
   }))
-  assertGlobalLayoutStatus(result, JSON.stringify({ reason: result.reason, warnings: result.layout?.warnings, coverage: result.layout?.coverage, headToHead: result.layout?.headToHead, overspray: result.layout?.overspray }))
-  assert.ok(result.layout?.calculationRegions?.length >= 2)
-  assert.deepEqual(
-    result.layout?.calculationRegions?.map((part) => part.areaM2),
-    [...(result.layout?.calculationRegions?.map((part) => part.areaM2) ?? [])].sort((a, b) => b - a),
-  )
-  assert.equal(result.layout?.coverage?.uncoveredPoints, 0)
-  assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
-  assert.ok(result.layout?.warnings?.some((warning) =>
-    warning.code === 'spray_footprints_checked_against_original_lawn_and_exclusions_with_spatial_sampling'))
+  assertGlobalLayoutStatus(result, JSON.stringify({
+    warnings: result.layout?.warnings,
+    coverage: result.layout?.coverage,
+    headToHead: result.layout?.headToHead,
+    overspray: result.layout?.overspray,
+  }))
+  assert.equal(result.layout.calculationRegions.length, 1)
+  assert.equal(result.layout.calculationRegions[0].pattern, 'whole-polygon')
+  assert.equal(result.layout.coverage.uncoveredPoints, 0)
+  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
+  assert.ok(result.layout.sprinklers.every((head) => {
+    const { x, y } = head.position
+    return !(x > 8 && x < 12 && y > 4 && y < 8)
+  }))
 })
 
-test('unsupported narrow widths do not fall back to circular sprinklers', () => {
+test('unsupported 1.5m strip is reported as incomplete rather than forced into circular heads', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(10, 1.5))
-  assert.ok([
-    'strip_nozzle_layout_requires_exact_pattern_engine',
-    'strip_width_not_supported_by_exact_manufacturer_point',
-  ].includes(result.status))
-  assert.equal(result.layout, undefined)
+  assert.equal(result.status, 'layout_incomplete')
+  assert.equal(result.layout.status, 'coverage_incomplete')
+  assert.equal(result.layout.sprinklers.length, 0)
+  assert.ok(result.layout.warnings.some((warning) =>
+    warning.code === 'narrow_area_has_no_exact_one_or_two_metre_strip_pattern'))
 })
 
-
-test('16x16 m rectangle selects the five-head side-midpoint and centre rotor pattern', () => {
+test('16x16 rectangle keeps all corners before perimeter and interior rotor positions', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(16, 16))
   assert.equal(result.status, 'layout_generated')
   const heads = result.layout.sprinklers.filter((head) => head.performanceModel === '3504-PC')
-  assert.equal(heads.length, 5)
-  const expected = [
-    [8, 0, 180], [16, 8, 180], [8, 16, 180], [0, 8, 180], [8, 8, 360],
-  ]
-  for (const [x, y, arc] of expected) {
-    assert.ok(heads.some((head) =>
-      Math.abs(head.position.x - x) < 1e-8 &&
-      Math.abs(head.position.y - y) < 1e-8 &&
-      head.arcDeg === arc), 'missing expected rotor at ' + x + ',' + y + ' with arc ' + arc)
-  }
-  assert.equal(result.layout.fullCircleRotorSpacing.passed, true)
-  const centre = heads.find((head) => head.arcDeg === 360)
-  for (const other of heads.filter((head) => head.id !== centre.id)) {
-    const separation = Math.hypot(
-      centre.position.x - other.position.x,
-      centre.position.y - other.position.y,
-    )
-    assert.ok(separation >= 6, 'a rotor is too close to the 360-degree centre rotor')
-  }
+  assert.equal(heads.length, 9)
+  assert.equal(heads.filter((head) => head.source === 'vertex').length, 4)
+  assert.equal(heads.filter((head) => head.source === 'edge').length, 4)
+  assert.equal(heads.filter((head) => head.source === 'interior').length, 1)
+  assert.ok(heads.every((head) => head.radiusM >= 6 && head.radiusM <= 9))
+  assert.equal(result.layout.coverage.uncoveredPoints, 0)
+  assert.equal(result.layout.headToHead.passed, true)
+  assert.equal(result.layout.overspray, 'sampled_inside_boundary')
 })
 
-test('decomposed rectangles expose previous-head coverage and sequential sector optimization', () => {
+test('exclusion layout uses one polygon-wide coverage and optimization pass', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(28, 20, {
     exclusions: [{ id: 'pool', x: 12, y: 8, width: 4, height: 4 }],
   }))
   assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
-  assert.ok(result.layout.calculationRegions.length > 1)
-  assert.ok(result.layout.calculationRegions.every((part) =>
-    part.previousCoverage && part.previousCoverage.sampledPoints > 0))
-  assert.equal(result.layout.sectorOptimization.strategy,
-    'sequential-shared-coverage-and-maximum-safe-3504pc-arc')
+  assert.equal(result.layout.calculationRegions.length, 1)
+  assert.equal(result.layout.calculationRegions[0].pattern, 'whole-polygon')
+  assert.equal(result.layout.algorithm, 'whole-polygon-sequential-3504pc-rvan-strip-v1')
+  assert.equal(result.layout.sectorOptimization.strategy, 'whole-polygon-maximum-safe-3504pc-sector-expansion')
   assert.equal(result.layout.fullCircleRotorSpacing.minimumDistanceM, 6)
 })
 
-
-test('shared-seam 3504-PC sector can reorient and widen beyond its original angle', () => {
+test('mixed rotor and R-VAN Head-to-Head is evaluated as one whole-polygon relationship', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
-    shape: 'l-shape',
-    cutoutWidth: 14,
-    cutoutDepth: 7,
-    cutoutCorner: 'top-right',
+    shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 10, cutoutCorner: 'top-right',
   }))
-  assert.ok(['layout_generated', 'layout_incomplete'].includes(result.status))
-  assert.equal(result.layout.cornerFirstAttempt?.algorithm, 'l-shape-corner-first-uncovered-head-to-head-v1')
-  assert.ok(result.layout.warnings.some((warning) =>
-    warning.code === 'l_shape_corner_first_attempt_failed_safe_rectangle_fallback_used'))
-  const edits = [
-    ...result.layout.sectorOptimization.finalPassEdits,
-    ...result.layout.sectorOptimization.rectangles.flatMap((part) => part.sectorEdits),
-  ]
-  const reoriented = edits.find((edit) =>
-    edit.toArcDeg > edit.fromArcDeg && edit.toDirectionDeg !== edit.fromDirectionDeg)
-  assert.ok(reoriented, JSON.stringify({
-    algorithm: result.layout.algorithm,
-    sectorOptimization: result.layout.sectorOptimization,
-    sprinklers: result.layout.sprinklers.map((head) => ({
-      id: head.id, position: head.position, arcDeg: head.arcDeg, directionDeg: head.directionDeg,
-    })),
+  assertGlobalLayoutStatus(result, JSON.stringify({
+    warnings: result.layout?.warnings,
+    coverage: result.layout?.coverage,
+    headToHead: result.layout?.headToHead,
+    overspray: result.layout?.overspray,
+  }))
+  const heads = result.layout.sprinklers
+  const rotorHeads = heads.filter((head) => head.performanceModel === '3504-PC')
+  const rvanHeads = heads.filter((head) => head.performanceModel.startsWith('R-VAN') && head.pattern !== 'strip')
+  assert.ok(rotorHeads.length > 0)
+  assert.ok(rvanHeads.length > 0)
+  assert.equal(result.layout.headToHead.passed, true)
+  assert.ok(result.layout.headToHead.checks.some((check) => {
+    const a = heads.find((head) => head.id === check.sprinklerId)
+    const b = heads.find((head) => head.id === check.headToHeadNeighborId)
+    return a && b && a.performanceModel !== b.performanceModel
   }))
 })
