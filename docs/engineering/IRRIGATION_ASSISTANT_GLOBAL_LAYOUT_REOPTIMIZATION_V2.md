@@ -146,3 +146,59 @@ The redesign is accepted only when:
 This is still sampled geometric planning, not a hydraulic design. It does not establish actual throw under site pressure, pipe-loss feasibility, zone flow compatibility, DU/CU or field performance.
 
 No Sanity content, D1 data/schema, Cloudflare settings/secrets or Production configuration may be changed as part of this work.
+
+
+## Implementation status — 2026-11-26
+
+Implemented on PR #551 / branch `develop` (not merged to `main`):
+
+1. **16×16 m reference candidate**
+   - Exactly five Rain Bird 3504-PC rotors.
+   - Four side-midpoint rotors use inward-facing 180° sectors.
+   - Centre rotor uses a 360° sector.
+   - No corner rotors.
+   - Candidate is accepted only after the current sampled coverage map, Head-to-Head and overspray checks pass, followed by the 0.25 m dense check when within the point cap.
+
+2. **Symmetric rectangles**
+   - Detects axis-aligned rectangle symmetry.
+   - Rotor removal is evaluated as a complete symmetry orbit.
+   - Single-head sector edits are disabled for symmetric rectangles so the later sector pass cannot reintroduce an asymmetric layout.
+   - Regression tests cover 17×17 m and 20×20 m, including equal side counts and reflection symmetry.
+
+3. **Circular R-VAN replacement**
+   - Bounded deterministic search over groups of 3–4 nearby circular R-VAN heads, with a 10 m neighbourhood bound.
+   - Generates new 3504-PC candidate positions around the group centre and tests supported radius/sector variants.
+   - Search cap: 160 variants.
+   - Mixed layouts containing directional strip heads skip this circular replacement pass; strip heads are preserved and are never treated as circular rotors.
+
+4. **Asymmetric relocation**
+   - Bounded search can move an existing 3504-PC rotor to a new in-geometry candidate position, then remove another rotor only if the complete resulting layout remains covered and Head-to-Head valid.
+   - Existing arc, direction and radius are retained during a relocation.
+   - Relocation is disabled for detected symmetric rectangles; search cap: 120 candidate variants.
+   - Regression test verifies a move that enables removal of a seam-bridging head.
+
+5. **Final validation and fallback**
+   - Runs a 0.25 m target mesh when no more than 30,000 points are required.
+   - If a changed candidate fails the dense check and the original baseline was valid, the optimizer rejects that candidate and restores the original baseline.
+   - If the dense mesh exceeds the cap, diagnostics explicitly report `skipped_target_limit`; this is not represented as a passed dense check.
+
+6. **Bridge diagnostics**
+   - Reports the selected seed, replaced R-VAN groups, relocated heads, variant counts/cap states, and dense-validation result.
+
+### Verified implementation snapshot
+
+- PR #551 head: `f4e307b87f5070278554b1cce27cd438352538fb`.
+- 575/575 repository tests passed.
+- Website / Pages Functions and Sanity Studio type-checks and builds passed.
+- Lint, migration syntax, read-only dry-run and D1 validation passed.
+- Preview smoke verified 275 active published irrigation equipment products in BG, RU and EN.
+- Production remains unchanged.
+
+### Remaining v2 work
+
+- Relocate symmetric groups as a joint operation rather than disabling individual relocation on symmetric rectangles.
+- Expand candidate generation and multi-start search for complex polygons and multiple exclusions.
+- Improve the search objective for overlap reduction and balanced spacing without sacrificing hard coverage, Head-to-Head or overspray constraints.
+- Keep all search caps deterministic and expose when a cap prevents further exploration.
+
+The implementation is bounded heuristic search. It does not prove a mathematical global minimum or continuous coverage, and it does not perform hydraulic design.
