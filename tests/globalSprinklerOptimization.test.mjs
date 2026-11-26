@@ -105,6 +105,26 @@ test('global optimization explicitly skips target grids above 30,000 points', ()
   assert.equal(result.sprinklers.length, 0)
 })
 
+test('global target map excludes the full boundary of rectangular exclusions', () => {
+  const geometry = squareGeometry()
+  geometry.regions[0].exclusions = [{
+    id: 'pool',
+    polygon: { vertices: [
+      { x: 4, y: 4 }, { x: 6, y: 4 },
+      { x: 6, y: 6 }, { x: 4, y: 6 },
+    ] },
+  }]
+  const result = optimizeGlobalSprinklerSet({
+    sprinklers: [],
+    geometry,
+    parts: [],
+    sampleStepM: 0.5,
+  })
+  assert.equal(result.status, 'baseline_failed')
+  assert.equal(result.targetCount, 416)
+  assert.ok(result.coverage.uncoveredPoints > 0)
+})
+
 test('an incomplete global baseline is preserved and is not optimized', () => {
   const incomplete = rotor('too-short', 5, 5, { radiusM: 1 })
   const result = optimizeGlobalSprinklerSet({
