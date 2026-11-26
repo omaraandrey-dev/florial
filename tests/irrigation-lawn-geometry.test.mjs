@@ -219,6 +219,23 @@ test('accepts exclusions whose X or Y coordinate is zero along the lawn boundary
   }
 })
 
+test('rejects an exclusion whose X and Y coordinates are both zero', () => {
+  const result = validateLawnGeometry(geometry(rectangle, {
+    regions: [{
+      id: 'lawn-1',
+      boundary: { vertices: rectangle },
+      exclusions: [{
+        id: 'origin-exclusion',
+        polygon: { vertices: [
+          { x: 0, y: 0 }, { x: 2, y: 0 }, { x: 2, y: 2 }, { x: 0, y: 2 },
+        ] },
+      }],
+    }],
+  }))
+  assert.equal(result.valid, false)
+  assert.ok(result.errors.some((entry) => entry.path === 'regions[0].exclusions[0].polygon.origin'))
+})
+
 test('rejects zero-area rectangular exclusions', () => {
   const result = validateLawnGeometry(geometry(rectangle, {
     regions: [{
