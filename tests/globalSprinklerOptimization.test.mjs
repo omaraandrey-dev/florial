@@ -258,7 +258,7 @@ test('an incomplete global baseline is preserved and is not optimized', () => {
   const incomplete = rotor('too-short', 5, 5, { radiusM: 1 })
   const result = optimizeGlobalSprinklerSet({
     sprinklers: [incomplete],
-    geometry: squareGeometry(),
+    geometry: reflexLGeometry(),
     parts: [{ id: 'zone-a', layout: { sprinklers: [incomplete] } }],
     oversprayCheck: () => true,
   })
