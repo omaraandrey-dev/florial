@@ -502,7 +502,7 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
     geometry,
     parts: [part],
     sampleStepM,
-    oversprayCheck: (candidateHeads) => fullCircleRotorClearancePassed(candidateHeads) &&
+    oversprayCheck: (candidateHeads) => newlyOpenedFullCircleClearancePassed(candidateHeads, heads) &&
       evaluateCompositeOverspray(candidateHeads, [part], geometry),
   })
   const finalHeads = optimization.status === 'completed'
@@ -654,6 +654,24 @@ function fullCircleRotorClearancePassed(heads, minimumDistanceM = 6) {
   const rotors = heads.filter((head) =>
     head.pattern === 'rotor' && head.performanceModel === '3504-PC')
   for (const fullCircle of rotors.filter((head) => head.arcDeg === 360)) {
+    for (const other of rotors) {
+      if (other.id === fullCircle.id) continue
+      if (Math.hypot(fullCircle.position.x - other.position.x,
+        fullCircle.position.y - other.position.y) < minimumDistanceM - 1e-8) return false
+    }
+  }
+  return true
+}
+
+function newlyOpenedFullCircleClearancePassed(candidateHeads, originalHeads, minimumDistanceM = 6) {
+  const originalFullCircleIds = new Set(originalHeads
+    .filter((head) => head.pattern === 'rotor' && head.performanceModel === '3504-PC' &&
+      head.arcDeg === 360)
+    .map((head) => head.id))
+  const rotors = candidateHeads.filter((head) =>
+    head.pattern === 'rotor' && head.performanceModel === '3504-PC')
+  for (const fullCircle of rotors.filter((head) =>
+    head.arcDeg === 360 && !originalFullCircleIds.has(head.id))) {
     for (const other of rotors) {
       if (other.id === fullCircle.id) continue
       if (Math.hypot(fullCircle.position.x - other.position.x,
@@ -920,8 +938,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
   }
 
   const fullCircleSpacingPassed = fullCircleRotorClearancePassed(allHeads)
-  let oversprayPassed = fullCircleSpacingPassed &&
-    evaluateCompositeOverspray(allHeads, prepared, geometry)
+  let oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, geometry)
   const localHeadToHeadChecks = prepared.filter((part) => !part.isStrip && part.layout.sprinklers.length > 1)
     .flatMap((part) => evaluateHeadToHeadSpacing(part.layout.sprinklers))
   const crossRegionChecks = []
@@ -955,7 +972,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     geometry,
     parts: prepared,
     sampleStepM,
-    oversprayCheck: (heads) => fullCircleRotorClearancePassed(heads) &&
+    oversprayCheck: (heads) => newlyOpenedFullCircleClearancePassed(heads, allHeads) &&
       evaluateCompositeOverspray(heads, prepared, geometry),
   })
   if (globalOptimization.status === 'completed') {
