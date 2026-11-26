@@ -110,7 +110,7 @@ Do not remove or convert directional LCS/RCS/SST strip heads unless a full-patte
 ## 7. Required regression matrix
 
 ### Symmetric rectangles
-- 16×16 m: compare the expected balanced five-head-style solution from the owner-reviewed reference with the generated layout; no arbitrary side asymmetry.
+- 16×16 m: preserve the owner's described balanced side-midpoint + center pattern; whether the four corner heads are additional or included in the five-head count is a pending acceptance detail.
 - 17×17 m: equivalent side counts and reflection symmetry; no one-sided rotor deletion.
 - 20×20 m: equivalent side counts and reflection symmetry; no one-sided rotor deletion.
 - 8×8, 10×10 and 16×16/17×17/20×20 with exact coordinates and sector assertions.
