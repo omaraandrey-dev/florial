@@ -835,9 +835,13 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
         })
       }
       part.previousCoverage = rectangleCoverageByPreviousHeads(part, previouslyPlacedHeads, sampleStepM)
-      previouslyPlacedHeads.push(...part.layout.sprinklers.map((head) => Object.freeze({
-        ...head, id: part.id + '-' + head.id,
-      })))
+      if (part.previousCoverage.uncoveredPoints === 0) {
+        part.layout = buildPreviouslyCoveredRectangleLayout(part.previousCoverage)
+      } else {
+        previouslyPlacedHeads.push(...part.layout.sprinklers.map((head) => Object.freeze({
+          ...head, id: part.id + '-' + head.id,
+        })))
+      }
       continue
     }
 
@@ -860,7 +864,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
           radiusM: selected.radiusM,
           preventOverspray: true,
           candidatePositionOffsets: part.candidatePositionOffsets,
-          initialSprinklers: previouslyPlacedHeads.filter((head) => head.pattern !== 'strip'),
+          initialSprinklers: previouslyPlacedHeads,
           sprayBoundaryGeometry: geometry,
         })
       }
@@ -937,7 +941,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       warning.code !== 'overspray_not_evaluated'))
   }
 
-  const fullCircleSpacingPassed = fullCircleRotorClearancePassed(allHeads)
+  let fullCircleSpacingPassed = fullCircleRotorClearancePassed(allHeads)
   let oversprayPassed = evaluateCompositeOverspray(allHeads, prepared, geometry)
   const localHeadToHeadChecks = prepared.filter((part) => !part.isStrip && part.layout.sprinklers.length > 1)
     .flatMap((part) => evaluateHeadToHeadSpacing(part.layout.sprinklers))
@@ -996,6 +1000,7 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
     headToHeadChecks = [...(globalOptimization.headToHead?.checks ?? headToHeadChecks)]
     headToHeadPassed = globalOptimization.headToHead?.passed ?? headToHeadPassed
   }
+  fullCircleSpacingPassed = fullCircleRotorClearancePassed(allHeads)
 
   modelSet = new Set(allHeads.map((head) => head.performanceModel))
   const circularHeads = allHeads.filter((head) => head.pattern !== 'strip')
