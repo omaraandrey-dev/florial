@@ -125,3 +125,31 @@ test('3504-PC rejects unsupported exclusions and invalid geometry without manufa
     { x: 8, y: 6, width: 4, height: 4 },
   ])).status, 'invalid_geometry')
 })
+
+test('17x17 square selects five inward rotors with the exact 8.5m geometric radius', () => {
+  const result = generateRainBird3504Layout(geometry(17, 17))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.layoutStrategy, 'four-side-midpoints-and-center')
+  assert.equal(result.sprinklers.length, 5)
+  assert.equal(result.coverage?.uncoveredPoints, 0)
+  assert.equal(result.coverage?.coveragePercent, 100)
+  assert.equal(result.headToHead?.passed, true)
+  assert.deepEqual(
+    result.sprinklers.map((head) => head.arcDeg).sort((a, b) => a - b),
+    [180, 180, 180, 180, 360],
+  )
+  assert.ok(result.sprinklers.every((head) => Math.abs(head.radiusM - 8.5) < 1e-9))
+  assert.ok(result.sprinklers.every((head) =>
+    head.position.x >= 0 && head.position.x <= 17 &&
+    head.position.y >= 0 && head.position.y <= 17))
+})
+
+test('fractional dimensions produce an unrounded continuous rotor radius', () => {
+  const result = generateRainBird3504Layout(geometry(17.2, 17.2))
+  assert.equal(result.status, 'layout_generated')
+  assert.equal(result.layoutStrategy, 'four-side-midpoints-and-center')
+  assert.equal(result.sprinklers.length, 5)
+  assert.equal(result.coverage?.uncoveredPoints, 0)
+  assert.equal(result.headToHead?.passed, true)
+  assert.ok(result.sprinklers.every((head) => Math.abs(head.radiusM - 8.6) < 1e-9))
+})
