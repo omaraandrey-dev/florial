@@ -484,10 +484,16 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
 
  
 function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
-  const isStrip = layout.sprinklers.some((head) => head.pattern === 'strip')
-  const onlyStrip = isStrip && layout.sprinklers.every((head) => head.pattern === 'strip')
-  const part = { id: regionId, isStrip, layout }
-  const heads = layout.sprinklers.map((head) => Object.freeze({
+  const sectorExpansion = maximizeRotorSectors(layout.sprinklers, [], geometry)
+  const sectorAdjustedLayout = Object.freeze({
+    ...layout,
+    sprinklers: sectorExpansion.sprinklers,
+    sectorOptimization: sectorExpansion,
+  })
+  const isStrip = sectorAdjustedLayout.sprinklers.some((head) => head.pattern === 'strip')
+  const onlyStrip = isStrip && sectorAdjustedLayout.sprinklers.every((head) => head.pattern === 'strip')
+  const part = { id: regionId, isStrip, layout: sectorAdjustedLayout }
+  const heads = sectorAdjustedLayout.sprinklers.map((head) => Object.freeze({
     ...head,
     calculationRegionId: regionId,
   }))
@@ -502,7 +508,7 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
   const finalHeads = optimization.status === 'completed'
     ? optimization.sprinklers
     : heads
-  const warnings = [...(layout.warnings ?? [])]
+  const warnings = [...(sectorAdjustedLayout.warnings ?? [])]
   if (optimization.status === 'skipped_target_limit') {
     warnings.push(Object.freeze({ code: 'global_head_minimization_skipped_target_limit', path: 'layout.globalOptimization' }))
   } else if (optimization.status === 'baseline_failed' ||
@@ -528,8 +534,8 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
       ? (optimization.oversprayPassed ? 'sampled_inside_boundary' : 'sampled_outside_boundary')
       : (layout.overspray ?? 'not_evaluated')
   return Object.freeze({
-    ...layout,
-    status: globalFailed ? 'coverage_incomplete' : layout.status,
+    ...sectorAdjustedLayout,
+    status: globalFailed ? 'coverage_incomplete' : sectorAdjustedLayout.status,
     sprinklers: Object.freeze(finalHeads),
     coverage,
     headToHead: onlyStrip ? layout.headToHead : (optimization.headToHead ?? layout.headToHead),
@@ -537,6 +543,11 @@ function finalizeSingleRegionLayout(layout, geometry, sampleStepM, regionId) {
     coverageScope: optimization.status === 'skipped_target_limit'
       ? 'per_rectangle_sampled_global_optimization_skipped'
       : (onlyStrip ? 'owner_defined_strip_pattern_global_sampled' : 'global_sampled_geometry'),
+    sectorOptimization: Object.freeze({
+      strategy: 'maximum-safe-3504pc-arc-before-final-removal',
+      minimumFullCircleRotorSeparationM: 6,
+      edits: sectorExpansion.edits,
+    }),
     globalOptimization: Object.freeze({
       status: optimization.status,
       targetCount: optimization.targetCount,
