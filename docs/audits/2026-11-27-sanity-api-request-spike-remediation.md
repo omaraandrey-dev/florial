@@ -145,3 +145,16 @@ Documentation:
 No Sanity documents, schemas, datasets, Cloudflare settings/secrets, D1 data/schema, orders or Resend configuration were changed. The only runtime change in PR #553 is the published SSR query hostname. Production code deployment was performed from the approved merge commit.
 
 The shared `CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`, `docs/AI/CURRENT_STATE.md` and `docs/AI/OPEN_QUESTIONS.md` remain untouched because their diffs are frozen by open PR #409. Reconcile this audit into those shared records after PR #409 is resolved, without overwriting its work.
+
+
+## Additional browser-side product request path confirmed in source
+
+A focused read of `src/lib/routeData/productDetails.ts` found another important live-API path:
+
+- `fetchProductDetailsBySlug()` resolves a product slug by running **two parallel direct API reads on every invocation**: one against the `production` dataset via `sanityLiveClient`, and one against the `plants` dataset via `plantsClient`.
+- After identifying the matching dataset and document ID, `fetchProductDetails()` performs a further direct API read for the full product/plant details.
+- Plant details can additionally issue a live lookup for the recommended irrigation product.
+
+This means a JavaScript-enabled product-page visit can cause at least three direct API requests after the server-rendered first response, even though the initial HTML already contains the product details. The first two slug-to-dataset lookups return only identity/type fields and do not need current price/stock; they are strong candidates to move to the API CDN. The full detail read includes price/stock and requires a separate freshness decision. This code path is confirmed; its share of the November spike is not known without Request Logs.
+
+A future targeted optimization should first move only the two published slug-resolution reads to the API CDN, preserving the live detail read and server-side order validation. Any broader CDN use for price/stock-bearing details requires an explicit decision about accepting the CDN cache window.
