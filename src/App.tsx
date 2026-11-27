@@ -429,7 +429,8 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
     if (missingWeightIds.length === 0) return
 
     let cancelled = false
-    sanityLiveClient.fetch(
+    // Weight is published catalogue metadata; it does not require a Live API read.
+    sanityClient.fetch(
       '*[_type == "product" && _id in $ids]{_id, weightKg}',
       { ids: missingWeightIds }
     ).then((records: Array<{ _id: string; weightKg?: number }>) => {
