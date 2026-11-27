@@ -89,6 +89,28 @@ test('global removal reduces redundant 3504-PC heads and never removes the fixed
   assert.equal(result.headToHead.passed, true)
 })
 
+test('half-radius proximity is an inclusive candidate heuristic, not a deletion rule', () => {
+  const heads = [
+    rotor('near-a', 0, 2, { radiusM: 8 }),
+    rotor('near-b', 4, 2, { radiusM: 8 }),
+    rotor('outside-half-radius', 8.1, 2, { radiusM: 8 }),
+  ]
+  const result = optimizeGlobalSprinklerSet({
+    sprinklers: heads,
+    geometry: squareGeometry(20),
+    parts: [],
+    oversprayCheck: () => true,
+  })
+
+  assert.deepEqual(result.proximityCandidates.map((entry) => [
+    entry.sprinklerId, entry.neighborId, entry.separationM, entry.halfRadiusM,
+  ]), [
+    ['near-a', 'near-b', 4, 4],
+    ['near-b', 'near-a', 4, 4],
+  ])
+  assert.deepEqual(result.removedHeadIds, [])
+})
+
 test('same-position rotors can consolidate into one 360-degree rotor without moving the head', () => {
   const first = rotor('corner-a', 5, 5, { arcDeg: 180, directionDeg: 0 })
   const second = rotor('corner-b', 5, 5, { arcDeg: 180, directionDeg: 180 })
