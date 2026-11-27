@@ -11,5 +11,7 @@ export type PlantCategory = {
 export async function getPlantCategories(): Promise<PlantCategory[]> {
   return plantsClient.fetch<PlantCategory[]>(
     '*[_type == "category" && _id != "plants-root"] | order(sortOrder asc, name asc) { _id, name, sortOrder, parent->{_id, name, parent->{_id, name}}, translations{ru{name}, en{name}} }',
+    {},
+    { tag: 'manager.plant-categories' },
   )
 }
