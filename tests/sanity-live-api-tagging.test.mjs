@@ -71,3 +71,18 @@ test('server-side direct Sanity API requests carry endpoint-specific tags', asyn
     for (const tag of tags) assert.ok(source.includes(tag), path + ' is missing request tag ' + tag)
   }
 })
+
+
+test('published-data CI smoke scripts use the API CDN instead of consuming Live API quota', async () => {
+  const expectations = [
+    ['../scripts/smoke-plant-ssr.mjs', 'florial.ci.smoke.plants'],
+    ['../scripts/smoke-equipment-product-ssr.mjs', 'florial.ci.smoke.equipment-product'],
+    ['../scripts/smoke-equipment-catalog-ssr.mjs', 'florial.ci.smoke.equipment-catalog'],
+  ]
+  for (const [path, tag] of expectations) {
+    const source = await read(path)
+    assert.ok(source.includes('.apicdn.sanity.io/'), path + ' must use the API CDN')
+    assert.ok(!source.includes('.api.sanity.io/'), path + ' must not call the Live API')
+    assert.ok(source.includes(tag), path + ' is missing its CI request tag')
+  }
+})
