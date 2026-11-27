@@ -191,3 +191,16 @@ A future targeted optimization should first move only the two published slug-res
 The latest read-only Sanity usage snapshot still reports 249,171 API Requests and 44,298 API CDN Requests for November through 2026-11-27. Daily history currently reports 34,378 API Requests and 3,208 API CDN Requests for the incomplete 2026-11-27 UTC bucket. These aggregate counters do not identify callers and cannot isolate the post-release time window. Sanity Request Logs have not been exported; exact IP/user-agent/query attribution remains open.
 
 No Sanity documents, schemas, datasets, Cloudflare settings/secrets, D1 data/schema, orders or Resend configuration were changed by this follow-up. Production release has not been performed for these follow-up commits.
+
+
+## Additional direct-read inventory from the current source tree
+
+The following browser-side Live API reads were reviewed and are not included in the public published-content migration above:
+
+- `src/lib/routeData/search.ts`: the search-results route loads two full product search projections (equipment and plants) through the Live API whenever `activeSearchQuery` changes. The projections include price and stock and are filtered locally after loading. This is a potential repeated-read path if many distinct search URLs/terms are requested; its actual share is unknown without Request Logs. Do not move it to CDN or add a stale cache without an explicit price/stock freshness decision. A future safe optimization candidate is bounded in-memory reuse of the same search index across consecutive search terms, with an owner-approved freshness window.
+- `src/pages/IrrigationSupportPage.tsx`: one live read of delivery-zone fees when the delivery/support page mounts. Kept live because it displays commercial delivery tariffs; expected to be route-visit scoped, not a crawler-wide catalogue query.
+- `src/pages/IrrigationAssistantPage.tsx`: Live API product/price reads are part of the user-driven irrigation-kit workflow; retain current freshness.
+- `src/App.tsx`: legacy cart items missing `weightKg` trigger a Live API lookup only while the cart is open. The effect is tied to cart state; it is a narrow compatibility path, not a public SSR projection.
+- `src/manager/plantCategories.ts` and `functions/api/manager/*`: Manager operations remain authenticated operational reads/writes and are not migrated to public CDN.
+
+This inventory distinguishes intentional freshness-sensitive reads from published SEO/content projections. It does not quantify request volume; only Request Logs can establish that attribution.
