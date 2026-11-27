@@ -1,9 +1,12 @@
 # Irrigation Assistant — global sprinkler head minimization v1
 
-**Status:** approved implementation specification  
+**Status:** historical specification — superseded for the current live algorithm by [IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md](IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md).  
 **Owner decision:** 2026-11-26  
 **Development branch:** `develop`  
-**Production baseline:** `main`; no Production changes are authorized by this specification.
+**Historical context:** this document records the earlier rectangle-first minimization design. Do not treat its rectangle-first sequencing or sector-consolidation proposal as the current Production algorithm. The current implementation is the whole-polygon sequence documented in the linked specification; its rotor-only reduction is removal-only before R-VAN.
+
+
+> **Supersession note (2026-11-27):** PR #551 replaced the earlier rectangle-first global minimization flow with a whole-polygon sequential algorithm. The current live implementation performs whole-polygon rotor sector expansion, then a protected rotor-only redundancy reduction before R-VAN, followed by residual R-VAN and strip passes and final mixed-family validation. This file is retained for historical traceability; use [the current whole-polygon specification](IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md) for all current implementation and maintenance work.
 
 ## 1. Purpose and safety boundary
 
