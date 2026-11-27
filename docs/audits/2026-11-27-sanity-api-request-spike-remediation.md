@@ -162,7 +162,7 @@ A future targeted optimization should first move only the two published slug-res
 
 ## Follow-up implementation on develop — product slug reads, sitemap and RSS
 
-**Status:** implementation committed to `develop`; exact-head CI/Preview and Production release are pending.
+**Status:** implementation committed to `develop`; exact-head CI and Preview verification passed; Production release is pending owner approval.
 
 ### Product detail browser path
 
@@ -204,3 +204,21 @@ The following browser-side Live API reads were reviewed and are not included in 
 - `src/manager/plantCategories.ts` and `functions/api/manager/*`: Manager operations remain authenticated operational reads/writes and are not migrated to public CDN.
 
 This inventory distinguishes intentional freshness-sensitive reads from published SEO/content projections. It does not quantify request volume; only Request Logs can establish that attribution.
+
+
+## Exact-head verification — 2026-11-27
+
+- PR: #554, head commit `031bee7a5d519c0fc985f1c4f6baa6b80230e987`, base `main` at `5b48e7eca72340b4040a24f0dcd7a3d738d2dad0`.
+- Blog and Studio validation run `45986888035`: TypeScript application/Pages Functions, lint, website utilities/tests, website build, migration syntax and read-only dry-run, Studio typecheck and Studio build all passed. Test runner summary: **584 passed, 0 failed**.
+- Equipment product SSR validation/raw HTTP smoke run `45986888033`: success.
+- Services directory SSR smoke run `45986888034`: success.
+- Service detail SSR smoke run `45986887977`: success.
+- Blog index SSR smoke run `45986887950`: success.
+- Blog article SSR smoke run `45986887972`: success.
+- D1 migration validation run `45986887973`: success; no migration was applied.
+- Cloudflare Pages Preview deployment `6855c92d-013a-4ce9-8517-160c7869b7bf` for exact head `031bee7a5d519c0fc985f1c4f6baa6b80230e987`: build and deploy succeeded; URL `https://6855c92d.florial.pages.dev`.
+- Read-only HTTP checks against that Preview returned HTTP 200 for `/sitemap.xml` (application/xml), `/feeds/services-bg.xml` (application/rss+xml), and both equipment and plant product pages in BG/RU/EN (six localized product responses). All six product responses contained a main page body, `index, follow` robots metadata and product structured-data markers.
+- Repeated direct HTTP requests to sitemap and RSS both returned `cf-cache-status: HIT`, `Age: 91`, and the existing `s-maxage=300, stale-while-revalidate=600` policy. This confirms the new edge-cache path is active on Preview.
+- Product pages returned the expected `s-maxage=60, stale-while-revalidate=120` response policy; Cloudflare did not expose `cf-cache-status` for these HTML responses in this check, so HTML edge HIT is not claimed.
+
+Production remains on the already verified PR #553 deployment. PR #554 is not merged; no Production deployment was initiated.
