@@ -270,3 +270,57 @@ Do not overwrite earlier progress entries. Append new dated entries below.
 - Confirmed the browser-side catalogue path in `src/App.tsx` and direct client imports in `src/lib/routeData/search.ts`; the full repository inventory is still pending.
 - No application code, Sanity data/schema, D1 data/schema, Cloudflare settings/secrets or Production configuration changed in this initialization step.
 - **Next:** finish exhaustive inventory, then implement only the safe, approved public-read migrations on `develop`.
+
+
+## 9. Phase 1 — initial repository-wide inventory findings (2026-11-27)
+
+A GitHub code search was performed for `sanityLiveClient`, `plantsClient`, `api.sanity.io`, and `createClient(`, followed by direct source reads for the principal runtime callsites. This is the initial classification; a final audit must still inspect all matching API route implementations and confirm imports/callers.
+
+### Public browser reads — high priority
+
+| File / path | Current behavior | Initial classification |
+|---|---|---|
+| `src/App.tsx` catalogue effect | Full equipment and plant catalogue queries use `sanityLiveClient` / `plantsClient`; projections include price, stock, weight, descriptions, images, categories and plant variants | **MOVE TO CDN candidate**, but price/stock freshness decision required. Server order validation is authoritative; displayed data may be stale for the CDN cache window |
+| `src/lib/routeData/search.ts` | Two full product search queries (equipment + plants) use direct clients; results include descriptions, price and stock | **MOVE TO CDN candidate**, subject to the same display-freshness decision |
+| `src/lib/routeData/productDetails.ts` | Slug resolution already uses CDN; full equipment/plant details still use direct clients and include price/stock and related product data | **SPLIT / NEEDS REVIEW**. Preserve fresh critical fields; investigate CDN for descriptive fields and narrow Live API projection for price/stock |
+| `src/pages/IrrigationSupportPage.tsx` | Public delivery-zone configuration is read from direct Live API on page load; includes fee and localized display data | **CDN candidate**, but confirm whether fees must update immediately. This affects displayed delivery information, not the server's order validation |
+| `src/pages/IrrigationAssistantPage.tsx` | User-triggered SKU lookup for BOM items and automation products; projection includes price, stock, VAT and weight | **SPLIT / NEEDS REVIEW**. It is interactive and used to build a commercial BOM; do not silently stale price/stock |
+| `src/App.tsx` cart weight fallback | Reads only `_id, weightKg` for equipment items missing weight in an older persisted cart | **MOVE TO CDN** candidate; weight is published product metadata and does not determine authoritative order price |
+
+### Server-side / operational reads
+
+| File / path | Current behavior | Initial classification |
+|---|---|---|
+| `functions/api/orders.ts` | Direct API reads support server-side validation of submitted products/variants and commercial values | **KEEP LIVE**; authoritative order validation and tamper resistance |
+| `functions/api/service-leads.ts` | Direct API lookup of service `leadForm` configuration when a customer submits an enquiry | **KEEP LIVE initially**; low-frequency operational configuration read; evaluate only if Request Logs show material volume |
+| `src/manager/plantCategories.ts` | `plantsClient` reads plant categories for Manager | **AUTHENTICATED OPERATION**; confirm its callers remain behind Manager authorization; do not classify as public catalogue |
+| `functions/api/manager/*` including plant direct library, product/category SEO, image library/upload and order product operations | Direct API reads and/or mutations for Manager operations | **AUTHENTICATED OPERATION**; keep separate from public browser remediation and preserve auth/no-store behavior |
+| Studio and migration/import scripts | Authenticated writes or administrative tasks | **ADMINISTRATIVE**; not public visitor traffic |
+| `scripts/smoke-*-ssr.mjs` | Direct API calls from CI smoke scripts | **CI / TEST**; quantify separately, not public runtime traffic |
+| `functions/_middleware.ts` | Search found the Sanity API hostname in product-page resource hints; the public SSR query helper uses the API CDN/cache path after PR #555 | **NO remaining direct SSR query identified in this pass**; continue regression verification |
+
+### Important implications
+
+1. The browser catalogue path is a concrete remaining source of direct API requests. It fetches each catalogue type once when that catalogue is first needed in the SPA session, not on every React render; the exact invocation count still depends on route/session behavior.
+2. Search uses two full direct queries per search-data load (equipment and plants). This is a strong candidate for API CDN because the query is published catalog data, but the displayed price/stock freshness contract must be explicitly tested.
+3. The irrigation assistant lookup and full product detail queries carry commercial fields. They must not be blindly moved to CDN without a defined freshness policy.
+4. Delivery-zone reads and cart weight fallback are narrower, lower-risk CDN candidates.
+5. The November 25–26 70–82k/day anomaly remains most strongly associated with the SSR direct-read rollout, not proven to be caused by these browser callsites. The browser callsites are additional consumption risk and need Request Logs attribution.
+6. No source code was modified during this inventory pass.
+
+### Owner decision needed before migrating commercial projections
+
+For public catalogue cards and search results, Sanity API CDN responses may be cached for a short window (the previous Florial read-only measurement observed a 60-second cache policy). Checkout revalidates price/stock on the server through the Live API. The remaining decision is whether it is acceptable for the **displayed** product price/stock in catalogue/search to be up to the CDN cache window behind Sanity, while the submitted order is always checked against current Live API values. If not, the implementation must split content from critical commercial fields, which may retain a small number of Live API requests.
+
+Do not change catalogue/search query clients until this decision is explicitly settled or a design avoids stale displayed commercial values.
+
+### Progress update — 2026-11-27, inventory pass
+
+- **Branch:** `develop`; exact roadmap/document commit is recorded by GitHub.
+- **Completed:** code search and source review for all matching principal public client paths; classified public, checkout, Manager, Studio and CI usage.
+- **Files changed:** roadmap document only; no application source changed.
+- **Tests/CI:** not run (read-only audit/documentation update).
+- **Preview/Production:** no deployment made.
+- **Sanity usage/log evidence:** latest available usage snapshot remains 253,866 / 250,000 direct API requests; Request Logs export still required for exact caller attribution.
+- **Open owner decision:** accept up to the CDN cache window for displayed catalogue/search price and stock, with server-side order revalidation, or require split content/commercial reads.
+- **Next action:** proceed with low-risk metadata/configuration CDN migrations and regression test design; resolve the catalogue/search freshness decision before changing those commercial projections.
