@@ -524,6 +524,8 @@ test('narrow strip rules select RCS, LCS and SST at the approved thresholds', ()
       assert.equal(result.layout?.overspray, 'sampled_outside_boundary')
     }
     assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern_global_sampled')
+    assert.equal(result.layout?.rotorReduction?.status, 'not_applicable')
+    assert.ok(result.layout?.sprinklers?.every((head) => head.pattern === 'strip'))
     assert.deepEqual(result.layout?.sprinklers?.map((head) => head.performanceModel), entry.models)
     assert.deepEqual(result.layout?.sprinklers?.map((head) => head.stripDirection), entry.directions)
     assert.deepEqual(result.layout?.sprinklers?.map((head) => head.position.x), entry.positions)
