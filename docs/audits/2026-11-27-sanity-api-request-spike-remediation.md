@@ -222,3 +222,31 @@ This inventory distinguishes intentional freshness-sensitive reads from publishe
 - Product pages returned the expected `s-maxage=60, stale-while-revalidate=120` response policy; Cloudflare did not expose `cf-cache-status` for these HTML responses in this check, so HTML edge HIT is not claimed.
 
 Production remains on the already verified PR #553 deployment. PR #554 is not merged; no Production deployment was initiated.
+
+
+## Follow-up: remaining public SSR document lookup moved to API CDN
+
+**Implementation status:** committed to develop; code/test head 8850e226217119ef9a100ee7e9cdd6cfbe0dd71e passed exact-head CI and Preview SSR verification.
+
+The detailed Request Logs analysis identified 20,751 executions of the generic document-by-type-and-slug query. Source review traced this query to queryDocument() in functions/_middleware.ts, used for public category and blog article SSR routes. Unlike the other public SSR detail loaders, it still constructed a direct api.sanity.io request and maintained its own Cloudflare Cache API logic.
+
+The follow-up replaces that direct request with the existing querySanityData() helper. The GROQ projection, parameters, datasets, published perspective, synthetic cache-key shape and cache lifetime are preserved: successful documents remain cached for 300 seconds and missing documents for 60 seconds. The helper now accepts either a fixed TTL or a result-dependent TTL so the previous negative-cache behavior is retained.
+
+### Remaining Live API inventory — deliberately unchanged
+
+- Product and plant detail reads in src/lib/routeData/productDetails.ts: include current price/stock and related commercial fields; retain Live API pending a separate freshness policy.
+- Product search in src/lib/routeData/search.ts: projections include price/stock; no CDN migration or stale cache introduced.
+- Delivery-zone tariff reads and irrigation-assistant product reads: commercial/user-driven flows; retain current behavior.
+- functions/api/orders.ts: server-side product/price/stock validation; must remain Live API.
+- functions/api/service-leads.ts: validates current service lead-form configuration at submission; retain Live API.
+- Manager/Sanity Studio reads, writes and asset operations: authenticated operational paths, not public crawler SSR.
+- Direct Sanity calls in smoke/migration scripts: tooling traffic, not website runtime.
+
+No Sanity content/schema writes, order/D1 changes, Cloudflare settings/secrets or Production deployment are part of this change.
+### Exact-head validation — 2026-11-27
+
+- Code/test head: 8850e226217119ef9a100ee7e9cdd6cfbe0dd71e; PR #555.
+- Blog and Studio validation run 45992228416: TypeScript, lint, 585/585 tests, website build, migration syntax/read-only dry-run, Studio typecheck and Studio build all passed.
+- Full SSR/SEO regression run 45992228351 passed against the exact Cloudflare Pages Preview deployment at https://1f01e7e3.florial.pages.dev; all route groups/locales in the workflow passed.
+- Additional equipment product raw HTTP smoke run 45992228327 passed; equipment catalogue smoke 45992228333 passed; plant catalogue smoke 45992228191 passed; services directory 45992228311 passed; service detail 45992228270 passed; blog index 45992228250 passed; blog article 45992228337 passed; D1 read-only validation 45992228230 passed.
+- No Production deployment or merge into main was performed. The code remains in develop pending owner release approval.

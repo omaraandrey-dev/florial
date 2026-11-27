@@ -352,7 +352,7 @@ async function querySanityData<T>(
   query: string,
   params: Record<string, unknown>,
   cachePath: string,
-  ttlSeconds: number,
+  ttlSeconds: number | ((result: T) => number),
 ): Promise<T> {
   const cacheStorage = (globalThis as typeof globalThis & { caches?: { default?: Cache } }).caches
   const cache = cacheStorage?.default
@@ -386,12 +386,14 @@ async function querySanityData<T>(
     throw new Error('Sanity ' + dataset + ' query returned no result field')
   }
 
+  const cacheTtlSeconds = typeof ttlSeconds === 'function' ? ttlSeconds(body.result as T) : ttlSeconds
+
   if (cache) {
     try {
       const cachedResponse = new Response(JSON.stringify({ result: body.result }), {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'Cache-Control': 'public, max-age=' + ttlSeconds,
+          'Cache-Control': 'public, max-age=' + cacheTtlSeconds,
         },
       })
       await cache.put(cacheKey, cachedResponse)
@@ -602,57 +604,17 @@ async function fetchPlantCategoryProducts(categoryId: string, onCategoryTree?: (
 
 async function queryDocument(dataset: string, type: string, slug: string): Promise<SeoDocument | null> {
   const query = '*[_type == $type && (slug.current == $slug || slug == $slug || _id == $slug) && (!defined(isActive) || isActive != false) && ($type != "blogPost" || isPublished == true)][0]{_id,name,title,"slugValue":coalesce(slug.current,slug,_id),shortDescription,description,priceEUR,productType,saleVariants[]{priceEUR,stockStatus,name},serviceCategory,sku,stockStatus,publishedAt,_updatedAt,isPublished,"coverUrl":cover.asset->url,"imageUrl":coalesce(mainImage.asset->url,image.asset->url,imageUrl,externalImageUrl,cover.asset->url),"brandName":brand->name,seo,seoContent,helpBlock,translations}'
-  const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
-  url.searchParams.set('query', query)
-  url.searchParams.set('$type', JSON.stringify(type))
-  url.searchParams.set('$slug', JSON.stringify(slug))
-
-  // Cache Sanity lookups at the edge for five minutes. The synthetic cache key
-  // stays on our own zone because Cloudflare Cache API cannot cache arbitrary
-  // cross-zone URLs directly.
-  const cacheStorage = (globalThis as typeof globalThis & { caches?: { default?: Cache } }).caches
-  const cache = cacheStorage?.default
-  const cacheKey = new Request(
-    SITE_URL + '/__edge-cache/sanity/' + (type === 'category' ? 'category-document-v2/' : '') + encodeURIComponent(dataset) + '/' +
-    encodeURIComponent(type) + '/' + encodeURIComponent(slug),
-    { method: 'GET' },
+  const result = await querySanityData<SeoDocument | null>(
+    dataset,
+    query,
+    { type, slug },
+    'sanity/' + (type === 'category' ? 'category-document-v2/' : '') + encodeURIComponent(dataset) + '/' +
+      encodeURIComponent(type) + '/' + encodeURIComponent(slug),
+    (document) => document ? 300 : 60,
   )
 
-  if (cache) {
-    try {
-      const cached = await cache.match(cacheKey)
-      if (cached) {
-        const cachedBody = (await cached.json()) as { result?: SeoDocument | null }
-        return cachedBody.result ? { ...cachedBody.result, _dataset: dataset } : null
-      }
-    } catch {
-      // A cache failure must not prevent the live Sanity lookup.
-    }
-  }
-
-  const response = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
-  if (!response.ok) throw new Error('Sanity lookup failed: ' + response.status)
-  const body = (await response.json()) as { result?: SeoDocument | null }
-  const result = body.result ? { ...body.result, _dataset: dataset } : null
-
-  if (cache) {
-    try {
-      const ttl = result ? 300 : 60
-      const cachedResponse = new Response(JSON.stringify({ result }), {
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Cache-Control': 'public, max-age=' + ttl,
-        },
-      })
-      await cache.put(cacheKey, cachedResponse)
-    } catch {
-      // Cache write errors are non-fatal; the live response remains usable.
-    }
-  }
-
-  return result
+  return result ? { ...result, _dataset: dataset } : null
 }
-
 type PlantProductDocument = SeoDocument & {
   scientificName?: string
   vatIncluded?: boolean
