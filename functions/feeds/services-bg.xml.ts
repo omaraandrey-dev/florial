@@ -35,12 +35,21 @@ type SanityQueryResponse = {
   result?: SanityService[]
 }
 
-export async function onRequestGet(): Promise<Response> {
+export async function onRequestGet({ request }: { request: Request }): Promise<Response> {
+  const cacheKey = new Request(request.url, { method: 'GET' })
+  try {
+    const cached = await caches.default.match(cacheKey)
+    if (cached) return cached
+  } catch {
+    // Cache API is an optimization; a cache miss/failure must not block the feed.
+  }
+
   try {
     const sanityUrl = new URL(
-      `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/query/production`,
+      `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/production`,
     )
     sanityUrl.searchParams.set('query', SERVICES_QUERY)
+    sanityUrl.searchParams.set('perspective', 'published')
 
     const sanityResponse = await fetch(sanityUrl.toString(), {
       headers: { Accept: 'application/json' },
@@ -60,7 +69,7 @@ export async function onRequestGet(): Promise<Response> {
       feedUrl: SITE_URL + FEED_PATH,
     })
 
-    return new Response(xml, {
+    const response = new Response(xml, {
       status: 200,
       headers: {
         'Content-Type': 'application/rss+xml; charset=utf-8',
@@ -68,6 +77,12 @@ export async function onRequestGet(): Promise<Response> {
         'X-Content-Type-Options': 'nosniff',
       },
     })
+    try {
+      await caches.default.put(cacheKey, response.clone())
+    } catch {
+      // The response remains valid even if this edge location cannot cache it.
+    }
+    return response
   } catch {
     return new Response('Services RSS feed temporarily unavailable', {
       status: 503,
