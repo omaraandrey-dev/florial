@@ -23,3 +23,23 @@ test('services RSS reads published documents through Sanity API CDN and edge-cac
   assert.match(source, /s-maxage=300, stale-while-revalidate=600/)
   assert.doesNotMatch(source, /\.api\.sanity\.io/)
 })
+
+
+test('public SSR category and blog document lookups use the published API CDN and preserve cache TTLs', async () => {
+  const source = await read('../functions/_middleware.ts')
+  const helperStart = source.indexOf('async function querySanityData')
+  const documentStart = source.indexOf('async function queryDocument(')
+  const documentEnd = source.indexOf('\\ntype PlantProductDocument', documentStart)
+  assert.ok(helperStart >= 0 && documentStart > helperStart && documentEnd > documentStart)
+
+  const helper = source.slice(helperStart, documentStart)
+  const documentLookup = source.slice(documentStart, documentEnd)
+
+  assert.match(helper, /\\.apicdn\\.sanity\\.io/)
+  assert.match(helper, /searchParams\\.set\\('perspective', 'published'\\)/)
+  assert.match(helper, /typeof ttlSeconds === 'function' \\? ttlSeconds\\(body\\.result as T\\) : ttlSeconds/)
+  assert.match(documentLookup, /querySanityData<SeoDocument \\| null>\\(/)
+  assert.match(documentLookup, /\\(document\\) => document \\? 300 : 60/)
+  assert.match(documentLookup, /category-document-v2/)
+  assert.doesNotMatch(documentLookup, /\\.api\\.sanity\\.io|new URL\\(|fetch\\(/)
+})
