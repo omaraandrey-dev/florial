@@ -188,7 +188,7 @@ A future targeted optimization should first move only the two published slug-res
 
 ### Verification boundary
 
-The latest read-only Sanity usage snapshot still reports 249,171 API Requests and 44,298 API CDN Requests for November through 2026-11-27. Daily history currently reports 34,378 API Requests and 3,208 API CDN Requests for the incomplete 2026-11-27 UTC bucket. These aggregate counters do not identify callers and cannot isolate the post-release time window. Sanity Request Logs have not been exported; exact IP/user-agent/query attribution remains open.
+The latest read-only Sanity usage snapshot (after PR #553 Production deployment and before PR #554 Production release) reports 249,206 API Requests and 44,491 API CDN Requests for November through 2026-11-27. Compared with the preceding snapshot taken during this investigation (249,171 / 44,298), the totals increased by 35 API Requests and 193 API CDN Requests. Daily history currently reports 34,413 API Requests and 3,401 API CDN Requests for the incomplete 2026-11-27 UTC bucket. This short interval is an encouraging lower increment, but it is not a controlled attribution or a full-day baseline. Aggregate counters do not identify callers. Sanity Request Logs have not been exported; exact IP/user-agent/query attribution remains open.
 
 No Sanity documents, schemas, datasets, Cloudflare settings/secrets, D1 data/schema, orders or Resend configuration were changed by this follow-up. Production release has not been performed for these follow-up commits.
 
