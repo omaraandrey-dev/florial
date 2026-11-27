@@ -275,3 +275,14 @@ test('blog body images use the actual article content width and an intermediate 
   assert.match(content, /864px, calc\(100vw - 2rem\)', 960, 68/)
   assert.match(images, /640, 720, 800/)
 })
+
+test('published SSR middleware queries use Sanity API CDN instead of the billable live API', async () => {
+  const middleware = await read('../functions/_middleware.ts')
+  const queryStart = middleware.indexOf('async function querySanityData')
+  const queryEnd = middleware.indexOf('async function fetchContactsHtml', queryStart)
+  assert.ok(queryStart >= 0 && queryEnd > queryStart)
+  const queryClient = middleware.slice(queryStart, queryEnd)
+  assert.match(queryClient, /\.apicdn\.sanity\.io/)
+  assert.match(queryClient, /url\.searchParams\.set\('perspective', 'published'\)/)
+  assert.doesNotMatch(queryClient, /\.api\.sanity\.io/)
+})
