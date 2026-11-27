@@ -131,8 +131,14 @@ This confirmation does not turn the geometric solver into a hydraulic calculator
 
 ## 12. Current implementation and verification handoff — 2026-11-27
 
-- Current implementation branch: `develop`; PR: [#551](https://github.com/omaraandrey-dev/florial/pull/551).
-- The pre-R-VAN rotor-only reduction and orientation-aware strip decomposition are implemented on the branch. Code commits: `f3e0ba7bdc42cb8338b42aaa1525a9183a85b44b` (decomposition correction) and `5558f95a66939fdba6e20d2292c3c4d866099efc` (documentation update).
-- Exact-head CI for `5558f95a66939fdba6e20d2292c3c4d866099efc` is running; do not treat earlier CI from another SHA as proof for this head. Update this record with exact workflow run IDs and outcomes before merge.
-- The 18 × 2 m L-shape / 16 × 1 m exclusion regression was failing on the preceding head because horizontal-only decomposition split the compact 2 × 2 m corner into narrow strip pieces. The new dual-orientation partition selection is intended to retain the square and leave it outside the directional-strip pass. Exact-head test confirmation is pending.
-- No merge, Production deployment, Sanity write, D1 write, Cloudflare configuration/secret change, or customer data change has been performed.
+- Current implementation branch: `develop`; integration PR: [#551](https://github.com/omaraandrey-dev/florial/pull/551).
+- **Validated code/test head:** `4cbc21173f5dc4dff3195f7c4e2d4a9b10dcba96`. The branch also contains subsequent PR-description/documentation-only metadata updates; the irrigation source and regression test at this code/test SHA are the validated implementation.
+- **Blog and Studio validation run `45951866311`: SUCCESS.** `581/581` Node tests passed, including the rotor-only reduction regression and the 18 × 2 m L-shape / 16 × 1 m exclusion square-vs-strip regression. Application/Pages type-check, lint, website build, Studio type-check and Studio build passed.
+- **Equipment product SSR validation and raw HTTP smoke run `45951866315`: SUCCESS.** All 275 active equipment product routes passed first-response HTML checks in BG/RU/EN; missing/unpublished product returned 404 noindex.
+- **Full SSR/SEO regression run `45951866261`: SUCCESS.** Exact Preview resolved to https://602adc0a.florial.pages.dev. Homepage, service directory/details, blog index/articles, plant catalogue/categories, equipment categories/products, contacts, About, robots, sitemap and non-indexable routes passed the workflow's raw HTTP checks across the tested locales.
+- **D1 migration validation run `45951866333`: SUCCESS.** Read-only validation completed; no migration was applied.
+- **Blog index smoke `45951866336`, blog article smoke `45951866351`, services directory smoke `45951866295`, and service-detail smoke `45951866328`: SUCCESS.**
+- **Cloudflare Pages Preview status check `140349441041`: SUCCESS.** Preview deployment is not a Production deployment.
+- The 18 × 2 m L-shape / 16 × 1 m exclusion regression failed on the preceding code because horizontal-only decomposition split the compact 2 × 2 m corner into artificial strip pieces. The orientation-aware decomposition now compares horizontal and vertical partitions and preserves the square; the regression confirms the square remains uncovered when circular passes cannot reach it and no directional-strip footprint enters it.
+- A duplicate Blog and Studio validation run `45952067010` was triggered by editing PR metadata after the successful validation above; its final outcome is still being checked before merge.
+- No merge, Production deployment, Sanity write, D1 data/schema write, Cloudflare configuration/secret change, Production order or email action has been performed.
