@@ -86,3 +86,13 @@ test('published-data CI smoke scripts use the API CDN instead of consuming Live 
     assert.ok(source.includes(tag), path + ' is missing its CI request tag')
   }
 })
+
+
+test('read-only description migration dry-run uses the CDN and safely reports an exhausted quota', async () => {
+  const source = await read('../scripts/migrate-descriptions-to-portable-text.mjs')
+  assert.match(source, /useCdn: !apply/)
+  assert.match(source, /florial\.ci\.description-migration\.dry-run/)
+  assert.match(source, /error\?\.statusCode === 402/)
+  assert.match(source, /error\?\.response\?\.body\?\.error === 'plan_limit_reached'/)
+  assert.match(source, /DRY-RUN пропущен/)
+})
