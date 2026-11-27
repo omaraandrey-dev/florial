@@ -673,7 +673,13 @@ test('2x2 square is not misclassified as a 2m strip; reject any 1m pattern that 
   const result = buildPreliminaryLawnLayout(snapshotFor(18, 2, {
     shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 1, cutoutCorner: 'top-right',
   }))
-  assert.equal(result.status, 'layout_incomplete')
+  assert.equal(result.status, 'layout_incomplete', JSON.stringify({
+    sprinklers: result.layout?.sprinklers?.map((head) => ({ id: head.id, model: head.performanceModel, pattern: head.pattern, position: head.position, stripDirection: head.stripDirection, radiusM: head.radiusM })),
+    coverage: result.layout?.coverage,
+    warnings: result.layout?.warnings,
+    globalOptimization: result.layout?.globalOptimization,
+    calculationRegions: result.layout?.calculationRegions,
+  }, null, 2))
   assert.equal(result.layout?.coverageScope, 'owner_defined_strip_pattern_global_sampled')
   assert.equal(result.layout?.overspray, 'sampled_inside_boundary')
   assert.ok(result.layout?.coverage?.uncoveredPoints > 0, 'the remaining 2x2 square is not a strip and must remain explicitly uncovered')
