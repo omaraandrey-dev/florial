@@ -1559,6 +1559,17 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   let rotorHeads = (rotorAttempt.sprinklers ?? []).map((head) =>
     attachWholePolygonHeadMetadata(head, region.id, vertices))
 
+  // Finish the complete rotor pass before asking R-VAN to fill residuals.
+  // Sector expansion is evaluated against the whole polygon and the rotor set
+  // alone, so R-VAN heads cannot mask a gap that the rotor pass could safely
+  // close. This applies equally to rectangles, L-shapes and polygons with
+  // rectangular exclusions.
+  const globalTargets = buildIrrigatedTargets(geometry, sampleStepM)
+  const expandedRotors = rotorHeads.length
+    ? maximizeRotorSectors(rotorHeads, [], geometry, globalTargets)
+    : Object.freeze({ sprinklers: Object.freeze(rotorHeads), edits: Object.freeze([]) })
+  rotorHeads = [...expandedRotors.sprinklers]
+
   const selectedRvan = selectRvanModel(shortSideM)
   const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
   const rvanLayout = generateLawnSprinklerLayout({
@@ -1574,12 +1585,6 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   })
   const rvanHeads = (rvanLayout.sprinklers ?? []).map((head) =>
     attachWholePolygonHeadMetadata(head, region.id, vertices))
-
-  const globalTargets = buildIrrigatedTargets(geometry, sampleStepM)
-  const expandedRotors = rotorHeads.length && rectangularWithoutExclusions
-    ? maximizeRotorSectors(rotorHeads, rvanHeads, geometry, globalTargets)
-    : Object.freeze({ sprinklers: Object.freeze(rotorHeads), edits: Object.freeze([]) })
-  rotorHeads = [...expandedRotors.sprinklers]
 
   let allHeads = [...rotorHeads, ...rvanHeads]
   const stripParts = []
