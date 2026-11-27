@@ -101,6 +101,8 @@ function buildPartition(boundary, exclusions, xs, ys, orientation) {
 }
 
 function partitionPenalty(rectangles) {
+  // Penalize elongated area so a compact corner (for example 2 x 2 m) is not
+  // split into artificial narrow-strip pieces by the sweep orientation.
   return rectangles.reduce((total, rectangle) => {
     const ratio = rectangle.shortSideM / rectangle.lengthM
     return total + rectangle.widthM * rectangle.heightM * (1 - ratio)
