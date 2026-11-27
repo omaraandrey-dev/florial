@@ -1553,9 +1553,16 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   const shortSideM = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
   const rectangularWithoutExclusions = validation.regions[0].shape === 'rectangle' &&
     !(region.exclusions?.length)
-  const rotorAttempt = rectangularWithoutExclusions
-    ? generateRainBird3504Layout(geometry, { sampleStepM })
-    : generateRainBird3504PolygonLayout(geometry, { sampleStepM })
+  // Exact 1 m / 2 m rectangles belong to the directional strip solver. Do not
+  // let a generic circular pass pre-cover them and suppress the approved
+  // LCS/RCS/SST pattern that is responsible for this geometry class.
+  const wholePolygonIsDirectionalStrip = rectangularWithoutExclusions &&
+    SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)
+  const rotorAttempt = wholePolygonIsDirectionalStrip
+    ? Object.freeze({ sprinklers: Object.freeze([]), warnings: Object.freeze([]) })
+    : rectangularWithoutExclusions
+      ? generateRainBird3504Layout(geometry, { sampleStepM })
+      : generateRainBird3504PolygonLayout(geometry, { sampleStepM })
   let rotorHeads = (rotorAttempt.sprinklers ?? []).map((head) =>
     attachWholePolygonHeadMetadata(head, region.id, vertices))
 
@@ -1581,6 +1588,7 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
       parts: [{ id: region.id, layout: { sprinklers: rotorHeads } }],
       sampleStepM,
       preserveOnlyExistingCoverage: true,
+      removalOnly: true,
       oversprayCheck: (candidateHeads) =>
         newlyOpenedFullCircleClearancePassed(candidateHeads, rotorHeads) &&
         evaluateCompositeOverspray(candidateHeads, [], geometry),
@@ -1603,17 +1611,19 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
 
   const selectedRvan = selectRvanModel(shortSideM)
   const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
-  const rvanLayout = generateLawnSprinklerLayout({
-    geometry,
-    family: 'R-VAN',
-    model: selectedRvan.model,
-    pressureBar,
-    sampleStepM,
-    radiusM: selectedRvan.radiusM,
-    preventOverspray: true,
-    initialSprinklers: rotorHeads,
-    sprayBoundaryGeometry: geometry,
-  })
+  const rvanLayout = wholePolygonIsDirectionalStrip
+    ? Object.freeze({ sprinklers: Object.freeze([]), warnings: Object.freeze([]) })
+    : generateLawnSprinklerLayout({
+      geometry,
+      family: 'R-VAN',
+      model: selectedRvan.model,
+      pressureBar,
+      sampleStepM,
+      radiusM: selectedRvan.radiusM,
+      preventOverspray: true,
+      initialSprinklers: rotorHeads,
+      sprayBoundaryGeometry: geometry,
+    })
   const rvanHeads = (rvanLayout.sprinklers ?? []).map((head) =>
     attachWholePolygonHeadMetadata(head, region.id, vertices))
 
