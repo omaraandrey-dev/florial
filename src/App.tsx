@@ -432,7 +432,8 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
     // Weight is published catalogue metadata; it does not require a Live API read.
     sanityClient.fetch(
       '*[_type == "product" && _id in $ids]{_id, weightKg}',
-      { ids: missingWeightIds }
+      { ids: missingWeightIds },
+      { tag: 'browser.cart.weight' }
     ).then((records: Array<{ _id: string; weightKg?: number }>) => {
       if (cancelled || !Array.isArray(records) || records.length === 0) return
       const weightsById = new Map(records.map((record) => [record._id, record.weightKg]))
@@ -981,8 +982,8 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
 
     const catalogueRequests = catalogueTypesToLoad.map((type) =>
       type === 'plants'
-        ? plantsClient.fetch(plantProductQuery)
-        : sanityLiveClient.fetch(productQuery)
+        ? plantsClient.fetch(plantProductQuery, {}, { tag: 'browser.catalog.plants' })
+        : sanityLiveClient.fetch(productQuery, {}, { tag: 'browser.catalog.equipment' })
     )
 
     Promise.allSettled(catalogueRequests).then((results) => {
