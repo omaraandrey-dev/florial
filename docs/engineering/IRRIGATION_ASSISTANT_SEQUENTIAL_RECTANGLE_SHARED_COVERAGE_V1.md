@@ -1,6 +1,8 @@
 # Irrigation assistant — sequential rectangle planning with shared coverage
 
-**Status:** owner-requested redesign, 2026-11-26  
+> **Historical specification — superseded on 2026-11-27.** The current owner-approved algorithm is whole-polygon sequential placement (3504-PC rotors → residual R-VAN → residual 1 m / 2 m strips). Do not use the rectangle-first placement sequence below as the current implementation contract. See [IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md](IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md) for the active design and current implementation details.
+
+**Status:** historical design snapshot, superseded 2026-11-27.  
 **Development branch:** `develop`  
 **Production:** `main` unchanged; no Production deployment is authorized.  
 **Baseline:** the pre-v2 deterministic global head-minimization implementation is restored. The rejected global relocation / R-VAN group-replacement optimizer is not used.
@@ -89,9 +91,9 @@ This is a deterministic corner-first progression, not a global relocation or gro
 
 This is deterministic sampled geometric planning, not a continuous-coverage proof or hydraulic design. No water pressure, flow, nozzle precipitation, DU/CU, pipe sizing or hydraulic compatibility is inferred from geometry. Manufacturer-supported R-VAN performance points remain discrete.
 
-## 9. Current implementation snapshot
+## 9. Historical implementation snapshot
 
-Implementation is present on `develop` / PR #551; merge and Production release remain pending exact-head validation and owner acceptance. The v2 global optimizer was reverted to its pre-v2 baseline. The sequential shared-coverage flow, 3504-PC sector expansion, five-head 16×16 candidate, spacing diagnostics, and pre-R-VAN rotor-only reduction have been added.
+This section records the earlier rectangle-first iteration only. It is superseded by the whole-polygon algorithm in `IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md`. The v2 global optimizer was reverted to its pre-v2 baseline. The sequential shared-coverage flow, 3504-PC sector expansion, five-head 16×16 candidate, spacing diagnostics, and pre-R-VAN rotor-only reduction have been added.
 
 ### 9.1 Rotor reduction before R-VAN
 
@@ -112,7 +114,7 @@ The reduction reports baseline/optimized rotor counts, removed IDs, proximity ca
 Exact verification status must be read from CI for the latest head SHA; earlier failing runs are not evidence of a successful build.
 
 
-### 9.2 Orientation-aware decomposition of orthogonal L-shapes
+### 9.2 Historical decomposition note
 
 The orthogonal rectangle decomposition now evaluates both sweep orientations (horizontal and vertical) and chooses the non-overlapping partition with the lower area-weighted elongation penalty:
 
@@ -123,3 +125,6 @@ This avoids allowing a decomposition direction to turn a compact square arm into
 Regression case: an 18 × 2 m L-shaped lawn with a 16 × 1 m top-right exclusion must retain the 2 × 2 m corner as a compact non-strip rectangle and identify only the 16 × 1 m horizontal arm as a directional strip. The 2 × 2 m square must not be reinterpreted as a 2 m-wide strip or covered by two artificial 1 m strip fragments. If the whole-polygon circular pass cannot cover that square, it remains explicitly uncovered and the layout must remain incomplete rather than report a false generated result.
 
 The decomposition still validates exact net area and rejects overlapping rectangles. The new orientation choice does not change the supported geometry contract, sprinkler throw data, hydraulic assumptions, or Production state.
+
+
+**Supersession note:** rotor-only reduction and orientation-aware strip decomposition remain current implementation details, but their authoritative description is now in sections 3, 5 and 12 of `IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md`. This file is retained to explain the earlier rectangle-first design and must not be used to reconstruct the current placement sequence.
