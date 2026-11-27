@@ -611,6 +611,7 @@ export function optimizeGlobalSprinklerSet({
   maxTargetPoints = MAX_GLOBAL_TARGETS,
   maxSectorVariants = MAX_SECTOR_VARIANTS,
   preserveOnlyExistingCoverage = false,
+  removalOnly = false,
 } = {}) {
   const originalHeads = Array.isArray(sprinklers) ? sprinklers.slice() : []
   const closeCandidates = proximityCandidates(originalHeads)
@@ -710,7 +711,18 @@ export function optimizeGlobalSprinklerSet({
     maxSectorVariants: Math.min(MAX_SECTOR_VARIANTS, Math.max(0, maxSectorVariants)),
   }
   const firstPass = runRemovalPass({ heads: originalHeads, counts, coverageById }, options)
-  const sectorPass = runSectorOptimization(firstPass, options)
+  // The pre-R-VAN rotor-reduction stage is deliberately removal-only: sector
+  // expansion has already run against the whole polygon, so this pass must not
+  // silently consolidate or reorient heads while evaluating redundancy.
+  const sectorPass = removalOnly
+    ? {
+      ...firstPass,
+      sectorVariants: 0,
+      sectorVariantLimitReached: false,
+      consolidatedGroups: [],
+      sectorEdits: [],
+    }
+    : runSectorOptimization(firstPass, options)
   const finalCounts = sectorPass.counts
   const finalHeadToHead = buildHeadToHead(sectorPass.heads, baselineRegionSizes)
   const finalOverspray = Boolean(oversprayCheck(sectorPass.heads))
