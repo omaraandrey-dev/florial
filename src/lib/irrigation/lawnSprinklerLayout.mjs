@@ -70,7 +70,9 @@ function inwardNormal(a, b, orientation) {
 function sectorContains(point, center, directionDeg, arcDeg, radiusM) {
   const dx = point.x - center.x
   const dy = point.y - center.y
-  if (Math.hypot(dx, dy) > radiusM + EPSILON) return false
+  const distanceM = Math.hypot(dx, dy)
+  if (distanceM <= EPSILON) return true
+  if (distanceM > radiusM + EPSILON) return false
   if (arcDeg === 360) return true
   const angle = normalizeDegrees(Math.atan2(dy, dx) * 180 / Math.PI)
   const difference = Math.abs(((angle - directionDeg + 540) % 360) - 180)
@@ -137,7 +139,9 @@ function addTarget(targets, seen, point) {
   targets.push(Object.freeze({ x: point.x, y: point.y }))
 }
 
-function buildTargetSamples(vertices, stepM) {
+function buildTargetSamples(vertices, stepM, geometry = null) {
+  const isTarget = (point) => !(geometry?.regions?.[0]?.exclusions ?? []).some((exclusion) =>
+    pointInRing(point, exclusion.polygon.vertices) >= 0)
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
   const minX = Math.min(...xs)
@@ -154,7 +158,8 @@ function buildTargetSamples(vertices, stepM) {
     const y = Math.min(maxY, minY + row * stepM)
     for (let column = 0; column <= columns; column += 1) {
       const x = Math.min(maxX, minX + column * stepM)
-      if (pointInRing({ x, y }, vertices) >= 0) addTarget(targets, seen, { x, y })
+      const point = { x, y }
+      if (pointInRing(point, vertices) >= 0 && isTarget(point)) addTarget(targets, seen, point)
     }
   }
 
@@ -167,10 +172,11 @@ function buildTargetSamples(vertices, stepM) {
     const divisions = Math.max(1, Math.ceil(length / stepM))
     for (let part = 0; part <= divisions; part += 1) {
       const ratio = part / divisions
-      addTarget(targets, seen, {
+      const point = {
         x: a.x + (b.x - a.x) * ratio,
         y: a.y + (b.y - a.y) * ratio,
-      })
+      }
+      if (isTarget(point)) addTarget(targets, seen, point)
     }
   }
   return targets
@@ -257,8 +263,13 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     perimeterLengthM += length
   }
 
+  const boundsShortSideM = Math.min(
+    Math.max(...vertices.map((point) => point.x)) - Math.min(...vertices.map((point) => point.x)),
+    Math.max(...vertices.map((point) => point.y)) - Math.min(...vertices.map((point) => point.y)),
+  )
+  const maximumRvanRadiusM = Math.min(6, boundsShortSideM)
   const nozzleForRadius = (requiredRadiusM) => family === 'R-VAN'
-    ? selectRvanModelForRequiredRadius(requiredRadiusM)
+    ? selectRvanModelForRequiredRadius(Math.min(requiredRadiusM, maximumRvanRadiusM))
     : { model, radiusM }
 
   const add = (
@@ -309,16 +320,12 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     // On a 3 m-wide rectangular lawn, corner heads serve the local corner
     // and connect through perimeter heads along the long edges. Do not size
     // them against the distant global centroid: that over-selects R-VAN24.
-    const boundsShortSideM = Math.min(
-      Math.max(...vertices.map((point) => point.x)) - Math.min(...vertices.map((point) => point.x)),
-      Math.max(...vertices.map((point) => point.y)) - Math.min(...vertices.map((point) => point.y)),
+    const localCornerReachLimitM = Math.min(
+      6,
+      distance(previous, current),
+      distance(current, next),
     )
-    const rectangleCornerReachLimitM = vertices.length === 4 && boundsShortSideM <= 5 + EPSILON
-      ? boundsShortSideM
-      : null
-    const cornerRequiredRadiusM = rectangleCornerReachLimitM
-      ? Math.min(distance(current, center), rectangleCornerReachLimitM)
-      : distance(current, center)
+    const cornerRequiredRadiusM = Math.min(distance(current, center), localCornerReachLimitM)
     const nozzle = family === 'R-VAN'
       ? nozzleForRadius(cornerRequiredRadiusM)
       : { model, radiusM: performanceFor(family, model, pressureBar, arcDeg)?.radiusM ?? radiusM }
@@ -347,22 +354,28 @@ function buildCandidates(vertices, family, model, pressureBar, radiusM, { preven
     if (!normal) continue
 
     if (preventOverspray && family === 'R-VAN') {
-      const safeMaximumRadiusM = Math.min(spacingRadiusM, length / 2)
+      const safeMaximumRadiusM = Math.min(6, maximumRvanRadiusM, spacingRadiusM, length / 2)
       if (safeMaximumRadiusM < 3 - EPSILON) continue
-      const divisions = Math.max(1, Math.ceil(length / safeMaximumRadiusM))
-      const edgeSpacingM = length / divisions
-      const edgeNozzle = nozzleForRadius(edgeSpacingM)
-      if (!edgeNozzle || edgeNozzle.radiusM > safeMaximumRadiusM + EPSILON) continue
-      const headCount = divisions - 1
-      for (let part = 0; part < headCount; part += 1) {
-        const offsetM = headCount === 1
-          ? length / 2
-          : edgeNozzle.radiusM + (length - 2 * edgeNozzle.radiusM) * part / (headCount - 1)
-        const ratio = offsetM / length
-        add({
-          x: a.x + (b.x - a.x) * ratio,
-          y: a.y + (b.y - a.y) * ratio,
-        }, 180, normal, 'edge', perimeterOffsets[index] + offsetM, edgeNozzle)
+      // An L-shape edge can be locally blocked by its concave notch even when
+      // the bounding rectangle is clear. Generate a descending set of exact
+      // R-VAN planning radii; the polygon-footprint gate below keeps only
+      // sectors that really fit the irrigated outline.
+      const radiusStages = [6, 5.5, 5, 4.5, 4, 3]
+      const addedRadii = new Set()
+      for (const stageRadiusM of radiusStages) {
+        if (stageRadiusM > safeMaximumRadiusM + EPSILON) continue
+        const edgeNozzle = selectRvanModelForMaximumRadius(stageRadiusM)
+        if (!edgeNozzle || addedRadii.has(edgeNozzle.radiusM)) continue
+        addedRadii.add(edgeNozzle.radiusM)
+        const divisions = Math.max(1, Math.ceil(length / edgeNozzle.radiusM))
+        for (let part = 1; part < divisions; part += 1) {
+          const offsetM = length * part / divisions
+          const ratio = offsetM / length
+          add({
+            x: a.x + (b.x - a.x) * ratio,
+            y: a.y + (b.y - a.y) * ratio,
+          }, 180, normal, 'edge', perimeterOffsets[index] + offsetM, edgeNozzle)
+        }
       }
       continue
     }
@@ -491,6 +504,66 @@ function selectGreedy(candidates, targetCount, initiallyUncovered = null) {
   return { selected, uncovered }
 }
 
+function selectGreedyConnected(candidates, initiallyUncovered, selectedInput, priorHeads = []) {
+  const uncovered = new Set(initiallyUncovered)
+  const selected = selectedInput.slice()
+  const available = candidates.slice()
+
+  while (uncovered.size > 0 && selected.length < MAX_SELECTED_SPRINKLERS) {
+    const scored = available.map((candidate) => {
+      let gain = 0
+      for (const targetIndex of candidate.covered) if (uncovered.has(targetIndex)) gain += 1
+      const connected = [...priorHeads, ...selected].some((head) =>
+        sectorsMutuallyReach(candidate, head))
+      return { candidate, gain, connected }
+    }).filter((entry) => entry.gain > 0)
+    if (!scored.length) break
+
+    // Prefer candidates that are Head-to-Head connected to the corner seed.
+    // If a remaining uncovered pocket is separated by a gap, retain the best
+    // coverage candidate and let the explicit spacing-repair pass bridge it.
+    scored.sort((a, b) =>
+      Number(b.connected) - Number(a.connected) ||
+      b.gain - a.gain ||
+      a.candidate.id.localeCompare(b.candidate.id))
+    const chosen = scored[0].candidate
+    available.splice(available.findIndex((entry) => entry.id === chosen.id), 1)
+    selected.push(chosen)
+    for (const targetIndex of chosen.covered) uncovered.delete(targetIndex)
+  }
+  return { selected: selected.slice(selectedInput.length), uncovered }
+}
+
+function selectCornerFirstPerimeter(perimeterCandidates, initiallyUncovered, priorHeads = []) {
+  const uncovered = new Set(initiallyUncovered)
+  const corners = perimeterCandidates.filter((candidate) => candidate.source === 'vertex')
+  const edges = perimeterCandidates.filter((candidate) => candidate.source === 'edge')
+  const selected = []
+
+  // Seed every actual polygon vertex first, including the reflex corner.
+  // A corner must not be skipped merely because a different candidate happens
+  // to cover the coarse initial mesh there; the finer whole-layout validation
+  // may expose a boundary gap immediately beside that vertex.
+  for (const candidate of corners) {
+    if (selected.length >= MAX_SELECTED_SPRINKLERS) break
+    if (priorHeads.some((head) => sprinklerCoversPoint(head, candidate.position))) continue
+    selected.push(candidate)
+    for (const index of candidate.covered) uncovered.delete(index)
+  }
+
+  const edgePass = selectGreedyConnected(edges, uncovered, selected, priorHeads)
+  selected.push(...edgePass.selected)
+
+  // Close perimeter Head-to-Head gaps before moving into the lawn interior.
+  // This is a geometric walk along the polygon boundary, not a global reorder.
+  const perimeterConnected = enforceHeadToHeadSpacing(selected, perimeterCandidates)
+  const remainingUncovered = new Set(initiallyUncovered)
+  for (const head of perimeterConnected) {
+    for (const targetIndex of head.covered ?? []) remainingUncovered.delete(targetIndex)
+  }
+  return { selected: perimeterConnected, uncovered: remainingUncovered }
+}
+
 function positiveModulo(value, modulus) {
   return ((value % modulus) + modulus) % modulus
 }
@@ -570,16 +643,13 @@ export function evaluateHeadToHeadSpacing(selected) {
       const nextPasses = perimeterNextGapM <= Math.min(sprinkler.radiusM, next.radiusM) + EPSILON &&
         sectorsMutuallyReach(sprinkler, next)
       perimeterSpacingPassed = previousPasses && nextPasses
-      passed = perimeterSpacingPassed
-      headToHeadNeighbor = nextPasses ? next : previousPasses ? previous : null
-      headToHeadDistanceM = headToHeadNeighbor
-        ? distance(sprinkler.position, headToHeadNeighbor.position)
-        : Number.POSITIVE_INFINITY
+      // The required Head-to-Head relationship may be supplied by any
+      // mutually reaching head, including a different family. The immediate
+      // perimeter-neighbour result remains a separate distribution diagnostic.
+      passed = headToHeadNeighbor !== null
     } else if (perimeterIndex >= 0) {
       perimeterSpacingPassed = false
-      passed = false
-      headToHeadNeighbor = null
-      headToHeadDistanceM = Number.POSITIVE_INFINITY
+      passed = headToHeadNeighbor !== null
     }
 
     return Object.freeze({
@@ -730,21 +800,12 @@ export function generateLawnSprinklerLayout({
     })
   }
   if (!validation.supported || validation.regions.length !== 1 ||
-      !['rectangle', 'l-shape'].includes(validation.regions[0].shape)) {
+      !['rectangle', 'l-shape', 'orthogonal-polygon'].includes(validation.regions[0].shape)) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
       status: 'geometry_not_supported',
       errors: Object.freeze([]),
       warnings: Object.freeze([{ code: 'single_rectangle_or_l_shape_only', path: 'geometry.regions' }]),
-      sprinklers: Object.freeze([]),
-    })
-  }
-  if (geometry.regions[0].exclusions?.length) {
-    return Object.freeze({
-      engineVersion: ENGINE_VERSION,
-      status: 'geometry_not_supported',
-      errors: Object.freeze([]),
-      warnings: Object.freeze([{ code: 'exclusions_not_yet_supported_by_layout_solver', path: 'geometry.regions[0].exclusions' }]),
       sprinklers: Object.freeze([]),
     })
   }
@@ -789,7 +850,7 @@ export function generateLawnSprinklerLayout({
     return Object.freeze({ engineVersion: ENGINE_VERSION, status: 'invalid_operating_input', errors: Object.freeze([{ code: 'invalid_layout_radius', path: 'radiusM' }]), warnings: Object.freeze([]), sprinklers: Object.freeze([]) })
   }
 
-  const targets = buildTargetSamples(vertices, sampleStepM)
+  const targets = buildTargetSamples(vertices, sampleStepM, geometry)
   if (!targets) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
@@ -800,6 +861,7 @@ export function generateLawnSprinklerLayout({
     })
   }
 
+  const priorHeads = Array.isArray(initialSprinklers) ? initialSprinklers : []
   const excluded = Array.isArray(excludedCandidatePositions) ? excludedCandidatePositions : []
   const xs = vertices.map((point) => point.x)
   const ys = vertices.map((point) => point.y)
@@ -824,10 +886,15 @@ export function generateLawnSprinklerLayout({
       }
     })
     .filter((candidate) => !preventOverspray || candidateSectorFitsBounds(candidate, candidateBounds))
-    .filter((candidate) => !sprayBoundaryGeometry || candidateSectorFitsGeometry(candidate, sprayBoundaryGeometry))
+    .filter((candidate) => {
+      const boundary = sprayBoundaryGeometry ?? (geometry.regions[0].exclusions?.length ? geometry : null)
+      return !boundary || candidateSectorFitsGeometry(candidate, boundary)
+    })
     .filter((candidate) => !excluded.some((point) => point &&
       Number.isFinite(point.x) && Number.isFinite(point.y) &&
       distance(candidate.position, point) <= EPSILON))
+    .filter((candidate) => !priorHeads.some((head) =>
+      distance(candidate.position, head.position) <= EPSILON))
   if (!candidates || candidates.length > MAX_CANDIDATES) {
     return Object.freeze({
       engineVersion: ENGINE_VERSION,
@@ -840,26 +907,25 @@ export function generateLawnSprinklerLayout({
   const evaluated = evaluateCandidates(candidates, targets)
   const perimeterCandidates = evaluated.filter((candidate) => candidate.source !== 'interior')
   const interiorCandidates = evaluated.filter((candidate) => candidate.source === 'interior')
-  const priorHeads = Array.isArray(initialSprinklers) ? initialSprinklers : []
   const initiallyUncovered = new Set()
   for (let index = 0; index < targets.length; index += 1) {
     if (!priorHeads.some((head) => sprinklerCoversPoint(head, targets[index]))) initiallyUncovered.add(index)
   }
-  const perimeterPass = selectGreedy(perimeterCandidates, targets.length, initiallyUncovered)
+  const perimeterPass = selectCornerFirstPerimeter(perimeterCandidates, initiallyUncovered, priorHeads)
   let coverageSelection = perimeterPass.selected
   let uncovered = perimeterPass.uncovered
 
-  // Keep the perimeter-first pattern: add interior heads only for points
-  // that remain uncovered after all useful perimeter candidates are selected.
+  // Every supported polygon follows the same corner → perimeter → interior
+  // progression, with previously installed heads retained as valid neighbours.
   if (uncovered.size > 0 && interiorCandidates.length > 0) {
-    const interiorPass = selectGreedy(interiorCandidates, targets.length, uncovered)
+    const interiorPass = selectGreedyConnected(interiorCandidates, uncovered, coverageSelection, priorHeads)
     coverageSelection = coverageSelection.concat(interiorPass.selected)
     uncovered = interiorPass.uncovered
   }
 
   const spacingSelection = enforceHeadToHeadSpacing(coverageSelection, evaluated)
   const sprinklers = spacingSelection.map(({ covered, ...candidate }) => Object.freeze(candidate))
-  const checks = evaluateHeadToHeadSpacing(sprinklers)
+  const checks = evaluateHeadToHeadSpacing([...priorHeads, ...sprinklers])
   const allHeadToHead = checks.every((entry) => entry.passed)
   const selectedModels = [...new Set(sprinklers.map((head) => head.performanceModel))].sort()
   const resultModel = family === 'R-VAN' ? selectedModels.join(' / ') : model
@@ -876,7 +942,7 @@ export function generateLawnSprinklerLayout({
   }
   return Object.freeze({
     engineVersion: ENGINE_VERSION,
-    algorithm: 'perimeter-first-mixed-rvan-spacing-aware-set-cover-v5',
+    algorithm: 'whole-polygon-corner-first-uncovered-head-to-head-v2',
     status: uncovered.size === 0 ? 'coverage_complete_sampled' : 'coverage_incomplete',
     coverageScope: 'sampled_geometry_only',
     family,

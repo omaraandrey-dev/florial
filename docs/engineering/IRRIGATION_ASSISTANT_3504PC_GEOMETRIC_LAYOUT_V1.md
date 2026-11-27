@@ -1,3 +1,5 @@
+> **Superseded for the current owner-approved algorithm (2026-11-27):** this document records the earlier rectangle-stage / shared-cell implementation. The active design is [IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md](IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md). Keep this file as historical context; do not use its rectangle decomposition or radius stages as the current algorithm.
+
 # Rain Bird 3504-PC geometric layout — corner-first shared-cell algorithm
 
 **Status:** merged into `main` at `ac29eafb5e4e1af4706c05e28e9de9fe31743336`; Cloudflare Pages Production deployment `3304a92b-4284-4293-88a4-8d5605d5c437` succeeded from that exact merge commit. Exact PR-head CI passed 475/475 tests and all listed checks. Preview functional calculations passed for 8×8, 10×10, 38×16 and two L-shaped cases. Screenshots were reviewed for 8×8, 38×16 and 28×14; rendered-PDF visual review remains pending.  
@@ -11,7 +13,7 @@
 - If four corners are insufficient, subdivide the rectangle into square/rectangular cells. Every cell has four corner positions.
 - A coordinate shared by two or more cells is one physical rotor position, not multiple duplicated heads.
 - Adjacent Head-to-Head is checked in both directions against the actual sector of each rotor, not by distance alone.
-- The base planning stage is 8 m. 9 m is the only larger alternative and is allowed when it materially reduces unnecessary heads while passing all geometry/Head-to-Head checks. A 10 m planning radius is excluded. Only after the 8 m and 9 m stages fail full coverage and Head-to-Head does the solver expand the shared-cell grid at 7 m, 6 m or 5 m. Where safe clearance allows, the four base corner rotors remain at 8 m and the smaller radii are used for added grid heads before any R-VAN fallback.
+- The base planning stage is 8 m. 9 m is the only larger alternative and is allowed when it materially reduces unnecessary heads while passing all geometry/Head-to-Head checks. A 10 m planning radius is excluded. Only after the 8 m and 9 m stages fail full coverage and Head-to-Head does the solver expand the shared-cell grid at 7 m, 6 m or 5 m. Where safe clearance allows, the four base corner rotors remain at 8 m and smaller grid pitch stages are used for added heads before any R-VAN fallback. The selected per-head geometric radius is continuous and is capped by the local safe clearance; it is not snapped to whole metres.
 - Sector orientation and radius are validated against the calculation rectangle before a rotor is accepted.
 
 These are Florial planning rules, not Rain Bird manufacturer-certified throw distances for every arc/nozzle/pressure. The UI and project documentation must keep that distinction explicit.
@@ -41,7 +43,7 @@ For each node:
 - a rectangle vertex receives a 90° sector bisected toward the interior;
 - a boundary node receives a 180° sector directed inward;
 - an interior node receives a 360° sector;
-- its radius is capped by the actual local clearance and selected from 9/8/7/6/5 m; 7/6/5 m stages are considered only after the 8/9 m baseline attempts fail.
+- its radius is capped by the actual local clearance and set to the exact minimum of the current stage ceiling and its local safe clearance. Fractional values such as 8.5 m are valid. The 7/6/5 m values are grid pitch/stage ceilings, not an allowed-radius enumeration.
 
 The grid is rejected if any node lacks a safe rotor radius, any sampled target remains uncovered, any sector leaves the calculation rectangle, or any horizontally/vertically adjacent grid pair fails mutual Head-to-Head.
 
@@ -64,7 +66,7 @@ Each 3504-PC head is explicitly tagged:
 - `performanceModel: '3504-PC'`;
 - `pattern: 'rotor'`;
 - `source: 'vertex' | 'edge' | 'interior'`;
-- `radiusM: 5 | 6 | 7 | 8 | 9`.
+- `radiusM: number` (finite, positive geometric planning radius).
 
 The project snapshot validator accepts and preserves the rotor pattern. The BOM validates that a 3504-PC head is a rotor with a 5–9 m planning radius, adds SKU `Y34001`, and does not add an 1804 spray body to that rotor. The assistant's layout details show the planning radius beside the 3504-PC arc. The customer-facing equipment-set summary uses generic sprinkler/nozzle wording and does not incorrectly claim that every layout contains 1804 spray bodies.
 
@@ -109,6 +111,14 @@ The integration test suite must verify:
 
 PR #530 is merged and its exact merge commit was deployed successfully to Cloudflare Pages Production. No Sanity writes, D1 schema/data changes, Cloudflare settings/secrets changes, Production orders or email tests were part of this work. A separate rendered-PDF visual review remains outstanding. Hydraulic pressure/flow, pipe losses, precipitation uniformity and field performance are not evaluated.
 
+
+## Continuous geometric planning radii — owner-approved clarification (2026-11-26)
+
+The selected geometric radius is a continuous positive number, not a whole-metre catalogue. The solver must use the exact minimum of the current planning-stage ceiling and the local geometric safe-clearance limit. For example, a 17 × 17 m five-head candidate may use 8.5 m; a 17.2 × 17.2 m candidate may use 8.6 m. Do not round or snap these values to 8 m.
+
+This is a geometric planning parameter only. It does not assert that a particular 3504-PC nozzle/pressure combination produces that field throw. Manufacturer-supported flow, pressure and nozzle-performance data must remain separate and must never be interpolated or invented by this change.
+
+Regression acceptance: 17 × 17 m and 17.2 × 17.2 m each produce the five inward side-midpoint + centre candidate only when sampled coverage, sector containment and mutual Head-to-Head all pass. The expected geometric radii are respectively 8.5 m and 8.6 m.
 
 ## 8. Rectangular non-sprinkler areas — coordinate and display contract
 

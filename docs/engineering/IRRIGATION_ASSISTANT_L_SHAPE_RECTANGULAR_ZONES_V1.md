@@ -1,3 +1,5 @@
+> **Superseded for the current owner-approved algorithm (2026-11-27):** this per-rectangle L-shape solver is historical. The active flow keeps the original polygon whole for rotor and R-VAN placement, then detects only residual 1 m / 2 m strip components. See [IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md](IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md).
+
 ## Latest correction — connected-edge axis (2026-11-24)
 
 - Current PR head: `dbf49336b58cb093dac7f125c6b97ac6f6a4c063`.

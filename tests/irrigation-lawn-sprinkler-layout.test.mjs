@@ -57,6 +57,24 @@ test('generates a sampled-coverage layout for an orthogonal L-shaped lawn', () =
   assert.equal(result.headToHead.passed, true)
 })
 
+test('L-shape places useful corner heads before walking uncovered edge and interior samples', () => {
+  const result = generateLawnSprinklerLayout({
+    geometry: lShape,
+    family: 'R-VAN',
+    model: 'R-VAN18',
+    pressureBar: 3.1,
+    sampleStepM: 0.5,
+  })
+  assert.equal(result.status, 'coverage_complete_sampled')
+  assert.equal(result.algorithm, 'whole-polygon-corner-first-uncovered-head-to-head-v2')
+  assert.equal(result.coverage.uncoveredPoints, 0)
+  assert.equal(result.headToHead.passed, true)
+  const firstNonCorner = result.sprinklers.findIndex((head) => head.source !== 'vertex')
+  assert.ok(firstNonCorner > 0, 'the L-shape must seed its geometric corners first')
+  assert.ok(result.sprinklers.slice(0, firstNonCorner).every((head) => head.source === 'vertex'))
+  assert.ok(result.sprinklers.every((head) => [90, 180, 270, 360].includes(head.arcDeg)))
+})
+
 test('supports the HE-VAN alternative using its own exact operating points', () => {
   const result = generateLawnSprinklerLayout({
     geometry: rectangle,
@@ -90,7 +108,7 @@ test('does not accept draft geometry or unscaled geometry', () => {
   assert.equal(result.status, 'geometry_not_accepted')
 })
 
-test('does not silently solve multiple regions, exclusions or unsupported shapes', () => {
+test('supports rectangular exclusions while still rejecting multiple regions and unsupported shapes', () => {
   const withExclusion = confirmedGeometry(rectangle.regions[0].boundary.vertices, [{
     id: 'path-1',
     kind: 'path',
@@ -98,9 +116,10 @@ test('does not silently solve multiple regions, exclusions or unsupported shapes
   }])
   const excluded = generateLawnSprinklerLayout({
     geometry: withExclusion, family: 'R-VAN', model: 'R-VAN18', pressureBar: 3.1,
+    preventOverspray: true, sprayBoundaryGeometry: withExclusion,
   })
-  assert.equal(excluded.status, 'geometry_not_supported')
-  assert.ok(excluded.warnings.some((entry) => entry.code === 'exclusions_not_yet_supported_by_layout_solver'))
+  assert.ok(['coverage_complete_sampled', 'coverage_incomplete'].includes(excluded.status))
+  assert.ok(!excluded.warnings.some((entry) => entry.code === 'exclusions_not_yet_supported_by_layout_solver'))
 
   const multiple = {
     ...rectangle,

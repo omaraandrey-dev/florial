@@ -3,9 +3,9 @@ export interface RainBird3504LayoutResult {
   readonly status: string
   readonly family?: '3500'
   readonly model?: '3504-PC'
-  readonly planningRadiusM?: 8 | 9 | null
-  readonly supplementalRadiusM?: 5 | 6 | 7 | null
-  readonly layoutStrategy?: 'four-corners-first' | 'corner-first-shared-cell-grid'
+  readonly planningRadiusM?: number | null
+  readonly supplementalRadiusM?: number | null
+  readonly layoutStrategy?: 'four-corners-first' | 'corner-first-shared-cell-grid' | 'whole-polygon-corner-first-perimeter-interior'
   readonly grid?: Readonly<{
     columns: number
     rows: number
@@ -16,17 +16,17 @@ export interface RainBird3504LayoutResult {
   readonly sprinklers: ReadonlyArray<Readonly<{
     id: string
     position: Readonly<{ x: number; y: number }>
-    arcDeg: 90 | 180 | 360
+    arcDeg: 90 | 180 | 270 | 360
     directionDeg: number | null
     source: 'vertex' | 'edge' | 'interior'
-    radiusM: 5 | 6 | 7 | 8 | 9 | 10
+    radiusM: number
     pressureBar: null
     flowLpm: null
     precipitationSquareMmH: null
     precipitationTriangularMmH: null
     performanceModel: '3504-PC'
     pattern: 'rotor'
-    planningRadiusSource: 'owner-approved-florial-3504pc-corner-first-grid'
+    planningRadiusSource: 'owner-approved-florial-3504pc-corner-first-grid' | 'owner-approved-continuous-6-to-9m-whole-polygon'
   }>>
   readonly coverage?: Readonly<{
     sampledPoints: number
@@ -35,7 +35,7 @@ export interface RainBird3504LayoutResult {
     coveragePercent: number
     uncoveredSamples: ReadonlyArray<Readonly<{ x: number; y: number }>>
   }>
-  readonly headToHead?: Readonly<{ passed: boolean; applicable: boolean; checks: ReadonlyArray<Readonly<Record<string, unknown>>> }>
+  readonly headToHead?: Readonly<{ passed: boolean | null; applicable: boolean; checks: ReadonlyArray<Readonly<Record<string, unknown>>> }>
   readonly candidateStats?: Readonly<{ candidatePositions: number; selectedRotors: number }>
   readonly warnings: ReadonlyArray<Readonly<{ code: string; path: string }>>
 }
@@ -45,4 +45,9 @@ export function generateRainBird3504Layout(
     sampleStepM?: number
     initialSprinklers?: ReadonlyArray<Readonly<Record<string, any>>>
   },
+): RainBird3504LayoutResult
+
+export function generateRainBird3504PolygonLayout(
+  geometry: Readonly<Record<string, any>>,
+  options?: { sampleStepM?: number },
 ): RainBird3504LayoutResult
