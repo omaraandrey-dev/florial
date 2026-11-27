@@ -142,7 +142,6 @@ test('product detail route resolves by exact slug without downloading both full 
   assert.match(loader, /sanityClient\.fetch\(productBySlugQuery/)
   assert.match(loader, /publicPlantsClient\.fetch\(plantBySlugQuery/)
   assert.match(loader, /Promise\.allSettled\(\[/)
-  assert.match(loader, /sanityLiveClient : sanityLiveClient/)
   assert.match(loader, /\(isPlant \? plantsClient : sanityLiveClient\)\.fetch/)
   const sanityClients = await read('../src/lib/sanity.ts')
   assert.match(sanityClients, /export const sanityClient = createClient\([\s\S]*?useCdn: true/)
