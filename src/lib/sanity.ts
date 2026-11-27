@@ -12,6 +12,7 @@ export const sanityClient = createClient({
   useCdn: true,
   perspective: 'published',
   apiVersion,
+  requestTagPrefix: 'florial',
 })
 
 // Commercial data that must stay fresh (product prices, stock and search) bypasses the CDN.
