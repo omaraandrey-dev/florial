@@ -7,9 +7,10 @@ const SITE_URL = 'https://florial-bg.com'
 const LOCALES = ['bg', 'ru', 'en']
 
 async function sanityFetch(dataset, query) {
-  const url = new URL('https://' + PROJECT + '.api.sanity.io/v' + API_VERSION + '/data/query/' + dataset)
+  const url = new URL('https://' + PROJECT + '.apicdn.sanity.io/v' + API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
   url.searchParams.set('perspective', 'published')
+  url.searchParams.set('tag', 'florial.ci.smoke.plants')
   const response = await fetch(url, { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(30000) })
   assert.equal(response.status, 200, 'Sanity ' + dataset + ' query must return HTTP 200')
   const body = await response.json()
