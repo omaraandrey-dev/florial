@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 35
     env:
-      BASE_URL: ${{ github.event_name == 'pull_request' && '' || 'https://florial-bg.com' }}
+      BASE_URL: https://florial-bg.com
     steps:
       - name: Checkout
         uses: actions/checkout@v4
