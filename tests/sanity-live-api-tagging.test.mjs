@@ -58,7 +58,6 @@ test('all Sanity SDK clients apply the Florial request-tag prefix', async () => 
 test('server-side direct Sanity API requests carry endpoint-specific tags', async () => {
   const expectations = [
     ['../functions/api/orders.ts', 'florial.checkout.order-validation'],
-    ['../functions/api/service-leads.ts', 'florial.service-leads.config'],
     ['../functions/api/manager/plant-direct-lib.ts', 'florial.manager.plants.read', 'florial.manager.plants.write'],
     ['../functions/api/manager/order-products.ts', 'florial.manager.order-products'],
     ['../functions/api/manager/product-seo.ts', 'florial.manager.product-seo.read', 'florial.manager.product-seo.write'],
@@ -95,4 +94,13 @@ test('read-only description migration dry-run uses the CDN and safely reports an
   assert.match(source, /error\?\.statusCode === 402/)
   assert.match(source, /error\?\.response\?\.body\?\.error === 'plan_limit_reached'/)
   assert.match(source, /DRY-RUN пропущен/)
+})
+
+
+test('public service-lead form configuration is read from the published API CDN', async () => {
+  const source = await read('../functions/api/service-leads.ts')
+  assert.ok(source.includes('.apicdn.sanity.io/'))
+  assert.ok(!source.includes('.api.sanity.io/'))
+  assert.ok(source.includes("url.searchParams.set('perspective', 'published')"))
+  assert.ok(source.includes('florial.service-leads.config'))
 })
