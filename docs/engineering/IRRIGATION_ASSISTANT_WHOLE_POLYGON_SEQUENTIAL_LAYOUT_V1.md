@@ -109,3 +109,11 @@ This confirmation does not turn the geometric solver into a hydraulic calculator
 - Do not merge PR #551 or deploy Production without separate owner approval.
 - Do not modify Production services, secrets, Sanity data, or unrelated global UI.
 - `CHANGELOG.md`, the technical passport, and open-questions ledger are currently frozen by the separate PR #409 workflow; record this implementation in this dedicated engineering specification and update the frozen ledgers only after that conflict is resolved.
+
+
+## 11. Implementation record — 2026-11-27
+
+- Development branch: `develop`; implementation commit: `1dc4b23ef5fd5a4c2cda4db190412cdbb49eb94d`.
+- The bridge now completes the whole-polygon 3504-PC rotor sector-adjustment pass before invoking the R-VAN solver. The R-VAN solver receives the final adjusted rotor set as `initialSprinklers` and therefore targets the remaining uncovered samples only.
+- Sector adjustment is applied to supported rectangles, L-shaped polygons and polygons with rectangular exclusions; it is no longer restricted to plain rectangles.
+- Verification at the time of this record: source read-back and branch-head comparison passed. Automated test/CI status is **not confirmed**; the GitHub commit currently exposes no status checks. No Production, Sanity, D1 or Cloudflare configuration changes were made.
