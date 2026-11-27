@@ -179,6 +179,7 @@ const handleOrderPost = async ({
       : '*[_type == "product" && isActive != false && _id in $ids] { _id, name, sku, priceEUR, "imageUrl": coalesce(mainImage.asset->url, image.asset->url, externalImageUrl) }'
     const url = new URL(`https://${sanityProjectId}.api.sanity.io/v2024-01-01/data/query/${encodeURIComponent(dataset)}`)
     url.searchParams.set('query', query)
+    url.searchParams.set('tag', 'florial.checkout.order-validation')
     url.searchParams.set('$ids', JSON.stringify(ids))
     const response = await fetch(url.toString())
     if (!response.ok) throw new Error('Sanity catalog query failed')
