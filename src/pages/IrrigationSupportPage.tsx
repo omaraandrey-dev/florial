@@ -168,7 +168,7 @@ export function IrrigationSupportPage() {
         feeEUR,
         translations { ru { name, note }, en { name, note } }
       }
-    `).then((result) => {
+    `, {}, { tag: 'browser.delivery.zones' }).then((result) => {
       if (cancelled) return
       setDeliveryZones(Array.isArray(result) ? result : [])
       setDeliveryZonesError(false)
