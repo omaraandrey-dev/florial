@@ -114,7 +114,7 @@ Acceptance:
 - No broad replacement of all Live clients with CDN clients.
 
 ### Phase 2 — remediate public published reads
-**Status: NOT STARTED**
+**Status: IN PROGRESS — first low-risk metadata read migrated on develop**
 
 Priority order:
 1. Browser catalogue loading in `src/App.tsx`: inspect all consumers of catalogue fields, cart behavior, price/stock updates and page navigation. Move only safe published catalogue projections to CDN; do not silently weaken price/stock freshness. If a smaller identity/content projection can be used, prefer it.
@@ -234,10 +234,10 @@ If Request Logs, a CI failure, or a correctness concern prevents safe completion
 | Sanity usage baseline | RECORDED | 253,866 / 250,000 API requests; daily-boundary snapshot |
 | Exact attribution of Nov 25–27 requests | OPEN | Need fresh Request Logs export; blocked requests may not count |
 | Full Live API callsite inventory | IN PROGRESS | Initial source review confirms App catalogue and search paths |
-| Public catalogue migration | OPEN | Inspect data freshness and all consumers before change |
+| Public catalogue migration | OPEN | Main catalogue query still needs price/stock freshness decision |
 | Public search migration | OPEN | Split descriptive fields from price/stock if needed |
 | Product detail full-read policy | PARTIAL | Slug resolution CDN; full detail still live |
-| Support / irrigation assistant / cart paths | OPEN | Classify individually |
+| Support / irrigation assistant / cart paths | PARTIAL | Cart weight fallback moved to CDN; delivery zones and irrigation assistant remain under review |
 | Order validation live path | KEEP LIVE | Required for authoritative server-side price/stock validation |
 | Request tagging | NOT STARTED | Validate installed client API and Request Logs output |
 | Automated monitoring | NOT STARTED | Start with usage/log review; AE requires separate approval |
@@ -324,3 +324,14 @@ Do not change catalogue/search query clients until this decision is explicitly s
 - **Sanity usage/log evidence:** latest available usage snapshot remains 253,866 / 250,000 direct API requests; Request Logs export still required for exact caller attribution.
 - **Open owner decision:** accept up to the CDN cache window for displayed catalogue/search price and stock, with server-side order revalidation, or require split content/commercial reads.
 - **Next action:** proceed with low-risk metadata/configuration CDN migrations and regression test design; resolve the catalogue/search freshness decision before changing those commercial projections.
+
+
+### 2026-11-27 — first low-risk runtime remediation on develop
+
+- **Code commit:** `ee2c309a19d1adc06d42cbf5523360bd4423ca7b`.
+- **Test commit:** `d9ab31ff6e1d4221885c09d95f56a6e48168f27b`.
+- **Changed:** `src/App.tsx` — legacy-cart fallback that reads only `_id, weightKg` now uses the existing published CDN client `sanityClient` instead of `sanityLiveClient`. This is static catalogue metadata and does not change price/stock validation.
+- **Added:** `tests/sanity-public-cdn-reads.test.mjs` — guards this cart metadata path against regression to direct Live API.
+- **Verification:** source and test file were read back from `develop`; GitHub combined commit status currently returns no status records. The test has **not yet been executed**; exact-head CI/local test result remains pending.
+- **Production:** no merge or deployment. No Sanity writes, D1 changes, Cloudflare settings/secrets changes.
+- **Next:** continue with high-volume catalogue and search decision; do not migrate commercial projections until the owner confirms the acceptable display freshness contract.
