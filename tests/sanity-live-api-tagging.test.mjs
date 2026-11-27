@@ -1,0 +1,73 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import { readdir, readFile } from 'node:fs/promises'
+import { join, relative } from 'node:path'
+
+const read = (path) => readFile(new URL(path, import.meta.url), 'utf8')
+
+const walk = async (directory) => {
+  const entries = await readdir(directory, { withFileTypes: true })
+  const nested = await Promise.all(entries.map(async (entry) => {
+    const path = join(directory, entry.name)
+    return entry.isDirectory() ? walk(path) : [path]
+  }))
+  return nested.flat()
+}
+
+test('every public direct Sanity client callsite is explicitly inventoried and tagged', async () => {
+  const root = new URL('../src/', import.meta.url)
+  const files = (await walk(root.pathname)).filter((path) => /\.(ts|tsx|js|mjs)$/.test(path))
+  const actual = []
+  for (const path of files) {
+    const source = await readFile(path, 'utf8')
+    if (/\b(?:sanityLiveClient|plantsClient)\b/.test(source) && /\.fetch\s*\(/.test(source)) {
+      actual.push(relative(root.pathname, path).replaceAll('\\\\', '/'))
+    }
+  }
+
+  const expected = [
+    'App.tsx',
+    'lib/routeData/productDetails.ts',
+    'lib/routeData/search.ts',
+    'manager/plantCategories.ts',
+    'pages/IrrigationAssistantPage.tsx',
+    'pages/IrrigationSupportPage.tsx',
+  ].sort()
+  assert.deepEqual(actual.sort(), expected)
+
+  const tagsByFile = {
+    'App.tsx': ['browser.catalog.equipment', 'browser.catalog.plants'],
+    'lib/routeData/productDetails.ts': ['browser.product.detail.plants', 'browser.product.detail.equipment', 'browser.product.recommended-irrigation'],
+    'lib/routeData/search.ts': ['browser.search.equipment', 'browser.search.plants'],
+    'manager/plantCategories.ts': ['manager.plant-categories'],
+    'pages/IrrigationAssistantPage.tsx': ['browser.irrigation-assistant.catalog'],
+    'pages/IrrigationSupportPage.tsx': ['browser.delivery.zones'],
+  }
+  for (const [path, tags] of Object.entries(tagsByFile)) {
+    const source = await read('../src/' + path)
+    for (const tag of tags) assert.ok(source.includes(tag), path + ' is missing request tag ' + tag)
+  }
+})
+
+test('all Sanity SDK clients apply the Florial request-tag prefix', async () => {
+  const source = await read('../src/lib/sanity.ts')
+  assert.equal((source.match(/createClient\(/g) || []).length, 4)
+  assert.equal((source.match(/requestTagPrefix: 'florial'/g) || []).length, 4)
+})
+
+test('server-side direct Sanity API requests carry endpoint-specific tags', async () => {
+  const expectations = [
+    ['../functions/api/orders.ts', 'florial.checkout.order-validation'],
+    ['../functions/api/service-leads.ts', 'florial.service-leads.config'],
+    ['../functions/api/manager/plant-direct-lib.ts', 'florial.manager.plants.read', 'florial.manager.plants.write'],
+    ['../functions/api/manager/order-products.ts', 'florial.manager.order-products'],
+    ['../functions/api/manager/product-seo.ts', 'florial.manager.product-seo.read', 'florial.manager.product-seo.write'],
+    ['../functions/api/manager/category-seo.ts', 'florial.manager.category-seo.read', 'florial.manager.category-seo.write'],
+    ['../functions/api/manager/image-library.ts', 'florial.manager.image-library'],
+    ['../functions/api/manager/upload-image.ts', 'florial.manager.image-upload'],
+  ]
+  for (const [path, ...tags] of expectations) {
+    const source = await read(path)
+    for (const tag of tags) assert.ok(source.includes(tag), path + ' is missing request tag ' + tag)
+  }
+})
