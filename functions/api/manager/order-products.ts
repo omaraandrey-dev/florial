@@ -66,6 +66,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
   try {
     const sanityUrl = new URL('https://' + sanityProjectId + '.api.sanity.io/v2025-02-19/data/query/' + dataset)
     sanityUrl.searchParams.set('query', query)
+    sanityUrl.searchParams.set('tag', 'florial.manager.order-products')
     for (const [key, value] of Object.entries(params)) {
       sanityUrl.searchParams.set('$' + key, JSON.stringify(value))
     }
