@@ -41,4 +41,5 @@ export const publicPlantsClient = createClient({
   useCdn: true,
   perspective: 'published',
   apiVersion,
+  requestTagPrefix: 'florial',
 })
