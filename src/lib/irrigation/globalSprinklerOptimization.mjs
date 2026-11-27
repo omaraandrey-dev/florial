@@ -559,7 +559,8 @@ function runSectorOptimization(state, options) {
           const candidateState = { heads: nextHeads, counts: nextCounts, coverageById: new Map(coverageById) }
           candidateState.coverageById.set(head.id, replacementCoverage)
           const removable = candidateState.heads.filter((entry) =>
-            isRotor(entry) && entry.id !== head.id)
+            isRotor(entry) && entry.id !== head.id &&
+            !['vertex', 'corner'].includes(entry.source))
             .map((entry) => ({ head: entry, unique: uniqueContribution(entry, nextCounts, candidateState.coverageById) }))
             .sort((a, b) => a.unique - b.unique || a.head.id.localeCompare(b.head.id))
           for (const item of removable) {
@@ -612,6 +613,7 @@ export function optimizeGlobalSprinklerSet({
   preserveOnlyExistingCoverage = false,
 } = {}) {
   const originalHeads = Array.isArray(sprinklers) ? sprinklers.slice() : []
+  const closeCandidates = proximityCandidates(originalHeads)
   const sampled = buildGlobalTargets(geometry, sampleStepM, maxTargetPoints)
   if (sampled.status !== 'ready') {
     return Object.freeze({
@@ -645,7 +647,6 @@ export function optimizeGlobalSprinklerSet({
   const targets = preserveOnlyExistingCoverage
     ? allSampledTargets.filter((point) => originalHeads.some((head) => headCoversPoint(head, point)))
     : allSampledTargets
-  const closeCandidates = proximityCandidates(originalHeads)
   const coverageById = new Map(originalHeads.map((head) => [head.id, coverageForHead(head, targets)]))
   const counts = countCoverage(originalHeads, coverageById, targets.length)
   const baselineRegionSizes = new Map()
