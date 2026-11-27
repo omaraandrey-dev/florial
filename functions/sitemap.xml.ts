@@ -32,9 +32,10 @@ const queries = {
 
 async function querySanity(dataset: string, query: string): Promise<SitemapDocument[]> {
   const url = new URL(
-    `https://${SANITY_PROJECT_ID}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${dataset}`,
+    `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/${dataset}`,
   )
   url.searchParams.set('query', query)
+  url.searchParams.set('perspective', 'published')
 
   const response = await fetch(url.toString(), {
     headers: { Accept: 'application/json' },
@@ -140,7 +141,15 @@ function xmlResponse(urls: Map<string, string | undefined>): Response {
   })
 }
 
-export async function onRequestGet(): Promise<Response> {
+export async function onRequestGet({ request }: { request: Request }): Promise<Response> {
+  const cacheKey = new Request(request.url, { method: 'GET' })
+  try {
+    const cached = await caches.default.match(cacheKey)
+    if (cached) return cached
+  } catch {
+    // Cache API is an optimization; a cache miss/failure must not block the sitemap.
+  }
+
   try {
     const [
       equipmentCategories,
@@ -223,7 +232,13 @@ export async function onRequestGet(): Promise<Response> {
       }
     }
 
-    return xmlResponse(urls)
+    const response = xmlResponse(urls)
+    try {
+      await caches.default.put(cacheKey, response.clone())
+    } catch {
+      // The response remains valid even if this edge location cannot cache it.
+    }
+    return response
   } catch {
     return new Response('Sitemap temporarily unavailable', {
       status: 503,
