@@ -91,7 +91,7 @@ This is deterministic sampled geometric planning, not a continuous-coverage proo
 
 ## 9. Current implementation snapshot
 
-Implementation is in progress on `develop` / PR #551. The v2 global optimizer was reverted to its pre-v2 baseline. The sequential shared-coverage flow, 3504-PC sector expansion, five-head 16×16 candidate, and spacing diagnostics have been added.
+Implementation is present on `develop` / PR #551; merge and Production release remain pending exact-head validation and owner acceptance. The v2 global optimizer was reverted to its pre-v2 baseline. The sequential shared-coverage flow, 3504-PC sector expansion, five-head 16×16 candidate, spacing diagnostics, and pre-R-VAN rotor-only reduction have been added.
 
 ### 9.1 Rotor reduction before R-VAN
 
@@ -110,3 +110,16 @@ After the 3504-PC sector-expansion pass and before R-VAN selection/placement, ru
 The reduction reports baseline/optimized rotor counts, removed IDs, proximity candidates and the rotor-only sampled coverage/Head-to-Head/overspray results. Proximity does not override any validation gate.
 
 Exact verification status must be read from CI for the latest head SHA; earlier failing runs are not evidence of a successful build.
+
+
+### 9.2 Orientation-aware decomposition of orthogonal L-shapes
+
+The orthogonal rectangle decomposition now evaluates both sweep orientations (horizontal and vertical) and chooses the non-overlapping partition with the lower area-weighted elongation penalty:
+
+`sum(rectangleArea × (1 − shortSide / longSide))`
+
+This avoids allowing a decomposition direction to turn a compact square arm into multiple artificial narrow strips. Ties retain the historical horizontal sweep, preserving deterministic behavior for ordinary rectangles and geometries where both orientations are equivalent.
+
+Regression case: an 18 × 2 m L-shaped lawn with a 16 × 1 m top-right exclusion must retain the 2 × 2 m corner as a compact non-strip rectangle and identify only the 16 × 1 m horizontal arm as a directional strip. The 2 × 2 m square must not be reinterpreted as a 2 m-wide strip or covered by two artificial 1 m strip fragments. If the whole-polygon circular pass cannot cover that square, it remains explicitly uncovered and the layout must remain incomplete rather than report a false generated result.
+
+The decomposition still validates exact net area and rejects overlapping rectangles. The new orientation choice does not change the supported geometry contract, sprinkler throw data, hydraulic assumptions, or Production state.
