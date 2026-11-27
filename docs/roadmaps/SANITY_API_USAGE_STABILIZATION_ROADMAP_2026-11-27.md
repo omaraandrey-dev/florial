@@ -94,7 +94,7 @@ Acceptance:
 - SSR spike attribution is labelled as proven, probable or unknown; no unsupported crawler attribution.
 
 ### Phase 1 — exhaustive Live API inventory and classification
-**Status: IN PROGRESS**
+**Status: IN PROGRESS — public browser, checkout, Manager and service-lead callsites mapped; full repository sweep still pending**
 
 Tasks:
 1. Search the entire repository for `useCdn: false`, `sanityLiveClient`, `plantsClient`, direct `api.sanity.io` URLs, `createClient` instances, and direct Sanity `fetch()` calls.
@@ -141,7 +141,7 @@ Acceptance:
 - Server-side order validation remains live and authoritative.
 
 ### Phase 3 — request attribution and monitoring
-**Status: NOT STARTED**
+**Status: IN PROGRESS — requestTagPrefix and per-family tags added on develop; CI and Request Logs validation pending**
 
 Tasks:
 1. Add Sanity request tags to application-owned requests, using stable names for request families, for example:
@@ -168,7 +168,7 @@ Acceptance:
 - No Production monitoring infrastructure is changed without approval.
 
 ### Phase 4 — regression protection and load verification
-**Status: NOT STARTED**
+**Status: IN PROGRESS — direct Live API callsite/tag guard test added; exact-head execution pending**
 
 Tasks:
 1. Add a repository test that detects public runtime modules importing or invoking direct Live clients outside an explicit allowlist.
@@ -233,15 +233,15 @@ If Request Logs, a CI failure, or a correctness concern prevents safe completion
 | SSR direct API spike remediation | RELEASED | PRs #553–#555; exact Production deployment recorded above |
 | Sanity usage baseline | RECORDED | 253,866 / 250,000 API requests; daily-boundary snapshot |
 | Exact attribution of Nov 25–27 requests | OPEN | Need fresh Request Logs export; blocked requests may not count |
-| Full Live API callsite inventory | IN PROGRESS | Initial source review confirms App catalogue and search paths |
+| Full Live API callsite inventory | IN PROGRESS | Browser, checkout, service leads and Manager callsites classified; finish repository-wide scan including scripts/Studio |
 | Public catalogue migration | OPEN | Main catalogue query still needs price/stock freshness decision |
 | Public search migration | OPEN | Split descriptive fields from price/stock if needed |
 | Product detail full-read policy | PARTIAL | Slug resolution CDN; full detail still live |
 | Support / irrigation assistant / cart paths | PARTIAL | Cart weight fallback moved to CDN; delivery zones and irrigation assistant remain under review |
 | Order validation live path | KEEP LIVE | Required for authoritative server-side price/stock validation |
-| Request tagging | NOT STARTED | Validate installed client API and Request Logs output |
+| Request tagging | IN PROGRESS | `requestTagPrefix` and family tags added to app clients and direct API endpoints; validate in CI and fresh Request Logs |
 | Automated monitoring | NOT STARTED | Start with usage/log review; AE requires separate approval |
-| Regression guard | NOT STARTED | Add public Live API allowlist test |
+| Regression guard | IN PROGRESS | `tests/sanity-live-api-tagging.test.mjs` added; exact-head CI pending |
 | Production release of new browser changes | NOT STARTED | Requires Preview verification and explicit approval |
 
 ## 7. Required status update format
@@ -335,3 +335,16 @@ Do not change catalogue/search query clients until this decision is explicitly s
 - **Verification:** source and test file were read back from `develop`; GitHub combined commit status currently returns no status records. The test has **not yet been executed**; exact-head CI/local test result remains pending.
 - **Production:** no merge or deployment. No Sanity writes, D1 changes, Cloudflare settings/secrets changes.
 - **Next:** continue with high-volume catalogue and search decision; do not migrate commercial projections until the owner confirms the acceptable display freshness contract.
+
+
+### 2026-11-27 — request attribution and regression guard implementation on develop
+
+- **Branch:** `develop`; implementation head at this update: `b0696ae0eadaa20d04bd5f90226a6f48e249d10a` (subsequent commits may advance it).
+- **Completed:** added `requestTagPrefix: 'florial'` to all four shared Sanity SDK clients; added per-family tags to public browser catalogue, search, product-detail, recommended irrigation, delivery-zone, irrigation-assistant and legacy-cart metadata queries; tagged Manager plant-category client reads.
+- **Completed:** added explicit URL tags to direct Pages Function calls for checkout order validation, service-lead config, Manager plant read/write, order-product search, product/category SEO read/write, image-library read and image upload.
+- **Added:** `tests/sanity-live-api-tagging.test.mjs` to enforce the known direct-client callsite allowlist, required request tags and shared client prefix.
+- **Prior remediation retained:** `src/App.tsx` legacy cart weight metadata now uses the published CDN client; `tests/sanity-public-cdn-reads.test.mjs` guards it.
+- **Source verification:** all modified source and test files were read back from `develop`; exact-head CI/test execution has not yet been confirmed.
+- **Production:** no merge or deployment. No Sanity content/schema, D1 data/schema, Cloudflare settings/bindings/secrets or DNS changed.
+- **Open decision:** the current code deliberately keeps catalogue/search/product commercial projections and delivery tariffs on Live API for freshness. Existing SSR already uses published API-CDN cache windows, but changing the SPA price/stock freshness contract still requires explicit owner confirmation.
+- **Next:** validate the new tests through a draft `develop → main` PR/CI and Preview; complete repository-wide callsite sweep; then request the freshness decision before moving high-volume catalogue/search reads to CDN.
