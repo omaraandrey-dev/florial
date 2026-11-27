@@ -22,6 +22,7 @@ export const sanityLiveClient = createClient({
   useCdn: false,
   perspective: 'published',
   apiVersion,
+  requestTagPrefix: 'florial',
 })
 
 // Live plant client is also used by Manager category operations; keep it uncached.
