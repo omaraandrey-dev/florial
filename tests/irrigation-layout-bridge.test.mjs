@@ -686,8 +686,16 @@ test('2x2 square is not misclassified as a 2m strip; reject any 1m pattern that 
   const verticalTwoMetreHeads = result.layout?.sprinklers?.filter((head) =>
     head.stripWidthM === 2 && head.stripAxis === 'vertical') ?? []
   assert.equal(verticalTwoMetreHeads.length, 0)
-  assert.ok(result.layout?.warnings.some((warning) =>
-    warning.code === 'strip_pattern_rejected_due_to_boundary_overspray'))
+  const stripHeads = result.layout?.sprinklers?.filter((head) => head.pattern === 'strip') ?? []
+  assert.ok(stripHeads.length > 0, 'the remaining 16 x 1 m arm is still handled by a directional strip pattern')
+  assert.ok(stripHeads.every((head) => head.stripWidthM === 1), 'the compact 2 x 2 m square must not be assigned a 2 m strip model')
+  assert.ok(stripHeads.every((head) => {
+    const bounds = head.stripBounds
+    if (!bounds) return false
+    const overlapX = Math.min(bounds.maxX, 2) - Math.max(bounds.minX, 0)
+    const overlapY = Math.min(bounds.maxY, 2) - Math.max(bounds.minY, 0)
+    return overlapX <= 1e-8 || overlapY <= 1e-8
+  }), 'directional strip footprints must not enter the compact 2 x 2 m square')
 })
 
 
