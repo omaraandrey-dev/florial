@@ -120,6 +120,37 @@ test('same-position rotors can consolidate into one 360-degree rotor without mov
   assert.equal(result.headToHead.passed, true)
 })
 
+test('removal-only rotor reduction never consolidates or reorients already expanded sectors', () => {
+  const first = rotor('corner-a', 5, 5, { arcDeg: 180, directionDeg: 0 })
+  const second = rotor('corner-b', 5, 5, { arcDeg: 180, directionDeg: 180 })
+  const fixedRvan = {
+    id: 'fixed-rvan',
+    position: { x: 5, y: 6 },
+    arcDeg: 360,
+    directionDeg: null,
+    radiusM: 1,
+    performanceModel: 'R-VAN18',
+    pattern: 'circular',
+    calculationRegionId: 'zone-a',
+  }
+  const baseline = [first, second, fixedRvan]
+  const result = optimizeGlobalSprinklerSet({
+    sprinklers: baseline,
+    geometry: squareGeometry(),
+    parts: [{ id: 'zone-a', layout: { sprinklers: baseline } }],
+    oversprayCheck: () => true,
+    removalOnly: true,
+  })
+
+  assert.equal(result.status, 'completed')
+  assert.deepEqual(result.removedHeadIds, [])
+  assert.deepEqual(result.consolidatedGroups, [])
+  assert.deepEqual(result.sectorEdits, [])
+  assert.deepEqual(result.sprinklers, baseline)
+  assert.equal(result.coverage.uncoveredPoints, 0)
+  assert.equal(result.headToHead.passed, true)
+})
+
 test('global optimization explicitly skips target grids above 30,000 points', () => {
   const result = optimizeGlobalSprinklerSet({
     sprinklers: [],
