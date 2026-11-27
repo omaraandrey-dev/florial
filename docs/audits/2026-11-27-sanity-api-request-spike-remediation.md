@@ -158,3 +158,36 @@ A focused read of `src/lib/routeData/productDetails.ts` found another important 
 This means a JavaScript-enabled product-page visit can cause at least three direct API requests after the server-rendered first response, even though the initial HTML already contains the product details. The first two slug-to-dataset lookups return only identity/type fields and do not need current price/stock; they are strong candidates to move to the API CDN. The full detail read includes price/stock and requires a separate freshness decision. This code path is confirmed; its share of the November spike is not known without Request Logs.
 
 A future targeted optimization should first move only the two published slug-resolution reads to the API CDN, preserving the live detail read and server-side order validation. Any broader CDN use for price/stock-bearing details requires an explicit decision about accepting the CDN cache window.
+
+
+## Follow-up implementation on develop — product slug reads, sitemap and RSS
+
+**Status:** implementation committed to `develop`; exact-head CI/Preview and Production release are pending.
+
+### Product detail browser path
+
+- `src/lib/routeData/productDetails.ts`: the equipment slug-to-ID lookup now uses `sanityClient` and the plants slug-to-ID lookup uses `publicPlantsClient`. Both clients are configured with `useCdn: true` and published perspective in `src/lib/sanity.ts`.
+- These two lookup projections contain only `_id` and product type; they do not contain price or stock fields.
+- The subsequent full detail reads remain on `sanityLiveClient` / `plantsClient`. Recommended irrigation product lookup remains live. Server-side order validation remains live.
+- Regression coverage in `tests/content-route-performance.test.mjs` asserts the CDN slug-resolution clients and preserves the full-detail live client path.
+
+### Published sitemap and services RSS
+
+- `functions/sitemap.xml.ts`: six published sitemap projections now target `apicdn.sanity.io` and explicitly set `perspective=published`. The generated XML is cached through `caches.default` using the request URL as key. Existing five-minute shared-cache policy and stale-while-revalidate window are retained.
+- `functions/feeds/services-bg.xml.ts`: published services feed query now targets `apicdn.sanity.io` with explicit published perspective and uses the same request-keyed Cache API pattern. Existing five-minute shared-cache policy is retained.
+- Cache API failures are treated as optimization failures only; the functions continue to generate and return the XML response. Error responses remain `no-store`.
+- New source regression tests: `tests/sanity-public-endpoint-caching.test.mjs`.
+
+### Remaining intentional live API paths identified by source review
+
+- Full product/plant detail and recommended-product reads: current price/stock data; keep live until a separate freshness policy is approved and tested.
+- `functions/api/orders.ts`: server-side price/stock/order validation; keep live.
+- `functions/api/service-leads.ts`: service lead-form configuration is checked when a customer submits a form; current live read is retained for correctness.
+- `functions/api/manager/image-library.ts`: authenticated Manager asset-library reads use a bearer token and no-store; not a public crawler path.
+- Studio, Manager writes and other authenticated/operational requests remain outside this public-content CDN change.
+
+### Verification boundary
+
+The latest read-only Sanity usage snapshot still reports 249,171 API Requests and 44,298 API CDN Requests for November through 2026-11-27. Daily history currently reports 34,378 API Requests and 3,208 API CDN Requests for the incomplete 2026-11-27 UTC bucket. These aggregate counters do not identify callers and cannot isolate the post-release time window. Sanity Request Logs have not been exported; exact IP/user-agent/query attribution remains open.
+
+No Sanity documents, schemas, datasets, Cloudflare settings/secrets, D1 data/schema, orders or Resend configuration were changed by this follow-up. Production release has not been performed for these follow-up commits.
