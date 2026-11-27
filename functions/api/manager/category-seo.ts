@@ -27,6 +27,7 @@ const fetchCategories = async (projectId: string, token: string, dataset: string
   const query = '*[_type == "category" && defined(name) && !(_id in path("drafts.**"))] | order(sortOrder asc, name asc) { _id, _rev, name, "slug": coalesce(slug.current, slug), description, parent->{name}, seo{h1,metaTitle,metaDescription,suggested{h1,metaTitle,metaDescription}}, translations{ru{name,description,seo{h1,metaTitle,metaDescription,suggested{h1,metaTitle,metaDescription}}},en{name,description,seo{h1,metaTitle,metaDescription,suggested{h1,metaTitle,metaDescription}}}} }'
   const url = new URL('https://' + projectId + '.api.sanity.io/v' + API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
+  url.searchParams.set('tag', 'florial.manager.category-seo.read')
   const response = await fetch(url.toString(), { headers: { Authorization: 'Bearer ' + token, Accept: 'application/json' } })
   if (!response.ok) throw new Error('Sanity query failed for dataset ' + dataset + ': ' + response.status)
   const result = await response.json() as { result?: CategoryDocument[] }
@@ -121,7 +122,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
     }
 
     for (const [dataset, mutations] of mutationsByDataset) {
-      const url = 'https://' + projectId + '.api.sanity.io/v' + API_VERSION + '/data/mutate/' + dataset
+      const url = 'https://' + projectId + '.api.sanity.io/v' + API_VERSION + '/data/mutate/' + dataset + '?tag=florial.manager.category-seo.write'
       const response = await fetch(url, {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json', Accept: 'application/json' },
