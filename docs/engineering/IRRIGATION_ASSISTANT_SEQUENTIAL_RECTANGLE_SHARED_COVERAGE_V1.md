@@ -101,6 +101,8 @@ After the 3504-PC sector-expansion pass and before R-VAN selection/placement, ru
 - A rotor whose center is within half of its own radius from another 3504-PC rotor is prioritized as a removal candidate. This is a candidate heuristic only, not a deletion rule.
 - The optimizer may remove only non-vertex/non-corner rotors in this phase. True polygon vertices/corners remain protected.
 - Every trial removal must preserve all baseline rotor-covered samples, mutual Head-to-Head checks, composite overspray and the existing full-circle clearance policy. Symmetry orbits remain atomic for symmetric layouts.
+- This stage is removal-only. It must not consolidate same-position heads, change arc/direction/radius, or otherwise mutate sectors already optimized by the preceding whole-polygon sector pass.
+- A simple rectangular region whose short side is exactly 1 m or 2 m bypasses circular rotor/R-VAN placement and is handled directly by the approved directional LCS/RCS/SST strip pattern. Narrow arms inside a larger polygon still use the normal whole-polygon rotor/R-VAN passes before residual strip placement.
 - Only a completed rotor-only pass replaces the rotor set. A skipped or failed pass leaves the original rotor set unchanged.
 - R-VAN is then placed against the residual coverage from the reduced rotor set. The existing final whole-layout validation/minimization remains in place and still checks the combined rotor/R-VAN/strip system.
 
