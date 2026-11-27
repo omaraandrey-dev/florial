@@ -372,7 +372,7 @@ async function querySanityData<T>(
     }
   }
 
-  const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
+  const url = new URL('https://' + SANITY_PROJECT_ID + '.apicdn.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
   url.searchParams.set('perspective', 'published')
   Object.entries(params).forEach(([key, value]) => {
