@@ -1,4 +1,4 @@
-import { sanityClient, sanityLiveClient, plantsClient } from '../sanity'
+import { sanityClient, sanityLiveClient, plantsClient, publicPlantsClient } from '../sanity'
 import { mergeCategoryRelatedContent, parseCategoryRelatedContentPath } from '../plantRelatedContentUtils.mjs'
 import type { Product } from '../../types'
 
@@ -24,9 +24,11 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
     }
   `
 
+  // Slug resolution reads only published identity/type fields. Use the API CDN;
+  // price, stock and full product details are fetched separately through live clients below.
   const [equipmentResult, plantResult] = await Promise.allSettled([
-    sanityLiveClient.fetch(productBySlugQuery, { slug }),
-    plantsClient.fetch(plantBySlugQuery, { slug }),
+    sanityClient.fetch(productBySlugQuery, { slug }),
+    publicPlantsClient.fetch(plantBySlugQuery, { slug }),
   ])
   if (isCancelled()) return null
 
