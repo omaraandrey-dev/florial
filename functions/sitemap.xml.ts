@@ -20,6 +20,7 @@ type LocalizedAlternates = {
 const SITE_URL = 'https://florial-bg.com'
 const SANITY_PROJECT_ID = 'bxvcy0qs'
 const SANITY_API_VERSION = '2024-01-01'
+const edgeCache = (caches as unknown as { default: Cache }).default
 
 const queries = {
   categories: '*[_type == "category"] { _id, "path": coalesce(slug.current, slug, _id), "noIndex": seo.noIndex, "hasEnglishSeo": defined(translations.en.name) && defined(translations.en.description) && translations.en.seo.noIndex != true, "hasRussianSeo": defined(translations.ru.name) && defined(translations.ru.description) && translations.ru.seo.noIndex != true, _updatedAt }',
@@ -144,7 +145,7 @@ function xmlResponse(urls: Map<string, string | undefined>): Response {
 export async function onRequestGet({ request }: { request: Request }): Promise<Response> {
   const cacheKey = new Request(request.url, { method: 'GET' })
   try {
-    const cached = await caches.default.match(cacheKey)
+    const cached = await edgeCache.match(cacheKey)
     if (cached) return cached
   } catch {
     // Cache API is an optimization; a cache miss/failure must not block the sitemap.
@@ -234,7 +235,7 @@ export async function onRequestGet({ request }: { request: Request }): Promise<R
 
     const response = xmlResponse(urls)
     try {
-      await caches.default.put(cacheKey, response.clone())
+      await edgeCache.put(cacheKey, response.clone())
     } catch {
       // The response remains valid even if this edge location cannot cache it.
     }
