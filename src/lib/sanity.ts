@@ -31,6 +31,7 @@ export const plantsClient = createClient({
   dataset: plantsDataset,
   useCdn: false,
   apiVersion,
+  requestTagPrefix: 'florial',
 })
 
 // Public plant category content can use the CDN; product and variant data remains live.
