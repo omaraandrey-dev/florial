@@ -91,4 +91,19 @@ This is deterministic sampled geometric planning, not a continuous-coverage proo
 
 ## 9. Current implementation snapshot
 
-Implementation is in progress on `develop` / PR #551. The v2 global optimizer was reverted to its pre-v2 baseline. The sequential shared-coverage flow, 3504-PC sector expansion, five-head 16×16 candidate, and spacing diagnostics have been added. Exact verification status must be read from CI for the latest head SHA; earlier failing runs are not evidence of a successful build.
+Implementation is in progress on `develop` / PR #551. The v2 global optimizer was reverted to its pre-v2 baseline. The sequential shared-coverage flow, 3504-PC sector expansion, five-head 16×16 candidate, and spacing diagnostics have been added.
+
+### 9.1 Rotor reduction before R-VAN
+
+After the 3504-PC sector-expansion pass and before R-VAN selection/placement, run a rotor-only reduction pass:
+
+- Build the sampled target set from points already covered by at least one rotor. This preserves the existing rotor coverage footprint; it does not require rotors to cover residual lawn samples that are intended for R-VAN.
+- A rotor whose center is within half of its own radius from another 3504-PC rotor is prioritized as a removal candidate. This is a candidate heuristic only, not a deletion rule.
+- The optimizer may remove only non-vertex/non-corner rotors in this phase. True polygon vertices/corners remain protected.
+- Every trial removal must preserve all baseline rotor-covered samples, mutual Head-to-Head checks, composite overspray and the existing full-circle clearance policy. Symmetry orbits remain atomic for symmetric layouts.
+- Only a completed rotor-only pass replaces the rotor set. A skipped or failed pass leaves the original rotor set unchanged.
+- R-VAN is then placed against the residual coverage from the reduced rotor set. The existing final whole-layout validation/minimization remains in place and still checks the combined rotor/R-VAN/strip system.
+
+The reduction reports baseline/optimized rotor counts, removed IDs, proximity candidates and the rotor-only sampled coverage/Head-to-Head/overspray results. Proximity does not override any validation gate.
+
+Exact verification status must be read from CI for the latest head SHA; earlier failing runs are not evidence of a successful build.

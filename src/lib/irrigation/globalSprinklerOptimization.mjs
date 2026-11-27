@@ -240,6 +240,27 @@ function uniqueContribution(head, counts, coverageById) {
   return unique
 }
 
+function closeRotorNeighbor(head, heads) {
+  const limit = head.radiusM * 0.5
+  return heads
+    .filter((other) => isRotor(other) && other.id !== head.id)
+    .map((other) => ({ head: other, separationM: distance(head.position, other.position) }))
+    .filter((entry) => entry.separationM <= limit + EPSILON)
+    .sort((a, b) => a.separationM - b.separationM || a.head.id.localeCompare(b.head.id))[0] ?? null
+}
+
+function proximityCandidates(heads) {
+  return heads.filter(isRotor).flatMap((head) => {
+    const neighbor = closeRotorNeighbor(head, heads)
+    return neighbor ? [Object.freeze({
+      sprinklerId: head.id,
+      neighborId: neighbor.head.id,
+      separationM: neighbor.separationM,
+      halfRadiusM: head.radiusM * 0.5,
+    })] : []
+  })
+}
+
 function isRotor(head) {
   return head.performanceModel === '3504-PC' && head.pattern === 'rotor' &&
     Number.isFinite(head.radiusM)
@@ -275,12 +296,16 @@ function runRemovalPass(state, options) {
         return group ? {
           head,
           group,
+          closeNeighbor: group.some((entry) => closeRotorNeighbor(entry, heads) !== null),
           unique: group.reduce((sum, entry) =>
             sum + uniqueContribution(entry, counts, coverageById), 0) / group.length,
         } : null
       })
       .filter(Boolean)
-      .sort((a, b) => a.unique - b.unique || a.head.id.localeCompare(b.head.id))
+      // A rotor within half of its own throw radius from another rotor is
+      // tested first, but proximity alone never authorizes removal.
+      .sort((a, b) => Number(b.closeNeighbor) - Number(a.closeNeighbor) ||
+        a.unique - b.unique || a.head.id.localeCompare(b.head.id))
     const next = candidates[0]
     if (!next) break
     const accepted = tryRemoveRotorGroup(heads, counts, coverageById, next.group, options)
@@ -584,6 +609,7 @@ export function optimizeGlobalSprinklerSet({
   oversprayCheck = () => true,
   maxTargetPoints = MAX_GLOBAL_TARGETS,
   maxSectorVariants = MAX_SECTOR_VARIANTS,
+  preserveOnlyExistingCoverage = false,
 } = {}) {
   const originalHeads = Array.isArray(sprinklers) ? sprinklers.slice() : []
   const sampled = buildGlobalTargets(geometry, sampleStepM, maxTargetPoints)
@@ -602,6 +628,7 @@ export function optimizeGlobalSprinklerSet({
       }),
       targetCount: null,
       removedHeadIds: Object.freeze([]),
+      proximityCandidates: Object.freeze(closeCandidates),
       consolidatedGroups: Object.freeze([]),
       sectorEdits: Object.freeze([]),
       sectorVariants: 0,
@@ -612,7 +639,13 @@ export function optimizeGlobalSprinklerSet({
     })
   }
 
-  const targets = sampled.targets
+  const allSampledTargets = sampled.targets
+  // Rotor-only reduction preserves every sample already covered by at least
+  // one rotor; it does not require rotors to cover residual areas reserved for R-VAN.
+  const targets = preserveOnlyExistingCoverage
+    ? allSampledTargets.filter((point) => originalHeads.some((head) => headCoversPoint(head, point)))
+    : allSampledTargets
+  const closeCandidates = proximityCandidates(originalHeads)
   const coverageById = new Map(originalHeads.map((head) => [head.id, coverageForHead(head, targets)]))
   const counts = countCoverage(originalHeads, coverageById, targets.length)
   const baselineRegionSizes = new Map()
@@ -640,6 +673,7 @@ export function optimizeGlobalSprinklerSet({
       }),
       targetCount: targets.length,
       removedHeadIds: Object.freeze([]),
+      proximityCandidates: Object.freeze(closeCandidates),
       consolidatedGroups: Object.freeze([]),
       sectorEdits: Object.freeze([]),
       sectorVariants: 0,
@@ -689,6 +723,7 @@ export function optimizeGlobalSprinklerSet({
     removedHeadIds: Object.freeze(finalValid
       ? [...firstPass.removedHeadIds, ...sectorPass.removedHeadIds]
       : []),
+    proximityCandidates: Object.freeze(closeCandidates),
     consolidatedGroups: Object.freeze(finalValid ? sectorPass.consolidatedGroups : []),
     sectorEdits: Object.freeze(finalValid ? sectorPass.sectorEdits : []),
     sectorVariants: sectorPass.sectorVariants,

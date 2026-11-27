@@ -88,6 +88,36 @@ test('Florial selects R-VAN heads from local reach on narrow rectangles and repo
   assert.equal(wide.operatingScenario?.model, '3504-PC')
 })
 
+test('rotor reduction runs before R-VAN and only removes redundant rotors without losing rotor-covered samples', () => {
+  const result = buildPreliminaryLawnLayout(snapshotFor(28, 14, {
+    shape: 'l-shape', cutoutWidth: 16, cutoutDepth: 10, cutoutCorner: 'top-right',
+  }))
+  assertGlobalLayoutStatus(result)
+  const reduction = result.layout.rotorReduction
+  assert.equal(reduction.status, 'completed')
+  assert.ok(reduction.baseline.rotorCount > 0)
+  assert.ok(reduction.optimized.rotorCount <= reduction.baseline.rotorCount)
+  assert.equal(reduction.coverage.uncoveredPoints, 0)
+  assert.equal(reduction.headToHead.passed, true)
+  assert.equal(reduction.oversprayPassed, true)
+  assert.equal(reduction.preservesExistingRotorCoverageOnly, true)
+  assert.ok(reduction.proximityCandidates.every((candidate) =>
+    candidate.separationM <= candidate.halfRadiusM + 1e-8))
+  const removed = new Set(reduction.removedHeadIds)
+  assert.ok(reduction.baseline.sprinklers.filter((head) => removed.has(head.id))
+    .every((head) => !['vertex', 'corner'].includes(head.source)),
+  'true polygon vertex/corner rotors remain protected in this reduction phase')
+  const rotorHeads = result.layout.sprinklers.filter((head) => head.performanceModel === '3504-PC')
+  const rvanHeads = result.layout.sprinklers.filter((head) =>
+    head.performanceModel.startsWith('R-VAN') && head.pattern !== 'strip')
+  if (rvanHeads.length) {
+    assert.ok(rotorHeads.length > 0)
+    assert.ok(result.layout.sprinklers.findIndex((head) => head.performanceModel.startsWith('R-VAN')) >
+      Math.max(...result.layout.sprinklers.map((head, index) =>
+        head.performanceModel === '3504-PC' ? index : -1)))
+  }
+})
+
 test('8x8 lawn prioritizes 3504-PC rotors while 4m and 5m rectangles retain the R-VAN rule', () => {
   const result = buildPreliminaryLawnLayout(snapshotFor(8, 8))
   assert.equal(result.status, 'layout_generated')

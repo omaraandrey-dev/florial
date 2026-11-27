@@ -1205,6 +1205,18 @@ function buildDecomposedLShapeLayout(geometry, validation, parts, pressureBar, s
       passed: fullCircleSpacingPassed,
       minimumDistanceM: 6,
     }),
+    rotorReduction: Object.freeze({
+      status: rotorReduction.status,
+      targetCount: rotorReduction.targetCount ?? null,
+      baseline: rotorReduction.baseline ?? null,
+      optimized: rotorReduction.optimized ?? null,
+      removedHeadIds: rotorReduction.removedHeadIds ?? Object.freeze([]),
+      proximityCandidates: rotorReduction.proximityCandidates ?? Object.freeze([]),
+      coverage: rotorReduction.coverage ?? null,
+      headToHead: rotorReduction.headToHead ?? null,
+      oversprayPassed: rotorReduction.oversprayPassed ?? null,
+      preservesExistingRotorCoverageOnly: true,
+    }),
     globalOptimization: Object.freeze({
       status: globalOptimization.status,
       targetCount: globalOptimization.targetCount,
@@ -1570,6 +1582,37 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     : Object.freeze({ sprinklers: Object.freeze(rotorHeads), edits: Object.freeze([]) })
   rotorHeads = [...expandedRotors.sprinklers]
 
+  // Reduce the 3504-PC set before R-VAN is allowed to cover any residual.
+  // Only samples already reached by at least one rotor become reduction
+  // targets, so this pass cannot hand an existing rotor gap to later R-VAN.
+  // True polygon vertex/corner rotors remain protected by the optimizer.
+  const rotorReduction = rotorHeads.length
+    ? optimizeGlobalSprinklerSet({
+      sprinklers: rotorHeads,
+      geometry,
+      parts: [{ id: region.id, layout: { sprinklers: rotorHeads } }],
+      sampleStepM,
+      preserveOnlyExistingCoverage: true,
+      oversprayCheck: (candidateHeads) =>
+        newlyOpenedFullCircleClearancePassed(candidateHeads, rotorHeads) &&
+        evaluateCompositeOverspray(candidateHeads, [], geometry),
+    })
+    : Object.freeze({
+      status: 'not_applicable',
+      sprinklers: Object.freeze([]),
+      baseline: Object.freeze({ sprinklerCount: 0, rotorCount: 0, sprinklers: Object.freeze([]) }),
+      optimized: Object.freeze({ sprinklerCount: 0, rotorCount: 0 }),
+      targetCount: 0,
+      removedHeadIds: Object.freeze([]),
+      proximityCandidates: Object.freeze([]),
+      coverage: Object.freeze({ sampledPoints: 0, coveredPoints: 0, uncoveredPoints: 0, coveragePercent: null }),
+      headToHead: Object.freeze({ passed: true, checks: Object.freeze([]) }),
+      oversprayPassed: true,
+    })
+  if (rotorReduction.status === 'completed') {
+    rotorHeads = [...rotorReduction.sprinklers]
+  }
+
   const selectedRvan = selectRvanModel(shortSideM)
   const pressureBar = RECOMMENDED_NOZZLE_PRESSURE_BAR
   const rvanLayout = generateLawnSprinklerLayout({
@@ -1684,6 +1727,8 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
     ...(rotorAttempt.warnings ?? []),
     ...(rvanLayout.warnings ?? []),
     Object.freeze({ code: 'whole_polygon_rotor_pass_runs_before_rvan', path: 'layout.sprinklers' }),
+    Object.freeze({ code: 'rotor_reduction_runs_before_rvan_and_preserves_existing_rotor_coverage', path: 'layout.rotorReduction' }),
+    Object.freeze({ code: 'rotor_within_half_its_throw_radius_is_prioritized_for_removal_trial_only', path: 'layout.rotorReduction.proximityCandidates' }),
     Object.freeze({ code: 'rvan_pass_receives_only_residual_uncovered_samples_after_rotors', path: 'layout.sprinklers' }),
     Object.freeze({ code: 'one_and_two_metre_strip_patterns_run_after_rotors_and_rvan', path: 'layout.sprinklers' }),
     Object.freeze({ code: 'mixed_rotor_rvan_head_to_head_is_fully_mutual', path: 'layout.headToHead' }),
