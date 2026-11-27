@@ -23,7 +23,7 @@ export const onRequestPost = async ({request,env}:{request:Request;env:ManagerEn
   if(!hasSignature(bytes,file.type))return json({error:'Форматът на файла не съответства на съдържанието му.'},400)
   const project=env.SANITY_PROJECT_ID||'bxvcy0qs',dataset=PLANTS_DATASET
   const filename=file.name.replace(/[^a-zA-Z0-9._-]/g,'-').slice(-100)||'plant-image'
-  const upload=await fetch('https://'+project+'.api.sanity.io/v2024-01-01/assets/images/'+encodeURIComponent(dataset)+'?filename='+encodeURIComponent(filename),{
+  const upload=await fetch('https://'+project+'.api.sanity.io/v2024-01-01/assets/images/'+encodeURIComponent(dataset)+'?filename='+encodeURIComponent(filename)+'&tag=florial.manager.image-upload,{
     method:'POST',headers:{Authorization:'Bearer '+env.SANITY_API_TOKEN,'Content-Type':file.type},body:bytes
   })
   if(!upload.ok)return json({error:'Sanity не успя да приеме снимката. Опитайте отново.'},502)
