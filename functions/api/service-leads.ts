@@ -31,6 +31,7 @@ const fetchService = async (slug: string, env: RuntimeEnv): Promise<ServiceDocum
   const query = '*[_type == "service" && slug.current == $slug && isActive != false][0]{_id,name,slug,isActive,leadForm,translations{ru{name,leadForm},en{name,leadForm}}}'
   const url = new URL('https://' + projectId + '.api.sanity.io/v2024-01-01/data/query/' + encodeURIComponent(dataset))
   url.searchParams.set('query', query)
+  url.searchParams.set('tag', 'florial.service-leads.config')
   url.searchParams.set('$slug', JSON.stringify(slug))
   const response = await fetch(url.toString(), { headers: { Accept: 'application/json' } })
   if (!response.ok) throw new Error('Sanity service lookup failed')
