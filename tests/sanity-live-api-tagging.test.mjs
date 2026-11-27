@@ -20,7 +20,7 @@ test('every public direct Sanity client callsite is explicitly inventoried and t
   const actual = []
   for (const path of files) {
     const source = await readFile(path, 'utf8')
-    if (/\b(?:sanityLiveClient|plantsClient)\b/.test(source) && /\.fetch\s*\(/.test(source)) {
+    if (/\b(?:sanityLiveClient|plantsClient)\b/.test(source) && /\.fetch(?:<[^>]+>)?\s*\(/.test(source)) {
       actual.push(relative(root.pathname, path).replaceAll('\\\\', '/'))
     }
   }
