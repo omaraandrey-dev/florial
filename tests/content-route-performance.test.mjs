@@ -139,9 +139,14 @@ test('product detail route resolves by exact slug without downloading both full 
   assert.match(app, /const needsCatalogue = Boolean\(activeCategorySlug\)/)
   assert.match(app, /fetchProductDetailsBySlug\(activeProductSlug/)
   assert.doesNotMatch(app, /const requestedCatalogueTypes = activeProductSlug/)
-  assert.match(loader, /sanityLiveClient\.fetch\(productBySlugQuery/)
-  assert.match(loader, /plantsClient\.fetch\(plantBySlugQuery/)
+  assert.match(loader, /sanityClient\.fetch\(productBySlugQuery/)
+  assert.match(loader, /publicPlantsClient\.fetch\(plantBySlugQuery/)
   assert.match(loader, /Promise\.allSettled\(\[/)
+  assert.match(loader, /sanityLiveClient : sanityLiveClient/)
+  assert.match(loader, /\(isPlant \? plantsClient : sanityLiveClient\)\.fetch/)
+  const sanityClients = await read('../src/lib/sanity.ts')
+  assert.match(sanityClients, /export const sanityClient = createClient\([\s\S]*?useCdn: true/)
+  assert.match(sanityClients, /export const publicPlantsClient = createClient\([\s\S]*?useCdn: true/)
 })
 
 test('plant product LCP image is eager, prioritized and responsive in initial HTML', async () => {
