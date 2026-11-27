@@ -445,20 +445,22 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
       const reach = head.stripLengthM
       let footprint
       if (horizontal) {
+        const halfReach = reach / 2
         const minX = head.stripDirection === 'left' ? head.position.x - reach
           : head.stripDirection === 'right' ? head.position.x
-            : head.position.x - reach
+            : head.position.x - halfReach
         const maxX = head.stripDirection === 'left' ? head.position.x
           : head.stripDirection === 'right' ? head.position.x + reach
-            : head.position.x + reach
+            : head.position.x + halfReach
         footprint = { minX, maxX, minY: bounds.minY, maxY: bounds.maxY }
       } else {
+        const halfReach = reach / 2
         const minY = head.stripDirection === 'up' ? head.position.y
           : head.stripDirection === 'down' ? head.position.y - reach
-            : head.position.y - reach
+            : head.position.y - halfReach
         const maxY = head.stripDirection === 'up' ? head.position.y + reach
           : head.stripDirection === 'down' ? head.position.y
-            : head.position.y + reach
+            : head.position.y + halfReach
         footprint = { minX: bounds.minX, maxX: bounds.maxX, minY, maxY }
       }
       if (!sampleRectangleInsideGeometry(footprint, originalGeometry)) return false
@@ -606,13 +608,13 @@ function sprinklerCoversPoint(head, point) {
         point.x >= head.position.x - head.stripLengthM - 1e-8
       if (head.stripDirection === 'right') return point.x >= head.position.x - 1e-8 &&
         point.x <= head.position.x + head.stripLengthM + 1e-8
-      return true
+      return Math.abs(point.x - head.position.x) <= head.stripLengthM / 2 + 1e-8
     }
     if (head.stripDirection === 'up') return point.y >= head.position.y - 1e-8 &&
       point.y <= head.position.y + head.stripLengthM + 1e-8
     if (head.stripDirection === 'down') return point.y <= head.position.y + 1e-8 &&
       point.y >= head.position.y - head.stripLengthM - 1e-8
-    return true
+    return Math.abs(point.y - head.position.y) <= head.stripLengthM / 2 + 1e-8
   }
   if (!Number.isFinite(head.radiusM)) return false
   const dx = point.x - head.position.x
