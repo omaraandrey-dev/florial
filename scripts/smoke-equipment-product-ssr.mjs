@@ -8,9 +8,10 @@ const SANITY_API_VERSION = '2024-01-01'
 const LOCALES = ['bg', 'ru', 'en']
 
 function groqUrl(query) {
-  const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + SANITY_DATASET)
+  const url = new URL('https://' + SANITY_PROJECT_ID + '.apicdn.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + SANITY_DATASET)
   url.searchParams.set('query', query)
   url.searchParams.set('perspective', 'published')
+  url.searchParams.set('tag', 'florial.ci.smoke.equipment-product')
   return url
 }
 
