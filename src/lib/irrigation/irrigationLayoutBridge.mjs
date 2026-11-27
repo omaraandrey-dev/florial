@@ -443,25 +443,26 @@ function evaluateCompositeOverspray(sprinklers, parts, originalGeometry) {
       const bounds = part
       const horizontal = head.stripAxis === 'horizontal'
       const reach = head.stripLengthM
+      const connectedStrip = Boolean(part.connectedEnd)
       let footprint
       if (horizontal) {
-        const halfReach = reach / 2
-        const minX = head.stripDirection === 'left' ? head.position.x - reach
-          : head.stripDirection === 'right' ? head.position.x
-            : head.position.x - halfReach
-        const maxX = head.stripDirection === 'left' ? head.position.x
-          : head.stripDirection === 'right' ? head.position.x + reach
-            : head.position.x + halfReach
-        footprint = { minX, maxX, minY: bounds.minY, maxY: bounds.maxY }
+        const minX = head.stripDirection === 'right' ? head.position.x : head.position.x - reach
+        const maxX = head.stripDirection === 'left' ? head.position.x : head.position.x + reach
+        footprint = {
+          minX: connectedStrip ? minX : Math.max(bounds.minX, minX),
+          maxX: connectedStrip ? maxX : Math.min(bounds.maxX, maxX),
+          minY: bounds.minY,
+          maxY: bounds.maxY,
+        }
       } else {
-        const halfReach = reach / 2
-        const minY = head.stripDirection === 'up' ? head.position.y
-          : head.stripDirection === 'down' ? head.position.y - reach
-            : head.position.y - halfReach
-        const maxY = head.stripDirection === 'up' ? head.position.y + reach
-          : head.stripDirection === 'down' ? head.position.y
-            : head.position.y + halfReach
-        footprint = { minX: bounds.minX, maxX: bounds.maxX, minY, maxY }
+        const minY = head.stripDirection === 'up' ? head.position.y : head.position.y - reach
+        const maxY = head.stripDirection === 'down' ? head.position.y : head.position.y + reach
+        footprint = {
+          minX: bounds.minX,
+          maxX: bounds.maxX,
+          minY: connectedStrip ? minY : Math.max(bounds.minY, minY),
+          maxY: connectedStrip ? maxY : Math.min(bounds.maxY, maxY),
+        }
       }
       if (!sampleRectangleInsideGeometry(footprint, originalGeometry)) return false
       continue
@@ -608,13 +609,13 @@ function sprinklerCoversPoint(head, point) {
         point.x >= head.position.x - head.stripLengthM - 1e-8
       if (head.stripDirection === 'right') return point.x >= head.position.x - 1e-8 &&
         point.x <= head.position.x + head.stripLengthM + 1e-8
-      return Math.abs(point.x - head.position.x) <= head.stripLengthM / 2 + 1e-8
+      return Math.abs(point.x - head.position.x) <= head.stripLengthM + 1e-8
     }
     if (head.stripDirection === 'up') return point.y >= head.position.y - 1e-8 &&
       point.y <= head.position.y + head.stripLengthM + 1e-8
     if (head.stripDirection === 'down') return point.y <= head.position.y + 1e-8 &&
       point.y >= head.position.y - head.stripLengthM - 1e-8
-    return Math.abs(point.y - head.position.y) <= head.stripLengthM / 2 + 1e-8
+    return Math.abs(point.y - head.position.y) <= head.stripLengthM + 1e-8
   }
   if (!Number.isFinite(head.radiusM)) return false
   const dx = point.x - head.position.x
