@@ -1556,7 +1556,9 @@ export function buildPreliminaryLawnLayout(snapshot, { sampleStepM = 0.5 } = {})
   // Exact 1 m / 2 m rectangles belong to the directional strip solver. Do not
   // let a generic circular pass pre-cover them and suppress the approved
   // LCS/RCS/SST pattern that is responsible for this geometry class.
+  const longSideM = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys))
   const wholePolygonIsDirectionalStrip = rectangularWithoutExclusions &&
+    longSideM > shortSideM + 1e-8 &&
     SUPPORTED_STRIP_WIDTHS_M.some((width) => Math.abs(shortSideM - width) <= 1e-8)
   const rotorAttempt = wholePolygonIsDirectionalStrip
     ? Object.freeze({ sprinklers: Object.freeze([]), warnings: Object.freeze([]) })
