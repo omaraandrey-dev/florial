@@ -26,10 +26,6 @@ test('product route identity and details are reused for repeated navigation with
   assert.match(source, /writeProductDetails\\(cacheKey, enrichedDetails\\)/)
   assert.match(source, /productIdentityCache\\.size > 100/)
   assert.match(source, /productDetailsCache\\.size > 100/)
-  assert.match(source, /function writeProductDetails\\(/)
-  assert.match(source, /writeProductDetails\\(cacheKey, enrichedDetails\\)/)
-  assert.match(source, /productIdentityCache\\.size > 100/)
-  assert.match(source, /productDetailsCache\\.size > 100/)
   assert.match(app, /initialProductRouteSeed\.id,[\s\S]{0,80}activeProductSlug/)
 })
 
