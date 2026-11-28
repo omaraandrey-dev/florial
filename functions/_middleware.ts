@@ -580,7 +580,17 @@ type AboutCategoryDocument = {
   imageUrl?: string
 }
 
-async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{ html: string; complete: boolean }> {
+async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{
+  html: string
+  complete: boolean
+  rolePhotos: Array<{
+    slug: string
+    imageUrl?: string
+    imageAlt?: string
+    imageAltEn?: string
+    imageAltRu?: string
+  }>
+}> {
   const photoQuery = `
     *[_type == "photo" && isActive != false && (
       coalesce(slug.current, slug) in [
@@ -679,6 +689,13 @@ async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{ html: str
       centres: ABOUT_PAGE_CENTRES,
     }, language),
     complete,
+    rolePhotos: photos.map((photo) => ({
+      slug: String(photo.slugValue || '').toLowerCase(),
+      imageUrl: photo.imageUrl,
+      imageAlt: photo.imageAlt,
+      imageAltEn: photo.imageAltEn,
+      imageAltRu: photo.imageAltRu,
+    })),
   }
 }
 
@@ -2042,6 +2059,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     let cacheControl: string | undefined
     let homepageSeedScript = ''
     let contactsSeedScript = ''
+    let aboutSeedScript = ''
     if (path === '/') {
       try {
         const homepage = await fetchHomepageHtml(language)
@@ -2068,12 +2086,16 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     } else if (path === '/about') {
       const about = await fetchAboutHtml(language)
       body = about.html
+      if (about.rolePhotos.length > 0) {
+        aboutSeedScript = '<script id="florial-about-ssr-data" type="application/json">' +
+          serializeInlineJson({ language, rolePhotos: about.rolePhotos }) + '</script>'
+      }
       cacheControl = about.complete
         ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
         : 'no-store'
     }
     return transformHtmlResponse(await context.next(), (html) => {
-      const root = renderRoot(html, body + homepageSeedScript + contactsSeedScript)
+      const root = renderRoot(html, body + homepageSeedScript + contactsSeedScript + aboutSeedScript)
       return setPageHead(root, {
         language,
         title: meta.title,
