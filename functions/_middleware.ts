@@ -382,7 +382,7 @@ type HeaderProductionSeed = {
   aboutRolePhotos: any[]
 }
 
-async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<string, unknown>> {
+async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<any> {
   const productionQuery = `{
     "equipmentCategories": *[_type == "category"] | order(sortOrder asc, name asc) {
       _id, name, translations { bg { name }, ru { name }, en { name } },
@@ -443,7 +443,7 @@ async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<str
     }
   `
   const [production, plants] = await Promise.all([
-    querySanityData<HeaderProductionSeed>('production', productionQuery, {}, 'header/production/shell-v2/' + language, 300),
+    querySanityData<HeaderProductionSeed>('production', productionQuery, {}, 'header/production/shell-v3/' + language, 300),
     querySanityData<any[]>('plants', plantQuery, {}, 'header/plants/categories-v2', 300),
   ])
   if (!production || !Array.isArray(production.equipmentCategories) ||
