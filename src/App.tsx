@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react'
 import * as Sentry from '@sentry/react'
-import { sanityClient, sanityLiveClient, plantsClient, publicPlantsClient } from './lib/sanity'
+import { sanityClient, publicPlantsClient } from './lib/sanity'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { BlogArticleLoadingState } from './components/BlogArticleLoadingState'
@@ -982,8 +982,8 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
 
     const catalogueRequests = catalogueTypesToLoad.map((type) =>
       type === 'plants'
-        ? plantsClient.fetch(plantProductQuery, {}, { tag: 'browser.catalog.plants' })
-        : sanityLiveClient.fetch(productQuery, {}, { tag: 'browser.catalog.equipment' })
+        ? publicPlantsClient.fetch(plantProductQuery, {}, { tag: 'browser.catalog.plants' })
+        : sanityClient.fetch(productQuery, {}, { tag: 'browser.catalog.equipment' })
     )
 
     Promise.allSettled(catalogueRequests).then((results) => {
