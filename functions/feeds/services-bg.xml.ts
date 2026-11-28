@@ -51,6 +51,7 @@ export async function onRequestGet({ request }: { request: Request }): Promise<R
     )
     sanityUrl.searchParams.set('query', SERVICES_QUERY)
     sanityUrl.searchParams.set('perspective', 'published')
+    sanityUrl.searchParams.set('tag', 'florial.ssr.services-feed')
 
     const sanityResponse = await fetch(sanityUrl.toString(), {
       headers: { Accept: 'application/json' },
