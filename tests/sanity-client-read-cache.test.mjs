@@ -29,6 +29,18 @@ test('product route identity and details are reused for repeated navigation with
   assert.match(app, /initialProductRouteSeed\.id,[\s\S]{0,80}activeProductSlug/)
 })
 
+test('concurrent product slug resolution shares the two-dataset lookup', async () => {
+  const source = await read('../src/lib/routeData/productDetails.ts')
+  for (const fragment of [
+    'const productIdentityInFlight = new Map<string, Promise<{ dataset: \'production\' | \'plants\'; id: string } | null>>()',
+    'let pending = productIdentityInFlight.get(slug)',
+    'pending = resolveProductIdentityBySlug(slug)',
+    'productIdentityInFlight.set(slug, pending)',
+    'async function resolveProductIdentityBySlug(',
+    'productIdentityInFlight.delete(slug)',
+  ]) assert.ok(source.includes(fragment), 'missing slug lookup coalescing fragment: ' + fragment)
+})
+
 test('concurrent product detail loads share one in-flight request per dataset and document ID', async () => {
   const source = await read('../src/lib/routeData/productDetails.ts')
   for (const fragment of [
