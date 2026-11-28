@@ -238,7 +238,7 @@ If Request Logs, a CI failure, or a correctness concern prevents safe completion
 | Public search migration | BLOCKED ON OWNER DECISION | Search projections include price/stock; design a split or approve the CDN freshness window |
 | Product detail full-read policy | PARTIAL / KEEP LIVE COMMERCIAL FIELDS | Slug resolution and related content use CDN; full detail with price/stock remains Live |
 | Support / irrigation assistant / cart paths | PARTIAL | Cart weight fallback uses CDN; delivery fees and irrigation BOM price/stock reads remain Live |
-| Order validation live path | KEEP LIVE | Required for authoritative server-side price/stock validation |
+| Order validation live path | KEEP LIVE | Re-reads current prices and checks plant variant `outOfStock`; current equipment query does not select/check `stockStatus` — confirm whether a separate stock-validation change is needed |
 | Request tagging | IMPLEMENTED ON DEVELOP | SDK, raw SSR middleware, sitemap/feed, checkout, Manager, browser and admin scripts tagged; validate exact-head CI and fresh Request Logs |
 | Automated monitoring | NOT STARTED | Start with usage/log review; AE requires separate approval |
 | Regression guard | ADDED ON DEVELOP | `tests/sanity-live-api-tagging.test.mjs` and `tests/sanity-public-cdn-reads.test.mjs` added; exact-head CI queued |
@@ -310,7 +310,7 @@ A GitHub code search was performed for `sanityLiveClient`, `plantsClient`, `api.
 
 ### Owner decision needed before migrating commercial projections
 
-For public catalogue cards and search results, Sanity API CDN responses may be cached for a short window (the previous Florial read-only measurement observed a 60-second cache policy). Checkout revalidates price/stock on the server through the Live API. The remaining decision is whether it is acceptable for the **displayed** product price/stock in catalogue/search to be up to the CDN cache window behind Sanity, while the submitted order is always checked against current Live API values. If not, the implementation must split content from critical commercial fields, which may retain a small number of Live API requests.
+For public catalogue cards and search results, Sanity API CDN responses may be cached for a short window (the previous Florial read-only measurement observed a 60-second cache policy). The current `functions/api/orders.ts` code re-reads current product prices through the Live API and checks `stockStatus == outOfStock` for plant sale variants. **It does not select or validate the equipment product `stockStatus` field in its current equipment query.** Therefore do not assume checkout currently protects equipment stock freshness. Before moving catalogue/search projections to CDN, the owner must decide whether displayed prices and stock may lag by the CDN cache window, and whether equipment stock validation should be added as a separate approved correctness change. If not, split descriptive content from critical commercial fields and retain narrowly scoped Live reads.
 
 Do not change catalogue/search query clients until this decision is explicitly settled or a design avoids stale displayed commercial values.
 
@@ -381,3 +381,11 @@ Do not change catalogue/search query clients until this decision is explicitly s
 - **Metering caveat:** the daily history values do not reconcile with the change in monthly metered totals since the previous snapshot (API total changed only from 253,866 to 253,867; API CDN from 49,483 to 58,507). Treat the daily history as a separate activity series until request-log status codes clarify which attempts were successful, blocked (402), or otherwise non-billable. Do not claim that direct API traffic has stopped.
 - **CI:** all exact-head GitHub Actions checks were still queued after the Preview deployment completed. Run IDs are listed in the previous progress entry; record final outcomes only after completion.
 - **Next:** inspect exact-head CI results, then validate the new request tags against the next Sanity Request Logs export. The export is not currently available in this chat's attached/Library files.
+
+
+### 2026-11-28 — checkout freshness verification
+
+- Read `functions/api/orders.ts` directly on `develop` before defining the catalogue/search freshness contract.
+- **Verified in code:** checkout fetches current product prices from the Live API and rejects a price mismatch; for plant variants it rejects `stockStatus == outOfStock`.
+- **Important gap:** the equipment checkout query currently selects `_id, name, sku, priceEUR, imageUrl` and does not select or validate equipment `stockStatus`. Do not claim that checkout revalidates equipment stock until this is addressed in a separately approved correctness change.
+- **Owner decision expanded:** decide whether catalogue/search displayed prices and stock may lag by the API-CDN cache window, and whether equipment stock validation should be added before moving equipment stock display to CDN.
