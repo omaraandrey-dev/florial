@@ -1,3 +1,18 @@
+## 2026-11-28 — services and blog SSR/API request stabilization (PR #559 draft)
+
+**Code-bearing head:** `676cc68e72c81e9df620554aeed608eadac27013` on `develop`.  
+**Preview:** https://e4169bb4.florial.pages.dev  
+**Release status:** Draft PR #559; not merged; no Production deployment.
+
+- `/services`: `functions/_middleware.ts` serializes the published service list and role-photo projections already fetched for SSR into `florial-services-ssr-data`. `src/App.tsx` validates the payload locale and initializes `services`, `serviceRolePhotos` and `loadedServicesLanguage` from it. The matching initial client effect therefore skips its repeat requests. Missing/invalid/wrong-locale payloads continue through the existing Sanity CDN fetch path.
+- `/services/{slug}`: middleware serializes the already-fetched published service document into `florial-service-detail-data`, including the requested slug, locale and a client-compatible `slug.current`. App validates slug, locale and document identity; the initial matching request is skipped. Subsequent SPA navigation and locale changes retain the existing `fetchServiceDetails()` path and 60-second in-process cache.
+- Inline JSON is escaped before insertion into the HTML head so content cannot terminate the script element. Payloads are data-only and do not alter visible page markup.
+- Existing blog behavior is retained: `florial-blog-ssr-data` and `florial-blog-article-data` already seed the normal first load and suppress duplicate browser reads. New regression assertions protect both handoffs.
+- No changes to the shared published API-CDN query helper, `perspective=published`, Cache API TTLs, HTML `s-maxage`/stale policy, page SEO, canonical/hreflang, JSON-LD, images, content ordering or localization.
+- Exact-head verification: Blog/Studio validation `46113461352` success; D1 migration validation `46113461408` success (validation/dry-run only, no migration); full SSR/SEO raw first-response regression `46113461344` success; service directory smoke `46113461340` success (26 links, BG/RU/EN); service detail smoke `46113461333` success (25 active detail pages per locale); blog index `46113461336` and article smoke `46113461332` success (19 articles per locale); additional product/catalogue/plant/About checks passed.
+- **Not verified:** real browser interaction/hydration by a human; post-remediation Sanity Request Logs and actual request-count reduction; Production behavior of this unmerged code.
+- **Safety:** no Sanity writes/schema changes, D1 writes/migrations, Cloudflare settings/secrets, DNS, orders, emails or Production deployment. PR #559 remains Draft pending owner release approval.
+
 ## 2026-11-25 — homepage first-response SSR (PR #533, implementation verified)
 
 - Branch: `feat/ssr-homepage-content-v1`; PR #533. Code-bearing head: `0276d4d99256a92c500487f94a501da57b36ca21`.
