@@ -14,6 +14,24 @@ const PRODUCT_ROUTE_CACHE_TTL_MS = 30_000
 const productIdentityCache = new Map<string, { dataset: 'production' | 'plants'; id: string; expiresAt: number }>()
 const productDetailsCache = new Map<string, { product: Product; expiresAt: number }>()
 
+function writeProductIdentity(slug: string, dataset: 'production' | 'plants', id: string) {
+  productIdentityCache.delete(slug)
+  productIdentityCache.set(slug, { dataset, id, expiresAt: Date.now() + PRODUCT_ROUTE_CACHE_TTL_MS })
+  if (productIdentityCache.size > 100) {
+    const oldestKey = productIdentityCache.keys().next().value
+    if (oldestKey !== undefined) productIdentityCache.delete(oldestKey)
+  }
+}
+
+function writeProductDetails(key: string, product: Product) {
+  productDetailsCache.delete(key)
+  productDetailsCache.set(key, { product, expiresAt: Date.now() + PRODUCT_ROUTE_CACHE_TTL_MS })
+  if (productDetailsCache.size > 100) {
+    const oldestKey = productDetailsCache.keys().next().value
+    if (oldestKey !== undefined) productDetailsCache.delete(oldestKey)
+  }
+}
+
 function readProductIdentity(slug: string) {
   const cached = productIdentityCache.get(slug)
   if (!cached) return null
@@ -63,7 +81,7 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
   }
 
   const dataset = equipmentProduct ? 'production' : 'plants'
-  productIdentityCache.set(slug, { dataset, id: foundProduct._id, expiresAt: Date.now() + PRODUCT_ROUTE_CACHE_TTL_MS })
+  writeProductIdentity(slug, dataset, foundProduct._id)
   return fetchProductDetails(foundProduct as Product, isCancelled)
 }
 
@@ -74,7 +92,7 @@ export async function fetchProductDetailsByIdentity(
   slug?: string,
 ): Promise<Product | null> {
   if (!id || (dataset !== 'production' && dataset !== 'plants') || isCancelled()) return null
-  if (slug) productIdentityCache.set(slug, { dataset, id, expiresAt: Date.now() + PRODUCT_ROUTE_CACHE_TTL_MS })
+  if (slug) writeProductIdentity(slug, dataset, id)
 
   // The SSR route resolver has already identified the exact published dataset and document.
   // Reuse that identity instead of repeating two slug lookups from the browser.
@@ -326,10 +344,7 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
   }
 
   if (!isCancelled()) {
-    productDetailsCache.set(cacheKey, {
-      product: enrichedDetails,
-      expiresAt: Date.now() + PRODUCT_ROUTE_CACHE_TTL_MS,
-    })
+    writeProductDetails(cacheKey, enrichedDetails)
   }
   return isCancelled() ? null : enrichedDetails
 }
