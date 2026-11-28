@@ -1,3 +1,10 @@
+## 2026-11-28 — Sanity API stabilization: PR #558 merged; irrigation equipment made-to-order policy
+
+- Merged PR #558 into `main` (merge commit `55007f55cacce640a7003d1392683b4903c1f88d`). Public equipment/plant catalogue, search, product detail, recommended irrigation product and irrigation-assistant catalogue reads now use the published Sanity API CDN; checkout submitted-price validation remains on the direct Live API.
+- Recorded the owner-confirmed equipment sales rule in the Sanity API stabilization roadmap: irrigation equipment is sold to order; no quantitative warehouse stock accounting is performed; checkout must not reject or block equipment orders based on `stockStatus` or `stockQuantity`. Plant variant `outOfStock` validation remains unchanged.
+- Exact PR-head checks passed: Blog/Studio validation, full SSR/SEO regression, equipment product SSR/raw-HTTP smoke, and D1 migration validation. Preview deployment succeeded at https://11b3c25b.florial.pages.dev. Browser-interaction QA was not performed because Browser Use credits were unavailable.
+- Fresh Sanity Request Logs validation remains pending until the December 1 usage reset. Production deployment status must be verified separately; no Production success is claimed by this entry.
+
 ## 2026-11-25 — SSR Content v1 Phase 1: homepage parity hardening (PR #533)
 
 - Expanded the first-response homepage HTML to include the full current section sequence: hero with plant/equipment category image CTAs, value-proposition advantages, services, plant categories, featured plants, irrigation categories, featured equipment and blog teaser.
