@@ -7,7 +7,7 @@
 **Canonical branch for development:** `develop`  
 **Production branch:** `main`  
 **Sanity project:** `bxvcy0qs`  
-**Status:** ACTIVE — repository inventory completed; safe cart metadata migration and expanded request tagging are on develop; commercial reads remain Live pending freshness decisions; exact-head CI and request-log validation are pending.
+**Status:** ACTIVE — repository inventory completed; safe cart metadata migration and expanded request tagging are on develop; exact-head CI, build and Preview/raw-HTTP regression passed on code head `c957283ec19142554562501dd92e4db9698e77ab`; commercial reads remain Live pending freshness decisions; fresh Request Logs validation of tags and post-remediation traffic remains pending.
 
 > This file is the portable handoff for this workstream. Any ChatGPT, Claude, Gemini, developer or future conversation must read this roadmap first, then follow `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md` and `docs/AI/WORK_PROTOCOL.md`. Update this file at every completed phase. Do not rely on chat history as the source of task status.
 
@@ -85,7 +85,7 @@ This list is an initial inventory, not a declaration that all remaining direct c
 
 Tasks:
 1. Preserve the usage snapshot, anomaly history, deployment IDs and known code paths in this roadmap.
-2. Obtain the latest Sanity Request Logs export when the dashboard makes it available; group requests by time, domain, dataset, query identifier, tag, status, user-agent, referrer and remote IP.
+2. Review the existing Request Logs archive (completed in the previous session); obtain a fresh post-remediation export when available and group requests by time, domain, dataset, query identifier, tag, status, user-agent, referrer and remote IP.
 3. Separate billable successful direct API requests from blocked requests and non-billable failures.
 4. Record the exact deployed commit and current `develop` HEAD before code changes.
 
@@ -141,7 +141,7 @@ Acceptance:
 - Server-side order validation remains live and authoritative.
 
 ### Phase 3 — request attribution and monitoring
-**Status: IMPLEMENTED ON DEVELOP — requestTagPrefix and family tags cover browser, checkout, Manager, SSR middleware, sitemap/feed, CI smoke and admin migration scripts; exact-head CI and Request Logs validation pending**
+**Status: IMPLEMENTED ON DEVELOP — requestTagPrefix and family tags cover browser, checkout, Manager, SSR middleware, sitemap/feed, CI smoke and admin migration scripts; exact-head CI passed; fresh Request Logs confirmation remains pending**
 
 Tasks:
 1. Add Sanity request tags to application-owned requests, using stable names for request families, for example:
@@ -168,7 +168,7 @@ Acceptance:
 - No Production monitoring infrastructure is changed without approval.
 
 ### Phase 4 — regression protection and load verification
-**Status: IN PROGRESS — direct Live API allowlist and CDN/request-tag regression tests added; exact-head CI is queued**
+**Status: IN PROGRESS — direct Live API allowlist and CDN/request-tag regression tests added; exact-head CI, Preview and raw SSR/SEO smoke passed; browser functional and controlled request-volume checks remain open**
 
 Tasks:
 1. Add a repository test that detects public runtime modules importing or invoking direct Live clients outside an explicit allowlist.
@@ -213,16 +213,17 @@ Acceptance:
 - [x] Confirm latest Production deployment metadata and #553–#555 release history.
 - [x] Confirm the remaining browser-side Live API risk in source.
 - [x] Complete exhaustive repository-wide callsite inventory and classification.
-- [ ] Review latest Sanity Request Logs export if owner supplies it / if export becomes available.
+- [x] Review the existing Sanity Request Logs archive (20–27 Nov export; last record 26 Nov 23:57 UTC); obtain a fresh export after remediation for tag validation.
 - [ ] Approve the exact remediation list internally; identify any owner decisions required.
 
 ### Day 2 — 28 November
 - [x] Implement the highest-confidence safe metadata migration on `develop`; keep commercial reads Live until freshness is agreed.
 - [x] Add targeted regression tests and direct-Live-client allowlist guard (exact-head CI pending).
 - [x] Add request tags to SDK and raw API/CDN request families; CI and Request Logs confirmation pending.
-- [ ] Run exact-head CI, build, Preview and browser/raw HTTP checks.
+- [x] Run exact-head CI, website/Studio build, Preview and raw HTTP checks.
+- [ ] Complete interactive browser checks for catalogue, product detail, search, cart and irrigation assistant.
 - [x] Review diff and prepare draft PR #557; do not merge to Production without explicit release approval.
-- [ ] Record all results and remaining risks in this roadmap.
+- [x] Record exact-head CI/Preview results and remaining risks in this roadmap.
 
 If Request Logs, a CI failure, or a correctness concern prevents safe completion in two days, prioritize correctness and leave the affected item explicitly open rather than forcing a risky release.
 
@@ -232,16 +233,16 @@ If Request Logs, a CI failure, or a correctness concern prevents safe completion
 |---|---|---|
 | SSR direct API spike remediation | RELEASED | PRs #553–#555; exact Production deployment recorded above |
 | Sanity usage baseline | RECORDED | 253,866 / 250,000 API requests; daily-boundary snapshot |
-| Exact attribution of Nov 25–27 requests | OPEN | Need fresh Request Logs export; blocked requests may not count |
+| Exact attribution of Nov 25–27 requests | PARTIAL | Existing archive reviewed; fresh post-remediation export needed to validate tags and request statuses |
 | Full Live API callsite inventory | COMPLETE | Explicit application-owned clients/endpoints, middleware, sitemap/feed, Manager, scripts and CI smoke paths searched and classified; Studio built-in traffic requires Request Logs |
 | Public catalogue migration | BLOCKED ON OWNER DECISION | Full projection includes price/stock; do not move until displayed freshness policy is agreed |
 | Public search migration | BLOCKED ON OWNER DECISION | Search projections include price/stock; design a split or approve the CDN freshness window |
 | Product detail full-read policy | PARTIAL / KEEP LIVE COMMERCIAL FIELDS | Slug resolution and related content use CDN; full detail with price/stock remains Live |
 | Support / irrigation assistant / cart paths | PARTIAL | Cart weight fallback uses CDN; delivery fees and irrigation BOM price/stock reads remain Live |
 | Order validation live path | KEEP LIVE | Re-reads current prices and checks plant variant `outOfStock`; current equipment query does not select/check `stockStatus` — confirm whether a separate stock-validation change is needed |
-| Request tagging | IMPLEMENTED ON DEVELOP | SDK, raw SSR middleware, sitemap/feed, checkout, Manager, browser and admin scripts tagged; validate exact-head CI and fresh Request Logs |
+| Request tagging | IMPLEMENTED / CI VERIFIED | SDK, raw SSR middleware, sitemap/feed, checkout, Manager, browser and admin scripts tagged; exact-head tests passed; fresh Request Logs must confirm tags appear in Sanity |
 | Automated monitoring | NOT STARTED | Start with usage/log review; AE requires separate approval |
-| Regression guard | ADDED ON DEVELOP | `tests/sanity-live-api-tagging.test.mjs` and `tests/sanity-public-cdn-reads.test.mjs` added; exact-head CI queued |
+| Regression guard | CI VERIFIED | `tests/sanity-live-api-tagging.test.mjs` and `tests/sanity-public-cdn-reads.test.mjs` passed within exact-head npm test/Studio validation; Preview and raw HTTP smoke passed |
 | Production release of new browser changes | BLOCKED | Draft PR #557; requires exact-SHA Preview/CI verification and separate owner release approval |
 
 ## 7. Required status update format
@@ -398,3 +399,21 @@ Do not change catalogue/search query clients until this decision is explicitly s
 - **Sanity plan policy checked against current official docs:** Free/Growth Trial projects have hard caps; once API, API CDN or bandwidth reaches 100%, further public API/CDN requests fail with HTTP 402 until reset or plan change. Failed 4xx/5xx requests are not billed. See https://www.sanity.io/docs/platform-management/plans-and-payments.
 - **Interpretation:** the daily history series (39,074 API / 17,246 API CDN on Nov 27) may include failed/blocked attempts, while the monthly metered snapshot is billable usage. This is plausible but **not proven** without Request Logs status codes. Do not equate daily history with billable request totals.
 - **Operational risk:** if the project is still on the Free plan and the API quota is above 100%, cache misses that reach Sanity may return 402. Existing cached Production HTML can make a route appear healthy while an uncached request is still blocked. Obtain fresh Request Logs and verify response status before claiming the quota problem is resolved.
+
+
+### 2026-11-28 — exact-head CI passed; stale Preview target corrected
+
+- **Branch / tested code HEAD:** `develop`, `c957283ec19142554562501dd92e4db9698e77ab`.
+- **Draft PR:** [#557](https://github.com/omaraandrey-dev/florial/pull/557), still open, draft, unmerged; base `main` at `2376ac61ffba6b5b179987aebe52afd5849f1156`. No Production release.
+- **Root cause of prior failing smoke:** `.github/workflows/equipment-ssr-preview-smoke.yml` used the fixed legacy hostname `feat-seo-equipment-category.florial.pages.dev`. The workflow repeatedly received HTTP 503 from that stale target, while the exact PR-head Cloudflare Pages deployment itself had succeeded.
+- **Correction:** the workflow now waits for the `Cloudflare Pages` check on the exact commit, extracts that deployment ID from its check details URL, and tests the corresponding immutable `<deployment-id-prefix>.florial.pages.dev` hostname. Retry duration was reduced to a bounded 12 attempts at 5 seconds; the workflow retains the BG/RU/EN initial-HTML, 20-card, JSON-LD order and locale assertions. The workflow regex escaping was checked from the committed file and the subsequent job log.
+- **Exact Preview:** Cloudflare Pages check passed for tested code HEAD `c957283ec19142554562501dd92e4db9698e77ab`; deployment ID `82e89755-698d-4fc7-961e-0e59a469f28a`; URL `https://82e89755.florial.pages.dev`. The corrected equipment SSR smoke passed for BG/RU/EN, each with 20 server-rendered product links and matching CollectionPage ItemList order.
+- **Exact-head CI:** all checks completed successfully. Key runs: full SSR/SEO regression `46109241466`; Blog and Studio validation `46109241533`; Equipment product SSR validation/raw HTTP `46109241417`; Equipment catalog all categories `46109241423`; Equipment SSR Preview smoke `46109241493`; Plant catalogue `46109241409`; Blog index `46109241413`; Blog article `46109241465`; Services directory `46109241517`; Service detail `46109241519`; About page `46109241424`; D1 migration validation `46109241445`. All returned `success`.
+- **Validation detail:** app/Pages Functions type-check, lint, website tests, website build, migration script syntax, read-only description-migration dry-run, Studio type-check/build, D1 validation and all raw SSR/SEO smoke workflows passed. No D1 migration was applied.
+- **Request-tag SDK compatibility:** verified against the installed lockfile version `@sanity/client 6.29.1` source. The SDK supports `requestTagPrefix`; per-request `tag` is accepted in the third `client.fetch(query, params, options)` argument and combined with the configured prefix. This matches the implementation pattern in the current branch.
+- **Sanity usage snapshot (read-only, 2026-11-28):** API Requests `253,867` (above the Free allowance of 250,000); API CDN Requests `72,739`; bandwidth `22,886,090,261` bytes. Latest metering timestamp is `2026-11-28T00:00:00Z`. The daily history series reports 0 API Requests and 14,403 API CDN Requests for 28 Nov so far. The direct monthly counter is already capped; the daily history series does not prove that blocked Live API calls have stopped or that they were billable.
+- **Existing Request Logs findings from the previous session:** archive `bxvcy0qs-2026-11-20-2026-11-27.ndjson.gz` contained 215,077 records, with the last record at 2026-11-26 23:57 UTC. The reviewed Live API Query counts were 3,293 on 24 Nov, 74,603 on 25 Nov and 82,420 on 26 Nov. Largest GROQ groups: product detail 47,670 requests (339 products); universal type/slug lookup 20,751 (136 slugs); equipment category 12,997; plant category 12,417; services 7,426; plants 6,741. This supported the SSR attribution and the direct `queryDocument()` lookup finding corrected in PR #555. The aggregate CSV contains no query/user-agent/IP/status attribution. The archive has not yet been reprocessed here for a complete status/IP/User-Agent breakdown; a fresh export is still needed to verify request tags and blocked/successful status distribution after remediation.
+- **Files changed in this continuation:** `.github/workflows/equipment-ssr-preview-smoke.yml`; this roadmap update records the verified results. The tested application code was unchanged by the workflow fix except for the workflow itself.
+- **No changes:** no Sanity documents/schemas/datasets, D1 schema/data, Cloudflare Production settings/bindings/secrets, DNS, orders or Resend configuration were changed.
+- **Open owner decisions:** displayed catalogue/search price and stock freshness (previous CDN cache observation approximately 60 seconds); whether to add equipment stock validation to checkout before moving equipment stock display to CDN. Keep these reads Live until decided.
+- **Next:** obtain a fresh Request Logs export and validate tags/statuses; complete browser functional checks and a controlled repeated-route traffic sample; request owner decisions on catalogue/search freshness and equipment stock validation. Keep PR #557 draft and Production release blocked pending explicit approval.
