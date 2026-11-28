@@ -39,3 +39,14 @@ test('homepage Header and BlogSection reuse SSR blog cards instead of fetching t
   assert.match(blog, /if \(initialPosts\) \{[\s\S]*?setPosts\(initialPosts\)[\s\S]*?onReadinessChange\?\.\(true\)[\s\S]*?return/)
   assert.match(home, /<BlogSection initialPosts=\{initialBlogPosts\}/)
 })
+
+test('homepage SSR makes exactly one combined query per Sanity dataset', async () => {
+  const middleware = await read('../functions/_middleware.ts')
+  const start = middleware.indexOf('async function fetchHomepageHtml')
+  const end = middleware.indexOf('function staticPageMetadata', start)
+  const homepageFunction = middleware.slice(start, end)
+  const queryCalls = homepageFunction.match(/querySanityData<any>\(/g) || []
+  assert.equal(queryCalls.length, 2)
+  assert.ok(homepageFunction.includes("querySanityData<any>('production', productionHomepageQuery"))
+  assert.ok(homepageFunction.includes("querySanityData<any>('plants', plantsHomepageQuery"))
+})
