@@ -1603,7 +1603,10 @@ function makeCategoryCollectionJsonLd(name: string, description: string, url: st
 
 async function handleRequest(context: PagesContext): Promise<Response> {
   const url = new URL(context.request.url)
-  const path = url.pathname.replace(/\/+$/, '') || '/'
+  const rawPath = url.pathname.replace(/\/+$/, '') || '/'
+  // Cloudflare Pages may resolve the root asset through its index.html path.
+  // Treat both forms as the canonical homepage so SSR is never bypassed.
+  const path = rawPath === '/index.html' ? '/' : rawPath
   const languageParam = url.searchParams.get('lang')
 
   // Preserve old blog URLs and their query parameters while moving service content.
@@ -1679,7 +1682,6 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     path === '/sitemap.xml' ||
     path === '/robots.txt' ||
     path === '/favicon.png' ||
-    path === '/index.html' ||
     /^\/google[a-z0-9_-]+\.html$/i.test(path)
   ) return context.next()
 
