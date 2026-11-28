@@ -161,7 +161,7 @@ type ContactsSeed = {
 }
 
 function readContactsSeed(language: string): ContactsSeed | null {
-  if ((window.location.pathname.replace(/\\/+$/, '') || '/') !== '/contacts') return null
+  if ((window.location.pathname.replace(/\/+$/, '') || '/') !== '/contacts') return null
   const element = document.getElementById('florial-contacts-ssr-data')
   if (!element?.textContent) return null
   try {
