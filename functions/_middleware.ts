@@ -249,6 +249,15 @@ function escapeHtml(value: unknown): string {
   })[character] || character)
 }
 
+function serializeInlineJson(value: unknown): string {
+  return JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\\u2028/g, '\\u2028')
+    .replace(/\\u2029/g, '\\u2029')
+}
+
 function plainText(value: unknown): string {
   if (typeof value === 'string') return value.trim()
   if (!Array.isArray(value)) return ''
@@ -1775,18 +1784,23 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       }
       const entries = getOrderedServiceEntries(services)
       const rendered = renderServicesDirectoryHtml({ entries, rolePhotos, language })
-      return transformHtmlResponse(await context.next(), (html) => setPageHead(
-        renderRoot(html, rendered.body),
-        {
-          language,
-          title: metadata.title,
-          description: metadata.description,
-          canonical: metadata.canonical,
-          alternates: metadata.alternates,
-          pageType: 'website',
-          structuredData: [...metadata.structuredData, ...rendered.structuredData],
-        },
-      ), 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
+      return transformHtmlResponse(await context.next(), (html) => {
+        const headed = setPageHead(
+          renderRoot(html, rendered.body),
+          {
+            language,
+            title: metadata.title,
+            description: metadata.description,
+            canonical: metadata.canonical,
+            alternates: metadata.alternates,
+            pageType: 'website',
+            structuredData: [...metadata.structuredData, ...rendered.structuredData],
+          },
+        )
+        const initialData = '<script id="florial-services-ssr-data" type="application/json">' +
+          serializeInlineJson({ language, services, rolePhotos }) + '</script>'
+        return headed.replace(/<\\/head>/i, initialData + '\\n</head>')
+      }, 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
     } catch {
       // Preserve a meaningful static fallback; never cache an empty directory after an upstream failure.
       const fallbackBody = language === 'ru'
@@ -2187,7 +2201,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
             : documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined, doc._dataset === 'plants' && categoryProducts !== null ? plantCategoryTree : undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
-        return setPageHead(root, {
+        const headed = setPageHead(root, {
           language,
           title,
           description: metaDescription,
@@ -2198,7 +2212,17 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           structuredData,
           pageType: type === 'product' && doc._dataset === 'production' ? 'equipment-product' : type === 'product' ? 'product' : type === 'blogPost' ? 'article' : type === 'service' ? 'service' : 'website',
         })
-      }, type === 'category' && categoryProducts === null
+        if (type !== 'service') return headed
+        const serviceDocument = doc as ServiceDetailDocument
+        const service = {
+          ...serviceDocument,
+          slug: { current: serviceDocument.slugValue || slug },
+          _dataset: 'production',
+        }
+        const initialData = '<script id="florial-service-detail-data" type="application/json">' +
+          serializeInlineJson({ slug: serviceDocument.slugValue || slug, language, service }) + '</script>'
+        return headed.replace(/<\\/head>/i, initialData + '\\n</head>')
+      } type === 'category' && categoryProducts === null
         ? 'no-store'
         : type === 'service' || (type === 'product' && (doc._dataset === 'production' || doc._dataset === 'plants'))
           ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
