@@ -1,3 +1,13 @@
+## 2026-11-28 — Cloudflare Pages Functions request-limit remediation (develop)
+
+- **Live usage evidence:** Cloudflare Pages Functions Analytics showed Preview requests of 90,628 (Nov 25), 134,774 (Nov 26), 80,636 (Nov 27) and 119,130 (Nov 28 partial through 07:00 UTC). Production requests were 12,571, 6,212, 11,564 and 7,520. The Nov 28 partial total was 126,650 against the account daily limit of 100,000. Analytics is delayed; post-change savings are not yet measured.
+- **Root cause:** the root `functions/_middleware.ts` was eligible to run for static assets because no explicit Pages `_routes.json` existed in the source. Calling `context.next()` for an asset still incurs the Function invocation. Static asset bypass is now defined in `public/_routes.json`; HTML and XML routes remain eligible, preserving SSR, API handlers, sitemap and services RSS. Existing `public/_headers` retains security headers on static assets.
+- **Cloudflare Preview configuration:** Preview deployments are restricted to `develop` and build-relevant paths. `main` remains the Production branch and Production deployments remain enabled. The manifest-bearing Preview deployment `a278c200-cfaf-4ef6-af0d-cb845de4c135` succeeded from `86ed15a105ab83ac4c0686661e6e23c18ea634c9`; subsequent test/script/workflow-only commits were skipped with `skip_reason=path_config`.
+- **CI:** Blog/Studio validation `46145932038` passed on `83cb44d0a1fdaf250d5c1525a27b225bc03f0d04`, including the new test, build and verification that Vite copied `public/_routes.json` unchanged to `dist/_routes.json`. Full SSR/SEO workflow `46145932128` is waiting for an exact deployment check on a test/workflow-only commit; the branch alias currently points to the manifest-bearing Preview.
+- **Quota/SSR boundary:** Cloudflare reports `fail_open=true` for both environments. This can bypass Functions while the daily limit is exhausted and is a plausible explanation for the missing SSR marker, but exact request-level causation is not captured. Verify raw SSR after the 2026-11-29 00:00 UTC reset.
+- **Safety:** no Production deployment, DNS, secrets, bindings, Sanity writes/schema, D1 writes/schema or paid-plan upgrade. PR #559 remains Draft and unmerged.
+- Detailed evidence, configuration and post-reset acceptance steps: [Cloudflare Pages Functions request-limit remediation](operations/CLOUDFLARE_PAGES_FUNCTIONS_REQUEST_LIMIT_REMEDIATION_2026-11-28.md).
+
 ## 2026-11-28 — Browser-side product request single-flight (develop / PR #559)
 
 - `src/lib/routeData/productDetails.ts` now keeps two separate in-flight maps: slug → product identity promise, and dataset/document ID → full detail promise.
