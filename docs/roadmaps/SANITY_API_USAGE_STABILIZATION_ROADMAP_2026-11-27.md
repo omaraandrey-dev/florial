@@ -1,3 +1,14 @@
+## 2026-11-28 — Phase 8: browser-side product request single-flight (implementation committed; verification open)
+
+- Audit found that the existing 30-second product identity/detail caches only stored completed results. Two simultaneous React effects or route loads for the same product could both miss the completed cache and issue duplicate Sanity reads before either result was stored.
+- Added `productIdentityInFlight` keyed by slug. Concurrent slug resolutions now share the same paired `production` + `plants` identity lookup.
+- Added `productDetailsInFlight` keyed by dataset + document ID. Concurrent detail loads share the same full product read and enrichment work.
+- Per-caller cancellation is checked after the shared promise resolves; cancellation in one effect does not abort a read still needed by another caller. Both in-flight entries are cleared in `finally`, including rejection paths, so subsequent attempts can retry.
+- Existing 30-second completed caches, published API-CDN clients, query tags, product field projections, dataset choice and checkout Live API price validation are unchanged.
+- Added regression assertions in `tests/sanity-client-read-cache.test.mjs`.
+- Implementation commits: `1d8b4a76b39809c8d7ff683c813a16a4eb1f927a`, `668c45746663da863fe18785d988b749aefd242d`, test commits `bd137c44e7e68d89eb4e13f2e373300483089524` and `b32bd59dc6d1f120046020b15b82df97bac2ab13`.
+- **Verification is OPEN:** no CI status/workflow evidence, local test execution or new Preview verification was returned for the latest code commits. Run the full validation before considering this phase complete. No Production release or live-service changes. Actual API usage reduction remains unmeasured pending fresh Request Logs.
+
 # Florial — Sanity API usage stabilization roadmap
 
 **Created:** 2026-11-27  
