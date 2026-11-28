@@ -55,11 +55,7 @@ export function ContactsPage({ onNavigateHome, initialImages }: ContactsPageProp
   const [loadingImages, setLoadingImages] = useState(!initialImages)
 
   useEffect(() => {
-    if (initialImages) {
-      setCentersImages({ nesebr: initialImages.nesebr || '', ravda: initialImages.ravda || '' })
-      setLoadingImages(false)
-      return
-    }
+    if (initialImages) return
 
     let cancelled = false
     const query = `
