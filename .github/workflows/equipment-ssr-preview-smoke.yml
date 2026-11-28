@@ -1,19 +1,7 @@
 name: Equipment SSR Preview smoke
 
 on:
-  push:
-    branches:
-      - feat/seo-equipment-category-ssr-v1
-      - main
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'functions/_middleware.ts'
-      - 'functions/_lib/plantCategoryHtml.mjs'
-      - 'functions/_lib/plantCategoryHtml.d.mts'
-      - 'tests/equipment-category-server-rendering.test.mjs'
-      - '.github/workflows/equipment-ssr-preview-smoke.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
