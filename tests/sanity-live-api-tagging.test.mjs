@@ -104,3 +104,25 @@ test('public service-lead form configuration is read from the published API CDN'
   assert.ok(source.includes("url.searchParams.set('perspective', 'published')"))
   assert.ok(source.includes('florial.service-leads.config'))
 })
+
+
+test('public SSR, sitemap and services feed API CDN requests carry request-family tags', async () => {
+  const middleware = await read('../functions/_middleware.ts')
+  assert.match(middleware, /function getSanityRequestTag\(/)
+  assert.match(middleware, /return 'florial\.ssr\.' \+ family \+ '\.' \+ dataset/)
+  assert.match(middleware, /url\.searchParams\.set\('tag', getSanityRequestTag\(dataset, cachePath\)\)/)
+
+  const sitemap = await read('../functions/sitemap.xml.ts')
+  assert.match(sitemap, /url\.searchParams\.set\('tag', 'florial\.ssr\.sitemap\.' \+ dataset\)/)
+
+  const feed = await read('../functions/feeds/services-bg.xml.ts')
+  assert.match(feed, /sanityUrl\.searchParams\.set\('tag', 'florial\.ssr\.services-feed'\)/)
+})
+
+test('authenticated blog migration scripts identify their Live API requests', async () => {
+  const importer = await read('../scripts/blog-migration/import-blog-posts.mjs')
+  assert.match(importer, /requestTagPrefix: 'florial\.blog-migration\.import'/)
+
+  const preparation = await read('../scripts/blog-migration/prepare-from-source.mjs')
+  assert.match(preparation, /requestTagPrefix: 'florial\.blog-migration\.prepare'/)
+})
