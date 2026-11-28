@@ -5,10 +5,14 @@ on:
     branches:
       - main
       - feature/florial-blog
+    paths-ignore:
+      - '**/*.md'
   pull_request:
     branches:
       - main
     types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - '**/*.md'
   workflow_dispatch:
 
 permissions:
