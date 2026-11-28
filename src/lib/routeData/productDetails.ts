@@ -10,7 +10,27 @@ const PLANT_PRODUCT_TYPES = new Set([
 
 const isPlantProductType = (productType?: string) => PLANT_PRODUCT_TYPES.has(productType || '')
 
+const PRODUCT_ROUTE_CACHE_TTL_MS = 30_000
+const productIdentityCache = new Map<string, { dataset: 'production' | 'plants'; id: string; expiresAt: number }>()
+const productDetailsCache = new Map<string, { product: Product; expiresAt: number }>()
+
+function readProductIdentity(slug: string) {
+  const cached = productIdentityCache.get(slug)
+  if (!cached) return null
+  if (cached.expiresAt <= Date.now()) {
+    productIdentityCache.delete(slug)
+    return null
+  }
+  return cached
+}
+
 export async function fetchProductDetailsBySlug(slug: string, isCancelled: () => boolean = () => false): Promise<Product | null> {
+  if (isCancelled()) return null
+  const cachedIdentity = readProductIdentity(slug)
+  if (cachedIdentity) {
+    return fetchProductDetailsByIdentity(cachedIdentity.dataset, cachedIdentity.id, isCancelled, slug)
+  }
+
   const productBySlugQuery = `
     *[_type == "product" && (coalesce(slug.current, slug) == $slug || _id == $slug) && isActive != false][0] {
       _id,
@@ -42,6 +62,8 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
     return null
   }
 
+  const dataset = equipmentProduct ? 'production' : 'plants'
+  productIdentityCache.set(slug, { dataset, id: foundProduct._id, expiresAt: Date.now() + PRODUCT_ROUTE_CACHE_TTL_MS })
   return fetchProductDetails(foundProduct as Product, isCancelled)
 }
 
@@ -49,8 +71,10 @@ export async function fetchProductDetailsByIdentity(
   dataset: 'production' | 'plants',
   id: string,
   isCancelled: () => boolean = () => false,
+  slug?: string,
 ): Promise<Product | null> {
   if (!id || (dataset !== 'production' && dataset !== 'plants') || isCancelled()) return null
+  if (slug) productIdentityCache.set(slug, { dataset, id, expiresAt: Date.now() + PRODUCT_ROUTE_CACHE_TTL_MS })
 
   // The SSR route resolver has already identified the exact published dataset and document.
   // Reuse that identity instead of repeating two slug lookups from the browser.
@@ -160,6 +184,12 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
       `
 
   const isPlant = isPlantProductType(foundProduct.productType)
+  const dataset = isPlant ? 'plants' : 'production'
+  const cacheKey = dataset + ':' + foundProduct._id
+  const cached = productDetailsCache.get(cacheKey)
+  if (cached && cached.expiresAt > Date.now()) return isCancelled() ? null : cached.product
+  if (cached) productDetailsCache.delete(cacheKey)
+
   const details = await (isPlant ? publicPlantsClient : sanityClient).fetch(
     isPlant ? plantDetailQuery : equipmentDetailQuery,
     { id: foundProduct._id },
@@ -295,5 +325,11 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
     }
   }
 
-  return enrichedDetails
+  if (!isCancelled()) {
+    productDetailsCache.set(cacheKey, {
+      product: enrichedDetails,
+      expiresAt: Date.now() + PRODUCT_ROUTE_CACHE_TTL_MS,
+    })
+  }
+  return isCancelled() ? null : enrichedDetails
 }
