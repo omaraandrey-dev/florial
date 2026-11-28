@@ -367,3 +367,17 @@ Do not change catalogue/search query clients until this decision is explicitly s
 - **No changes:** no Sanity documents/schemas/datasets, D1 schema/data, Cloudflare Production settings/bindings/secrets, DNS, orders or Resend configuration were changed.
 - **Open owner decision:** whether catalogue/search displayed prices and stock may lag by the API-CDN cache window (previous Florial observation: approximately 60 seconds), with server-side order revalidation remaining authoritative. Until decided, those commercial projections remain Live.
 - **Next:** wait for exact-head CI/Preview; repair only demonstrated failures; then obtain fresh Sanity Request Logs and validate tags/traffic. Production merge/deployment remains blocked pending explicit owner approval.
+
+
+### 2026-11-28 — fresh Sanity usage snapshot and Preview deployment result
+
+- **Branch / HEAD:** `develop` at `9668e45c8ee0b7869f86c40489a42cffc1da2716`; PR #557 remains draft and unmerged.
+- **Cloudflare Preview:** check completed successfully for this exact commit. Deployment ID: `c3831aa7-cbb9-4920-a957-29461f8a19af`; Preview URL: https://c3831aa7.florial.pages.dev. This is not a Production deployment.
+- **Sanity live usage snapshot (2026-11-28, monthly period, lastRecorded 00:00 UTC):**
+  - API Requests: `253,867` (above the 250,000 allowance).
+  - API CDN Requests: `58,507` (5.85% of the 1,000,000 allowance).
+  - Bandwidth: `22,781,299,192` bytes (~22.78 GB of 100 GB).
+- **Sanity daily usage history (2026-11-27):** `39,074` API Requests and `17,246` API CDN Requests. The 2026-11-28 partial period at the snapshot boundary showed `0` API and `171` API CDN requests.
+- **Metering caveat:** the daily history values do not reconcile with the change in monthly metered totals since the previous snapshot (API total changed only from 253,866 to 253,867; API CDN from 49,483 to 58,507). Treat the daily history as a separate activity series until request-log status codes clarify which attempts were successful, blocked (402), or otherwise non-billable. Do not claim that direct API traffic has stopped.
+- **CI:** all exact-head GitHub Actions checks were still queued after the Preview deployment completed. Run IDs are listed in the previous progress entry; record final outcomes only after completion.
+- **Next:** inspect exact-head CI results, then validate the new request tags against the next Sanity Request Logs export. The export is not currently available in this chat's attached/Library files.
