@@ -94,7 +94,7 @@ Acceptance:
 - SSR spike attribution is labelled as proven, probable or unknown; no unsupported crawler attribution.
 
 ### Phase 1 — exhaustive Live API inventory and classification
-**Status: IN PROGRESS — public browser, checkout, Manager and service-lead callsites mapped; full repository sweep still pending**
+**Status: COMPLETE — repository-wide search and classification completed for explicit application-owned SDK clients, raw API endpoints, middleware, sitemap/feed, Manager, migration scripts and CI smoke scripts. Sanity Studio's built-in internal traffic remains observable through Request Logs rather than custom repository callsites.**
 
 Tasks:
 1. Search the entire repository for `useCdn: false`, `sanityLiveClient`, `plantsClient`, direct `api.sanity.io` URLs, `createClient` instances, and direct Sanity `fetch()` calls.
@@ -114,7 +114,7 @@ Acceptance:
 - No broad replacement of all Live clients with CDN clients.
 
 ### Phase 2 — remediate public published reads
-**Status: IN PROGRESS — first low-risk metadata read migrated on develop**
+**Status: IN PROGRESS — cart weight metadata moved to the published API CDN on develop; price/stock, delivery fees and BOM reads remain Live pending freshness decisions**
 
 Priority order:
 1. Browser catalogue loading in `src/App.tsx`: inspect all consumers of catalogue fields, cart behavior, price/stock updates and page navigation. Move only safe published catalogue projections to CDN; do not silently weaken price/stock freshness. If a smaller identity/content projection can be used, prefer it.
@@ -141,7 +141,7 @@ Acceptance:
 - Server-side order validation remains live and authoritative.
 
 ### Phase 3 — request attribution and monitoring
-**Status: IN PROGRESS — requestTagPrefix and per-family tags added on develop; CI and Request Logs validation pending**
+**Status: IMPLEMENTED ON DEVELOP — requestTagPrefix and family tags cover browser, checkout, Manager, SSR middleware, sitemap/feed, CI smoke and admin migration scripts; exact-head CI and Request Logs validation pending**
 
 Tasks:
 1. Add Sanity request tags to application-owned requests, using stable names for request families, for example:
@@ -168,7 +168,7 @@ Acceptance:
 - No Production monitoring infrastructure is changed without approval.
 
 ### Phase 4 — regression protection and load verification
-**Status: IN PROGRESS — direct Live API callsite/tag guard test added; exact-head execution pending**
+**Status: IN PROGRESS — direct Live API allowlist and CDN/request-tag regression tests added; exact-head CI is queued**
 
 Tasks:
 1. Add a repository test that detects public runtime modules importing or invoking direct Live clients outside an explicit allowlist.
@@ -212,16 +212,16 @@ Acceptance:
 - [x] Review the latest Sanity usage snapshot and the existing SSR spike audit.
 - [x] Confirm latest Production deployment metadata and #553–#555 release history.
 - [x] Confirm the remaining browser-side Live API risk in source.
-- [ ] Complete exhaustive repository-wide callsite inventory and classification.
+- [x] Complete exhaustive repository-wide callsite inventory and classification.
 - [ ] Review latest Sanity Request Logs export if owner supplies it / if export becomes available.
 - [ ] Approve the exact remediation list internally; identify any owner decisions required.
 
 ### Day 2 — 28 November
-- [ ] Implement the highest-confidence public catalogue/search/informational-read migrations on `develop`.
-- [ ] Add targeted regression tests and direct-Live-client allowlist guard.
-- [ ] Add request tags where the installed client supports them and tests confirm behavior.
+- [x] Implement the highest-confidence safe metadata migration on `develop`; keep commercial reads Live until freshness is agreed.
+- [x] Add targeted regression tests and direct-Live-client allowlist guard (exact-head CI pending).
+- [x] Add request tags to SDK and raw API/CDN request families; CI and Request Logs confirmation pending.
 - [ ] Run exact-head CI, build, Preview and browser/raw HTTP checks.
-- [ ] Review diff and prepare integration PR; do not merge to Production without explicit release approval.
+- [x] Review diff and prepare draft PR #557; do not merge to Production without explicit release approval.
 - [ ] Record all results and remaining risks in this roadmap.
 
 If Request Logs, a CI failure, or a correctness concern prevents safe completion in two days, prioritize correctness and leave the affected item explicitly open rather than forcing a risky release.
@@ -233,16 +233,16 @@ If Request Logs, a CI failure, or a correctness concern prevents safe completion
 | SSR direct API spike remediation | RELEASED | PRs #553–#555; exact Production deployment recorded above |
 | Sanity usage baseline | RECORDED | 253,866 / 250,000 API requests; daily-boundary snapshot |
 | Exact attribution of Nov 25–27 requests | OPEN | Need fresh Request Logs export; blocked requests may not count |
-| Full Live API callsite inventory | IN PROGRESS | Browser, checkout, service leads and Manager callsites classified; finish repository-wide scan including scripts/Studio |
-| Public catalogue migration | OPEN | Main catalogue query still needs price/stock freshness decision |
-| Public search migration | OPEN | Split descriptive fields from price/stock if needed |
-| Product detail full-read policy | PARTIAL | Slug resolution CDN; full detail still live |
-| Support / irrigation assistant / cart paths | PARTIAL | Cart weight fallback moved to CDN; delivery zones and irrigation assistant remain under review |
+| Full Live API callsite inventory | COMPLETE | Explicit application-owned clients/endpoints, middleware, sitemap/feed, Manager, scripts and CI smoke paths searched and classified; Studio built-in traffic requires Request Logs |
+| Public catalogue migration | BLOCKED ON OWNER DECISION | Full projection includes price/stock; do not move until displayed freshness policy is agreed |
+| Public search migration | BLOCKED ON OWNER DECISION | Search projections include price/stock; design a split or approve the CDN freshness window |
+| Product detail full-read policy | PARTIAL / KEEP LIVE COMMERCIAL FIELDS | Slug resolution and related content use CDN; full detail with price/stock remains Live |
+| Support / irrigation assistant / cart paths | PARTIAL | Cart weight fallback uses CDN; delivery fees and irrigation BOM price/stock reads remain Live |
 | Order validation live path | KEEP LIVE | Required for authoritative server-side price/stock validation |
-| Request tagging | IN PROGRESS | `requestTagPrefix` and family tags added to app clients and direct API endpoints; validate in CI and fresh Request Logs |
+| Request tagging | IMPLEMENTED ON DEVELOP | SDK, raw SSR middleware, sitemap/feed, checkout, Manager, browser and admin scripts tagged; validate exact-head CI and fresh Request Logs |
 | Automated monitoring | NOT STARTED | Start with usage/log review; AE requires separate approval |
-| Regression guard | IN PROGRESS | `tests/sanity-live-api-tagging.test.mjs` added; exact-head CI pending |
-| Production release of new browser changes | NOT STARTED | Requires Preview verification and explicit approval |
+| Regression guard | ADDED ON DEVELOP | `tests/sanity-live-api-tagging.test.mjs` and `tests/sanity-public-cdn-reads.test.mjs` added; exact-head CI queued |
+| Production release of new browser changes | BLOCKED | Draft PR #557; requires exact-SHA Preview/CI verification and separate owner release approval |
 
 ## 7. Required status update format
 
@@ -348,3 +348,22 @@ Do not change catalogue/search query clients until this decision is explicitly s
 - **Production:** no merge or deployment. No Sanity content/schema, D1 data/schema, Cloudflare settings/bindings/secrets or DNS changed.
 - **Open decision:** the current code deliberately keeps catalogue/search/product commercial projections and delivery tariffs on Live API for freshness. Existing SSR already uses published API-CDN cache windows, but changing the SPA price/stock freshness contract still requires explicit owner confirmation.
 - **Next:** validate the new tests through a draft `develop → main` PR/CI and Preview; complete repository-wide callsite sweep; then request the freshness decision before moving high-volume catalogue/search reads to CDN.
+
+
+### 2026-11-28 — exhaustive inventory, request tagging expansion and CI Preview correction
+
+- **Branch:** `develop`; exact HEAD at this update: `05858b7971dc3b0a1fededb2184e070c1729ee93`. Draft integration PR: [#557](https://github.com/omaraandrey-dev/florial/pull/557), still open and unmerged.
+- **Phase 1 completed:** repository-wide GitHub code search and source review covered `sanityLiveClient`, `plantsClient`, `useCdn: false`, `createClient(`, direct `api.sanity.io` URLs, raw `data/query`, `data/mutate` and asset upload endpoints. Classified browser, checkout, Manager, middleware, sitemap/feed, CI and admin migration callers. Studio's own internal SDK traffic is not a custom application callsite and must be attributed from Sanity Request Logs.
+- **Confirmed keep-Live paths:** `functions/api/orders.ts` authoritative order validation; catalogue/search/product detail projections carrying price/stock; delivery-zone fee data; irrigation assistant BOM SKU/price/stock reads; Manager authenticated reads/writes. Do not silently weaken freshness.
+- **Service-lead validation decision:** `functions/api/service-leads.ts` remains on the Live API because it reads the currently published lead-form configuration to validate a submitted enquiry. A stale cached configuration could mismatch the form contract. The request remains tagged as `florial.service-leads.config`.
+- **Safe migration retained:** `src/App.tsx` legacy-cart fallback reads only `_id, weightKg` via the existing published API-CDN client. This does not affect price/stock or order validation.
+- **Request tagging expanded:** the shared SSR query helper now tags requests by route family and dataset; sitemap queries use `florial.ssr.sitemap.<dataset>`; the services RSS query uses `florial.ssr.services-feed`. Authenticated blog migration scripts now use dedicated SDK request-tag prefixes. Existing browser/checkout/Manager tags remain.
+- **CI reliability:** the equipment-category and services-directory smoke workflows no longer use hardcoded historical Preview hostnames. They resolve the Cloudflare Pages Preview URL from the exact commit's successful `Cloudflare Pages` check. This corrects the earlier failures caused by stale Preview targets; the new workflow runs are pending.
+- **Tests added/extended:** request-tag coverage now includes SSR middleware, sitemap, RSS and admin migration scripts, while explicitly asserting that service-lead validation stays Live.
+- **Exact-head CI:** queued for `05858b7971dc3b0a1fededb2184e070c1729ee93`; current run IDs include `46093769490`, `46093769475`, `46093769476`, `46093769450`, `46093769492`, `46093769403`, `46093769363`, `46093769393`, `46093769351`, `46093769361`, `46093769359`, and `46093769401`. Do not claim these passed until completed.
+- **Preview:** Cloudflare Pages Preview deployment `9036e852-9875-48fd-a938-e53361bcfc5c` was in progress at the time of this update. No Production deployment was requested or made.
+- **Files changed in this continuation:** `.github/workflows/equipment-catalog-ssr-smoke.yml`, `.github/workflows/services-directory-ssr-smoke.yml`, `functions/_middleware.ts`, `functions/sitemap.xml.ts`, `functions/feeds/services-bg.xml.ts`, `functions/api/service-leads.ts`, `scripts/blog-migration/import-blog-posts.mjs`, `scripts/blog-migration/prepare-from-source.mjs`, `tests/sanity-live-api-tagging.test.mjs`.
+- **Sanity usage/log evidence:** last verified snapshot remains 253,866 / 250,000 direct API requests from 2026-11-27. No fresh Request Logs export was available in this continuation; post-remediation request distribution is therefore not yet proven.
+- **No changes:** no Sanity documents/schemas/datasets, D1 schema/data, Cloudflare Production settings/bindings/secrets, DNS, orders or Resend configuration were changed.
+- **Open owner decision:** whether catalogue/search displayed prices and stock may lag by the API-CDN cache window (previous Florial observation: approximately 60 seconds), with server-side order revalidation remaining authoritative. Until decided, those commercial projections remain Live.
+- **Next:** wait for exact-head CI/Preview; repair only demonstrated failures; then obtain fresh Sanity Request Logs and validate tags/traffic. Production merge/deployment remains blocked pending explicit owner approval.
