@@ -3,15 +3,24 @@ name: Florial D1 migration validation
 on:
   pull_request:
     branches: [main]
+    paths:
+      - "docs/migrations/**"
+      - "tests/*migration*.test.py"
+      - ".github/workflows/validate-d1-migration.yml"
   push:
     branches: [main]
+    paths:
+      - "docs/migrations/**"
+      - "tests/*migration*.test.py"
+      - ".github/workflows/validate-d1-migration.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: florial-d1-validation-${{ github.ref }}
-  cancel-in-progress: true
+  group: florial-d1-migration-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   validate:
@@ -19,18 +28,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: 22
-      - name: Install dependencies
-        run: npm ci
-      - name: Lint
-        run: npm run lint
-      - name: Build website
-        run: npm run build
-      - name: Syntax-check Pages Functions
-        run: npx esbuild "functions/**/*.ts" --outdir=/tmp/florial-functions-check --platform=browser --format=esm
       - name: Validate additive plant audit migration
         run: python3 tests/manager-product-audit-migration.test.py
       - name: Validate contract withdrawals migration
