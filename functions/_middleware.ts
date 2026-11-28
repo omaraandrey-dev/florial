@@ -1797,7 +1797,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         )
         const initialData = '<script id="florial-services-ssr-data" type="application/json">' +
           serializeInlineJson({ language, services, rolePhotos }) + '</script>'
-        return headed.replace(/<\\/head>/i, initialData + '\\n</head>')
+        return headed.replace(/<\/head>/i, initialData + '\n</head>')
       }, 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
     } catch {
       // Preserve a meaningful static fallback; never cache an empty directory after an upstream failure.
@@ -2219,7 +2219,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         }
         const initialData = '<script id="florial-service-detail-data" type="application/json">' +
           serializeInlineJson({ slug: serviceDocument.slugValue || slug, language, service }) + '</script>'
-        return headed.replace(/<\\/head>/i, initialData + '\\n</head>')
+        return headed.replace(/<\/head>/i, initialData + '\n</head>')
       }, type === 'category' && categoryProducts === null
         ? 'no-store'
         : type === 'service' || (type === 'product' && (doc._dataset === 'production' || doc._dataset === 'plants'))
