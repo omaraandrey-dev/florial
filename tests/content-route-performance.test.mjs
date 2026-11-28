@@ -353,3 +353,18 @@ test('product detail first load reuses the SSR-resolved dataset and document ID'
   assert.match(loader, /sanityClient\.fetch\(productBySlugQuery/)
   assert.match(loader, /publicPlantsClient\.fetch\(plantBySlugQuery/)
 })
+
+
+test('contacts page reuses the SSR location-photo payload and batches SPA fallback into one query', async () => {
+  const app = await read('../src/App.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  const page = await read('../src/pages/ContactsPage.tsx')
+
+  assert.match(middleware, /florial-contacts-ssr-data/)
+  assert.match(middleware, /images: contacts\.images/)
+  assert.match(app, /function readContactsSeed\(language: string\)/)
+  assert.match(app, /initialImages=\{initialContactsSeed\?\.images\}/)
+  assert.match(page, /if \(initialImages\)/)
+  assert.match(page, /sanityClient\.fetch\(query\)/)
+  assert.doesNotMatch(page, /nesebrQuery|ravdaQuery/)
+})
