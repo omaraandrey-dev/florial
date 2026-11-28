@@ -146,7 +146,7 @@ test('About middleware uses published bounded Sanity queries, shared copy, safe 
   const content = await readFile(new URL('../src/content/aboutPageContent.ts', import.meta.url), 'utf8')
   assert.ok(middleware.includes("async function fetchAboutHtml(language: 'bg' | 'ru' | 'en')"))
   assert.match(middleware, /sanity\/production\/about-combined-v2/)
-  assert.match(middleware, /sanity\/production\/about-equipment-category-v1/)
+  assert.match(middleware, /sanity\/production\/about-combined-v2/)
   assert.match(middleware, /sanity\/plants\/about-plant-category-v1/)
   assert.match(middleware, /querySanityData<\{ photos: AboutPhotoDocument\[\]; equipmentCategories: AboutCategoryDocument\[\] \}>\(/)
   assert.match(middleware, /sanity\/plants\/about-plant-category-v1/)
