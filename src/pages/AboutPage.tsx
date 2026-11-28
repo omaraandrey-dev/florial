@@ -24,6 +24,14 @@ export function AboutPage({ categories, initialRolePhotos }: AboutPageProps) {
     nesebr: initialRolePhotos?.find((item) => item.slug?.toLowerCase() === 'florial-nesebr')?.imageUrl || '',
     ravda: initialRolePhotos?.find((item) => item.slug?.toLowerCase() === 'florial-ravda')?.imageUrl || '',
   }))
+  const hasCompleteInitialPhotos = Boolean(initialRolePhotos && [
+    'landshaften-arhitekt',
+    'inzhener-polivni-sistemi',
+    'gardinar',
+    'specialist-trevni-ploshti',
+    'florial-nesebr',
+    'florial-ravda',
+  ].every((slug) => initialRolePhotos.some((photo) => photo.slug?.toLowerCase() === slug)))
   const [ibanCopied, setIbanCopied] = useState(false)
 
   const copyIban = async () => {
@@ -37,7 +45,7 @@ export function AboutPage({ categories, initialRolePhotos }: AboutPageProps) {
   }
 
   useEffect(() => {
-    if (initialRolePhotos?.length) return
+    if (hasCompleteInitialPhotos) return
     let cancelled = false
     const query = '*[_type == "photo" && isActive != false && (coalesce(slug.current, slug) in ["landshaften-arhitekt", "inzhener-polivni-sistemi", "gardinar", "specialist-trevni-ploshti", "florial-nesebr", "florial-ravda"] || lower(slug) in ["florial-nesebr", "florial-ravda"] || lower(slug.current) in ["florial-nesebr", "florial-ravda"])] { "slug": coalesce(slug.current, slug), title, titleEn, titleRu, "imageUrl": image.asset->url, "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu }'
     sanityClient.fetch(query).then((photos: ServiceRolePhoto[]) => {
@@ -50,7 +58,7 @@ export function AboutPage({ categories, initialRolePhotos }: AboutPageProps) {
       })
     }).catch((error) => console.error('Sanity: не удалось загрузить фотографии команды и садовых центров:', error))
     return () => { cancelled = true }
-  }, [initialRolePhotos])
+  }, [hasCompleteInitialPhotos, initialRolePhotos])
 
   const locations = language === 'ru'
     ? 'Несебр, Равда, Солнечный Берег и Святой Влас'
