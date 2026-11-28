@@ -14,6 +14,7 @@ const PRODUCT_ROUTE_CACHE_TTL_MS = 30_000
 const productIdentityCache = new Map<string, { dataset: 'production' | 'plants'; id: string; expiresAt: number }>()
 const productDetailsCache = new Map<string, { product: Product; expiresAt: number }>()
 const productDetailsInFlight = new Map<string, Promise<Product | null>>()
+const productIdentityInFlight = new Map<string, Promise<{ dataset: 'production' | 'plants'; id: string } | null>>()
 
 function writeProductIdentity(slug: string, dataset: 'production' | 'plants', id: string) {
   productIdentityCache.delete(slug)
@@ -50,6 +51,27 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
     return fetchProductDetailsByIdentity(cachedIdentity.dataset, cachedIdentity.id, isCancelled, slug)
   }
 
+  let pending = productIdentityInFlight.get(slug)
+  if (!pending) {
+    pending = resolveProductIdentityBySlug(slug)
+    productIdentityInFlight.set(slug, pending)
+  }
+
+  try {
+    const identity = await pending
+    if (isCancelled() || !identity) return null
+    writeProductIdentity(slug, identity.dataset, identity.id)
+    return fetchProductDetailsByIdentity(identity.dataset, identity.id, isCancelled, slug)
+  } finally {
+    if (productIdentityInFlight.get(slug) === pending) {
+      productIdentityInFlight.delete(slug)
+    }
+  }
+}
+
+async function resolveProductIdentityBySlug(
+  slug: string,
+): Promise<{ dataset: 'production' | 'plants'; id: string } | null> {
   const productBySlugQuery = `
     *[_type == "product" && (coalesce(slug.current, slug) == $slug || _id == $slug) && isActive != false][0] {
       _id,
@@ -63,13 +85,10 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
     }
   `
 
-  // All public product details, including displayed price and stock, use the published API CDN.
-  // Checkout independently validates the submitted price through the direct Live API.
   const [equipmentResult, plantResult] = await Promise.allSettled([
     sanityClient.fetch(productBySlugQuery, { slug }, { tag: 'browser.product.slug.equipment' }),
     publicPlantsClient.fetch(plantBySlugQuery, { slug }, { tag: 'browser.product.slug.plants' }),
   ])
-  if (isCancelled()) return null
 
   const equipmentProduct = equipmentResult.status === 'fulfilled' ? equipmentResult.value : null
   const plantProduct = plantResult.status === 'fulfilled' ? plantResult.value : null
@@ -81,9 +100,10 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
     return null
   }
 
-  const dataset = equipmentProduct ? 'production' : 'plants'
-  writeProductIdentity(slug, dataset, foundProduct._id)
-  return fetchProductDetails(foundProduct as Product, isCancelled)
+  return {
+    dataset: equipmentProduct ? 'production' : 'plants',
+    id: foundProduct._id,
+  }
 }
 
 export async function fetchProductDetailsByIdentity(
