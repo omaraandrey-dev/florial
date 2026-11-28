@@ -3,6 +3,7 @@
 **Active workstream:** reduce repeated public Sanity CDN reads.  
 **Working branch:** `develop`; **Production branch:** `main`.  
 **Draft integration PR:** https://github.com/omaraandrey-dev/florial/pull/559  
+**Latest `develop` HEAD at this handoff:** `0d63660c9372f5a607f883b6be2208fe152198d0` (98 commits ahead of `main`); PR #559 base remains `main` at `541223d7e8b01094223d53a140c139a99222952b`.  
 **Latest code commits added in this session:** `1d8b4a76` (product detail single-flight), `668c4574` (product slug lookup single-flight), `b32bd59d` (regression assertions).  
 **Release:** not merged; no Production deployment.
 
