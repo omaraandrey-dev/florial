@@ -31,12 +31,14 @@ test('product route identity and details are reused for repeated navigation with
 
 test('concurrent product detail loads share one in-flight request per dataset and document ID', async () => {
   const source = await read('../src/lib/routeData/productDetails.ts')
-  assert.match(source, /const productDetailsInFlight = new Map<string, Promise<Product \\| null>>\\(\\)/)
-  assert.match(source, /let pending = productDetailsInFlight\\.get\\(cacheKey\\)/)
-  assert.match(source, /pending = fetchProductDetailsUncached\\(foundProduct, \\(\\) => false\\)/)
-  assert.match(source, /productDetailsInFlight\\.set\\(cacheKey, pending\\)/)
-  assert.match(source, /productDetailsInFlight\\.delete\\(cacheKey\\)/)
-  assert.match(source, /if \\(productDetailsInFlight\\.get\\(cacheKey\\) === pending\\)/)
+  for (const fragment of [
+    'const productDetailsInFlight = new Map<string, Promise<Product | null>>()',
+    'let pending = productDetailsInFlight.get(cacheKey)',
+    'pending = fetchProductDetailsUncached(foundProduct, () => false)',
+    'productDetailsInFlight.set(cacheKey, pending)',
+    'productDetailsInFlight.delete(cacheKey)',
+    'if (productDetailsInFlight.get(cacheKey) === pending)',
+  ]) assert.ok(source.includes(fragment), 'missing in-flight deduplication fragment: ' + fragment)
 })
 
 test('plant detail related documents and recommended irrigation product use one combined query', async () => {
