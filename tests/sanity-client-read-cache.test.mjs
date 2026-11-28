@@ -32,3 +32,21 @@ test('product route identity and details are reused for repeated navigation with
   assert.match(source, /productDetailsCache\\.size > 100/)
   assert.match(app, /initialProductRouteSeed\.id,[\s\S]{0,80}activeProductSlug/)
 })
+
+test('plant detail related documents and recommended irrigation product use one combined query', async () => {
+  const source = await read('../src/lib/routeData/productDetails.ts')
+  assert.match(source, /const plantRelatedAndIrrigationQuery = `\{/)
+  assert.match(source, /"relatedDocuments": \*\[/)
+  assert.match(source, /"recommendedProduct": \*\[_type == "product"/)
+  assert.match(source, /browser\.product\.related-and-recommended/)
+  assert.doesNotMatch(source, /browser\.product\.related-content|browser\.product\.recommended-irrigation/)
+})
+
+test('irrigation assistant caches catalogue reads by stable BOM SKU set', async () => {
+  const source = await read('../src/pages/IrrigationAssistantPage.tsx')
+  assert.match(source, /IRRIGATION_CATALOG_CACHE_TTL_MS = 30_000/)
+  assert.match(source, /const cacheKey = normalizedSkus\.join\('\|'\)/)
+  assert.match(source, /const baseBomSkuKey = billOfMaterials\?\.valid/)
+  assert.match(source, /\}, \[baseBomSkuKey\]\)/)
+  assert.match(source, /fetchIrrigationCatalogProducts\(skus\)/)
+})
