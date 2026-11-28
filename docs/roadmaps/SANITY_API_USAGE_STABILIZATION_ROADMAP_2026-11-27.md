@@ -7,7 +7,7 @@
 **Canonical branch for development:** `develop`  
 **Production branch:** `main`  
 **Sanity project:** `bxvcy0qs`  
-**Status:** PR #558 merged into `main` and `develop` (merge commit `55007f55cacce640a7003d1392683b4903c1f88d`); public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN; owner-approved equipment sales policy is recorded. Production deployment verification and fresh Sanity Request Logs validation remain pending. **New Phase 6 — services and blog SSR/API stabilization — added 2026-11-28; read-only audit in progress.**
+**Status:** PR #558 is merged into `main` and `develop`; public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN. Phase 6 service SSR seed reuse is implemented on `develop` and verified by exact-head CI + Preview raw HTTP smoke through Draft PR #559. Blog SSR payload handoff remains in place and is regression-tested. **Pending:** owner approval to merge/release PR #559 and fresh Sanity Request Logs after the December 1 usage reset. No Production release of Phase 6 is claimed.
 
 > This file is the portable handoff for this workstream. Any ChatGPT, Claude, Gemini, developer or future conversation must read this roadmap first, then follow `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md` and `docs/AI/WORK_PROTOCOL.md`. Update this file at every completed phase. Do not rely on chat history as the source of task status.
 
@@ -265,7 +265,7 @@ If Request Logs, a CI failure, or a correctness concern prevents safe completion
 | Automated monitoring | NOT STARTED | Start with usage/log review; AE requires separate approval |
 | Regression guard | CI VERIFIED | `tests/sanity-live-api-tagging.test.mjs` and `tests/sanity-public-cdn-reads.test.mjs` passed within exact-head npm test/Studio validation; Preview and raw HTTP smoke passed |
 | Production release of new browser changes | BLOCKED | Draft PR #557; requires exact-SHA Preview/CI verification and separate owner release approval |
-| Services/blog SSR seed reuse | IMPLEMENTATION IN PROGRESS | Source audit found duplicate service list/role-photo reads on `/services` and duplicate full service-detail read on `/services/{slug}`; matching blog index/article seeds already prevent the normal first-load duplicates. New service payload handoff and regression tests added on `develop`; exact-head CI pending |
+| Services/blog SSR seed reuse | IMPLEMENTED ON DEVELOP / PREVIEW VERIFIED | `/services` and `/services/{slug}` now reuse validated SSR payloads; blog index/article seed behavior retained. Draft PR #559. Exact-head CI + BG/RU/EN raw HTTP smoke passed; owner release approval and post-reset Request Logs measurement remain pending |
 
 ## 7. Required status update format
 
@@ -443,7 +443,7 @@ Do not change catalogue/search query clients until this decision is explicitly s
 
 
 ### Phase 6 — services and blog SSR/API stabilization (added 2026-11-28)
-**Status: IN PROGRESS — scope accepted; initial source review started; no runtime changes made.**
+**Status: IMPLEMENTED ON DEVELOP — service directory and service-detail SSR payload reuse passed exact-head CI and Preview BG/RU/EN raw HTTP smoke. Existing blog index/article payload reuse is retained and regression-tested. Draft PR #559 remains unmerged; owner release approval and post-reset Sanity Request Logs measurement are pending.**
 
 Objective: extend the Sanity API stabilization work to all four public service/blog route families without changing published content or weakening SEO, localization, or freshness behavior.
 
@@ -545,3 +545,16 @@ Acceptance criteria:
 - **Sanity:** no live Sanity reads/writes performed by this implementation; no content/schema changes.
 - **Open:** exact-head TypeScript/lint/test/build/Pages Functions validation, Preview deployment, BG/RU/EN raw-HTTP checks, and proof that invalid/mismatched seeds safely fall back to existing fetches.
 - Next: open a draft integration PR from `develop` to `main` for exact-head CI/Preview validation; review all changed files and fix any failures before requesting release approval.
+
+
+### 2026-11-28 — Phase 6 exact-head CI and Preview verification
+- **Branch / code head:** `develop`; code-bearing commit `676cc68e72c81e9df620554aeed608eadac27013`. Draft integration PR #559: https://github.com/omaraandrey-dev/florial/pull/559.
+- **Implementation:** service directory SSR seed and service detail SSR seed are consumed by the client only when locale/slug/document identity match. Mismatched or absent seeds fall back to the existing CDN fetch path; later SPA navigation and locale changes continue to fetch normally. Blog index/article seeds remain unchanged.
+- **Exact-head CI:** Blog/Studio validation `46113461352` — success (application/Pages Functions type-check, lint, website tests/build, read-only migration dry-run, Studio type-check/build); D1 validation `46113461408` — success; full SSR/SEO raw first-response regression `46113461344` — success.
+- **Route smoke:** services directory `46113461340` — success (26 service links and CollectionPage/BreadcrumbList in BG/RU/EN); service details `46113461333` — success (25 active detail pages per locale, full first-response HTML and Service/BreadcrumbList); blog index `46113461336` — success (19 cards, four directions and hydration seed per locale); blog articles `46113461332` — success (19 articles per locale, full body/images/seed and BlogPosting/BreadcrumbList). Additional equipment product/catalogue, plant catalogue and About smoke checks passed: `46113461331`, `46113461379`, `46113461328`, `46113461468`, `46113461451`.
+- **Preview:** exact Cloudflare Pages Preview `https://e4169bb4.florial.pages.dev`. These checks do not prove Production release or browser-interaction behavior.
+- **Production:** not deployed; PR #559 remains Draft and unmerged. Owner approval is still required.
+- **Sanity usage:** no fresh Request Logs available yet. Wait for December 1 usage reset, then compare route-family requests and distinguish Live API from API CDN requests and successful from blocked requests. No measured reduction claimed yet.
+- **Safety:** no Sanity writes/schema changes, D1 writes/migrations, Cloudflare settings/secrets, DNS, orders, emails or Production state changed.
+- **Next:** owner review/approval of Draft PR #559; after release, run safe Production raw HTTP smoke and complete post-reset Sanity Request Logs measurement.
+
