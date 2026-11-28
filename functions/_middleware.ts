@@ -1129,7 +1129,7 @@ async function fetchHomepageHtml(language: string): Promise<{ html: string; payl
     headerSettings,
   ] = await Promise.all([
     querySanityData<any[]>('production', equipmentCategoryQuery, {}, 'homepage/equipment-categories-v1', 300),
-    querySanityData<any[]>('plants', plantCategoryQuery, {}, 'homepage/plant-categories-v1', 300),
+    querySanityData<any[]>('plants', plantCategoryQuery, {}, 'homepage/plant-categories-v2', 300),
     querySanityData<any[]>('plants', featuredPlantsQuery, {}, 'homepage/featured-plants-v1', 30),
     querySanityData<any[]>('production', featuredEquipmentQuery, {}, 'homepage/featured-equipment-v1', 30),
     querySanityData<any[]>('production', serviceQuery, {}, 'homepage/services-v1', 60),
