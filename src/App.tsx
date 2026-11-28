@@ -853,6 +853,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
             initialProductRouteSeed.dataset,
             initialProductRouteSeed.id,
             () => cancelled,
+            activeProductSlug,
           )
         }
         return loader.fetchProductDetailsBySlug(activeProductSlug, () => cancelled)
