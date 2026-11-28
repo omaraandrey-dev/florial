@@ -20,6 +20,39 @@ interface IrrigationAssistantPageProps {
   onSetIrrigationProject: (project: IrrigationProjectSnapshot) => void
 }
 
+const IRRIGATION_CATALOG_CACHE_TTL_MS = 30_000
+const irrigationCatalogCache = new Map<string, { expiresAt: number; promise: Promise<Product[]> }>()
+
+function fetchIrrigationCatalogProducts(skus: string[]): Promise<Product[]> {
+  const normalizedSkus = [...new Set(skus)].sort()
+  const cacheKey = normalizedSkus.join('|')
+  const cached = irrigationCatalogCache.get(cacheKey)
+  if (cached && cached.expiresAt > Date.now()) return cached.promise
+  if (cached) irrigationCatalogCache.delete(cacheKey)
+
+  const promise = sanityClient.fetch<Product[]>(
+    `*[_type == "product" && sku in $skus && isActive != false]{
+      _id, name, sku, priceEUR, stockStatus, vatIncluded, weightKg, translations { bg { name }, ru { name }, en { name } },
+      "productType": "equipment",
+      "slug": { "current": coalesce(slug.current, slug) },
+      "brand": brand->name,
+      "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
+      "imageAlt": mainImage.alt,
+      "imageAltEn": mainImage.altEn,
+      "imageAltRu": mainImage.altRu
+    }`,
+    { skus: normalizedSkus },
+    { tag: 'browser.irrigation-assistant.catalog' },
+  )
+  const entry = { expiresAt: Date.now() + IRRIGATION_CATALOG_CACHE_TTL_MS, promise }
+  irrigationCatalogCache.set(cacheKey, entry)
+  if (irrigationCatalogCache.size > 20) {
+    const oldestKey = irrigationCatalogCache.keys().next().value
+    if (oldestKey !== undefined) irrigationCatalogCache.delete(oldestKey)
+  }
+  return promise
+}
+
 type NonIrrigatedAreaKind = 'pool' | 'building' | 'patio' | 'drip'
 
 type NonIrrigatedAreaInput = {
@@ -326,32 +359,26 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     ? product.translations?.ru?.name || product.name
     : language === 'en' ? product.translations?.en?.name || product.name : product.translations?.bg?.name || product.name
 
+  const baseBomSkuKey = billOfMaterials?.valid
+    ? [...new Set(billOfMaterials.items.map((item: { sku: string }) => item.sku))].sort().join('|')
+    : null
+
   useEffect(() => {
-    if (!billOfMaterials?.valid) return
+    if (baseBomSkuKey === null) {
+      setCatalogLoading(false)
+      return
+    }
     let cancelled = false
     setCatalogLoading(true)
     setCatalogError('')
-    const baseSkus = billOfMaterials.items.map((item: { sku: string }) => item.sku)
+    const baseSkus = baseBomSkuKey ? baseBomSkuKey.split('|') : []
     const skus = [...new Set([...baseSkus, ...IRRIGATION_AUTOMATION_PRODUCT_SKUS])]
-    sanityClient.fetch(
-      `*[_type == "product" && sku in $skus && isActive != false]{
-        _id, name, sku, priceEUR, stockStatus, vatIncluded, weightKg, translations { bg { name }, ru { name }, en { name } },
-        "productType": "equipment",
-        "slug": { "current": coalesce(slug.current, slug) },
-        "brand": brand->name,
-        "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-        "imageAlt": mainImage.alt,
-        "imageAltEn": mainImage.altEn,
-        "imageAltRu": mainImage.altRu
-      }`,
-      { skus },
-      { tag: 'browser.irrigation-assistant.catalog' },
-    ).then((records: Product[]) => {
+    fetchIrrigationCatalogProducts(skus).then((records) => {
       if (cancelled) return
       const bySku: Record<string, Product> = {}
       for (const product of records ?? []) if (product.sku) bySku[product.sku] = product
       setCatalogProducts(bySku)
-      const missing = baseSkus.filter((sku: string) => !bySku[sku])
+      const missing = baseSkus.filter((sku) => !bySku[sku])
       if (missing.length) setCatalogError('missing_catalogue_products')
     }).catch(() => {
       if (!cancelled) setCatalogError('catalog_lookup_failed')
@@ -359,7 +386,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
       if (!cancelled) setCatalogLoading(false)
     })
     return () => { cancelled = true }
-  }, [billOfMaterials])
+  }, [baseBomSkuKey])
 
   const addKitToCart = (type: 'manual' | 'tm2' | 'rc2' | 'bat') => {
     if (!billOfMaterials?.valid || catalogLoading || catalogError) return
