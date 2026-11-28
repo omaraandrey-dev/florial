@@ -1,3 +1,10 @@
+## 2026-11-28 — New open verification items: product single-flight
+
+- **CI/test verification — OPEN:** product slug/detail in-flight deduplication was committed to `develop` in Draft PR #559. The GitHub connector returned no workflow runs/status checks for the latest commit `b32bd59dc6d1f120046020b15b82df97bac2ab13`. Run the full repository validation and review failures before treating the change as verified.
+- **Preview/browser verification — OPEN:** no new Preview deployment or interactive browser QA has been performed for these commits.
+- **Behavioral review — OPEN:** verify that concurrent callers share only same-slug and same dataset/document requests, cancellation remains caller-local, rejected requests can retry, and both equipment and plant detail pages preserve their existing content.
+- **Usage measurement — OPEN:** no before/after request counts are available yet. Compare fresh Sanity Request Logs by request tag/query and status after the usage reset; distinguish successful requests from blocked attempts.
+
 ## 2026-11-28 — Sanity API stabilization Phase 6: services/blog release and measurement remain open
 
 - **IMPLEMENTATION VERIFIED ON PREVIEW:** code-bearing head `676cc68e72c81e9df620554aeed608eadac27013`; Draft PR #559. Service directory and 25 service detail routes passed BG/RU/EN raw first-response smoke on Preview `https://e4169bb4.florial.pages.dev`. Blog index and 19 article routes per locale also passed raw SSR smoke.
