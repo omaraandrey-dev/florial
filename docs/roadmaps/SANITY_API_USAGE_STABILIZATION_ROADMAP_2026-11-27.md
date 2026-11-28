@@ -18,7 +18,7 @@
 **Canonical branch for development:** `develop`  
 **Production branch:** `main`  
 **Sanity project:** `bxvcy0qs`  
-**Status:** PR #558 is merged into `main` and `develop`; public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN. Product identity, contacts photo, services/blog payload handoff and Phase 7 shared Header + full category SSR seed are implemented on `develop`. Exact-head CI and Preview raw HTTP smoke passed on `cd1011c9f53267e8f2d5f27b15ec6c2429827c15`. **Pending:** owner approval to merge/release Draft PR #559, browser interaction/visual QA, and fresh Sanity Request Logs after the December 1 usage reset. No Production release is claimed.
+**Status:** PR #558 is merged into `main` and `develop`; public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN. SSR reuse for Header/categories, contacts, services and blog is implemented in Draft PR #559. Phase 8 product slug/detail single-flight is now committed on `develop`; latest handoff head `0d63660c9372f5a607f883b6be2208fe152198d0` (98 commits ahead of `main`). Earlier exact-head CI/Preview passed on `cd1011c9f53267e8f2d5f27b15ec6c2429827c15`; **new Phase 8 commits are not yet CI/test/Preview verified**. Pending: owner release approval, browser QA and fresh Sanity Request Logs after the December 1 usage reset. No Production release is claimed.
 
 > This file is the portable handoff for this workstream. Any ChatGPT, Claude, Gemini, developer or future conversation must read this roadmap first, then follow `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md` and `docs/AI/WORK_PROTOCOL.md`. Update this file at every completed phase. Do not rely on chat history as the source of task status.
 
