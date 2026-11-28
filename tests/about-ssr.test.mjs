@@ -150,7 +150,7 @@ test('About middleware uses published bounded Sanity queries, shared copy, safe 
   assert.ok(middleware.includes('seed.aboutRolePhotos.map'))
   assert.ok(middleware.includes('seed.equipmentCategories'))
   assert.ok(middleware.includes('seed.plantCategories'))
-  assert.doesNotMatch(middleware, /sanity\\/production\\/about-photos-v1/)
+  assert.ok(!middleware.includes('sanity/production/about-photos-v1'))
   assert.match(page, /initialRolePhotos\?: ServiceRolePhoto\[\]/)
   assert.match(page, /if \(Array\.isArray\(initialRolePhotos\)\) return/)
   assert.match(middleware, /searchParams\.set\('perspective', 'published'\)/)
