@@ -40,7 +40,7 @@ jobs:
             details_url="$(printf '%s' "${checks}" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .details_url // empty')"
             if [ "${status}" = "completed" ]; then
               if [ "${conclusion}" != "success" ]; then echo "Cloudflare Pages deployment failed: ${details_url}"; exit 1; fi
-              deployment_id="$(printf '%s' "${details_url}" | sed -nE 's#.*pages/view/florial/([0-9a-f-]+).*#\\1#p')"
+              deployment_id="$(printf '%s' "${details_url}" | sed -nE 's#.*pages/view/florial/([0-9a-f-]+).*#\1#p')"
               if [ -z "${deployment_id}" ]; then echo "Could not extract Preview deployment ID from ${details_url}"; exit 1; fi
               deployment_short_id="${deployment_id:0:8}"
               echo "BASE_URL=https://${deployment_short_id}.florial.pages.dev" >> "${GITHUB_ENV}"
@@ -91,13 +91,13 @@ jobs:
             assert.match(response.headers.get('content-type') || '', /text\/html/i);
             assert.match(html, /name="robots"[^>]*content="index, follow"/i);
 
-            const sectionMatch = html.match(/<section\\b[^>]*data-florial-server-catalogue="equipment"[^>]*>([\\s\\S]*?)<\\/section>/i);
+            const sectionMatch = html.match(/<section\b[^>]*data-florial-server-catalogue="equipment"[^>]*>([\s\S]*?)<\/section>/i);
             assert.ok(sectionMatch, `${route.lang}: equipment SSR section must be in the first HTTP response`);
             const section = sectionMatch[1];
-            const productLinks = [...section.matchAll(/<a\\b[^>]*href="([^"]*\\/product\\/[^"]+)"[^>]*>/gi)].map((match) => match[1]);
+            const productLinks = [...section.matchAll(/<a\b[^>]*href="([^"]*\/product\/[^"]+)"[^>]*>/gi)].map((match) => match[1]);
             assert.equal(productLinks.length, 20, `${route.lang}: expected 20 server-rendered product links`);
 
-            const collectionScript = html.match(/<script\\b[^>]*data-florial-jsonld="collection-page"[^>]*>([\\s\\S]*?)<\\/script>/i);
+            const collectionScript = html.match(/<script\b[^>]*data-florial-jsonld="collection-page"[^>]*>([\s\S]*?)<\/script>/i);
             assert.ok(collectionScript, `${route.lang}: CollectionPage JSON-LD missing`);
             const collection = JSON.parse(collectionScript[1]);
             const jsonLdLinks = (collection.mainEntity?.itemListElement || []).map((item) => item.url);
