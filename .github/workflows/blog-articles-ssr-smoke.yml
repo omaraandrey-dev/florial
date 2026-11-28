@@ -17,30 +17,35 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      PREVIEW_URL: ${{ github.event_name == 'push' && 'https://florial-bg.com' || 'https://feat-ssr-blog-articles-v1.florial.pages.dev' }}
+      PREVIEW_URL: https://florial-bg.com
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Wait for the exact Cloudflare Pages deployment
+      - name: Wait for exact Cloudflare Pages Preview and resolve its URL
+        if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
-          TARGET_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          TARGET_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          for attempt in $(seq 1 36); do
-            checks=$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/$TARGET_SHA/check-runs")
-            conclusion=$(printf '%s' "$checks" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages") | .conclusion] | last // empty')
-            if [ "$conclusion" = "success" ]; then
-              echo "Cloudflare Pages deployment for $TARGET_SHA is successful."
+          set -euo pipefail
+          for attempt in $(seq 1 60); do
+            checks="$(curl -fsSL -H "Authorization: Bearer ${GH_TOKEN}" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${TARGET_SHA}/check-runs")"
+            status="$(printf '%s' "${checks}" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .status // empty')"
+            conclusion="$(printf '%s' "${checks}" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .conclusion // empty')"
+            details_url="$(printf '%s' "${checks}" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .details_url // empty')"
+            if [ "${status}" = "completed" ]; then
+              if [ "${conclusion}" != "success" ]; then echo "Cloudflare Pages deployment failed: ${details_url}"; exit 1; fi
+              deployment_id="$(printf '%s' "${details_url}" | sed -nE 's#.*pages/view/florial/([0-9a-f-]+).*#\1#p')"
+              if [ -z "${deployment_id}" ]; then echo "Could not extract Preview deployment ID from ${details_url}"; exit 1; fi
+              deployment_short_id="${deployment_id:0:8}"
+              echo "PREVIEW_URL=https://${deployment_short_id}.florial.pages.dev" >> "${GITHUB_ENV}"
+              echo "Resolved exact Preview deployment https://${deployment_short_id}.florial.pages.dev"
               exit 0
             fi
-            if [ "$conclusion" = "failure" ] || [ "$conclusion" = "cancelled" ]; then
-              echo "$checks" | jq -r '.check_runs[] | select(.name == "Cloudflare Pages") | .output.summary'
-              exit 1
-            fi
-            echo "Waiting for Cloudflare Pages deployment ($attempt/36)..."
+            echo "Waiting for Cloudflare Pages Preview (attempt ${attempt}/60; status=${status:-pending})"
             sleep 10
           done
-          echo "Timed out waiting for Cloudflare Pages deployment for $TARGET_SHA."
+          echo "Timed out waiting for Cloudflare Pages Preview for ${TARGET_SHA}"
           exit 1
       - name: Verify every published article first response without JavaScript
         run: node scripts/smoke-blog-articles-ssr.mjs

@@ -43,7 +43,7 @@ export const sanityQuery = async <T>(env: ManagerEnv, query: string): Promise<T>
   const project = env.SANITY_PROJECT_ID || PLANTS_PROJECT
   const dataset = PLANTS_DATASET
   if (!env.SANITY_API_TOKEN) throw new Error('SANITY_NOT_CONFIGURED')
-  const url = 'https://' + project + '.api.sanity.io/v2025-02-19/data/query/' + dataset + '?query=' + encodeURIComponent(query)
+  const url = 'https://' + project + '.api.sanity.io/v2025-02-19/data/query/' + dataset + '?query=' + encodeURIComponent(query) + '&tag=florial.manager.plants.read'
   const response = await fetch(url, {
     headers: { Authorization: 'Bearer ' + env.SANITY_API_TOKEN, Accept: 'application/json' },
     cache: 'no-store',
@@ -56,7 +56,7 @@ export const sanityQuery = async <T>(env: ManagerEnv, query: string): Promise<T>
 export const sanityMutate = async (env: ManagerEnv, mutations: unknown[]) => {
   const project = env.SANITY_PROJECT_ID || PLANTS_PROJECT
   if (!env.SANITY_API_TOKEN) throw new Error('SANITY_NOT_CONFIGURED')
-  const response = await fetch('https://' + project + '.api.sanity.io/v2025-02-19/data/mutate/' + PLANTS_DATASET + '?returnIds=true', {
+  const response = await fetch('https://' + project + '.api.sanity.io/v2025-02-19/data/mutate/' + PLANTS_DATASET + '?returnIds=true&tag=florial.manager.plants.write', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + env.SANITY_API_TOKEN, 'Content-Type': 'application/json' },
     body: JSON.stringify({ mutations }),

@@ -12,6 +12,7 @@ export const sanityClient = createClient({
   useCdn: true,
   perspective: 'published',
   apiVersion,
+  requestTagPrefix: 'florial',
 })
 
 // Commercial data that must stay fresh (product prices, stock and search) bypasses the CDN.
@@ -21,6 +22,7 @@ export const sanityLiveClient = createClient({
   useCdn: false,
   perspective: 'published',
   apiVersion,
+  requestTagPrefix: 'florial',
 })
 
 // Live plant client is also used by Manager category operations; keep it uncached.
@@ -29,6 +31,7 @@ export const plantsClient = createClient({
   dataset: plantsDataset,
   useCdn: false,
   apiVersion,
+  requestTagPrefix: 'florial',
 })
 
 // Public plant category content can use the CDN; product and variant data remains live.
@@ -38,4 +41,5 @@ export const publicPlantsClient = createClient({
   useCdn: true,
   perspective: 'published',
   apiVersion,
+  requestTagPrefix: 'florial',
 })

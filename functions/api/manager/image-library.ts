@@ -25,7 +25,7 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: Ma
   const offset = Number.isInteger(requestedOffset) ? Math.min(100000, Math.max(0, requestedOffset)) : 0
   const pageSize = 100
   const query = '*[_type == "sanity.imageAsset"] | order(_createdAt desc)[' + offset + '...' + (offset + pageSize) + ']{_id, originalFilename, title, _createdAt, url, mimeType, size, "width": metadata.dimensions.width, "height": metadata.dimensions.height}'
-  const endpoint = 'https://' + project + '.api.sanity.io/v2024-01-01/data/query/' + encodeURIComponent(dataset) + '?query=' + encodeURIComponent(query)
+  const endpoint = 'https://' + project + '.api.sanity.io/v2024-01-01/data/query/' + encodeURIComponent(dataset) + '?query=' + encodeURIComponent(query) + '&tag=florial.manager.image-library'
 
   try {
     const response = await fetch(endpoint, {

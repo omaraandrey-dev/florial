@@ -13,7 +13,7 @@ const token = process.env.SANITY_API_TOKEN
 if (!token) throw new Error('SANITY_API_TOKEN is required. Do not put it in a VITE_* variable or commit it.')
 if (dataset !== 'production' && dataset !== 'plants') throw new Error('Unexpected Sanity dataset: ' + dataset)
 
-const client = createClient({projectId, dataset, apiVersion: '2025-01-01', token, useCdn: false})
+const client = createClient({projectId, dataset, apiVersion: '2025-01-01', token, useCdn: false, requestTagPrefix: 'florial.blog-migration.prepare'})
 const sourceFiles = await fs.readdir(sourceDir)
 const sourceByUrl = new Map()
 const sourceEntries = []

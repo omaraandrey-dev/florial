@@ -13,9 +13,10 @@ const ROOT_ORDER = [
 const PRODUCT_PRIORITY_ORDER = ['controllers', 'gotovi-komplekti-za-polivane', 'sprinklers', 'nozzles', 'klapani', 'shahti']
 
 function groqUrl(query, params = {}) {
-  const url = new URL('https://' + SANITY_PROJECT_ID + '.api.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + SANITY_DATASET)
+  const url = new URL('https://' + SANITY_PROJECT_ID + '.apicdn.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + SANITY_DATASET)
   url.searchParams.set('query', query)
   url.searchParams.set('perspective', 'published')
+  url.searchParams.set('tag', 'florial.ci.smoke.equipment-catalog')
   for (const [key, value] of Object.entries(params)) url.searchParams.set('$' + key, JSON.stringify(value))
   return url
 }

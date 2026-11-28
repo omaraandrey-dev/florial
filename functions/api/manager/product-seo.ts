@@ -59,6 +59,7 @@ const sanityQuery = async <T,>(
 ): Promise<T> => {
   const url = new URL('https://' + projectId + '.api.sanity.io/v' + API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
+  url.searchParams.set('tag', 'florial.manager.product-seo.read')
   const response = await fetch(url.toString(), {
     headers: {
       Accept: 'application/json',
@@ -286,7 +287,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: M
     })
 
     if (mutations.length) {
-      const url = 'https://' + projectId + '.api.sanity.io/v' + API_VERSION + '/data/mutate/' + dataset
+      const url = 'https://' + projectId + '.api.sanity.io/v' + API_VERSION + '/data/mutate/' + dataset + '?tag=florial.manager.product-seo.write'
       const response = await fetch(url, {
         method: 'POST',
         headers: {

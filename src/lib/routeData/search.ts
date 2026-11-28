@@ -52,8 +52,8 @@ export async function fetchSearchProducts(isCancelled: () => boolean = () => fal
       `
 
   const [equipmentResult, plantResult] = await Promise.allSettled([
-    sanityLiveClient.fetch(equipmentSearchQuery),
-    plantsClient.fetch(plantSearchQuery),
+    sanityLiveClient.fetch(equipmentSearchQuery, {}, { tag: 'browser.search.equipment' }),
+    plantsClient.fetch(plantSearchQuery, {}, { tag: 'browser.search.plants' }),
   ])
   if (isCancelled()) return []
 

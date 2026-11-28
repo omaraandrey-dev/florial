@@ -345,6 +345,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
         "imageAltRu": mainImage.altRu
       }`,
       { skus },
+      { tag: 'browser.irrigation-assistant.catalog' },
     ).then((records: Product[]) => {
       if (cancelled) return
       const bySku: Record<string, Product> = {}

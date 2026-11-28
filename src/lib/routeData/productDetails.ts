@@ -27,8 +27,8 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
   // Slug resolution reads only published identity/type fields. Use the API CDN;
   // price, stock and full product details are fetched separately through live clients below.
   const [equipmentResult, plantResult] = await Promise.allSettled([
-    sanityClient.fetch(productBySlugQuery, { slug }),
-    publicPlantsClient.fetch(plantBySlugQuery, { slug }),
+    sanityClient.fetch(productBySlugQuery, { slug }, { tag: 'browser.product.slug.equipment' }),
+    publicPlantsClient.fetch(plantBySlugQuery, { slug }, { tag: 'browser.product.slug.plants' }),
   ])
   if (isCancelled()) return null
 
@@ -147,7 +147,8 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
   const isPlant = isPlantProductType(foundProduct.productType)
   const details = await (isPlant ? plantsClient : sanityLiveClient).fetch(
     isPlant ? plantDetailQuery : equipmentDetailQuery,
-    { id: foundProduct._id }
+    { id: foundProduct._id },
+    { tag: isPlant ? 'browser.product.detail.plants' : 'browser.product.detail.equipment' }
   )
   if (isCancelled() || !details) return null
 
@@ -200,13 +201,13 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
     
               const [relatedDocuments, recommendedProduct] = await Promise.all([
                 relatedSlugs.length > 0
-                  ? sanityClient.fetch(plantRelatedQuery, { slugs: relatedSlugs }).catch((error) => {
+                  ? sanityClient.fetch(plantRelatedQuery, { slugs: relatedSlugs }, { tag: 'browser.product.related-content' }).catch((error) => {
                       console.error('Sanity: не удалось разрешить связанные услуги и статьи растения:', error)
                       return []
                     })
                   : Promise.resolve([]),
                 typeof recommendedSlug === 'string' && recommendedSlug.length > 0
-                  ? sanityLiveClient.fetch(irrigationProductQuery, { slug: recommendedSlug }).catch((error) => {
+                  ? sanityLiveClient.fetch(irrigationProductQuery, { slug: recommendedSlug }, { tag: 'browser.product.recommended-irrigation' }).catch((error) => {
                       console.error('Sanity: не удалось загрузить рекомендованный товар для полива:', error)
                       return null
                     })
@@ -266,7 +267,7 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
       const categoryRelatedContent = await sanityClient.fetch(categoryRelatedQuery, {
         type: categoryRelated.type,
         slug: categoryRelated.slug,
-      }).catch((error) => {
+      }, { tag: 'browser.product.category-related' }).catch((error) => {
         console.error('Sanity: не удалось загрузить услугу или статью категории оборудования:', error)
         return null
       })

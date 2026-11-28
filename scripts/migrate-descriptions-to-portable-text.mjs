@@ -12,6 +12,7 @@ const backupConfirmed = process.env.SANITY_BACKUP_CONFIRMED === '1'
 const batchSize = 25
 const pageSize = 100
 const headingStyle = 'h2'
+let quotaSkipped = false
 
 if (apply && !confirmLiveWrite) {
   throw new Error('Запись запрещена: для live-изменений дополнительно укажите --confirm-live-write после отдельного подтверждения владельца.')
@@ -28,8 +29,10 @@ function createDatasetClient(dataset) {
     projectId,
     dataset,
     apiVersion: '2024-01-01',
-    useCdn: false,
+    // Published read-only dry-runs use the API CDN; actual writes must use the Live API.
+    useCdn: !apply,
     perspective: 'published',
+    requestTagPrefix: apply ? 'florial.migration.apply' : 'florial.ci.description-migration.dry-run',
     ...(apply ? {token: process.env.SANITY_AUTH_TOKEN} : {}),
   })
 }
@@ -85,7 +88,17 @@ function buildDocumentChanges(document, dataset) {
 for (const datasetConfig of datasets) {
   const {name: dataset, documentType} = datasetConfig
   const client = createDatasetClient(dataset)
-  const documents = await fetchAllProducts(client, documentType)
+  let documents
+  try {
+    documents = await fetchAllProducts(client, documentType)
+  } catch (error) {
+    if (!apply && error?.statusCode === 402 && error?.response?.body?.error === 'plan_limit_reached') {
+      quotaSkipped = true
+      console.warn('\nDRY-RUN пропущен: Sanity заблокировал чтение из-за исчерпанной квоты. Данные не изменялись.')
+      break
+    }
+    throw error
+  }
   const changes = []
 
   for (const document of documents) {
@@ -130,7 +143,9 @@ for (const datasetConfig of datasets) {
 }
 
 if (!apply) {
-  console.log('\nDRY-RUN завершён. Sanity не изменялся.')
+  console.log(quotaSkipped
+    ? '\nDRY-RUN завершён с пропуском: квота Sanity исчерпана. Sanity не изменялся.'
+    : '\nDRY-RUN завершён. Sanity не изменялся.')
 } else {
   console.log('\nМиграция завершена. Проверьте опубликованные карточки и зафиксируйте результат в журнале.')
 }

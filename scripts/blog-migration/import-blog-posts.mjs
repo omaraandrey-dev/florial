@@ -38,7 +38,7 @@ if (dataset === 'production' && !confirmProduction) {
 }
 const token = process.env.SANITY_API_TOKEN
 if (!token) throw new Error('SANITY_API_TOKEN is required at runtime; never use a VITE_* token.')
-const client = createClient({projectId, dataset, apiVersion: '2024-01-01', token, useCdn: false})
+const client = createClient({projectId, dataset, apiVersion: '2024-01-01', token, useCdn: false, requestTagPrefix: 'florial.blog-migration.import'})
 
 for (const post of posts) {
   const document = {

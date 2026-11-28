@@ -37,6 +37,7 @@ async function querySanity(dataset: string, query: string): Promise<SitemapDocum
   )
   url.searchParams.set('query', query)
   url.searchParams.set('perspective', 'published')
+  url.searchParams.set('tag', 'florial.ssr.sitemap.' + dataset)
 
   const response = await fetch(url.toString(), {
     headers: { Accept: 'application/json' },
