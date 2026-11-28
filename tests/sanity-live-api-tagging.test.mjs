@@ -97,10 +97,10 @@ test('read-only description migration dry-run uses the CDN and safely reports an
 })
 
 
-test('public service-lead form configuration is read from the published API CDN', async () => {
+test('service-lead validation reads fresh published config from the Live API and carries a request tag', async () => {
   const source = await read('../functions/api/service-leads.ts')
-  assert.ok(source.includes('.apicdn.sanity.io/'))
-  assert.ok(!source.includes('.api.sanity.io/'))
+  assert.ok(source.includes('.api.sanity.io/'))
+  assert.ok(!source.includes('.apicdn.sanity.io/'))
   assert.ok(source.includes("url.searchParams.set('perspective', 'published')"))
   assert.ok(source.includes('florial.service-leads.config'))
 })
