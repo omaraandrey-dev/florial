@@ -1,3 +1,12 @@
+## 2026-11-28 — GitHub Actions CI consolidation (develop)
+
+- Kept `blog-studio.yml` as the comprehensive application/Studio validation and `ssr-seo-regression.yml` as the single automatic raw-HTTP SSR/SEO suite; removed metadata-only PR `edited` runs.
+- Converted the ten route-specific SSR smoke workflows plus standalone `sanity-studio.yml` validation to manual dispatch. Their coverage remains in `scripts/smoke-ssr-regression.mjs`; the individual workflows remain available for focused diagnostics.
+- Scoped D1 migration validation to `docs/migrations/**` and migration-specific Python tests, removing duplicate npm install, lint, website build and Pages Functions transpilation.
+- Added PR concurrency groups to the two main validation workflows and D1 migration validation. Superseded in-progress PR runs are cancelled; push-to-main and manual runs are not cancelled.
+- Baseline evidence before this change: PR commit `9354efcc14f33a0c746324869cf109fa24e55fe8` generated 12 workflow runs (1 success, 11 failures). Blog/Studio validation run `46124032979` had 7 failing tests (610/617 passed); full SSR/SEO run `46124145409` failed because the article route returned the SPA shell instead of its SSR marker. These failures remain visible and are not suppressed by the workflow consolidation.
+- Implementation is on `develop` / Draft PR #559 only. Post-change CI is pending. No Production merge/deployment or live service configuration/data changes.
+
 ## 2026-11-28 — Sanity API stabilization: concurrent product read coalescing (develop)
 
 - Added browser-side single-flight deduplication to `src/lib/routeData/productDetails.ts` for product identity resolution by slug and full product-detail loading by dataset + document ID. Concurrent callers now share the same pending promise rather than independently issuing the same one/two Sanity reads before the 30-second result cache is populated.
