@@ -1,3 +1,15 @@
+## 2026-11-28 — Cloudflare Pages Functions daily request limit
+
+- **STATIC-ASSET INVOCATION FIX — IMPLEMENTED ON DEVELOP:** root middleware previously made static assets eligible for Pages Functions. Added `public/_routes.json` to exclude static asset extensions/directories while keeping SSR HTML, `/api/*`, sitemap and RSS eligible. Existing `public/_headers` preserves static security headers.
+- **PREVIEW BUILD FILTER — VERIFIED:** Cloudflare Preview is restricted to `develop` and build-relevant paths. The manifest-bearing deployment `a278c200` succeeded; later test/script/workflow-only commits were skipped with `skip_reason=path_config`. Production branch `main` and Production deployment enablement remain unchanged.
+- **CI — VERIFIED:** Blog/Studio run `46145932038` passed on `83cb44d0a1fdaf250d5c1525a27b225bc03f0d04`, including website tests/build and validation that `dist/_routes.json` matches the source manifest.
+- **SSR — OPEN:** full SSR/SEO run `46145932128` is waiting for a Pages check on the latest test/workflow-only commit. The current branch Preview alias points to the successful route-manifest deployment. Re-run raw SSR checks after the Cloudflare daily quota reset (2026-11-29 00:00 UTC).
+- **USAGE EFFECT — OPEN:** Cloudflare Analytics is delayed. The available 28 Nov partial total (through 07:00 UTC) was 126,650 requests: 119,130 Preview and 7,520 Production. This is not a post-fix measurement. Compare a complete post-reset day/hour window before claiming savings.
+- **REQUEST SOURCE ATTRIBUTION — OPEN:** current Analytics aggregation exposes date/script/status, not URL, path, user-agent or referrer. No usable historical Logs Explorer dataset or destination was found. Exact share of requests from static assets versus external Preview traffic is not known.
+- **FAIL-OPEN — CONFIRMED CONFIGURATION / EFFECT TO VERIFY:** Preview and Production both report `fail_open=true`. This may explain missing SSR while the daily limit is exceeded; verify SSR after reset. Do not change fail-open mode or upgrade plan without a separate decision.
+- **PRODUCTION — UNCHANGED:** latest successful Production deployment remains `691be01b-aadf-429b-a417-fec55ddc67fb`, source SHA `541223d7e8b01094223d53a140c139a99222952b`. PR #559 remains Draft; no merge or Production deployment.
+- Detailed record: [Cloudflare Pages Functions request-limit remediation](../operations/CLOUDFLARE_PAGES_FUNCTIONS_REQUEST_LIMIT_REMEDIATION_2026-11-28.md).
+
 ## 2026-11-28 — GitHub Actions CI consolidation verification
 
 - **Run-count reduction — VERIFIED:** exact `develop` commit `900eab9fc38a199e00f764686bbdcc5905cd71b2` produced 3 automatic workflow runs versus 12 on baseline `9354efcc14f33a0c746324869cf109fa24e55fe8`.
