@@ -347,6 +347,23 @@ function blogUnavailableResponse(language: string | null): Response {
   })
 }
 
+function getSanityRequestTag(dataset: string, cachePath: string): string {
+  const family = cachePath.startsWith('homepage/')
+    ? 'homepage'
+    : cachePath.startsWith('blog/')
+      ? 'blog'
+      : cachePath.startsWith('services/')
+        ? 'services'
+        : cachePath.includes('category-products')
+          ? 'catalogue'
+          : cachePath.includes('product-detail')
+            ? 'product'
+            : cachePath.includes('category-tree')
+              ? 'category'
+              : 'content'
+  return 'florial.ssr.' + family + '.' + dataset
+}
+
 async function querySanityData<T>(
   dataset: string,
   query: string,
@@ -375,6 +392,7 @@ async function querySanityData<T>(
   const url = new URL('https://' + SANITY_PROJECT_ID + '.apicdn.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
   url.searchParams.set('perspective', 'published')
+  url.searchParams.set('tag', getSanityRequestTag(dataset, cachePath))
   Object.entries(params).forEach(([key, value]) => {
     url.searchParams.set('$' + key, JSON.stringify(value))
   })
