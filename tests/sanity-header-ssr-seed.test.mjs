@@ -29,3 +29,13 @@ test('Header SSR category payload also satisfies the full catalogue category sta
   assert.match(app, /useRef\(Boolean\(homepageSeed \|\| initialHeaderSeed\)\)/)
   assert.match(app, /initialHeaderSeed \? \[\.\.\.initialHeaderSeed\.equipmentCategories, \.\.\.initialHeaderSeed\.plantCategories\]/)
 })
+
+test('About page role photos are included in and consumed from the shared SSR seed', async () => {
+  const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
+  const app = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8')
+  const about = await readFile(new URL('../src/pages/AboutPage.tsx', import.meta.url), 'utf8')
+  assert.ok(middleware.includes('"aboutRolePhotos": *[_type == "photo"'))
+  assert.ok(middleware.includes('const seed = await fetchHeaderSeed(language)'))
+  assert.ok(app.includes('initialRolePhotos={initialHeaderSeed?.aboutRolePhotos}'))
+  assert.ok(about.includes('if (Array.isArray(initialRolePhotos)) return'))
+})

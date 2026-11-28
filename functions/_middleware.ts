@@ -379,6 +379,7 @@ type HeaderProductionSeed = {
   siteSettings: Record<string, unknown> | null
   logo: Record<string, unknown> | null
   headerBlogPosts: any[]
+  aboutRolePhotos: any[]
 }
 
 async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<string, unknown>> {
@@ -412,6 +413,11 @@ async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<str
       "logoWidth": image.asset->metadata.dimensions.width,
       "logoHeight": image.asset->metadata.dimensions.height
     },
+    "aboutRolePhotos": *[_type == "photo" && isActive != false && (coalesce(slug.current, slug) in ["landshaften-arhitekt", "inzhener-polivni-sistemi", "gardinar", "specialist-trevni-ploshti"] || lower(slug) in ["florial-nesebr", "florial-ravda"] || lower(slug.current) in ["florial-nesebr", "florial-ravda"])] | order(coalesce(slug.current, slug) asc) {
+      "slug": coalesce(slug.current, slug), title, titleEn, titleRu,
+      "imageUrl": image.asset->url,
+      "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu
+    },
     "headerBlogPosts": *[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc)[0...3] {
       _id, slug, publishedAt, tags,
       "cover": { "asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption },
@@ -441,7 +447,7 @@ async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<str
     querySanityData<any[]>('plants', plantQuery, {}, 'header/plants/categories-v2', 300),
   ])
   if (!production || !Array.isArray(production.equipmentCategories) ||
-      !Array.isArray(production.services) || !Array.isArray(production.headerBlogPosts) ||
+      !Array.isArray(production.services) || !Array.isArray(production.headerBlogPosts) || !Array.isArray(production.aboutRolePhotos) ||
       !Array.isArray(plants)) {
     throw new Error('Sanity header seed is incomplete')
   }
@@ -466,6 +472,7 @@ async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<str
       logoHeight: logo.logoHeight || null,
     },
     headerBlogPosts: production.headerBlogPosts,
+    aboutRolePhotos: production.aboutRolePhotos,
   }
 }
 
@@ -581,104 +588,64 @@ type AboutCategoryDocument = {
 }
 
 async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{ html: string; complete: boolean }> {
-  const photoQuery = `
-    *[_type == "photo" && isActive != false && (
-      coalesce(slug.current, slug) in [
-        "landshaften-arhitekt",
-        "inzhener-polivni-sistemi",
-        "gardinar",
-        "specialist-trevni-ploshti"
-      ] ||
-      lower(slug) in ["florial-nesebr", "florial-ravda"] ||
-      lower(slug.current) in ["florial-nesebr", "florial-ravda"]
-    )] | order(coalesce(slug.current, slug) asc) {
-      "slugValue": coalesce(slug.current, slug),
-      "imageUrl": image.asset->url,
-      "imageAlt": image.alt,
-      "imageAltEn": image.altEn,
-      "imageAltRu": image.altRu
-    }
-  `
-  const equipmentCategoryQuery = `
-    *[_type == "category" && coalesce(slug.current, slug) == "vsichko-za-polivane"] {
-      "slugValue": coalesce(slug.current, slug),
-      "imageUrl": image.asset->url
-    }
-  `
-  const plantCategoryQuery = `
-    *[_type == "category" && coalesce(slug.current, slug) == "rastenia"] {
-      "slugValue": coalesce(slug.current, slug),
-      "imageUrl": coalesce(image.asset->url, externalImageUrl)
-    }
-  `
-
-  const [photosResult, equipmentResult, plantsResult] = await Promise.allSettled([
-    querySanityData<AboutPhotoDocument[]>(
-      'production',
-      photoQuery,
-      {},
-      'sanity/production/about-photos-v1',
-      300,
-    ),
-    querySanityData<AboutCategoryDocument[]>(
-      'production',
-      equipmentCategoryQuery,
-      {},
-      'sanity/production/about-equipment-category-v1',
-      300,
-    ),
-    querySanityData<AboutCategoryDocument[]>(
-      'plants',
-      plantCategoryQuery,
-      {},
-      'sanity/plants/about-plant-category-v1',
-      300,
-    ),
-  ])
-
-  const photos = photosResult.status === 'fulfilled' && Array.isArray(photosResult.value)
-    ? photosResult.value
-    : []
-  const equipmentCategories = equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value)
-    ? equipmentResult.value
-    : []
-  const plantCategories = plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value)
-    ? plantsResult.value
-    : []
-  const categories = [...equipmentCategories, ...plantCategories]
-  const requiredPhotoSlugs = [
-    'landshaften-arhitekt',
-    'inzhener-polivni-sistemi',
-    'gardinar',
-    'specialist-trevni-ploshti',
-    'florial-nesebr',
-    'florial-ravda',
-  ]
-  const hasSafeSanityImage = (value?: string) =>
-    typeof value === 'string' && /^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/(?:production|plants)\//.test(value)
-  const availablePhotoSlugs = new Set(photos.filter((photo) => hasSafeSanityImage(photo.imageUrl)).map((photo) => String(photo.slugValue || '').toLowerCase()))
-  const availableCategorySlugs = new Set(categories.filter((category) => hasSafeSanityImage(category.imageUrl)).map((category) => String(category.slugValue || '').toLowerCase()))
-  const complete =
-    photosResult.status === 'fulfilled' && Array.isArray(photosResult.value) &&
-    equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value) &&
-    plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value) &&
-    requiredPhotoSlugs.every((slug) => availablePhotoSlugs.has(slug)) &&
-    availableCategorySlugs.has('vsichko-za-polivane') &&
-    availableCategorySlugs.has('rastenia')
-
-  if (!complete) {
-    console.error('Florial About SSR Sanity data incomplete; rendering published text with available image fallbacks')
-  }
-
   const copy = ABOUT_PAGE_CONTENT[language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg']
-  return {
-    html: renderAboutHtml(copy, {
-      photos,
-      categories,
-      team: ABOUT_PAGE_TEAM,
-      centres: ABOUT_PAGE_CENTRES,
-    }, language),
-    complete,
+  try {
+    const seed = await fetchHeaderSeed(language)
+    const photos: AboutPhotoDocument[] = seed.aboutRolePhotos.map((photo: any) => ({
+      slugValue: String(photo.slug || ''),
+      imageUrl: photo.imageUrl,
+      imageAlt: photo.imageAlt,
+      imageAltEn: photo.imageAltEn,
+      imageAltRu: photo.imageAltRu,
+    }))
+    const equipmentCategories: AboutCategoryDocument[] = seed.equipmentCategories
+      .filter((category: any) => category.slug?.current === 'vsichko-za-polivane')
+      .map((category: any) => ({ slugValue: category.slug.current, imageUrl: category.imageUrl }))
+    const plantCategories: AboutCategoryDocument[] = seed.plantCategories
+      .filter((category: any) => category.slug?.current === 'rastenia')
+      .map((category: any) => ({ slugValue: category.slug.current, imageUrl: category.imageUrl }))
+    const categories = [...equipmentCategories, ...plantCategories]
+    const requiredPhotoSlugs = [
+      'landshaften-arhitekt',
+      'inzhener-polivni-sistemi',
+      'gardinar',
+      'specialist-trevni-ploshti',
+      'florial-nesebr',
+      'florial-ravda',
+    ]
+    const hasSafeSanityImage = (value?: string) =>
+      typeof value === 'string' && /^https:\/\/cdn\.sanity\.io\/images\/bxvcy0qs\/(?:production|plants)\//.test(value)
+    const availablePhotoSlugs = new Set(photos.filter((photo) => hasSafeSanityImage(photo.imageUrl)).map((photo) => String(photo.slugValue || '').toLowerCase()))
+    const availableCategorySlugs = new Set(categories.filter((category) => hasSafeSanityImage(category.imageUrl)).map((category) => String(category.slugValue || '').toLowerCase()))
+    const complete =
+      requiredPhotoSlugs.every((slug) => availablePhotoSlugs.has(slug)) &&
+      availableCategorySlugs.has('vsichko-za-polivane') &&
+      availableCategorySlugs.has('rastenia')
+
+    if (!complete) {
+      console.error('Florial About SSR shared Sanity seed incomplete; rendering published text with available image fallbacks')
+    }
+
+    return {
+      html: renderAboutHtml(copy, {
+        photos,
+        categories,
+        team: ABOUT_PAGE_TEAM,
+        centres: ABOUT_PAGE_CENTRES,
+      }, language),
+      complete,
+    }
+  } catch (error) {
+    console.error('Florial About SSR shared Sanity seed unavailable:', error)
+    return {
+      html: renderAboutHtml(copy, {
+        photos: [],
+        categories: [],
+        team: ABOUT_PAGE_TEAM,
+        centres: ABOUT_PAGE_CENTRES,
+      }, language),
+      complete: false,
+    }
   }
 }
 

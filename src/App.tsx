@@ -185,6 +185,7 @@ type HeaderSeed = {
   services: ServiceItem[]
   siteSettings: SiteSettings | null
   headerBlogPosts: BlogPostCard[]
+  aboutRolePhotos: ServiceRolePhoto[]
 }
 
 function readHeaderSeed(language: string): HeaderSeed | null {
@@ -200,6 +201,7 @@ function readHeaderSeed(language: string): HeaderSeed | null {
       !Array.isArray(payload.plantCategories) ||
       !Array.isArray(payload.services) ||
       !Array.isArray(payload.headerBlogPosts) ||
+      !Array.isArray(payload.aboutRolePhotos) ||
       !payload.siteSettings ||
       typeof payload.siteSettings !== 'object'
     ) return null
@@ -210,6 +212,7 @@ function readHeaderSeed(language: string): HeaderSeed | null {
       services: payload.services as ServiceItem[],
       siteSettings: payload.siteSettings as SiteSettings,
       headerBlogPosts: payload.headerBlogPosts as BlogPostCard[],
+      aboutRolePhotos: payload.aboutRolePhotos as ServiceRolePhoto[],
     }
   } catch {
     return null
@@ -2084,7 +2087,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
         {isIrrigationAssistantRoute ? (
           <IrrigationAssistantPage onNavigateHome={navigateToHome} onNavigateCart={navigateToCart} onAddToCart={handleAddToCart} onSetIrrigationProject={setIrrigationProject} />
       ) : normalizedRoutePath === '/about' ? (
-        <AboutPage services={headerServices} categories={categories} />
+        <AboutPage services={headerServices} categories={categories} initialRolePhotos={initialHeaderSeed?.aboutRolePhotos} />
       ) : isCartOpen ? (
         <CartPage
           cart={cart}

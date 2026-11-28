@@ -12,14 +12,18 @@ import type { CategoryItem, ServiceItem, ServiceRolePhoto } from '../types'
 interface AboutPageProps {
   services: ServiceItem[]
   categories: CategoryItem[]
+  initialRolePhotos?: ServiceRolePhoto[]
 }
 
-export function AboutPage({ categories }: AboutPageProps) {
+export function AboutPage({ categories, initialRolePhotos }: AboutPageProps) {
   const { language } = useI18n()
   const copy = ABOUT_PAGE_CONTENT[language === 'ru' ? 'ru' : language === 'en' ? 'en' : 'bg']
 
-  const [rolePhotos, setRolePhotos] = useState<ServiceRolePhoto[]>([])
-  const [centerImages, setCenterImages] = useState<Record<string, string>>({ nesebr: '', ravda: '' })
+  const [rolePhotos, setRolePhotos] = useState<ServiceRolePhoto[]>(() => initialRolePhotos || [])
+  const [centerImages, setCenterImages] = useState<Record<string, string>>(() => ({
+    nesebr: initialRolePhotos?.find((item) => item.slug?.toLowerCase() === 'florial-nesebr')?.imageUrl || '',
+    ravda: initialRolePhotos?.find((item) => item.slug?.toLowerCase() === 'florial-ravda')?.imageUrl || '',
+  }))
   const [ibanCopied, setIbanCopied] = useState(false)
 
   const copyIban = async () => {
@@ -33,6 +37,7 @@ export function AboutPage({ categories }: AboutPageProps) {
   }
 
   useEffect(() => {
+    if (Array.isArray(initialRolePhotos)) return
     let cancelled = false
     const query = '*[_type == "photo" && isActive != false && (coalesce(slug.current, slug) in ["landshaften-arhitekt", "inzhener-polivni-sistemi", "gardinar", "specialist-trevni-ploshti", "florial-nesebr", "florial-ravda"] || lower(slug) in ["florial-nesebr", "florial-ravda"] || lower(slug.current) in ["florial-nesebr", "florial-ravda"])] { "slug": coalesce(slug.current, slug), title, titleEn, titleRu, "imageUrl": image.asset->url, "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu }'
     sanityClient.fetch(query).then((photos: ServiceRolePhoto[]) => {
@@ -45,7 +50,7 @@ export function AboutPage({ categories }: AboutPageProps) {
       })
     }).catch((error) => console.error('Sanity: не удалось загрузить фотографии команды и садовых центров:', error))
     return () => { cancelled = true }
-  }, [])
+  }, [initialRolePhotos])
 
   const locations = language === 'ru'
     ? 'Несебр, Равда, Солнечный Берег и Святой Влас'

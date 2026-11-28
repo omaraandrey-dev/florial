@@ -8,39 +8,45 @@ const locales = [
 ]
 
 for (const locale of locales) {
-  const url = baseUrl + '/contacts' + locale.query
-  const response = await fetch(url, { headers: { Accept: 'text/html' } })
-  if (!response.ok) throw new Error('Header SSR seed request failed (' + response.status + '): ' + url)
-  const html = await response.text()
-  const match = html.match(/<script id="florial-header-ssr-data" type="application\/json">([\s\S]*?)<\/script>/)
-  if (!match) throw new Error('Missing shared Header SSR payload: ' + url)
+  for (const path of ['/contacts', '/about']) {
+    const url = baseUrl + path + locale.query
+    const response = await fetch(url, { headers: { Accept: 'text/html' } })
+    if (!response.ok) throw new Error('Header SSR seed request failed (' + response.status + '): ' + url)
+    const html = await response.text()
+    const match = html.match(/<script id="florial-header-ssr-data" type="application\/json">([\s\S]*?)<\/script>/)
+    if (!match) throw new Error('Missing shared Header SSR payload: ' + url)
 
-  let payload
-  try {
-    payload = JSON.parse(match[1])
-  } catch (error) {
-    throw new Error('Invalid shared Header SSR JSON for ' + url + ': ' + String(error))
-  }
-
-  if (payload.language !== locale.code) throw new Error('Wrong Header SSR locale for ' + url)
-  for (const field of ['equipmentCategories', 'plantCategories', 'services', 'headerBlogPosts']) {
-    if (!Array.isArray(payload[field])) throw new Error('Header SSR field is not an array: ' + field + ' (' + url + ')')
-  }
-  if (!payload.siteSettings || typeof payload.siteSettings !== 'object') {
-    throw new Error('Header SSR site settings are missing: ' + url)
-  }
-  if (!html.includes('florial-contacts-ssr-data')) {
-    throw new Error('Contacts page SSR payload is missing alongside Header seed: ' + url)
-  }
-
-  for (const [dataset, categories] of [
-    ['equipment', payload.equipmentCategories],
-    ['plants', payload.plantCategories],
-  ]) {
-    if (categories.length && typeof categories[0].productCount !== 'number') {
-      throw new Error('Header SSR ' + dataset + ' categories do not include catalogue product counts: ' + url)
+    let payload
+    try {
+      payload = JSON.parse(match[1])
+    } catch (error) {
+      throw new Error('Invalid shared Header SSR JSON for ' + url + ': ' + String(error))
     }
-  }
 
-  console.log('PASS ' + locale.code + ' ' + url + ' — shared Header seed contains categories, services, site settings and recent posts')
+    if (payload.language !== locale.code) throw new Error('Wrong Header SSR locale for ' + url)
+    for (const field of ['equipmentCategories', 'plantCategories', 'services', 'headerBlogPosts', 'aboutRolePhotos']) {
+      if (!Array.isArray(payload[field])) throw new Error('Header SSR field is not an array: ' + field + ' (' + url + ')')
+    }
+    if (!payload.siteSettings || typeof payload.siteSettings !== 'object') {
+      throw new Error('Header SSR site settings are missing: ' + url)
+    }
+    if (path === '/contacts' && !html.includes('florial-contacts-ssr-data')) {
+      throw new Error('Contacts page SSR payload is missing alongside Header seed: ' + url)
+    }
+    for (const [dataset, categories] of [
+      ['equipment', payload.equipmentCategories],
+      ['plants', payload.plantCategories],
+    ]) {
+      if (categories.length && typeof categories[0].productCount !== 'number') {
+        throw new Error('Header SSR ' + dataset + ' categories do not include catalogue product counts: ' + url)
+      }
+    }
+    if (path === '/about') {
+      const aboutSlugs = new Set(payload.aboutRolePhotos.map((photo) => String(photo.slug || '').toLowerCase()))
+      for (const slug of ['landshaften-arhitekt', 'inzhener-polivni-sistemi', 'gardinar', 'specialist-trevni-ploshti', 'florial-nesebr', 'florial-ravda']) {
+        if (!aboutSlugs.has(slug)) throw new Error('Missing About role photo ' + slug + ' in shared SSR payload: ' + url)
+      }
+    }
+    console.log('PASS ' + locale.code + ' ' + path + ' — shared Header, category and About photo seed verified')
+  }
 }
