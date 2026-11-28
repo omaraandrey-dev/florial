@@ -622,19 +622,16 @@ async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{
     }
   `
 
-  const [photosResult, equipmentResult, plantsResult] = await Promise.allSettled([
-    querySanityData<AboutPhotoDocument[]>(
+  const productionAboutQuery = `{
+    "photos": ${photoQuery},
+    "equipmentCategories": ${equipmentCategoryQuery}
+  }`
+  const [productionResult, plantsResult] = await Promise.allSettled([
+    querySanityData<{ photos: AboutPhotoDocument[]; equipmentCategories: AboutCategoryDocument[] }>(
       'production',
-      photoQuery,
+      productionAboutQuery,
       {},
-      'sanity/production/about-photos-v1',
-      300,
-    ),
-    querySanityData<AboutCategoryDocument[]>(
-      'production',
-      equipmentCategoryQuery,
-      {},
-      'sanity/production/about-equipment-category-v1',
+      'sanity/production/about-combined-v2',
       300,
     ),
     querySanityData<AboutCategoryDocument[]>(
@@ -646,12 +643,9 @@ async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{
     ),
   ])
 
-  const photos = photosResult.status === 'fulfilled' && Array.isArray(photosResult.value)
-    ? photosResult.value
-    : []
-  const equipmentCategories = equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value)
-    ? equipmentResult.value
-    : []
+  const productionData = productionResult.status === 'fulfilled' ? productionResult.value : null
+  const photos = Array.isArray(productionData?.photos) ? productionData.photos : []
+  const equipmentCategories = Array.isArray(productionData?.equipmentCategories) ? productionData.equipmentCategories : []
   const plantCategories = plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value)
     ? plantsResult.value
     : []
@@ -669,8 +663,9 @@ async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{
   const availablePhotoSlugs = new Set(photos.filter((photo) => hasSafeSanityImage(photo.imageUrl)).map((photo) => String(photo.slugValue || '').toLowerCase()))
   const availableCategorySlugs = new Set(categories.filter((category) => hasSafeSanityImage(category.imageUrl)).map((category) => String(category.slugValue || '').toLowerCase()))
   const complete =
-    photosResult.status === 'fulfilled' && Array.isArray(photosResult.value) &&
-    equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value) &&
+    productionResult.status === 'fulfilled' &&
+    Array.isArray(productionData?.photos) &&
+    Array.isArray(productionData?.equipmentCategories) &&
     plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value) &&
     requiredPhotoSlugs.every((slug) => availablePhotoSlugs.has(slug)) &&
     availableCategorySlugs.has('vsichko-za-polivane') &&
@@ -1956,10 +1951,19 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     `
 
     try {
-      const [services, rolePhotos] = await Promise.all([
-        querySanityData<any[]>('production', serviceQuery, {}, 'services/directory-services-v1', 60),
-        querySanityData<any[]>('production', serviceRolePhotosQuery, {}, 'services/directory-role-photos-v1', 300),
-      ])
+      const servicesDirectoryQuery = `{
+        "services": ${serviceQuery},
+        "rolePhotos": ${serviceRolePhotosQuery}
+      }`
+      const directoryData = await querySanityData<{ services: any[]; rolePhotos: any[] }>(
+        'production',
+        servicesDirectoryQuery,
+        {},
+        'services/directory-combined-v2',
+        60,
+      )
+      const services = directoryData?.services
+      const rolePhotos = directoryData?.rolePhotos
       if (!Array.isArray(services) || !Array.isArray(rolePhotos)) {
         throw new Error('Services directory Sanity query returned an invalid collection')
       }
