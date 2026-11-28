@@ -1,6 +1,6 @@
 ## 2026-11-28 — Shared Header SSR seed and Sanity request coalescing (implementation pending CI)
 
-- On non-homepage public HTML routes, middleware prepares a locale-scoped Header payload from two published API-CDN queries: a combined production projection for equipment categories, services, site settings, logo and recent blog posts, plus plant categories from the separate plants dataset.
+- On non-homepage public HTML routes, middleware prepares a locale-scoped Header payload from two published API-CDN queries: a combined production projection for equipment categories, services, site settings, logo and recent blog posts, plus plant categories from the separate plants dataset. Both use v2 Cache API key namespaces so earlier smaller v1 payloads cannot shadow the full category projections.
 - The payload is serialized as `florial-header-ssr-data`. The browser validates locale and payload shape, initializes existing Header state and skips the original six independent initial Header requests and the two separate catalogue category-index requests. The homepage retains its existing richer SSR seed.
 - `querySanityData()` coalesces concurrent cache-miss requests with the same cache key within a Worker isolate. This does not guarantee coalescing across separate isolates.
 - Expected request change on a cold uncached non-homepage HTML request: up to eight browser reads replaced by two server CDN reads; warm Cache API hits should require no Sanity request for these two projections. This expectation is not a measured usage result.

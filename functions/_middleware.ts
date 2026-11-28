@@ -437,8 +437,8 @@ async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<str
     }
   `
   const [production, plants] = await Promise.all([
-    querySanityData<HeaderProductionSeed>('production', productionQuery, {}, 'header/production/shell-v1/' + language, 300),
-    querySanityData<any[]>('plants', plantQuery, {}, 'header/plants/categories-v1', 300),
+    querySanityData<HeaderProductionSeed>('production', productionQuery, {}, 'header/production/shell-v2/' + language, 300),
+    querySanityData<any[]>('plants', plantQuery, {}, 'header/plants/categories-v2', 300),
   ])
   if (!production || !Array.isArray(production.equipmentCategories) ||
       !Array.isArray(production.services) || !Array.isArray(production.headerBlogPosts) ||

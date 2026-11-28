@@ -6,7 +6,7 @@
 - Added per-isolate in-flight request coalescing to `querySanityData()`, so concurrent requests for the same cache key share one upstream CDN fetch during a cache miss.
 - Added regression coverage in `tests/sanity-header-ssr-seed.test.mjs`.
 - Expected effect on a cold uncached non-homepage HTML request: up to eight browser reads become two server-side CDN reads; when the shared data cache is warm, those reads are served from Cloudflare Cache API. **This is an implementation expectation, not a measured usage reduction.**
-- Pending exact-head CI, Preview SSR checks and browser hydration verification. No Production deployment, Sanity writes, D1 changes, Cloudflare settings/secrets or DNS changes.
+- The first Preview smoke caught a stale v1 cache payload after the category projection was expanded; both cache keys were bumped to v2 so the updated category fields cannot be shadowed by the prior payload. Exact-head CI and Preview smoke are being rerun. Browser hydration verification remains pending. No Production deployment, Sanity writes, D1 changes, Cloudflare settings/secrets or DNS changes.
 
 ## 2026-11-28 — Sanity API stabilization: services SSR seed reuse (PR #559 draft)
 
