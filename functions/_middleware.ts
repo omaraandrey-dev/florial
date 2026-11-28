@@ -371,6 +371,94 @@ function getSanityRequestTag(dataset: string, cachePath: string): string {
   return 'florial.ssr.' + family + '.' + dataset
 }
 
+const sanityQueryInFlight = new Map<string, Promise<unknown>>()
+
+type HeaderProductionSeed = {
+  equipmentCategories: any[]
+  services: any[]
+  siteSettings: Record<string, unknown> | null
+  logo: Record<string, unknown> | null
+  headerBlogPosts: any[]
+}
+
+async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<string, unknown>> {
+  const productionQuery = \`{
+    "equipmentCategories": *[_type == "category"] | order(sortOrder asc, name asc) {
+      _id, name, translations { bg { name }, ru { name }, en { name } },
+      "slug": { "current": coalesce(slug.current, slug) },
+      sortOrder, "parentId": parent->_id, "isPlantCategory": false
+    },
+    "services": *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
+      _id, name, shortDescription,
+      translations { bg { name, shortDescription }, ru { name, shortDescription }, en { name, shortDescription } },
+      "slug": { "current": coalesce(slug.current, slug) },
+      sortOrder, serviceCategory, serviceLayout,
+      "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
+      "imageAlt": coalesce(image.alt, mainImage.alt, hero.image.alt),
+      "imageAltEn": coalesce(image.altEn, mainImage.altEn, hero.image.altEn),
+      "imageAltRu": coalesce(image.altRu, mainImage.altRu, hero.image.altRu)
+    },
+    "siteSettings": *[_type == "siteSettings"][0] { siteName },
+    "logo": *[_type == "photo" && coalesce(slug.current, slug) == "oficialno-logo-florial-gradinski-centar"][0] {
+      title, titleEn, titleRu,
+      "logoUrl": image.asset->url,
+      "logoAlt": image.alt, "logoAltEn": image.altEn, "logoAltRu": image.altRu,
+      "logoAssetTitle": image.asset->title, "logoAssetAltText": image.asset->altText,
+      "logoWidth": image.asset->metadata.dimensions.width,
+      "logoHeight": image.asset->metadata.dimensions.height
+    },
+    "headerBlogPosts": *[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc)[0...3] {
+      _id, slug, publishedAt, tags,
+      "cover": { "asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption },
+      "translations": {
+        "${language}": {
+          "title": coalesce(translations.${language}.title, translations.bg.title),
+          "shortDescription": coalesce(translations.${language}.shortDescription, translations.bg.shortDescription),
+          "coverAlt": coalesce(translations.${language}.coverAlt, translations.bg.coverAlt)
+        }
+      }
+    }
+  }\`
+  const plantQuery = \`
+    *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
+      _id, name, translations { bg { name }, ru { name }, en { name } },
+      "slug": { "current": coalesce(slug.current, slug) },
+      sortOrder, "parentId": parent->_id, "isPlantCategory": true
+    }
+  \`
+  const [production, plants] = await Promise.all([
+    querySanityData<HeaderProductionSeed>('production', productionQuery, {}, 'header/production/shell-v1/' + language, 300),
+    querySanityData<any[]>('plants', plantQuery, {}, 'header/plants/categories-v1', 300),
+  ])
+  if (!production || !Array.isArray(production.equipmentCategories) ||
+      !Array.isArray(production.services) || !Array.isArray(production.headerBlogPosts) ||
+      !Array.isArray(plants)) {
+    throw new Error('Sanity header seed is incomplete')
+  }
+  const logo = production.logo || {}
+  return {
+    language,
+    equipmentCategories: production.equipmentCategories,
+    plantCategories: plants,
+    services: production.services,
+    siteSettings: {
+      ...(production.siteSettings || {}),
+      logoUrl: logo.logoUrl || null,
+      logoAlt: logo.logoAlt || null,
+      logoAltEn: logo.logoAltEn || null,
+      logoAltRu: logo.logoAltRu || null,
+      logoAssetTitle: logo.logoAssetTitle || null,
+      logoAssetAltText: logo.logoAssetAltText || null,
+      logoTitle: logo.title || null,
+      logoTitleEn: logo.titleEn || null,
+      logoTitleRu: logo.titleRu || null,
+      logoWidth: logo.logoWidth || null,
+      logoHeight: logo.logoHeight || null,
+    },
+    headerBlogPosts: production.headerBlogPosts,
+  }
+}
+
 async function querySanityData<T>(
   dataset: string,
   query: string,
@@ -396,6 +484,11 @@ async function querySanityData<T>(
     }
   }
 
+  const inFlightKey = cachePath
+  const existingRequest = sanityQueryInFlight.get(inFlightKey)
+  if (existingRequest) return existingRequest as Promise<T>
+
+  const requestPromise = (async (): Promise<T> => {
   const url = new URL('https://' + SANITY_PROJECT_ID + '.apicdn.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
   url.searchParams.set('perspective', 'published')
@@ -428,6 +521,13 @@ async function querySanityData<T>(
   }
 
   return body.result as T
+  })()
+  sanityQueryInFlight.set(inFlightKey, requestPromise)
+  try {
+    return await requestPromise
+  } finally {
+    if (sanityQueryInFlight.get(inFlightKey) === requestPromise) sanityQueryInFlight.delete(inFlightKey)
+  }
 }
 
 async function fetchContactsHtml(language: string): Promise<{ html: string; images: Record<string, string> }> {
@@ -2330,6 +2430,44 @@ const applySecurityHeaders = (response: Response, request: Request): Response =>
 }
 
 export async function onRequest(context: PagesContext): Promise<Response> {
-  const response = await handleRequest(context)
+  let response = await handleRequest(context)
+  const url = new URL(context.request.url)
+  const path = url.pathname.replace(/\/+$/, '') || '/'
+  const isHomepage = path === '/' || path === '/index.html'
+  const isManager = path === '/manager' || path.startsWith('/manager/')
+  const contentType = response.headers.get('content-type') || ''
+
+  if (
+    context.request.method === 'GET' &&
+    response.status === 200 &&
+    contentType.includes('text/html') &&
+    !isHomepage &&
+    !isManager &&
+    !path.startsWith('/api/')
+  ) {
+    try {
+      const languageParam = url.searchParams.get('lang')
+      const language: 'bg' | 'ru' | 'en' = languageParam === 'ru' ? 'ru' : languageParam === 'en' ? 'en' : 'bg'
+      const seed = await fetchHeaderSeed(language)
+      const seedScript = '<script id="florial-header-ssr-data" type="application/json">' +
+        serializeInlineJson(seed) + '</script>'
+      const html = await response.text()
+      if (!html.includes('id="florial-header-ssr-data"') && html.includes('</head>')) {
+        const headers = new Headers(response.headers)
+        headers.delete('content-length')
+        headers.delete('content-encoding')
+        headers.delete('etag')
+        headers.delete('content-md5')
+        response = new Response(html.replace(/<\/head>/i, seedScript + '</head>'), {
+          status: response.status,
+          statusText: response.statusText,
+          headers,
+        })
+      }
+    } catch (error) {
+      console.error('Florial shared header SSR seed unavailable; browser fallback remains enabled:', error)
+    }
+  }
+
   return applySecurityHeaders(response, context.request)
 }

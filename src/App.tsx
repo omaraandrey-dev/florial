@@ -178,6 +178,44 @@ function readContactsSeed(language: string): ContactsSeed | null {
   }
 }
 
+type HeaderSeed = {
+  language: string
+  equipmentCategories: CategoryItem[]
+  plantCategories: CategoryItem[]
+  services: ServiceItem[]
+  siteSettings: SiteSettings | null
+  headerBlogPosts: BlogPostCard[]
+}
+
+function readHeaderSeed(language: string): HeaderSeed | null {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/'
+  if (path === '/' || path === '/index.html') return null
+  const element = document.getElementById('florial-header-ssr-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<HeaderSeed>
+    if (
+      payload.language !== language ||
+      !Array.isArray(payload.equipmentCategories) ||
+      !Array.isArray(payload.plantCategories) ||
+      !Array.isArray(payload.services) ||
+      !Array.isArray(payload.headerBlogPosts) ||
+      !payload.siteSettings ||
+      typeof payload.siteSettings !== 'object'
+    ) return null
+    return {
+      language,
+      equipmentCategories: payload.equipmentCategories as CategoryItem[],
+      plantCategories: payload.plantCategories as CategoryItem[],
+      services: payload.services as ServiceItem[],
+      siteSettings: payload.siteSettings as SiteSettings,
+      headerBlogPosts: payload.headerBlogPosts as BlogPostCard[],
+    }
+  } catch {
+    return null
+  }
+}
+
 type HomepageSeed = {
   language: string
   equipmentCategories: CategoryItem[]
@@ -484,21 +522,22 @@ class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryP
 export default function App({ onHomepageReady }: { onHomepageReady?: () => void } = {}) {
   const { t, language, localize } = useI18n()
   const [homepageSeed] = useState(() => readHomepageSeed(language))
+  const [initialHeaderSeed] = useState(() => readHeaderSeed(language))
   const [initialServiceDirectorySeed] = useState(() => readServiceDirectorySeed(language))
   const [initialServiceDetailSeed] = useState(() => readServiceDetailSeed(getRouteState().activeServiceSlug, language))
   const [initialContactsSeed] = useState(() => readContactsSeed(language))
   const [initialProductRouteSeed] = useState(() => readProductRouteSeed(getRouteState().activeProductSlug, language))
   const initialProductRouteSeedUsed = useRef(false)
   const [products, setProducts] = useState<Product[]>([])
-  const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>(() => homepageSeed?.equipmentCategories || [])
-  const [headerPlantCategories, setHeaderPlantCategories] = useState<CategoryItem[]>(() => homepageSeed?.plantCategories || [])
-  const [headerServices, setHeaderServices] = useState<ServiceItem[]>(() => homepageSeed?.services || [])
-  const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(() => homepageSeed?.headerSiteSettings || null)
+  const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>(() => homepageSeed?.equipmentCategories || initialHeaderSeed?.equipmentCategories || [])
+  const [headerPlantCategories, setHeaderPlantCategories] = useState<CategoryItem[]>(() => homepageSeed?.plantCategories || initialHeaderSeed?.plantCategories || [])
+  const [headerServices, setHeaderServices] = useState<ServiceItem[]>(() => homepageSeed?.services || initialHeaderSeed?.services || [])
+  const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(() => homepageSeed?.headerSiteSettings || initialHeaderSeed?.siteSettings || null)
   const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>(() => homepageSeed?.plantCategories || [])
   const [homeFeaturedPlants, setHomeFeaturedPlants] = useState<Product[]>(() => homepageSeed?.featuredPlants || [])
   const [homeFeaturedEquipment, setHomeFeaturedEquipment] = useState<Product[]>(() => homepageSeed?.featuredEquipment || [])
   const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(() => homepageSeed?.heroImageUrl || null)
-  const [headerDataReady, setHeaderDataReady] = useState(Boolean(homepageSeed))
+  const [headerDataReady, setHeaderDataReady] = useState(Boolean(homepageSeed || initialHeaderSeed))
   const [homeCategoriesAndHeroReady, setHomeCategoriesAndHeroReady] = useState(Boolean(homepageSeed))
   const [homeFeaturedPlantsReady, setHomeFeaturedPlantsReady] = useState(Boolean(homepageSeed))
   const [homeFeaturedEquipmentReady, setHomeFeaturedEquipmentReady] = useState(Boolean(homepageSeed))
@@ -900,7 +939,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   // Header has its own compact data requests. Neither page data nor route rendering waits for them.
   useEffect(() => {
     let cancelled = false
-    if (homepageSeed) return () => { cancelled = true }
+    if (homepageSeed || initialHeaderSeed) return () => { cancelled = true }
 
     const headerCategoryQuery = `
       *[_type == "category"] | order(sortOrder asc, name asc) {
@@ -2005,7 +2044,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
       <Header
-        initialBlogPosts={homepageSeed?.language === language ? homepageSeed.headerBlogPosts : undefined}
+        initialBlogPosts={homepageSeed?.language === language ? homepageSeed.headerBlogPosts : initialHeaderSeed?.language === language ? initialHeaderSeed.headerBlogPosts : undefined}
         services={headerServices}
         categories={headerCategories.filter((category) => !category._id.startsWith('plants-') && category.slug?.current !== 'electromagnetic-valves')}
         plantCategories={headerPlantCategories}

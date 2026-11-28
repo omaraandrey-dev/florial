@@ -1,3 +1,13 @@
+## 2026-11-28 — Sanity API stabilization: shared header SSR seed (develop implementation)
+
+- Replaced six independent browser-side Header reads on non-homepage public HTML routes with one locale-scoped SSR payload. The payload includes equipment categories, plant categories, services, site settings, logo metadata and the three recent blog cards.
+- The middleware prepares this payload using two published API-CDN queries: one combined projection in `production`, plus one query in the separate `plants` dataset. Both use the shared Cache API helper with a 300-second data TTL. The homepage retains its existing richer SSR seed.
+- The client validates locale and payload shape, initializes existing Header state from the payload, passes recent posts into Header, and skips its initial six-query fallback effect. If the seed is absent or invalid, the original client fallback remains available.
+- Added per-isolate in-flight request coalescing to `querySanityData()`, so concurrent requests for the same cache key share one upstream CDN fetch during a cache miss.
+- Added regression coverage in `tests/sanity-header-ssr-seed.test.mjs`.
+- Expected effect on a cold uncached non-homepage HTML request: up to six browser reads become two server-side CDN reads; when the shared data cache is warm, those reads are served from Cloudflare Cache API. **This is an implementation expectation, not a measured usage reduction.**
+- Pending exact-head CI, Preview SSR checks and browser hydration verification. No Production deployment, Sanity writes, D1 changes, Cloudflare settings/secrets or DNS changes.
+
 ## 2026-11-28 — Sanity API stabilization: services SSR seed reuse (PR #559 draft)
 
 - Added a safe, locale-scoped SSR payload for `/services` containing the already-fetched published service list and role photos. The client initializes from this payload and skips the matching first-load reads; it falls back to the existing query path when the seed is absent or does not match.

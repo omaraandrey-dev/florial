@@ -11,6 +11,17 @@
 
 > This file is the portable handoff for this workstream. Any ChatGPT, Claude, Gemini, developer or future conversation must read this roadmap first, then follow `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md` and `docs/AI/WORK_PROTOCOL.md`. Update this file at every completed phase. Do not rely on chat history as the source of task status.
 
+## 2026-11-28 — Phase 7: shared Header read consolidation (implementation added to develop)
+
+- The previous client implementation issued six independent public CDN reads for Header on each non-homepage app load: equipment categories, plant categories, services, site settings, logo and recent blog posts.
+- Added `fetchHeaderSeed()` in `functions/_middleware.ts`. It returns the same data families in two published CDN requests (one combined `production` GROQ projection plus one `plants` category query), cached with a 300-second Cache API TTL.
+- Added `florial-header-ssr-data` and client-side locale/shape validation in `src/App.tsx`. The client initializes existing Header state from the SSR payload and skips the six-query Header effect when the seed is valid. Homepage behavior remains on its existing richer seed.
+- Added per-isolate single-flight coalescing in `querySanityData()` for concurrent requests sharing the same cache key, preventing a cache-miss stampede from generating duplicate CDN requests inside one Worker isolate.
+- Regression tests added: `tests/sanity-header-ssr-seed.test.mjs`.
+- **Expected, not yet measured:** non-homepage cold request: up to 6 browser calls replaced by 2 cached server calls; warm Cache API: 0 upstream Sanity calls for these two projections. The two datasets remain separate.
+- Exact develop head before this phase: `241878ff47fcbc46a71134c1a5aaf5f740b83588`. New commit and exact CI/Preview evidence will be added after implementation.
+- No Sanity content/schema, D1, Cloudflare configuration/secrets, DNS or Production deployment changes.
+
 ## 1. Objective
 
 Stop unnecessary consumption of Sanity monthly **API Requests** (direct Live API), eliminate avoidable public read traffic from the Live API, retain live reads only where data freshness is required for correctness/security, and add enough observability and regression protection to detect a recurrence before the monthly allowance is exhausted.
