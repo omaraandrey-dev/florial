@@ -2269,16 +2269,30 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           structuredData,
           pageType: type === 'product' && doc._dataset === 'production' ? 'equipment-product' : type === 'product' ? 'product' : type === 'blogPost' ? 'article' : type === 'service' ? 'service' : 'website',
         })
-        if (type !== 'service') return headed
-        const serviceDocument = doc as ServiceDetailDocument
-        const service = {
-          ...serviceDocument,
-          slug: { current: serviceDocument.slugValue || slug },
-          _dataset: 'production',
+        if (type === 'service') {
+          const serviceDocument = doc as ServiceDetailDocument
+          const service = {
+            ...serviceDocument,
+            slug: { current: serviceDocument.slugValue || slug },
+            _dataset: 'production',
+          }
+          const initialData = '<script id="florial-service-detail-data" type="application/json">' +
+            serializeInlineJson({ slug: serviceDocument.slugValue || slug, language, service }) + '</script>'
+          return headed.replace(/<\/head>/i, initialData + '\n</head>')
         }
-        const initialData = '<script id="florial-service-detail-data" type="application/json">' +
-          serializeInlineJson({ slug: serviceDocument.slugValue || slug, language, service }) + '</script>'
-        return headed.replace(/<\/head>/i, initialData + '\n</head>')
+        if (type === 'product' && (doc._dataset === 'production' || doc._dataset === 'plants')) {
+          // The server already resolved the product's exact dataset and ID. Pass only
+          // this small identity to React so the browser does not repeat both slug lookups.
+          const initialData = '<script id="florial-product-route-data" type="application/json">' +
+            serializeInlineJson({
+              slug: doc.slugValue || slug,
+              language,
+              dataset: doc._dataset,
+              id: doc._id,
+            }) + '</script>'
+          return headed.replace(/<\/head>/i, initialData + '\n</head>')
+        }
+        return headed
       }, type === 'category' && categoryProducts === null
         ? 'no-store'
         : type === 'service' || (type === 'product' && (doc._dataset === 'production' || doc._dataset === 'plants'))
