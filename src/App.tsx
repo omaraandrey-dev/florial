@@ -389,7 +389,6 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   const [homeBlogReady, setHomeBlogReady] = useState(false)
   const [loadingCategories, setLoadingCategories] = useState(true)
   const [categoriesDataReady, setCategoriesDataReady] = useState(false)
-  if ((window.location.pathname.replace(/\/+$/, '') || '/') !== '/services') return null
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
   const [categories, setCategories] = useState<CategoryItem[]>([])
@@ -397,6 +396,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
   const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
   const [services, setServices] = useState<ServiceItem[]>(() => initialServiceDirectorySeed?.services || [])
+  const [loadingServices, setLoadingServices] = useState(false)
   const [serviceDirectionDocuments, setServiceDirectionDocuments] = useState<any[]>([])
   const [loadedServicesLanguage, setLoadedServicesLanguage] = useState<string | null>(initialServiceDirectorySeed?.language || null)
   const [serviceRolePhotos, setServiceRolePhotos] = useState<ServiceRolePhoto[]>(() => initialServiceDirectorySeed?.rolePhotos || [])
