@@ -7,7 +7,7 @@
 **Canonical branch for development:** `develop`  
 **Production branch:** `main`  
 **Sanity project:** `bxvcy0qs`  
-**Status:** ACTIVE — baseline SSR mitigation released; complete public Live API inventory and browser-side remediation remain open.
+**Status:** ACTIVE — repository inventory completed; safe cart metadata migration and expanded request tagging are on develop; commercial reads remain Live pending freshness decisions; exact-head CI and request-log validation are pending.
 
 > This file is the portable handoff for this workstream. Any ChatGPT, Claude, Gemini, developer or future conversation must read this roadmap first, then follow `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md` and `docs/AI/WORK_PROTOCOL.md`. Update this file at every completed phase. Do not rely on chat history as the source of task status.
 
