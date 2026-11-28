@@ -558,3 +558,17 @@ Acceptance criteria:
 - **Safety:** no Sanity writes/schema changes, D1 writes/migrations, Cloudflare settings/secrets, DNS, orders, emails or Production state changed.
 - **Next:** owner review/approval of Draft PR #559; after release, run safe Production raw HTTP smoke and complete post-reset Sanity Request Logs measurement.
 
+
+
+### 2026-11-28 — product SSR identity handoff added to PR #559
+
+- **Branch:** `develop`; exact code/test head: `4b045fd54182cff217a17e1654caec97a02698a9`.
+- **Root cause addressed:** the middleware already resolves the product's exact Sanity dataset and document ID for the first HTML response. The browser then repeated two slug lookups (equipment + plants) before fetching the full product projection. This duplicated work on every direct product-page load.
+- **Changed:** `functions/_middleware.ts` now serializes a minimal, safely escaped product route payload containing only slug, locale, dataset and document ID. It does not expose a product document or alter rendered content.
+- **Changed:** `src/App.tsx` validates that payload against the requested slug, locale and dataset, then uses the resolved identity only for the matching initial product route. SPA product navigation and invalid/missing payloads continue through the existing slug resolver.
+- **Changed:** `src/lib/routeData/productDetails.ts` adds `fetchProductDetailsByIdentity()`, which loads the full published product projection directly from the known dataset and ID. It preserves the existing CDN client, published perspective, price/stock display and related-content behavior.
+- **Regression test:** added a product SSR identity handoff assertion to `tests/content-route-performance.test.mjs`.
+- **Expected reduction:** on an uncached initial product-page load, remove the two parallel slug-to-ID requests; retain the single full product-detail request and any necessary related-content requests. This is a source-level expected reduction, not yet a measured Sanity usage result.
+- **Exact-head CI:** queued for `4b045fd54182cff217a17e1654caec97a02698a9`; run IDs include `46118450388`, `46118450358`, `46118450362`, `46118450443`, `46118450363`, `46118450412`, `46118450380`, `46118450352`, `46118450398`, `46118450489`, `46118450357` and `46118450406`. Do not claim validation until completed.
+- **Release:** included in Draft PR #559 (`develop → main`). No merge, Production deployment, Sanity writes, D1 changes or Cloudflare configuration changes.
+- **Next:** wait for exact-head CI and Preview; then extend SSR payload reuse to product/category catalogue data only after validating projection completeness and route behavior. Keep the 60-second displayed price/stock freshness policy and authoritative Live checkout price validation unchanged.
