@@ -1,6 +1,6 @@
 ## 2026-11-28 — GitHub Actions CI consolidation (develop)
 
-- Kept `blog-studio.yml` as the comprehensive application/Studio validation and `ssr-seo-regression.yml` as the single automatic raw-HTTP SSR/SEO suite; removed metadata-only PR `edited` runs.
+- Kept `blog-studio.yml` as the comprehensive application/Studio validation and `ssr-seo-regression.yml` as the single automatic raw-HTTP SSR/SEO suite; removed metadata-only PR `edited` runs. The comprehensive app workflow also ignores Markdown-only changes on PR/push, while mixed code + documentation changes still run validation.
 - Converted the ten route-specific SSR smoke workflows plus standalone `sanity-studio.yml` validation to manual dispatch. Their coverage remains in `scripts/smoke-ssr-regression.mjs`; the individual workflows remain available for focused diagnostics.
 - Scoped D1 migration validation to `docs/migrations/**` and migration-specific Python tests, removing duplicate npm install, lint, website build and Pages Functions transpilation.
 - Added PR concurrency groups to the two main validation workflows and D1 migration validation. Superseded in-progress PR runs are cancelled; push-to-main and manual runs are not cancelled.
