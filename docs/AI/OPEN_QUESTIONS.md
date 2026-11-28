@@ -1,3 +1,12 @@
+## 2026-11-28 — GitHub Actions CI consolidation verification
+
+- **Run-count reduction — VERIFIED:** exact `develop` commit `900eab9fc38a199e00f764686bbdcc5905cd71b2` produced 3 automatic workflow runs versus 12 on baseline `9354efcc14f33a0c746324869cf109fa24e55fe8`.
+- **Blog/Studio CI — OPEN:** run `46126385821` failed on seven test assertions: About SSR seed/middleware (3), content-route performance/product CDN (2), product detail cache (1), and Sanity client/tagging (1). Reconcile each assertion with current source; do not suppress tests.
+- **Full SSR/SEO — OPEN:** run `46126385836` used the successful exact Preview deployment `https://ef0dd56a.florial.pages.dev` for commit `900eab9fc38a199e00f764686bbdcc5905cd71b2`, but homepage raw HTML returned HTTP 200 without `data-florial-ssr-homepage="v1"` through 24 attempts. The suite stopped before services/blog; the prior blog-article SPA-shell failure is not revalidated.
+- **D1 validation — VERIFIED for this commit:** run `46126385819` succeeded. It ran because the D1 workflow YAML itself changed. Confirm future path filtering with an ordinary site-only commit and a migration-path commit.
+- **Release guard — ACTIVE:** PR #559 remains Draft/unmerged; no Production deployment or main-branch change is authorized by this verification.
+- Detailed evidence and follow-up order: [GitHub Actions CI consolidation](../operations/GITHUB_ACTIONS_CI_CONSOLIDATION_2026-11-28.md).
+
 ## 2026-11-28 — New open verification items: product single-flight
 
 - **CI/test verification — OPEN:** product slug/detail in-flight deduplication was committed to `develop` in Draft PR #559. The GitHub connector returned no workflow runs/status checks for the latest commit `b32bd59dc6d1f120046020b15b82df97bac2ab13`. Run the full repository validation and review failures before treating the change as verified.
