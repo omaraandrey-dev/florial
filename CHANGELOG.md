@@ -1,3 +1,15 @@
+## 2026-11-28 — Cloudflare Pages Functions request-limit remediation (develop)
+
+- Read Cloudflare Pages Functions Analytics directly. The Preview worker generated 90,628 requests on Nov 25, 134,774 on Nov 26, 80,636 on Nov 27 and 119,130 on Nov 28 (partial data through 07:00 UTC); Production generated 12,571, 6,212, 11,564 and 7,520 respectively. The Nov 28 partial combined count was already 126,650 against the 100,000/day account limit. Analytics is delayed; these are not post-fix measurements.
+- Confirmed a root-level `functions/_middleware.ts` with no repository-owned `_routes.json`. Static assets were eligible to invoke Pages Functions even though the middleware later returned `context.next()`. This is the confirmed code/configuration cause of avoidable Function invocations; the exact share of total traffic attributable to static assets remains unmeasured.
+- Added `public/_routes.json` to bypass Functions for static scripts, styles, images, fonts, manifests and other static file types while preserving SSR HTML, `/api/*`, sitemap and services RSS routes. Existing `public/_headers` retains security headers for static responses.
+- Added `tests/pages-functions-routing.test.mjs` and `scripts/validate-pages-routes.mjs`; wired built-manifest validation after Vite build in `.github/workflows/blog-studio.yml`.
+- Restricted Cloudflare Preview deployments to `develop` and build-relevant paths. Production remains enabled from `main`. Cloudflare records confirm the manifest-bearing Preview deployed successfully (`a278c200`, source `86ed15a`) and later test/script/workflow-only commits were skipped with `skip_reason=path_config`.
+- Exact-head Blog/Studio validation `46145932038` passed on `83cb44d0a1fdaf250d5c1525a27b225bc03f0d04`, including type-check, lint, tests, website build, dist manifest validation, read-only D1 migration dry-run, Studio type-check/build.
+- Full SSR/SEO workflow `46145932128` remains waiting for a Pages check on the latest test/workflow-only commit; the current successful branch Preview alias points to the manifest-bearing deployment. Raw SSR verification is pending until the daily limit resets on 2026-11-29 00:00 UTC.
+- Both Preview and Production have `fail_open=true`; this may explain the missing SSR marker while the account limit is exhausted, but request-level causation is not captured. No Production deployment, DNS, secrets, bindings, Sanity or D1 data/schema changes; no paid-plan upgrade.
+- Full evidence and next steps: [Cloudflare Pages Functions request-limit remediation](docs/operations/CLOUDFLARE_PAGES_FUNCTIONS_REQUEST_LIMIT_REMEDIATION_2026-11-28.md).
+
 ## 2026-11-28 — GitHub Actions CI consolidation (develop)
 
 - Kept `blog-studio.yml` as the comprehensive application/Studio validation and `ssr-seo-regression.yml` as the single automatic raw-HTTP SSR/SEO suite; removed metadata-only PR `edited` runs. The comprehensive app workflow also ignores Markdown-only changes on PR/push, while mixed code + documentation changes still run validation.
