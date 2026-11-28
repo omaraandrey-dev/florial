@@ -1,12 +1,8 @@
 name: Blog article SSR Preview and Production smoke
 
 on:
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened, ready_for_review]
-  push:
-    branches: [main]
   workflow_dispatch:
+
 
 permissions:
   contents: read
