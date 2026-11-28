@@ -6,6 +6,7 @@ import { trackEvent } from '../services/trackingService'
 
 interface ContactsPageProps {
   onNavigateHome: () => void
+  initialImages?: { nesebr?: string; ravda?: string }
 }
 
 interface CenterInfo {
@@ -16,7 +17,7 @@ interface CenterInfo {
   slug: string
 }
 
-export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
+export function ContactsPage({ onNavigateHome, initialImages }: ContactsPageProps) {
   const { t, language } = useI18n()
 
   useEffect(() => {
@@ -47,40 +48,42 @@ export function ContactsPage({ onNavigateHome }: ContactsPageProps) {
     })
   }, [language])
   
-  const [centersImages, setCentersImages] = useState<Record<string, string>>({
-    nesebr: '',
-    ravda: ''
-  })
-  const [loadingImages, setLoadingImages] = useState(true)
+  const [centersImages, setCentersImages] = useState<Record<string, string>>(() => ({
+    nesebr: initialImages?.nesebr || '',
+    ravda: initialImages?.ravda || '',
+  }))
+  const [loadingImages, setLoadingImages] = useState(!initialImages)
 
-  // Используем проверенный принцип запроса по конкретным slug для каждого центра
   useEffect(() => {
-    const fetchCenterImages = async () => {
-      try {
-        // В Sanity поле slug у этих двух фото сохранено как обычная строка,
-        // а не только как стандартный объект { current: "..." }.
-        // Поддерживаем оба варианта и сравниваем без учёта регистра.
-        const nesebrQuery = `*[_type == "photo" && (lower(slug) == "florial-nesebr" || lower(slug.current) == "florial-nesebr")][0]{ "imageUrl": image.asset->url }`
-        const ravdaQuery = `*[_type == "photo" && (lower(slug) == "florial-ravda" || lower(slug.current) == "florial-ravda")][0]{ "imageUrl": image.asset->url }`
+    if (initialImages) return
 
-        const [nesebrRes, ravdaRes] = await Promise.all([
-          sanityClient.fetch(nesebrQuery),
-          sanityClient.fetch(ravdaQuery)
-        ])
-
-        setCentersImages({
-          nesebr: nesebrRes?.imageUrl || '',
-          ravda: ravdaRes?.imageUrl || ''
-        })
-      } catch (err) {
-        console.error('Грешка при зареждане на снимките на центровете:', err)
-      } finally {
-        setLoadingImages(false)
+    let cancelled = false
+    const query = `
+      *[_type == "photo" && (
+        lower(slug) in ["florial-nesebr", "florial-ravda"] ||
+        lower(slug.current) in ["florial-nesebr", "florial-ravda"]
+      )] {
+        "slugValue": lower(coalesce(slug.current, slug)),
+        "imageUrl": image.asset->url
       }
-    }
+    `
 
-    fetchCenterImages()
-  }, [])
+    sanityClient.fetch(query).then((photos: Array<{ slugValue?: string; imageUrl?: string }>) => {
+      if (cancelled) return
+      const images: Record<string, string> = { nesebr: '', ravda: '' }
+      for (const photo of Array.isArray(photos) ? photos : []) {
+        if (photo.slugValue === 'florial-nesebr') images.nesebr = photo.imageUrl || ''
+        if (photo.slugValue === 'florial-ravda') images.ravda = photo.imageUrl || ''
+      }
+      setCentersImages(images)
+    }).catch((err) => {
+      if (!cancelled) console.error('Грешка при зареждане на снимките на центровете:', err)
+    }).finally(() => {
+      if (!cancelled) setLoadingImages(false)
+    })
+
+    return () => { cancelled = true }
+  }, [initialImages])
 
   const openingDays = language === 'en'
     ? ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']

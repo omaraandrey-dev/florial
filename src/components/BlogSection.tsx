@@ -4,12 +4,18 @@ import {blogSlug, blogTranslation, fetchBlogPosts, fetchBlogPostsBySlugs, format
 import {localizedHref} from '../lib/navigation'
 import {getSanityImageProps} from '../lib/sanityImage'
 
-export function BlogSection({ onReadinessChange }: { onReadinessChange?: (ready: boolean) => void } = {}) {
+export function BlogSection({ initialPosts, onReadinessChange }: { initialPosts?: BlogPostCard[]; onReadinessChange?: (ready: boolean) => void } = {}) {
   const {t, language} = useI18n()
-  const [posts, setPosts] = useState<BlogPostCard[]>([])
-  const [status, setStatus] = useState<'loading' | 'error' | 'empty' | 'ready'>('loading')
+  const [posts, setPosts] = useState<BlogPostCard[]>(() => initialPosts || [])
+  const [status, setStatus] = useState<'loading' | 'error' | 'empty' | 'ready'>(() => initialPosts ? (initialPosts.length ? 'ready' : 'empty') : 'loading')
   useEffect(() => {
     let active = true
+    if (initialPosts) {
+      setPosts(initialPosts)
+      setStatus(initialPosts.length ? 'ready' : 'empty')
+      onReadinessChange?.(true)
+      return () => { active = false }
+    }
     onReadinessChange?.(false)
     let succeeded = false
     setPosts([])
@@ -34,7 +40,7 @@ export function BlogSection({ onReadinessChange }: { onReadinessChange?: (ready:
         if (active && succeeded) onReadinessChange?.(true)
       })
     return () => { active = false }
-  }, [language, onReadinessChange])
+  }, [language, onReadinessChange, initialPosts])
   return <section className="border-t border-[#E4E8DA] bg-[#F7F8F1] px-4 py-10 md:py-14">
     <div className="mx-auto max-w-7xl">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

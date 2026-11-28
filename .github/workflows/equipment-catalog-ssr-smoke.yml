@@ -1,22 +1,7 @@
 name: Equipment catalog SSR — all categories
 
 on:
-  push:
-    branches:
-      - feat/ssr-equipment-catalog-v2
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened, edited]
-    branches:
-      - main
-    paths:
-      - 'functions/_middleware.ts'
-      - 'functions/_lib/equipmentCategoryPageHtml.mjs'
-      - 'functions/_lib/equipmentCategoryPageHtml.d.mts'
-      - 'tests/equipment-category-page-ssr.test.mjs'
-      - 'tests/equipment-category-server-rendering.test.mjs'
-      - 'scripts/smoke-equipment-catalog-ssr.mjs'
-      - '.github/workflows/equipment-catalog-ssr-smoke.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read

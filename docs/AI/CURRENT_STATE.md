@@ -1,3 +1,47 @@
+## 2026-11-28 — Cloudflare Pages Functions request-limit stabilization
+
+- Current `develop` HEAD at code validation: `83cb44d0a1fdaf250d5c1525a27b225bc03f0d04`; PR #559 remains Draft/unmerged.
+- Cloudflare Analytics showed Preview usage far above Production: 119,130 Preview vs 7,520 Production requests in the partial 2026-11-28 window (data through 07:00 UTC). The 100,000/day limit was exceeded. Analytics is delayed; no post-fix reduction is claimed.
+- Confirmed avoidable invocation path: root `functions/_middleware.ts` was eligible to run for static assets; no source `_routes.json` existed. Added `public/_routes.json` to bypass static assets while preserving HTML SSR, APIs, sitemap and RSS. `public/_headers` preserves static security headers.
+- Cloudflare Preview is now limited to `develop` and build-relevant paths. Code-bearing Preview `a278c200` succeeded from `86ed15a`; subsequent test/script/workflow-only commits were skipped by `path_config`. Production `main` remains enabled and unchanged.
+- Blog/Studio CI run `46145932038` passed exact-head type-check, lint, tests, build, dist route-manifest validation, read-only D1 validation and Studio build. Full SSR/SEO run `46145932128` is still waiting for an exact deployment check on a non-runtime commit; the branch Preview alias points to the route-manifest deployment.
+- Both environments have `fail_open=true`; this may explain missing SSR while quota is exhausted. Re-test raw SSR after the reset at 2026-11-29 00:00 UTC.
+- Production remains on successful deployment `691be01b-aadf-429b-a417-fec55ddc67fb`, source SHA `541223d7e8b01094223d53a140c139a99222952b`. No Production release, DNS/secrets/bindings, Sanity or D1 writes, or paid-plan upgrade.
+- Full evidence and next actions: [Cloudflare Pages Functions request-limit remediation](../operations/CLOUDFLARE_PAGES_FUNCTIONS_REQUEST_LIMIT_REMEDIATION_2026-11-28.md).
+
+# Current implementation handoff — Sanity API stabilization (2026-11-28)
+
+**Active workstream:** reduce repeated public Sanity CDN reads.  
+**Working branch:** `develop`; **Production branch:** `main`.  
+**Draft integration PR:** https://github.com/omaraandrey-dev/florial/pull/559  
+**Phase 8 code/test commits:** `1d8b4a76`, `668c4574`, `b32bd59d`; documentation handoff updated on `develop`. PR #559 base remains `main` at `541223d7e8b01094223d53a140c139a99222952b`; current branch relationship was last checked as 98 commits ahead, 0 behind.  
+**Latest code commits added in this session:** `1d8b4a76` (product detail single-flight), `668c4574` (product slug lookup single-flight), `b32bd59d` (regression assertions).  
+**Release:** not merged; no Production deployment.
+
+- Existing PR #559 SSR handoffs and 30-second search/product/irrigation caches were inspected and retained.
+- New in-flight deduplication covers concurrent product slug resolution and full product detail loads, keyed respectively by slug and dataset/document ID.
+- Regression assertions were added. Latest commit has no returned CI status/workflow evidence yet; tests/build/type-check/Preview are **not verified** for the new commits.
+- Still open: inspect remaining public callsites and their measured frequency; verify the full PR exact head through CI and Preview; perform browser QA; compare fresh Sanity Request Logs after reset. Do not infer measured usage reduction from implementation alone.
+- `main`, Production, Sanity content/schema, D1, Cloudflare settings/secrets and DNS were not changed.
+
+# Current implementation handoff — active Sanity API stabilization (2026-11-28)
+
+**Current active workstream:** Sanity API stabilization, Phase 6 — services and blog SSR/API request reduction.  
+**Working branch:** `develop`; **Production branch:** `main`.  
+**Draft integration PR:** https://github.com/omaraandrey-dev/florial/pull/559  
+**Code-bearing head:** `676cc68e72c81e9df620554aeed608eadac27013`.  
+**Preview:** https://e4169bb4.florial.pages.dev
+
+- Implemented safe SSR payload reuse for `/services` (service list and role photos) and `/services/{slug}` (full service document). The client validates locale/slug/document identity and skips only the matching initial duplicate read. Later SPA navigation and locale changes still use the existing fetch path.
+- Blog index/article SSR payload reuse was already present and remains unchanged; regression coverage protects both paths.
+- Exact-head Blog/Studio validation, D1 validation, full SSR/SEO regression and service/blog BG/RU/EN raw HTTP smoke all passed. Details and run IDs are in the Sanity API roadmap, CHANGELOG and Technical Passport.
+- **PR #559 remains Draft and unmerged.** No Production deployment has occurred. Owner approval is required before merge/release.
+- **Still open:** fresh Sanity Request Logs after the December 1 usage reset; actual before/after request-family measurements; interactive browser/visual QA. Do not claim measured API-request reduction until fresh logs confirm it.
+- No Sanity content/schema, D1 data/schema, Cloudflare settings/secrets, DNS, orders, emails or Production state changed.
+- Temporary PR #409 was closed by the owner on 2026-11-28 and is not an active task, branch base, source of code or documentation freeze. Current workflow follows `develop` → draft PR → owner-approved `main` release.
+
+## Historical workstream handoff — irrigation assistant PAUSED by owner
+
 # Current implementation handoff — irrigation assistant PAUSED by owner (2026-11-24)
 
 **Status: PAUSED. Do not continue development until the owner explicitly returns with an error report or a new task.** No proactive refactoring, optimization, solver adjustment, visual redesign or code fix is authorized.

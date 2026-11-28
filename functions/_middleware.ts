@@ -249,6 +249,13 @@ function escapeHtml(value: unknown): string {
   })[character] || character)
 }
 
+function serializeInlineJson(value: unknown): string {
+  return JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+}
+
 function plainText(value: unknown): string {
   if (typeof value === 'string') return value.trim()
   if (!Array.isArray(value)) return ''
@@ -364,6 +371,104 @@ function getSanityRequestTag(dataset: string, cachePath: string): string {
   return 'florial.ssr.' + family + '.' + dataset
 }
 
+const sanityQueryInFlight = new Map<string, Promise<unknown>>()
+
+type HeaderProductionSeed = {
+  equipmentCategories: any[]
+  services: any[]
+  siteSettings: Record<string, unknown> | null
+  logo: Record<string, unknown> | null
+  headerBlogPosts: any[]
+}
+
+async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<string, unknown>> {
+  const productionQuery = `{
+    "equipmentCategories": *[_type == "category"] | order(sortOrder asc, name asc) {
+      _id, name, translations { bg { name }, ru { name }, en { name } },
+      "slug": { "current": coalesce(slug.current, slug) },
+      sortOrder, "parentId": parent->_id,
+      "productCount": count(*[_type == "product" && isActive != false && defined(slug) && (category._ref == ^._id || ^._id in categories[]._ref)]),
+      "imageUrl": image.asset->url,
+      "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
+      "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu,
+      "isPlantCategory": false
+    },
+    "services": *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
+      _id, name, shortDescription,
+      translations { bg { name, shortDescription }, ru { name, shortDescription }, en { name, shortDescription } },
+      "slug": { "current": coalesce(slug.current, slug) },
+      sortOrder, serviceCategory, serviceLayout,
+      "imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url),
+      "imageAlt": coalesce(image.alt, mainImage.alt, hero.image.alt),
+      "imageAltEn": coalesce(image.altEn, mainImage.altEn, hero.image.altEn),
+      "imageAltRu": coalesce(image.altRu, mainImage.altRu, hero.image.altRu)
+    },
+    "siteSettings": *[_type == "siteSettings"][0] { siteName },
+    "logo": *[_type == "photo" && coalesce(slug.current, slug) == "oficialno-logo-florial-gradinski-centar"][0] {
+      title, titleEn, titleRu,
+      "logoUrl": image.asset->url,
+      "logoAlt": image.alt, "logoAltEn": image.altEn, "logoAltRu": image.altRu,
+      "logoAssetTitle": image.asset->title, "logoAssetAltText": image.asset->altText,
+      "logoWidth": image.asset->metadata.dimensions.width,
+      "logoHeight": image.asset->metadata.dimensions.height
+    },
+    "headerBlogPosts": *[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc)[0...3] {
+      _id, slug, publishedAt, tags,
+      "cover": { "asset": cover.asset->{"url": url}, "alt": cover.alt, "caption": cover.caption },
+      "translations": {
+        "${language}": {
+          "title": coalesce(translations.${language}.title, translations.bg.title),
+          "shortDescription": coalesce(translations.${language}.shortDescription, translations.bg.shortDescription),
+          "coverAlt": coalesce(translations.${language}.coverAlt, translations.bg.coverAlt)
+        }
+      }
+    }
+  }`
+  const plantQuery = `
+    *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
+      _id, name, translations { bg { name }, ru { name }, en { name } },
+      "slug": { "current": coalesce(slug.current, slug) },
+      sortOrder, "parentId": parent->_id,
+      "productCount": count(*[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false && (category._ref == ^._id || ^._id in categories[]._ref)]),
+      "imageUrl": coalesce(image.asset->url, externalImageUrl),
+      "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
+      "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu,
+      "isPlantCategory": true
+    }
+  `
+  const [production, plants] = await Promise.all([
+    querySanityData<HeaderProductionSeed>('production', productionQuery, {}, 'header/production/shell-v2/' + language, 300),
+    querySanityData<any[]>('plants', plantQuery, {}, 'header/plants/categories-v2', 300),
+  ])
+  if (!production || !Array.isArray(production.equipmentCategories) ||
+      !Array.isArray(production.services) || !Array.isArray(production.headerBlogPosts) ||
+      !Array.isArray(plants)) {
+    throw new Error('Sanity header seed is incomplete')
+  }
+  const logo = production.logo || {}
+  return {
+    language,
+    equipmentCategories: production.equipmentCategories,
+    plantCategories: plants,
+    services: production.services,
+    siteSettings: {
+      ...(production.siteSettings || {}),
+      logoUrl: logo.logoUrl || null,
+      logoAlt: logo.logoAlt || null,
+      logoAltEn: logo.logoAltEn || null,
+      logoAltRu: logo.logoAltRu || null,
+      logoAssetTitle: logo.logoAssetTitle || null,
+      logoAssetAltText: logo.logoAssetAltText || null,
+      logoTitle: logo.title || null,
+      logoTitleEn: logo.titleEn || null,
+      logoTitleRu: logo.titleRu || null,
+      logoWidth: logo.logoWidth || null,
+      logoHeight: logo.logoHeight || null,
+    },
+    headerBlogPosts: production.headerBlogPosts,
+  }
+}
+
 async function querySanityData<T>(
   dataset: string,
   query: string,
@@ -389,6 +494,11 @@ async function querySanityData<T>(
     }
   }
 
+  const inFlightKey = cachePath
+  const existingRequest = sanityQueryInFlight.get(inFlightKey)
+  if (existingRequest) return existingRequest as Promise<T>
+
+  const requestPromise = (async (): Promise<T> => {
   const url = new URL('https://' + SANITY_PROJECT_ID + '.apicdn.sanity.io/v' + SANITY_API_VERSION + '/data/query/' + dataset)
   url.searchParams.set('query', query)
   url.searchParams.set('perspective', 'published')
@@ -421,9 +531,16 @@ async function querySanityData<T>(
   }
 
   return body.result as T
+  })()
+  sanityQueryInFlight.set(inFlightKey, requestPromise)
+  try {
+    return await requestPromise
+  } finally {
+    if (sanityQueryInFlight.get(inFlightKey) === requestPromise) sanityQueryInFlight.delete(inFlightKey)
+  }
 }
 
-async function fetchContactsHtml(language: string): Promise<string> {
+async function fetchContactsHtml(language: string): Promise<{ html: string; images: Record<string, string> }> {
   const query = `
     *[_type == "photo" && (
       lower(slug) in ["florial-nesebr", "florial-ravda"] ||
@@ -447,7 +564,7 @@ async function fetchContactsHtml(language: string): Promise<string> {
     if (slug === 'florial-nesebr') images.nesebr = photo.imageUrl || ''
     if (slug === 'florial-ravda') images.ravda = photo.imageUrl || ''
   }
-  return renderContactsHtml(language, images)
+  return { html: renderContactsHtml(language, images), images }
 }
 
 type AboutPhotoDocument = {
@@ -463,7 +580,17 @@ type AboutCategoryDocument = {
   imageUrl?: string
 }
 
-async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{ html: string; complete: boolean }> {
+async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{
+  html: string
+  complete: boolean
+  rolePhotos: Array<{
+    slug: string
+    imageUrl?: string
+    imageAlt?: string
+    imageAltEn?: string
+    imageAltRu?: string
+  }>
+}> {
   const photoQuery = `
     *[_type == "photo" && isActive != false && (
       coalesce(slug.current, slug) in [
@@ -495,19 +622,16 @@ async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{ html: str
     }
   `
 
-  const [photosResult, equipmentResult, plantsResult] = await Promise.allSettled([
-    querySanityData<AboutPhotoDocument[]>(
+  const productionAboutQuery = `{
+    "photos": ${photoQuery},
+    "equipmentCategories": ${equipmentCategoryQuery}
+  }`
+  const [productionResult, plantsResult] = await Promise.allSettled([
+    querySanityData<{ photos: AboutPhotoDocument[]; equipmentCategories: AboutCategoryDocument[] }>(
       'production',
-      photoQuery,
+      productionAboutQuery,
       {},
-      'sanity/production/about-photos-v1',
-      300,
-    ),
-    querySanityData<AboutCategoryDocument[]>(
-      'production',
-      equipmentCategoryQuery,
-      {},
-      'sanity/production/about-equipment-category-v1',
+      'sanity/production/about-combined-v2',
       300,
     ),
     querySanityData<AboutCategoryDocument[]>(
@@ -519,12 +643,9 @@ async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{ html: str
     ),
   ])
 
-  const photos = photosResult.status === 'fulfilled' && Array.isArray(photosResult.value)
-    ? photosResult.value
-    : []
-  const equipmentCategories = equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value)
-    ? equipmentResult.value
-    : []
+  const productionData = productionResult.status === 'fulfilled' ? productionResult.value : null
+  const photos = Array.isArray(productionData?.photos) ? productionData.photos : []
+  const equipmentCategories = Array.isArray(productionData?.equipmentCategories) ? productionData.equipmentCategories : []
   const plantCategories = plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value)
     ? plantsResult.value
     : []
@@ -542,8 +663,9 @@ async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{ html: str
   const availablePhotoSlugs = new Set(photos.filter((photo) => hasSafeSanityImage(photo.imageUrl)).map((photo) => String(photo.slugValue || '').toLowerCase()))
   const availableCategorySlugs = new Set(categories.filter((category) => hasSafeSanityImage(category.imageUrl)).map((category) => String(category.slugValue || '').toLowerCase()))
   const complete =
-    photosResult.status === 'fulfilled' && Array.isArray(photosResult.value) &&
-    equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value) &&
+    productionResult.status === 'fulfilled' &&
+    Array.isArray(productionData?.photos) &&
+    Array.isArray(productionData?.equipmentCategories) &&
     plantsResult.status === 'fulfilled' && Array.isArray(plantsResult.value) &&
     requiredPhotoSlugs.every((slug) => availablePhotoSlugs.has(slug)) &&
     availableCategorySlugs.has('vsichko-za-polivane') &&
@@ -562,6 +684,13 @@ async function fetchAboutHtml(language: 'bg' | 'ru' | 'en'): Promise<{ html: str
       centres: ABOUT_PAGE_CENTRES,
     }, language),
     complete,
+    rolePhotos: photos.map((photo) => ({
+      slug: String(photo.slugValue || '').toLowerCase(),
+      imageUrl: photo.imageUrl,
+      imageAlt: photo.imageAlt,
+      imageAltEn: photo.imageAltEn,
+      imageAltRu: photo.imageAltRu,
+    })),
   }
 }
 
@@ -1019,7 +1148,7 @@ function homepageBlogProjection(language: string): string {
     '.coverAlt, translations.bg.coverAlt)}} }'
 }
 
-async function fetchHomepageHtml(language: string): Promise<string> {
+async function fetchHomepageHtml(language: string): Promise<{ html: string; payload: Record<string, unknown> }> {
   const equipmentCategoryQuery = `
     *[_type == "category"] | order(sortOrder asc) {
       _id, name, translations { bg { name }, ru { name }, en { name } },
@@ -1033,16 +1162,22 @@ async function fetchHomepageHtml(language: string): Promise<string> {
     }
   `
   const plantCategoryQuery = `
-    *[_type == "category" && _id in [
-      "plants-root", "plants-palms", "plants-olives",
-      "plants-trees-shrubs", "plants-solitaires", "plants-flowers"
-    ]] {
-      _id, name, translations { bg { name }, ru { name }, en { name } },
+    *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
+      _id,
+      name,
+      translations { bg { name }, ru { name }, en { name } },
       "slug": { "current": coalesce(slug.current, slug) },
-      sortOrder, "parentId": parent->_id,
+      sortOrder,
+      "parentId": parent->_id,
+      "productCount": count(*[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false && (category._ref == ^._id || ^._id in categories[]._ref)]),
       "imageUrl": coalesce(image.asset->url, externalImageUrl),
-      "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
-      "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu
+      "imageAlt": image.alt,
+      "imageAltEn": image.altEn,
+      "imageAltRu": image.altRu,
+      "imageTitle": image.title,
+      "imageTitleEn": image.titleEn,
+      "imageTitleRu": image.titleRu,
+      "isPlantCategory": true
     }
   `
   const featuredPlantsQuery = `
@@ -1089,29 +1224,43 @@ async function fetchHomepageHtml(language: string): Promise<string> {
       "imageUrl": image.asset->url
     }
   `
+  const headerSettingsQuery = `{
+    "siteName": *[_type == "siteSettings"][0].siteName,
+    "logo": *[_type == "photo" && coalesce(slug.current, slug) == "oficialno-logo-florial-gradinski-centar"][0] {
+      title, titleEn, titleRu,
+      "logoUrl": image.asset->url,
+      "logoAlt": image.alt, "logoAltEn": image.altEn, "logoAltRu": image.altRu,
+      "logoAssetTitle": image.asset->title, "logoAssetAltText": image.asset->altText,
+      "logoWidth": image.asset->metadata.dimensions.width,
+      "logoHeight": image.asset->metadata.dimensions.height
+    }
+  }`
   const blogProjection = homepageBlogProjection(language)
   const pinnedQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt) && slug.current in $slugs]' + blogProjection
   const latestQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc)[0...10]' + blogProjection
 
-  const [
-    equipmentCategories,
-    plantCategories,
-    featuredPlants,
-    featuredEquipment,
-    services,
-    hero,
-    pinnedPosts,
-    latestPosts,
-  ] = await Promise.all([
-    querySanityData<any[]>('production', equipmentCategoryQuery, {}, 'homepage/equipment-categories-v1', 300),
-    querySanityData<any[]>('plants', plantCategoryQuery, {}, 'homepage/plant-categories-v1', 300),
-    querySanityData<any[]>('plants', featuredPlantsQuery, {}, 'homepage/featured-plants-v1', 30),
-    querySanityData<any[]>('production', featuredEquipmentQuery, {}, 'homepage/featured-equipment-v1', 30),
-    querySanityData<any[]>('production', serviceQuery, {}, 'homepage/services-v1', 60),
-    querySanityData<{ imageUrl?: string } | null>('production', heroQuery, {}, 'homepage/hero-v1', 300),
-    querySanityData<any[]>('production', pinnedQuery, { slugs: HOMEPAGE_PINNED_SLUGS }, 'homepage/blog-pinned-' + language + '-v1', 60),
-    querySanityData<any[]>('production', latestQuery, {}, 'homepage/blog-latest-' + language + '-v1', 60),
+  const productionHomepageQuery = `{
+    "equipmentCategories": ${equipmentCategoryQuery},
+    "featuredEquipment": ${featuredEquipmentQuery},
+    "services": ${serviceQuery},
+    "hero": ${heroQuery},
+    "pinnedPosts": ${pinnedQuery},
+    "latestPosts": ${latestQuery},
+    "headerSettings": ${headerSettingsQuery}
+  }`
+  const plantsHomepageQuery = `{
+    "plantCategories": ${plantCategoryQuery},
+    "featuredPlants": ${featuredPlantsQuery}
+  }`
+
+  // The homepage needs data from two datasets. Consolidate nine former CDN reads
+  // into one object query per dataset and cache the combined projections for 60 seconds.
+  const [production, plants] = await Promise.all([
+    querySanityData<any>('production', productionHomepageQuery, { slugs: HOMEPAGE_PINNED_SLUGS }, 'homepage/production-combined-v2', 60),
+    querySanityData<any>('plants', plantsHomepageQuery, {}, 'homepage/plants-combined-v2', 60),
   ])
+  const { equipmentCategories, featuredEquipment, services, hero, pinnedPosts, latestPosts, headerSettings } = production || {}
+  const { plantCategories, featuredPlants } = plants || {}
 
   const collections = [
     equipmentCategories, plantCategories, featuredPlants, featuredEquipment,
@@ -1122,12 +1271,32 @@ async function fetchHomepageHtml(language: string): Promise<string> {
   }
 
   const pinnedBySlug = new Map(pinnedPosts.map((post) => [post.slug?.current || post.slug, post]))
-  const orderedPinnedPosts = HOMEPAGE_PINNED_SLUGS.flatMap((slug) => {
+  const orderedPinnedPosts: Record<string, unknown>[] = HOMEPAGE_PINNED_SLUGS.flatMap((slug) => {
     const post = pinnedBySlug.get(slug)
-    return post ? [post] : []
+    return post ? [post as Record<string, unknown>] : []
   })
 
-  return renderHomepageHtml({
+  if (!headerSettings || typeof headerSettings !== 'object') {
+    throw new Error('Homepage header settings query returned an invalid result')
+  }
+
+  const logo = (headerSettings as any).logo || {}
+  const headerSiteSettings = {
+    siteName: (headerSettings as any).siteName || null,
+    logoUrl: logo.logoUrl || null,
+    logoAlt: logo.logoAlt || null,
+    logoAltEn: logo.logoAltEn || null,
+    logoAltRu: logo.logoAltRu || null,
+    logoAssetTitle: logo.logoAssetTitle || null,
+    logoAssetAltText: logo.logoAssetAltText || null,
+    logoTitle: logo.title || null,
+    logoTitleEn: logo.titleEn || null,
+    logoTitleRu: logo.titleRu || null,
+    logoWidth: logo.logoWidth || null,
+    logoHeight: logo.logoHeight || null,
+  }
+
+  const html = renderHomepageHtml({
     equipmentCategories,
     plantCategories,
     featuredPlants,
@@ -1137,6 +1306,22 @@ async function fetchHomepageHtml(language: string): Promise<string> {
     pinnedPosts: orderedPinnedPosts,
     latestPosts,
   }, language)
+
+  return {
+    html,
+    payload: {
+      language,
+      equipmentCategories,
+      plantCategories,
+      featuredPlants,
+      featuredEquipment,
+      services,
+      heroImageUrl: hero?.imageUrl || null,
+      pinnedPosts: orderedPinnedPosts,
+      latestPosts,
+      headerSiteSettings,
+    },
+  }
 }
 
 function staticPageMetadata(path: string, language: string) {
@@ -1418,7 +1603,10 @@ function makeCategoryCollectionJsonLd(name: string, description: string, url: st
 
 async function handleRequest(context: PagesContext): Promise<Response> {
   const url = new URL(context.request.url)
-  const path = url.pathname.replace(/\/+$/, '') || '/'
+  const rawPath = url.pathname.replace(/\/+$/, '') || '/'
+  // Cloudflare Pages may resolve the root asset through its index.html path.
+  // Treat both forms as the canonical homepage so SSR is never bypassed.
+  const path = rawPath === '/index.html' ? '/' : rawPath
   const languageParam = url.searchParams.get('lang')
 
   // Preserve old blog URLs and their query parameters while moving service content.
@@ -1494,7 +1682,6 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     path === '/sitemap.xml' ||
     path === '/robots.txt' ||
     path === '/favicon.png' ||
-    path === '/index.html' ||
     /^\/google[a-z0-9_-]+\.html$/i.test(path)
   ) return context.next()
 
@@ -1766,27 +1953,41 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     `
 
     try {
-      const [services, rolePhotos] = await Promise.all([
-        querySanityData<any[]>('production', serviceQuery, {}, 'services/directory-services-v1', 60),
-        querySanityData<any[]>('production', serviceRolePhotosQuery, {}, 'services/directory-role-photos-v1', 300),
-      ])
+      const servicesDirectoryQuery = `{
+        "services": ${serviceQuery},
+        "rolePhotos": ${serviceRolePhotosQuery}
+      }`
+      const directoryData = await querySanityData<{ services: any[]; rolePhotos: any[] }>(
+        'production',
+        servicesDirectoryQuery,
+        {},
+        'services/directory-combined-v2',
+        60,
+      )
+      const services = directoryData?.services
+      const rolePhotos = directoryData?.rolePhotos
       if (!Array.isArray(services) || !Array.isArray(rolePhotos)) {
         throw new Error('Services directory Sanity query returned an invalid collection')
       }
       const entries = getOrderedServiceEntries(services)
       const rendered = renderServicesDirectoryHtml({ entries, rolePhotos, language })
-      return transformHtmlResponse(await context.next(), (html) => setPageHead(
-        renderRoot(html, rendered.body),
-        {
-          language,
-          title: metadata.title,
-          description: metadata.description,
-          canonical: metadata.canonical,
-          alternates: metadata.alternates,
-          pageType: 'website',
-          structuredData: [...metadata.structuredData, ...rendered.structuredData],
-        },
-      ), 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
+      return transformHtmlResponse(await context.next(), (html) => {
+        const headed = setPageHead(
+          renderRoot(html, rendered.body),
+          {
+            language,
+            title: metadata.title,
+            description: metadata.description,
+            canonical: metadata.canonical,
+            alternates: metadata.alternates,
+            pageType: 'website',
+            structuredData: [...metadata.structuredData, ...rendered.structuredData],
+          },
+        )
+        const initialData = '<script id="florial-services-ssr-data" type="application/json">' +
+          serializeInlineJson({ language, services, rolePhotos }) + '</script>'
+        return headed.replace(/<\/head>/i, initialData + '\n</head>')
+      }, 'public, max-age=0, s-maxage=60, stale-while-revalidate=120')
     } catch {
       // Preserve a meaningful static fallback; never cache an empty directory after an upstream failure.
       const fallbackBody = language === 'ru'
@@ -1862,9 +2063,15 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     }
     let body = meta.body
     let cacheControl: string | undefined
+    let homepageSeedScript = ''
+    let contactsSeedScript = ''
+    let aboutSeedScript = ''
     if (path === '/') {
       try {
-        body = await fetchHomepageHtml(language)
+        const homepage = await fetchHomepageHtml(language)
+        body = homepage.html
+        homepageSeedScript = '<script id="florial-homepage-ssr-data" type="application/json">' +
+          serializeInlineJson(homepage.payload) + '</script>'
         cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
       } catch (error) {
         console.error('Florial homepage SSR data unavailable; serving the existing static fallback:', error)
@@ -1872,7 +2079,10 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       }
     } else if (path === '/contacts') {
       try {
-        body = await fetchContactsHtml(language)
+        const contacts = await fetchContactsHtml(language)
+        body = contacts.html
+        contactsSeedScript = '<script id="florial-contacts-ssr-data" type="application/json">' +
+          serializeInlineJson({ language, images: contacts.images }) + '</script>'
         cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
       } catch (error) {
         console.error('Florial contacts SSR images unavailable; serving contact details without images:', error)
@@ -1882,12 +2092,16 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     } else if (path === '/about') {
       const about = await fetchAboutHtml(language)
       body = about.html
+      if (about.rolePhotos.length > 0) {
+        aboutSeedScript = '<script id="florial-about-ssr-data" type="application/json">' +
+          serializeInlineJson({ language, rolePhotos: about.rolePhotos }) + '</script>'
+      }
       cacheControl = about.complete
         ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
         : 'no-store'
     }
     return transformHtmlResponse(await context.next(), (html) => {
-      const root = renderRoot(html, body)
+      const root = renderRoot(html, body + homepageSeedScript + contactsSeedScript + aboutSeedScript)
       return setPageHead(root, {
         language,
         title: meta.title,
@@ -2187,7 +2401,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
             : documentBody(doc, type, name, description, language, pageH1, doc._dataset === 'plants' ? categoryProducts || undefined : undefined, doc._dataset === 'production' && categoryProducts !== null ? categoryProducts : undefined, doc._dataset === 'production' && categoryProducts !== null ? equipmentCategoryTree : undefined, doc._dataset === 'plants' && categoryProducts !== null ? plantCategoryTree : undefined)
       return transformHtmlResponse(await context.next(), (html) => {
         const root = renderRoot(html, body)
-        return setPageHead(root, {
+        const headed = setPageHead(root, {
           language,
           title,
           description: metaDescription,
@@ -2198,6 +2412,30 @@ async function handleRequest(context: PagesContext): Promise<Response> {
           structuredData,
           pageType: type === 'product' && doc._dataset === 'production' ? 'equipment-product' : type === 'product' ? 'product' : type === 'blogPost' ? 'article' : type === 'service' ? 'service' : 'website',
         })
+        if (type === 'service') {
+          const serviceDocument = doc as ServiceDetailDocument
+          const service = {
+            ...serviceDocument,
+            slug: { current: serviceDocument.slugValue || slug },
+            _dataset: 'production',
+          }
+          const initialData = '<script id="florial-service-detail-data" type="application/json">' +
+            serializeInlineJson({ slug: serviceDocument.slugValue || slug, language, service }) + '</script>'
+          return headed.replace(/<\/head>/i, initialData + '\n</head>')
+        }
+        if (type === 'product' && (doc._dataset === 'production' || doc._dataset === 'plants')) {
+          // The server already resolved the product's exact dataset and ID. Pass only
+          // this small identity to React so the browser does not repeat both slug lookups.
+          const initialData = '<script id="florial-product-route-data" type="application/json">' +
+            serializeInlineJson({
+              slug: doc.slugValue || slug,
+              language,
+              dataset: doc._dataset,
+              id: doc._id,
+            }) + '</script>'
+          return headed.replace(/<\/head>/i, initialData + '\n</head>')
+        }
+        return headed
       }, type === 'category' && categoryProducts === null
         ? 'no-store'
         : type === 'service' || (type === 'product' && (doc._dataset === 'production' || doc._dataset === 'plants'))
@@ -2231,6 +2469,44 @@ const applySecurityHeaders = (response: Response, request: Request): Response =>
 }
 
 export async function onRequest(context: PagesContext): Promise<Response> {
-  const response = await handleRequest(context)
+  let response = await handleRequest(context)
+  const url = new URL(context.request.url)
+  const path = url.pathname.replace(/\/+$/, '') || '/'
+  const isHomepage = path === '/' || path === '/index.html'
+  const isManager = path === '/manager' || path.startsWith('/manager/')
+  const contentType = response.headers.get('content-type') || ''
+
+  if (
+    context.request.method === 'GET' &&
+    response.status === 200 &&
+    contentType.includes('text/html') &&
+    !isHomepage &&
+    !isManager &&
+    !path.startsWith('/api/')
+  ) {
+    try {
+      const languageParam = url.searchParams.get('lang')
+      const language: 'bg' | 'ru' | 'en' = languageParam === 'ru' ? 'ru' : languageParam === 'en' ? 'en' : 'bg'
+      const seed = await fetchHeaderSeed(language)
+      const seedScript = '<script id="florial-header-ssr-data" type="application/json">' +
+        serializeInlineJson(seed) + '</script>'
+      const html = await response.text()
+      if (!html.includes('id="florial-header-ssr-data"') && html.includes('</head>')) {
+        const headers = new Headers(response.headers)
+        headers.delete('content-length')
+        headers.delete('content-encoding')
+        headers.delete('etag')
+        headers.delete('content-md5')
+        response = new Response(html.replace(/<\/head>/i, seedScript + '</head>'), {
+          status: response.status,
+          statusText: response.statusText,
+          headers,
+        })
+      }
+    } catch (error) {
+      console.error('Florial shared header SSR seed unavailable; browser fallback remains enabled:', error)
+    }
+  }
+
   return applySecurityHeaders(response, context.request)
 }

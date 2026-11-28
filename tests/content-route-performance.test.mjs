@@ -49,7 +49,7 @@ test('blog index and homepage request only the active locale card fields', async
 test('header recent blog cards follow the active locale', async () => {
   const header = await read('../src/components/Header.tsx')
   assert.match(header, /fetchBlogPosts\(3, language\)/)
-  assert.match(header, /\}, \[language\]\)/)
+  assert.match(header, /\}, \[language, initialBlogPosts\]\)/)
 })
 
 test('blog article renders after its localized document, without waiting for the whole blog index', async () => {
@@ -79,7 +79,7 @@ test('compact Header service data preserves homepage service cards and About pag
   const headerQuery = app.slice(headerQueryStart, headerQueryEnd)
   assert.ok(headerQuery.includes('"imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url)'))
   assert.ok(headerQuery.includes('sortOrder, serviceCategory, serviceLayout'))
-  assert.ok(app.includes('<AboutPage services={headerServices} categories={categories} />'))
+  assert.match(app, /<AboutPage\s+services=\{headerServices\}\s+categories=\{categories\}\s+initialRolePhotos=\{initialAboutSeed\?\.language === language \? initialAboutSeed\.rolePhotos : undefined\}\s*\/>/)
   assert.ok(app.includes('services={headerServices}\n          categories={visibleCategories'))
 })
 
@@ -146,7 +146,7 @@ test('product detail route resolves by exact slug without downloading both full 
   const sanityClients = await read('../src/lib/sanity.ts')
   assert.match(sanityClients, /export const sanityClient = createClient\([\s\S]*?useCdn: true/)
   assert.match(sanityClients, /export const publicPlantsClient = createClient\([\s\S]*?useCdn: true/)
-  assert.match(loader, /All public product details, including displayed price and stock, use the published API CDN/)
+  assert.match(loader, /const details = await \(isPlant \? publicPlantsClient : sanityClient\)\.fetch\(/)
   assert.doesNotMatch(loader, /sanityLiveClient|plantsClient/)
   const search = await read('../src/lib/routeData/search.ts')
   assert.match(search, /sanityClient\.fetch\(equipmentSearchQuery/)
@@ -295,4 +295,76 @@ test('published SSR middleware queries use Sanity API CDN instead of the billabl
   assert.match(queryClient, /\.apicdn\.sanity\.io/)
   assert.match(queryClient, /url\.searchParams\.set\('perspective', 'published'\)/)
   assert.doesNotMatch(queryClient, /\.api\.sanity\.io/)
+})
+
+
+test('services directory reuses the SSR service and role-photo payload on the matching initial locale', async () => {
+  const app = await read('../src/App.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  assert.match(middleware, /florial-services-ssr-data/)
+  assert.match(middleware, /serializeInlineJson\(\{ language, services, rolePhotos \}\)/)
+  assert.match(app, /function readServiceDirectorySeed\(language: string\)/)
+  assert.match(app, /payload\.language !== language/)
+  assert.match(app, /initialServiceDirectorySeed\?\.services/)
+  assert.match(app, /initialServiceDirectorySeed\?\.rolePhotos/)
+  assert.match(app, /initialServiceDirectorySeed\?\.language \|\| null/)
+  assert.match(app, /if \(!isServicesListRoute \|\| loadedServicesLanguage === language\)/)
+})
+
+test('service detail reuses only a matching SSR slug and locale, while later navigation still fetches', async () => {
+  const app = await read('../src/App.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  assert.match(middleware, /florial-service-detail-data/)
+  assert.match(middleware, /serializeInlineJson\(\{ slug: serviceDocument\.slugValue \|\| slug, language, service \}\)/)
+  assert.match(middleware, /slug: \{ current: serviceDocument\.slugValue \|\| slug \}/)
+  assert.match(app, /function readServiceDetailSeed\(slug: string \| null, language: string\)/)
+  assert.match(app, /payload\.slug !== slug/)
+  assert.match(app, /payload\.language !== language/)
+  assert.match(app, /service\.slug\?\.current !== slug/)
+  assert.match(app, /initialServiceDetailSeedUsed\.current = true/)
+  assert.match(app, /fetchServiceDetails\(activeServiceSlug, language/)
+  assert.match(app, /\}, \[activeServiceSlug, language\]\)/)
+})
+
+test('blog SSR payload handoff remains in place for index and article routes', async () => {
+  const middleware = await read('../functions/_middleware.ts')
+  const index = await read('../src/pages/BlogPage.tsx')
+  const article = await read('../src/pages/BlogPostPage.tsx')
+  assert.match(middleware, /florial-blog-ssr-data/)
+  assert.match(middleware, /florial-blog-article-data/)
+  assert.match(index, /florial-blog-ssr-data/)
+  assert.match(article, /florial-blog-article-data/)
+})
+
+
+test('product detail first load reuses the SSR-resolved dataset and document ID', async () => {
+  const app = await read('../src/App.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  const loader = await read('../src/lib/routeData/productDetails.ts')
+
+  assert.match(middleware, /florial-product-route-data/)
+  assert.match(middleware, /dataset: doc\._dataset/)
+  assert.match(middleware, /id: doc\._id/)
+  assert.match(app, /function readProductRouteSeed\(slug: string \| null, language: string\)/)
+  assert.match(app, /initialProductRouteSeedUsed\.current = true/)
+  assert.match(app, /fetchProductDetailsByIdentity\(/)
+  assert.match(loader, /export async function fetchProductDetailsByIdentity\(/)
+  assert.match(loader, /return fetchProductDetails\(/)
+  assert.match(loader, /sanityClient\.fetch\(productBySlugQuery/)
+  assert.match(loader, /publicPlantsClient\.fetch\(plantBySlugQuery/)
+})
+
+
+test('contacts page reuses the SSR location-photo payload and batches SPA fallback into one query', async () => {
+  const app = await read('../src/App.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  const page = await read('../src/pages/ContactsPage.tsx')
+
+  assert.match(middleware, /florial-contacts-ssr-data/)
+  assert.match(middleware, /images: contacts\.images/)
+  assert.match(app, /function readContactsSeed\(language: string\)/)
+  assert.match(app, /initialImages=\{initialContactsSeed\?\.images\}/)
+  assert.match(page, /if \(initialImages\)/)
+  assert.match(page, /sanityClient\.fetch\(query\)/)
+  assert.doesNotMatch(page, /nesebrQuery|ravdaQuery/)
 })

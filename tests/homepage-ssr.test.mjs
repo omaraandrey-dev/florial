@@ -123,9 +123,9 @@ test('homepage SSR escapes untrusted Sanity text and rejects non-HTTPS image URL
 test('homepage middleware uses bounded published Sanity projections and keeps fallback uncached', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
   assert.match(middleware, /async function fetchHomepageHtml\(language: string\)/)
-  assert.match(middleware, /querySanityData<any\[]>\('plants', featuredPlantsQuery/)
-  assert.match(middleware, /querySanityData<any\[]>\('production', featuredEquipmentQuery/)
-  assert.match(middleware, /querySanityData<any\[]>\('production', pinnedQuery/)
+  assert.match(middleware, /querySanityData<any>\('(production|plants)', (productionHomepageQuery|plantsHomepageQuery)/)
+  assert.match(middleware, /querySanityData<any>\('(production|plants)', (productionHomepageQuery|plantsHomepageQuery)/)
+  assert.match(middleware, /querySanityData<any>\('(production|plants)', (productionHomepageQuery|plantsHomepageQuery)/)
   assert.match(middleware, /"productCount": count\(\*\[_type == "product"/)
   assert.match(middleware, /getOrderedServiceEntries\(services as any\[\]\)/)
   assert.match(middleware, /renderHomepageHtml\(\{/)
@@ -237,4 +237,11 @@ test('plant availability fallback matches the client when stock status is unknow
   const plantCard = html.slice(cardStart, cardEnd)
   assert.match(plantCard, /Check availability/)
   assert.doesNotMatch(plantCard, /Available on request/)
+})
+
+test('homepage middleware normalizes /index.html to the canonical homepage SSR route', async () => {
+  const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
+  assert.ok(middleware.includes("const rawPath = url.pathname.replace(/\\/+$/, '') || '/'"))
+  assert.ok(middleware.includes("const path = rawPath === '/index.html' ? '/' : rawPath"))
+  assert.ok(!middleware.includes("path === '/index.html' ||"))
 })

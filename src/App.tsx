@@ -13,6 +13,7 @@ import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
 import { selectFeaturedEquipment } from './lib/homepageFeatured.mjs'
 import { isHomepageClientReady } from './lib/homepageHandoff.mjs'
+import { blogSlug, type BlogPostCard } from './lib/blog'
 import { toPlainText } from './lib/richTextUtils.mjs'
 import { getAnalyticsConsent, trackEvent, trackGA4Event, trackPostHogEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
@@ -76,6 +77,231 @@ function getRouteState(
     activeSearchQuery: path === '/search' ? (searchParams.get('q')?.trim() || '') : null,
     isContactsOpen: path === '/contacts',
     isCartOpen: path === '/cart',
+  }
+}
+
+type ServiceDirectorySeed = {
+  language: string
+  services: ServiceItem[]
+  rolePhotos: ServiceRolePhoto[]
+}
+
+type ServiceDetailSeed = {
+  slug: string
+  language: string
+  service: ServiceItem
+}
+
+function readServiceDirectorySeed(language: string): ServiceDirectorySeed | null {
+  if ((window.location.pathname.replace(/\/+$/, '') || '/') !== '/services') return null
+  const element = document.getElementById('florial-services-ssr-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<ServiceDirectorySeed>
+    if (payload.language !== language || !Array.isArray(payload.services) || !Array.isArray(payload.rolePhotos)) return null
+    return {
+      language,
+      services: payload.services as ServiceItem[],
+      rolePhotos: payload.rolePhotos as ServiceRolePhoto[],
+    }
+  } catch {
+    return null
+  }
+}
+
+function readServiceDetailSeed(slug: string | null, language: string): ServiceDetailSeed | null {
+  if (!slug) return null
+  const element = document.getElementById('florial-service-detail-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<ServiceDetailSeed>
+    const service = payload.service as ServiceItem | undefined
+    if (
+      payload.slug !== slug ||
+      payload.language !== language ||
+      !service ||
+      typeof service._id !== 'string' ||
+      service.slug?.current !== slug
+    ) return null
+    return { slug, language, service }
+  } catch {
+    return null
+  }
+}
+
+type ProductRouteSeed = {
+  slug: string
+  language: string
+  dataset: 'production' | 'plants'
+  id: string
+}
+
+function readProductRouteSeed(slug: string | null, language: string): ProductRouteSeed | null {
+  if (!slug) return null
+  const element = document.getElementById('florial-product-route-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<ProductRouteSeed>
+    if (
+      payload.slug !== slug ||
+      payload.language !== language ||
+      (payload.dataset !== 'production' && payload.dataset !== 'plants') ||
+      typeof payload.id !== 'string' ||
+      !payload.id
+    ) return null
+    return { slug, language, dataset: payload.dataset, id: payload.id }
+  } catch {
+    return null
+  }
+}
+
+type ContactsSeed = {
+  language: string
+  images: { nesebr?: string; ravda?: string }
+}
+
+function readContactsSeed(language: string): ContactsSeed | null {
+  if ((window.location.pathname.replace(/\/+$/, '') || '/') !== '/contacts') return null
+  const element = document.getElementById('florial-contacts-ssr-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<ContactsSeed>
+    if (
+      payload.language !== language ||
+      !payload.images ||
+      typeof payload.images.nesebr !== 'string' ||
+      typeof payload.images.ravda !== 'string'
+    ) return null
+    return { language, images: payload.images }
+  } catch {
+    return null
+  }
+}
+
+type AboutSeed = {
+  language: string
+  rolePhotos: ServiceRolePhoto[]
+}
+
+function readAboutSeed(language: string): AboutSeed | null {
+  if ((window.location.pathname.replace(/\/+$/, '') || '/') !== '/about') return null
+  const element = document.getElementById('florial-about-ssr-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<AboutSeed>
+    if (
+      payload.language !== language ||
+      !Array.isArray(payload.rolePhotos) ||
+      !payload.rolePhotos.every((photo) =>
+        photo && typeof photo.slug === 'string' &&
+        (photo.imageUrl === undefined || typeof photo.imageUrl === 'string')
+      ) ||
+      !['landshaften-arhitekt', 'inzhener-polivni-sistemi', 'gardinar', 'specialist-trevni-ploshti', 'florial-nesebr', 'florial-ravda']
+        .every((slug) => payload.rolePhotos!.some((photo) => photo.slug.toLowerCase() === slug))
+    ) return null
+    return { language, rolePhotos: payload.rolePhotos as ServiceRolePhoto[] }
+  } catch {
+    return null
+  }
+}
+
+type HeaderSeed = {
+  language: string
+  equipmentCategories: CategoryItem[]
+  plantCategories: CategoryItem[]
+  services: ServiceItem[]
+  siteSettings: SiteSettings | null
+  headerBlogPosts: BlogPostCard[]
+}
+
+function readHeaderSeed(language: string): HeaderSeed | null {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/'
+  if (path === '/' || path === '/index.html') return null
+  const element = document.getElementById('florial-header-ssr-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<HeaderSeed>
+    if (
+      payload.language !== language ||
+      !Array.isArray(payload.equipmentCategories) ||
+      !Array.isArray(payload.plantCategories) ||
+      !Array.isArray(payload.services) ||
+      !Array.isArray(payload.headerBlogPosts) ||
+      !payload.siteSettings ||
+      typeof payload.siteSettings !== 'object'
+    ) return null
+    return {
+      language,
+      equipmentCategories: payload.equipmentCategories as CategoryItem[],
+      plantCategories: payload.plantCategories as CategoryItem[],
+      services: payload.services as ServiceItem[],
+      siteSettings: payload.siteSettings as SiteSettings,
+      headerBlogPosts: payload.headerBlogPosts as BlogPostCard[],
+    }
+  } catch {
+    return null
+  }
+}
+
+type HomepageSeed = {
+  language: string
+  equipmentCategories: CategoryItem[]
+  plantCategories: CategoryItem[]
+  featuredPlants: Product[]
+  featuredEquipment: Product[]
+  services: ServiceItem[]
+  heroImageUrl: string | null
+  pinnedPosts: BlogPostCard[]
+  latestPosts: BlogPostCard[]
+  headerSiteSettings: SiteSettings | null
+  blogSectionPosts: BlogPostCard[]
+  headerBlogPosts: BlogPostCard[]
+}
+
+function readHomepageSeed(language: string): HomepageSeed | null {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/'
+  if (path !== '/' && path !== '/index.html') return null
+  const element = document.getElementById('florial-homepage-ssr-data')
+  if (!element?.textContent) return null
+
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<HomepageSeed>
+    if (
+      payload.language !== language ||
+      !Array.isArray(payload.equipmentCategories) ||
+      !Array.isArray(payload.plantCategories) ||
+      !Array.isArray(payload.featuredPlants) ||
+      !Array.isArray(payload.featuredEquipment) ||
+      !Array.isArray(payload.services) ||
+      !Array.isArray(payload.pinnedPosts) ||
+      !Array.isArray(payload.latestPosts) ||
+      !payload.headerSiteSettings ||
+      typeof payload.headerSiteSettings !== 'object'
+    ) return null
+
+    const pinnedPosts = payload.pinnedPosts as BlogPostCard[]
+    const latestPosts = payload.latestPosts as BlogPostCard[]
+    const pinnedSlugs = new Set(pinnedPosts.map(blogSlug))
+
+    return {
+      language,
+      equipmentCategories: payload.equipmentCategories as CategoryItem[],
+      plantCategories: payload.plantCategories as CategoryItem[],
+      featuredPlants: payload.featuredPlants as Product[],
+      featuredEquipment: payload.featuredEquipment as Product[],
+      services: payload.services as ServiceItem[],
+      heroImageUrl: typeof payload.heroImageUrl === 'string' ? payload.heroImageUrl : null,
+      pinnedPosts,
+      latestPosts,
+      headerSiteSettings: payload.headerSiteSettings as SiteSettings,
+      blogSectionPosts: [
+        ...pinnedPosts,
+        ...latestPosts.filter((post) => !pinnedSlugs.has(blogSlug(post))).slice(0, 1),
+      ],
+      headerBlogPosts: latestPosts.slice(0, 3),
+    }
+  } catch {
+    return null
   }
 }
 
@@ -322,37 +548,46 @@ class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryP
 
 export default function App({ onHomepageReady }: { onHomepageReady?: () => void } = {}) {
   const { t, language, localize } = useI18n()
+  const [homepageSeed] = useState(() => readHomepageSeed(language))
+  const [initialHeaderSeed] = useState(() => readHeaderSeed(language))
+  const [initialServiceDirectorySeed] = useState(() => readServiceDirectorySeed(language))
+  const [initialServiceDetailSeed] = useState(() => readServiceDetailSeed(getRouteState().activeServiceSlug, language))
+  const [initialContactsSeed] = useState(() => readContactsSeed(language))
+  const [initialAboutSeed] = useState(() => readAboutSeed(language))
+  const [initialProductRouteSeed] = useState(() => readProductRouteSeed(getRouteState().activeProductSlug, language))
+  const initialProductRouteSeedUsed = useRef(false)
   const [products, setProducts] = useState<Product[]>([])
-  const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>([])
-  const [headerPlantCategories, setHeaderPlantCategories] = useState<CategoryItem[]>([])
-  const [headerServices, setHeaderServices] = useState<ServiceItem[]>([])
-  const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(null)
-  const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>([])
-  const [homeFeaturedPlants, setHomeFeaturedPlants] = useState<Product[]>([])
-  const [homeFeaturedEquipment, setHomeFeaturedEquipment] = useState<Product[]>([])
-  const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(null)
-  const [headerDataReady, setHeaderDataReady] = useState(false)
-  const [homeCategoriesAndHeroReady, setHomeCategoriesAndHeroReady] = useState(false)
-  const [homeFeaturedPlantsReady, setHomeFeaturedPlantsReady] = useState(false)
-  const [homeFeaturedEquipmentReady, setHomeFeaturedEquipmentReady] = useState(false)
-  const [homeBlogReady, setHomeBlogReady] = useState(false)
-  const [loadingCategories, setLoadingCategories] = useState(true)
-  const [categoriesDataReady, setCategoriesDataReady] = useState(false)
-  const [loadingServices, setLoadingServices] = useState(() => { const path = window.location.pathname.replace(/\/+$/, '') || '/'; return path === '/services' || path.startsWith('/services/category/') })
+  const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>(() => homepageSeed?.equipmentCategories || initialHeaderSeed?.equipmentCategories || [])
+  const [headerPlantCategories, setHeaderPlantCategories] = useState<CategoryItem[]>(() => homepageSeed?.plantCategories || initialHeaderSeed?.plantCategories || [])
+  const [headerServices, setHeaderServices] = useState<ServiceItem[]>(() => homepageSeed?.services || initialHeaderSeed?.services || [])
+  const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(() => homepageSeed?.headerSiteSettings || initialHeaderSeed?.siteSettings || null)
+  const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>(() => homepageSeed?.plantCategories || [])
+  const [homeFeaturedPlants, setHomeFeaturedPlants] = useState<Product[]>(() => homepageSeed?.featuredPlants || [])
+  const [homeFeaturedEquipment, setHomeFeaturedEquipment] = useState<Product[]>(() => homepageSeed?.featuredEquipment || [])
+  const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(() => homepageSeed?.heroImageUrl || null)
+  const [headerDataReady, setHeaderDataReady] = useState(Boolean(homepageSeed || initialHeaderSeed))
+  const [homeCategoriesAndHeroReady, setHomeCategoriesAndHeroReady] = useState(Boolean(homepageSeed))
+  const [homeFeaturedPlantsReady, setHomeFeaturedPlantsReady] = useState(Boolean(homepageSeed))
+  const [homeFeaturedEquipmentReady, setHomeFeaturedEquipmentReady] = useState(Boolean(homepageSeed))
+  const [homeBlogReady, setHomeBlogReady] = useState(Boolean(homepageSeed))
+  const [loadingCategories, setLoadingCategories] = useState(!(homepageSeed || initialHeaderSeed))
+  const [categoriesDataReady, setCategoriesDataReady] = useState(Boolean(homepageSeed || initialHeaderSeed))
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
-  const [categories, setCategories] = useState<CategoryItem[]>([])
-  const categoriesLoaded = useRef(false)
+  const [categories, setCategories] = useState<CategoryItem[]>(() => homepageSeed ? [...homepageSeed.equipmentCategories, ...homepageSeed.plantCategories] : initialHeaderSeed ? [...initialHeaderSeed.equipmentCategories, ...initialHeaderSeed.plantCategories] : [])
+  const categoriesLoaded = useRef(Boolean(homepageSeed || initialHeaderSeed))
   const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
   const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
-  const [services, setServices] = useState<ServiceItem[]>([])
+  const [services, setServices] = useState<ServiceItem[]>(() => initialServiceDirectorySeed?.services || [])
+  const [loadingServices, setLoadingServices] = useState(false)
   const [serviceDirectionDocuments, setServiceDirectionDocuments] = useState<any[]>([])
-  const [loadedServicesLanguage, setLoadedServicesLanguage] = useState<string | null>(null)
-  const [serviceRolePhotos, setServiceRolePhotos] = useState<ServiceRolePhoto[]>([])
-  const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(null)
+  const [loadedServicesLanguage, setLoadedServicesLanguage] = useState<string | null>(initialServiceDirectorySeed?.language || null)
+  const [serviceRolePhotos, setServiceRolePhotos] = useState<ServiceRolePhoto[]>(() => initialServiceDirectorySeed?.rolePhotos || [])
+  const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(() => initialServiceDetailSeed?.service || null)
+  const initialServiceDetailSeedUsed = useRef(false)
   const [loadingServiceDetails, setLoadingServiceDetails] = useState(() => {
     const route = getRouteState()
-    return Boolean(route.activeServiceSlug && route.activeServiceSlug !== 'dostavka-poliv')
+    return Boolean(route.activeServiceSlug && route.activeServiceSlug !== 'dostavka-poliv' && !initialServiceDetailSeed)
   })
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
   const [irrigationProject, setIrrigationProject] = useState<IrrigationProjectSnapshot | null>(null)
@@ -609,7 +844,22 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
     setCurrentProduct(null)
     setLoadingProductDetails(true)
     import('./lib/routeData/productDetails')
-      .then(({ fetchProductDetailsBySlug }) => fetchProductDetailsBySlug(activeProductSlug, () => cancelled))
+      .then((loader) => {
+        const canReuseSsrIdentity =
+          !initialProductRouteSeedUsed.current &&
+          initialProductRouteSeed?.slug === activeProductSlug &&
+          initialProductRouteSeed.language === language
+        if (canReuseSsrIdentity && initialProductRouteSeed) {
+          initialProductRouteSeedUsed.current = true
+          return loader.fetchProductDetailsByIdentity(
+            initialProductRouteSeed.dataset,
+            initialProductRouteSeed.id,
+            () => cancelled,
+            activeProductSlug,
+          )
+        }
+        return loader.fetchProductDetailsBySlug(activeProductSlug, () => cancelled)
+      })
       .then((details) => {
         if (!cancelled) setCurrentProduct(details)
       })
@@ -718,6 +968,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   // Header has its own compact data requests. Neither page data nor route rendering waits for them.
   useEffect(() => {
     let cancelled = false
+    if (homepageSeed || initialHeaderSeed) return () => { cancelled = true }
 
     const headerCategoryQuery = `
       *[_type == "category"] | order(sortOrder asc, name asc) {
@@ -830,6 +1081,13 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
         "isPlantCategory": true
       }
     `
+
+    if (homepageSeed) {
+      setHomePlantCategories(homepageSeed.plantCategories)
+      setHomeHeroImageUrl(homepageSeed.heroImageUrl)
+      setHomeCategoriesAndHeroReady(true)
+      return () => { cancelled = true }
+    }
 
     const plantCategoriesRequest = publicPlantsClient.fetch(homepagePlantCategoriesQuery)
       .then((data) => {
@@ -1114,6 +1372,11 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
       return
     }
     let cancelled = false
+    if (homepageSeed) {
+      setHomeFeaturedPlants(homepageSeed.featuredPlants)
+      setHomeFeaturedPlantsReady(true)
+      return () => { cancelled = true }
+    }
     const featuredPlantsQuery = `
       *[_type == "product" && !(_id in path("drafts.**")) &&
         productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&
@@ -1153,6 +1416,11 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
       return
     }
     let cancelled = false
+    if (homepageSeed) {
+      setHomeFeaturedEquipment(selectFeaturedEquipment(homepageSeed.featuredEquipment))
+      setHomeFeaturedEquipmentReady(true)
+      return () => { cancelled = true }
+    }
     const featuredEquipmentQuery = `
       *[_type == "product" && isActive != false && references("6709cd41-18c6-4c5f-bc27-90d55d685dec") &&
         stockStatus != "outOfStock" && defined(coalesce(slug.current, slug)) &&
@@ -1596,6 +1864,15 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
       return () => { cancelled = true }
     }
 
+    if (!initialServiceDetailSeedUsed.current) {
+      initialServiceDetailSeedUsed.current = true
+      if (initialServiceDetailSeed?.slug === activeServiceSlug && initialServiceDetailSeed.language === language) {
+        setCurrentServiceDetails(initialServiceDetailSeed.service)
+        setLoadingServiceDetails(false)
+        return () => { cancelled = true }
+      }
+    }
+
     setLoadingServiceDetails(true)
 
     import('./lib/routeData/serviceDetails')
@@ -1796,6 +2073,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
       <Header
+        initialBlogPosts={homepageSeed?.language === language ? homepageSeed.headerBlogPosts : initialHeaderSeed?.language === language ? initialHeaderSeed.headerBlogPosts : undefined}
         services={headerServices}
         categories={headerCategories.filter((category) => !category._id.startsWith('plants-') && category.slug?.current !== 'electromagnetic-valves')}
         plantCategories={headerPlantCategories}
@@ -1835,7 +2113,11 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
         {isIrrigationAssistantRoute ? (
           <IrrigationAssistantPage onNavigateHome={navigateToHome} onNavigateCart={navigateToCart} onAddToCart={handleAddToCart} onSetIrrigationProject={setIrrigationProject} />
       ) : normalizedRoutePath === '/about' ? (
-        <AboutPage services={headerServices} categories={categories} />
+        <AboutPage
+          services={headerServices}
+          categories={categories}
+          initialRolePhotos={initialAboutSeed?.language === language ? initialAboutSeed.rolePhotos : undefined}
+        />
       ) : isCartOpen ? (
         <CartPage
           cart={cart}
@@ -1847,7 +2129,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
           onNavigateHome={navigateToHome}
         />
       ) : isContactsOpen ? (
-        <ContactsPage onNavigateHome={navigateToHome} />
+        <ContactsPage onNavigateHome={navigateToHome} initialImages={initialContactsSeed?.images} />
       ) : activeSearchQuery !== null ? (
         <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
           <nav className="mb-5 text-sm text-slate-500">
@@ -2029,6 +2311,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
           heroImageUrl={homeHeroImageUrl}
           featuredPlants={homeFeaturedPlants}
           featuredEquipment={homeFeaturedEquipment}
+          initialBlogPosts={homepageSeed?.language === language ? homepageSeed.blogSectionPosts : undefined}
           onBlogReadinessChange={setHomeBlogReady}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}

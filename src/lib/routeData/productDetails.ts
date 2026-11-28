@@ -10,7 +10,68 @@ const PLANT_PRODUCT_TYPES = new Set([
 
 const isPlantProductType = (productType?: string) => PLANT_PRODUCT_TYPES.has(productType || '')
 
+const PRODUCT_ROUTE_CACHE_TTL_MS = 30_000
+const productIdentityCache = new Map<string, { dataset: 'production' | 'plants'; id: string; expiresAt: number }>()
+const productDetailsCache = new Map<string, { product: Product; expiresAt: number }>()
+const productDetailsInFlight = new Map<string, Promise<Product | null>>()
+const productIdentityInFlight = new Map<string, Promise<{ dataset: 'production' | 'plants'; id: string } | null>>()
+
+function writeProductIdentity(slug: string, dataset: 'production' | 'plants', id: string) {
+  productIdentityCache.delete(slug)
+  productIdentityCache.set(slug, { dataset, id, expiresAt: Date.now() + PRODUCT_ROUTE_CACHE_TTL_MS })
+  if (productIdentityCache.size > 100) {
+    const oldestKey = productIdentityCache.keys().next().value
+    if (oldestKey !== undefined) productIdentityCache.delete(oldestKey)
+  }
+}
+
+function writeProductDetails(key: string, product: Product) {
+  productDetailsCache.delete(key)
+  productDetailsCache.set(key, { product, expiresAt: Date.now() + PRODUCT_ROUTE_CACHE_TTL_MS })
+  if (productDetailsCache.size > 100) {
+    const oldestKey = productDetailsCache.keys().next().value
+    if (oldestKey !== undefined) productDetailsCache.delete(oldestKey)
+  }
+}
+
+function readProductIdentity(slug: string) {
+  const cached = productIdentityCache.get(slug)
+  if (!cached) return null
+  if (cached.expiresAt <= Date.now()) {
+    productIdentityCache.delete(slug)
+    return null
+  }
+  return cached
+}
+
 export async function fetchProductDetailsBySlug(slug: string, isCancelled: () => boolean = () => false): Promise<Product | null> {
+  if (isCancelled()) return null
+  const cachedIdentity = readProductIdentity(slug)
+  if (cachedIdentity) {
+    return fetchProductDetailsByIdentity(cachedIdentity.dataset, cachedIdentity.id, isCancelled, slug)
+  }
+
+  let pending = productIdentityInFlight.get(slug)
+  if (!pending) {
+    pending = resolveProductIdentityBySlug(slug)
+    productIdentityInFlight.set(slug, pending)
+  }
+
+  try {
+    const identity = await pending
+    if (isCancelled() || !identity) return null
+    writeProductIdentity(slug, identity.dataset, identity.id)
+    return fetchProductDetailsByIdentity(identity.dataset, identity.id, isCancelled, slug)
+  } finally {
+    if (productIdentityInFlight.get(slug) === pending) {
+      productIdentityInFlight.delete(slug)
+    }
+  }
+}
+
+async function resolveProductIdentityBySlug(
+  slug: string,
+): Promise<{ dataset: 'production' | 'plants'; id: string } | null> {
   const productBySlugQuery = `
     *[_type == "product" && (coalesce(slug.current, slug) == $slug || _id == $slug) && isActive != false][0] {
       _id,
@@ -24,13 +85,10 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
     }
   `
 
-  // All public product details, including displayed price and stock, use the published API CDN.
-  // Checkout independently validates the submitted price through the direct Live API.
   const [equipmentResult, plantResult] = await Promise.allSettled([
     sanityClient.fetch(productBySlugQuery, { slug }, { tag: 'browser.product.slug.equipment' }),
     publicPlantsClient.fetch(plantBySlugQuery, { slug }, { tag: 'browser.product.slug.plants' }),
   ])
-  if (isCancelled()) return null
 
   const equipmentProduct = equipmentResult.status === 'fulfilled' ? equipmentResult.value : null
   const plantProduct = plantResult.status === 'fulfilled' ? plantResult.value : null
@@ -42,10 +100,58 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
     return null
   }
 
-  return fetchProductDetails(foundProduct as Product, isCancelled)
+  return {
+    dataset: equipmentProduct ? 'production' : 'plants',
+    id: foundProduct._id,
+  }
+}
+
+export async function fetchProductDetailsByIdentity(
+  dataset: 'production' | 'plants',
+  id: string,
+  isCancelled: () => boolean = () => false,
+  slug?: string,
+): Promise<Product | null> {
+  if (!id || (dataset !== 'production' && dataset !== 'plants') || isCancelled()) return null
+  if (slug) writeProductIdentity(slug, dataset, id)
+
+  // The SSR route resolver has already identified the exact published dataset and document.
+  // Reuse that identity instead of repeating two slug lookups from the browser.
+  return fetchProductDetails({
+    _id: id,
+    productType: dataset === 'plants' ? 'plant' : 'equipment',
+  } as Product, isCancelled)
 }
 
 export async function fetchProductDetails(foundProduct: Product, isCancelled: () => boolean = () => false): Promise<Product | null> {
+  if (isCancelled()) return null
+
+  const isPlant = isPlantProductType(foundProduct.productType)
+  const dataset = isPlant ? 'plants' : 'production'
+  const cacheKey = dataset + ':' + foundProduct._id
+  const cached = productDetailsCache.get(cacheKey)
+  if (cached && cached.expiresAt > Date.now()) return isCancelled() ? null : cached.product
+  if (cached) productDetailsCache.delete(cacheKey)
+
+  let pending = productDetailsInFlight.get(cacheKey)
+  if (!pending) {
+    // Share the same upstream reads across concurrent React effects/navigation.
+    // Cancellation is applied per caller after the shared request completes.
+    pending = fetchProductDetailsUncached(foundProduct, () => false)
+    productDetailsInFlight.set(cacheKey, pending)
+  }
+
+  try {
+    const product = await pending
+    return isCancelled() ? null : product
+  } finally {
+    if (productDetailsInFlight.get(cacheKey) === pending) {
+      productDetailsInFlight.delete(cacheKey)
+    }
+  }
+}
+
+async function fetchProductDetailsUncached(foundProduct: Product, isCancelled: () => boolean): Promise<Product | null> {
   const equipmentDetailQuery = `
         *[_type == "product" && _id == $id][0] {
           _id,
@@ -145,6 +251,9 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
       `
 
   const isPlant = isPlantProductType(foundProduct.productType)
+  const dataset = isPlant ? 'plants' : 'production'
+  const cacheKey = dataset + ':' + foundProduct._id
+
   const details = await (isPlant ? publicPlantsClient : sanityClient).fetch(
     isPlant ? plantDetailQuery : equipmentDetailQuery,
     { id: foundProduct._id },
@@ -165,8 +274,8 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
               ]))
               const recommendedSlug = details.recommendedIrrigation?.productSlug
     
-              const plantRelatedQuery = `
-                *[
+              const plantRelatedAndIrrigationQuery = `{
+                "relatedDocuments": *[
                   _type in ["service", "blogPost"] &&
                   coalesce(slug.current, slug) in $slugs
                 ] {
@@ -182,11 +291,8 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
                   "imageAlt": coalesce(image.alt, mainImage.alt, cover.alt, name, translations.bg.title, title),
                   "imageAltEn": coalesce(image.altEn, mainImage.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
                   "imageAltRu": coalesce(image.altRu, mainImage.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
-                }
-              `
-    
-              const irrigationProductQuery = `
-                *[_type == "product" && coalesce(slug.current, slug) == $slug && isActive != false][0] {
+                },
+                "recommendedProduct": *[_type == "product" && coalesce(slug.current, slug) == $recommendedSlug && isActive != false][0] {
                   _id, name, translations,
                   "productType": "equipment",
                   "slug": { "current": coalesce(slug.current, slug) },
@@ -197,22 +303,25 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
                   "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
                   shortDescription
                 }
-              `
-    
-              const [relatedDocuments, recommendedProduct] = await Promise.all([
-                relatedSlugs.length > 0
-                  ? sanityClient.fetch(plantRelatedQuery, { slugs: relatedSlugs }, { tag: 'browser.product.related-content' }).catch((error) => {
-                      console.error('Sanity: не удалось разрешить связанные услуги и статьи растения:', error)
-                      return []
-                    })
-                  : Promise.resolve([]),
-                typeof recommendedSlug === 'string' && recommendedSlug.length > 0
-                  ? sanityClient.fetch(irrigationProductQuery, { slug: recommendedSlug }, { tag: 'browser.product.recommended-irrigation' }).catch((error) => {
-                      console.error('Sanity: не удалось загрузить рекомендованный товар для полива:', error)
-                      return null
-                    })
-                  : Promise.resolve(null),
-              ])
+              }`
+
+              const needsRelatedData = relatedSlugs.length > 0 ||
+                (typeof recommendedSlug === 'string' && recommendedSlug.length > 0)
+              const relatedData = needsRelatedData
+                ? await sanityClient.fetch<{
+                    relatedDocuments?: any[]
+                    recommendedProduct?: Product | null
+                  }>(
+                    plantRelatedAndIrrigationQuery,
+                    { slugs: relatedSlugs, recommendedSlug: recommendedSlug || '' },
+                    { tag: 'browser.product.related-and-recommended' },
+                  ).catch((error) => {
+                    console.error('Sanity: не удалось загрузить связанные материалы и рекомендованное оборудование растения:', error)
+                    return { relatedDocuments: [], recommendedProduct: null }
+                  })
+                : { relatedDocuments: [], recommendedProduct: null }
+              const relatedDocuments = Array.isArray(relatedData?.relatedDocuments) ? relatedData.relatedDocuments : []
+              const recommendedProduct = relatedData?.recommendedProduct || null
               if (isCancelled()) return null
     
               
@@ -280,5 +389,8 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
     }
   }
 
-  return enrichedDetails
+  if (!isCancelled()) {
+    writeProductDetails(cacheKey, enrichedDetails)
+  }
+  return isCancelled() ? null : enrichedDetails
 }

@@ -1,3 +1,45 @@
+## 2026-11-28 — Cloudflare Pages Functions request-limit remediation (develop)
+
+- **Live usage evidence:** Cloudflare Pages Functions Analytics showed Preview requests of 90,628 (Nov 25), 134,774 (Nov 26), 80,636 (Nov 27) and 119,130 (Nov 28 partial through 07:00 UTC). Production requests were 12,571, 6,212, 11,564 and 7,520. The Nov 28 partial total was 126,650 against the account daily limit of 100,000. Analytics is delayed; post-change savings are not yet measured.
+- **Root cause:** the root `functions/_middleware.ts` was eligible to run for static assets because no explicit Pages `_routes.json` existed in the source. Calling `context.next()` for an asset still incurs the Function invocation. Static asset bypass is now defined in `public/_routes.json`; HTML and XML routes remain eligible, preserving SSR, API handlers, sitemap and services RSS. Existing `public/_headers` retains security headers on static assets.
+- **Cloudflare Preview configuration:** Preview deployments are restricted to `develop` and build-relevant paths. `main` remains the Production branch and Production deployments remain enabled. The manifest-bearing Preview deployment `a278c200-cfaf-4ef6-af0d-cb845de4c135` succeeded from `86ed15a105ab83ac4c0686661e6e23c18ea634c9`; subsequent test/script/workflow-only commits were skipped with `skip_reason=path_config`.
+- **CI:** Blog/Studio validation `46145932038` passed on `83cb44d0a1fdaf250d5c1525a27b225bc03f0d04`, including the new test, build and verification that Vite copied `public/_routes.json` unchanged to `dist/_routes.json`. Full SSR/SEO workflow `46145932128` is waiting for an exact deployment check on a test/workflow-only commit; the branch alias currently points to the manifest-bearing Preview.
+- **Quota/SSR boundary:** Cloudflare reports `fail_open=true` for both environments. This can bypass Functions while the daily limit is exhausted and is a plausible explanation for the missing SSR marker, but exact request-level causation is not captured. Verify raw SSR after the 2026-11-29 00:00 UTC reset.
+- **Safety:** no Production deployment, DNS, secrets, bindings, Sanity writes/schema, D1 writes/schema or paid-plan upgrade. PR #559 remains Draft and unmerged.
+- Detailed evidence, configuration and post-reset acceptance steps: [Cloudflare Pages Functions request-limit remediation](operations/CLOUDFLARE_PAGES_FUNCTIONS_REQUEST_LIMIT_REMEDIATION_2026-11-28.md).
+
+## 2026-11-28 — Browser-side product request single-flight (develop / PR #559)
+
+- `src/lib/routeData/productDetails.ts` now keeps two separate in-flight maps: slug → product identity promise, and dataset/document ID → full detail promise.
+- Concurrent calls for the same slug share the paired equipment/plants identity lookup. Concurrent detail calls for the same product share the full published document query and, for plants/equipment, any related-content enrichment that belongs to that detail load.
+- Existing 30-second completed-result caches remain unchanged. Existing dataset selection, published CDN clients, query tags, product projections and checkout Live API validation are unchanged.
+- Cancellation is caller-local: shared upstream work is allowed to finish, while each caller receives `null` if its own route/effect was cancelled before resolution. Failed pending promises are removed to permit retry.
+- Regression assertions added to `tests/sanity-client-read-cache.test.mjs`.
+- **Verification boundary:** code and test files are committed on `develop`; no CI run, local test run or Preview verification has yet been returned for these latest commits. No Production or live-service changes. Usage impact is not measured.
+
+## 2026-11-28 — Shared Header and catalogue category SSR seed (verified on develop)
+
+- On non-homepage public HTML routes, middleware prepares a locale-scoped Header payload from two published API-CDN queries: a combined production projection for equipment categories, services, site settings, logo and recent blog posts, plus plant categories from the separate plants dataset. Both use v2 Cache API key namespaces so earlier smaller v1 payloads cannot shadow the full category projections.
+- The payload is serialized as `florial-header-ssr-data`. The browser validates locale and payload shape, initializes existing Header state and skips the original six independent initial Header requests and the two separate catalogue category-index requests. The homepage retains its existing richer SSR seed.
+- `querySanityData()` coalesces concurrent cache-miss requests with the same cache key within a Worker isolate. This does not guarantee coalescing across separate isolates.
+- Expected request change on a cold uncached non-homepage HTML request: up to eight browser reads replaced by two server CDN reads; warm Cache API hits should require no Sanity request for these two projections. This expectation is not a measured usage result.
+- Added `tests/sanity-header-ssr-seed.test.mjs` and `scripts/smoke-header-ssr-seed.mjs`. Verified code head `cd1011c9f53267e8f2d5f27b15ec6c2429827c15`; TypeScript, lint, 604 website tests, website build, Studio type-check/build, D1 validation, full SSR/SEO regression and route-specific raw HTTP checks passed. Preview `https://9b89ce6e.florial.pages.dev` verified BG/RU/EN payloads and category product counts. No Production deployment or live service configuration changes. Actual usage reduction remains unmeasured pending fresh Request Logs.
+
+## 2026-11-28 — services and blog SSR/API request stabilization (PR #559 draft)
+
+**Code-bearing head:** `676cc68e72c81e9df620554aeed608eadac27013` on `develop`.  
+**Preview:** https://e4169bb4.florial.pages.dev  
+**Release status:** Draft PR #559; not merged; no Production deployment.
+
+- `/services`: `functions/_middleware.ts` serializes the published service list and role-photo projections already fetched for SSR into `florial-services-ssr-data`. `src/App.tsx` validates the payload locale and initializes `services`, `serviceRolePhotos` and `loadedServicesLanguage` from it. The matching initial client effect therefore skips its repeat requests. Missing/invalid/wrong-locale payloads continue through the existing Sanity CDN fetch path.
+- `/services/{slug}`: middleware serializes the already-fetched published service document into `florial-service-detail-data`, including the requested slug, locale and a client-compatible `slug.current`. App validates slug, locale and document identity; the initial matching request is skipped. Subsequent SPA navigation and locale changes retain the existing `fetchServiceDetails()` path and 60-second in-process cache.
+- Inline JSON is escaped before insertion into the HTML head so content cannot terminate the script element. Payloads are data-only and do not alter visible page markup.
+- Existing blog behavior is retained: `florial-blog-ssr-data` and `florial-blog-article-data` already seed the normal first load and suppress duplicate browser reads. New regression assertions protect both handoffs.
+- No changes to the shared published API-CDN query helper, `perspective=published`, Cache API TTLs, HTML `s-maxage`/stale policy, page SEO, canonical/hreflang, JSON-LD, images, content ordering or localization.
+- Exact-head verification: Blog/Studio validation `46113461352` success; D1 migration validation `46113461408` success (validation/dry-run only, no migration); full SSR/SEO raw first-response regression `46113461344` success; service directory smoke `46113461340` success (26 links, BG/RU/EN); service detail smoke `46113461333` success (25 active detail pages per locale); blog index `46113461336` and article smoke `46113461332` success (19 articles per locale); additional product/catalogue/plant/About checks passed.
+- **Not verified:** real browser interaction/hydration by a human; post-remediation Sanity Request Logs and actual request-count reduction; Production behavior of this unmerged code.
+- **Safety:** no Sanity writes/schema changes, D1 writes/migrations, Cloudflare settings/secrets, DNS, orders, emails or Production deployment. PR #559 remains Draft pending owner release approval.
+
 ## 2026-11-25 — homepage first-response SSR (PR #533, implementation verified)
 
 - Branch: `feat/ssr-homepage-content-v1`; PR #533. Code-bearing head: `0276d4d99256a92c500487f94a501da57b36ca21`.

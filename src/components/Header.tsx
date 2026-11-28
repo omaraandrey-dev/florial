@@ -14,6 +14,7 @@ import type {
 
 interface HeaderProps {
   services: ServiceItem[]
+  initialBlogPosts?: BlogPostCard[]
   categories: CategoryItem[]
   plantCategories: CategoryItem[]
   cart: CartItem[]
@@ -28,6 +29,7 @@ interface HeaderProps {
 
 export function Header({
   services,
+  initialBlogPosts,
   categories,
   plantCategories,
   cart,
@@ -44,14 +46,18 @@ export function Header({
   const [isPlantsOpen, setIsPlantsOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(false)
-  const [blogPosts, setBlogPosts] = useState<BlogPostCard[]>([])
+  const [blogPosts, setBlogPosts] = useState<BlogPostCard[]>(() => initialBlogPosts || [])
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
+    if (initialBlogPosts) {
+      setBlogPosts(initialBlogPosts)
+      return
+    }
     let active = true
     fetchBlogPosts(3, language).then((posts) => { if (active) setBlogPosts(posts) }).catch((error) => console.error('Florial recent blog posts could not load:', error))
     return () => { active = false }
-  }, [language])
+  }, [language, initialBlogPosts])
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
   const totalCartPrice = cart.reduce(

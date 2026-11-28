@@ -6,7 +6,7 @@ The released sequence is: (1) Rain Bird 3504-PC rotors across the complete polyg
 
 Verification: exact code/test validation passed 581/581 Node tests, application/Pages type-check, lint, website build, Studio type-check/build; the main-merge CI checks and full SSR/SEO regression passed; the Production Pages build/deploy and BG/RU/EN raw-HTTP smoke passed. Full run/deployment identifiers are recorded in the engineering specification. This is sampled geometric planning, not a continuous-coverage proof or hydraulic calculation.
 
-**Workstream status: PAUSED after completion.** Do not proactively refactor, optimize or change this solver again unless the owner supplies a new task or observed issue. Do not broaden the scope to hydraulic calculations, manufacturer performance interpolation, new sprinkler families or unrelated UI/geometry features. Keep exact manufacturer data, sampled coverage, overspray and Head-to-Head checks mandatory. The earlier 2026-11-24 pause is superseded only for the completed PR #551 scope and is now reinstated. `CHANGELOG.md`, the technical passport, `CURRENT_STATE.md` and the open-questions ledger remain frozen by PR #409 until that conflict is resolved; do not edit those files as part of this documentation closeout.
+**Workstream status: PAUSED after completion.** Do not proactively refactor, optimize or change this solver again unless the owner supplies a new task or observed issue. Do not broaden the scope to hydraulic calculations, manufacturer performance interpolation, new sprinkler families or unrelated UI/geometry features. Keep exact manufacturer data, sampled coverage, overspray and Head-to-Head checks mandatory. The earlier 2026-11-24 pause is superseded only for the completed PR #551 scope and is now reinstated. Shared project documents are maintained through the normal sequential integration workflow on `develop`; no historical or temporary PR is a standing reason to freeze them.
 
 ---
 
@@ -60,7 +60,7 @@ GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. **Supabas
 - Уже открытые task-specific PR/ветки (включая PR #543) считать переходными исключениями: завершить их в согласованном порядке, затем перенести развитие на единый `develop`. Не открывать новые параллельные ветки.
 - Старые refs не удалять массово и не восстанавливать без прямого указания владельца. Их наличие само по себе не означает незавершённую задачу.
 - Общие документы (`CHANGELOG.md`, `docs/TECHNICAL_PASSPORT.md`, `docs/AI/OPEN_QUESTIONS.md`, инструкции и протоколы) изменять последовательно в одном потоке, без параллельных копий.
-- **PR #409 заморожен по решению владельца:** не изменять его head/base, не комментировать, не закрывать и не редактировать его файлы до отдельного распоряжения. Пока он открыт, не редактировать файлы, входящие в его diff; уникальные документы и инструкции можно актуализировать отдельно.
+- PR #409 закрыт владельцем как временный/устаревший переходный PR. Не использовать его ветку, diff или Preview как актуальную основу, не переносить из него изменения и не возобновлять работу по нему. Текущая работа ведётся от актуального `develop`, релизная база — `main`.
 - Перед релизом проверить точные SHA, diff, тесты, Preview, mergeability и отсутствие конфликтов. После релиза сверить Production deployment и raw HTTP smoke по точному SHA.
 
 ## Изменения и проверка

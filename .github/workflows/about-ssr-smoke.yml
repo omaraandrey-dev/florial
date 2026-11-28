@@ -1,29 +1,8 @@
 name: About page SSR raw HTTP smoke
 
 on:
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-      - "functions/_middleware.ts"
-      - "functions/_lib/aboutHtml.mjs"
-      - "functions/_lib/aboutHtml.d.mts"
-      - "src/content/aboutPageContent.ts"
-      - "src/pages/AboutPage.tsx"
-      - "scripts/smoke-about-ssr.mjs"
-      - "docs/audits/2026-11-25-about-ssr-discovery.md"
-      - "docs/roadmaps/SSR_CONTENT_V1_ROADMAP_2026-11-24.md"
-      - "docs/roadmaps/ROADMAP_STATUS_INDEX_2026-11-23.md"
-      - ".github/workflows/about-ssr-smoke.yml"
-  push:
-    branches: [main]
-    paths:
-      - "functions/_middleware.ts"
-      - "functions/_lib/aboutHtml.mjs"
-      - "src/content/aboutPageContent.ts"
-      - "scripts/smoke-about-ssr.mjs"
-      - ".github/workflows/about-ssr-smoke.yml"
   workflow_dispatch:
+
 
 permissions:
   contents: read

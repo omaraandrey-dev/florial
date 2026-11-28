@@ -1,3 +1,14 @@
+## 2026-11-28 — Phase 8: browser-side product request single-flight (implementation committed; verification open)
+
+- Audit found that the existing 30-second product identity/detail caches only stored completed results. Two simultaneous React effects or route loads for the same product could both miss the completed cache and issue duplicate Sanity reads before either result was stored.
+- Added `productIdentityInFlight` keyed by slug. Concurrent slug resolutions now share the same paired `production` + `plants` identity lookup.
+- Added `productDetailsInFlight` keyed by dataset + document ID. Concurrent detail loads share the same full product read and enrichment work.
+- Per-caller cancellation is checked after the shared promise resolves; cancellation in one effect does not abort a read still needed by another caller. Both in-flight entries are cleared in `finally`, including rejection paths, so subsequent attempts can retry.
+- Existing 30-second completed caches, published API-CDN clients, query tags, product field projections, dataset choice and checkout Live API price validation are unchanged.
+- Added regression assertions in `tests/sanity-client-read-cache.test.mjs`.
+- Implementation commits: `1d8b4a76b39809c8d7ff683c813a16a4eb1f927a`, `668c45746663da863fe18785d988b749aefd242d`, test commits `bd137c44e7e68d89eb4e13f2e373300483089524` and `b32bd59dc6d1f120046020b15b82df97bac2ab13`.
+- **Verification is OPEN:** no CI status/workflow evidence, local test execution or new Preview verification was returned for the latest code commits. Run the full validation before considering this phase complete. No Production release or live-service changes. Actual API usage reduction remains unmeasured pending fresh Request Logs.
+
 # Florial — Sanity API usage stabilization roadmap
 
 **Created:** 2026-11-27  
@@ -7,9 +18,20 @@
 **Canonical branch for development:** `develop`  
 **Production branch:** `main`  
 **Sanity project:** `bxvcy0qs`  
-**Status:** READY FOR MERGE — public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN on `develop`; owner-approved equipment sales policy is documented below; exact-head CI, Preview and raw-HTTP SSR checks passed on `412da0af82d2a45a1b7c6774027d489fa6f2bba1`; fresh Sanity Request Logs validation remains pending until the December 1 usage reset.
+**Status:** PR #558 is merged into `main` and `develop`; public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN. SSR reuse for Header/categories, contacts, services and blog is implemented in Draft PR #559. Phase 8 product slug/detail single-flight is now committed on `develop`; latest handoff head `0d63660c9372f5a607f883b6be2208fe152198d0` (98 commits ahead of `main`). Earlier exact-head CI/Preview passed on `cd1011c9f53267e8f2d5f27b15ec6c2429827c15`; **new Phase 8 commits are not yet CI/test/Preview verified**. Pending: owner release approval, browser QA and fresh Sanity Request Logs after the December 1 usage reset. No Production release is claimed.
 
 > This file is the portable handoff for this workstream. Any ChatGPT, Claude, Gemini, developer or future conversation must read this roadmap first, then follow `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md` and `docs/AI/WORK_PROTOCOL.md`. Update this file at every completed phase. Do not rely on chat history as the source of task status.
+
+## 2026-11-28 — Phase 7: shared Header and catalogue category read consolidation (verified on develop)
+
+- The previous client implementation issued six independent public CDN reads for Header plus two full category-index reads on each non-homepage app load: equipment categories, plant categories, services, site settings, logo and recent blog posts.
+- Added `fetchHeaderSeed()` in `functions/_middleware.ts`. It returns the Header and full catalogue category data in two published CDN requests (one combined `production` GROQ projection plus one `plants` category query), cached with versioned v2 Cache API keys and a 300-second TTL.
+- Added `florial-header-ssr-data` and client-side locale/shape validation in `src/App.tsx`. The client initializes Header and application-wide catalogue category state from the SSR payload and skips both the six-query Header effect and the separate two-query category-index effect when the seed is valid. Homepage behavior remains on its existing richer seed.
+- Added per-isolate single-flight coalescing in `querySanityData()` for concurrent requests sharing the same cache key, preventing a cache-miss stampede from generating duplicate CDN requests inside one Worker isolate. When the category projection was expanded, Preview testing detected the old cached shape; versioned v2 keys now isolate the updated payload from v1 entries.
+- Regression tests added: `tests/sanity-header-ssr-seed.test.mjs`; Preview raw HTTP check added: `scripts/smoke-header-ssr-seed.mjs` and wired into `scripts/smoke-ssr-regression.mjs`.
+- **Expected, not yet measured:** non-homepage cold request: up to 8 browser calls replaced by 2 cached server calls; warm Cache API: 0 upstream Sanity calls for these two projections. The two datasets remain separate.
+- Verified code-bearing develop head: `cd1011c9f53267e8f2d5f27b15ec6c2429827c15`. Preview: `https://9b89ce6e.florial.pages.dev`. Exact-head checks: Blog and Studio validation `46119761234`, full SSR/SEO regression + BG/RU/EN Header seed smoke `46119761277`, product SSR/raw HTTP `46119761228`, equipment category SSR `46119761390`, plant catalogue `46119761332`, service directory `46119761239`, service detail `46119761269`, blog index `46119761233`, blog articles `46119761368`, About `46119761232`, D1 validation `46119761220` — all success.
+- No Sanity content/schema, D1, Cloudflare configuration/secrets, DNS or Production deployment changes. Actual monthly Sanity usage reduction is not yet measured; verify from Request Logs after the December 1 reset.
 
 ## 1. Objective
 
@@ -265,6 +287,7 @@ If Request Logs, a CI failure, or a correctness concern prevents safe completion
 | Automated monitoring | NOT STARTED | Start with usage/log review; AE requires separate approval |
 | Regression guard | CI VERIFIED | `tests/sanity-live-api-tagging.test.mjs` and `tests/sanity-public-cdn-reads.test.mjs` passed within exact-head npm test/Studio validation; Preview and raw HTTP smoke passed |
 | Production release of new browser changes | BLOCKED | Draft PR #557; requires exact-SHA Preview/CI verification and separate owner release approval |
+| Services/blog SSR seed reuse | IMPLEMENTED ON DEVELOP / PREVIEW VERIFIED | `/services` and `/services/{slug}` now reuse validated SSR payloads; blog index/article seed behavior retained. Draft PR #559. Exact-head CI + BG/RU/EN raw HTTP smoke passed; owner release approval and post-reset Request Logs measurement remain pending |
 
 ## 7. Required status update format
 
@@ -439,3 +462,160 @@ Do not change catalogue/search query clients until this decision is explicitly s
 - **No changes:** no Sanity documents/schemas/datasets, D1 schema/data, Cloudflare Production settings/bindings/secrets, DNS, orders or Resend configuration were changed.
 - **Open owner decisions:** displayed catalogue/search price and stock freshness (previous CDN cache observation approximately 60 seconds); whether to add equipment stock validation to checkout before moving equipment stock display to CDN. Keep these reads Live until decided.
 - **Next:** obtain a fresh Request Logs export and validate tags/statuses; complete browser functional checks and a controlled repeated-route traffic sample; request owner decisions on catalogue/search freshness and equipment stock validation. Keep PR #557 draft and Production release blocked pending explicit approval.
+
+
+### Phase 6 — services and blog SSR/API stabilization (added 2026-11-28)
+**Status: IMPLEMENTED ON DEVELOP — service directory and service-detail SSR payload reuse passed exact-head CI and Preview BG/RU/EN raw HTTP smoke. Existing blog index/article payload reuse is retained and regression-tested. Draft PR #559 remains unmerged; owner release approval and post-reset Sanity Request Logs measurement are pending.**
+
+Objective: extend the Sanity API stabilization work to all four public service/blog route families without changing published content or weakening SEO, localization, or freshness behavior.
+
+Scope:
+1. Services directory: `/services`.
+2. Individual service pages: `/services/{slug}`.
+3. Blog directory: `/blog`.
+4. Individual blog articles: `/blog/{slug}`.
+
+Audit sequence:
+1. Trace each route from `functions/_middleware.ts` through its SSR renderer and Sanity query helper. Record exact query, dataset, perspective, request tag, client/endpoint, Cache API behavior, TTL/stale behavior, error fallback and route invalidation.
+2. Trace the matching React route and data functions. Determine whether SSR payload is reused or the browser repeats the same Sanity query after startup; identify related-content and localization follow-up requests separately.
+3. Classify each request as public published read eligible for API CDN, direct Live read requiring a documented reason, authenticated/admin operation, or duplicate/unnecessary request.
+4. Compare the four route families and their existing regression/smoke workflows. Add tests for endpoint/client selection, published perspective, SSR seed reuse, query counts/deduplication, cache/error behavior and BG/RU/EN output where supported.
+5. Propose the smallest safe runtime changes. Preserve existing route HTML, H1/meta/JSON-LD, canonical and language behavior, content ordering, images, internal links and user-visible page behavior.
+6. Implement only proven safe changes on the canonical `develop` branch, then run exact-SHA tests, type-check, lint, build, Preview and BG/RU/EN raw-HTTP smoke. Production release remains subject to the existing owner-approval gate.
+7. After the Sanity usage reset, compare fresh Request Logs and usage data for the four route families; do not infer savings from CDN code alone.
+
+Initial source map (verified by repository source reads; detailed query/cache classification remains pending):
+- Services directory SSR renderer: `functions/_lib/servicesDirectoryHtml.mjs`; middleware entry: `functions/_middleware.ts`.
+- Service detail SSR renderer: `functions/_lib/serviceDetailHtml.mjs`; client data path: `src/lib/routeData/serviceDetails.ts`.
+- Blog index SSR renderer: `functions/_lib/blogIndexHtml.mjs`; client route and SSR-seed consumer: `src/pages/BlogPage.tsx`.
+- Blog article SSR renderer: `functions/_lib/blogArticleHtml.mjs`; client route and SSR-seed consumer: `src/pages/BlogPostPage.tsx`; shared client data functions: `src/lib/blog.ts`.
+
+Guardrails:
+- Read-only audit is allowed. Existing published `service` and `blogPost` documents are protected. Do not edit, publish, unpublish, delete or otherwise mutate Sanity content/schema.
+- Do not change service/blog copy, SEO metadata, slugs, images, galleries, references, ordering or activity state as part of this API task.
+- Keep public reads on the published perspective. Never expose drafts or authenticated Manager/Studio data through public CDN/cache.
+- Do not assume every direct Live request is redundant. Preserve any read whose freshness or validation purpose is documented until a safe alternative is demonstrated.
+- Do not change global Header, navigation, Footer, routing architecture, Production settings/secrets, D1 or DNS.
+- Keep SSR and crawler-visible HTML intact; no reduction in page content or structured data as a request-saving shortcut.
+
+Acceptance criteria:
+- A route-by-route callsite matrix exists for all four route families, including SSR and browser requests.
+- Any duplicate SSR-to-client fetch is either eliminated safely or documented with its reason.
+- Public published reads use the existing API CDN/cache path where safe; every remaining direct Live read has a specific justification.
+- Cache policy, freshness, stale behavior and error fallback are tested and documented.
+- BG/RU/EN SEO/SSR smoke and exact-head CI pass with no content/behavior regression.
+- Post-reset Request Logs show the actual route-family request distribution; any claimed reduction is supported by measured evidence.
+
+### 2026-11-28 — Phase 6 kickoff and initial source review
+- Owner approved adding this workstream to the Sanity API stabilization roadmap and beginning implementation work.
+- Branch policy: continue on canonical `develop`; no new task-specific branch.
+- Initial source files read: `functions/_lib/servicesDirectoryHtml.mjs`, `functions/_lib/serviceDetailHtml.mjs`, `functions/_lib/blogIndexHtml.mjs`, `functions/_lib/blogArticleHtml.mjs`, `src/pages/BlogPage.tsx`, and `src/pages/BlogPostPage.tsx` (selected source sections).
+- Confirmed in client code: blog index consumes `florial-blog-ssr-data` and initializes as loaded when the SSR language matches; blog article consumes `florial-blog-article-data` and reuses both article and related-post payload when slug/language match. A non-matching or absent seed falls back to client fetches. This is code-level evidence only; middleware serialization and the exact SSR query/cache paths still require tracing.
+- Service detail client loader `src/lib/routeData/serviceDetails.ts` uses an in-process 60-second Map cache with promise deduplication (recorded in source review); this does not establish the edge/SSR cache policy.
+- **Not yet verified:** exact Sanity endpoint/client and request tags in each of the four SSR renderers; Cache API TTL/stale behavior; middleware route-to-renderer wiring and error fallbacks; whether service pages repeat a fetch after SSR; current live Production behavior.
+- No application source, tests, Sanity content/schema, D1, Cloudflare settings/secrets or Production deployment changed in this kickoff.
+- Next: complete middleware/query/cache trace and route-family request matrix, then implement only demonstrated safe optimizations.
+
+
+### 2026-11-28 — Phase 6 source audit: SSR/CDN and client duplication findings
+**Verified against `develop` source at the audit time; no runtime files changed.**
+
+**Shared SSR Sanity helper**
+- `functions/_middleware.ts::querySanityData()` calls `https://bxvcy0qs.apicdn.sanity.io/v2024-01-01/data/query/{dataset}`.
+- It explicitly sends `perspective=published` and a route-family request tag generated by `getSanityRequestTag()`.
+- It uses Cloudflare `caches.default` with a route-specific cache key and caller-supplied TTL. Cache read/write failures are non-fatal; failed upstream responses throw and route handlers use their own fallback behavior.
+- This is verified in code, not a live Sanity Request Logs measurement.
+
+**Services directory `/services`**
+- SSR executes two published API-CDN queries in parallel: active services (60-second edge data-cache TTL) and four specialist role photos (300-second data-cache TTL). The transformed HTML uses `s-maxage=60, stale-while-revalidate=120`.
+- React `src/App.tsx` independently executes three `sanityClient.fetch()` calls for the service list, role photos and service-direction documents. The service list and role-photo projections overlap with the SSR query. The direction-document query is additional data needed by specialist-direction UI and must not be dropped blindly.
+- No service-directory SSR seed is currently serialized/consumed. This is a confirmed avoidable duplicate-read candidate for the service list and role photos. Proposed safe design: pass only the already-fetched service and role-photo arrays to the browser as a validated, language-scoped seed; preserve the separate direction-document query where that route requires it. Confirm route conditions before implementation.
+
+**Individual service pages `/services/{slug}`**
+- SSR `queryServiceDocument()` uses the shared published API-CDN helper with a 60-second data-cache TTL; service HTML uses `s-maxage=60, stale-while-revalidate=120`.
+- React `src/App.tsx` separately calls `fetchServiceDetails()`; `src/lib/routeData/serviceDetails.ts` uses `sanityClient` (configured with `useCdn: true`, `perspective: 'published'`) and a per-runtime 60-second Map cache with in-flight promise deduplication.
+- The SSR service document is not currently serialized as a client seed. On a direct first load, the browser therefore repeats a published service-detail read after the server has already fetched the document. This is a confirmed duplicate-read candidate.
+- Proposed safe design: serialize the SSR service document and slug/language into a script payload, validate it in App on the initial matching route, initialize `currentServiceDetails` from it and skip only that initial client request. Later SPA navigation to another slug or language changes must continue to fetch normally.
+
+**Blog index `/blog`**
+- SSR makes one published API-CDN query with a 60-second data-cache TTL; HTML cache is `s-maxage=60, stale-while-revalidate=120`.
+- SSR serializes `florial-blog-ssr-data`; `BlogPage.tsx` consumes it only when language matches and initializes the list as loaded. The initial duplicate browser catalogue fetch is already prevented. If the seed is absent/invalid or language differs, the client intentionally falls back to `fetchBlogPosts()`.
+- `src/lib/blog.ts` also has a 60-second in-process list cache with promise deduplication. This is a second cache layer, not a substitute for SSR seed reuse.
+
+**Individual blog articles `/blog/{slug}`**
+- SSR fetches the published article and up to three related posts through the shared API-CDN helper; each data cache TTL is 60 seconds. Related content is optional and its failure does not hide a valid article. HTML cache is `s-maxage=60, stale-while-revalidate=120`.
+- SSR serializes `florial-blog-article-data`; `BlogPostPage.tsx` consumes matching slug/language data for both article and related cards and skips the initial article/related client reads. Missing/invalid/mismatched seeds fall back to client fetching.
+- `src/lib/blog.ts` separately uses 60-second in-process caches for detail and related requests, with promise deduplication and error eviction.
+
+**Preliminary classification**
+- Existing blog SSR-to-client duplication: no confirmed duplicate on a normal matching first load; keep current seed behavior and add/retain regression coverage.
+- Service directory and service detail: confirmed duplicated public published reads are the highest-value Phase 6 candidates.
+- All four SSR families already use the API CDN. Do not replace these with a different endpoint or blindly modify the shared helper.
+- No Sanity content/schema, D1, Cloudflare configuration/secrets, DNS or Production state was changed.
+- Next: implement the two service SSR-seed reuse improvements, preserving client fetches on later SPA navigation and locale changes; add focused tests and extend BG/RU/EN service SSR smoke to validate the payload and initial-fetch suppression.
+
+
+### 2026-11-28 — services SSR payload reuse implementation started
+- Owner confirmed that temporary PR #409 must no longer constrain normal work. PR #409 was closed (not merged) through GitHub; its temporary branch/diff is not used as a base or source of changes. Current workflow remains `develop` for work and `main` for Production.
+- Removed the obsolete PR #409 freeze instructions from `AI_INSTRUCTIONS.md`, `docs/AI/WORK_PROTOCOL.md` and `docs/operations/BRANCH_HYGIENE.md` on `develop`. Historical audit entries remain historical and do not constrain current work.
+- Implemented SSR-to-client payload handoff for `/services`: middleware serializes the already-fetched published service list and role photos into a safely escaped JSON script payload; App validates the locale and initializes its state from that payload. Matching initial loads now satisfy the existing `loadedServicesLanguage` guard and skip the duplicate service/role-photo fetches (and the unused direction-list fetch in that same effect).
+- Implemented SSR-to-client payload handoff for `/services/{slug}`: middleware serializes the already-fetched published service document, including its route slug and locale; App validates slug/locale/document identity, initializes from the payload and suppresses only the matching first-load fetch. Later SPA route or locale changes continue through the existing client fetch path.
+- Blog index/article SSR payload behavior is unchanged; added regression assertions to protect both existing blog handoffs.
+- Files changed: `functions/_middleware.ts`, `src/App.tsx`, `tests/content-route-performance.test.mjs`, this roadmap, and current workflow documentation.
+- **Tests/CI:** not yet run on the implementation head. Static source review only; do not treat implementation as verified until exact-head CI passes.
+- **Preview/Production:** not checked; no deployment performed.
+- **Sanity:** no live Sanity reads/writes performed by this implementation; no content/schema changes.
+- **Open:** exact-head TypeScript/lint/test/build/Pages Functions validation, Preview deployment, BG/RU/EN raw-HTTP checks, and proof that invalid/mismatched seeds safely fall back to existing fetches.
+- Next: open a draft integration PR from `develop` to `main` for exact-head CI/Preview validation; review all changed files and fix any failures before requesting release approval.
+
+
+### 2026-11-28 — Phase 6 exact-head CI and Preview verification
+- **Branch / code head:** `develop`; code-bearing commit `676cc68e72c81e9df620554aeed608eadac27013`. Draft integration PR #559: https://github.com/omaraandrey-dev/florial/pull/559.
+- **Implementation:** service directory SSR seed and service detail SSR seed are consumed by the client only when locale/slug/document identity match. Mismatched or absent seeds fall back to the existing CDN fetch path; later SPA navigation and locale changes continue to fetch normally. Blog index/article seeds remain unchanged.
+- **Exact-head CI:** Blog/Studio validation `46113461352` — success (application/Pages Functions type-check, lint, website tests/build, read-only migration dry-run, Studio type-check/build); D1 validation `46113461408` — success; full SSR/SEO raw first-response regression `46113461344` — success.
+- **Route smoke:** services directory `46113461340` — success (26 service links and CollectionPage/BreadcrumbList in BG/RU/EN); service details `46113461333` — success (25 active detail pages per locale, full first-response HTML and Service/BreadcrumbList); blog index `46113461336` — success (19 cards, four directions and hydration seed per locale); blog articles `46113461332` — success (19 articles per locale, full body/images/seed and BlogPosting/BreadcrumbList). Additional equipment product/catalogue, plant catalogue and About smoke checks passed: `46113461331`, `46113461379`, `46113461328`, `46113461468`, `46113461451`.
+- **Preview:** exact Cloudflare Pages Preview `https://e4169bb4.florial.pages.dev`. These checks do not prove Production release or browser-interaction behavior.
+- **Production:** not deployed; PR #559 remains Draft and unmerged. Owner approval is still required.
+- **Sanity usage:** no fresh Request Logs available yet. Wait for December 1 usage reset, then compare route-family requests and distinguish Live API from API CDN requests and successful from blocked requests. No measured reduction claimed yet.
+- **Safety:** no Sanity writes/schema changes, D1 writes/migrations, Cloudflare settings/secrets, DNS, orders, emails or Production state changed.
+- **Next:** owner review/approval of Draft PR #559; after release, run safe Production raw HTTP smoke and complete post-reset Sanity Request Logs measurement.
+
+
+
+### 2026-11-28 — product SSR identity handoff added to PR #559
+
+- **Branch:** `develop`; exact code/test head: `4b045fd54182cff217a17e1654caec97a02698a9`.
+- **Root cause addressed:** the middleware already resolves the product's exact Sanity dataset and document ID for the first HTML response. The browser then repeated two slug lookups (equipment + plants) before fetching the full product projection. This duplicated work on every direct product-page load.
+- **Changed:** `functions/_middleware.ts` now serializes a minimal, safely escaped product route payload containing only slug, locale, dataset and document ID. It does not expose a product document or alter rendered content.
+- **Changed:** `src/App.tsx` validates that payload against the requested slug, locale and dataset, then uses the resolved identity only for the matching initial product route. SPA product navigation and invalid/missing payloads continue through the existing slug resolver.
+- **Changed:** `src/lib/routeData/productDetails.ts` adds `fetchProductDetailsByIdentity()`, which loads the full published product projection directly from the known dataset and ID. It preserves the existing CDN client, published perspective, price/stock display and related-content behavior.
+- **Regression test:** added a product SSR identity handoff assertion to `tests/content-route-performance.test.mjs`.
+- **Expected reduction:** on an uncached initial product-page load, remove the two parallel slug-to-ID requests; retain the single full product-detail request and any necessary related-content requests. This is a source-level expected reduction, not yet a measured Sanity usage result.
+- **Exact-head CI:** queued for `4b045fd54182cff217a17e1654caec97a02698a9`; run IDs include `46118450388`, `46118450358`, `46118450362`, `46118450443`, `46118450363`, `46118450412`, `46118450380`, `46118450352`, `46118450398`, `46118450489`, `46118450357` and `46118450406`. Do not claim validation until completed.
+- **Release:** included in Draft PR #559 (`develop → main`). No merge, Production deployment, Sanity writes, D1 changes or Cloudflare configuration changes.
+- **Next:** wait for exact-head CI and Preview; then extend SSR payload reuse to product/category catalogue data only after validating projection completeness and route behavior. Keep the 60-second displayed price/stock freshness policy and authoritative Live checkout price validation unchanged.
+
+
+### Product SSR identity handoff — exact-head verification update
+
+- Tested code SHA: `4b045fd54182cff217a17e1654caec97a02698a9`.
+- Exact Cloudflare Pages Preview deployment: `aeaa764d-1a57-4db8-934c-4bd15300b59f`; URL: https://aeaa764d.florial.pages.dev.
+- Blog and Studio validation run `46118450398`: success — app/Pages type-check, lint, website tests, website build, migration syntax/read-only dry-run, Studio type-check/build.
+- Full SSR/SEO regression run `46118450363`: success.
+- Equipment product SSR validation/raw HTTP run `46118450388`: success — validation/build/tests and all active published equipment product pages checked without JavaScript.
+- Plant catalogue `46118450358`, equipment catalogue `46118450380`, services directory `46118450489`, service details `46118450362`, blog index `46118450352`, blog articles `46118450443`, About `46118450357`, equipment Preview smoke `46118450412`: success.
+- D1 validation run `46118450406` was cancelled; no D1 migration or data operation was part of this change.
+- **Verification boundary:** this validates source behavior and raw first-response routes on Preview. It does not measure Sanity's real CDN request counter or prove a two-request reduction from usage logs. No Production deployment or merge.
+
+
+### 2026-11-28 — contacts SSR photo handoff
+
+- **Code head:** `241878ff47fcbc46a71134c1a5aaf5f740b83588`; included in Draft PR #559.
+- `fetchContactsHtml()` now returns both the existing rendered HTML and the location-image map. The middleware embeds a locale-bound, safely escaped `florial-contacts-ssr-data` payload in the initial response.
+- `App.tsx` validates the initial route/locale payload and passes the two images to `ContactsPage`. On direct `/contacts` loads, the page skips its two previous browser queries.
+- SPA navigation without an SSR payload now loads both location photos with one GROQ query rather than two.
+- The contact content, address/phone data, image fallback behavior and server-side rendering remain unchanged.
+- Exact Cloudflare Preview: https://92aa1bb8.florial.pages.dev.
+- Exact-head website type-check, lint, website utility tests, build, Pages Functions syntax, full SSR/SEO regression and route smoke checks passed. Studio validation was still running when this note was written.
+- Expected reduction: two browser CDN requests on a direct contacts load; one fewer request on SPA navigation. This is a code-path expectation, not a measured Sanity usage-counter result.
+- No Sanity writes, Production release or PR merge. Fresh CDN usage and Request Logs measurement remain pending.

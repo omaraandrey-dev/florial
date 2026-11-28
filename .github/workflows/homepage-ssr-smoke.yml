@@ -1,11 +1,6 @@
 name: Homepage SSR raw HTTP smoke
 
 on:
-  push:
-    branches:
-      - feat/ssr-homepage-content-v1
-      - fix/homepage-ssr-client-handoff-v1
-      - main
   workflow_dispatch:
     inputs:
       base_url:

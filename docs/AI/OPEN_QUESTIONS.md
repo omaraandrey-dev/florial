@@ -1,3 +1,40 @@
+## 2026-11-28 — Cloudflare Pages Functions daily request limit
+
+- **STATIC-ASSET INVOCATION FIX — IMPLEMENTED ON DEVELOP:** root middleware previously made static assets eligible for Pages Functions. Added `public/_routes.json` to exclude static asset extensions/directories while keeping SSR HTML, `/api/*`, sitemap and RSS eligible. Existing `public/_headers` preserves static security headers.
+- **PREVIEW BUILD FILTER — VERIFIED:** Cloudflare Preview is restricted to `develop` and build-relevant paths. The manifest-bearing deployment `a278c200` succeeded; later test/script/workflow-only commits were skipped with `skip_reason=path_config`. Production branch `main` and Production deployment enablement remain unchanged.
+- **CI — VERIFIED:** Blog/Studio run `46145932038` passed on `83cb44d0a1fdaf250d5c1525a27b225bc03f0d04`, including website tests/build and validation that `dist/_routes.json` matches the source manifest.
+- **SSR — OPEN:** full SSR/SEO run `46145932128` is waiting for a Pages check on the latest test/workflow-only commit. The current branch Preview alias points to the successful route-manifest deployment. Re-run raw SSR checks after the Cloudflare daily quota reset (2026-11-29 00:00 UTC).
+- **USAGE EFFECT — OPEN:** Cloudflare Analytics is delayed. The available 28 Nov partial total (through 07:00 UTC) was 126,650 requests: 119,130 Preview and 7,520 Production. This is not a post-fix measurement. Compare a complete post-reset day/hour window before claiming savings.
+- **REQUEST SOURCE ATTRIBUTION — OPEN:** current Analytics aggregation exposes date/script/status, not URL, path, user-agent or referrer. No usable historical Logs Explorer dataset or destination was found. Exact share of requests from static assets versus external Preview traffic is not known.
+- **FAIL-OPEN — CONFIRMED CONFIGURATION / EFFECT TO VERIFY:** Preview and Production both report `fail_open=true`. This may explain missing SSR while the daily limit is exceeded; verify SSR after reset. Do not change fail-open mode or upgrade plan without a separate decision.
+- **PRODUCTION — UNCHANGED:** latest successful Production deployment remains `691be01b-aadf-429b-a417-fec55ddc67fb`, source SHA `541223d7e8b01094223d53a140c139a99222952b`. PR #559 remains Draft; no merge or Production deployment.
+- Detailed record: [Cloudflare Pages Functions request-limit remediation](../operations/CLOUDFLARE_PAGES_FUNCTIONS_REQUEST_LIMIT_REMEDIATION_2026-11-28.md).
+
+## 2026-11-28 — GitHub Actions CI consolidation verification
+
+- **Run-count reduction — VERIFIED:** exact `develop` commit `900eab9fc38a199e00f764686bbdcc5905cd71b2` produced 3 automatic workflow runs versus 12 on baseline `9354efcc14f33a0c746324869cf109fa24e55fe8`.
+- **Blog/Studio CI — OPEN:** run `46126385821` failed on seven test assertions: About SSR seed/middleware (3), content-route performance/product CDN (2), product detail cache (1), and Sanity client/tagging (1). Reconcile each assertion with current source; do not suppress tests.
+- **Full SSR/SEO — OPEN:** run `46126385836` used the successful exact Preview deployment `https://ef0dd56a.florial.pages.dev` for commit `900eab9fc38a199e00f764686bbdcc5905cd71b2`, but homepage raw HTML returned HTTP 200 without `data-florial-ssr-homepage="v1"` through 24 attempts. The suite stopped before services/blog; the prior blog-article SPA-shell failure is not revalidated.
+- **D1 validation — VERIFIED for the initial CI consolidation commit:** run `46126385819` succeeded. A follow-up inspection found that including the D1 workflow YAML in its own PR path filter caused repeated runs on later PR synchronizations because GitHub matches the full PR diff. The self-path was removed at `a0aeda3170a04739b9c1337689ca6c83c959628f`; migration SQL/Python tests still trigger it, and workflow-only changes can use manual dispatch. Verify the final filter on a future migration-path change.
+- **Release guard — ACTIVE:** PR #559 remains Draft/unmerged; no Production deployment or main-branch change is authorized by this verification.
+- Detailed evidence and follow-up order: [GitHub Actions CI consolidation](../operations/GITHUB_ACTIONS_CI_CONSOLIDATION_2026-11-28.md).
+
+## 2026-11-28 — New open verification items: product single-flight
+
+- **CI/test verification — OPEN:** product slug/detail in-flight deduplication was committed to `develop` in Draft PR #559. The GitHub connector returned no workflow runs/status checks for the latest commit `b32bd59dc6d1f120046020b15b82df97bac2ab13`. Run the full repository validation and review failures before treating the change as verified.
+- **Preview/browser verification — OPEN:** no new Preview deployment or interactive browser QA has been performed for these commits.
+- **Behavioral review — OPEN:** verify that concurrent callers share only same-slug and same dataset/document requests, cancellation remains caller-local, rejected requests can retry, and both equipment and plant detail pages preserve their existing content.
+- **Usage measurement — OPEN:** no before/after request counts are available yet. Compare fresh Sanity Request Logs by request tag/query and status after the usage reset; distinguish successful requests from blocked attempts.
+
+## 2026-11-28 — Sanity API stabilization Phase 6: services/blog release and measurement remain open
+
+- **IMPLEMENTATION VERIFIED ON PREVIEW:** code-bearing head `676cc68e72c81e9df620554aeed608eadac27013`; Draft PR #559. Service directory and 25 service detail routes passed BG/RU/EN raw first-response smoke on Preview `https://e4169bb4.florial.pages.dev`. Blog index and 19 article routes per locale also passed raw SSR smoke.
+- **CI VERIFIED:** Blog/Studio validation `46113461352`, D1 validation `46113461408`, full SSR/SEO regression `46113461344`, service directory `46113461340`, service details `46113461333`, blog index `46113461336`, blog articles `46113461332` all succeeded. Website and Pages Functions type-check, lint, tests/build, Studio type-check/build and read-only D1 validation/dry-run passed.
+- **OWNER RELEASE APPROVAL — OPEN:** PR #559 is Draft and not merged. No Production deployment has been performed. Do not merge or deploy until the owner explicitly approves this specific release.
+- **SANITY MEASUREMENT — OPEN:** Request Logs export and before/after route-family counts cannot yet be validated because the next usage reset is December 1. After reset, export fresh logs and compare `/services`, service detail, blog index and blog article tags/queries, distinguishing API Requests from API CDN Requests and successful from blocked requests. Do not claim a measured reduction from code changes alone.
+- **BROWSER QA — OPEN:** automated raw HTTP/SSR smoke does not replace interactive browser QA or owner visual acceptance. Browser Use was not used in this implementation.
+- No Sanity content/schema, D1 data/schema, Cloudflare settings/secrets, DNS, orders, emails or Production state changed.
+
 ## 2026-11-25 — SSR Content v1 Phase 1: homepage parity and verification update (PR #533)
 
 - **IMPLEMENTATION VERIFIED:** branch `feat/ssr-homepage-content-v1`, draft PR #533. The renderer includes the full homepage content sequence and matches the client category-visibility, service-order, featured-product, plant-stock, blog-order and responsive-image contracts. Homepage JSON-LD includes `OnlineStore` and `WebSite`, plus the existing local `GardenStore` entities.

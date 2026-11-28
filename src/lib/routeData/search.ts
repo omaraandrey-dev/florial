@@ -1,8 +1,30 @@
 import { sanityClient, publicPlantsClient } from '../sanity'
 import type { Product } from '../../types'
 
+const SEARCH_PRODUCTS_CACHE_TTL_MS = 30_000
+let searchProductsCache: { expiresAt: number; promise: Promise<Product[]> } | null = null
+
 export async function fetchSearchProducts(isCancelled: () => boolean = () => false): Promise<Product[]> {
   if (isCancelled()) return []
+  if (searchProductsCache && searchProductsCache.expiresAt > Date.now()) {
+    const cachedProducts = await searchProductsCache.promise
+    return isCancelled() ? [] : cachedProducts
+  }
+
+  const promise = fetchSearchProductsUncached()
+  const cacheEntry = { expiresAt: Date.now() + SEARCH_PRODUCTS_CACHE_TTL_MS, promise }
+  searchProductsCache = cacheEntry
+  try {
+    const products = await promise
+    if (searchProductsCache === cacheEntry && products.length === 0) searchProductsCache = null
+    return isCancelled() ? [] : products
+  } catch (error) {
+    if (searchProductsCache === cacheEntry) searchProductsCache = null
+    throw error
+  }
+}
+
+async function fetchSearchProductsUncached(): Promise<Product[]> {
   const equipmentSearchQuery = `
         *[_type == "product" && isActive != false && defined(slug)] {
           _id, name,
@@ -55,8 +77,6 @@ export async function fetchSearchProducts(isCancelled: () => boolean = () => fal
     sanityClient.fetch(equipmentSearchQuery, {}, { tag: 'browser.search.equipment' }),
     publicPlantsClient.fetch(plantSearchQuery, {}, { tag: 'browser.search.plants' }),
   ])
-  if (isCancelled()) return []
-
   const equipment = equipmentResult.status === 'fulfilled' && Array.isArray(equipmentResult.value)
     ? equipmentResult.value
     : []

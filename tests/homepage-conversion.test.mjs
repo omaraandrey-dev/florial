@@ -81,7 +81,7 @@ test('homepage uses one main landmark for all primary sections', async () => {
   const home = await read('../src/pages/HomePage.tsx')
   assert.equal((home.match(/<main\b/g) || []).length, 1)
   assert.equal((home.match(/<\/main>/g) || []).length, 1)
-  assert.match(home, /<BlogSection onReadinessChange=\{onBlogReadinessChange\} \/>/)
+  assert.match(home, /<BlogSection initialPosts=\{initialBlogPosts\} onReadinessChange=\{onBlogReadinessChange\} \/>/)
 })
 
 test('homepage blog distinguishes loading, empty and failed requests', async () => {
