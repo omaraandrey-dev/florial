@@ -15,7 +15,7 @@ test('About page reuses the photo documents already fetched for its SSR HTML', a
   assert.match(app, /getElementById\('florial-about-ssr-data'\)/)
   assert.match(app, /initialRolePhotos=\{initialAboutSeed\?\.language === language \? initialAboutSeed\.rolePhotos : undefined\}/)
   assert.match(page, /initialRolePhotos\?: ServiceRolePhoto\[\]/)
-  assert.match(page, /if \(initialRolePhotos\?\.length\) return/)
+  assert.match(page, /if \(hasCompleteInitialPhotos\) return/)
   assert.match(page, /\}, \[initialRolePhotos\]\)/)
 })
 
