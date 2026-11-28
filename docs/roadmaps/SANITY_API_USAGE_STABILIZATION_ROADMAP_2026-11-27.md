@@ -265,6 +265,7 @@ If Request Logs, a CI failure, or a correctness concern prevents safe completion
 | Automated monitoring | NOT STARTED | Start with usage/log review; AE requires separate approval |
 | Regression guard | CI VERIFIED | `tests/sanity-live-api-tagging.test.mjs` and `tests/sanity-public-cdn-reads.test.mjs` passed within exact-head npm test/Studio validation; Preview and raw HTTP smoke passed |
 | Production release of new browser changes | BLOCKED | Draft PR #557; requires exact-SHA Preview/CI verification and separate owner release approval |
+| Services/blog SSR seed reuse | IMPLEMENTATION IN PROGRESS | Source audit found duplicate service list/role-photo reads on `/services` and duplicate full service-detail read on `/services/{slug}`; matching blog index/article seeds already prevent the normal first-load duplicates. New service payload handoff and regression tests added on `develop`; exact-head CI pending |
 
 ## 7. Required status update format
 
@@ -530,3 +531,17 @@ Acceptance criteria:
 - All four SSR families already use the API CDN. Do not replace these with a different endpoint or blindly modify the shared helper.
 - No Sanity content/schema, D1, Cloudflare configuration/secrets, DNS or Production state was changed.
 - Next: implement the two service SSR-seed reuse improvements, preserving client fetches on later SPA navigation and locale changes; add focused tests and extend BG/RU/EN service SSR smoke to validate the payload and initial-fetch suppression.
+
+
+### 2026-11-28 — services SSR payload reuse implementation started
+- Owner confirmed that temporary PR #409 must no longer constrain normal work. PR #409 was closed (not merged) through GitHub; its temporary branch/diff is not used as a base or source of changes. Current workflow remains `develop` for work and `main` for Production.
+- Removed the obsolete PR #409 freeze instructions from `AI_INSTRUCTIONS.md`, `docs/AI/WORK_PROTOCOL.md` and `docs/operations/BRANCH_HYGIENE.md` on `develop`. Historical audit entries remain historical and do not constrain current work.
+- Implemented SSR-to-client payload handoff for `/services`: middleware serializes the already-fetched published service list and role photos into a safely escaped JSON script payload; App validates the locale and initializes its state from that payload. Matching initial loads now satisfy the existing `loadedServicesLanguage` guard and skip the duplicate service/role-photo fetches (and the unused direction-list fetch in that same effect).
+- Implemented SSR-to-client payload handoff for `/services/{slug}`: middleware serializes the already-fetched published service document, including its route slug and locale; App validates slug/locale/document identity, initializes from the payload and suppresses only the matching first-load fetch. Later SPA route or locale changes continue through the existing client fetch path.
+- Blog index/article SSR payload behavior is unchanged; added regression assertions to protect both existing blog handoffs.
+- Files changed: `functions/_middleware.ts`, `src/App.tsx`, `tests/content-route-performance.test.mjs`, this roadmap, and current workflow documentation.
+- **Tests/CI:** not yet run on the implementation head. Static source review only; do not treat implementation as verified until exact-head CI passes.
+- **Preview/Production:** not checked; no deployment performed.
+- **Sanity:** no live Sanity reads/writes performed by this implementation; no content/schema changes.
+- **Open:** exact-head TypeScript/lint/test/build/Pages Functions validation, Preview deployment, BG/RU/EN raw-HTTP checks, and proof that invalid/mismatched seeds safely fall back to existing fetches.
+- Next: open a draft integration PR from `develop` to `main` for exact-head CI/Preview validation; review all changed files and fix any failures before requesting release approval.
