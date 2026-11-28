@@ -296,3 +296,42 @@ test('published SSR middleware queries use Sanity API CDN instead of the billabl
   assert.match(queryClient, /url\.searchParams\.set\('perspective', 'published'\)/)
   assert.doesNotMatch(queryClient, /\.api\.sanity\.io/)
 })
+
+
+test('services directory reuses the SSR service and role-photo payload on the matching initial locale', async () => {
+  const app = await read('../src/App.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  assert.match(middleware, /florial-services-ssr-data/)
+  assert.match(middleware, /serializeInlineJson\(\{ language, services, rolePhotos \}\)/)
+  assert.match(app, /function readServiceDirectorySeed\(language: string\)/)
+  assert.match(app, /payload\.language !== language/)
+  assert.match(app, /initialServiceDirectorySeed\?\.services/)
+  assert.match(app, /initialServiceDirectorySeed\?\.rolePhotos/)
+  assert.match(app, /initialServiceDirectorySeed\?\.language \|\| null/)
+  assert.match(app, /if \(!isServicesListRoute \|\| loadedServicesLanguage === language\)/)
+})
+
+test('service detail reuses only a matching SSR slug and locale, while later navigation still fetches', async () => {
+  const app = await read('../src/App.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  assert.match(middleware, /florial-service-detail-data/)
+  assert.match(middleware, /serializeInlineJson\(\{ slug: serviceDocument\.slugValue \|\| slug, language, service \}\)/)
+  assert.match(middleware, /slug: \{ current: serviceDocument\.slugValue \|\| slug \}/)
+  assert.match(app, /function readServiceDetailSeed\(slug: string \| null, language: string\)/)
+  assert.match(app, /payload\.slug !== slug/)
+  assert.match(app, /payload\.language !== language/)
+  assert.match(app, /service\.slug\?\.current !== slug/)
+  assert.match(app, /initialServiceDetailSeedUsed\.current = true/)
+  assert.match(app, /fetchServiceDetails\(activeServiceSlug, language/)
+  assert.match(app, /\}, \[activeServiceSlug, language\]\)/)
+})
+
+test('blog SSR payload handoff remains in place for index and article routes', async () => {
+  const middleware = await read('../functions/_middleware.ts')
+  const index = await read('../src/pages/BlogPage.tsx')
+  const article = await read('../src/pages/BlogPostPage.tsx')
+  assert.match(middleware, /florial-blog-ssr-data/)
+  assert.match(middleware, /florial-blog-article-data/)
+  assert.match(index, /florial-blog-ssr-data/)
+  assert.match(article, /florial-blog-article-data/)
+})
