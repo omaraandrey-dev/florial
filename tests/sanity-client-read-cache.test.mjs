@@ -21,7 +21,7 @@ test('product route identity and details are reused for repeated navigation with
   assert.match(source, /const cachedIdentity = readProductIdentity\(slug\)/)
   assert.match(source, /if \(cachedIdentity\) \{/)
   assert.match(source, /function writeProductIdentity\(/)
-  assert.match(source, /writeProductIdentity\(slug, dataset, foundProduct\._id\)/)
+  assert.match(source, /writeProductIdentity\(slug, identity\.dataset, identity\.id\)/)
   assert.match(source, /function writeProductDetails\(/)
   assert.match(source, /writeProductDetails\(cacheKey, enrichedDetails\)/)
   assert.match(source, /productIdentityCache\.size > 100/)
