@@ -49,7 +49,7 @@ test('blog index and homepage request only the active locale card fields', async
 test('header recent blog cards follow the active locale', async () => {
   const header = await read('../src/components/Header.tsx')
   assert.match(header, /fetchBlogPosts\(3, language\)/)
-  assert.match(header, /\}, \[language\]\)/)
+  assert.match(header, /\}, \[language, initialBlogPosts\]\)/)
 })
 
 test('blog article renders after its localized document, without waiting for the whole blog index', async () => {
