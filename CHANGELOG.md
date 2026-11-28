@@ -5,7 +5,8 @@
 - Scoped D1 migration validation to `docs/migrations/**` and migration-specific Python tests, removing duplicate npm install, lint, website build and Pages Functions transpilation.
 - Added PR concurrency groups to the two main validation workflows and D1 migration validation. Superseded in-progress PR runs are cancelled; push-to-main and manual runs are not cancelled.
 - Baseline evidence before this change: PR commit `9354efcc14f33a0c746324869cf109fa24e55fe8` generated 12 workflow runs (1 success, 11 failures). Blog/Studio validation run `46124032979` had 7 failing tests (610/617 passed); full SSR/SEO run `46124145409` failed because the article route returned the SPA shell instead of its SSR marker. These failures remain visible and are not suppressed by the workflow consolidation.
-- Implementation is on `develop` / Draft PR #559 only. Post-change CI is pending. No Production merge/deployment or live service configuration/data changes.
+- Post-change verification on exact commit `900eab9fc38a199e00f764686bbdcc5905cd71b2`: 3 automatic runs instead of 12. Blog/Studio run `46126385821` failed with 7 test assertions (About SSR seed ×3, content-route/product CDN ×2, product detail cache ×1, Sanity client/tagging ×1); D1 migration run `46126385819` succeeded; full SSR/SEO run `46126385836` failed because the successful exact Preview `https://ef0dd56a.florial.pages.dev` returned HTTP 200 without the homepage SSR marker after 24 attempts. The full suite stopped at homepage; blog article SSR remains unverified in this run.
+- The reduced run count is verified, but CI is not green. Follow-up diagnostics are recorded in `docs/operations/GITHUB_ACTIONS_CI_CONSOLIDATION_2026-11-28.md`. No Production merge/deployment or live service configuration/data changes.
 
 ## 2026-11-28 — Sanity API stabilization: concurrent product read coalescing (develop)
 
