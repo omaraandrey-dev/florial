@@ -40,10 +40,24 @@ Their checks are represented in the full SSR/SEO regression suite. Manual workfl
 
 ## Verification status
 
-- Workflow source changes are committed on `develop` and therefore update the existing Draft PR #559.
-- Exact post-change GitHub Actions results are pending; do not claim CI passed until runs for the new head complete.
-- The seven baseline test failures and the blog article SSR raw-response failure remain separate functional issues to investigate and fix. The CI changes only reduce duplicate execution; they do not change application code or test expectations.
-- No merge to `main`, Production deployment, Cloudflare settings/secrets change, Sanity write, D1 migration/data write, or DNS change was performed.
+- Workflow source changes are committed on `develop` / Draft PR #559. Production branch `main` was not changed.
+- Post-change exact commit: `900eab9fc38a199e00f764686bbdcc5905cd71b2`.
+- Post-change automatic runs: 3 (down from 12 on baseline commit `9354efcc14f33a0c746324869cf109fa24e55fe8`):
+  - Blog and Studio validation `46126385821` — **failure**.
+  - Full SSR/SEO regression `46126385836` — **failure**.
+  - D1 migration validation `46126385819` — **success**. This run was expected because the D1 workflow file itself changed in this commit; subsequent ordinary site-only changes should not match its migration path filter.
+- The application validation log contains seven failing tests: three About SSR seed/middleware assertions, two content-route performance/product-CDN assertions, one product-detail cache assertion, and one Sanity client/tagging assertion. Several assertions expect old source fragments after refactors; each must be reconciled with the current implementation before changing either code or test expectations. No test was skipped or suppressed by the CI consolidation.
+- The full SSR/SEO workflow resolved the exact successful Pages Preview deployment `https://ef0dd56a.florial.pages.dev` for commit `900eab9fc38a199e00f764686bbdcc5905cd71b2`. The deployment stages (queue, initialize, clone, build, deploy) all reported success. However, the homepage raw-HTTP smoke made 24 attempts and received HTTP 200 without `data-florial-ssr-homepage="v1"`; the suite stopped at homepage and did not reach services or blog checks.
+- Therefore the earlier baseline blog-article SSR failure is **not yet revalidated** by this run. The new homepage SSR failure is a separate open issue.
+- The baseline commit had 12 runs: 1 success and 11 failures. The post-consolidation commit had 3 runs: 1 success and 2 failures. This confirms fewer workflow runs, not a passing CI.
+- No merge to `main`, Production deployment, Cloudflare settings/secrets change, Sanity write, D1 migration/data write, or DNS change was performed. The Preview deployment is a normal branch preview and is not Production.
+
+## Follow-up actions
+
+1. Reconcile the seven failing assertions against the current source and determine which tests are stale versus which implementation contracts are broken. Do not weaken or remove coverage merely to make CI green.
+2. Investigate why the exact successful Preview deployment returned the homepage without its SSR marker; then rerun the full SSR/SEO suite and confirm the blog article route is reached.
+3. Verify on a later ordinary site-only commit that D1 migration validation is skipped, and verify on a later migration-path commit that it runs.
+4. Keep PR #559 Draft and do not merge or deploy Production without the owner's explicit release approval.
 
 ## Acceptance criteria
 
