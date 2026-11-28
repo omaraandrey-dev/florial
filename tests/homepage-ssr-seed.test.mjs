@@ -7,7 +7,10 @@ const read = (path) => readFile(new URL(path, import.meta.url), 'utf8')
 test('homepage SSR serializes the data already used to render the first response', async () => {
   const middleware = await read('../functions/_middleware.ts')
   assert.match(middleware, /async function fetchHomepageHtml\(language: string\): Promise<\{ html: string; payload: Record<string, unknown> \}>/)
-  assert.match(middleware, /'homepage\/plant-categories-v2'/)
+  assert.ok(middleware.includes('homepage/production-combined-v2'))
+  assert.ok(middleware.includes('homepage/plants-combined-v2'))
+  assert.match(middleware, /productionHomepageQuery/)
+  assert.match(middleware, /plantsHomepageQuery/)
   assert.match(middleware, /headerSettingsQuery/)
   for (const field of ['equipmentCategories', 'plantCategories', 'featuredPlants', 'featuredEquipment', 'services', 'pinnedPosts', 'latestPosts', 'headerSiteSettings']) {
     assert.ok(middleware.includes(field), `homepage SSR payload is missing ${field}`)

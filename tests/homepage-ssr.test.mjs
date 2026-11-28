@@ -123,9 +123,9 @@ test('homepage SSR escapes untrusted Sanity text and rejects non-HTTPS image URL
 test('homepage middleware uses bounded published Sanity projections and keeps fallback uncached', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
   assert.match(middleware, /async function fetchHomepageHtml\(language: string\)/)
-  assert.match(middleware, /querySanityData<any\[]>\('plants', featuredPlantsQuery/)
-  assert.match(middleware, /querySanityData<any\[]>\('production', featuredEquipmentQuery/)
-  assert.match(middleware, /querySanityData<any\[]>\('production', pinnedQuery/)
+  assert.match(middleware, /querySanityData<any>\('(production|plants)', (productionHomepageQuery|plantsHomepageQuery)/)
+  assert.match(middleware, /querySanityData<any>\('(production|plants)', (productionHomepageQuery|plantsHomepageQuery)/)
+  assert.match(middleware, /querySanityData<any>\('(production|plants)', (productionHomepageQuery|plantsHomepageQuery)/)
   assert.match(middleware, /"productCount": count\(\*\[_type == "product"/)
   assert.match(middleware, /getOrderedServiceEntries\(services as any\[\]\)/)
   assert.match(middleware, /renderHomepageHtml\(\{/)

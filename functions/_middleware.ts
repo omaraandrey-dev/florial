@@ -1227,27 +1227,28 @@ async function fetchHomepageHtml(language: string): Promise<{ html: string; payl
   const pinnedQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt) && slug.current in $slugs]' + blogProjection
   const latestQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc)[0...10]' + blogProjection
 
-  const [
-    equipmentCategories,
-    plantCategories,
-    featuredPlants,
-    featuredEquipment,
-    services,
-    hero,
-    pinnedPosts,
-    latestPosts,
-    headerSettings,
-  ] = await Promise.all([
-    querySanityData<any[]>('production', equipmentCategoryQuery, {}, 'homepage/equipment-categories-v1', 300),
-    querySanityData<any[]>('plants', plantCategoryQuery, {}, 'homepage/plant-categories-v2', 300),
-    querySanityData<any[]>('plants', featuredPlantsQuery, {}, 'homepage/featured-plants-v1', 30),
-    querySanityData<any[]>('production', featuredEquipmentQuery, {}, 'homepage/featured-equipment-v1', 30),
-    querySanityData<any[]>('production', serviceQuery, {}, 'homepage/services-v1', 60),
-    querySanityData<{ imageUrl?: string } | null>('production', heroQuery, {}, 'homepage/hero-v1', 300),
-    querySanityData<any[]>('production', pinnedQuery, { slugs: HOMEPAGE_PINNED_SLUGS }, 'homepage/blog-pinned-' + language + '-v1', 60),
-    querySanityData<any[]>('production', latestQuery, {}, 'homepage/blog-latest-' + language + '-v1', 60),
-    querySanityData<any>('production', headerSettingsQuery, {}, 'homepage/header-settings-v1', 300),
+  const productionHomepageQuery = `{
+    "equipmentCategories": ${equipmentCategoryQuery},
+    "featuredEquipment": ${featuredEquipmentQuery},
+    "services": ${serviceQuery},
+    "hero": ${heroQuery},
+    "pinnedPosts": ${pinnedQuery},
+    "latestPosts": ${latestQuery},
+    "headerSettings": ${headerSettingsQuery}
+  }`
+  const plantsHomepageQuery = `{
+    "plantCategories": ${plantCategoryQuery},
+    "featuredPlants": ${featuredPlantsQuery}
+  }`
+
+  // The homepage needs data from two datasets. Consolidate nine former CDN reads
+  // into one object query per dataset and cache the combined projections for 60 seconds.
+  const [production, plants] = await Promise.all([
+    querySanityData<any>('production', productionHomepageQuery, { slugs: HOMEPAGE_PINNED_SLUGS }, 'homepage/production-combined-v2', 60),
+    querySanityData<any>('plants', plantsHomepageQuery, {}, 'homepage/plants-combined-v2', 60),
   ])
+  const { equipmentCategories, featuredEquipment, services, hero, pinnedPosts, latestPosts, headerSettings } = production || {}
+  const { plantCategories, featuredPlants } = plants || {}
 
   const collections = [
     equipmentCategories, plantCategories, featuredPlants, featuredEquipment,
