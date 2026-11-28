@@ -178,6 +178,31 @@ function readContactsSeed(language: string): ContactsSeed | null {
   }
 }
 
+type AboutSeed = {
+  language: string
+  rolePhotos: ServiceRolePhoto[]
+}
+
+function readAboutSeed(language: string): AboutSeed | null {
+  if ((window.location.pathname.replace(/\/+$/, '') || '/') !== '/about') return null
+  const element = document.getElementById('florial-about-ssr-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<AboutSeed>
+    if (
+      payload.language !== language ||
+      !Array.isArray(payload.rolePhotos) ||
+      !payload.rolePhotos.every((photo) =>
+        photo && typeof photo.slug === 'string' &&
+        (photo.imageUrl === undefined || typeof photo.imageUrl === 'string')
+      )
+    ) return null
+    return { language, rolePhotos: payload.rolePhotos as ServiceRolePhoto[] }
+  } catch {
+    return null
+  }
+}
+
 type HeaderSeed = {
   language: string
   equipmentCategories: CategoryItem[]
@@ -526,7 +551,8 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   const [initialServiceDirectorySeed] = useState(() => readServiceDirectorySeed(language))
   const [initialServiceDetailSeed] = useState(() => readServiceDetailSeed(getRouteState().activeServiceSlug, language))
   const [initialContactsSeed] = useState(() => readContactsSeed(language))
-  const [initialProductRouteSeed] = useState(() => readProductRouteSeed(getRouteState().activeProductSlug, language))
+  const [initialAboutSeed] = useState(() => readAboutSeed(language))
+  const [initialProductRouteSeed = useState(() => readProductRouteSeed(getRouteState().activeProductSlug, language))
   const initialProductRouteSeedUsed = useRef(false)
   const [products, setProducts] = useState<Product[]>([])
   const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>(() => homepageSeed?.equipmentCategories || initialHeaderSeed?.equipmentCategories || [])
@@ -2084,7 +2110,11 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
         {isIrrigationAssistantRoute ? (
           <IrrigationAssistantPage onNavigateHome={navigateToHome} onNavigateCart={navigateToCart} onAddToCart={handleAddToCart} onSetIrrigationProject={setIrrigationProject} />
       ) : normalizedRoutePath === '/about' ? (
-        <AboutPage services={headerServices} categories={categories} />
+        <AboutPage
+          services={headerServices}
+          categories={categories}
+          initialRolePhotos={initialAboutSeed?.language === language ? initialAboutSeed.rolePhotos : undefined}
+        />
       ) : isCartOpen ? (
         <CartPage
           cart={cart}
