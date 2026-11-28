@@ -10,6 +10,7 @@ import { getPlantDisplayName, getPlantStockStatus } from '../lib/plantCatalogUti
 import { getPlantPrice } from '../lib/homepageFeatured.mjs'
 import { handleInternalLinkClick, localizedHref } from '../lib/navigation'
 import type { ServiceItem, CategoryItem, Product } from '../types'
+import type { BlogPostCard } from '../lib/blog'
 
 interface HomePageProps {
   services: ServiceItem[]
@@ -18,6 +19,7 @@ interface HomePageProps {
   heroImageUrl: string | null
   featuredPlants: Product[]
   featuredEquipment: Product[]
+  initialBlogPosts?: BlogPostCard[]
   onBlogReadinessChange?: (ready: boolean) => void
   onNavigateService: (slug?: string, id?: string) => void
   onNavigateCategory: (slug?: string, id?: string) => void
@@ -32,6 +34,7 @@ export function HomePage({
   heroImageUrl,
   featuredPlants,
   featuredEquipment,
+  initialBlogPosts,
   onBlogReadinessChange,
   onNavigateService,
   onNavigateCategory,
@@ -448,7 +451,7 @@ export function HomePage({
           </section>
         )}
       </section>
-      <BlogSection onReadinessChange={onBlogReadinessChange} />
+      <BlogSection initialPosts={initialBlogPosts} onReadinessChange={onBlogReadinessChange} />
     </main>
   )
 }
