@@ -7,20 +7,20 @@
 **Canonical branch for development:** `develop`  
 **Production branch:** `main`  
 **Sanity project:** `bxvcy0qs`  
-**Status:** PR #558 is merged into `main` and `develop`; public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN. Phase 6 service SSR seed reuse is implemented on `develop` and verified by exact-head CI + Preview raw HTTP smoke through Draft PR #559. Blog SSR payload handoff remains in place and is regression-tested. **Pending:** owner approval to merge/release PR #559 and fresh Sanity Request Logs after the December 1 usage reset. No Production release of Phase 6 is claimed.
+**Status:** PR #558 is merged into `main` and `develop`; public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN. Product identity, contacts photo, services/blog payload handoff and Phase 7 shared Header + full category SSR seed are implemented on `develop`. Exact-head CI and Preview raw HTTP smoke passed on `cd1011c9f53267e8f2d5f27b15ec6c2429827c15`. **Pending:** owner approval to merge/release Draft PR #559, browser interaction/visual QA, and fresh Sanity Request Logs after the December 1 usage reset. No Production release is claimed.
 
 > This file is the portable handoff for this workstream. Any ChatGPT, Claude, Gemini, developer or future conversation must read this roadmap first, then follow `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md` and `docs/AI/WORK_PROTOCOL.md`. Update this file at every completed phase. Do not rely on chat history as the source of task status.
 
-## 2026-11-28 — Phase 7: shared Header read consolidation (implementation added to develop)
+## 2026-11-28 — Phase 7: shared Header and catalogue category read consolidation (verified on develop)
 
 - The previous client implementation issued six independent public CDN reads for Header plus two full category-index reads on each non-homepage app load: equipment categories, plant categories, services, site settings, logo and recent blog posts.
 - Added `fetchHeaderSeed()` in `functions/_middleware.ts`. It returns the Header and full catalogue category data in two published CDN requests (one combined `production` GROQ projection plus one `plants` category query), cached with versioned v2 Cache API keys and a 300-second TTL.
 - Added `florial-header-ssr-data` and client-side locale/shape validation in `src/App.tsx`. The client initializes Header and application-wide catalogue category state from the SSR payload and skips both the six-query Header effect and the separate two-query category-index effect when the seed is valid. Homepage behavior remains on its existing richer seed.
 - Added per-isolate single-flight coalescing in `querySanityData()` for concurrent requests sharing the same cache key, preventing a cache-miss stampede from generating duplicate CDN requests inside one Worker isolate. When the category projection was expanded, Preview testing detected the old cached shape; versioned v2 keys now isolate the updated payload from v1 entries.
-- Regression tests added: `tests/sanity-header-ssr-seed.test.mjs`.
+- Regression tests added: `tests/sanity-header-ssr-seed.test.mjs`; Preview raw HTTP check added: `scripts/smoke-header-ssr-seed.mjs` and wired into `scripts/smoke-ssr-regression.mjs`.
 - **Expected, not yet measured:** non-homepage cold request: up to 8 browser calls replaced by 2 cached server calls; warm Cache API: 0 upstream Sanity calls for these two projections. The two datasets remain separate.
-- Exact develop head before this phase: `241878ff47fcbc46a71134c1a5aaf5f740b83588`. New commit and exact CI/Preview evidence will be added after implementation.
-- No Sanity content/schema, D1, Cloudflare configuration/secrets, DNS or Production deployment changes.
+- Verified code-bearing develop head: `cd1011c9f53267e8f2d5f27b15ec6c2429827c15`. Preview: `https://9b89ce6e.florial.pages.dev`. Exact-head checks: Blog and Studio validation `46119761234`, full SSR/SEO regression + BG/RU/EN Header seed smoke `46119761277`, product SSR/raw HTTP `46119761228`, equipment category SSR `46119761390`, plant catalogue `46119761332`, service directory `46119761239`, service detail `46119761269`, blog index `46119761233`, blog articles `46119761368`, About `46119761232`, D1 validation `46119761220` — all success.
+- No Sanity content/schema, D1, Cloudflare configuration/secrets, DNS or Production deployment changes. Actual monthly Sanity usage reduction is not yet measured; verify from Request Logs after the December 1 reset.
 
 ## 1. Objective
 

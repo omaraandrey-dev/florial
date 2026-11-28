@@ -1,10 +1,10 @@
-## 2026-11-28 — Shared Header SSR seed and Sanity request coalescing (implementation pending CI)
+## 2026-11-28 — Shared Header and catalogue category SSR seed (verified on develop)
 
 - On non-homepage public HTML routes, middleware prepares a locale-scoped Header payload from two published API-CDN queries: a combined production projection for equipment categories, services, site settings, logo and recent blog posts, plus plant categories from the separate plants dataset. Both use v2 Cache API key namespaces so earlier smaller v1 payloads cannot shadow the full category projections.
 - The payload is serialized as `florial-header-ssr-data`. The browser validates locale and payload shape, initializes existing Header state and skips the original six independent initial Header requests and the two separate catalogue category-index requests. The homepage retains its existing richer SSR seed.
 - `querySanityData()` coalesces concurrent cache-miss requests with the same cache key within a Worker isolate. This does not guarantee coalescing across separate isolates.
 - Expected request change on a cold uncached non-homepage HTML request: up to eight browser reads replaced by two server CDN reads; warm Cache API hits should require no Sanity request for these two projections. This expectation is not a measured usage result.
-- Added `tests/sanity-header-ssr-seed.test.mjs`. Exact-head CI and Preview checks are pending. No Production deployment or live service configuration changes.
+- Added `tests/sanity-header-ssr-seed.test.mjs` and `scripts/smoke-header-ssr-seed.mjs`. Verified code head `cd1011c9f53267e8f2d5f27b15ec6c2429827c15`; TypeScript, lint, 604 website tests, website build, Studio type-check/build, D1 validation, full SSR/SEO regression and route-specific raw HTTP checks passed. Preview `https://9b89ce6e.florial.pages.dev` verified BG/RU/EN payloads and category product counts. No Production deployment or live service configuration changes. Actual usage reduction remains unmeasured pending fresh Request Logs.
 
 ## 2026-11-28 — services and blog SSR/API request stabilization (PR #559 draft)
 
