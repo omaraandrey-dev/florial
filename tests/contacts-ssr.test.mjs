@@ -61,10 +61,12 @@ test('uses a safe image fallback and does not change existing phone assignments'
 
 test('contacts middleware fetches only the two published location photos and emits localized SSR', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
-  assert.match(middleware, /async function fetchContactsHtml\(language: string\)/)
+  assert.match(middleware, /async function fetchContactsHtml\(language: string\): Promise<\{ html: string; images: Record<string, string> \}>/)
   assert.match(middleware, /sanity\/production\/contacts-location-photos-v1/)
   assert.match(middleware, /renderContactsHtml\(language, images\)/)
-  assert.match(middleware, /body = await fetchContactsHtml\(language\)/)
+  assert.match(middleware, /const contacts = await fetchContactsHtml\(language\)/)
+  assert.match(middleware, /florial-contacts-ssr-data/)
+  assert.match(middleware, /contactsSeedScript/)
   assert.match(middleware, /path === '\/contacts'/)
   assert.match(middleware, /'https:\/\/schema\.org\/Sunday'/)
 })
