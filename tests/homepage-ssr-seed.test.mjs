@@ -21,7 +21,7 @@ test('homepage client accepts only a matching locale seed and initializes its pa
   assert.match(app, /function readHomepageSeed\(language: string\): HomepageSeed \| null/)
   assert.match(app, /payload\.language !== language/)
   assert.match(app, /const \[homepageSeed\] = useState\(\(\) => readHomepageSeed\(language\)\)/)
-  assert.match(app, /categoriesLoaded = useRef\(Boolean\(homepageSeed\)\)/)
+  assert.match(app, /categoriesLoaded = useRef\(Boolean\(homepageSeed(?: \|\| initialHeaderSeed)?\)\)/)
   assert.match(app, /if \(homepageSeed(?: \|\| initialHeaderSeed)?\) return \(\) => \{ cancelled = true \}/)
   assert.match(app, /homepageSeed\.featuredPlants/)
   assert.match(app, /homepageSeed\.featuredEquipment/)
