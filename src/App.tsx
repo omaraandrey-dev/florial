@@ -13,6 +13,7 @@ import { applyPageSeo } from './lib/seo'
 import { getProductImageText } from './lib/productImageSeo'
 import { selectFeaturedEquipment } from './lib/homepageFeatured.mjs'
 import { isHomepageClientReady } from './lib/homepageHandoff.mjs'
+import { blogSlug, type BlogPostCard } from './lib/blog'
 import { toPlainText } from './lib/richTextUtils.mjs'
 import { getAnalyticsConsent, trackEvent, trackGA4Event, trackPostHogEvent } from './services/trackingService'
 import { loadCart, saveCart } from './lib/cartStorage'
@@ -123,6 +124,68 @@ function readServiceDetailSeed(slug: string | null, language: string): ServiceDe
       service.slug?.current !== slug
     ) return null
     return { slug, language, service }
+  } catch {
+    return null
+  }
+}
+
+type HomepageSeed = {
+  language: string
+  equipmentCategories: CategoryItem[]
+  plantCategories: CategoryItem[]
+  featuredPlants: Product[]
+  featuredEquipment: Product[]
+  services: ServiceItem[]
+  heroImageUrl: string | null
+  pinnedPosts: BlogPostCard[]
+  latestPosts: BlogPostCard[]
+  headerSiteSettings: SiteSettings | null
+  blogSectionPosts: BlogPostCard[]
+  headerBlogPosts: BlogPostCard[]
+}
+
+function readHomepageSeed(language: string): HomepageSeed | null {
+  const path = window.location.pathname.replace(/\\/+$/, '') || '/'
+  if (path !== '/' && path !== '/index.html') return null
+  const element = document.getElementById('florial-homepage-ssr-data')
+  if (!element?.textContent) return null
+
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<HomepageSeed>
+    if (
+      payload.language !== language ||
+      !Array.isArray(payload.equipmentCategories) ||
+      !Array.isArray(payload.plantCategories) ||
+      !Array.isArray(payload.featuredPlants) ||
+      !Array.isArray(payload.featuredEquipment) ||
+      !Array.isArray(payload.services) ||
+      !Array.isArray(payload.pinnedPosts) ||
+      !Array.isArray(payload.latestPosts) ||
+      !payload.headerSiteSettings ||
+      typeof payload.headerSiteSettings !== 'object'
+    ) return null
+
+    const pinnedPosts = payload.pinnedPosts as BlogPostCard[]
+    const latestPosts = payload.latestPosts as BlogPostCard[]
+    const pinnedSlugs = new Set(pinnedPosts.map(blogSlug))
+
+    return {
+      language,
+      equipmentCategories: payload.equipmentCategories as CategoryItem[],
+      plantCategories: payload.plantCategories as CategoryItem[],
+      featuredPlants: payload.featuredPlants as Product[],
+      featuredEquipment: payload.featuredEquipment as Product[],
+      services: payload.services as ServiceItem[],
+      heroImageUrl: typeof payload.heroImageUrl === 'string' ? payload.heroImageUrl : null,
+      pinnedPosts,
+      latestPosts,
+      headerSiteSettings: payload.headerSiteSettings as SiteSettings,
+      blogSectionPosts: [
+        ...pinnedPosts,
+        ...latestPosts.filter((post) => !pinnedSlugs.has(blogSlug(post))).slice(0, 1),
+      ],
+      headerBlogPosts: latestPosts.slice(0, 3),
+    }
   } catch {
     return null
   }
@@ -371,28 +434,29 @@ class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryP
 
 export default function App({ onHomepageReady }: { onHomepageReady?: () => void } = {}) {
   const { t, language, localize } = useI18n()
+  const [homepageSeed] = useState(() => readHomepageSeed(language))
   const [initialServiceDirectorySeed] = useState(() => readServiceDirectorySeed(language))
   const [initialServiceDetailSeed] = useState(() => readServiceDetailSeed(getRouteState().activeServiceSlug, language))
   const [products, setProducts] = useState<Product[]>([])
-  const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>([])
-  const [headerPlantCategories, setHeaderPlantCategories] = useState<CategoryItem[]>([])
-  const [headerServices, setHeaderServices] = useState<ServiceItem[]>([])
-  const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(null)
-  const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>([])
-  const [homeFeaturedPlants, setHomeFeaturedPlants] = useState<Product[]>([])
-  const [homeFeaturedEquipment, setHomeFeaturedEquipment] = useState<Product[]>([])
-  const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(null)
-  const [headerDataReady, setHeaderDataReady] = useState(false)
-  const [homeCategoriesAndHeroReady, setHomeCategoriesAndHeroReady] = useState(false)
-  const [homeFeaturedPlantsReady, setHomeFeaturedPlantsReady] = useState(false)
-  const [homeFeaturedEquipmentReady, setHomeFeaturedEquipmentReady] = useState(false)
-  const [homeBlogReady, setHomeBlogReady] = useState(false)
-  const [loadingCategories, setLoadingCategories] = useState(true)
-  const [categoriesDataReady, setCategoriesDataReady] = useState(false)
+  const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>(() => homepageSeed?.equipmentCategories || [])
+  const [headerPlantCategories, setHeaderPlantCategories] = useState<CategoryItem[]>(() => homepageSeed?.plantCategories || [])
+  const [headerServices, setHeaderServices] = useState<ServiceItem[]>(() => homepageSeed?.services || [])
+  const [headerSiteSettings, setHeaderSiteSettings] = useState<SiteSettings | null>(() => homepageSeed?.headerSiteSettings || null)
+  const [homePlantCategories, setHomePlantCategories] = useState<CategoryItem[]>(() => homepageSeed?.plantCategories || [])
+  const [homeFeaturedPlants, setHomeFeaturedPlants] = useState<Product[]>(() => homepageSeed?.featuredPlants || [])
+  const [homeFeaturedEquipment, setHomeFeaturedEquipment] = useState<Product[]>(() => homepageSeed?.featuredEquipment || [])
+  const [homeHeroImageUrl, setHomeHeroImageUrl] = useState<string | null>(() => homepageSeed?.heroImageUrl || null)
+  const [headerDataReady, setHeaderDataReady] = useState(Boolean(homepageSeed))
+  const [homeCategoriesAndHeroReady, setHomeCategoriesAndHeroReady] = useState(Boolean(homepageSeed))
+  const [homeFeaturedPlantsReady, setHomeFeaturedPlantsReady] = useState(Boolean(homepageSeed))
+  const [homeFeaturedEquipmentReady, setHomeFeaturedEquipmentReady] = useState(Boolean(homepageSeed))
+  const [homeBlogReady, setHomeBlogReady] = useState(Boolean(homepageSeed))
+  const [loadingCategories, setLoadingCategories] = useState(!homepageSeed)
+  const [categoriesDataReady, setCategoriesDataReady] = useState(Boolean(homepageSeed))
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
-  const [categories, setCategories] = useState<CategoryItem[]>([])
-  const categoriesLoaded = useRef(false)
+  const [categories, setCategories] = useState<CategoryItem[]>(() => homepageSeed ? [...homepageSeed.equipmentCategories, ...homepageSeed.plantCategories] : [])
+  const categoriesLoaded = useRef(Boolean(homepageSeed))
   const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
   const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
   const [services, setServices] = useState<ServiceItem[]>(() => initialServiceDirectorySeed?.services || [])
@@ -770,6 +834,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   // Header has its own compact data requests. Neither page data nor route rendering waits for them.
   useEffect(() => {
     let cancelled = false
+    if (homepageSeed) return () => { cancelled = true }
 
     const headerCategoryQuery = `
       *[_type == "category"] | order(sortOrder asc, name asc) {
@@ -882,6 +947,13 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
         "isPlantCategory": true
       }
     `
+
+    if (homepageSeed) {
+      setHomePlantCategories(homepageSeed.plantCategories)
+      setHomeHeroImageUrl(homepageSeed.heroImageUrl)
+      setHomeCategoriesAndHeroReady(true)
+      return () => { cancelled = true }
+    }
 
     const plantCategoriesRequest = publicPlantsClient.fetch(homepagePlantCategoriesQuery)
       .then((data) => {
@@ -1166,6 +1238,11 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
       return
     }
     let cancelled = false
+    if (homepageSeed) {
+      setHomeFeaturedPlants(homepageSeed.featuredPlants)
+      setHomeFeaturedPlantsReady(true)
+      return () => { cancelled = true }
+    }
     const featuredPlantsQuery = `
       *[_type == "product" && !(_id in path("drafts.**")) &&
         productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] &&
@@ -1205,6 +1282,11 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
       return
     }
     let cancelled = false
+    if (homepageSeed) {
+      setHomeFeaturedEquipment(selectFeaturedEquipment(homepageSeed.featuredEquipment))
+      setHomeFeaturedEquipmentReady(true)
+      return () => { cancelled = true }
+    }
     const featuredEquipmentQuery = `
       *[_type == "product" && isActive != false && references("6709cd41-18c6-4c5f-bc27-90d55d685dec") &&
         stockStatus != "outOfStock" && defined(coalesce(slug.current, slug)) &&
@@ -1857,6 +1939,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col">
       <Header
+        initialBlogPosts={homepageSeed?.language === language ? homepageSeed.headerBlogPosts : undefined}
         services={headerServices}
         categories={headerCategories.filter((category) => !category._id.startsWith('plants-') && category.slug?.current !== 'electromagnetic-valves')}
         plantCategories={headerPlantCategories}
@@ -2090,6 +2173,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
           heroImageUrl={homeHeroImageUrl}
           featuredPlants={homeFeaturedPlants}
           featuredEquipment={homeFeaturedEquipment}
+          initialBlogPosts={homepageSeed?.language === language ? homepageSeed.blogSectionPosts : undefined}
           onBlogReadinessChange={setHomeBlogReady}
           onNavigateService={navigateToService}
           onNavigateCategory={navigateToCategory}
