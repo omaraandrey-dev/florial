@@ -228,8 +228,8 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
               ]))
               const recommendedSlug = details.recommendedIrrigation?.productSlug
     
-              const plantRelatedQuery = `
-                *[
+              const plantRelatedAndIrrigationQuery = `{
+                "relatedDocuments": *[
                   _type in ["service", "blogPost"] &&
                   coalesce(slug.current, slug) in $slugs
                 ] {
@@ -245,11 +245,8 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
                   "imageAlt": coalesce(image.alt, mainImage.alt, cover.alt, name, translations.bg.title, title),
                   "imageAltEn": coalesce(image.altEn, mainImage.altEn, cover.altEn, translations.en.title, translations.en.name, title, name),
                   "imageAltRu": coalesce(image.altRu, mainImage.altRu, cover.altRu, translations.ru.title, translations.ru.name, title, name)
-                }
-              `
-    
-              const irrigationProductQuery = `
-                *[_type == "product" && coalesce(slug.current, slug) == $slug && isActive != false][0] {
+                },
+                "recommendedProduct": *[_type == "product" && coalesce(slug.current, slug) == $recommendedSlug && isActive != false][0] {
                   _id, name, translations,
                   "productType": "equipment",
                   "slug": { "current": coalesce(slug.current, slug) },
@@ -260,22 +257,25 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
                   "imageAltRu": coalesce(mainImage.altRu, translations.ru.name, name),
                   shortDescription
                 }
-              `
-    
-              const [relatedDocuments, recommendedProduct] = await Promise.all([
-                relatedSlugs.length > 0
-                  ? sanityClient.fetch(plantRelatedQuery, { slugs: relatedSlugs }, { tag: 'browser.product.related-content' }).catch((error) => {
-                      console.error('Sanity: не удалось разрешить связанные услуги и статьи растения:', error)
-                      return []
-                    })
-                  : Promise.resolve([]),
-                typeof recommendedSlug === 'string' && recommendedSlug.length > 0
-                  ? sanityClient.fetch(irrigationProductQuery, { slug: recommendedSlug }, { tag: 'browser.product.recommended-irrigation' }).catch((error) => {
-                      console.error('Sanity: не удалось загрузить рекомендованный товар для полива:', error)
-                      return null
-                    })
-                  : Promise.resolve(null),
-              ])
+              }`
+
+              const needsRelatedData = relatedSlugs.length > 0 ||
+                (typeof recommendedSlug === 'string' && recommendedSlug.length > 0)
+              const relatedData = needsRelatedData
+                ? await sanityClient.fetch<{
+                    relatedDocuments?: any[]
+                    recommendedProduct?: Product | null
+                  }>(
+                    plantRelatedAndIrrigationQuery,
+                    { slugs: relatedSlugs, recommendedSlug: recommendedSlug || '' },
+                    { tag: 'browser.product.related-and-recommended' },
+                  ).catch((error) => {
+                    console.error('Sanity: не удалось загрузить связанные материалы и рекомендованное оборудование растения:', error)
+                    return { relatedDocuments: [], recommendedProduct: null }
+                  })
+                : { relatedDocuments: [], recommendedProduct: null }
+              const relatedDocuments = Array.isArray(relatedData?.relatedDocuments) ? relatedData.relatedDocuments : []
+              const recommendedProduct = relatedData?.recommendedProduct || null
               if (isCancelled()) return null
     
               
