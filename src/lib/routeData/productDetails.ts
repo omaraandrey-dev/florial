@@ -45,6 +45,21 @@ export async function fetchProductDetailsBySlug(slug: string, isCancelled: () =>
   return fetchProductDetails(foundProduct as Product, isCancelled)
 }
 
+export async function fetchProductDetailsByIdentity(
+  dataset: 'production' | 'plants',
+  id: string,
+  isCancelled: () => boolean = () => false,
+): Promise<Product | null> {
+  if (!id || (dataset !== 'production' && dataset !== 'plants') || isCancelled()) return null
+
+  // The SSR route resolver has already identified the exact published dataset and document.
+  // Reuse that identity instead of repeating two slug lookups from the browser.
+  return fetchProductDetails({
+    _id: id,
+    productType: dataset === 'plants' ? 'plant' : 'equipment',
+  } as Product, isCancelled)
+}
+
 export async function fetchProductDetails(foundProduct: Product, isCancelled: () => boolean = () => false): Promise<Product | null> {
   const equipmentDetailQuery = `
         *[_type == "product" && _id == $id][0] {
