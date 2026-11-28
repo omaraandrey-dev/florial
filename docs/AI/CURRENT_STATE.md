@@ -1,3 +1,21 @@
+# Current implementation handoff — active Sanity API stabilization (2026-11-28)
+
+**Current active workstream:** Sanity API stabilization, Phase 6 — services and blog SSR/API request reduction.  
+**Working branch:** `develop`; **Production branch:** `main`.  
+**Draft integration PR:** https://github.com/omaraandrey-dev/florial/pull/559  
+**Code-bearing head:** `676cc68e72c81e9df620554aeed608eadac27013`.  
+**Preview:** https://e4169bb4.florial.pages.dev
+
+- Implemented safe SSR payload reuse for `/services` (service list and role photos) and `/services/{slug}` (full service document). The client validates locale/slug/document identity and skips only the matching initial duplicate read. Later SPA navigation and locale changes still use the existing fetch path.
+- Blog index/article SSR payload reuse was already present and remains unchanged; regression coverage protects both paths.
+- Exact-head Blog/Studio validation, D1 validation, full SSR/SEO regression and service/blog BG/RU/EN raw HTTP smoke all passed. Details and run IDs are in the Sanity API roadmap, CHANGELOG and Technical Passport.
+- **PR #559 remains Draft and unmerged.** No Production deployment has occurred. Owner approval is required before merge/release.
+- **Still open:** fresh Sanity Request Logs after the December 1 usage reset; actual before/after request-family measurements; interactive browser/visual QA. Do not claim measured API-request reduction until fresh logs confirm it.
+- No Sanity content/schema, D1 data/schema, Cloudflare settings/secrets, DNS, orders, emails or Production state changed.
+- Temporary PR #409 was closed by the owner on 2026-11-28 and is not an active task, branch base, source of code or documentation freeze. Current workflow follows `develop` → draft PR → owner-approved `main` release.
+
+## Historical workstream handoff — irrigation assistant PAUSED by owner
+
 # Current implementation handoff — irrigation assistant PAUSED by owner (2026-11-24)
 
 **Status: PAUSED. Do not continue development until the owner explicitly returns with an error report or a new task.** No proactive refactoring, optimization, solver adjustment, visual redesign or code fix is authorized.
