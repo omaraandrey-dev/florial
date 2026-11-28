@@ -40,7 +40,7 @@ test('remaining direct Sanity SDK client callsites are operational and explicitl
     ['App.tsx', ['sanityClient.fetch(productQuery', 'publicPlantsClient.fetch(plantProductQuery']],
     ['lib/routeData/productDetails.ts', ['sanityClient.fetch(productBySlugQuery', '(isPlant ? publicPlantsClient : sanityClient).fetch']],
     ['lib/routeData/search.ts', ['sanityClient.fetch(equipmentSearchQuery', 'publicPlantsClient.fetch(plantSearchQuery']],
-    ['pages/IrrigationAssistantPage.tsx', ['sanityClient.fetch(']],
+    ['pages/IrrigationAssistantPage.tsx', ['sanityClient.fetch<Product[]>(']],
   ]
   for (const [path, snippets] of publicCatalogueFiles) {
     const source = await read('../src/' + path)
