@@ -15,7 +15,7 @@ On the baseline PR commit, GitHub Actions created 12 workflow runs. One complete
 
 ### Automatic PR / Production validation
 
-1. `blog-studio.yml` remains the comprehensive application validation: type-check, lint, all website tests, website build, migration syntax/dry-run and Sanity Studio type-check/build. Its PR trigger no longer runs for metadata-only `edited` events.
+1. `blog-studio.yml` remains the comprehensive application validation: type-check, lint, all website tests, website build, migration syntax/dry-run and Sanity Studio type-check/build. Its PR trigger no longer runs for metadata-only `edited` events and now ignores Markdown-only changes (`**/*.md`) on PR and push. Any code/config/workflow change still triggers it; a mixed code + Markdown change still triggers it.
 2. `ssr-seo-regression.yml` remains the single automatic raw-HTTP SSR/SEO suite. Its runner `scripts/smoke-ssr-regression.mjs` already covers homepage, services directory/details, blog index/articles, plant catalogue/products, equipment catalogue/products, contacts, header seed, About and SEO surface in BG/RU/EN.
 3. Both main PR validation workflows use concurrency groups that cancel superseded runs for the same Pull Request. Push-to-main and manual runs are not cancelled by this policy.
 4. `validate-d1-migration.yml` now runs only when `docs/migrations/**`, `tests/*migration*.test.py` or that workflow file changes (or when manually dispatched). It runs the five SQLite migration regression scripts directly with Python; duplicate npm install, lint, website build and esbuild checks were removed because the main validation workflow already covers the application build and type checks.
@@ -40,7 +40,7 @@ Their checks are represented in the full SSR/SEO regression suite. Manual workfl
 
 ## Verification status
 
-- Workflow source changes are committed on `develop` / Draft PR #559. Production branch `main` was not changed.
+- Workflow source changes are committed on `develop` / Draft PR #559. A follow-up refinement at commit `0fa98715adb0beb9abe582c7da7a574337fc9b24` also makes the comprehensive app workflow skip Markdown-only changes, preventing documentation-only commits from generating another full validation email. Production branch `main` was not changed.
 - Post-change exact commit: `900eab9fc38a199e00f764686bbdcc5905cd71b2`.
 - Post-change automatic runs: 3 (down from 12 on baseline commit `9354efcc14f33a0c746324869cf109fa24e55fe8`):
   - Blog and Studio validation `46126385821` — **failure**.
