@@ -79,7 +79,7 @@ test('compact Header service data preserves homepage service cards and About pag
   const headerQuery = app.slice(headerQueryStart, headerQueryEnd)
   assert.ok(headerQuery.includes('"imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url)'))
   assert.ok(headerQuery.includes('sortOrder, serviceCategory, serviceLayout'))
-  assert.ok(app.includes('<AboutPage services={headerServices} categories={categories} />'))
+  assert.match(app, /<AboutPage\s+services=\{headerServices\}\s+categories=\{categories\}\s+initialRolePhotos=\{initialAboutSeed\?\.language === language \? initialAboutSeed\.rolePhotos : undefined\}\s*\/>/)
   assert.ok(app.includes('services={headerServices}\n          categories={visibleCategories'))
 })
 
@@ -146,7 +146,7 @@ test('product detail route resolves by exact slug without downloading both full 
   const sanityClients = await read('../src/lib/sanity.ts')
   assert.match(sanityClients, /export const sanityClient = createClient\([\s\S]*?useCdn: true/)
   assert.match(sanityClients, /export const publicPlantsClient = createClient\([\s\S]*?useCdn: true/)
-  assert.match(loader, /All public product details, including displayed price and stock, use the published API CDN/)
+  assert.match(loader, /const details = await \(isPlant \? publicPlantsClient : sanityClient\)\.fetch\(/)
   assert.doesNotMatch(loader, /sanityLiveClient|plantsClient/)
   const search = await read('../src/lib/routeData/search.ts')
   assert.match(search, /sanityClient\.fetch\(equipmentSearchQuery/)
