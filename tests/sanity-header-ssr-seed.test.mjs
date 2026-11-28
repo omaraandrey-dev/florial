@@ -19,3 +19,13 @@ test('combined header query preserves every existing header data family', async 
     assert.ok(middleware.includes(fragment), 'combined query missing: ' + fragment)
   }
 })
+
+test('Header SSR category payload also satisfies the full catalogue category state', async () => {
+  const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
+  const app = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8')
+  assert.match(middleware, /"productCount": count\(\*\[_type == "product"/)
+  assert.match(middleware, /"imageUrl": coalesce\(image\.asset->url, externalImageUrl\)/)
+  assert.match(app, /useState\(!\(homepageSeed \|\| initialHeaderSeed\)\)/)
+  assert.match(app, /useRef\(Boolean\(homepageSeed \|\| initialHeaderSeed\)\)/)
+  assert.match(app, /initialHeaderSeed \? \[\.\.\.initialHeaderSeed\.equipmentCategories, \.\.\.initialHeaderSeed\.plantCategories\]/)
+})

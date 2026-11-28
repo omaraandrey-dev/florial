@@ -13,12 +13,12 @@
 
 ## 2026-11-28 — Phase 7: shared Header read consolidation (implementation added to develop)
 
-- The previous client implementation issued six independent public CDN reads for Header on each non-homepage app load: equipment categories, plant categories, services, site settings, logo and recent blog posts.
-- Added `fetchHeaderSeed()` in `functions/_middleware.ts`. It returns the same data families in two published CDN requests (one combined `production` GROQ projection plus one `plants` category query), cached with a 300-second Cache API TTL.
-- Added `florial-header-ssr-data` and client-side locale/shape validation in `src/App.tsx`. The client initializes existing Header state from the SSR payload and skips the six-query Header effect when the seed is valid. Homepage behavior remains on its existing richer seed.
+- The previous client implementation issued six independent public CDN reads for Header plus two full category-index reads on each non-homepage app load: equipment categories, plant categories, services, site settings, logo and recent blog posts.
+- Added `fetchHeaderSeed()` in `functions/_middleware.ts`. It returns the Header and full catalogue category data in two published CDN requests (one combined `production` GROQ projection plus one `plants` category query), cached with a 300-second Cache API TTL.
+- Added `florial-header-ssr-data` and client-side locale/shape validation in `src/App.tsx`. The client initializes Header and application-wide catalogue category state from the SSR payload and skips both the six-query Header effect and the separate two-query category-index effect when the seed is valid. Homepage behavior remains on its existing richer seed.
 - Added per-isolate single-flight coalescing in `querySanityData()` for concurrent requests sharing the same cache key, preventing a cache-miss stampede from generating duplicate CDN requests inside one Worker isolate.
 - Regression tests added: `tests/sanity-header-ssr-seed.test.mjs`.
-- **Expected, not yet measured:** non-homepage cold request: up to 6 browser calls replaced by 2 cached server calls; warm Cache API: 0 upstream Sanity calls for these two projections. The two datasets remain separate.
+- **Expected, not yet measured:** non-homepage cold request: up to 8 browser calls replaced by 2 cached server calls; warm Cache API: 0 upstream Sanity calls for these two projections. The two datasets remain separate.
 - Exact develop head before this phase: `241878ff47fcbc46a71134c1a5aaf5f740b83588`. New commit and exact CI/Preview evidence will be added after implementation.
 - No Sanity content/schema, D1, Cloudflare configuration/secrets, DNS or Production deployment changes.
 

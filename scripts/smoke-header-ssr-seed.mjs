@@ -33,5 +33,14 @@ for (const locale of locales) {
     throw new Error('Contacts page SSR payload is missing alongside Header seed: ' + url)
   }
 
+  for (const [dataset, categories] of [
+    ['equipment', payload.equipmentCategories],
+    ['plants', payload.plantCategories],
+  ]) {
+    if (categories.length && typeof categories[0].productCount !== 'number') {
+      throw new Error('Header SSR ' + dataset + ' categories do not include catalogue product counts: ' + url)
+    }
+  }
+
   console.log('PASS ' + locale.code + ' ' + url + ' — shared Header seed contains categories, services, site settings and recent posts')
 }

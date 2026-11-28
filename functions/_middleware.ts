@@ -386,7 +386,12 @@ async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<str
     "equipmentCategories": *[_type == "category"] | order(sortOrder asc, name asc) {
       _id, name, translations { bg { name }, ru { name }, en { name } },
       "slug": { "current": coalesce(slug.current, slug) },
-      sortOrder, "parentId": parent->_id, "isPlantCategory": false
+      sortOrder, "parentId": parent->_id,
+      "productCount": count(*[_type == "product" && isActive != false && defined(slug) && (category._ref == ^._id || ^._id in categories[]._ref)]),
+      "imageUrl": image.asset->url,
+      "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
+      "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu,
+      "isPlantCategory": false
     },
     "services": *[_type == "service" && isActive != false] | order(sortOrder asc, name asc) {
       _id, name, shortDescription,
@@ -423,7 +428,12 @@ async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<str
     *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
       _id, name, translations { bg { name }, ru { name }, en { name } },
       "slug": { "current": coalesce(slug.current, slug) },
-      sortOrder, "parentId": parent->_id, "isPlantCategory": true
+      sortOrder, "parentId": parent->_id,
+      "productCount": count(*[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false && (category._ref == ^._id || ^._id in categories[]._ref)]),
+      "imageUrl": coalesce(image.asset->url, externalImageUrl),
+      "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
+      "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu,
+      "isPlantCategory": true
     }
   `
   const [production, plants] = await Promise.all([
