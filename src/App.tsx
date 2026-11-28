@@ -79,6 +79,55 @@ function getRouteState(
   }
 }
 
+type ServiceDirectorySeed = {
+  language: string
+  services: ServiceItem[]
+  rolePhotos: ServiceRolePhoto[]
+}
+
+type ServiceDetailSeed = {
+  slug: string
+  language: string
+  service: ServiceItem
+}
+
+function readServiceDirectorySeed(language: string): ServiceDirectorySeed | null {
+  if ((window.location.pathname.replace(/\\/+$/, '') || '/') !== '/services') return null
+  const element = document.getElementById('florial-services-ssr-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<ServiceDirectorySeed>
+    if (payload.language !== language || !Array.isArray(payload.services) || !Array.isArray(payload.rolePhotos)) return null
+    return {
+      language,
+      services: payload.services as ServiceItem[],
+      rolePhotos: payload.rolePhotos as ServiceRolePhoto[],
+    }
+  } catch {
+    return null
+  }
+}
+
+function readServiceDetailSeed(slug: string | null, language: string): ServiceDetailSeed | null {
+  if (!slug) return null
+  const element = document.getElementById('florial-service-detail-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<ServiceDetailSeed>
+    const service = payload.service as ServiceItem | undefined
+    if (
+      payload.slug !== slug ||
+      payload.language !== language ||
+      !service ||
+      typeof service._id !== 'string' ||
+      service.slug?.current !== slug
+    ) return null
+    return { slug, language, service }
+  } catch {
+    return null
+  }
+}
+
 function ServiceLoadingState({ label }: { label: string }) {
   return (
     <main
@@ -322,6 +371,8 @@ class ServicePageErrorBoundary extends React.Component<ServicePageErrorBoundaryP
 
 export default function App({ onHomepageReady }: { onHomepageReady?: () => void } = {}) {
   const { t, language, localize } = useI18n()
+  const [initialServiceDirectorySeed] = useState(() => readServiceDirectorySeed(language))
+  const [initialServiceDetailSeed] = useState(() => readServiceDetailSeed(getRouteState().activeServiceSlug, language))
   const [products, setProducts] = useState<Product[]>([])
   const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>([])
   const [headerPlantCategories, setHeaderPlantCategories] = useState<CategoryItem[]>([])
@@ -345,14 +396,15 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   const categoriesLoaded = useRef(false)
   const [currentCategoryDetails, setCurrentCategoryDetails] = useState<CategoryItem | null>(null)
   const [loadingCategoryDetails, setLoadingCategoryDetails] = useState(false)
-  const [services, setServices] = useState<ServiceItem[]>([])
+  const [services, setServices] = useState<ServiceItem[]>(() => initialServiceDirectorySeed?.services || [])
   const [serviceDirectionDocuments, setServiceDirectionDocuments] = useState<any[]>([])
-  const [loadedServicesLanguage, setLoadedServicesLanguage] = useState<string | null>(null)
-  const [serviceRolePhotos, setServiceRolePhotos] = useState<ServiceRolePhoto[]>([])
-  const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(null)
+  const [loadedServicesLanguage, setLoadedServicesLanguage] = useState<string | null>(initialServiceDirectorySeed?.language || null)
+  const [serviceRolePhotos, setServiceRolePhotos] = useState<ServiceRolePhoto[]>(() => initialServiceDirectorySeed?.rolePhotos || [])
+  const [currentServiceDetails, setCurrentServiceDetails] = useState<ServiceItem | null>(() => initialServiceDetailSeed?.service || null)
+  const initialServiceDetailSeedUsed = useRef(false)
   const [loadingServiceDetails, setLoadingServiceDetails] = useState(() => {
     const route = getRouteState()
-    return Boolean(route.activeServiceSlug && route.activeServiceSlug !== 'dostavka-poliv')
+    return Boolean(route.activeServiceSlug && route.activeServiceSlug !== 'dostavka-poliv' && !initialServiceDetailSeed)
   })
   const [cart, setCart] = useState<CartItem[]>(() => loadCart())
   const [irrigationProject, setIrrigationProject] = useState<IrrigationProjectSnapshot | null>(null)
@@ -1594,6 +1646,15 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
       setCurrentServiceDetails(null)
       setLoadingServiceDetails(false)
       return () => { cancelled = true }
+    }
+
+    if (!initialServiceDetailSeedUsed.current) {
+      initialServiceDetailSeedUsed.current = true
+      if (initialServiceDetailSeed?.slug === activeServiceSlug && initialServiceDetailSeed.language === language) {
+        setCurrentServiceDetails(initialServiceDetailSeed.service)
+        setLoadingServiceDetails(false)
+        return () => { cancelled = true }
+      }
     }
 
     setLoadingServiceDetails(true)
