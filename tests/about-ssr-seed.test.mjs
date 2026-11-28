@@ -29,3 +29,15 @@ test('About SSR seed includes the exact photo fields used by the hydrated page',
   assert.match(page, /rolePhotos\?\.find\(\(item\) => item\.slug\?\.toLowerCase\(\) === 'florial-nesebr'\)/)
   assert.match(page, /rolePhotos\?\.find\(\(item\) => item\.slug\?\.toLowerCase\(\) === 'florial-ravda'\)/)
 })
+
+test('About SSR batches production photos and equipment category into one CDN query', async () => {
+  const middleware = await read('../functions/_middleware.ts')
+  const start = middleware.indexOf('async function fetchAboutHtml')
+  const end = middleware.indexOf('async function fetchCategoryProducts', start)
+  const source = middleware.slice(start, end)
+  assert.match(source, /const productionAboutQuery = `\{/)
+  assert.match(source, /"photos": \$\{photoQuery\}/)
+  assert.match(source, /"equipmentCategories": \$\{equipmentCategoryQuery\}/)
+  assert.match(source, /about-combined-v2/)
+  assert.equal((source.match(/querySanityData</g) || []).length, 2)
+})
