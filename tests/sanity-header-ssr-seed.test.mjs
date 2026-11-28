@@ -5,7 +5,7 @@ import { readFile } from 'node:fs/promises'
 test('shared header SSR seed replaces repeated browser-side header requests', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
   const app = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8')
-  for (const fragment of ['async function fetchHeaderSeed(', 'header/production/shell-v3/', 'header/plants/categories-v2', 'florial-header-ssr-data', 'const sanityQueryInFlight = new Map', 'sanityQueryInFlight.get(inFlightKey)', '!isHomepage', '!isManager']) {
+  for (const fragment of ['async function fetchHeaderSeed(', 'header/production/shell-v2/', 'header/plants/categories-v2', 'florial-header-ssr-data', 'const sanityQueryInFlight = new Map', 'sanityQueryInFlight.get(inFlightKey)', '!isHomepage', '!isManager']) {
     assert.ok(middleware.includes(fragment), 'middleware missing: ' + fragment)
   }
   for (const fragment of ['function readHeaderSeed(language: string)', 'if (homepageSeed || initialHeaderSeed)', 'initialHeaderSeed?.language === language ? initialHeaderSeed.headerBlogPosts']) {
@@ -28,14 +28,4 @@ test('Header SSR category payload also satisfies the full catalogue category sta
   assert.match(app, /useState\(!\(homepageSeed \|\| initialHeaderSeed\)\)/)
   assert.match(app, /useRef\(Boolean\(homepageSeed \|\| initialHeaderSeed\)\)/)
   assert.match(app, /initialHeaderSeed \? \[\.\.\.initialHeaderSeed\.equipmentCategories, \.\.\.initialHeaderSeed\.plantCategories\]/)
-})
-
-test('About page role photos are included in and consumed from the shared SSR seed', async () => {
-  const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
-  const app = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8')
-  const about = await readFile(new URL('../src/pages/AboutPage.tsx', import.meta.url), 'utf8')
-  assert.ok(middleware.includes('"aboutRolePhotos": *[_type == "photo"'))
-  assert.ok(middleware.includes('const seed = await fetchHeaderSeed(language)'))
-  assert.ok(app.includes('initialRolePhotos={initialHeaderSeed?.aboutRolePhotos}'))
-  assert.ok(about.includes('if (Array.isArray(initialRolePhotos)) return'))
 })

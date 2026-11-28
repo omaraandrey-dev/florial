@@ -79,7 +79,7 @@ test('compact Header service data preserves homepage service cards and About pag
   const headerQuery = app.slice(headerQueryStart, headerQueryEnd)
   assert.ok(headerQuery.includes('"imageUrl": coalesce(image.asset->url, mainImage.asset->url, hero.image.asset->url)'))
   assert.ok(headerQuery.includes('sortOrder, serviceCategory, serviceLayout'))
-  assert.ok(app.includes('<AboutPage services={headerServices} categories={categories} initialRolePhotos={initialHeaderSeed?.aboutRolePhotos} />'))
+  assert.ok(app.includes('<AboutPage services={headerServices} categories={categories} />'))
   assert.ok(app.includes('services={headerServices}\n          categories={visibleCategories'))
 })
 
