@@ -1,3 +1,10 @@
+## 2026-11-28 — Sanity API stabilization: concurrent product read coalescing (develop)
+
+- Added browser-side single-flight deduplication to `src/lib/routeData/productDetails.ts` for product identity resolution by slug and full product-detail loading by dataset + document ID. Concurrent callers now share the same pending promise rather than independently issuing the same one/two Sanity reads before the 30-second result cache is populated.
+- Caller cancellation is checked after the shared promise resolves; one cancelled React effect therefore does not cancel the shared upstream read needed by another active caller. Failed requests are removed from the in-flight maps in `finally`, allowing a later retry.
+- Added regression assertions in `tests/sanity-client-read-cache.test.mjs` for both slug-resolution and full-detail in-flight maps.
+- Changes are committed on `develop` and remain inside Draft PR #559. **Not yet CI/test verified on the new commits**: the GitHub connector returned no workflow runs/status checks for the latest commit. No Preview or Production deployment, Sanity writes, D1 changes, Cloudflare settings/secrets, or DNS changes. Actual API usage reduction remains unmeasured pending fresh Request Logs.
+
 ## 2026-11-28 — Sanity API stabilization: shared header SSR seed (develop implementation)
 
 - Replaced eight independent initial browser-side reads on non-homepage public HTML routes (six Header reads plus two full category-index reads) with one locale-scoped SSR payload. The payload includes full equipment and plant category projections (including product counts and category images), services, site settings, logo metadata and the three recent blog cards. The same category arrays initialize the application-wide catalogue state, eliminating its separate two-query category load.
