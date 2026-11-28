@@ -2222,7 +2222,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         const initialData = '<script id="florial-service-detail-data" type="application/json">' +
           serializeInlineJson({ slug: serviceDocument.slugValue || slug, language, service }) + '</script>'
         return headed.replace(/<\\/head>/i, initialData + '\\n</head>')
-      } type === 'category' && categoryProducts === null
+      }, type === 'category' && categoryProducts === null
         ? 'no-store'
         : type === 'service' || (type === 'product' && (doc._dataset === 'production' || doc._dataset === 'plants'))
           ? 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
