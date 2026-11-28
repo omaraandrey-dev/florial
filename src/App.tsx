@@ -195,7 +195,9 @@ function readAboutSeed(language: string): AboutSeed | null {
       !payload.rolePhotos.every((photo) =>
         photo && typeof photo.slug === 'string' &&
         (photo.imageUrl === undefined || typeof photo.imageUrl === 'string')
-      )
+      ) ||
+      !['landshaften-arhitekt', 'inzhener-polivni-sistemi', 'gardinar', 'specialist-trevni-ploshti', 'florial-nesebr', 'florial-ravda']
+        .every((slug) => payload.rolePhotos!.some((photo) => photo.slug.toLowerCase() === slug))
     ) return null
     return { language, rolePhotos: payload.rolePhotos as ServiceRolePhoto[] }
   } catch {
