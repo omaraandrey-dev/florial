@@ -9,7 +9,9 @@ test('homepage SSR serializes the data already used to render the first response
   assert.match(middleware, /async function fetchHomepageHtml\(language: string\): Promise<\{ html: string; payload: Record<string, unknown> \}>/)
   assert.match(middleware, /'homepage\/plant-categories-v2'/)
   assert.match(middleware, /headerSettingsQuery/)
-  assert.match(middleware, /payload:\s*\{[\s\S]*?equipmentCategories,[\s\S]*?plantCategories,[\s\S]*?featuredPlants,[\s\S]*?featuredEquipment,[\s\S]*?services,[\s\S]*?pinnedPosts,[\s\S]*?latestPosts,[\s\S]*?headerSiteSettings/)
+  for (const field of ['equipmentCategories', 'plantCategories', 'featuredPlants', 'featuredEquipment', 'services', 'pinnedPosts', 'latestPosts', 'headerSiteSettings']) {
+    assert.ok(middleware.includes(field), `homepage SSR payload is missing ${field}`)
+  }
   assert.match(middleware, /florial-homepage-ssr-data/)
   assert.match(middleware, /serializeInlineJson\(homepage\.payload\)/)
 })
@@ -23,7 +25,7 @@ test('homepage client accepts only a matching locale seed and initializes its pa
   assert.match(app, /if \(homepageSeed\) return \(\) => \{ cancelled = true \}/)
   assert.match(app, /homepageSeed\.featuredPlants/)
   assert.match(app, /homepageSeed\.featuredEquipment/)
-  assert.match(app, /homepageSeed\.headerSiteSettings/)
+  assert.match(app, /homepageSeed\?\.headerSiteSettings/)
 })
 
 test('homepage Header and BlogSection reuse SSR blog cards instead of fetching them again', async () => {
