@@ -92,7 +92,7 @@ type ServiceDetailSeed = {
 }
 
 function readServiceDirectorySeed(language: string): ServiceDirectorySeed | null {
-  if ((window.location.pathname.replace(/\\/+$/, '') || '/') !== '/services') return null
+  if ((window.location.pathname.replace(/\/+$/, '') || '/') !== '/services') return null
   const element = document.getElementById('florial-services-ssr-data')
   if (!element?.textContent) return null
   try {
@@ -389,7 +389,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   const [homeBlogReady, setHomeBlogReady] = useState(false)
   const [loadingCategories, setLoadingCategories] = useState(true)
   const [categoriesDataReady, setCategoriesDataReady] = useState(false)
-  const [loadingServices, setLoadingServices] = useState(() => { const path = window.location.pathname.replace(/\/+$/, '') || '/'; return path === '/services' || path.startsWith('/services/category/') })
+  if ((window.location.pathname.replace(/\/+$/, '') || '/') !== '/services') return null
   const [searchProducts, setSearchProducts] = useState<Product[]>([])
   const [loadingSearchResults, setLoadingSearchResults] = useState(false)
   const [categories, setCategories] = useState<CategoryItem[]>([])
