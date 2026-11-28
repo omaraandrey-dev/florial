@@ -382,7 +382,7 @@ type HeaderProductionSeed = {
 }
 
 async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<string, unknown>> {
-  const productionQuery = \`{
+  const productionQuery = `{
     "equipmentCategories": *[_type == "category"] | order(sortOrder asc, name asc) {
       _id, name, translations { bg { name }, ru { name }, en { name } },
       "slug": { "current": coalesce(slug.current, slug) },
@@ -418,14 +418,14 @@ async function fetchHeaderSeed(language: 'bg' | 'ru' | 'en'): Promise<Record<str
         }
       }
     }
-  }\`
-  const plantQuery = \`
+  }`
+  const plantQuery = `
     *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
       _id, name, translations { bg { name }, ru { name }, en { name } },
       "slug": { "current": coalesce(slug.current, slug) },
       sortOrder, "parentId": parent->_id, "isPlantCategory": true
     }
-  \`
+  `
   const [production, plants] = await Promise.all([
     querySanityData<HeaderProductionSeed>('production', productionQuery, {}, 'header/production/shell-v1/' + language, 300),
     querySanityData<any[]>('plants', plantQuery, {}, 'header/plants/categories-v1', 300),
