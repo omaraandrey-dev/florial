@@ -1,3 +1,14 @@
+## 2026-11-28 — Sanity API stabilization: services SSR seed reuse (PR #559 draft)
+
+- Added a safe, locale-scoped SSR payload for `/services` containing the already-fetched published service list and role photos. The client initializes from this payload and skips the matching first-load reads; it falls back to the existing query path when the seed is absent or does not match.
+- Added a safe, slug- and locale-validated SSR payload for `/services/{slug}`. The client reuses the already-fetched published service document on the matching first load and continues to fetch normally on later SPA navigation or locale changes.
+- Blog index and article payload handoff was already implemented and remains unchanged; regression coverage now explicitly protects both paths.
+- Preserved published perspective, Sanity API CDN, existing edge/data TTLs, HTML cache headers, localized HTML, SEO metadata, JSON-LD, content order and route behavior. No Sanity content/schema, D1, Cloudflare settings/secrets, DNS or Production data was changed.
+- Exact code head `676cc68e72c81e9df620554aeed608eadac27013`: Blog/Studio validation `46113461352` passed (app/Pages Functions type-check, lint, website tests/build, read-only migration dry-run, Studio type-check/build); D1 validation `46113461408` passed; full SSR/SEO regression `46113461344` passed. Services directory `46113461340`, service details `46113461333`, blog index `46113461336`, blog articles `46113461332`, equipment catalogue/product, plant catalogue and About Preview smoke checks also passed.
+- Exact Preview: https://e4169bb4.florial.pages.dev. Services directory returned 26 links in BG/RU/EN; 25 service detail routes per locale returned complete first-response HTML and Service/BreadcrumbList JSON-LD. Blog index returned 19 article cards and hydration seed per locale; 19 article routes per locale returned complete first-response content and BlogPosting/BreadcrumbList JSON-LD.
+- PR #559 remains Draft and unmerged. No Production deployment is claimed or authorized by this entry. Owner release approval remains pending.
+- Post-remediation Sanity Request Logs measurement remains pending until the December 1 usage reset; do not claim measured API-request reduction before comparing fresh logs.
+
 ## 2026-11-28 — Sanity API stabilization: PR #558 merged; irrigation equipment made-to-order policy
 
 - Merged PR #558 into `main` (merge commit `55007f55cacce640a7003d1392683b4903c1f88d`). Public equipment/plant catalogue, search, product detail, recommended irrigation product and irrigation-assistant catalogue reads now use the published Sanity API CDN; checkout submitted-price validation remains on the direct Live API.
