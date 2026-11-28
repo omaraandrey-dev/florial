@@ -1,3 +1,12 @@
+## 2026-11-28 — Sanity API stabilization Phase 6: services/blog release and measurement remain open
+
+- **IMPLEMENTATION VERIFIED ON PREVIEW:** code-bearing head `676cc68e72c81e9df620554aeed608eadac27013`; Draft PR #559. Service directory and 25 service detail routes passed BG/RU/EN raw first-response smoke on Preview `https://e4169bb4.florial.pages.dev`. Blog index and 19 article routes per locale also passed raw SSR smoke.
+- **CI VERIFIED:** Blog/Studio validation `46113461352`, D1 validation `46113461408`, full SSR/SEO regression `46113461344`, service directory `46113461340`, service details `46113461333`, blog index `46113461336`, blog articles `46113461332` all succeeded. Website and Pages Functions type-check, lint, tests/build, Studio type-check/build and read-only D1 validation/dry-run passed.
+- **OWNER RELEASE APPROVAL — OPEN:** PR #559 is Draft and not merged. No Production deployment has been performed. Do not merge or deploy until the owner explicitly approves this specific release.
+- **SANITY MEASUREMENT — OPEN:** Request Logs export and before/after route-family counts cannot yet be validated because the next usage reset is December 1. After reset, export fresh logs and compare `/services`, service detail, blog index and blog article tags/queries, distinguishing API Requests from API CDN Requests and successful from blocked requests. Do not claim a measured reduction from code changes alone.
+- **BROWSER QA — OPEN:** automated raw HTTP/SSR smoke does not replace interactive browser QA or owner visual acceptance. Browser Use was not used in this implementation.
+- No Sanity content/schema, D1 data/schema, Cloudflare settings/secrets, DNS, orders, emails or Production state changed.
+
 ## 2026-11-25 — SSR Content v1 Phase 1: homepage parity and verification update (PR #533)
 
 - **IMPLEMENTATION VERIFIED:** branch `feat/ssr-homepage-content-v1`, draft PR #533. The renderer includes the full homepage content sequence and matches the client category-visibility, service-order, featured-product, plant-stock, blog-order and responsive-image contracts. Homepage JSON-LD includes `OnlineStore` and `WebSite`, plus the existing local `GardenStore` entities.
