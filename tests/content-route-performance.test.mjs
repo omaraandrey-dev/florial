@@ -335,3 +335,21 @@ test('blog SSR payload handoff remains in place for index and article routes', a
   assert.match(index, /florial-blog-ssr-data/)
   assert.match(article, /florial-blog-article-data/)
 })
+
+
+test('product detail first load reuses the SSR-resolved dataset and document ID', async () => {
+  const app = await read('../src/App.tsx')
+  const middleware = await read('../functions/_middleware.ts')
+  const loader = await read('../src/lib/routeData/productDetails.ts')
+
+  assert.match(middleware, /florial-product-route-data/)
+  assert.match(middleware, /dataset: doc\._dataset/)
+  assert.match(middleware, /id: doc\._id/)
+  assert.match(app, /function readProductRouteSeed\(slug: string \| null, language: string\)/)
+  assert.match(app, /initialProductRouteSeedUsed\.current = true/)
+  assert.match(app, /fetchProductDetailsByIdentity\(/)
+  assert.match(loader, /export async function fetchProductDetailsByIdentity\(/)
+  assert.match(loader, /return fetchProductDetails\(/)
+  assert.match(loader, /sanityClient\.fetch\(productBySlugQuery/)
+  assert.match(loader, /publicPlantsClient\.fetch\(plantBySlugQuery/)
+})
