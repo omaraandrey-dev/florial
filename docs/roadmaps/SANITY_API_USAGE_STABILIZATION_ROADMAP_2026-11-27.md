@@ -7,7 +7,7 @@
 **Canonical branch for development:** `develop`  
 **Production branch:** `main`  
 **Sanity project:** `bxvcy0qs`  
-**Status:** ACTIVE — repository inventory completed; safe cart metadata migration and expanded request tagging are on develop; exact-head CI, build and Preview/raw-HTTP regression passed on code head `c957283ec19142554562501dd92e4db9698e77ab`; commercial reads remain Live pending freshness decisions; fresh Request Logs validation of tags and post-remediation traffic remains pending.
+**Status:** ACTIVE — repository inventory and expanded request tagging are complete; public product/plant catalogue, search, product detail and irrigation-assistant reads now use published API CDN on `develop` following owner approval of an approximately 60-second display freshness window; checkout price reads remain direct Live API; equipment stock validation gap is documented for separate correctness review; exact-head CI/Preview and fresh Request Logs validation remain pending.
 
 > This file is the portable handoff for this workstream. Any ChatGPT, Claude, Gemini, developer or future conversation must read this roadmap first, then follow `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md` and `docs/AI/WORK_PROTOCOL.md`. Update this file at every completed phase. Do not rely on chat history as the source of task status.
 
@@ -114,7 +114,7 @@ Acceptance:
 - No broad replacement of all Live clients with CDN clients.
 
 ### Phase 2 — remediate public published reads
-**Status: IN PROGRESS — cart weight metadata moved to the published API CDN on develop; price/stock, delivery fees and BOM reads remain Live pending freshness decisions**
+**Status: IN PROGRESS — public product/plant prices and stock display moved to the published API CDN on develop; cart weight metadata also uses CDN; delivery-zone tariffs remain Live; checkout price validation remains Live; remaining public/operational paths require classification and regression verification**
 
 Priority order:
 1. Browser catalogue loading in `src/App.tsx`: inspect all consumers of catalogue fields, cart behavior, price/stock updates and page navigation. Move only safe published catalogue projections to CDN; do not silently weaken price/stock freshness. If a smaller identity/content projection can be used, prefer it.
@@ -139,6 +139,27 @@ Acceptance:
 - All remaining direct public Live API requests are individually justified and documented.
 - Cart, product display, search, irrigation assistant and order flow regression tests pass.
 - Server-side order validation remains live and authoritative.
+
+### Owner freshness decision and public catalogue CDN migration — 2026-11-28
+
+The owner approved moving displayed product prices and stock status for both irrigation equipment and plants to the published Sanity API CDN. The accepted display freshness window is approximately 60 seconds, based on the previously observed Sanity CDN cache policy (60 seconds with stale-while-revalidate behavior); this is an observed cache policy, not a hard real-time SLA.
+
+Implemented on `develop`:
+- `src/App.tsx`: equipment and plant catalogue queries use `sanityClient` / `publicPlantsClient` (published CDN).
+- `src/lib/routeData/search.ts`: equipment and plant search projections, including displayed prices and stock, use published CDN clients.
+- `src/lib/routeData/productDetails.ts`: full equipment/plant product details and recommended irrigation product reads use published CDN clients; slug resolution was already on CDN.
+- `src/pages/IrrigationAssistantPage.tsx`: public irrigation-kit product/price/stock reads use the published CDN.
+- `tests/content-route-performance.test.mjs` and `tests/irrigation-assistant-cart.test.mjs`: updated to assert CDN routing.
+- `src/lib/sanity.ts`: clarified the remaining direct-Live client boundary.
+
+Safety boundary:
+- `functions/api/orders.ts` remains on direct Live API for current submitted prices; plant variant `outOfStock` is checked there.
+- The equipment checkout query currently does not select/check equipment `stockStatus`; this is an existing correctness gap, not fixed by the CDN display migration. Plant `stockQuantity` is also not enforced. Do not claim full stock reservation/quantity validation. Review and implement checkout stock rules only as a separate explicitly scoped correctness change.
+- Delivery-zone tariff read in `src/pages/IrrigationSupportPage.tsx` remains Live; Manager plant-category operations remain Live/authenticated.
+- No Sanity writes, schema changes, D1 changes, Cloudflare settings/secrets changes or Production deployment are part of this migration.
+- CDN freshness must be measured after the monthly reset; the API CDN may serve cached published values and the approximately 60-second window is not a guarantee of exact refresh timing.
+
+Code head at time of this update: `9472f55b264de4477576d738c941ba92a8af9004`; follow-up documentation commits are tracked by the current `develop` HEAD. Exact-head CI is pending.
 
 ### Phase 3 — request attribution and monitoring
 **Status: IMPLEMENTED ON DEVELOP — requestTagPrefix and family tags cover browser, checkout, Manager, SSR middleware, sitemap/feed, CI smoke and admin migration scripts; exact-head CI passed; fresh Request Logs confirmation remains pending**
