@@ -1,3 +1,17 @@
+# Current implementation handoff — Sanity API stabilization (2026-11-28)
+
+**Active workstream:** reduce repeated public Sanity CDN reads.  
+**Working branch:** `develop`; **Production branch:** `main`.  
+**Draft integration PR:** https://github.com/omaraandrey-dev/florial/pull/559  
+**Latest code commits added in this session:** `1d8b4a76` (product detail single-flight), `668c4574` (product slug lookup single-flight), `b32bd59d` (regression assertions).  
+**Release:** not merged; no Production deployment.
+
+- Existing PR #559 SSR handoffs and 30-second search/product/irrigation caches were inspected and retained.
+- New in-flight deduplication covers concurrent product slug resolution and full product detail loads, keyed respectively by slug and dataset/document ID.
+- Regression assertions were added. Latest commit has no returned CI status/workflow evidence yet; tests/build/type-check/Preview are **not verified** for the new commits.
+- Still open: inspect remaining public callsites and their measured frequency; verify the full PR exact head through CI and Preview; perform browser QA; compare fresh Sanity Request Logs after reset. Do not infer measured usage reduction from implementation alone.
+- `main`, Production, Sanity content/schema, D1, Cloudflare settings/secrets and DNS were not changed.
+
 # Current implementation handoff — active Sanity API stabilization (2026-11-28)
 
 **Current active workstream:** Sanity API stabilization, Phase 6 — services and blog SSR/API request reduction.  
