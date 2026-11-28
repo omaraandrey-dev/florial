@@ -389,3 +389,12 @@ Do not change catalogue/search query clients until this decision is explicitly s
 - **Verified in code:** checkout fetches current product prices from the Live API and rejects a price mismatch; for plant variants it rejects `stockStatus == outOfStock`.
 - **Important gap:** the equipment checkout query currently selects `_id, name, sku, priceEUR, imageUrl` and does not select or validate equipment `stockStatus`. Do not claim that checkout revalidates equipment stock until this is addressed in a separately approved correctness change.
 - **Owner decision expanded:** decide whether catalogue/search displayed prices and stock may lag by the API-CDN cache window, and whether equipment stock validation should be added before moving equipment stock display to CDN.
+
+
+### 2026-11-28 — Production read-only spot check and quota-policy interpretation
+
+- **Production spot check (read-only GETs, no writes):** homepage `/`, plant category `/category/rastenia`, equipment controller category `/category/controllers`, and product detail `/product/senzor-za-dazhd-rain-bird-rsd-bex` returned server-rendered HTML containing catalogue content; the category responses contained 20 product entries and the product detail included price and availability text.
+- **Important limitation:** this confirms that those public routes returned HTML at the time of the check. It does **not** prove that the underlying Sanity API/CDN request succeeded on that request; Cloudflare edge cache may have served the content. No cache-busting production request was sent.
+- **Sanity plan policy checked against current official docs:** Free/Growth Trial projects have hard caps; once API, API CDN or bandwidth reaches 100%, further public API/CDN requests fail with HTTP 402 until reset or plan change. Failed 4xx/5xx requests are not billed. See https://www.sanity.io/docs/platform-management/plans-and-payments.
+- **Interpretation:** the daily history series (39,074 API / 17,246 API CDN on Nov 27) may include failed/blocked attempts, while the monthly metered snapshot is billable usage. This is plausible but **not proven** without Request Logs status codes. Do not equate daily history with billable request totals.
+- **Operational risk:** if the project is still on the Free plan and the API quota is above 100%, cache misses that reach Sanity may return 402. Existing cached Production HTML can make a route appear healthy while an uncached request is still blocked. Obtain fresh Request Logs and verify response status before claiming the quota problem is resolved.
