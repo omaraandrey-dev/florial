@@ -29,6 +29,16 @@ test('product route identity and details are reused for repeated navigation with
   assert.match(app, /initialProductRouteSeed\.id,[\s\S]{0,80}activeProductSlug/)
 })
 
+test('concurrent product detail loads share one in-flight request per dataset and document ID', async () => {
+  const source = await read('../src/lib/routeData/productDetails.ts')
+  assert.match(source, /const productDetailsInFlight = new Map<string, Promise<Product \\| null>>\\(\\)/)
+  assert.match(source, /let pending = productDetailsInFlight\\.get\\(cacheKey\\)/)
+  assert.match(source, /pending = fetchProductDetailsUncached\\(foundProduct, \\(\\) => false\\)/)
+  assert.match(source, /productDetailsInFlight\\.set\\(cacheKey, pending\\)/)
+  assert.match(source, /productDetailsInFlight\\.delete\\(cacheKey\\)/)
+  assert.match(source, /if \\(productDetailsInFlight\\.get\\(cacheKey\\) === pending\\)/)
+})
+
 test('plant detail related documents and recommended irrigation product use one combined query', async () => {
   const source = await read('../src/lib/routeData/productDetails.ts')
   assert.match(source, /const plantRelatedAndIrrigationQuery = `\{/)
