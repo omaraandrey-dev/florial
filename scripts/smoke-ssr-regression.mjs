@@ -15,6 +15,7 @@ const scripts = [
   'scripts/smoke-equipment-catalog-ssr.mjs',
   'scripts/smoke-equipment-product-ssr.mjs',
   'scripts/smoke-contacts-ssr.mjs',
+  'scripts/smoke-header-ssr-seed.mjs',
   'scripts/smoke-about-ssr.mjs',
   'scripts/smoke-seo-surface-ssr.mjs',
 ]
