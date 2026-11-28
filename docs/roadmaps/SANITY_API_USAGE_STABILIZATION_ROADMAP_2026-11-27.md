@@ -7,7 +7,7 @@
 **Canonical branch for development:** `develop`  
 **Production branch:** `main`  
 **Sanity project:** `bxvcy0qs`  
-**Status:** READY FOR MERGE — public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN on `develop`; owner-approved equipment sales policy is documented below; exact-head CI, Preview and raw-HTTP SSR checks passed on `412da0af82d2a45a1b7c6774027d489fa6f2bba1`; fresh Sanity Request Logs validation remains pending until the December 1 usage reset.
+**Status:** PR #558 merged into `main` and `develop` (merge commit `55007f55cacce640a7003d1392683b4903c1f88d`); public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN; owner-approved equipment sales policy is recorded. Production deployment verification and fresh Sanity Request Logs validation remain pending. **New Phase 6 — services and blog SSR/API stabilization — added 2026-11-28; read-only audit in progress.**
 
 > This file is the portable handoff for this workstream. Any ChatGPT, Claude, Gemini, developer or future conversation must read this roadmap first, then follow `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md` and `docs/AI/WORK_PROTOCOL.md`. Update this file at every completed phase. Do not rely on chat history as the source of task status.
 
@@ -439,3 +439,56 @@ Do not change catalogue/search query clients until this decision is explicitly s
 - **No changes:** no Sanity documents/schemas/datasets, D1 schema/data, Cloudflare Production settings/bindings/secrets, DNS, orders or Resend configuration were changed.
 - **Open owner decisions:** displayed catalogue/search price and stock freshness (previous CDN cache observation approximately 60 seconds); whether to add equipment stock validation to checkout before moving equipment stock display to CDN. Keep these reads Live until decided.
 - **Next:** obtain a fresh Request Logs export and validate tags/statuses; complete browser functional checks and a controlled repeated-route traffic sample; request owner decisions on catalogue/search freshness and equipment stock validation. Keep PR #557 draft and Production release blocked pending explicit approval.
+
+
+### Phase 6 — services and blog SSR/API stabilization (added 2026-11-28)
+**Status: IN PROGRESS — scope accepted; initial source review started; no runtime changes made.**
+
+Objective: extend the Sanity API stabilization work to all four public service/blog route families without changing published content or weakening SEO, localization, or freshness behavior.
+
+Scope:
+1. Services directory: `/services`.
+2. Individual service pages: `/services/{slug}`.
+3. Blog directory: `/blog`.
+4. Individual blog articles: `/blog/{slug}`.
+
+Audit sequence:
+1. Trace each route from `functions/_middleware.ts` through its SSR renderer and Sanity query helper. Record exact query, dataset, perspective, request tag, client/endpoint, Cache API behavior, TTL/stale behavior, error fallback and route invalidation.
+2. Trace the matching React route and data functions. Determine whether SSR payload is reused or the browser repeats the same Sanity query after startup; identify related-content and localization follow-up requests separately.
+3. Classify each request as public published read eligible for API CDN, direct Live read requiring a documented reason, authenticated/admin operation, or duplicate/unnecessary request.
+4. Compare the four route families and their existing regression/smoke workflows. Add tests for endpoint/client selection, published perspective, SSR seed reuse, query counts/deduplication, cache/error behavior and BG/RU/EN output where supported.
+5. Propose the smallest safe runtime changes. Preserve existing route HTML, H1/meta/JSON-LD, canonical and language behavior, content ordering, images, internal links and user-visible page behavior.
+6. Implement only proven safe changes on the canonical `develop` branch, then run exact-SHA tests, type-check, lint, build, Preview and BG/RU/EN raw-HTTP smoke. Production release remains subject to the existing owner-approval gate.
+7. After the Sanity usage reset, compare fresh Request Logs and usage data for the four route families; do not infer savings from CDN code alone.
+
+Initial source map (verified by repository source reads; detailed query/cache classification remains pending):
+- Services directory SSR renderer: `functions/_lib/servicesDirectoryHtml.mjs`; middleware entry: `functions/_middleware.ts`.
+- Service detail SSR renderer: `functions/_lib/serviceDetailHtml.mjs`; client data path: `src/lib/routeData/serviceDetails.ts`.
+- Blog index SSR renderer: `functions/_lib/blogIndexHtml.mjs`; client route and SSR-seed consumer: `src/pages/BlogPage.tsx`.
+- Blog article SSR renderer: `functions/_lib/blogArticleHtml.mjs`; client route and SSR-seed consumer: `src/pages/BlogPostPage.tsx`; shared client data functions: `src/lib/blog.ts`.
+
+Guardrails:
+- Read-only audit is allowed. Existing published `service` and `blogPost` documents are protected. Do not edit, publish, unpublish, delete or otherwise mutate Sanity content/schema.
+- Do not change service/blog copy, SEO metadata, slugs, images, galleries, references, ordering or activity state as part of this API task.
+- Keep public reads on the published perspective. Never expose drafts or authenticated Manager/Studio data through public CDN/cache.
+- Do not assume every direct Live request is redundant. Preserve any read whose freshness or validation purpose is documented until a safe alternative is demonstrated.
+- Do not change global Header, navigation, Footer, routing architecture, Production settings/secrets, D1 or DNS.
+- Keep SSR and crawler-visible HTML intact; no reduction in page content or structured data as a request-saving shortcut.
+
+Acceptance criteria:
+- A route-by-route callsite matrix exists for all four route families, including SSR and browser requests.
+- Any duplicate SSR-to-client fetch is either eliminated safely or documented with its reason.
+- Public published reads use the existing API CDN/cache path where safe; every remaining direct Live read has a specific justification.
+- Cache policy, freshness, stale behavior and error fallback are tested and documented.
+- BG/RU/EN SEO/SSR smoke and exact-head CI pass with no content/behavior regression.
+- Post-reset Request Logs show the actual route-family request distribution; any claimed reduction is supported by measured evidence.
+
+### 2026-11-28 — Phase 6 kickoff and initial source review
+- Owner approved adding this workstream to the Sanity API stabilization roadmap and beginning implementation work.
+- Branch policy: continue on canonical `develop`; no new task-specific branch.
+- Initial source files read: `functions/_lib/servicesDirectoryHtml.mjs`, `functions/_lib/serviceDetailHtml.mjs`, `functions/_lib/blogIndexHtml.mjs`, `functions/_lib/blogArticleHtml.mjs`, `src/pages/BlogPage.tsx`, and `src/pages/BlogPostPage.tsx` (selected source sections).
+- Confirmed in client code: blog index consumes `florial-blog-ssr-data` and initializes as loaded when the SSR language matches; blog article consumes `florial-blog-article-data` and reuses both article and related-post payload when slug/language match. A non-matching or absent seed falls back to client fetches. This is code-level evidence only; middleware serialization and the exact SSR query/cache paths still require tracing.
+- Service detail client loader `src/lib/routeData/serviceDetails.ts` uses an in-process 60-second Map cache with promise deduplication (recorded in source review); this does not establish the edge/SSR cache policy.
+- **Not yet verified:** exact Sanity endpoint/client and request tags in each of the four SSR renderers; Cache API TTL/stale behavior; middleware route-to-renderer wiring and error fallbacks; whether service pages repeat a fetch after SSR; current live Production behavior.
+- No application source, tests, Sanity content/schema, D1, Cloudflare settings/secrets or Production deployment changed in this kickoff.
+- Next: complete middleware/query/cache trace and route-family request matrix, then implement only demonstrated safe optimizations.
