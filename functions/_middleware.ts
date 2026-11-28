@@ -1026,7 +1026,7 @@ function homepageBlogProjection(language: string): string {
     '.coverAlt, translations.bg.coverAlt)}} }'
 }
 
-async function fetchHomepageHtml(language: string): Promise<string> {
+async function fetchHomepageHtml(language: string): Promise<{ html: string; payload: Record<string, unknown> }> {
   const equipmentCategoryQuery = `
     *[_type == "category"] | order(sortOrder asc) {
       _id, name, translations { bg { name }, ru { name }, en { name } },
@@ -1040,16 +1040,22 @@ async function fetchHomepageHtml(language: string): Promise<string> {
     }
   `
   const plantCategoryQuery = `
-    *[_type == "category" && _id in [
-      "plants-root", "plants-palms", "plants-olives",
-      "plants-trees-shrubs", "plants-solitaires", "plants-flowers"
-    ]] {
-      _id, name, translations { bg { name }, ru { name }, en { name } },
+    *[_type == "category" && defined(coalesce(slug.current, slug))] | order(sortOrder asc, name asc) {
+      _id,
+      name,
+      translations { bg { name }, ru { name }, en { name } },
       "slug": { "current": coalesce(slug.current, slug) },
-      sortOrder, "parentId": parent->_id,
+      sortOrder,
+      "parentId": parent->_id,
+      "productCount": count(*[_type == "product" && productType in ["plant", "tree", "shrub", "flower", "perennial", "indoor", "citrus", "palm", "conifer", "fruit", "succulent", "climber", "ornamentalGrass", "groundcover", "bulb", "herb", "aquatic", "other"] && isActive != false && (category._ref == ^._id || ^._id in categories[]._ref)]),
       "imageUrl": coalesce(image.asset->url, externalImageUrl),
-      "imageAlt": image.alt, "imageAltEn": image.altEn, "imageAltRu": image.altRu,
-      "imageTitle": image.title, "imageTitleEn": image.titleEn, "imageTitleRu": image.titleRu
+      "imageAlt": image.alt,
+      "imageAltEn": image.altEn,
+      "imageAltRu": image.altRu,
+      "imageTitle": image.title,
+      "imageTitleEn": image.titleEn,
+      "imageTitleRu": image.titleRu,
+      "isPlantCategory": true
     }
   `
   const featuredPlantsQuery = `
@@ -1096,6 +1102,17 @@ async function fetchHomepageHtml(language: string): Promise<string> {
       "imageUrl": image.asset->url
     }
   `
+  const headerSettingsQuery = `{
+    "siteName": *[_type == "siteSettings"][0].siteName,
+    "logo": *[_type == "photo" && coalesce(slug.current, slug) == "oficialno-logo-florial-gradinski-centar"][0] {
+      title, titleEn, titleRu,
+      "logoUrl": image.asset->url,
+      "logoAlt": image.alt, "logoAltEn": image.altEn, "logoAltRu": image.altRu,
+      "logoAssetTitle": image.asset->title, "logoAssetAltText": image.asset->altText,
+      "logoWidth": image.asset->metadata.dimensions.width,
+      "logoHeight": image.asset->metadata.dimensions.height
+    }
+  }`
   const blogProjection = homepageBlogProjection(language)
   const pinnedQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt) && slug.current in $slugs]' + blogProjection
   const latestQuery = '*[_type == "blogPost" && isPublished == true && defined(publishedAt)] | order(publishedAt desc)[0...10]' + blogProjection
@@ -1109,6 +1126,7 @@ async function fetchHomepageHtml(language: string): Promise<string> {
     hero,
     pinnedPosts,
     latestPosts,
+    headerSettings,
   ] = await Promise.all([
     querySanityData<any[]>('production', equipmentCategoryQuery, {}, 'homepage/equipment-categories-v1', 300),
     querySanityData<any[]>('plants', plantCategoryQuery, {}, 'homepage/plant-categories-v1', 300),
@@ -1118,6 +1136,7 @@ async function fetchHomepageHtml(language: string): Promise<string> {
     querySanityData<{ imageUrl?: string } | null>('production', heroQuery, {}, 'homepage/hero-v1', 300),
     querySanityData<any[]>('production', pinnedQuery, { slugs: HOMEPAGE_PINNED_SLUGS }, 'homepage/blog-pinned-' + language + '-v1', 60),
     querySanityData<any[]>('production', latestQuery, {}, 'homepage/blog-latest-' + language + '-v1', 60),
+    querySanityData<any>('production', headerSettingsQuery, {}, 'homepage/header-settings-v1', 300),
   ])
 
   const collections = [
@@ -1134,7 +1153,27 @@ async function fetchHomepageHtml(language: string): Promise<string> {
     return post ? [post] : []
   })
 
-  return renderHomepageHtml({
+  if (!headerSettings || typeof headerSettings !== 'object') {
+    throw new Error('Homepage header settings query returned an invalid result')
+  }
+
+  const logo = (headerSettings as any).logo || {}
+  const headerSiteSettings = {
+    siteName: (headerSettings as any).siteName || null,
+    logoUrl: logo.logoUrl || null,
+    logoAlt: logo.logoAlt || null,
+    logoAltEn: logo.logoAltEn || null,
+    logoAltRu: logo.logoAltRu || null,
+    logoAssetTitle: logo.logoAssetTitle || null,
+    logoAssetAltText: logo.logoAssetAltText || null,
+    logoTitle: logo.title || null,
+    logoTitleEn: logo.titleEn || null,
+    logoTitleRu: logo.titleRu || null,
+    logoWidth: logo.logoWidth || null,
+    logoHeight: logo.logoHeight || null,
+  }
+
+  const html = renderHomepageHtml({
     equipmentCategories,
     plantCategories,
     featuredPlants,
@@ -1144,6 +1183,22 @@ async function fetchHomepageHtml(language: string): Promise<string> {
     pinnedPosts: orderedPinnedPosts,
     latestPosts,
   }, language)
+
+  return {
+    html,
+    payload: {
+      language,
+      equipmentCategories,
+      plantCategories,
+      featuredPlants,
+      featuredEquipment,
+      services,
+      heroImageUrl: hero?.imageUrl || null,
+      pinnedPosts: orderedPinnedPosts,
+      latestPosts,
+      headerSiteSettings,
+    },
+  }
 }
 
 function staticPageMetadata(path: string, language: string) {
@@ -1874,9 +1929,13 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     }
     let body = meta.body
     let cacheControl: string | undefined
+    let homepageSeedScript = ''
     if (path === '/') {
       try {
-        body = await fetchHomepageHtml(language)
+        const homepage = await fetchHomepageHtml(language)
+        body = homepage.html
+        homepageSeedScript = '<script id="florial-homepage-ssr-data" type="application/json">' +
+          serializeInlineJson(homepage.payload) + '</script>'
         cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
       } catch (error) {
         console.error('Florial homepage SSR data unavailable; serving the existing static fallback:', error)
@@ -1899,7 +1958,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         : 'no-store'
     }
     return transformHtmlResponse(await context.next(), (html) => {
-      const root = renderRoot(html, body)
+      const root = renderRoot(html, body + homepageSeedScript)
       return setPageHead(root, {
         language,
         title: meta.title,
