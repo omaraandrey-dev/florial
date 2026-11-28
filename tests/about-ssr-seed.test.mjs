@@ -41,3 +41,11 @@ test('About SSR batches production photos and equipment category into one CDN qu
   assert.match(source, /about-combined-v2/)
   assert.equal((source.match(/querySanityData</g) || []).length, 2)
 })
+
+test('About page falls back to a browser read when the SSR photo seed is incomplete', async () => {
+  const app = await read('../src/App.tsx')
+  const page = await read('../src/pages/AboutPage.tsx')
+  assert.match(app, /landshaften-arhitekt[\s\S]*florial-ravda/)
+  assert.match(page, /hasCompleteInitialPhotos/)
+  assert.match(page, /if \(hasCompleteInitialPhotos\) return/)
+})
