@@ -16,7 +16,7 @@ test('About page reuses the photo documents already fetched for its SSR HTML', a
   assert.match(app, /initialRolePhotos=\{initialAboutSeed\?\.language === language \? initialAboutSeed\.rolePhotos : undefined\}/)
   assert.match(page, /initialRolePhotos\?: ServiceRolePhoto\[\]/)
   assert.match(page, /if \(hasCompleteInitialPhotos\) return/)
-  assert.match(page, /\}, \[initialRolePhotos\]\)/)
+  assert.match(page, /\}, \[hasCompleteInitialPhotos, initialRolePhotos\]\)/)
 })
 
 test('About SSR seed includes the exact photo fields used by the hydrated page', async () => {
@@ -26,8 +26,8 @@ test('About SSR seed includes the exact photo fields used by the hydrated page',
   for (const field of ['slug', 'imageUrl', 'imageAlt', 'imageAltEn', 'imageAltRu']) {
     assert.ok(middleware.includes(field), 'SSR seed should include ' + field)
   }
-  assert.match(page, /rolePhotos\?\.find\(\(item\) => item\.slug\?\.toLowerCase\(\) === 'florial-nesebr'\)/)
-  assert.match(page, /rolePhotos\?\.find\(\(item\) => item\.slug\?\.toLowerCase\(\) === 'florial-ravda'\)/)
+  assert.match(page, /initialRolePhotos\?\.find\(\(item\) => item\.slug\?\.toLowerCase\(\) === 'florial-nesebr'\)/)
+  assert.match(page, /initialRolePhotos\?\.find\(\(item\) => item\.slug\?\.toLowerCase\(\) === 'florial-ravda'\)/)
 })
 
 test('About SSR batches production photos and equipment category into one CDN query', async () => {
