@@ -49,6 +49,11 @@ GitHub + Sanity + Cloudflare Pages/Functions + Cloudflare D1 + Resend. Supabase 
 
 - **P0: остановить аномальный расход Sanity Live API и исключить повторение.** Единая переносимая дорожная карта, текущий статус, этапы, критерии приёмки и журнал работ: [SANITY_API_USAGE_STABILIZATION_ROADMAP_2026-11-27.md](../roadmaps/SANITY_API_USAGE_STABILIZATION_ROADMAP_2026-11-27.md). Любой новый чат/ИИ должен начать с этого документа при продолжении данной задачи.
 
+
+## GitHub Actions CI policy (2026-11-28)
+
+- [CI consolidation and verification status](../operations/GITHUB_ACTIONS_CI_CONSOLIDATION_2026-11-28.md) — one comprehensive app validation, one full SSR/SEO regression, migration-only D1 checks, manual focused smoke workflows and PR concurrency cancellation.
+
 ## Профильные документы
 - **Irrigation engineer / lawn designer:** [CURRENT — whole-polygon sequential layout](../engineering/IRRIGATION_ASSISTANT_WHOLE_POLYGON_SEQUENTIAL_LAYOUT_V1.md) — rotors → residual R-VAN → residual 1 m / 2 m strips, mixed-family Head-to-Head and one global validation; [perimeter-first implementation guide](../engineering/IRRIGATION_ASSISTANT_PERIMETER_FIRST_IMPLEMENTATION_V1.md) — historical R-VAN geometry, mixed/balanced zones, pipe routes and BOM; [L-shape rectangular-zone layout v1](../engineering/IRRIGATION_ASSISTANT_L_SHAPE_RECTANGULAR_ZONES_V1.md) — historical per-rectangle solver; [balanced zones + owner PDF handoff](../engineering/IRRIGATION_ASSISTANT_BALANCED_ZONES_AND_ORDER_PDF_V1.md) — checkout snapshot, D1 event persistence, owner email/PDF and verification boundaries; [Rain Bird 3504-PC geometric layout v1](../engineering/IRRIGATION_ASSISTANT_3504PC_GEOMETRIC_LAYOUT_V1.md) — historical rectangle-stage baseline, superseded for the current sequential whole-polygon algorithm.
 - Plant editor UX: [role-based workflow and interface rules](../manager/PLANT_EDITOR_UX.md).
