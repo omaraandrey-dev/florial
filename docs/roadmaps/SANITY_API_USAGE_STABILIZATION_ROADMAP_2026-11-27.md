@@ -572,3 +572,15 @@ Acceptance criteria:
 - **Exact-head CI:** queued for `4b045fd54182cff217a17e1654caec97a02698a9`; run IDs include `46118450388`, `46118450358`, `46118450362`, `46118450443`, `46118450363`, `46118450412`, `46118450380`, `46118450352`, `46118450398`, `46118450489`, `46118450357` and `46118450406`. Do not claim validation until completed.
 - **Release:** included in Draft PR #559 (`develop → main`). No merge, Production deployment, Sanity writes, D1 changes or Cloudflare configuration changes.
 - **Next:** wait for exact-head CI and Preview; then extend SSR payload reuse to product/category catalogue data only after validating projection completeness and route behavior. Keep the 60-second displayed price/stock freshness policy and authoritative Live checkout price validation unchanged.
+
+
+### Product SSR identity handoff — exact-head verification update
+
+- Tested code SHA: `4b045fd54182cff217a17e1654caec97a02698a9`.
+- Exact Cloudflare Pages Preview deployment: `aeaa764d-1a57-4db8-934c-4bd15300b59f`; URL: https://aeaa764d.florial.pages.dev.
+- Blog and Studio validation run `46118450398`: success — app/Pages type-check, lint, website tests, website build, migration syntax/read-only dry-run, Studio type-check/build.
+- Full SSR/SEO regression run `46118450363`: success.
+- Equipment product SSR validation/raw HTTP run `46118450388`: success — validation/build/tests and all active published equipment product pages checked without JavaScript.
+- Plant catalogue `46118450358`, equipment catalogue `46118450380`, services directory `46118450489`, service details `46118450362`, blog index `46118450352`, blog articles `46118450443`, About `46118450357`, equipment Preview smoke `46118450412`: success.
+- D1 validation run `46118450406` was cancelled; no D1 migration or data operation was part of this change.
+- **Verification boundary:** this validates source behavior and raw first-response routes on Preview. It does not measure Sanity's real CDN request counter or prove a two-request reduction from usage logs. No Production deployment or merge.
