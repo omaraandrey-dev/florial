@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "include": [
+    "/*"
+  ],
+  "exclude": [
+    "/assets/*",
+    "/manager/icons/*",
+    "/manager/sw.js",
+    "/manager/manifest.webmanifest",
+    "/favicon.png",
+    "/robots.txt"
+  ]
+}
