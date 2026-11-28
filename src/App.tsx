@@ -155,6 +155,29 @@ function readProductRouteSeed(slug: string | null, language: string): ProductRou
   }
 }
 
+type ContactsSeed = {
+  language: string
+  images: { nesebr?: string; ravda?: string }
+}
+
+function readContactsSeed(language: string): ContactsSeed | null {
+  if ((window.location.pathname.replace(/\\/+$/, '') || '/') !== '/contacts') return null
+  const element = document.getElementById('florial-contacts-ssr-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<ContactsSeed>
+    if (
+      payload.language !== language ||
+      !payload.images ||
+      typeof payload.images.nesebr !== 'string' ||
+      typeof payload.images.ravda !== 'string'
+    ) return null
+    return { language, images: payload.images }
+  } catch {
+    return null
+  }
+}
+
 type HomepageSeed = {
   language: string
   equipmentCategories: CategoryItem[]
@@ -463,6 +486,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   const [homepageSeed] = useState(() => readHomepageSeed(language))
   const [initialServiceDirectorySeed] = useState(() => readServiceDirectorySeed(language))
   const [initialServiceDetailSeed] = useState(() => readServiceDetailSeed(getRouteState().activeServiceSlug, language))
+  const [initialContactsSeed] = useState(() => readContactsSeed(language))
   const [initialProductRouteSeed] = useState(() => readProductRouteSeed(getRouteState().activeProductSlug, language))
   const initialProductRouteSeedUsed = useRef(false)
   const [products, setProducts] = useState<Product[]>([])
@@ -2033,7 +2057,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
           onNavigateHome={navigateToHome}
         />
       ) : isContactsOpen ? (
-        <ContactsPage onNavigateHome={navigateToHome} />
+        <ContactsPage onNavigateHome={navigateToHome} initialImages={initialContactsSeed?.images} />
       ) : activeSearchQuery !== null ? (
         <main className="mx-auto w-full max-w-7xl flex-grow px-4 py-8 sm:px-6 lg:px-8">
           <nav className="mb-5 text-sm text-slate-500">
