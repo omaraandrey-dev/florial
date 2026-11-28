@@ -1,3 +1,14 @@
+## 2026-11-28 — Cloudflare Pages Functions request-limit stabilization
+
+- Current `develop` HEAD at code validation: `83cb44d0a1fdaf250d5c1525a27b225bc03f0d04`; PR #559 remains Draft/unmerged.
+- Cloudflare Analytics showed Preview usage far above Production: 119,130 Preview vs 7,520 Production requests in the partial 2026-11-28 window (data through 07:00 UTC). The 100,000/day limit was exceeded. Analytics is delayed; no post-fix reduction is claimed.
+- Confirmed avoidable invocation path: root `functions/_middleware.ts` was eligible to run for static assets; no source `_routes.json` existed. Added `public/_routes.json` to bypass static assets while preserving HTML SSR, APIs, sitemap and RSS. `public/_headers` preserves static security headers.
+- Cloudflare Preview is now limited to `develop` and build-relevant paths. Code-bearing Preview `a278c200` succeeded from `86ed15a`; subsequent test/script/workflow-only commits were skipped by `path_config`. Production `main` remains enabled and unchanged.
+- Blog/Studio CI run `46145932038` passed exact-head type-check, lint, tests, build, dist route-manifest validation, read-only D1 validation and Studio build. Full SSR/SEO run `46145932128` is still waiting for an exact deployment check on a non-runtime commit; the branch Preview alias points to the route-manifest deployment.
+- Both environments have `fail_open=true`; this may explain missing SSR while quota is exhausted. Re-test raw SSR after the reset at 2026-11-29 00:00 UTC.
+- Production remains on successful deployment `691be01b-aadf-429b-a417-fec55ddc67fb`, source SHA `541223d7e8b01094223d53a140c139a99222952b`. No Production release, DNS/secrets/bindings, Sanity or D1 writes, or paid-plan upgrade.
+- Full evidence and next actions: [Cloudflare Pages Functions request-limit remediation](../operations/CLOUDFLARE_PAGES_FUNCTIONS_REQUEST_LIMIT_REMEDIATION_2026-11-28.md).
+
 # Current implementation handoff — Sanity API stabilization (2026-11-28)
 
 **Active workstream:** reduce repeated public Sanity CDN reads.  
