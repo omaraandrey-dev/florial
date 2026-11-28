@@ -22,7 +22,22 @@ async function fetchInitialHtml(route) {
       if (response.status === 200 && html.includes('data-florial-ssr-homepage="v1"')) {
         return { response, html }
       }
-      lastError = new Error(route.language + ': attempt ' + attempt + ' returned HTTP ' + response.status + ' without homepage SSR marker')
+      if (attempt === 1) {
+        const diagnosticHeaders = Object.fromEntries(
+          ['content-type', 'cache-control', 'cf-cache-status', 'cf-ray', 'server', 'age']
+            .map((name) => [name, response.headers.get(name)])
+            .filter(([, value]) => value !== null),
+        )
+        const rootSnippet = html.match(/<div id="root"[^>]*>[\\s\\S]{0,400}/i)?.[0] || null
+        console.error(route.language + ': homepage SSR first-response diagnostic', JSON.stringify({
+          status: response.status,
+          headers: diagnosticHeaders,
+          rootSnippet,
+          htmlStart: html.slice(0, 500).replace(/\\s+/g, ' '),
+          markerPresent: html.includes('data-florial-ssr-homepage="v1"'),
+        }))
+      }
+      lastError = new Error(route.language + ': attempt ' + attempt + ' returned HTTP ' + response.status + ' without homepage SSR marker; cache-control=' + (response.headers.get('cache-control') || 'missing'))
     } catch (error) {
       lastError = error
     }
