@@ -145,7 +145,7 @@ type HomepageSeed = {
 }
 
 function readHomepageSeed(language: string): HomepageSeed | null {
-  const path = window.location.pathname.replace(/\\/+$/, '') || '/'
+  const path = window.location.pathname.replace(/\/+$/, '') || '/'
   if (path !== '/' && path !== '/index.html') return null
   const element = document.getElementById('florial-homepage-ssr-data')
   if (!element?.textContent) return null
