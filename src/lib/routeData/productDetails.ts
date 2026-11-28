@@ -13,6 +13,7 @@ const isPlantProductType = (productType?: string) => PLANT_PRODUCT_TYPES.has(pro
 const PRODUCT_ROUTE_CACHE_TTL_MS = 30_000
 const productIdentityCache = new Map<string, { dataset: 'production' | 'plants'; id: string; expiresAt: number }>()
 const productDetailsCache = new Map<string, { product: Product; expiresAt: number }>()
+const productDetailsInFlight = new Map<string, Promise<Product | null>>()
 
 function writeProductIdentity(slug: string, dataset: 'production' | 'plants', id: string) {
   productIdentityCache.delete(slug)
@@ -103,6 +104,34 @@ export async function fetchProductDetailsByIdentity(
 }
 
 export async function fetchProductDetails(foundProduct: Product, isCancelled: () => boolean = () => false): Promise<Product | null> {
+  if (isCancelled()) return null
+
+  const isPlant = isPlantProductType(foundProduct.productType)
+  const dataset = isPlant ? 'plants' : 'production'
+  const cacheKey = dataset + ':' + foundProduct._id
+  const cached = productDetailsCache.get(cacheKey)
+  if (cached && cached.expiresAt > Date.now()) return isCancelled() ? null : cached.product
+  if (cached) productDetailsCache.delete(cacheKey)
+
+  let pending = productDetailsInFlight.get(cacheKey)
+  if (!pending) {
+    // Share the same upstream reads across concurrent React effects/navigation.
+    // Cancellation is applied per caller after the shared request completes.
+    pending = fetchProductDetailsUncached(foundProduct, () => false)
+    productDetailsInFlight.set(cacheKey, pending)
+  }
+
+  try {
+    const product = await pending
+    return isCancelled() ? null : product
+  } finally {
+    if (productDetailsInFlight.get(cacheKey) === pending) {
+      productDetailsInFlight.delete(cacheKey)
+    }
+  }
+}
+
+async function fetchProductDetailsUncached(foundProduct: Product, isCancelled: () => boolean): Promise<Product | null> {
   const equipmentDetailQuery = `
         *[_type == "product" && _id == $id][0] {
           _id,
@@ -204,9 +233,6 @@ export async function fetchProductDetails(foundProduct: Product, isCancelled: ()
   const isPlant = isPlantProductType(foundProduct.productType)
   const dataset = isPlant ? 'plants' : 'production'
   const cacheKey = dataset + ':' + foundProduct._id
-  const cached = productDetailsCache.get(cacheKey)
-  if (cached && cached.expiresAt > Date.now()) return isCancelled() ? null : cached.product
-  if (cached) productDetailsCache.delete(cacheKey)
 
   const details = await (isPlant ? publicPlantsClient : sanityClient).fetch(
     isPlant ? plantDetailQuery : equipmentDetailQuery,
