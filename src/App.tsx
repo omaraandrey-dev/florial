@@ -129,6 +129,32 @@ function readServiceDetailSeed(slug: string | null, language: string): ServiceDe
   }
 }
 
+type ProductRouteSeed = {
+  slug: string
+  language: string
+  dataset: 'production' | 'plants'
+  id: string
+}
+
+function readProductRouteSeed(slug: string | null, language: string): ProductRouteSeed | null {
+  if (!slug) return null
+  const element = document.getElementById('florial-product-route-data')
+  if (!element?.textContent) return null
+  try {
+    const payload = JSON.parse(element.textContent) as Partial<ProductRouteSeed>
+    if (
+      payload.slug !== slug ||
+      payload.language !== language ||
+      (payload.dataset !== 'production' && payload.dataset !== 'plants') ||
+      typeof payload.id !== 'string' ||
+      !payload.id
+    ) return null
+    return { slug, language, dataset: payload.dataset, id: payload.id }
+  } catch {
+    return null
+  }
+}
+
 type HomepageSeed = {
   language: string
   equipmentCategories: CategoryItem[]
@@ -437,6 +463,8 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   const [homepageSeed] = useState(() => readHomepageSeed(language))
   const [initialServiceDirectorySeed] = useState(() => readServiceDirectorySeed(language))
   const [initialServiceDetailSeed] = useState(() => readServiceDetailSeed(getRouteState().activeServiceSlug, language))
+  const [initialProductRouteSeed] = useState(() => readProductRouteSeed(getRouteState().activeProductSlug, language))
+  const initialProductRouteSeedUsed = useRef(false)
   const [products, setProducts] = useState<Product[]>([])
   const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>(() => homepageSeed?.equipmentCategories || [])
   const [headerPlantCategories, setHeaderPlantCategories] = useState<CategoryItem[]>(() => homepageSeed?.plantCategories || [])
@@ -725,7 +753,21 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
     setCurrentProduct(null)
     setLoadingProductDetails(true)
     import('./lib/routeData/productDetails')
-      .then(({ fetchProductDetailsBySlug }) => fetchProductDetailsBySlug(activeProductSlug, () => cancelled))
+      .then((loader) => {
+        const canReuseSsrIdentity =
+          !initialProductRouteSeedUsed.current &&
+          initialProductRouteSeed?.slug === activeProductSlug &&
+          initialProductRouteSeed.language === language
+        if (canReuseSsrIdentity && initialProductRouteSeed) {
+          initialProductRouteSeedUsed.current = true
+          return loader.fetchProductDetailsByIdentity(
+            initialProductRouteSeed.dataset,
+            initialProductRouteSeed.id,
+            () => cancelled,
+          )
+        }
+        return loader.fetchProductDetailsBySlug(activeProductSlug, () => cancelled)
+      })
       .then((details) => {
         if (!cancelled) setCurrentProduct(details)
       })
