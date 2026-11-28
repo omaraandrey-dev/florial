@@ -1,3 +1,12 @@
+## 2026-11-28 — Browser-side product request single-flight (develop / PR #559)
+
+- `src/lib/routeData/productDetails.ts` now keeps two separate in-flight maps: slug → product identity promise, and dataset/document ID → full detail promise.
+- Concurrent calls for the same slug share the paired equipment/plants identity lookup. Concurrent detail calls for the same product share the full published document query and, for plants/equipment, any related-content enrichment that belongs to that detail load.
+- Existing 30-second completed-result caches remain unchanged. Existing dataset selection, published CDN clients, query tags, product projections and checkout Live API validation are unchanged.
+- Cancellation is caller-local: shared upstream work is allowed to finish, while each caller receives `null` if its own route/effect was cancelled before resolution. Failed pending promises are removed to permit retry.
+- Regression assertions added to `tests/sanity-client-read-cache.test.mjs`.
+- **Verification boundary:** code and test files are committed on `develop`; no CI run, local test run or Preview verification has yet been returned for these latest commits. No Production or live-service changes. Usage impact is not measured.
+
 ## 2026-11-28 — Shared Header and catalogue category SSR seed (verified on develop)
 
 - On non-homepage public HTML routes, middleware prepares a locale-scoped Header payload from two published API-CDN queries: a combined production projection for equipment categories, services, site settings, logo and recent blog posts, plus plant categories from the separate plants dataset. Both use v2 Cache API key namespaces so earlier smaller v1 payloads cannot shadow the full category projections.
