@@ -595,3 +595,16 @@ Acceptance criteria:
 - Plant catalogue `46118450358`, equipment catalogue `46118450380`, services directory `46118450489`, service details `46118450362`, blog index `46118450352`, blog articles `46118450443`, About `46118450357`, equipment Preview smoke `46118450412`: success.
 - D1 validation run `46118450406` was cancelled; no D1 migration or data operation was part of this change.
 - **Verification boundary:** this validates source behavior and raw first-response routes on Preview. It does not measure Sanity's real CDN request counter or prove a two-request reduction from usage logs. No Production deployment or merge.
+
+
+### 2026-11-28 — contacts SSR photo handoff
+
+- **Code head:** `241878ff47fcbc46a71134c1a5aaf5f740b83588`; included in Draft PR #559.
+- `fetchContactsHtml()` now returns both the existing rendered HTML and the location-image map. The middleware embeds a locale-bound, safely escaped `florial-contacts-ssr-data` payload in the initial response.
+- `App.tsx` validates the initial route/locale payload and passes the two images to `ContactsPage`. On direct `/contacts` loads, the page skips its two previous browser queries.
+- SPA navigation without an SSR payload now loads both location photos with one GROQ query rather than two.
+- The contact content, address/phone data, image fallback behavior and server-side rendering remain unchanged.
+- Exact Cloudflare Preview: https://92aa1bb8.florial.pages.dev.
+- Exact-head website type-check, lint, website utility tests, build, Pages Functions syntax, full SSR/SEO regression and route smoke checks passed. Studio validation was still running when this note was written.
+- Expected reduction: two browser CDN requests on a direct contacts load; one fewer request on SPA navigation. This is a code-path expectation, not a measured Sanity usage-counter result.
+- No Sanity writes, Production release or PR merge. Fresh CDN usage and Request Logs measurement remain pending.
