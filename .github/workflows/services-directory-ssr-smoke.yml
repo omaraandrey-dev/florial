@@ -35,7 +35,7 @@ jobs:
             details_url="$(printf '%s' "${checks}" | jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")] | last | .details_url // empty')"
             if [ "${status}" = "completed" ]; then
               if [ "${conclusion}" != "success" ]; then echo "Cloudflare Pages deployment failed: ${details_url}"; exit 1; fi
-              deployment_id="$(printf '%s' "${details_url}" | sed -nE 's#.*pages/view/florial/([0-9a-f-]+).*#\\1#p')"
+              deployment_id="$(printf '%s' "${details_url}" | sed -nE 's#.*pages/view/florial/([0-9a-f-]+).*#\1#p')"
               if [ -z "${deployment_id}" ]; then echo "Could not extract Preview deployment ID from ${details_url}"; exit 1; fi
               deployment_short_id="${deployment_id:0:8}"
               echo "PREVIEW_URL=https://${deployment_short_id}.florial.pages.dev" >> "${GITHUB_ENV}"
