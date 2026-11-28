@@ -6,7 +6,6 @@ on:
     paths:
       - "docs/migrations/**"
       - "tests/*migration*.test.py"
-      - ".github/workflows/validate-d1-migration.yml"
   push:
     branches: [main]
     paths:
