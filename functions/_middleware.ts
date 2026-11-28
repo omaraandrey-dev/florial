@@ -1259,9 +1259,9 @@ async function fetchHomepageHtml(language: string): Promise<{ html: string; payl
   }
 
   const pinnedBySlug = new Map(pinnedPosts.map((post) => [post.slug?.current || post.slug, post]))
-  const orderedPinnedPosts = HOMEPAGE_PINNED_SLUGS.flatMap((slug) => {
+  const orderedPinnedPosts: Record<string, unknown>[] = HOMEPAGE_PINNED_SLUGS.flatMap((slug) => {
     const post = pinnedBySlug.get(slug)
-    return post ? [post] : []
+    return post ? [post as Record<string, unknown>] : []
   })
 
   if (!headerSettings || typeof headerSettings !== 'object') {
