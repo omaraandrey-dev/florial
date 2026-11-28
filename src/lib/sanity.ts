@@ -15,7 +15,7 @@ export const sanityClient = createClient({
   requestTagPrefix: 'florial',
 })
 
-// Commercial data that must stay fresh (product prices, stock and search) bypasses the CDN.
+// Direct Live API client is reserved for explicitly non-cacheable reads; public product prices, stock, search and details use the published CDN clients.
 export const sanityLiveClient = createClient({
   projectId,
   dataset,

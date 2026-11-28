@@ -1,4 +1,4 @@
-import { sanityLiveClient, plantsClient } from '../sanity'
+import { sanityClient, publicPlantsClient } from '../sanity'
 import type { Product } from '../../types'
 
 export async function fetchSearchProducts(isCancelled: () => boolean = () => false): Promise<Product[]> {
@@ -52,8 +52,8 @@ export async function fetchSearchProducts(isCancelled: () => boolean = () => fal
       `
 
   const [equipmentResult, plantResult] = await Promise.allSettled([
-    sanityLiveClient.fetch(equipmentSearchQuery, {}, { tag: 'browser.search.equipment' }),
-    plantsClient.fetch(plantSearchQuery, {}, { tag: 'browser.search.plants' }),
+    sanityClient.fetch(equipmentSearchQuery, {}, { tag: 'browser.search.equipment' }),
+    publicPlantsClient.fetch(plantSearchQuery, {}, { tag: 'browser.search.plants' }),
   ])
   if (isCancelled()) return []
 

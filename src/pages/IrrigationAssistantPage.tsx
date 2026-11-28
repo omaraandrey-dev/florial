@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useI18n } from '../lib/i18n'
 import { applyPageSeo } from '../lib/seo'
 import { localizedHref } from '../lib/navigation'
-import { sanityLiveClient } from '../lib/sanity'
+import { sanityClient } from '../lib/sanity'
 import type { Product } from '../types'
 import type { IrrigationProjectSnapshot } from '../services/orderService'
 import { buildLawnBoundary, type LawnCutoutCorner, type LawnInputShape } from '../lib/irrigation/lawnGeometryInput.mjs'
@@ -333,7 +333,7 @@ export function IrrigationAssistantPage({ onNavigateHome, onNavigateCart, onAddT
     setCatalogError('')
     const baseSkus = billOfMaterials.items.map((item: { sku: string }) => item.sku)
     const skus = [...new Set([...baseSkus, ...IRRIGATION_AUTOMATION_PRODUCT_SKUS])]
-    sanityLiveClient.fetch(
+    sanityClient.fetch(
       `*[_type == "product" && sku in $skus && isActive != false]{
         _id, name, sku, priceEUR, stockStatus, vatIncluded, weightKg, translations { bg { name }, ru { name }, en { name } },
         "productType": "equipment",

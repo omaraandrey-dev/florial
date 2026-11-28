@@ -7,7 +7,7 @@
 **Canonical branch for development:** `develop`  
 **Production branch:** `main`  
 **Sanity project:** `bxvcy0qs`  
-**Status:** ACTIVE — repository inventory completed; safe cart metadata migration and expanded request tagging are on develop; exact-head CI, build and Preview/raw-HTTP regression passed on code head `c957283ec19142554562501dd92e4db9698e77ab`; commercial reads remain Live pending freshness decisions; fresh Request Logs validation of tags and post-remediation traffic remains pending.
+**Status:** READY FOR MERGE — public product/plant catalogue, search, product detail and irrigation-assistant reads use published API CDN on `develop`; owner-approved equipment sales policy is documented below; exact-head CI, Preview and raw-HTTP SSR checks passed on `412da0af82d2a45a1b7c6774027d489fa6f2bba1`; fresh Sanity Request Logs validation remains pending until the December 1 usage reset.
 
 > This file is the portable handoff for this workstream. Any ChatGPT, Claude, Gemini, developer or future conversation must read this roadmap first, then follow `AI_INSTRUCTIONS.md`, `docs/AI/START_HERE.md` and `docs/AI/WORK_PROTOCOL.md`. Update this file at every completed phase. Do not rely on chat history as the source of task status.
 
@@ -15,7 +15,7 @@
 
 Stop unnecessary consumption of Sanity monthly **API Requests** (direct Live API), eliminate avoidable public read traffic from the Live API, retain live reads only where data freshness is required for correctness/security, and add enough observability and regression protection to detect a recurrence before the monthly allowance is exhausted.
 
-The task is not to maximize API CDN usage blindly. Every migration must preserve published-content semantics, language behavior, prices/stock correctness, order validation, Manager authorization and user-visible functionality.
+The task is not to maximize API CDN usage blindly. Every migration must preserve published-content semantics, language behavior, displayed prices/status, the explicitly approved order rules, Manager authorization and user-visible functionality.
 
 ## 2. Non-negotiable constraints
 
@@ -23,7 +23,7 @@ The task is not to maximize API CDN usage blindly. Every migration must preserve
 - Do not write to Sanity documents, schemas or datasets.
 - Do not change D1 schema/data, Production secrets, Cloudflare bindings/settings, DNS or other Production infrastructure without separate explicit approval.
 - Do not perform Production release without explicit owner approval for the specific release.
-- Keep server-side order price/stock validation on the Live API unless a separate correctness review proves an alternative safe.
+- Keep server-side submitted-price validation on the direct Live API. Plant `outOfStock` validation remains as implemented. Irrigation equipment is sold to order: do not validate or block equipment orders using `stockStatus` or `stockQuantity`; no quantitative warehouse accounting is performed for irrigation equipment at this stage.
 - Keep authenticated Manager and Studio operations on the appropriate live/authenticated paths; do not treat them as public crawler traffic.
 - Do not weaken published perspective, access controls, cache correctness, localization, SEO, or freshness guarantees silently.
 - Never claim a fix is effective from a static daily/monthly usage counter alone.
@@ -114,7 +114,7 @@ Acceptance:
 - No broad replacement of all Live clients with CDN clients.
 
 ### Phase 2 — remediate public published reads
-**Status: IN PROGRESS — cart weight metadata moved to the published API CDN on develop; price/stock, delivery fees and BOM reads remain Live pending freshness decisions**
+**Status: IMPLEMENTED ON DEVELOP — public product/plant prices and stock display moved to the published API CDN; cart weight metadata also uses CDN; delivery-zone tariffs remain Live; checkout submitted-price validation remains Live; equipment orders intentionally have no stock/quantity validation. Exact-head CI/Preview/raw-HTTP checks passed; fresh Request Logs validation remains pending.**
 
 Priority order:
 1. Browser catalogue loading in `src/App.tsx`: inspect all consumers of catalogue fields, cart behavior, price/stock updates and page navigation. Move only safe published catalogue projections to CDN; do not silently weaken price/stock freshness. If a smaller identity/content projection can be used, prefer it.
@@ -139,6 +139,27 @@ Acceptance:
 - All remaining direct public Live API requests are individually justified and documented.
 - Cart, product display, search, irrigation assistant and order flow regression tests pass.
 - Server-side order validation remains live and authoritative.
+
+### Owner freshness and equipment sales policy decisions — 2026-11-28
+
+The owner approved moving displayed product prices and stock status for both irrigation equipment and plants to the published Sanity API CDN. The accepted display freshness window is approximately 60 seconds, based on the previously observed Sanity CDN cache policy (60 seconds with stale-while-revalidate behavior); this is an observed cache policy, not a hard real-time SLA.
+
+Implemented on `develop`:
+- `src/App.tsx`: equipment and plant catalogue queries use `sanityClient` / `publicPlantsClient` (published CDN).
+- `src/lib/routeData/search.ts`: equipment and plant search projections, including displayed prices and stock, use published CDN clients.
+- `src/lib/routeData/productDetails.ts`: full equipment/plant product details and recommended irrigation product reads use published CDN clients; slug resolution was already on CDN.
+- `src/pages/IrrigationAssistantPage.tsx`: public irrigation-kit product/price/stock reads use the published CDN.
+- `tests/content-route-performance.test.mjs` and `tests/irrigation-assistant-cart.test.mjs`: updated to assert CDN routing.
+- `src/lib/sanity.ts`: clarified the remaining direct-Live client boundary.
+
+Safety boundary:
+- `functions/api/orders.ts` remains on direct Live API for current submitted prices; plant variant `outOfStock` is checked there. Equipment stock/quantity is intentionally not checked at checkout under the owner-confirmed made-to-order policy.
+- **Owner-confirmed business rule (2026-11-28):** all irrigation equipment is currently sold to order. Customers may place orders without equipment stock being held in or checked against a warehouse quantity. There is no quantitative warehouse accounting for irrigation equipment at this stage. Do not add checkout rejection or availability gating based on equipment `stockStatus` or `stockQuantity`. The absence of equipment stock validation is intentional, not an open correctness gap. A future informational status such as “available to order” / “in stock” may be shown without quantitative stock enforcement, subject to a separate owner decision.
+- Delivery-zone tariff read in `src/pages/IrrigationSupportPage.tsx` remains Live; Manager plant-category operations remain Live/authenticated.
+- No Sanity writes, schema changes, D1 changes, Cloudflare settings/secrets changes or Production deployment are part of this migration.
+- CDN freshness must be measured after the monthly reset; the API CDN may serve cached published values and the approximately 60-second window is not a guarantee of exact refresh timing.
+
+Code head at time of the CDN migration: `9472f55b264de4477576d738c941ba92a8af9004`. The complete PR head `412da0af82d2a45a1b7c6774027d489fa6f2bba1` passed Blog/Studio validation, full SSR/SEO regression, equipment product SSR/raw-HTTP smoke and D1 migration validation. Cloudflare Pages Preview succeeded at `https://11b3c25b.florial.pages.dev`. Browser-interaction QA was not performed because Browser Use credits were unavailable; no browser-rendered functional result is claimed. Fresh Sanity Request Logs validation remains pending until the December 1 usage reset.
 
 ### Phase 3 — request attribution and monitoring
 **Status: IMPLEMENTED ON DEVELOP — requestTagPrefix and family tags cover browser, checkout, Manager, SSR middleware, sitemap/feed, CI smoke and admin migration scripts; exact-head CI passed; fresh Request Logs confirmation remains pending**

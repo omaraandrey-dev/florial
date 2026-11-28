@@ -7,7 +7,7 @@ test('irrigation assistant loads catalogue products and adds the generated compl
   const automation = await readFile(new URL('../src/lib/irrigation/irrigationAutomation.mjs', import.meta.url), 'utf8')
   const app = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8')
   assert.match(page, /buildIrrigationBillOfMaterials/)
-  assert.match(page, /sanityLiveClient\.fetch/)
+  assert.match(page, /sanityClient\.fetch/)
   assert.match(page, /onAddToCart\(item\.product, item\.quantity\)/)
   assert.match(page, /onNavigateCart\(\)/)
   assert.match(page, /Choose automation and continue|Выбрать автоматику и продолжить|Изберете управление и продължете/)
