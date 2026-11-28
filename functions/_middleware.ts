@@ -430,7 +430,7 @@ async function querySanityData<T>(
   return body.result as T
 }
 
-async function fetchContactsHtml(language: string): Promise<string> {
+async function fetchContactsHtml(language: string): Promise<{ html: string; images: Record<string, string> }> {
   const query = `
     *[_type == "photo" && (
       lower(slug) in ["florial-nesebr", "florial-ravda"] ||
@@ -454,7 +454,7 @@ async function fetchContactsHtml(language: string): Promise<string> {
     if (slug === 'florial-nesebr') images.nesebr = photo.imageUrl || ''
     if (slug === 'florial-ravda') images.ravda = photo.imageUrl || ''
   }
-  return renderContactsHtml(language, images)
+  return { html: renderContactsHtml(language, images), images }
 }
 
 type AboutPhotoDocument = {
@@ -1930,6 +1930,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
     let body = meta.body
     let cacheControl: string | undefined
     let homepageSeedScript = ''
+    let contactsSeedScript = ''
     if (path === '/') {
       try {
         const homepage = await fetchHomepageHtml(language)
@@ -1943,7 +1944,10 @@ async function handleRequest(context: PagesContext): Promise<Response> {
       }
     } else if (path === '/contacts') {
       try {
-        body = await fetchContactsHtml(language)
+        const contacts = await fetchContactsHtml(language)
+        body = contacts.html
+        contactsSeedScript = '<script id="florial-contacts-ssr-data" type="application/json">' +
+          serializeInlineJson({ language, images: contacts.images }) + '</script>'
         cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=120'
       } catch (error) {
         console.error('Florial contacts SSR images unavailable; serving contact details without images:', error)
@@ -1958,7 +1962,7 @@ async function handleRequest(context: PagesContext): Promise<Response> {
         : 'no-store'
     }
     return transformHtmlResponse(await context.next(), (html) => {
-      const root = renderRoot(html, body + homepageSeedScript)
+      const root = renderRoot(html, body + homepageSeedScript + contactsSeedScript)
       return setPageHead(root, {
         language,
         title: meta.title,
