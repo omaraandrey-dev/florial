@@ -241,7 +241,7 @@ test('plant availability fallback matches the client when stock status is unknow
 
 test('homepage middleware normalizes /index.html to the canonical homepage SSR route', async () => {
   const middleware = await readFile(new URL('../functions/_middleware.ts', import.meta.url), 'utf8')
-  assert.match(middleware, /const rawPath = url\.pathname\.replace\(\/\\\\\/+\$\/, ''\) \|\| '\/'/)
-  assert.match(middleware, /const path = rawPath === '\/index\.html' \? '\/' : rawPath/)
-  assert.doesNotMatch(middleware, /path === '\/index\.html' \|\|/)
+  assert.ok(middleware.includes("const rawPath = url.pathname.replace(/\\/+$/, '') || '/'))
+  assert.ok(middleware.includes("const path = rawPath === '/index.html' ? '/' : rawPath"))
+  assert.ok(!middleware.includes("path === '/index.html' ||"))
 })
