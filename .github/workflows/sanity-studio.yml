@@ -1,17 +1,8 @@
 name: Sanity Studio — validate
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "studio/**"
-      - ".github/workflows/sanity-studio.yml"
-  pull_request:
-    branches: [main]
-    paths:
-      - "studio/**"
-      - ".github/workflows/sanity-studio.yml"
   workflow_dispatch:
+
 
 permissions:
   contents: read
