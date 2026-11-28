@@ -14,7 +14,7 @@ const walk = async (directory) => {
   return nested.flat()
 }
 
-test('every public direct Sanity client callsite is explicitly inventoried and tagged', async () => {
+test('remaining direct Sanity SDK client callsites are operational and explicitly tagged', async () => {
   const root = new URL('../src/', import.meta.url)
   const files = (await walk(root.pathname)).filter((path) => /\.(ts|tsx|js|mjs)$/.test(path))
   const actual = []
@@ -26,22 +26,26 @@ test('every public direct Sanity client callsite is explicitly inventoried and t
   }
 
   const expected = [
-    'App.tsx',
-    'lib/routeData/productDetails.ts',
-    'lib/routeData/search.ts',
     'manager/plantCategories.ts',
-    'pages/IrrigationAssistantPage.tsx',
     'pages/IrrigationSupportPage.tsx',
   ].sort()
   assert.deepEqual(actual.sort(), expected)
 
   const tagsByFile = {
-    'App.tsx': ['browser.catalog.equipment', 'browser.catalog.plants'],
-    'lib/routeData/productDetails.ts': ['browser.product.detail.plants', 'browser.product.detail.equipment', 'browser.product.recommended-irrigation'],
-    'lib/routeData/search.ts': ['browser.search.equipment', 'browser.search.plants'],
     'manager/plantCategories.ts': ['manager.plant-categories'],
-    'pages/IrrigationAssistantPage.tsx': ['browser.irrigation-assistant.catalog'],
     'pages/IrrigationSupportPage.tsx': ['browser.delivery.zones'],
+  }
+
+  const publicCatalogueFiles = [
+    ['App.tsx', ['sanityClient.fetch(productQuery', 'publicPlantsClient.fetch(plantProductQuery']],
+    ['lib/routeData/productDetails.ts', ['sanityClient.fetch(productBySlugQuery', '(isPlant ? publicPlantsClient : sanityClient).fetch']],
+    ['lib/routeData/search.ts', ['sanityClient.fetch(equipmentSearchQuery', 'publicPlantsClient.fetch(plantSearchQuery']],
+    ['pages/IrrigationAssistantPage.tsx', ['sanityClient.fetch(']],
+  ]
+  for (const [path, snippets] of publicCatalogueFiles) {
+    const source = await read('../src/' + path)
+    for (const snippet of snippets) assert.ok(source.includes(snippet), path + ' must use published CDN clients')
+    assert.doesNotMatch(source, /sanityLiveClient|plantsClient/, path + ' must not use direct Live catalogue clients')
   }
   for (const [path, tags] of Object.entries(tagsByFile)) {
     const source = await read('../src/' + path)
