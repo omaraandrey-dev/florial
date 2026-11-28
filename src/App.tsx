@@ -554,7 +554,7 @@ export default function App({ onHomepageReady }: { onHomepageReady?: () => void 
   const [initialServiceDetailSeed] = useState(() => readServiceDetailSeed(getRouteState().activeServiceSlug, language))
   const [initialContactsSeed] = useState(() => readContactsSeed(language))
   const [initialAboutSeed] = useState(() => readAboutSeed(language))
-  const [initialProductRouteSeed = useState(() => readProductRouteSeed(getRouteState().activeProductSlug, language))
+  const [initialProductRouteSeed] = useState(() => readProductRouteSeed(getRouteState().activeProductSlug, language))
   const initialProductRouteSeedUsed = useRef(false)
   const [products, setProducts] = useState<Product[]>([])
   const [headerCategories, setHeaderCategories] = useState<CategoryItem[]>(() => homepageSeed?.equipmentCategories || initialHeaderSeed?.equipmentCategories || [])
