@@ -37,6 +37,10 @@ permissions:
   contents: read
   checks: read
 
+concurrency:
+  group: florial-ssr-regression-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   full-regression:
     runs-on: ubuntu-latest
